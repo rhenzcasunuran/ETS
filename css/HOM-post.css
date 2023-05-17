@@ -1,0 +1,95 @@
+.container{
+    width: 95%;
+}
+
+.link-button{
+    color: var(--color-content-text);
+    font-size: 50px;
+    padding-top: 5px;
+}
+
+.back{
+    color: var(--color-content-text);
+    font-size: 50px;
+    padding-top: 5px;
+}
+
+.back:hover{
+    font-size: 50px;
+    opacity: 50%;
+}
+
+.post{
+    background-color: var(--color-content-card);
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px -6px var(--color-shadow);
+}
+
+.post-date{
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 0;
+    color: var(--color-content-text);
+}
+
+.post-title{
+    font-size: 28px;
+    font-weight: bold;
+    vertical-align: middle;
+    color: var(--color-content-text);
+    margin: 20px 0 0 0;
+    border-bottom: 3px solid var(--color-content-line);
+}
+
+.post-tag{
+    color: whitesmoke;
+    border-radius: 20px;
+    width: 100px;
+    text-align: center;
+    margin: 10px 0 0 10px;
+    font-weight: 300;
+    vertical-align: middle;
+}
+
+.sc{
+    background-color: gray;
+}
+
+.acap{
+    background-color: var(--color-acap);
+}
+
+.aeces{
+    background-color: var(--color-aeces);
+}
+
+.elite{
+    background-color: var(--color-elite);
+}
+
+.give{
+    background-color: var(--color-give);
+}
+
+.jehra{
+    background-color: var(--color-jehra);
+}
+
+.jmap{
+    background-color: var(--color-jmap);
+}
+
+.jpia{
+    background-color: var(--color-jpia);
+}
+
+.piie{
+    background-color: var(--color-piie);
+}
+
+.post-description{
+    margin-top: 20px;
+    text-align: justify;
+    color: var(--color-content-text);
+}

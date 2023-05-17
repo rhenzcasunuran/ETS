@@ -1,0 +1,48 @@
+.sidebar-content-container{
+    margin-top: -8px;
+}
+
+.mode-btn{
+    position: relative;
+    cursor: pointer;
+    transition: all .5s ease;
+    padding: 0px 0;
+    border-radius: 5px;
+    margin: 8px 0;
+    padding: 0px 0 !important; 
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 50px;
+    z-index: 99;
+  }
+  
+  .mode-btn i{
+    font-size: 18px;
+    display: none;
+  }
+  
+  .sidebar.open .mode-btn{
+    width: 50px;
+    transition: all .5s ease;
+    transform: translate(170px, 58px);
+  }
+  
+  .mode-btn:hover{
+    background-color: var(--color-sidebar-hover);
+  }
+
+  .bottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .bottom a{
+    width: 100% !important;
+  }
+  
+  .sidebar.open .bottom a{
+    transition: all .5s ease;
+    width: 75% !important; 
+  }
