@@ -8,12 +8,10 @@
         $tag =  mysqli_real_escape_string($dbname,$_POST['post_tag']);
         $title =  mysqli_real_escape_string($dbname,$_POST['post_title']);
         $description =  mysqli_real_escape_string($dbname,$_POST['post_description']);
-        $cover =  mysqli_real_escape_string($dbname,$_POST['post_cover']);
-        $photos =  mysqli_real_escape_string($dbname,$_POST['post_photos']);
         $current_date = date("y-m-d h:i:s");
 
         $sql = "UPDATE post 
-                SET post_calendar = '$calendar', post_tag = '$tag', post_title = '$title', post_description = '$description', post_cover = '$cover', post_photos = '$photos'
+                SET post_calendar = '$calendar', post_tag = '$tag', post_title = '$title', post_description = '$description'
                 WHERE post_id = $id";
         mysqli_query($dbname,$sql);
 
