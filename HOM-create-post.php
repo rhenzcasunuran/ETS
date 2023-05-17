@@ -135,13 +135,13 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="CAL-admin-overall">
+                  <a href="CAL-admin-overall.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Overview</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="CAL-admin-logs">
+                  <a href="CAL-admin-logs.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Logs</span>
                   </a>
