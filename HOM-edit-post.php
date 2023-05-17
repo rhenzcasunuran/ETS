@@ -289,10 +289,12 @@
               </div>
               <div class="row">
                 <div class="col">
-                  <button class="discard-changes">
-                    <i class='bx bx-trash'></i>
-                    &nbsp;Discard Changes
-                  </button>
+                  <a href="HOM-manage-post.php" class="text-decoration-none">
+                    <div class="discard-changes link-button">
+                      <i class='bx bx-trash'></i>
+                      &nbsp;Discard Changes
+                    </div>
+                  </a>
                 </div>
                 <div class="col">
                   <button input type ="submit" name="post" class="save-changes" onclick="process_description()">
@@ -325,7 +327,9 @@
       });
     </script>
     <script>
-      function process_description() {
+      document.getElementById("description").addEventListener("change", processDescription);
+
+      function processDescription() {
         var textareaValue = document.getElementById("description").value;
         var lines = textareaValue.split("\n");
         

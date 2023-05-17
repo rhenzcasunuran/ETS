@@ -160,7 +160,6 @@
           <i class='back bx bx-arrow-back'></i>
         </a>
         </div>
-        
         <div class="row post">
           <div class="row">
             <p class="post-date">

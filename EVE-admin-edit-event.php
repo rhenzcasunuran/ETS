@@ -1,4 +1,5 @@
 <?php
+  include './php/sign-in.php';
   include './php/database_connect.php';
   include './php/EVE-admin-event-config-get-data.php';
   include './php/EVE-admin-get-event-data.php';
