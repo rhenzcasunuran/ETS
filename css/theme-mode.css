@@ -7,6 +7,7 @@
     --color-sidebar-sublist-1: #FF605C;
     --color-sidebar-sublist-2: #00CA4E;
     --color-sidebar-sublist-3: #FFB546;
+    --color-sidebar-sublist-4: #9747FF;
 
     --color-sidebar-chevron-icon: #FFB546;
 
@@ -17,6 +18,8 @@
     --color-content-line: #635B8180;
     --color-content-card: #EDE7DD;
     --color-search-show: #FF605C;
+    --color-content-button: #EDE7DD;
+    --color-content-button-line: #635B81;
 
 
     --color-acap: #9747FF;
@@ -38,6 +41,7 @@
     --color-sidebar-sublist-1: #FF605C;
     --color-sidebar-sublist-2: #00CA4E;
     --color-sidebar-sublist-3: #FFB546;
+    --color-sidebar-sublist-4: #9747FF;
 
     --color-sidebar-chevron-icon: #FFB546;
 
@@ -48,6 +52,8 @@
     --color-content-line: #635B81CC;
     --color-content-card: #282135;
     --color-search-show: #FF605C;
+    --color-content-button: #635B81;
+    --color-content-button-line: #635B81;
 
     --color-acap: #9747FF;
     --color-aeces: #A84444;

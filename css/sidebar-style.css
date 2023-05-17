@@ -15,6 +15,10 @@
   color: var(--color-sidebar-sublist-3)!important;
 }
 
+.color-purple{
+  color: var(--color-sidebar-sublist-4)!important;
+}
+
 *{
   padding: 0%;
   margin: 0%;
@@ -250,6 +254,7 @@ ul {
 .sidebar.open .nav-item a .link_name{
   opacity: 1;
   pointer-events: auto;
+  cursor: pointer;
 }
 
 .sidebar .nav-item a:hover .sub_link_name,
@@ -371,4 +376,75 @@ ul {
   border-radius: 100%;
   bottom: -12%;
   left: 100px;
+}
+
+#popup{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+.close{
+  top: 20px;
+  right: 30px;
+  transition: .25s;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: whitesmoke;
+  cursor: pointer;
+  padding: 0!important;
+}
+
+.close:hover{
+  color: var(--color-sidebar-sublist-1);
+}
+
+.popup-card{
+  background-color: var(--color-sidebar-bg);
+  padding: 30px!important;
+  border-radius: 30px;
+  width: 25%;
+}
+
+.admin-text{
+  font-weight: 600;
+  font-size: 24px;
+  color: whitesmoke;
+  padding: 0!important;
+  margin-bottom: 10px!important;
+}
+
+input{
+  padding: 10px 20px!important;
+  margin-bottom: 20px!important;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: whitesmoke;
+}
+
+.sign-in-button{
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  padding: 0px 0!important;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  color: whitesmoke;
+  background-color: var(--color-sidebar-active);
+  transition: background-color 0.5s ease;
+}
+
+.sign-in-button:hover{
+  color: white;
+  background-color: var(--color-sidebar-hover);
 }

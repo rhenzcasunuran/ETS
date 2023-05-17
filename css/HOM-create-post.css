@@ -6,7 +6,8 @@
     color: var(--color-content-text);
     font-size: 40px;
     font-weight: bold;
-    padding-top: 20px;
+    padding-top: 10px;
+    margin-bottom: 10px;
 }
 
 .create-post{
@@ -28,8 +29,7 @@
 }
 
 .column2{
-    margin-left: 10px;
-    padding: 0;
+    margin-left: 0;
 }
 
 input, select{
@@ -39,16 +39,39 @@ input, select{
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: whitesmoke;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
 }
 
-input[type="file"]{
-    padding: 0;
+select{
+    cursor: pointer;
+}
+
+input[type="date"]{
+    cursor: pointer;
 }
 
 input::-webkit-file-upload-button:hover{
     background-color: var(--color-sidebar-bg);
     color: var(--color-sidebar-text);
+}
+
+.temp-cover{
+    width: 100%;
+    background-color: whitesmoke;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    height: 138px;
+    margin-bottom: 15px;
+    padding: 0;
+}
+
+.temp-photos{
+    width: 100%;
+    background-color: whitesmoke;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    height: 305px;
+    margin-bottom: 15px;
+    padding: 0;
 }
 
 .cover::-webkit-file-upload-button{
@@ -73,7 +96,7 @@ textarea{
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 10px;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
+
 }
 
 .link-button{
@@ -89,7 +112,6 @@ textarea{
 }
 
 button{
-    display: inline-block;
     border: none;
     color: whitesmoke;
     height: 40px;
@@ -98,6 +120,7 @@ button{
     margin-top: 24px;
     width: 100%;
     font-weight: 300;
+    padding: 0;
     box-shadow: 0 5px 10px -5px var(--color-shadow);
 }
 
@@ -116,5 +139,13 @@ button:hover{
 
 .post{
     background-color: var(--color-sidebar-sublist-3);
+}
+
+.discard-changes{
+    background-color: var(--color-sidebar-sublist-1);
+}
+
+.save-changes{
+    background-color: var(--color-sidebar-sublist-2);
 }
 

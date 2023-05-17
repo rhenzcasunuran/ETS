@@ -1,0 +1,70 @@
+#confirm-cancel{
+    width: 30%;
+    min-width: 320px;
+    background-color: var(--color-content-card);
+    border-radius: 20px!important;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 25px;
+}
+
+#popup-wrapper, #popup-wrapper-delete, #popup-wrapper-done{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 100;
+}
+
+.popup-icon {
+    font-size: calc(50px + 6vw);
+}
+
+#error-icon {
+    color: #FFAD6F;
+}
+
+#success-icon {
+    color: var(--success);
+}
+
+#text-confirm{
+    text-align: start!important;
+    color: var(--color-content-text);
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.btn-confirm{
+    border-radius: 50px;
+    padding: 15px 35px 15px 35px;
+    
+}
+
+#btn-return{
+    background-color: var(--color-content-button);
+    border: 2px solid var(--color-content-button-line);
+    color: var(--color-content-text);
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3px 3px;
+}
+
+a {
+    text-decoration: none!important;
+}
+
+a.btn{
+    padding: 15px 35px 15px 35px;
+}

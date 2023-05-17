@@ -6,7 +6,8 @@
     color: var(--color-content-text);
     font-size: 40px;
     font-weight: bold;
-    padding-top: 20px;
+    padding-top: 10px;
+    margin-bottom: 10px;
 }
 
 .manage-post{

@@ -1,0 +1,218 @@
+html{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#edit-event-btn {
+    padding: 15px 15px 15px 15px;
+}
+
+#event-delete-btn{
+    padding: 15px 17px;
+}
+
+#edit-event-btn i, #event-delete-btn i{
+    font-size: 20px;
+}
+
+#more-btn{
+    display: none;
+    justify-content: end;
+    align-items: end;
+}
+
+#more-btn.editOpen{
+    display: flex;
+}
+
+@media (max-width:576px) {
+    #add-event-btn {
+        padding: 14px 15px 14px 15px;
+    }
+
+    #add-event-btn i{
+        font-size: 20px; 
+    }
+
+    #add-event-btn span{
+        display: none;
+    }
+}
+
+#event-wrapper{
+    height: 100%;
+}
+
+#add-event-container {
+    width: 95%;
+    height: 635px;
+    background-color: var(--color-content-card);
+    border-radius: 30px;
+    margin: 10px 0 10px 0;
+    padding: 50px;
+    display: flex;
+}
+
+#add-event-form{
+    width: 100%;
+}
+
+#add-event-form label {
+    color: var(--color-content-text);
+}
+
+.second-layer{
+    height: 180px;
+}
+
+.judges-container{
+    height: 134px;
+}
+
+@media (max-width:768px) {
+    #add-event-container {
+        height: 100%;
+    }
+
+    #confirm-cancel{
+        height: 350px!important;
+    }
+}
+
+#add-event-form #save-btn, #add-event-form #cancel-btn, .data-group #event-done-btn, .data-group #event-edit-btn{
+    border-radius: 50px;
+    padding: 15px 35px 15px 35px;
+    margin: 0px 10px 0px 10px;
+}
+
+#cancel-btn, #event-done-btn {
+    border: 2px solid var(--color-content-line);
+    color: var(--color-content-text);
+    background-color: transparent;
+}
+
+#event-done-btn{
+    display: block;
+    justify-self: end;
+    align-self: end;
+}
+
+#event-done-btn.doneClose{
+    display: none;
+}
+
+#event-edit-btn{
+    padding: 15px 35px 15px 35px!important;
+}
+
+.bootstrap-select, #event-description{
+    display: inline-flex!important;
+    border-radius: 10px!important;
+    box-shadow: 0 4px 20px -6px var(--color-shadow);
+}
+
+.dropdown-toggle{
+    border-radius: 10px!important;
+}
+
+.dropdown-menu.show{
+    max-width: 100%!important;
+}
+
+
+#event-data-container {
+    height: 100%;
+    width: 95%;
+    background-color: var(--color-content-card);
+    border-radius: 30px;
+    margin: 10px 0 10px 0;
+    padding: 50px;
+}
+
+#event-data-container .data-group p{
+    color: var(--color-content-text);
+}
+
+.data-group{
+    overflow-wrap: break-word;
+}
+
+.data-label{
+    font-weight: bold;
+}
+
+.description{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#eventBtn{
+    display: grid;
+}
+
+#no-event-container{
+    width: 100%;
+    height: 85vh;
+    display: grid;
+    align-content: center;
+}
+
+#no-event-container .bx-calendar-x{
+    font-size: calc(8vw + 50px);
+}
+
+#no-event-container i, #no-event-container p, #no-event-container span, #add-event-btn i, #add-event-btn span{
+    font-size: calc(0.6vw + 8px);
+    color: var(--color-content-text);
+}
+
+#no-event-container h1{
+    font-size: calc(25px + 1vw);
+    font-weight: 700;
+    color: var(--color-content-text);
+}
+
+#no-event-container a i, #no-event-container a i span, #add-event-btn i, #add-event-btn i span{
+    color: white;
+}
+
+#no-event-container a button, #add-event-btn {
+    border-radius: 50px;
+    padding: 15px 25px 15px 25px;
+}
+
+@media (max-width:576px) {
+    #add-event-btn{
+        padding: 15px 15px 15px 15px;
+    }
+}
+
+#code, .form-control[readonly] {
+    opacity: 0!important;
+}
+
+#add-event-container form input, #add-event-container form #criteria, #add-event-container form #event-judges, #add-event-container form #no-code, #add-event-container form #display-code{
+    border-radius: 10px!important;
+    box-shadow: 0 4px 20px -6px var(--color-shadow);
+}
+
+#add-event-container form #no-code{
+    pointer-events: none;
+}
+
+.req{
+    font-size: 10px;
+    color: #dc3545;
+}
+
+.dropdown-menu.show{
+    margin-left: -3px;
+}
+
+.inner{
+    max-height: 130px;
+    overflow-y: auto;
+}
+
+
