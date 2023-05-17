@@ -71,7 +71,7 @@
       </div>
     </div>
     <!--SIDEBAR-->
-    <div class="sidebar box-shadow">
+    <div class="sidebar open box-shadow">
       <div class="bottom-design">
         <div class="design1"></div>
         <div class="design2"></div>
@@ -80,6 +80,7 @@
         <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
         <div class="logo_name">Events Tabulation System</div>
         <i class="bx bx-arrow-to-right" id="btn"></i>
+        <script src="./js/sidebar-state.js"></script>
       </div>
       <div class="wrapper">
         <div class="sidebar-content-container">
@@ -91,7 +92,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="calendar.html">
+              <a href="CAL-student-overall.php">
                 <i class="bx bx-calendar"></i>
                 <span class="link_name">Calendar</span>
               </a>
@@ -105,19 +106,19 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HOM-create-post.php">
+                  <a href="BAR-student.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Overall Champion</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="#manage_posts">
+                  <a href="#tournament">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Tournament</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="HOM-manage-post.php">
+                  <a href="#competition">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Competition</span>
                   </a>
@@ -126,7 +127,7 @@
             </li>
             
             <li class="nav-item">
-              <a href="results.html">
+              <a href="HIS-student-index.php">
                 <i class="bx bx-history"></i>
                 <span class="link_name">Event History</span>
               </a>
@@ -138,7 +139,8 @@
               </a>
             </li>
             <?php
-              if(isset($_SESSION['user_username'])){?>
+              if(isset($_SESSION['user_username'])){
+            ?>
             <li class="nav-item">
               <a href="HOM-create-post.php">
                 <i class="bx bx-cog"></i>

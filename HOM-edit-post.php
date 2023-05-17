@@ -25,7 +25,7 @@
 
   <body>
     <!--Sidebar-->
-    <div class="sidebar box-shadow">
+    <div class="sidebar open box-shadow">
       <div class="bottom-design">
         <div class="design1"></div>
         <div class="design2"></div>
@@ -35,6 +35,7 @@
         <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
         <div class="logo_name">Events Tabulation System</div>
         <i class="bx bx-arrow-to-right" id="btn"></i>
+        <script src="./js/sidebar-state.js"></script>
       </div>
       <div class="wrapper">
         <li class="nav-item top">
@@ -82,13 +83,13 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="list_of_events.php">
+                  <a href="EVE-admin-list-of-events.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">List of Events</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="event_configuration.php">
+                  <a href="EVE-admin-event-configuration.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Event Configuration</span>
                   </a>
@@ -122,6 +123,12 @@
                   </a>
                 </li>
               </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#overall">
+                <i class='bx bx-bar-chart-alt-2'></i>
+                <span class="link_name">Overall Results</span>
+              </a>
             </li>
             <li class="nav-item">
               <a href="#tournaments" class="menu_btn">
@@ -179,7 +186,7 @@
                 </li>
                 <li class="sub-item">
                   <a href="#archive">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
+                    <i class="bx bxs-circle sub-icon color-purple"></i>
                     <span class="sub_link_name">Archive</span>
                   </a>
                 </li>
@@ -263,28 +270,34 @@
                 <textarea id="description" name="post_description" placeholder="Enter Description" rows="4" cols="50" required><?php echo $post_row[4];?></textarea>
               </div>
             </div>
-            <div class="col-5">
-              <div class="row textbox column2">
+            <div class="col-5 column2">
+              <div>
                 <p class="text">
                   Cover
                 </p>
-                <input type="file" id="cover" name="post_cover" class="cover">
+                <div class="temp-cover">
+
+                </div>
               </div>
-              <div class="row textbox column2">
+              <div>
                 <p class="text">
                   Photos
                 </p>
-                <input type="file" id="photos" name="post_photos" class="photos">
+                <div class="temp-photos">
+
+                </div>
               </div>
-              <div class="row textbox column2">
+              <div class="row">
                 <div class="col">
-                  <button class="discard">
-                    Discard Changes
+                  <button class="discard-changes">
+                    <i class='bx bx-trash'></i>
+                    &nbsp;Discard Changes
                   </button>
                 </div>
                 <div class="col">
-                  <button input type ="submit" name="post" class="draft" onclick="process_description()">
-                    Save Changes
+                  <button input type ="submit" name="post" class="save-changes" onclick="process_description()">
+                    <i class='bx bx-save'></i>
+                    &nbsp;Save Changes
                   </button>
                 </div>
               </div>

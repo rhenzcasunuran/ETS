@@ -26,7 +26,7 @@
 
   <body>
     <!--Sidebar-->
-    <div class="sidebar box-shadow">
+    <div class="sidebar open box-shadow">
       <div class="bottom-design">
         <div class="design1"></div>
         <div class="design2"></div>
@@ -36,6 +36,7 @@
         <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
         <div class="logo_name">Events Tabulation System</div>
         <i class="bx bx-arrow-to-right" id="btn"></i>
+        <script src="./js/sidebar-state.js"></script>
       </div>
       <div class="wrapper">
         <li class="nav-item top">
@@ -83,13 +84,13 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="list_of_events.php">
+                  <a href="EVE-admin-list-of-events.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">List of Events</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="event_configuration.php">
+                  <a href="EVE-admin-event-configuration.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Event Configuration</span>
                   </a>
@@ -123,6 +124,12 @@
                   </a>
                 </li>
               </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#overall">
+                <i class='bx bx-bar-chart-alt-2'></i>
+                <span class="link_name">Overall Results</span>
+              </a>
             </li>
             <li class="nav-item">
               <a href="#tournaments" class="menu_btn">
@@ -180,7 +187,7 @@
                 </li>
                 <li class="sub-item">
                   <a href="#archive">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
+                    <i class="bx bxs-circle sub-icon color-purple"></i>
                     <span class="sub_link_name">Archive</span>
                   </a>
                 </li>
@@ -220,7 +227,7 @@
     </div>
     <!--Page Content-->
     <section class="home-section">
-      <div class="container">
+      <div class="container-fluid d-flex row justify-content-center m-0">
         <p class="row title">
           Manage Post
         </p>

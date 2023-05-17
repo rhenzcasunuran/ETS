@@ -1,7 +1,8 @@
 <?php
-  include './php/sign-in.php';
   include './php/database_connect.php';
-  include './php/HOM-create-post.php';
+  include './php/EVE-admin-event-config-get-data.php';
+  include './php/EVE-admin-edit-event.php';
+  include './php/EVE-admin-get-event-data.php';
 ?>
 
 <!DOCTYPE html>
@@ -19,36 +20,58 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
-    <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/HOM-create-post.css">
+
+    <!-- Event Config Styles -->
+    <link rel="stylesheet" href="./css/EVE-admin-bootstrap-select.min.css">
+    <link rel="stylesheet" href="./css/EVE-admin-bootstrap4.min.css">
+    <link rel="stylesheet" href="./css/EVE-admin-list-of-events.css">
+    <link rel="stylesheet" href="./css/EVE-admin-confirmation.css">
   </head>
 
   <body>
-  <div class="container-fluid" id="popup">
-      <div class="row popup-card">
-        <form method="post">
-          <div class="row">
-            <div class="col-11 admin-text">
-              <p>
-                Administrator
-              </p>
-            </div>
-            <div class="col-1 close ">
-              <i class='bx bx-x' onclick="hide()"></i>
-            </div>
-          </div>
-          <div class="row">
-            <input type="text" name="user_username" placeholder="Username" maxlength="20" required/>
-          </div>
-          <div class="row">
-            <input type="password" name="user_password" placeholder="Password" maxlength="128" required/>
-          </div>
-          <div class="row justify-content-center">
-            <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
-          </div>
-        </form>
+    <?php
+      $row = mysqli_num_rows($event_result);
+      if ($row > 0){
+        while ($row = mysqli_fetch_array($event_data)):;
+    ?>
+    <div class="container-fluid popup-wrapper-delete<?php echo $row[5];?>" id="popup-wrapper-delete">
+      <div id="confirm-cancel" class="row">
+        <div class="col-5 text-center">
+          <i class='bx bxs-error popup-icon' id="error-icon"></i>
+        </div>
+        <div class="col-7" id="text-confirm">
+          <h3 class="bold">Delete Event?</h3>
+          <p>This action cannot be undone.</p>
+        </div>
+        <div class="row flex-column flex-md-row d-flex align-items-center">
+          <button class="btn btn-confirm content-box-shadow" id="btn-return" onclick="hide<?php echo $row[0];?>()"><i class='bx bx-x'></i><span>Cancel</span></button>
+          <a href="EVE-admin-list-of-events.php?eed=<?php echo $row[5]?>">
+            <button class="btn btn-danger btn-confirm content-box-shadow"><i class='bx bx-trash' ></i><span>Delete</span></button>
+          </a> 
+        </div>
       </div>
     </div>
+    <div class="container-fluid popup-wrapper-done<?php echo $row[5];?>" id="popup-wrapper-done">
+      <div id="confirm-cancel" class="row">
+        <div class="col-5 text-center">
+          <i class='bx bxs-check-circle popup-icon' id="success-icon"></i>
+        </div>
+        <div class="col-7" id="text-confirm">
+          <h3 class="bold">Mark as Done?</h3>
+          <p>Marked events will be removed from events list.</p>
+        </div>
+        <div class="row flex-column flex-md-row d-flex align-items-center">
+          <button class="btn btn-confirm content-box-shadow" id="btn-return" onclick="hideDone<?php echo $row[0];?>()"><i class='bx bx-x'></i><span>Cancel</span></button>
+          <a href="#event-done">
+            <button class="btn btn-success btn-confirm content-box-shadow"><i class='bx bx-check' ></i><span>Confirm</span></button>
+          </a> 
+        </div>
+      </div>
+    </div>  
+    <?php
+    endwhile;
+      }
+    ?>
     <!--Sidebar-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
@@ -244,90 +267,133 @@
     </div>
     <!--Page Content-->
     <section class="home-section">
-      <div class="container">
-        <p class="row title">
-          Create Post
-        </p>
-        <form id="post-form" method="post">
-          <div class="row create-post">
-            <div class="col-7">
-              <div class="row">
-                <div class="col textbox">
-                  <p class="text">
-                    Add to Calendar (Optional)
-                  </p>
-                  <input type="date" id="calendar" name="post_calendar" placeholder="Select Date">
-                </div>
-                <div class="col textbox">
-                  <p class="text">
-                    Tag
-                  </p>
-                  <select id="tag" name="post_tag">
-                    <option value="SC">Student Council</option>
-                    <option value="ACAP">ACAP</option>
-                    <option value="AECES">AECES</option>
-                    <option value="ELITE">ELITE</option>
-                    <option value="GIVE">GIVE</option>
-                    <option value="JEHRA">JEHRA</option>
-                    <option value="JMAP">JMAP</option>
-                    <option value="JPIA">JPIA</option>
-                    <option value="PIIE">PIIE</option>
-                  </select>
+      <div class="container-fluid d-flex row justify-content-center m-0" id="event-wrapper">
+        <?php
+          $row = mysqli_num_rows($event_result2);
+          if ($row > 0){
+            ?>
+              <div class="d-flex justify-content-between align-items-center pr-4 w-100">
+                <div class="header">List of Events</div>
+                <a href="EVE-admin-create-event.php?add event">
+                  <button class="btn btn-danger text-center" id="add-event-btn">
+                    <i class='bx bx-add-to-queue d-flex justify-content-center align-items-center'>
+                      <span>Add Event</span>
+                    </i>
+                  </button>
+                </a>
+                <div class="btn btn-warning d-flex justify-content-center align-items-center badge-pill" id="edit-event-btn">
+                  <i class='bx bx-edit text-white'></i>
                 </div>
               </div>
-              <div class="row textbox">
-                <p class="text">
-                  Title
-                </p>
-                <input type="text" id="title" name="post_title" placeholder="Enter Title" maxlength="60" required>
+            <?php
+            while ($row = mysqli_fetch_array($event_data2)):;?>
+            <div class="justify-content-start align-items-start content-box-shadow" id="event-data-container">
+              <div class="row flex-column flex-sm-row">
+                <div class="data-group col-md-6 col-lg-3">
+                  <p class="data-label fw-bold">Event</p>
+                  <p class="data-content fw-bold"><?php echo $row[1];?></p>
+                </div>
+                <div class="data-group col-md-6 col-lg-3">
+                  <p class="data-label fw-bold">Event Type</p>
+                  <p class="data-content fw-bold"><?php echo $row[2];?></p>
+                </div>
+                <div class="data-group col-md-6 col-lg-3">
+                  <p class="data-label fw-bold">Category</p>
+                  <p class="data-content fw-bold"><?php echo $row[3];?></p>
+                </div>
+                <div class="data-group col-md-6 col-lg-3">
+                  <p class="data-label fw-bold">Date and Time</p>
+                  <p class="data-content fw-bold"><?php 
+                  $time_sql = "SELECT TIME_FORMAT('$row[7]', '%h:%i %p') AS formattedTime FROM listofeventtb;";
+                  $time_result = mysqli_query($dbname, $time_sql);
+                  $get_time_result = mysqli_fetch_assoc($time_result);
+                  $time = $get_time_result['formattedTime'];
+                  echo $row[6];?>, <?php echo $time;?></p>
+                </div>
               </div>
-              <div class="row textbox">
-                <p class="text">
-                  Description
-                </p>
-                <textarea id="description" name="post_description" placeholder="Enter Description" rows="4" cols="50" required></textarea>
+              <br>
+              <div class="row flex-column flex-md-row">
+                <div class="data-group col-md-6">
+                  <p class="data-label fw-bold">Event Desciption</p>
+                  <p class="data-content fw-bold description"><?php echo $row[4];?></p>
+                </div>
+                <div class="data-group col-md-3">
+                  <p class="data-label fw-bold">Code</p>
+                  <p class="data-content fw-bold"><?php echo $row[5];?></p>
+                </div>
+                <div class="data-group col-md-12" id="eventBtn">
+                  <button class="btn event-done-btn<?php echo $row[0];?>" id="event-done-btn"  onclick="showDone<?php echo $row[0];?>()">Mark as Done</button>
+                  <div class="more-btn<?php echo $row[0];?>" id="more-btn">
+                    <a href="EVE-admin-edit-event.php?eec=<?php echo $row[5]?>">
+                      <button class="btn btn-warning text-white badge-pill" id="event-edit-btn">Edit Event</button>
+                    </a>
+                      <button class="btn btn-danger text-white badge-pill" id="event-delete-btn" onclick="show<?php echo $row[0];?>()">
+                        <i class='bx bx-trash'></i>
+                      </button>
+                  </div>
+                  <script>
+                    const moreBtn<?php echo $row[0];?> = document.querySelector(".more-btn<?php echo $row[0];?>");
+                    const doneBtn<?php echo $row[0];?> = document.querySelector(".event-done-btn<?php echo $row[0];?>");
+
+                    if (typeof(Storage) !== "undefined") {
+                        // If we need to open the bar
+                        if(localStorage.getItem("editEvent") == "active"){
+                          moreBtn<?php echo $row[0];?>.classList.add("editOpen");
+                          doneBtn<?php echo $row[0];?>.classList.add("doneClose");
+                          document.querySelector("#edit-event-btn").classList.add("editOpen");
+                        }
+                        else if (localStorage.getItem("editEvent") == "notActive"){
+                          moreBtn<?php echo $row[0];?>.classList.remove("editOpen");
+                          doneBtn<?php echo $row[0];?>.classList.remove("doneClose"); 
+                          document.querySelector("#edit-event-btn").classList.remove("editOpen");
+                        }
+                    }
+                  </script>
+                  <script type="text/javascript" src="./js/EVE-admin-edit-button-state.js"></script>
+                </div>
               </div>
             </div>
-            <div class="col-5 column2">
-              <div>
-                <p class="text">
-                  Cover
-                </p>
-                <div class="temp-cover">
+            
+            <script>
+            popupCancel<?php echo $row[0];?> = document.querySelector('.popup-wrapper-delete<?php echo $row[5];?>');
+        
+            var show<?php echo $row[0];?> = function() {
+                popupCancel<?php echo $row[0];?>.style.display ='flex';
+            }
+            var hide<?php echo $row[0];?> = function() {
+                popupCancel<?php echo $row[0];?>.style.display ='none';
+            }
 
+            popupDone<?php echo $row[0];?> = document.querySelector('.popup-wrapper-done<?php echo $row[5];?>');
+        
+            var showDone<?php echo $row[0];?> = function() {
+                popupDone<?php echo $row[0];?>.style.display ='flex';
+            }
+            var hideDone<?php echo $row[0];?> = function() {
+                popupDone<?php echo $row[0];?>.style.display ='none';
+            }
+          </script>
+        <?php
+          endwhile; 
+          }
+          else{
+            ?>
+              <div class="header">List of Events</div>
+              <div class="text-center" id="no-event-container">
+                <i class='bx bx-calendar-x'></i>
+                <h1>No Events</h1>
+                <p>Looks like you have no events created. <br> You can do so by clicking the button below.</p>
+                <div class="row justify-content-center">
+                  <a href="EVE-admin-create-event.php?create new event" class="btn btn-danger badge-pill text-center" id="create-event-btn">
+                    <i class='bx bx-add-to-queue d-flex justify-content-center align-items-center'>
+                      <span>Create an Event</span>
+                    </i>
+                  </a>
                 </div>
               </div>
-              <div>
-                <p class="text">
-                  Photos
-                </p>
-                <div class="temp-photos">
-
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <button class="discard" onclick="clear_input()">
-                    <i class='bx bx-reset'></i>
-                    &nbsp;Clear
-                  </button>
-                </div>
-                <div class="col">
-                  <button class="draft">
-                    <i class='bx bx-save'></i>
-                    Save Draft
-                  </button>
-                </div>
-                <div class="col">
-                  <button input type ="submit" name="post" class="post" onclick="process_description()">
-                    <i class='bx bx-upload'></i>
-                    &nbsp;Post
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
+            <?php
+          }
+        ?>
       </div>
     </section>
     <!-- Scripts -->
@@ -348,35 +414,15 @@
         });
       });
     </script>
+
+    <!-- Event Config Scripts -->
+    <script type="text/javascript" src="./js/EVE-admin-bootstrap4.bundle.min.js"></script>
+    <script type="text/javascript" src="./js/EVE-admin-bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="./js/EVE-admin-bootstrap-select-picker.js"></script>
+    <script type="text/javascript" src="./js/EVE-admin-list-of-events.js"></script>
     <script>
-      function process_description() {
-        var textareaValue = document.getElementById("description").value;
-        var lines = textareaValue.split("\n");
-        
-        // Loop through each line
-        for (var i = 0; i < lines.length; i++) {
-          console.log("Line " + (i+1) + ": " + lines[i]);
-        }
-      }
-    </script>
-    <script>
-      function clear_input(){
-        var form = document.getElementById("form_post");
-        var calendar = document.getElementById("calendar");
-        var tag = document.getElementById("tag");
-        var title = document.getElementById("title");
-        var description = document.getElementById("description");
 
-        tag.removeAttribute("required");
-        title.removeAttribute("required");
-        description.removeAttribute("required");
-
-        form.reset();
-
-        tag.setAttribute("required", "required");
-        title.setAttribute("required", "required");
-        description.setAttribute("required", "required");
-      }
     </script>
   </body>
+
 </html>
