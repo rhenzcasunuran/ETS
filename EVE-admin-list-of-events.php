@@ -94,7 +94,7 @@
         <div class="sidebar-content-container">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#posts" class="menu_btn active">
+              <a href="#posts" class="menu_btn">
                 <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Posts
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -102,7 +102,7 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HOM-create-post.php" class="sub-active">
+                  <a href="HOM-create-post.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Create Post</span>
                   </a>
@@ -122,7 +122,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="#event_menu" class="menu_btn">
+              <a href="#event_menu" class="menu_btn active">
                 <i class="bx bx-calendar-edit"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Events
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -130,7 +130,7 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="EVE-admin-list-of-events.php">
+                  <a href="EVE-admin-list-of-events.php" class="sub-active">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">List of Events</span>
                   </a>

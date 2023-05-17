@@ -319,7 +319,7 @@
                   </button>
                 </div>
                 <div class="col">
-                  <button input type ="submit" name="post" class="post" onclick="process_description()">
+                  <button input type ="submit" name="post" class="post">
                     <i class='bx bx-upload'></i>
                     &nbsp;Post
                   </button>
@@ -349,7 +349,9 @@
       });
     </script>
     <script>
-      function process_description() {
+      document.getElementById("description").addEventListener("change", processDescription);
+
+      function processDescription() {
         var textareaValue = document.getElementById("description").value;
         var lines = textareaValue.split("\n");
         

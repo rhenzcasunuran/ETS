@@ -46,6 +46,31 @@
   </head>
 
   <body>
+    <div class="container-fluid" id="popup">
+      <div class="row popup-card">
+        <form method="post">
+          <div class="row">
+            <div class="col-11 admin-text">
+              <p>
+                Administrator
+              </p>
+            </div>
+            <div class="col-1 close ">
+              <i class='bx bx-x' onclick="hide()"></i>
+            </div>
+          </div>
+          <div class="row">
+            <input type="text" name="user_username" placeholder="Username" maxlength="20" required/>
+          </div>
+          <div class="row">
+            <input type="password" name="user_password" placeholder="Password" maxlength="128" required/>
+          </div>
+          <div class="row justify-content-center">
+            <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <!--SIDEBAR-->
     <div class="sidebar box-shadow">
       <div class="bottom-design">
@@ -106,7 +131,7 @@
             if(isset($_SESSION['user_username'])){
           ?>
             <li class="nav-item bottom">
-              <a href="php/sign-out.php">
+              <a href="./php/sign-out.php">
                 <i class="bx bx-log-out"></i>
                 <span class="link_name">Sign Out</span>
               </a>
@@ -116,7 +141,7 @@
             else{
           ?>
               <li class="nav-item bottom">
-                <a href="#popup">
+                <a onclick="show()">
                   <i class="bx bx-log-in"></i>
                   <span class="link_name">Sign In</span>
                 </a>
@@ -129,31 +154,6 @@
     </div>
     <!--Page Content-->
     <section class="home-section">
-      <div class="container-fluid align-items-center overlay d-flex justify-content-center" id="popup">
-        <div class="row sign-in-card">
-          <form method="post">
-            <div class="row">
-              <div class="col-10">
-                <p class="admin-text">
-                Administrator
-                </p>
-              </div>
-              <div class="col-2">
-                <a class="close" href="#">&times;</a>
-              </div>
-            </div>
-            <div class="row">
-              <input type="text" name="user_username" placeholder="Username" required/>
-            </div>
-            <div class="row">
-              <input type="password" name="user_password" placeholder="Password" required/>
-            </div>
-            <div class="row justify-content-center">
-              <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
-            </div>
-          </form>
-        </div>
-      </div>
       <div class="container">
         <div class="row">
         <a href="index.php" class="link-button">
