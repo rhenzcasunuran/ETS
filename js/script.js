@@ -39,3 +39,17 @@ window.onload = function(){
     }
 }
 
+
+
+if (typeof(Storage) !== "undefined") {
+    // If we need to open the bar
+    if(localStorage.getItem("sidebar") == "open"){
+        // Open the bar
+        sidebar.classList.add("open");
+    }
+    else if (localStorage.getItem("sidebar") == "close"){
+        sidebar.classList.remove("open");
+    }
+}
+
+
