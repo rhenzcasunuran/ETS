@@ -1,5 +1,6 @@
 <?php 
-include('php/connections.php');
+include('./php/database_connect.php');
+
 session_start();
 
 if($conn){
@@ -12,7 +13,7 @@ if($conn){
       if(mysqli_num_rows($result)>0){
         $_SESSION['message']="You are now Loggged In";
         $_SESSION['user_username']=$username;
-        header("location:HIS-admin-ManageEvent.php");
+        header("location:HOM-create-post.php");
       }
       else{
         echo '<script>alert("Username or Password combination are incorrect")</script>';
@@ -130,8 +131,8 @@ if($conn){
               </ul>
             </li>
             
-            <li class="nav-item active">
-              <a href="HIS-student-index.php">
+            <li class="nav-item">
+              <a href="HIS-student-index.php" class="active">
                 <i class="bx bx-history"></i>
                 <span class="link_name">Event History</span>
               </a>
@@ -146,7 +147,7 @@ if($conn){
               if(isset($_SESSION['user_username'])){
             ?>
             <li class="nav-item">
-              <a href="HIS-admin-ManageEvent.php">
+              <a href="HOM-create-post.php">
                 <i class="bx bx-cog"></i>
                 <span class="link_name">Configuration</span>
               </a>
@@ -188,47 +189,54 @@ if($conn){
     </div>
     <!--Page Content-->
     <section class="home-section">
-    <div class="d-flex flex-wrap">
-      <h3>Event History</h3>
-  <div class="container" id="main-containers">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 left-container">
-          <div class="container-fluid left-part">
-            <input type="text" class="form-control mb-2" placeholder="Search Event">
-            <p>Other Events</p>
-            <div class="row">
-              <?php 
-              require('./php/connections.php');
-              require('./php/HIS-upload.php');
+      <div class="header">Event History</div>
+      <div class="flex-container">
+    <div class="container" id="main-containers">
+      <div class="container">
+    <div class="row">
+      <div class="col-md-3 left-container">
+        <div class="container-fluid left-part">
+          <input type="text" class="form-control" placeholder="Search Event">
+          <p>Other Events</p>
+          <div class="row">
+            <div class="col-12 event">
+                              <?php 
+                  require('./php/database_connect.php');
+                  require('./php/HIS-upload.php');
 
-              $query = "SELECT filename FROM image ORDER BY id DESC LIMIT 3";
-              $result = mysqli_query($conn, $query);
-              if (!$result) {
-                die("Error in the query: " . mysqli_error($conn));
-              }
-              $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                  $query = "SELECT filename FROM image ORDER BY id DESC LIMIT 3";
+                  $result = mysqli_query($conn, $query);
+                  if (!$result) {
+                      die("Error in the query: " . mysqli_error($conn));
+                  }
+                  $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-              for ($i = 0; $i < 3; $i++) {
-                echo '<div class="col-12 event">';
-                if (isset($images[$i])) {
-                  $imagePath = "./images/" . $images[$i]['filename'];
-                  echo '<div><img src="' . $imagePath . '" class="w-100" style="height: 150px;" /></div>';
-                }
-                echo '</div>';
-                mysqli_data_seek($result, 0);
-              }
+                  for ($i = 0; $i < 3; $i++) {
+                    echo '<div class="row">
+                              <div class="col-12">';
+                    if (isset($images[$i])) {
+                        $imagePath = "./images/" . $images[$i]['filename'];
+                        echo '<div class="event-image"><img src="' . $imagePath . '" alt="Event Image" class="event-image__img"></div>';
+                      }
+                    echo '</div>
+                          </div>';
+                    
+                    mysqli_data_seek($result, 0);
+                  }
 
-              mysqli_close($conn);
-              ?>
+                  mysqli_close($conn);
+                  ?>
+
             </div>
           </div>
+          
         </div>
-        <div class="col-md-6">
-          <div class="row">
-            <div id="carousel" class="col-md-12 text-white carousel-container">
-              <?php
-              require('./php/connections.php');
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div id="carousel" class="col-md-12 text-white carousel-container">
+          <?php
+              require('./php/database_connect.php');
 
               $query = "SELECT * FROM image";
               $result = mysqli_query($conn, $query);
@@ -236,11 +244,11 @@ if($conn){
               $slides = '';
               $active = 'active';
               while ($row = mysqli_fetch_assoc($result)) {
-                $imagePath = "./images/" . $row['filename'];
-                $imageInfo = $row['image_Info'];
-                $imageDesc = $row['image_Description'];
-                $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '" class="d-block w-100"></div>';
-                $active = '';
+                  $imagePath = "./images/" . $row['filename'];
+                  $imageInfo = $row['image_Info'];
+                  $imageDesc = $row['image_Description'];
+                  $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '"></div>';
+                  $active = '';
               }
 
               mysqli_data_seek($result, 0);
@@ -261,32 +269,36 @@ if($conn){
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="row" id="contain">
-                <div class="col-md-12 text-white text-container"></div>
-              </div>
-            </div>
+                </div>
           </div>
+    </div>
+        <div class="row" id="contain">
+        <div class="col-md-12 text-white text-container">
+          
         </div>
-        <div class="col-md-2 col-sm-6 right-container">
-  <h3>Filter</h3>
-  <div class="btn-group-vertical">
-    <button type="button" id="button" class="btn">ELITE</button>
-    <button type="button" class="btn">GIVE</button>
-    <button type="button" class="btn">JMAP</button>
-    <button type="button" class="btn">AECES</button>
-    <button type="button" class="btn">JPIA</button>
-    <button type="button" class="btn">PIIE</button>
-    <button type="button" class="btn">JEHRA</button>
-    <button type="button" class="btn">ACAP</button>
-    <button type="button" class="btn">STUDENT COUNCIL</button>
-  </div>
-</div>
+        </div>
+      </div>
+      
+        <div class="col-md-2 right-container">
+          <h3>Filter</h3>
+          <button type="button" id="button">ELITE</button>
+          <button type="button">GIVE</button>
+          <button type="button">JMAP</button>
+          <button type="button">AECES</button>
+          <button type="button">JPIA</button>
+          <button type="button">PIIE</button>
+          <button type="button">JEHRA</button>
+          <button type="button">ACAP</button>
+          <button type="button">STUDENT COUNCIL</button>
+        </div>
+        
 
+    </div>
+
+      </div>
+    </div>
   
-  <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </script>
 
