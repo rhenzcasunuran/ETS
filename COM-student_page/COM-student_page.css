@@ -1,0 +1,433 @@
+.removespace{
+    position: relative;
+    background-color: var(--color-body);
+    min-height: 10vh !important;
+    top:0;
+    left:78px;
+    width: calc(100% - 78px);
+    transition: all .5s ease;
+    z-index: 2;
+}
+.home-section .actualbody{
+    position: relative;
+    background-color: var(--color-body);
+    min-height: 100vh !important;
+    top:0;
+    left:78px;
+    width: calc(100% - 78px);
+    transition: all .5s ease;
+    z-index: 2;
+}
+.content {
+    margin-top: -10px;
+    height: calc(100vh + 130px);
+    height:fit-content
+}
+.empty {
+    display: flex;
+    color:var(--color-text);
+    font-size: 25px;
+    font-weight: 700;
+    margin: auto;
+    height: 100vh;
+    flex-direction: column;
+}
+.empty_header {
+    font-size: 45px;
+    color: #3d256e;
+    margin: 15px;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    height:auto;
+}
+.empty_p {
+    font-size: 18px;
+    color: #4d4460;
+    margin-bottom: 18px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.go_to_tobepubBtn {
+    border: none;
+    background-color: #6c1414;
+    padding: 15px 10px 15px 10px;
+    border-radius: 25px;
+    max-height: 50px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .5s ease;
+    cursor: pointer;
+}
+.go_to_tobepubBtn:hover {
+    background-color: #8d1b1b;
+}
+.btnContent {
+    display: inline-block;
+    font-size: 15px;
+    color: white;
+}
+h1 {
+    font-size: 38px;
+    font-family: verdana;
+    color: black;
+    margin-left: 30px;
+    margin-top: 40px;
+}
+input {
+    font-size: 20px;
+    border: none;
+    margin-left: 5px;
+    width: 280px;
+    background-color: transparent;
+}
+input:focus {
+  outline: none;
+}
+button {
+    color: black;
+    font-size: 25px;
+    font-family: verdana;
+    border: none;
+    padding-left: 70px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-right: 40px;
+    /*aspect-ratio: 1/1;*/
+    height: 120x;
+    min-height: 120px;
+    max-height: 120px;
+    width: 98%;
+    min-width: 250px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    vertical-align: text-top;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: 0.2s;
+    background-color: rgb(234, 229, 217);
+    margin-top: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: column;
+}
+button:hover:not(.activeButton){
+    background-color: rgb(255, 252, 245);
+}
+.left{
+    margin-left: 30px;
+    margin-right: auto;
+    max-width: 400px;
+    min-width: 300px;
+    width: 40%;
+}
+.search {
+    background-color: rgb(255, 252, 245);
+}
+.bar {
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 20px;
+    margin-left: 20px;
+    margin-top: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    min-width: 310px;
+}
+i.fa-search {
+    margin-left: 7px;
+    font-size: 20px;
+}
+.searchInput {
+    width:auto;
+    min-width: 200px;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+.draggableDiv {
+    cursor: move;
+    text-align: center;
+    padding: 20px;
+    border: black;
+}
+.drag-handle {
+    border: black;
+}
+.content {
+    display: none;
+    border-radius: 20px;
+    width: 98%;
+    min-height: 200px;
+    background-color: rgb(229, 222, 207);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    border: black;
+    /*margin-left: auto;*/
+    margin-right: auto;
+    margin-top: -25px;
+    height:fit-content;
+}
+.activeButton {
+    background-image: url("v.png");
+    background-size: cover;
+    color: white;
+}
+.activeButton:hover {
+    box-shadow: 0 5px 15px rgba(200, 192, 214, 0.4);
+    text-shadow: 2px 5px 10px #6a6969;
+}
+.top3Container {
+    display: flex;
+    float: bottom;
+    /*visibility:hidden;*/
+    flex-direction: row;
+    justify-content: center;
+    min-height: 200px;
+    height: 280px;
+    width: 98%;
+    /*background-color: red;*/
+}
+.leftContainer {
+    display: flex;
+    min-height: 180px;
+    min-width: 250px;
+    /*background-color: blue;*/
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+}
+.middleContainer {
+    display: flex;
+    min-height: 180px;
+    min-width: 250px;
+    /*background-color: yellow;*/
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+}
+.rightContainer {
+    display: flex;
+    min-height: 180px;
+    min-width: 250px;
+    /*background-color: green;*/
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+}
+.btnCnt {
+    margin-top: 50px;
+}
+.logoContainer {
+    display:flex;
+    min-height: 50px;
+    min-width: 50px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+.gold {
+    background-color: gold;
+    margin-top: 50px;
+}
+.silver {
+    background-color: silver;
+    margin-top: 50px;
+}
+.bronze {
+    background-color: brown;
+    margin-top: 50px;
+}
+.diamondContainer {
+    display: flex;
+    max-width: 90px;
+    max-height: 90px;
+    height: 50px;
+    width: 50px;
+    background-color: black;
+    transform:rotate(45deg);
+    margin-top: -10px;
+    border: 3px solid white;
+    color: white;
+}
+.place {
+    transform:rotate(-45deg);
+    margin:auto;
+}
+.first {
+    background-color: gold;
+}
+.second {
+    background-color: silver;
+}
+.third {
+    background-color: brown;
+}
+.smallDiamond {
+    height: 40px;
+    width: 40px;
+    background-color: #282135;
+}
+.diamondText {
+    transform: rotate(-45deg);
+    font-family: verdana;
+    font-size: 15px;
+    color: white;
+    margin: auto;
+}
+.winnerDetails {
+    text-shadow: 0 0 3px black, 0 0 3px black;
+    text-align:center;
+    font-family: verdana;
+    font-size: 15px;
+    color: white;
+    margin-top: 8px;
+}
+td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+}
+table {
+    width: 80%;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.diamond {
+    padding-left: 20px;
+    width: 5%;
+}
+.name {
+    border-radius: 10px 0px 0px 10px;
+    padding-left: 10px;
+}
+.org {
+    color:black;
+}
+.percent {
+    border-radius: 0px 10px 10px 0px;
+}
+.resultsBtn {
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px 10px 15px 10px;
+    background-color: rgb(140, 31, 31);
+    height: auto;
+    width: auto;
+    min-width: 100px;
+    min-height: 50px;
+    border-radius: 10px;
+    font-size: 15px;
+    text-align: center;
+    vertical-align: center;
+    margin-bottom: 10px;
+}
+
+/* Styles for phone */
+@media screen and (max-width: 768px) {
+    button {
+        height: 200px;
+        width: 310px;
+        max-height: 450px;
+    }
+    .content {
+        width: 310px;
+        height:fit-content;
+        min-height: 0;
+    }
+    .top3Container {
+        display: flex;
+        float: bottom;
+        /*visibility:hidden;*/
+        flex-direction: column;
+        justify-content: center;
+        min-height: 200px;
+        height: 260px;
+        width: 300px;
+        margin-left: -50px;
+        margin-top: 34px;
+    }
+    .leftContainer {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        height: auto;
+        width: 300px;
+        min-height: 40px;
+        min-width: 80px;
+        margin-bottom: 30px;
+        order: 2;
+        margin-left: -20px;
+    }
+    .middleContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: auto;
+        width: 300px;
+        min-height: 40px;
+        min-width: 80px;
+        margin-bottom: 25px;
+        order: 1;
+        margin-top: 30px;
+    }
+    .rightContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: auto;
+        width: 300px;
+        min-height: 40px;
+        min-width: 80px;
+        order: 3;
+    }
+    .logoContainer {
+        display:flex;
+        width: 100px;
+        height:100px;
+        max-height: 100px;
+        max-width: 100px;
+        min-height: 100px;
+        min-width:100px;
+        border-radius: 50%;
+    }
+    .silver {
+        margin-top: 0px;
+    }
+    .bronze {
+        margin-top: 0px;
+    }
+    .diamondContainer {
+        display: flex;
+        max-width: 50px;
+        max-height: 50px;
+        height: 40px;
+        width: 40px;
+        transform:rotate(45deg);
+    }
+    .winnerDetails {
+        text-shadow: 0 0 3px black, 0 0 3px black;
+        text-align:center;
+        font-family: verdana;
+        font-size: 15px;
+        color: white;
+        margin: auto;
+    }
+}
