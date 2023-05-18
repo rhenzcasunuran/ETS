@@ -3,6 +3,7 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  margin-left: 78px;
 }
 h3{
   color: var(--color-content-text);
@@ -46,6 +47,11 @@ p{
   margin-top: 10px;
   border-radius: 10px;
 }
+.event-image img {
+  width: 100%;
+  height: 150px;
+}
+
 
 .text-container {
   height: auto;
@@ -54,6 +60,7 @@ p{
   border-radius: 10px;
   border: 2px solid ;
   border-color: var(--color-body);
+  margin-bottom: 10px;
 
 }
 
@@ -110,7 +117,7 @@ p{
   display: inline;
   flex: inherit;
   justify-content: end;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border-radius: 10px;
   margin-left: 15px;
   margin-right: 15px;
@@ -172,4 +179,57 @@ p{
 }
 
 
+/* Mobile Styles */
+@media only screen and (max-width: 768px) {
+  .flex-container {
+    flex-direction: column;
+    padding:10px;
+    width: 350px;
+    margin-left: 10px;
+    padding: 3px;
+  }
+
+  .container {
+    margin-bottom: 10px;
+  }
+  .left-container{
+    overflow: scroll;
+  }
+
+  .left-container,
+  .right-container,
+  .carousel-container,
+  .text-container {
+    width: 80%;
+    align-items: center;
+    margin-left: 25px;
+    margin-top: 20px;
+    margin-right: 25px;
+  }
+
+  #main-containers {
+    margin-left: 0;
+    padding: 0;
+  }
+
+  .left-container,
+  .right-container,
+  .text-container {
+    border: none;
+  }
+
+  .carousel-container {
+    border: none;
+  }
+
+  .carousel-image {
+    max-width: 100%;
+    margin-top: 0;
+    height: auto;
+  }
+
+  .right-container button {
+    margin-bottom: 10px;
+  }
+}
 
