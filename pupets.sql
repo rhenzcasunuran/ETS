@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2023 at 01:53 AM
+-- Generation Time: May 18, 2023 at 05:54 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -191,7 +191,7 @@ INSERT INTO `image` (`id`, `filename`, `image_Info`, `image_Description`, `statu
 (6, '6461a3a4e766e.jpg', 'PPOP', 'PPOP first Place JMAP', 0),
 (12, '64638989726dc.png', '', '', 0),
 (11, '64637edbd5a64.jpg', 'Garden', 'Vilaas', 0),
-(16, '6465634133b59.jpg', 'asdasdasd', 'asdasd', 0);
+(17, '646586a31af10.jpg', 'asdasdasd', 'sadasd', 0);
 
 -- --------------------------------------------------------
 
@@ -304,7 +304,7 @@ CREATE TABLE `pjparticipants` (
   `participants_name` varchar(100) NOT NULL,
   `participants_course` varchar(11) NOT NULL,
   `participants_section` varchar(150) NOT NULL,
-  `participants_category` varchar(150) NOT NULL
+  `participants_organization` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -572,7 +572,7 @@ ALTER TABLE `eventtypetb`
 -- AUTO_INCREMENT for table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `listofeventtb`
