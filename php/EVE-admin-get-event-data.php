@@ -1,7 +1,7 @@
 <?php
     $dbname=mysqli_connect("localhost","root","","pupets");
 
-    $event_query = "SELECT * FROM listofeventtb";
+    $event_query = "SELECT * FROM listofeventtb ORDER BY event_date ASC";
     $event_result = mysqli_query($dbname, $event_query);
     $event_data = mysqli_query($dbname, $event_query);
     $event_result2 = mysqli_query($dbname, $event_query);

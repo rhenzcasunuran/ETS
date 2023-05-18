@@ -49,4 +49,23 @@
         $delete_event = mysqli_query($dbname,"DELETE FROM listofeventtb WHERE event_code = '$code';");
         header('Location: EVE-admin-list-of-events.php');
     }
+
+    if(isset($_GET['mad'])){
+        $code = $_GET['mad'];
+        $select_event = mysqli_query($dbname,"SELECT * FROM listofeventtb WHERE event_code = '$code';");
+        $get_event = mysqli_fetch_assoc($select_event);
+        $event_name = $get_event['event_name'];
+        $event_type = $get_event['event_type'];
+        $category_name = $get_event['category_name'];
+        $event_description = $get_event['event_description'];
+        $event_date = $get_event['event_date'];
+        $event_time = $get_event['event_time'];
+        $event_code = $get_event['event_code'];
+
+        sleep(0.5);
+        $transfer_event = mysqli_query($dbname,"INSERT INTO eventhistorytb (event_name, event_type, category_name, event_description, event_date, event_time, event_code) VALUES ('$event_name', '$event_type', '$category_name', '$event_description', '$event_date', '$event_time', '$event_code');");
+
+        $delete_event = mysqli_query($dbname,"DELETE FROM listofeventtb WHERE event_code = '$code';");
+        header('Location: EVE-admin-list-of-events.php'); 
+    }
 ?>
