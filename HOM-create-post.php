@@ -349,13 +349,37 @@
       });
     </script>
     <script>
+      var calendarInput = document.getElementById("calendar");
+
+      calendarInput.addEventListener("input", validateDate);
+      calendarInput.addEventListener("blur", validateDate);
+
+      function validateDate() {
+        var inputDate = calendarInput.value;
+
+        var datePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+        if (datePattern.test(inputDate)) {
+          var currentDate = new Date();
+          var enteredDate = new Date(inputDate);
+
+          if (enteredDate <= currentDate) {
+            document.getElementById("error").textContent = "";
+          } else {
+            document.getElementById("error").textContent = "Please enter a valid date.";
+          }
+        } else {
+          document.getElementById("error").textContent = "Please enter a date in the format YYYY-MM-DD.";
+        }
+      }
+    </script>
+    <script>
       document.getElementById("description").addEventListener("change", processDescription);
 
       function processDescription() {
         var textareaValue = document.getElementById("description").value;
         var lines = textareaValue.split("\n");
         
-        // Loop through each line
         for (var i = 0; i < lines.length; i++) {
           console.log("Line " + (i+1) + ": " + lines[i]);
         }
