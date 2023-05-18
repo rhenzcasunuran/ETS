@@ -160,7 +160,7 @@
           <i class='back bx bx-arrow-back'></i>
         </a>
         </div>
-        <div class="row post">
+        <div class="container post">
           <div class="row">
             <p class="post-date">
               Posted on <?php echo $post_row[7];?>
