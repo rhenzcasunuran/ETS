@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/HOM-style.css">
     <link rel="stylesheet" href="./css/HOM-manage-post.css">
   </head>
 
@@ -31,7 +32,6 @@
         <div class="design1"></div>
         <div class="design2"></div>
       </div>
-
       <div class="logo_details">
         <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
         <div class="logo_name">Events Tabulation System</div>
@@ -236,48 +236,67 @@
           if($row > 0){
             while($count = mysqli_fetch_array($get_posts)){
         ?>
+              <div class="container-fluid" id="popup">
+                <div class="row popup-card">
+                  <i class='row warning-icon bx bx-trash' ></i>
+                  <h3 class="row d-flex justify-content-center align-items-center">
+                    Delete Post?
+                  </h3>
+                  <h6 class="row d-flex justify-content-center align-items-center">
+                    You cannot undo this action.
+                  </h6>
+                  <div class="row">
+                    <div class="col">
+                      <a href="HOM-manage-post.php?eed=<?php echo $count[0]?>" class="text-decoration-none" onclick="hide()">
+                        <div id="clear" class="button-clone continue" onclick="hide()">
+                          &nbsp;Continue
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col">
+                      <div class="button-clone cancel" onclick="hide()">
+                        &nbsp;Cancel
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="row manage-post">
                 <div class="col-7">
-                  <div class="row data">
-                    <p>
+                  <div class="row">
+                    <p class="data">
                       Title
                     </p>
                   </div>
-                  <div class="row data-value">
-                    <p>
+                  <div class="row">
+                    <p class="data-value">
                       <?php echo $count[3];?>
                     </p>
                   </div>
                 </div>
-                <div class="col-5">
-                  <div class="row data">
-                    <p>
+                <div class="col-2">
+                  <div class="row">
+                    <p class="data">
                       Tag
                     </p>
                   </div>
-                  <div class="row data-value">
-                    <p>
+                  <div class="row">
+                    <p class="data-value">
                       <?php echo $count[2];?>
                     </p>
                   </div>
-                  <div class="row">
-                    <div class="col"></div>
-                    <div class="col">
-                      <a href="HOM-edit-post.php?eec=<?php echo $count[0]?>" class="link-button">
-                        <button class="edit">
-                          <i class='bx bx-edit'></i>
-                          &nbsp;Edit
-                        </button>
-                      </a>
-                    </div>
-                    <div class="col">
-                      <a href="HOM-manage-post.php?eed=<?php echo $count[0]?>" class="link-button">
-                        <button class="delete">
-                          <i class='bx bx-trash'></i>
-                          &nbsp;Delete
-                        </button>
-                      </a>
-                    </div>
+                </div>
+                <div class="col-2">
+                  <a href="HOM-edit-post.php?eec=<?php echo $count[0]?>" class="text-decoration-none">
+                    <button class="button-clone edit-post">
+                      <i class='bx bx-edit'></i>
+                      &nbsp;Edit Post
+                    </button>
+                  </a>
+                </div>
+                <div class="col-1">
+                  <div class="button-clone delete" onclick="show()">
+                    <i class='bx bx-trash'></i>
                   </div>
                 </div>
               </div>
@@ -301,6 +320,7 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();

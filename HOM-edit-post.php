@@ -20,17 +20,42 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/HOM-style.css">
     <link rel="stylesheet" href="./css/HOM-create-post.css">
   </head>
 
   <body>
+    <div class="container-fluid" id="discardChanges-popup">
+      <div class="row popup-card">
+        <i class='row warning-icon bx bx-message-alt-x' ></i>
+        <h3 class="row d-flex justify-content-center align-items-center">
+          Discard Changes?
+        </h3>
+        <h6 class="row d-flex justify-content-center align-items-center">
+          You cannot undo this action.
+        </h6>
+        <div class="row">
+          <div class="col">
+            <a href="HOM-manage-post.php" class="text-decoration-none">
+              <div id="clear" class="button-clone continue" onclick="hide_discardChanges()">
+                &nbsp;Continue
+              </div>
+            </a>
+          </div>
+          <div class="col">
+            <div class="button-clone cancel" onclick="hide_discardChanges()">
+              &nbsp;Cancel
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--Sidebar-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
         <div class="design1"></div>
         <div class="design2"></div>
       </div>
-
       <div class="logo_details">
         <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
         <div class="logo_name">Events Tabulation System</div>
@@ -289,15 +314,13 @@
               </div>
               <div class="row">
                 <div class="col">
-                  <a href="HOM-manage-post.php" class="text-decoration-none">
-                    <div class="discard-changes link-button">
-                      <i class='bx bx-trash'></i>
-                      &nbsp;Discard Changes
-                    </div>
-                  </a>
+                  <div class="button-clone discard-changes" onclick="show_discardChanges()">
+                    <i class='bx bx-message-alt-x'></i>
+                    &nbsp;Discard Changes
+                  </div>
                 </div>
                 <div class="col">
-                  <button input type ="submit" name="post" class="save-changes" onclick="process_description()">
+                  <button class="button-clone save-changes" input type="submit" name="post">
                     <i class='bx bx-save'></i>
                     &nbsp;Save Changes
                   </button>
@@ -311,6 +334,7 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();

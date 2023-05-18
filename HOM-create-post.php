@@ -20,33 +20,32 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/HOM-style.css">
     <link rel="stylesheet" href="./css/HOM-create-post.css">
   </head>
 
   <body>
-  <div class="container-fluid" id="popup">
+    <div class="container-fluid" id="clear-popup">
       <div class="row popup-card">
-        <form method="post">
-          <div class="row">
-            <div class="col-11 admin-text">
-              <p>
-                Administrator
-              </p>
+        <i class='row warning-icon bx bx-reset' ></i>
+        <h3 class="row d-flex justify-content-center align-items-center">
+          Clear Form?
+        </h3>
+        <h6 class="row d-flex justify-content-center align-items-center">
+          You cannot undo this action.
+        </h6>
+        <div class="row">
+          <div class="col">
+            <div id="clear" class="button-clone continue" onclick="hide_clear()">
+              &nbsp;Continue
             </div>
-            <div class="col-1 close ">
-              <i class='bx bx-x' onclick="hide()"></i>
+          </div>
+          <div class="col">
+            <div class="button-clone cancel" onclick="hide_clear()">
+              &nbsp;Cancel
             </div>
           </div>
-          <div class="row">
-            <input type="text" name="user_username" placeholder="Username" maxlength="20" required/>
-          </div>
-          <div class="row">
-            <input type="password" name="user_password" placeholder="Password" maxlength="128" required/>
-          </div>
-          <div class="row justify-content-center">
-            <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
     <!--Sidebar-->
@@ -307,19 +306,19 @@
               </div>
               <div class="row">
                 <div class="col">
-                  <button class="discard" onclick="clear_input()">
+                  <div class="button-clone clear" onclick="show_clear()">
                     <i class='bx bx-reset'></i>
                     &nbsp;Clear
-                  </button>
+                  </div>
                 </div>
                 <div class="col">
-                  <button class="draft">
+                  <button class="button-clone save-draft" class="draft">
                     <i class='bx bx-save'></i>
                     Save Draft
                   </button>
                 </div>
                 <div class="col">
-                  <button input type ="submit" name="post" class="post">
+                  <button class="button-clone post" input type="submit" name="post">
                     <i class='bx bx-upload'></i>
                     &nbsp;Post
                   </button>
@@ -333,6 +332,7 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -362,8 +362,10 @@
       }
     </script>
     <script>
-      function clear_input(){
-        var form = document.getElementById("form_post");
+      document.getElementById("clear").addEventListener("click", clearInput);
+
+      function clearInput(){
+        var form = document.getElementById("post-form");
         var calendar = document.getElementById("calendar");
         var tag = document.getElementById("tag");
         var title = document.getElementById("title");
