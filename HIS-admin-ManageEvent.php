@@ -1,4 +1,4 @@
-<?php include './php/database_connect.php' ?>
+<?php include './php/connections.php' ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,20 +28,20 @@
 
   <body>
     <!--Sidebar-->
-    <div class="sidebar open box-shadow">
+    <div class="sidebar box-shadow">
       <div class="bottom-design">
         <div class="design1"></div>
         <div class="design2"></div>
       </div>
+
       <div class="logo_details">
         <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
         <div class="logo_name">Events Tabulation System</div>
         <i class="bx bx-arrow-to-right" id="btn"></i>
-        <script src="./js/sidebar-state.js"></script>
       </div>
       <div class="wrapper">
         <li class="nav-item top">
-          <a href="index.php">
+        <a href="./HIS-student-index.php">
             <i class="bx bx-home-alt"></i>
             <span class="link_name">Go Back</span>
           </a>
@@ -49,7 +49,7 @@
         <div class="sidebar-content-container">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#posts" class="menu_btn">
+              <a href="#posts" class="menu_btn ">
                 <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Posts
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -57,27 +57,21 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HOM-create-post.php">
+                  <a href="#create_posts">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Create Post</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="HOM-draft-scheduled-post.php">
+                  <a href="#manage_posts">
                     <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Draft & Scheduled Post</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HOM-manage-post.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Manage Post</span>
+                    <span class="sub_link_name">Manage Posts</span>
                   </a>
                 </li>
               </ul>
             </li>
             <li class="nav-item">
-              <a href="#event_menu" class="menu_btn">
+              <a href="#event_menu">
                 <i class="bx bx-calendar-edit"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Events
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -85,13 +79,13 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="EVE-admin-list-of-events.php">
+                  <a href="#list_of_events">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">List of Events</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="EVE-admin-event-configuration.php">
+                  <a href="#event_config">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Event Configuration</span>
                   </a>
@@ -113,24 +107,18 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="CAL-admin-overall.php">
+                  <a href="./CAL-admin-overall.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Overview</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="CAL-admin-logs.php">
+                  <a href="./CAL-admin-logs.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Logs</span>
                   </a>
                 </li>
               </ul>
-            </li>
-            <li class="nav-item">
-              <a href="BAR-admin.php">
-                <i class='bx bx-bar-chart-alt-2'></i>
-                <span class="link_name">Overall Results</span>
-              </a>
             </li>
             <li class="nav-item">
               <a href="#tournaments" class="menu_btn">
@@ -141,15 +129,21 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php">
+                  <a href="#live_scoring">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Live Scoring</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="TOU-bracket-admin.php">
+                  <a href="#manage_brackets">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Manage Brackets</span>
+                  </a>
+                </li>
+                <li class="sub-item">
+                  <a href="#brackets">
+                    <i class="bx bxs-circle sub-icon color-yellow"></i>
+                    <span class="sub_link_name">Brackets</span>
                   </a>
                 </li>
               </ul>
@@ -163,33 +157,33 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="COM-manage_results_page.php">
+                  <a href="#manage_results">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Manage Results</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="COM-tobepublished_page.php">
+                  <a href="#to_publish">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">To Publish</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="COM-published_page.php">
+                  <a href="#published_results">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Published Results</span>
                   </a>
                 </li>
                 <li class="sub-item">
                   <a href="#archive">
-                    <i class="bx bxs-circle sub-icon color-purple"></i>
+                    <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Archive</span>
                   </a>
                 </li>
               </ul>
             </li>
             <li class="nav-item">
-              <a href="#event_history" class="menu_btn active">
+              <a href="./HIS-admin-ManageEvent.php" class="menu_btn active">
                 <i class="bx bx-history"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Event History
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -197,13 +191,13 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HIS-admin-ManageEvent.php" class="sub-active">
+                  <a href="./HIS-admin-ManageEvent.php"class="sub-active">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Event Page</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="HIS-admin-highlights.php">
+                <a href="./HIS-admin-highlights.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Highlights Page</span>
                   </a>
@@ -211,7 +205,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="P&J-admin-formPJ.php">
+              <a href="./P&J-admin-formPJ.php">
                 <i class="bx bx-group"></i>
                 <span class="link_name">Judges & <br> Participants</span>
               </a>
