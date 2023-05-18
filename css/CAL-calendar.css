@@ -13,18 +13,6 @@
   --color-yellow: #FFB546;
 }
 
-.color-red {
-  color: var(--color-red)!important;
-}
-
-.color-green {
-  color: var(--color-green)!important;
-}
-
-.color-yellow {
-  color: var(--color-yellow)!important;
-}
-
 .d-flex #calendar-title {
   margin-top: 3rem;
   margin-left: 7rem;

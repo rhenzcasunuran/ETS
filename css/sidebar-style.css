@@ -77,7 +77,6 @@ body{
   transition: all .5s ease;
 }
 
-
 ul {
   padding-left: 0 !important;
 }
@@ -420,7 +419,7 @@ ul {
   margin-bottom: 10px!important;
 }
 
-input{
+input:not(.form-check-input) {
   padding: 10px 20px!important;
   margin-bottom: 20px!important;
   border: 1px solid #ccc;
