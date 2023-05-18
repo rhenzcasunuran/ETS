@@ -359,7 +359,7 @@ CREATE TABLE `pjparticipants` (
   `participants_name` varchar(100) NOT NULL,
   `participants_course` varchar(11) NOT NULL,
   `participants_section` varchar(150) NOT NULL,
-  `participants_category` varchar(150) NOT NULL
+  `participants_organization` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
