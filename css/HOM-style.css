@@ -1,0 +1,118 @@
+.button-clone{
+    border: none;
+    color: whitesmoke;
+    height: 45px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 24px;
+    width: 100%;
+    font-weight: 300;
+    padding: 0;
+    box-shadow: 0 5px 10px -5px var(--color-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-clone:hover{
+    opacity: 80%;
+    transition: all .5s ease;
+}
+
+.save-changes{
+    background-color: var(--color-sidebar-sublist-2);
+}
+
+.delete, .continue, .clear, .discard-changes{
+    background-color: var(--color-red);
+}
+
+.save-draft, .save-changes{
+    background-color: var(--color-green);
+}
+
+.post, .edit-post{
+    background-color: var(--color-yellow);
+}
+
+.cancel{
+    background-color: gray;
+}
+
+#popup{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 100;
+}
+
+#clear-popup{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 100;
+}
+
+#discardChanges-popup{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 100;
+}
+  
+.close{
+    top: 20px;
+    right: 30px;
+    transition: .25s;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: whitesmoke;
+    cursor: pointer;
+    padding: 0!important;
+}
+  
+.close:hover{
+    color: var(--color-sidebar-sublist-1);
+}
+  
+.popup-card{
+    background-color: var(--color-content-card);
+    padding: 30px!important;
+    border-radius: 30px;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.warning-icon{
+    width: 100%;
+    font-size: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-content-text);
+}
+
+h3{
+    font-weight: bolder;
+    color: var(--color-content-text);
+}
+
+h6{
+    color: var(--color-content-text);
+}
+

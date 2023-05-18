@@ -96,56 +96,6 @@ textarea{
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 10px;
-
 }
 
-.link-button{
-    display: inline-block;
-    border: none;
-    color: whitesmoke;
-    height: 40px;
-    border-radius: 20px;
-    cursor: pointer;
-    width: 100%;
-    font-weight: 300;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
-}
-
-button{
-    border: none;
-    color: whitesmoke;
-    height: 40px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-top: 24px;
-    width: 100%;
-    font-weight: 300;
-    padding: 0;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
-}
-
-button:hover{
-    opacity: 75%;
-    transition: all .5s ease;
-}
-
-.discard{
-    background-color: var(--color-sidebar-sublist-1);
-}
-
-.draft{
-    background-color: var(--color-sidebar-sublist-2);
-}
-
-.post{
-    background-color: var(--color-sidebar-sublist-3);
-}
-
-.discard-changes{
-    background-color: var(--color-sidebar-sublist-1);
-}
-
-.save-changes{
-    background-color: var(--color-sidebar-sublist-2);
-}
-
+  

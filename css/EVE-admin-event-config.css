@@ -117,7 +117,7 @@ table tr td a:link{
 }
 
 .h-data #eventNameData, .h-data #categoryNameData{
-    padding-left: 40px;
+    padding-left: 40px!important;
 }
 
 #checkEventName, #checkCategoryName{
