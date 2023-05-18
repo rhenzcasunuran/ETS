@@ -1,0 +1,294 @@
+.container{
+    width: 95%;
+}
+
+.filter-text{
+    align-content: center;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 20px;
+
+    margin: auto;
+    width: 100%;
+    color: var(--color-content-text);
+}
+
+.filter-button{
+    display: inline-block;
+    border: none;
+    color: whitesmoke;
+    height: 32px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 15px 0;
+    width: 100%;
+    font-weight: 300;
+    box-shadow: 0 5px 10px -6px var(--color-shadow);
+}
+
+.filter-button:hover{
+    opacity: 75%;
+    transition: all .5s ease;
+}
+
+.SC{
+    background-color: gray;
+}
+
+.ACAP{
+    background-color: var(--color-acap);
+}
+
+.AECES{
+    background-color: var(--color-aeces);
+}
+
+.ELITE{
+    background-color: var(--color-elite);
+}
+
+.GIVE{
+    background-color: var(--color-give);
+}
+
+.JEHRA{
+    background-color: var(--color-jehra);
+}
+
+.JMAP{
+    background-color: var(--color-jmap);
+}
+
+.JPIA{
+    background-color: var(--color-jpia);
+}
+
+.PIIE{
+    background-color: var(--color-piie);
+}
+
+.post-container{
+    margin-top: 10px;
+    display: grid;
+    grid-auto-flow: column;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding: 20px 0;
+    width: 100%;
+}
+
+.post-container::-webkit-scrollbar{
+    height: 5px;
+    width: 5px;
+}
+  
+.post-container::-webkit-scrollbar-track{
+    background-color: rgb(255 255 255 / 10%);
+    border-radius: 10px;
+}
+  
+.post-container::-webkit-scrollbar-thumb{
+    background-color: rgb(255 255 255 / 10%);
+    border-radius: 10px;
+}
+
+.post-snap{
+    scroll-snap-type: inline mandatory;
+}
+
+.post-snap > *{
+    scroll-snap-align: start;
+}
+
+#no-post-container{
+    width: 100%;
+    height: 275px;
+    display: grid;
+    align-content: center;
+}
+
+#no-post-container .bx-calendar-x{
+    font-size: calc(8vw + 50px);
+}
+
+#no-post-container i, #no-post-container p, #no-post-container span, #add-event-btn i, #add-event-btn span{
+    font-size: calc(0.6vw + 8px);
+    color: var(--color-content-text);
+}
+
+#no-post-container h1{
+    font-size: calc(25px + 1vw);
+    font-weight: 700;
+    color: var(--color-content-text);
+}
+
+.post-click{
+    text-decoration: none;
+    padding: 10px;
+}
+
+.post-card{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 375px;
+    height: 275px;
+    vertical-align: top;
+    background-color: var(--color-content-card);
+    cursor: pointer;
+    padding: 0;
+    border-radius: 10px;
+    display: grid;
+    grid-template-rows: min-content;
+    box-shadow: 0 5px 10px -5px var(--color-shadow);
+}
+
+.post-card:hover{
+    transition: .5s;
+    box-shadow: 0 5px 20px -5px var(--color-shadow);
+}
+
+.post-cover{
+    width: 375px;
+    height: 180px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    object-fit: contain;
+}
+
+.post-detail{
+    padding: 10px;
+    height: 95px;
+    width: 375px;
+    word-wrap: break-word;
+}
+
+.post-date{
+    font-size: 10px;
+    font-style: italic;
+    margin-bottom: 0;
+    color: var(--color-content-text);
+}
+
+.post-title-container{
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+}
+
+.post-title-text{
+    font-size: 17.5px;
+    font-weight: bold;
+    width: 355px;
+    line-height: 150%;
+    text-align: center;
+    color: var(--color-content-text);
+    padding: 0px;
+    margin: auto;
+}
+
+.category{
+    display: flex;
+}
+
+.category-text{
+    font-weight: 600;
+    font-size: 32px;
+    margin: 30px 15px 0 0;
+    color: var(--color-content-text);
+    padding: 0;
+}
+
+.category-container{
+    height: 500px;
+    direction: ltr;
+    overflow: scroll;
+    padding-top: 20px;
+}
+
+.category-container::-webkit-scrollbar{
+    height: 5px;
+    width: 5px;
+}
+  
+.category-container::-webkit-scrollbar-track{
+    background-color: rgb(255 255 255 / 10%);
+    border-radius: 10px;
+}
+  
+.category-container::-webkit-scrollbar-thumb{
+    background-color: rgb(255 255 255 / 10%);
+    border-radius: 10px;
+}
+
+.category-card{
+    display: flex;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 95%;
+    height: 150px;
+    background-color: var(--color-content-card);
+    cursor: pointer;
+    padding: 0;
+    border-radius: 10px;
+    grid-template-rows: min-content;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 10px -5px var(--color-shadow);
+}
+
+.category-card:hover{
+    transition: .5s;
+    box-shadow: 0 5px 20px -5px var(--color-shadow);
+}
+
+.category-column{
+    padding: 0;
+    height: 100%;
+}
+
+.tournament-team{
+    display: inline-block;
+    width: 210px;
+}
+
+.tournament-score{
+    display: block;
+    color: var(--color-content-text);
+    height: 70px;
+    width: 50px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 60px;
+    margin: 30px auto 0 auto;
+}
+
+.tournament-org{
+    display: block;
+    height: 30px;
+    font-size: 30px;
+    text-align: center;
+    line-height: 31px;
+    font-weight: 900px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tournament-sport{
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tournament-vs{
+    display: block;
+    text-align: center;
+    font-weight: bolder;
+    color: var(--color-content-text);
+    font-size: 40px;
+    height: 50px;
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -402,6 +402,7 @@
     <script src="./js/script.js"></script>
     <script src="./js/change-theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-script.js"></script>
     <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
@@ -417,12 +418,6 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-    </script>
-    <script>
-      function redirectToPage(url) {
-        // Redirect to the specified URL
-        window.location.href = url;
-      }
     </script>
   </body>
 </html>

@@ -332,7 +332,8 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
-    <script src="./js/HOM-popup.js"></script>
+    <script src="./js/HOM-create-post.js"></script>
+    <script src="./js/HOM-create-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -347,40 +348,6 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-    </script>
-    <script>
-      document.getElementById("description").addEventListener("change", processDescription);
-
-      function processDescription() {
-        var textareaValue = document.getElementById("description").value;
-        var lines = textareaValue.split("\n");
-        
-        // Loop through each line
-        for (var i = 0; i < lines.length; i++) {
-          console.log("Line " + (i+1) + ": " + lines[i]);
-        }
-      }
-    </script>
-    <script>
-      document.getElementById("clear").addEventListener("click", clearInput);
-
-      function clearInput(){
-        var form = document.getElementById("post-form");
-        var calendar = document.getElementById("calendar");
-        var tag = document.getElementById("tag");
-        var title = document.getElementById("title");
-        var description = document.getElementById("description");
-
-        tag.removeAttribute("required");
-        title.removeAttribute("required");
-        description.removeAttribute("required");
-
-        form.reset();
-
-        tag.setAttribute("required", "required");
-        title.setAttribute("required", "required");
-        description.setAttribute("required", "required");
-      }
     </script>
   </body>
 </html>

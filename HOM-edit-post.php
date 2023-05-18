@@ -334,6 +334,8 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-create-post.js"></script>
+    <script src="./js/HOM-edit-post.js"></script>
     <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
@@ -349,19 +351,6 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-    </script>
-    <script>
-      document.getElementById("description").addEventListener("change", processDescription);
-
-      function processDescription() {
-        var textareaValue = document.getElementById("description").value;
-        var lines = textareaValue.split("\n");
-        
-        // Loop through each line
-        for (var i = 0; i < lines.length; i++) {
-          console.log("Line " + (i+1) + ": " + lines[i]);
-        }
-      }
     </script>
     <script>
       var existingCalendar = "<?php echo $post_row[1];?>";
