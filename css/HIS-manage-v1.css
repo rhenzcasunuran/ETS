@@ -1,0 +1,147 @@
+h3 {
+    font-size: large;
+    font-weight: 500;
+    color: var(--color-white);
+    margin-top: 5px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+  }
+  
+  .flex-container {
+    width: calc(100% - 78px);
+    flex-wrap: wrap;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .main-containers {
+    height: 550px;
+    border-radius: 20px;
+    background: var(--color-content-card);
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+    left: 78px;
+    width: calc(100% - 78px);
+    align-items: center;
+  }
+  
+  .flex-box {
+    width: calc(100% - 78px);
+    height: 400px;
+    flex-wrap: wrap;
+    background: var(--color-body);
+    flex-wrap: wrap;
+    overflow-y: auto;
+    text-align: center;
+    display: block;
+    align-items: center;
+    border-radius: 10px;
+    margin-left: 20px;
+  }
+  
+  #but {
+    background-color: var(--color-sidebar-active);
+    color:var(--color-content-text);
+    margin-right: 50px;
+    position: relative;
+    border-radius: 10px;
+    height: 50px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-style: normal;
+    margin-bottom: 10px;
+  }
+  
+  #but:hover {
+    background-color: #CF9FFF;
+  }
+  
+  button {
+    color:var(--color-content-text);
+    background: var(--color-sidebar-subactive);
+    border: none;
+    padding: 1%;
+    width: calc(80%);
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    display: block;
+    margin-left: 10%;
+    align-items: center;
+    padding: 3%;
+    border-radius: 10px;
+  }
+  
+  button:hover {
+    background-color: #CF9FFF;
+  }
+  
+  .search-wrapper {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+  
+  .search-wrapper input[type="text"] {
+    font-size: 18px;
+    border-radius: 10px;
+    margin-top: 5%;
+    width: 80%;
+    margin-left: 10%;
+  }
+  
+  #buttons > button {
+    display: none;
+  }
+  
+  .activity_container label {
+    display: block;
+    margin-right: 10%;
+    text-align: right;
+    color: var(--color-content-text);
+
+  }
+  
+  .flex-box input[type="radio"] {
+    transform: scale(1.5);
+    margin: 50px;
+    margin-bottom: 25px;
+    margin-top: 10%;
+    text-align: center;
+    vertical-align: sub;
+  }
+  
+  .selected {
+    background-color: #c02525;
+  }
+  
+  #select_event_text {
+    display: block;
+    text-align: center;
+    color:var(--color-content-text);
+
+    font-size: 20px;
+    margin-top: 170px;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .main-containers {
+      flex-direction: column;
+      height: 600px;
+      border-radius: 5px;
+    }
+  
+    .flex-container {
+      width: 330px;
+    }
+  
+}  

@@ -1,0 +1,143 @@
+/* Part 1, background color for inside & outside container*/
+*{
+    margin: 0px;
+    align-items: center;
+}
+
+body{
+    background-color: #191424;
+    margin: 5px;
+}
+
+
+select {
+    background-color: #191424;
+    color: #FFFFFF;
+    border: transparent;
+}
+
+.Container{
+    display: flex;
+    background-color: #726A94;
+    width: max-content;
+    margin-left: 15%;
+    margin-top: 3%;
+    color: #FFFFFF;
+}
+
+/* Part 2: Branch Style, Branch Size & Display*/
+.Branch_1{
+    height: 620px; /*new value for symmetrical bracket 8 players*/
+    width: 400px;
+    flex-wrap: wrap;
+    display: flex;
+    margin-top: 40px;
+    margin-left: 20px;
+}
+
+.Branch_2{
+    height: 620px; /*new value for symmetrical bracket 8 players*/
+    width: 400px;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.Branch_3{
+    height: 620px; /*new value for symmetrical bracket 8 players*/
+    width: 400px;
+    flex-wrap: wrap;
+    display: flex;
+}
+/* Part 3: Object style*/
+
+.Object_1:nth-child(even) , .Object_2:nth-child(even) , .Object_3:nth-child(even){
+display: grid;
+grid-template-columns: 230px 100px;
+grid-template-rows: 50px 50px;
+background-color: #191424;
+width: 300px;
+padding-top: 4px;
+padding-left: 4px;
+}
+
+.Object_1:nth-child(odd) , .Object_2:nth-child(odd) , .Object_3:nth-child(odd){
+    display: grid;
+    grid-template-columns: 230px 100px;
+    grid-template-rows: 50px 50px;
+    background-color: #191424;
+    width: 300px;
+    padding-top: 4px;
+    padding-left: 4px;
+    }
+
+.Name_Forward{
+    display: flex;
+    align-items: center;
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 4px;
+    background-color: #191424;
+    color: #FFFFFF;
+}
+
+/* Part 4: Match data sizes*/
+select{
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 4px;
+}
+
+select.Name{
+width: 210px;
+height: 40px;
+font-size: 20px;
+border-radius: 4px;
+}
+/* */
+.Match{
+    height: 150px; /*new value for symmetrical bracket 8 players*/
+}
+
+.Object_2{
+    margin-top: 25%; /*new value for symmetrical bracket 8 players*/
+}
+
+.Match_02{
+    height: 300px; /*new value for symmetrical bracket 8 players*/
+}
+
+.Object_3{
+    margin-top: 75%; /*new value for symmetrical bracket 8 players*/
+}
+
+.Match_03{
+    height: 600px; /*new value for symmetrical bracket 8 players*/
+}
+/* */
+
+.First:hover{
+    background-color: chocolate;
+    color: white;
+    font-size: 30px;
+    border-radius: 6px;
+    padding: 5px;
+}
+
+.First{
+
+    color: white;
+    font-size: 30px;
+    border-radius: 6px;
+    padding: 5px;
+}
+
+label.number{
+    font-size: 30px;
+    color: white;
+}
+
+.Link_Style{
+    margin-top: 10px;
+}

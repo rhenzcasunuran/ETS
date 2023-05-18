@@ -1,0 +1,144 @@
+:root {
+  --color-default: #282135;
+  --color-second: #191424;
+  --color-light: #e0e0e0;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-third: #635B81CC;
+  --color-subthird: #635B8180;
+  --color-body: #D7D1BC;
+  --color-text: #000;
+  --color-red: #FF605C;
+  --color-green: #00CA4E;
+  --color-yellow: #FFB546;
+}
+
+.color-red {
+  color: var(--color-red)!important;
+}
+
+.color-green {
+  color: var(--color-green)!important;
+}
+
+.color-yellow {
+  color: var(--color-yellow)!important;
+}
+
+.d-flex #calendar-title {
+  margin-top: 3rem;
+  margin-left: 7rem;
+  margin-bottom: 2.5rem;
+  color: var(--color-content-text);
+}
+
+.d-flex .dropdown {
+  margin-top: 3rem;
+  margin-right: 8rem;
+  margin-bottom: 2.5rem;
+}
+
+#calendar {
+  margin: 0 auto;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 1.25rem;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+  padding-bottom: 3.75rem;
+}
+
+#calendar tbody {
+  border-radius: 1.25rem;
+  padding: 0.9375rem;
+}
+
+#calendar td {
+  border-radius: 1.25rem;
+  padding: 0.9375rem;
+  height: 7rem; 
+  width: 7rem; 
+}
+
+.calendar-weeks {
+  color: var(--color-content-text);
+}
+
+.calendar-days {
+  height: auto;
+  color: var(--color-black);
+  background-color: var(--color-white);
+}
+
+.calendar-row-styled {
+  max-width: 90%;
+  background-color: var(--color-content-card);
+  border-radius: 3.125rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 1.25rem;
+}
+
+.calendar-rounded-cell {
+  border-radius: 1.5625rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.calendar-smaller-btn  {
+  font-size: 0.75rem !important;
+}
+
+.calendar-navigation {
+  margin-top: 15.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 3.1rem;
+}
+
+#prev-month, #next-month {
+  width: 3.50rem;
+  height: 3rem;
+  font-size: 0.75rem;
+}
+
+.button-wrapper {
+  height: 200px;
+  overflow-y: auto;
+}
+
+.show-more {
+  position: sticky;
+  bottom: 0;
+  margin-top: 10px;
+}
+
+.popover-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+td.calendar-rounded-cell:hover {
+  transform: scale(1.25);
+  background-color: var(--color-white);
+}
+
+.calendar-day-plus {
+  display: none;
+  position: absolute;
+  right: 20px;
+  top: 27px;
+  transform: translateY(-50%);
+}
+
+/* LOGS AT THIS POINT */
+
+.custom-search-bar {
+  width: 200px;
+  height: 45px;
+}

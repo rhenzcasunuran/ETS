@@ -1,0 +1,168 @@
+*{
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.container{
+    margin:33px auto;
+    background-color: #191424;
+    color: white;
+    display: flex;
+    width: 1500px;
+    height: 600px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+h1{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 60px;
+}
+
+h2{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    margin-top: 12px;
+    justify-content: center;
+}
+
+.settings-icon {
+    font-size: 40px;
+}
+
+.guest , .home {
+    margin: 0px;
+}
+
+
+.dropdown-tournament{
+    font-size: 10px;
+}
+
+.button-tournament {
+    font-family: 'Poppins', sans-serif;
+    background-color: #A84444;
+    color: #F0E3D2;
+    border-style: none;
+    border-radius: 15px;
+    width: 150px;
+    height: 60px;
+    font-size: 20px;
+    margin-bottom: 60px
+}
+
+#home--btn, #guest--btn{
+    width: 425px;
+    height: 425px;
+    margin: 15px;
+    background-color: #282135;
+    color: #ffffff;
+    font-size: 300px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 7px;
+    border-style: none;
+}
+
+.button-end-match {
+    
+    font-family: 'Poppins', sans-serif;
+    background-color: #A84444;
+    color: #F0E3D2;
+    width: 150px;
+    height: 60px;
+    border-radius: 15px;
+    border-style: none;
+    font-size: 20px;
+    margin-top: 60px;
+}
+
+.quarter {
+    width: 150px;
+    height: 60px;
+    background-color: #282135;
+    color: #F6E1C3;
+    font-size: 30px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 7px;
+    margin-top: 50px;
+    margin-bottom: 50px
+}
+.operate{
+    width: 500px;
+    height: 110px;
+    margin-right: 0px;
+    padding-left: 7px;
+    /* border: 1px solid white; */
+}
+.operate > button{
+    width: 60px;
+    height: 60px;
+    margin: 3px;
+    background-color: transparent;
+    border: 2px solid rgb(219, 219, 219);
+    font-size: 18px;
+    color: rgb(219, 219, 219);
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+
+    
+}
+.operate > button:active{
+    background-color: rgba(255, 255, 255, 0.275);
+}
+
+
+.container-two{
+    margin: auto;
+    background-color: #282135;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 550px;
+    height: 200px;
+    padding: 30px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    border: 3px solid rgb(60, 60, 60);
+    padding: 20px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.save--btn{
+    margin-top: 10px;
+    width: 150px;
+    height: 80px;
+    border-radius: 3px;
+    position: sticky;
+    top: 0;
+    font-size: 17.5px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    font-family: 'Poppins', sans-serif;
+    background-color: #A84444;
+    border: none;
+}
+
+.save--btn:active{
+    background-color: #000000;
+}
+
+.container-two >p{
+    color: #ffffff;
+    font-size: 18px;    
+}
+
+#home--count{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+
+}
+#guest--count{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}

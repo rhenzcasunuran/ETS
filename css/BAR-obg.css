@@ -1,0 +1,245 @@
+
+
+#obg-content{
+  display: flex;
+}
+
+#body-content{
+  height: 100vh;
+}
+
+.add{
+  display: none;
+}
+
+#graph-section{
+  display: flex;
+  width: 100%;
+  transition: all .5s ease;
+  padding: 0px 30px 0px 30px;
+}
+
+.graph_container{
+  width: 100%;
+  height: 680px;
+  background-color: rgb(155, 155, 117);
+  padding: 15px 50px 0px 15px;
+  border-radius: 30px;
+  transition: all .5s ease;
+  margin-top: 14px;
+}
+
+.logo_container{
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  margin-right: 2%;
+}
+
+#rank_container{
+  border-right: 5px solid black;
+}
+
+#logos{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#arrow-container{
+  display: flex;
+}
+
+.arrow{
+  text-align: right;
+}
+
+#arrow-btn{
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.meter_container{
+  height: 55px;
+  padding: 0px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.meter{
+  height: 80%;
+  background-color: rgb(45, 71, 72);
+  transition: width 1s;
+  animation-name: grow;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  transition: 0.5s;
+  align-self: center;
+}
+
+@keyframes grow {
+  0% {
+    width: 0;
+  }
+  100% {
+  }
+}
+
+#acap_bar{
+  width: 48%;
+  background-color: #452077;
+}
+
+#aeces_bar{
+  width: 21%;
+  background-color: #ab3030;
+}
+
+#elite_bar{
+  width: 6%;
+  background-color: #a25c0b;
+}
+
+#give_bar{
+  width: 36%;
+  background-color: #205f8a;
+}
+
+#jehra_bar{
+  width: 100%;
+  background-color: #ca31a9;
+}
+
+#jmap_bar{
+  width: 5%;
+  background-color: #c7bc28;
+}
+
+#jpia_bar{
+  width: 25%;
+  background-color: #da3370;
+}
+
+#piie_bar{
+  width: 98%;
+  background-color: #0e6724;
+}
+
+#graph-section.placement_open{
+  width: 100%;
+  transition: all .5s ease;
+}
+
+.container-fluid #graph-section.placement_open .add{
+  display: flex;
+}
+
+#graph-section.placement_open .meter_container{
+  display: none;
+}
+
+#graph-section.placement_open .graph_container{
+  padding: 0;
+  width: 10%;
+  transition: all .5s ease;
+}
+
+#graph-section.placement_open #rank_container{
+  width: 100%;
+  border-right: 0;
+}
+
+#graph-section.placement_open .logo_container{
+  margin-right: 0;
+}
+
+#graph-section.placement_open #arrow-btn{
+  padding-right: 16px;
+  padding-top: 8px;
+}
+
+#graph-section #org-profile{
+  display: none;
+}
+
+#graph-section.placement_open .logos{
+  border-radius: 100%;
+}
+
+#graph-section.placement_open #org-profile{
+  display: flex;
+  justify-content: center;
+  padding: 0px 0px 0px 20px;
+  height: 680px;
+  margin-top: 14px;
+}
+
+#graph-section.placement_open #org-body{
+  background-color: #282135;
+  height: 100%;
+  border-radius: 30px;
+  padding: 15px 30px 0px 30px;
+}
+
+#graph-section.placement_open #org-content{
+  background-color: #c3c1c6;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 20%;
+}
+
+#graph-section.placement_open .profile-logo{
+  width: 80px;
+}
+
+#graph-section.placement_open .profile-name-container{
+  background-color: #ffffff;
+  font-size: 30px;
+  border-radius: 10px;
+  height: 100px;
+  font-size: 150%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#graph-section.placement_open #org-window{
+  background-color: #c3c1c6;
+  height: 75%;
+  margin-top: 15px;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#graph-section.placement_open #winnings-container{
+  background-color: #ffffff;
+  height: 100%;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#graph-section.placement_open .winnings{
+  height: 100%;
+  overflow: auto;
+}
+
+#graph-section.placement_open #org-photo-container{
+  margin-left: 20px;
+  background-color: #000000;
+  position: relative;
+  width: 100%; /* Set the desired width */
+  height: 100%; /* Set the desired height */
+  overflow: auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#graph-section.placement_open .org-photo-image{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
