@@ -131,8 +131,8 @@ if($conn){
               </ul>
             </li>
             
-            <li class="nav-item active">
-              <a href="HIS-student-index.php">
+            <li class="nav-item">
+              <a href="HIS-student-index.php" class="active">
                 <i class="bx bx-history"></i>
                 <span class="link_name">Event History</span>
               </a>
@@ -147,7 +147,7 @@ if($conn){
               if(isset($_SESSION['user_username'])){
             ?>
             <li class="nav-item">
-              <a href="HIS-admin-ManageEvent.php">
+              <a href="HOM-create-post.php">
                 <i class="bx bx-cog"></i>
                 <span class="link_name">Configuration</span>
               </a>

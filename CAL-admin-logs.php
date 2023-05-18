@@ -1,6 +1,8 @@
 <?php
-  @include './php/database_connect.php';
+  include './php/sign-in.php';
+  include './php/database_connect.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,9 +10,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logs</title>
+    <title>Configuration</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
+    <script src="./js/default-theme.js"></script>
     <!-- Link Styles -->
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/boxicons.css">
@@ -18,15 +21,6 @@
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <!--Calendar JS-->
     <link rel="stylesheet" href="./css/CAL-calendar.css">
-    <!-- Custom CSS -->
-    <style>
-      .sortable-header {
-        cursor: pointer;
-      }
-      .sortable-header i {
-        margin-left: 5px;
-      }
-    </style>
   </head>
 
   <body>
@@ -108,7 +102,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="#" class="menu_btn active">
+              <a href="#"  class="menu_btn active">
                 <i class="bx bx-calendar"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Calendar
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -230,8 +224,8 @@
         <div class="row">
           <div class="col-md-2">
             <div class="input-group input-group-sm custom-search-bar">
-              <input type="text" class="form-control" placeholder="Search">
-              <button class="btn btn-outline-primary" type="button">
+              <input type="text" class="form-control" maxlength="50" style="height:50px;" placeholder="Search">
+              <button class="btn btn-outline-primary" style="height:50px;" type="button">
                 <i class="bx bx-search"></i>
               </button>
             </div>
@@ -311,7 +305,7 @@
                     </div>
                   </div>
                 </li>
-                <li>
+                <li class="calendar-li">
                   <div class="accordion" id="eventTypeAccordion">
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="headingTwo">
@@ -446,7 +440,6 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
-    <script src="./js/default-theme.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();

@@ -45,6 +45,31 @@ if($conn){
   </head>
 
   <body>
+    <div class="container-fluid" id="popup">
+      <div class="row popup-card">
+        <form method="post">
+          <div class="row">
+            <div class="col-11 admin-text">
+              <p>
+                Administrator
+              </p>
+            </div>
+            <div class="col-1 close ">
+              <i class='bx bx-x' onclick="hide()"></i>
+            </div>
+          </div>
+          <div class="row">
+            <input type="text" name="user_username" placeholder="Username" maxlength="20" required/>
+          </div>
+          <div class="row">
+            <input type="password" name="user_password" placeholder="Password" maxlength="128" required/>
+          </div>
+          <div class="row justify-content-center">
+            <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
+          </div>
+        </form>
+      </div>
+    </div>
      <!--SIDEBAR-->
      <div class="sidebar open box-shadow">
       <div class="bottom-design">
@@ -321,6 +346,7 @@ if($conn){
     <script src="./js/script.js"></script>
     <script src="./js/change-theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();

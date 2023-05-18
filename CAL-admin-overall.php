@@ -1,6 +1,8 @@
 <?php
-  @include './php/database_connect.php';
+  include './php/sign-in.php';
+  include './php/database_connect.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,9 +10,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar</title>
+    <title>Configuration</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
+    <script src="./js/default-theme.js"></script>
     <!-- Link Styles -->
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/boxicons.css">
@@ -21,8 +24,8 @@
   </head>
 
   <body>
-     <!--Sidebar-->
-     <div class="sidebar open box-shadow">
+    <!--Sidebar-->
+    <div class="sidebar open box-shadow">
       <div class="bottom-design">
         <div class="design1"></div>
         <div class="design2"></div>
@@ -377,7 +380,6 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
-    <script src="./js/default-theme.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
