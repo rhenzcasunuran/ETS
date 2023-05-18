@@ -506,6 +506,11 @@ $(document).ready(function() {
         }
     });
 
+    var currentDate = new Date();  // Get the current date
+    var currentDay = currentDate.getDate();  // Get the day of the current date
+    var currentMonth = currentDate.getMonth();  // Get the month of the current date
+    var currentYear = currentDate.getFullYear();  // Get the year of the current date
+
     // Generate calendar days
     var date = 1;
     for (var i = 0; i < 6; i++) {
@@ -521,8 +526,18 @@ $(document).ready(function() {
             // Cell is a valid day of the month
             var div = $('<div>').addClass("d-grid gap-1 mx-auto");
             var dateText = $('<span>').text(date);
-            var plusIcon = $('<span>').addClass('calendar-day-plus').text('+').hide();
-            div.append(dateText, plusIcon);
+            div.append(dateText);
+
+            // Check if the date is today or a future date
+            if (
+              year > currentYear ||
+              (year === currentYear && month > currentMonth) ||
+              (year === currentYear && month === currentMonth && date >= currentDay)
+            ) {
+              var plusIcon = $('<span>').addClass('calendar-day-plus').text('+').hide();
+              div.append(plusIcon);
+            }
+
             cell.append(div);
             date++;
             cell.on('mouseover', function() {
