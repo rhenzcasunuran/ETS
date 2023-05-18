@@ -63,7 +63,7 @@
         </div>
         <div class="row flex-column flex-md-row d-flex align-items-center">
           <button class="btn btn-confirm content-box-shadow" id="btn-return" onclick="hideDone<?php echo $row[0];?>()"><i class='bx bx-x'></i><span>Cancel</span></button>
-          <a href="#event-done">
+          <a href="EVE-admin-list-of-events.php?mad=<?php echo $row[5]?>">
             <button class="btn btn-success btn-confirm content-box-shadow"><i class='bx bx-check' ></i><span>Confirm</span></button>
           </a> 
         </div>
