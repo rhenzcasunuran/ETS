@@ -42,6 +42,13 @@
     border-bottom: 3px solid var(--color-content-line);
 }
 
+.post-description{
+    margin-top: 20px;
+    text-align: justify;
+    color: var(--color-content-text);
+    word-wrap: break-word;
+}
+
 .post-tag{
     color: whitesmoke;
     border-radius: 20px;
@@ -86,10 +93,4 @@
 
 .piie{
     background-color: var(--color-piie);
-}
-
-.post-description{
-    margin-top: 20px;
-    text-align: justify;
-    color: var(--color-content-text);
 }
