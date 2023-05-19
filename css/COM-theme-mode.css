@@ -43,6 +43,9 @@
     --color-accordion: #EDE7DD;
     --color-reverse: #191424;
     --color-reverse_text: #fff;
+    --color-content: #EDE7DD;
+
+    --url-accordion: url("v.png");
 }
 :root[data-theme="dark"] {
     --color-sidebar-bg:#282135;
@@ -86,8 +89,11 @@
     --color-calendar_head: #191424;
 
     --color-accordion: #282135;
-    --color-reverse: #D7D1BC;;
+    --color-reverse: #D7D1BC;
     --color-reverse-text: #000;
+    --color-content: #282135;
+
+    --url-accordion: url("v2.png");
 }
 
 [data-theme='light'] .lightmode,
