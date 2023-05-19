@@ -1,9 +1,27 @@
-<?php
-  include './php/sign-in.php';
-  include './php/database_connect.php';
-  include './php/HOM-create-post.php';
-?>
+<?php 
+include './php/database_connect.php';
 
+session_start();
+
+if($conn){
+  if(isset($_POST['sign-in-button'])){
+    $username=mysqli_real_escape_string($conn,$_POST['user_username']);
+    $password=mysqli_real_escape_string($conn,$_POST['user_password']);
+    $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
+    $result=mysqli_query($conn,$sql);
+    if($result){
+      if(mysqli_num_rows($result)>0){
+        $_SESSION['message']="You are now Loggged In";
+        $_SESSION['user_username']=$username;
+        header("location:HOM-create-post.php");
+      }
+      else{
+        echo '<script>alert("Username or Password combination are incorrect")</script>';
+      }
+    }
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,13 +37,41 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
+    <link rel="stylesheet" href="./css/home-sidebar-style.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/BAR-obg.css">
-    <script src="./js/BAR-java.js"></script>
+    <script src="./js/BAR-student-java.js"></script>
   </head>
+
 
   <body>
     <!--Sidebar-->
+    <div class="container-fluid" id="popup">
+      <div class="row popup-card">
+        <form method="post">
+          <div class="row">
+            <div class="col-11 admin-text">
+              <p>
+                Administrator
+              </p>
+            </div>
+            <div class="col-1 close ">
+              <i class='bx bx-x' onclick="hide()"></i>
+            </div>
+          </div>
+          <div class="row">
+            <input type="text" name="user_username" placeholder="Username" maxlength="20" required/>
+          </div>
+          <div class="row">
+            <input type="password" name="user_password" placeholder="Password" maxlength="128" required/>
+          </div>
+          <div class="row justify-content-center">
+            <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!--SIDEBAR-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
         <div class="design1"></div>
@@ -38,210 +84,110 @@
         <script src="./js/sidebar-state.js"></script>
       </div>
       <div class="wrapper">
-        <li class="nav-item top">
-          <a href="index.php">
-            <i class="bx bx-home-alt"></i>
-            <span class="link_name">Go Back</span>
-          </a>
-        </li>
         <div class="sidebar-content-container">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#posts" class="menu_btn">
-                <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Posts
+              <a href="index.php" class="menu_btn">
+                <i class="bx bx-home-alt"></i>
+                <span class="link_name">Home</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="CAL-student-overall.php">
+                <i class="bx bx-calendar"></i>
+                <span class="link_name">Calendar</span>
+              </a>
+            </li>
+            <li class="nav-item">
+            <a href="#posts" class="menu_btn active">
+                <i class="bx bx-line-chart"><i class="dropdown_icon bx bx-chevron-down"></i></i>
+                <span class="link_name">Results
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
                 </span>
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HOM-create-post.php">
+                  <a href="BAR-student.php" class="sub-active">
                     <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Create Post</span>
+                    <span class="sub_link_name">Overall Champion</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="HOM-draft-scheduled-post.php">
+                  <a href="#tournament">
                     <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Draft & Scheduled Post</span>
+                    <span class="sub_link_name">Tournament</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="HOM-manage-post.php">
+                  <a href="#competition">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Manage Post</span>
+                    <span class="sub_link_name">Competition</span>
                   </a>
                 </li>
               </ul>
             </li>
+            
             <li class="nav-item">
-              <a href="#event_menu" class="menu_btn">
-                <i class="bx bx-calendar-edit"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Events
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="EVE-admin-list-of-events.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">List of Events</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="EVE-admin-event-configuration.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Event Configuration</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#criteria_config">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Criteria Configuration</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="menu_btn">
-                <i class="bx bx-calendar"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Calendar
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="CAL-admin-overall.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Overview</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="CAL-admin-logs.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Logs</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="BAR-admin.php" class="menu_btn active">
-                <i class='bx bx-bar-chart-alt-2'></i>
-                <span class="link_name">Overall Results</span>
+              <a href="HIS-student-index.php">
+                <i class="bx bx-history"></i>
+                <span class="link_name">Event History</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#tournaments" class="menu_btn">
-                <i class="bx bx-trophy"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Tournaments
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
+              <a href="about.php">
+                <i class="bx bx-info-circle"></i>
+                <span class="link_name">About</span>
               </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Live Scoring</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="TOU-bracket-admin.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Manage Brackets</span>
-                  </a>
-                </li>
-              </ul>
             </li>
+            <?php
+              if(isset($_SESSION['user_username'])){
+            ?>
             <li class="nav-item">
-              <a href="#competition" class="menu_btn">
-                <i class="bx bx-medal"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Competition
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="COM-manage_results_page.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Manage Results</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-tobepublished_page.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">To Publish</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-published_page.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Published Results</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#archive">
-                    <i class="bx bxs-circle sub-icon color-purple"></i>
-                    <span class="sub_link_name">Archive</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#event_history" class="menu_btn">
-                <i class="bx bx-history"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Event History
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="HIS-admin-ManageEvent.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Event Page</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HIS-admin-highlights.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Highlights Page</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="P&J-admin-formPJ.php">
-                <i class="bx bx-group"></i>
-                <span class="link_name">Judges & <br> Participants</span>
+              <a href="HOM-create-post.php">
+                <i class="bx bx-cog"></i>
+                <span class="link_name">Configuration</span>
               </a>
             </li>
+            <?php
+              }
+            ?>
           </ul>
+        </div>
+        <div class="bottom-container">
+          <div class="mode-btn" id="theme-toggle">
+            <i class='lightmode bx bx-sun'></i>
+            <i class='darkmode bx bx-moon'></i>
+          </div>
+          <?php
+            if(isset($_SESSION['user_username'])){
+          ?>
+            <li class="nav-item bottom">
+              <a href="./php/sign-out.php">
+                <i class="bx bx-log-out"></i>
+                <span class="link_name">Sign Out</span>
+              </a>
+            </li>
+          <?php
+            }
+            else{
+          ?>
+              <li class="nav-item bottom">
+                <a onclick="show()">
+                  <i class="bx bx-log-in"></i>
+                  <span class="link_name">Sign In</span>
+                </a>
+              </li>
+          <?php
+            }
+          ?>
         </div>
       </div>
     </div>
     <!--Page Content-->
     <section class="home-section">
-
+      <div class="header">Overall Organization Standing</div>
+      
       <div class="container-fluid" id="body-content">
-
-        <div class="row" id="switches">
-          <div class="col" id="toggle-container">
-            <div class="anon">
-              <label class="switch">
-                <input type="checkbox" id="anon_button">
-                <span class="slider"></span>
-                <div class="row" id="anon-label">Show&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hide</div>
-              </label>
-            </div>
-          </div>
-  
-          <div class="col" id="add-container">
-            <div class="add-clickable">
-              <a href="#">
-                <div class="add" >Add Org Photo</div>
-              </a>
-            </div>
-          </div>
-        </div>
 
         <div class="col" id="graph-section">
           <div class="graph_container">
@@ -353,8 +299,15 @@
         </div>
 
       </div>
+
+</script>
+
+    </section>
     <!-- Scripts -->
+    <script src="./js/HOM-popup.js"></script>
+
     <script src="./js/script.js"></script>
+    <script src="./js/change-theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
@@ -370,6 +323,35 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
+
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+  
+    
+    <script>
+    var firstSlide = document.querySelector('#eventsImages .carousel-item:first-child');
+    var imageInfo = firstSlide.getAttribute('data-bs-info');
+    var imageDesc = firstSlide.getAttribute('data-bs-desc');
+
+
+    var textContainer = document.querySelector('.text-container');
+    textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
+
+    var carousel = document.querySelector('#eventsImages');
+    carousel.addEventListener('slide.bs.carousel', function(event) {
+      var currentSlide = event.relatedTarget;
+      var imageInfo = currentSlide.getAttribute('data-bs-info');
+      var imageDesc = currentSlide.getAttribute('data-bs-desc');
+
+      var textContainer = document.querySelector('.text-container');
+      textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
+      textContainer.style.wordWrap = 'break-word'; // Allow words to break
+      textContainer.style.maxWidth = '100%'; 
+      textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
+
+    });
+</script>
+
   </body>
+
 </html>
