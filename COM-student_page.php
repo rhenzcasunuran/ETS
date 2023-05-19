@@ -81,7 +81,7 @@ if($conn){
         <div class="sidebar-content-container" style="border: none;">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="index.php" class="menu_btn">
+              <a href="index.php">
                 <i class="bx bx-home-alt"></i>
                 <span class="link_name">Home</span>
               </a>
@@ -113,7 +113,7 @@ if($conn){
                   </a>
                 </li>
                 <li class="sub-item active">
-                  <a href="#competition">
+                  <a href="COM-student_page.php">
                     <i class="bx bxs-circle sub-icon color-yellow" style="color: var(--color-sidebar-sublist-3) !important;"></i>
                     <span class="sub_link_name">Competition</span>
                   </a>
@@ -181,16 +181,17 @@ if($conn){
     <!--Content Start-->
     <section class="home-section removespace">
       <div class="header">Competitions</div>
-        <div class="left search bar">
+        <div class="left search bar" style="display:none;" id='search'>
             <i class="fa fa-search"></i>
 	        <input class="searchInput" type="text" placeholder="Search..">
         </div>
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
-            <h1 class="empty_header">No Competitions (T^T)</h1>
-            <p class="empty_p">Maybe the competitions are still ongoing. Look around for now.</p>
-            <button class="go_to_tobepubBtn" onclick="window.location.href='index.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">Go back Home</p></button>
+        <img src="/ETS-DEV/pictures/no_result.png" class="no-result" width="500px" height="500px">
+            <h1 class="empty_header">No Competitions posted yet</h1>
+            <p class="empty_p">Maybe the competitions are still ongoing?<br>Well, you can check out the Tournaments while you wait!</p>
+            <button class="go_to_tobepubBtn" onclick="window.location.href='#TOU-student-page';"><i class='bx bxs-plus-square'></i><p class="btnContent">Go to Tournaments</p></button>
         </div>
         <div class="container">
             <?php

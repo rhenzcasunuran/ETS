@@ -20,7 +20,7 @@
         <div class="succ-wrapper" id="success-pp-wrap" style="display:none;">
           <div class="succ" id="success-pp">
             <i class="fa fa-check-circle"></i>
-            <h1 class="suc-head">All right!</h1>
+            <h1 class="suc-head">Successfully Added!</h1>
             <p class="suc-p">The result is now scheduled and ready to be published.</p>
             <button class="suc-btn" id="close-btn"><i class="fa fa-long-arrow-right"></i></button>
           </div>
@@ -45,9 +45,9 @@
         </div>
         <div class="cant-wrapper" id="cant-pp-wrap" style="display:none;">
           <div class="cant" id="cant-pp">
-            <i class="fa fa-check-circle"></i>
-            <h1 class="cant-head">Can't schedule yet</h1>
-            <p class="cant-p">The competition is still not available for posting.</p>
+          <i class='bx bxs-x-circle' style="color: red; font-size: 80px"></i>
+            <h1 class="cant-head">Incomplete</h1>
+            <p class="cant-p">The result is not yet complete.<br>Please make sure that all required scores are completed</p>
             <button class="cant-btn" id="cant-btn"><i class="fa fa-long-arrow-right"></i></button>
           </div>
         </div>

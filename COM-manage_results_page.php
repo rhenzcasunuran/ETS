@@ -213,11 +213,16 @@
     <!--Content Start-->
     <section class="home-section removespace">
       <div class="header">Manage Results</div>
+        <div class="left search bar" style="display:none;" id='search'>
+            <i class="fa fa-search"></i>
+	        <input class="searchInput" type="text" placeholder="Search..">
+        </div>
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
-            <h1 class="empty_header">No Posts (T^T)</h1>
-            <p class="empty_p">There are no competition results published yet.</p>
+        <img src="/ETS-DEV/pictures/no_result.png" class="no-result" width="500px" height="500px">
+            <h1 class="empty_header">No Results</h1>
+            <p class="empty_p">There are no results published yet.<br>Tap the button to schedule a result.</p>
             <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-tobepublished_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To Publish</p></button>
         </div>
         <div class="container">

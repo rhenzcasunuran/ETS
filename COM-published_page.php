@@ -16,6 +16,23 @@
   <head>
 
   <body>
+  <div class="archive-wrapper" id="archive-pp-wrap" style="display:none;">
+          <div class="arcc" id="archive-pp">
+            <i class="fa fa-check-circle"></i>
+            <h1 class="arc-head">Successfully Moved!</h1>
+            <p class="arc-p">The result is now moved to archived.<br>You may check it right now.</p>
+            <button class="arc-btn" id="close-btn"><i class="fa fa-long-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="cau-wrapper" id="caution-pp-wrap" style="display:none;">
+          <div class="bacc" id="caution-pp">
+          <i class='bx bxs-file-archive' style="color: var(--color-text); font-size: 90px"></i>
+            <h1 class="arc-head">Archive Result?</h1>
+            <p class="arc-p">Are you sure you want to archive this result?</p>
+            <button class="gobackbtn" id="backbtn">Cancel</button>
+            <button class="gobtn" id="gobtn">Confirm</button>
+          </div>
+        </div>
     <!--Sidebar Start-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
@@ -38,7 +55,7 @@
         <div class="sidebar-content-container" style="border:none;">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#posts" class="menu_btn">
+              <a href="HOM-post.php" class="menu_btn">
                 <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Posts
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -216,9 +233,10 @@
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
+        <img src="/ETS-DEV/pictures/no_result.png" class="no-result" width="500px" height="500px">
             <h1 class="empty_header">No Published Results</h1>
             <p class="empty_p">There are no competition results to published yet.</p>
-            <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-tobepublished_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To be Published</p></button>
+            <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-tobepublished_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To Publish</p></button>
         </div>
         <div class="content">
         <?php
@@ -230,23 +248,7 @@
         }
         ?>
         </div>
-        <div class="archive-wrapper" id="archive-pp-wrap" style="display:none;">
-          <div class="arcc" id="archive-pp">
-            <i class="fa fa-check-circle"></i>
-            <h1 class="arc-head">Archived and Stored!</h1>
-            <p class="arc-p">The result is now archived.</p>
-            <button class="arc-btn" id="close-btn"><i class="fa fa-long-arrow-right"></i></button>
-          </div>
-        </div>
-        <div class="cau-wrapper" id="caution-pp-wrap" style="display:none;">
-          <div class="bacc" id="caution-pp">
-            <i class="fa fa-exclamation-triangle"></i>
-            <h1 class="arc-head">Store it away?</h1>
-            <p class="arc-p">Are you sure you're going to archived this post?</p>
-            <button class="gobackbtn" id="backbtn">Nevermind</button>
-            <button class="gobtn" id="gobtn">I do!</button>
-          </div>
-        </div>
+        
     </section>
     <!--Content End-->
     <!--Side Bar Scripts-->
