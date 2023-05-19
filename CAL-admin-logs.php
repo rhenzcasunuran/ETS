@@ -305,51 +305,6 @@
                     </div>
                   </div>
                 </li>
-                <li class="calendar-li">
-                  <div class="accordion" id="eventTypeAccordion">
-                    <div class="accordion-item">
-                      <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" data-bs-parent="#eventTypeAccordion">
-                          Event Type
-                        </button>
-                      </h2>
-                      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
-                        <div class="accordion-body">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="check-all-event" checked>
-                            <label class="form-check-label" for="check-all-event">
-                              All
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Tournament" id="check-tournament">
-                            <label class="form-check-label" for="check-tournament">
-                              Tournament
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Competition" id="check-competition">
-                            <label class="form-check-label" for="check-competition">
-                              Competition
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Standard" id="check-standard">
-                            <label class="form-check-label" for="check-standard">
-                              Academic
-                            </label>
-                          </div>
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Standard" id="check-standard">
-                            <label class="form-check-label" for="check-standard">
-                              Non-Academic
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
                 <li>
                   <div class="accordion" id="adminAccordion">
                     <div class="accordion-item">
@@ -361,20 +316,26 @@
                       <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree">
                         <div class="accordion-body">
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Admin 1" id="check-admin-1">
-                            <label class="form-check-label" for="check-admin-1">
+                            <input class="form-check-input" type="checkbox" value="" id="check-all-admin" checked>
+                            <label class="form-check-label" for="check-all-admin">
+                              All
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Admin 1" id="check-admin-one">
+                            <label class="form-check-label" for="check-admin-one">
                               Admin 1
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Admin 2" id="check-admin-2">
-                            <label class="form-check-label" for="check-admin-2">
+                            <input class="form-check-input" type="checkbox" value="Admin 2" id="check-admin-two">
+                            <label class="form-check-label" for="check-admin-two">
                               Admin 2
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Admin 3" id="check-admin-3">
-                            <label class="form-check-label" for="check-admin-3">
+                            <input class="form-check-input" type="checkbox" value="Admin 3" id="check-admin-three">
+                            <label class="form-check-label" for="check-admin-three">
                               Admin 3
                             </label>
                           </div>
@@ -387,7 +348,7 @@
             </div>
           </div>
           <div class="col-md-2">
-            <input type="date" value="Select date" style="height: 48px;">
+            <input type="date" value="Select date" style="height: 48px;" min="1970-01-01" pattern="\d{4}-\d{2}-\d{2}">
           </div>
         </div>
       </div>
@@ -501,8 +462,8 @@
         });
       });
     </script>
-    <!--Calendar JS-->
-    <script src="./js/CAL-admin-calendar.js"></script>
+    <!--Logs JS-->
+    <script src="./js/CAL-admin-logs.js"></script>
     <!--Popper JS-->
     <script src="./js/popper.min.js"></script>
     <!--Bootstrap JS-->
