@@ -1,5 +1,5 @@
 <?php
- @include("connections.php");
+ @include("database_connect.php");
 
     if(isset($_POST['update_score_data'])) {
 
