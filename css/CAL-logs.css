@@ -1,0 +1,35 @@
+:root {
+    --color-default: #282135;
+    --color-second: #191424;
+    --color-light: #e0e0e0;
+    --color-white: #fff;
+    --color-black: #000;
+    --color-third: #635B81CC;
+    --color-subthird: #635B8180;
+    --color-body: #D7D1BC;
+    --color-text: #000;
+    --color-red: #FF605C;
+    --color-green: #00CA4E;
+    --color-yellow: #FFB546;
+  }
+  
+.container {
+    margin-left: 120px;
+    width: 80%; /* Adjust the maximum width as per your preference */
+  }
+
+.custom-search-bar {
+    width: 200px;
+    height: 45px;
+  }
+  
+.small-button{
+    margin-top: 18.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: left;
+    padding: 7.5rem 12rem;
+}
