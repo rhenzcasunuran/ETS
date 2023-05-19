@@ -222,8 +222,9 @@ p{
   color: #000;
 }
 
-/* POP SHIT*/
- 
+.p .h3{
+  word-wrap: break-word;
+} 
 
 
 
