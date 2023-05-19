@@ -16,6 +16,32 @@ function plusThree() {
     changeCount.textContent = homeCount;
 }
 
+function minusValueOne() {
+    var valueElement = document.getElementById("home--btn");
+    var homeCount = parseInt(valueElement.textContent);
+
+    if (homeCount > 0) {
+        valueElement.textContent = homeCount - 1;
+    }
+}
+
+function minusValueTwo() {
+    var valueElement = document.getElementById("home--btn");
+    var guestCount = parseInt(valueElement.textContent);
+
+    if (homeCount > 0) {
+        valueElement.textContent = homeCount - 2;
+    }
+}
+
+function minusValueThree() {
+    var valueElement = document.getElementById("home--btn");
+    var homeCount = parseInt(valueElement.textContent);
+
+    if (homeCount > 0) {
+        valueElement.textContent = homeCount - 3;
+    }
+}
 
 
 // Guest status 
@@ -34,6 +60,38 @@ function guestPlusThree() {
     guestCount += 3;
     guestCountChange.textContent = guestCount;
 }
+
+
+function decreaseValueOne() {
+    var valueElement = document.getElementById("guest--btn");
+    var guestCount = parseInt(valueElement.textContent);
+
+    if (guestCount > 0) {
+        valueElement.textContent = guestCount - 1;
+    }
+}
+
+function decreaseValueTwo() {
+    var valueElement = document.getElementById("guest--btn");
+    var guestCount = parseInt(valueElement.textContent);
+
+    if (guestCount > 0) {
+        valueElement.textContent = guestCount - 2;
+    }
+}
+
+function decreaseValueThree() {
+    var valueElement = document.getElementById("guest--btn");
+    var guestCount = parseInt(valueElement.textContent);
+
+    if (guestCount > 0) {
+        valueElement.textContent = guestCount - 3;
+    }
+}
+
+
+
+
 
 
 // save items 
