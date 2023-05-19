@@ -22,7 +22,7 @@ $(document).ready(function() {
     $("#calendar-title").html("<strong>" + months[month] + "</strong> " + year);
 
     $.ajax({
-        url: 'http://localhost/ETS/php/CAL-get-events-calendar.php',
+        url: './php/CAL-get-events-calendar.php',
         type: 'GET',
         data: {
             year: year,
