@@ -37,7 +37,6 @@ body {
 }
 .empty_header {
     font-size: 45px;
-    color: #3d256e;
     margin: 15px;
     margin-top: 10%;
     margin-left: auto;
@@ -46,7 +45,6 @@ body {
 }
 .empty_p {
     font-size: 18px;
-    color: #4d4460;
     margin-bottom: 18px;
     margin-left: auto;
     margin-right: auto;
@@ -55,7 +53,7 @@ body {
 }
 .go_to_tobepubBtn {
     border: none;
-    background-color: #6c1414;
+    background-color: #5a1010;
     padding: 15px 10px 15px 10px;
     border-radius: 25px;
     max-height: 50px;
@@ -63,23 +61,26 @@ body {
     margin-left: auto;
     margin-right: auto;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     transition: all .5s ease;
     cursor: pointer;
+    color: white;
+    min-height: 70px !important;
+    font-size: 30px;
 }
 .go_to_tobepubBtn:hover {
-    background-color: #8d1b1b;
+    background-color: #d52020 !important;
+    color: white !important;
 }
 .btnContent {
     display: inline-block;
-    font-size: 15px;
     color: white;
+    padding-left: 10px;
 }
 h1 {
     font-size: 38px;
-    font-family: verdana;
-    color: black;
     margin-left: 30px;
     margin-top: 40px;
 }
@@ -96,7 +97,6 @@ input:focus {
 button {
     color: black;
     font-size: 25px;
-    font-family: verdana;
     border: none;
     padding-left: 70px;
     padding-top: 40px;
@@ -124,7 +124,8 @@ button {
     flex-direction: column;
 }
 button:hover:not(.activeButton){
-    background-color: rgb(255, 252, 245);
+    background-color: var(--color-text);
+    color: var(--color-body);
 }
 .left{
     margin-left: 30px;
@@ -175,7 +176,7 @@ i.fa-search {
     border-radius: 20px;
     width: 98%;
     min-height: 200px;
-    background-color: rgb(229, 222, 207);
+    background-color: var(--color-content);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     border: black;
     /*margin-left: auto;*/
@@ -184,9 +185,9 @@ i.fa-search {
     height:fit-content;
 }
 .activeButton {
-    background-image: url("v.png");
+    background-image: var(--url-accordion);
     background-size: cover;
-    color: white;
+    color: var(--color-body) !important;
 }
 .activeButton:hover {
     box-shadow: 0 5px 15px rgba(200, 192, 214, 0.4);
@@ -282,7 +283,7 @@ i.fa-search {
     background-color: silver;
 }
 .third {
-    background-color: brown;
+    background-color: rgb(165, 101, 42);
 }
 .smallDiamond {
     height: 40px;
@@ -291,17 +292,15 @@ i.fa-search {
 }
 .diamondText {
     transform: rotate(-45deg);
-    font-family: verdana;
     font-size: 15px;
     color: white;
     margin: auto;
 }
 .winnerDetails {
-    text-shadow: 0 0 3px black, 0 0 3px black;
+    font-weight: bold;
     text-align:center;
-    font-family: verdana;
     font-size: 15px;
-    color: white;
+    color: var(--color-body);
     margin-top: 8px;
 }
 td {
@@ -354,10 +353,15 @@ table {
 .accordion {
     background-color: var(--color-accordion);
     color: var(--color-text);
+    font-weight: bold;
 }
 .sign-in-button {
     min-height: 40px !important;
-    width: 250px !important;
+    width: 96% !important;
+}
+.close {
+    margin-top: -50px !important;
+    float: right;
 }
 .popup-card {
     min-width: 300px !important;
@@ -366,11 +370,17 @@ table {
     padding-left: 50px;
 }
 .adminInput {
-    width: 250px;
+    width: 95%;
 }
 .row .title {
-    display:flex;
+    display:block;
     flex-direction: row;
+}
+.no-result {
+    margin-top: -85px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -260px;
 }
 @media screen and (max-width:460px){
     .top3Container {
@@ -380,7 +390,7 @@ table {
         width: 100% !important;
     }
     .actualbody {
-        width: 100% !important;
+        width: 83.5% !important;
         min-height: 105vh !important;
     }
     button {
@@ -397,11 +407,17 @@ table {
         min-height: 127vh !important;
     }
     .sidebar.open ~ .home-section {
-        width: calc(100% - 190px) !important;
+        width: calc(100% - 70px) !important;
     }
     .sign-in-button {
         min-height: 40px !important;
-        width: 250px !important;
+        width: 96% !important;
+    }
+    .no-result {
+        margin-bottom: -100px;
+        margin-top: -60px;
+        height: 50%;
+        width: 100%;
     }
 }
 /* Styles for phone */
@@ -494,16 +510,15 @@ table {
         margin-top: -4px;
     }
     .winnerDetails {
-        text-shadow: 0 0 3px black, 0 0 3px black;
+        font-weight: bold;
         text-align:center;
-        font-family: verdana;
         font-size: 15px;
-        color: white;
+        color: var(--color-body);
         margin: auto;
     }
     .sign-in-button {
         min-height: 40px !important;
-        width: 250px !important;
+        width: 96% !important;
         min-width: 250px !important;
     }
 }
