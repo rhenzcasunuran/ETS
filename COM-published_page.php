@@ -9,6 +9,7 @@
       <link rel="stylesheet" href="./css/COM-theme-mode.css">
       <link rel="stylesheet" href="./css/responsive.css">
       <link rel="stylesheet" href="./css/COM-style.css">
+      <link rel="stylesheet" href="./css/sidebar-style.css">
       <!-- Page specific CSS -->
       <link rel="stylesheet" href="./published_page/COM-published_page.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -34,7 +35,7 @@
             <span class="link_name">Go Back</span>
           </a>
         </li>
-        <div class="sidebar-content-container">
+        <div class="sidebar-content-container" style="border:none;">
           <ul class="nav-list">
             <li class="nav-item">
               <a href="#posts" class="menu_btn">
@@ -159,7 +160,7 @@
                 <li class="sub-item">
                   <a href="COM-tobepublished_page.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">To Be Published</span>
+                    <span class="sub_link_name">To Publish</span>
                   </a>
                 </li>
                 <li class="sub-item">
@@ -266,17 +267,6 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-
-      $(window).bind("resize", function () {
-        if ($(this).width() < 500) {
-          $('div').removeClass('open');
-          closeBtn.classList.replace("bx-arrow-to-left", "bx-menu");
-        }
-        else if ($(this).width() > 500) {
-          $('.sidebar').addClass('open');
-          closeBtn.classList.replace("bx-menu", "bx-arrow-to-left");
-        }
-      }).trigger('resize');
     </script>
     <script src='./published_page/COM-published_page.js'></script>
     <!--Side Bar Scripts End-->

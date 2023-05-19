@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <title>To Be Published</title>
+      <title>To Publish</title>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- Side Bar CSS -->
@@ -9,6 +9,7 @@
       <link rel="stylesheet" href="./css/COM-theme-mode.css">
       <link rel="stylesheet" href="./css/responsive.css">
       <link rel="stylesheet" href="./css/COM-style.css">
+      <link rel="stylesheet" href="./css/sidebar-style.css">
       <!-- Page specific CSS -->
       <link rel="stylesheet" href="./tobepublished_page/COM-tobepublished_page.css">
       <link rel="stylesheet" href="./tobepublished_page/dist/simplepicker.css">
@@ -16,6 +17,40 @@
   <head>
 
   <body>
+        <div class="succ-wrapper" id="success-pp-wrap" style="display:none;">
+          <div class="succ" id="success-pp">
+            <i class="fa fa-check-circle"></i>
+            <h1 class="suc-head">All right!</h1>
+            <p class="suc-p">The result is now scheduled and ready to be published.</p>
+            <button class="suc-btn" id="close-btn"><i class="fa fa-long-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="cau-wrapper" id="caution-pp-wrap" style="display:none;">
+          <div class="bacc" id="caution-pp">
+            <i class="fa fa-exclamation-triangle"></i>
+            <h1 class="suc-head">Unsaved Changes</h1>
+            <p class="suc-p">Changes won't be saved. Are you sure you want to discard all changes?</p>
+            <button class="returnbtn" id="returnbtn">Return to editing</button>
+            <button class="discardbtn" id="discardbtn">Discard</button>
+          </div>
+        </div>
+        <div class="edit-wrapper" id="edit-pp-wrap" style="display:none;">
+          <div class="ediit" id="edit-pp">
+            <i class="fa fa-exclamation-triangle"></i>
+            <h1 class="edi-head">Edit schedule?</h1>
+            <p class="edi-p">Are you sure you want to change the schedule?</p>
+            <button class="yahbtn" id="yaahbtn">Yeah</button>
+            <button class="nahbtn" id="naahbtn">Nah</button>
+          </div>
+        </div>
+        <div class="cant-wrapper" id="cant-pp-wrap" style="display:none;">
+          <div class="cant" id="cant-pp">
+            <i class="fa fa-check-circle"></i>
+            <h1 class="cant-head">Can't schedule yet</h1>
+            <p class="cant-p">The competition is still not available for posting.</p>
+            <button class="cant-btn" id="cant-btn"><i class="fa fa-long-arrow-right"></i></button>
+          </div>
+        </div>
     <!--Sidebar Start-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
@@ -35,7 +70,7 @@
             <span class="link_name">Go Back</span>
           </a>
         </li>
-        <div class="sidebar-content-container">
+        <div class="sidebar-content-container" style="border:none;">
           <ul class="nav-list">
             <li class="nav-item">
               <a href="#posts" class="menu_btn">
@@ -160,7 +195,7 @@
                 <li class="sub-item">
                   <a href="COM-tobepublished_page.php" class="sub-active">
                     <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">To Be Published</span>
+                    <span class="sub_link_name">To Publish</span>
                   </a>
                 </li>
                 <li class="sub-item">
@@ -212,7 +247,7 @@
     <!--Sidebar End-->
     <!--Content Start-->
     <section class="home-section removespace">
-      <div class="header">To Be Published</div>
+      <div class="header">To Publish</div>
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
@@ -230,23 +265,7 @@
         }
         ?>
         </div>
-        <div class="succ-wrapper" id="success-pp-wrap" style="display:none;">
-          <div class="succ" id="success-pp">
-            <i class="fa fa-check-circle"></i>
-            <h1 class="suc-head">All right!</h1>
-            <p class="suc-p">The result is now scheduled and ready to be published.</p>
-            <button class="suc-btn" id="close-btn"><i class="fa fa-long-arrow-right"></i></button>
-          </div>
-        </div>
-        <div class="cau-wrapper" id="caution-pp-wrap" style="display:none;">
-          <div class="bacc" id="caution-pp">
-            <i class="fa fa-exclamation-triangle"></i>
-            <h1 class="suc-head">Unsaved Changes</h1>
-            <p class="suc-p">Changes won't be saved. Are you sure you want to discard all changes?</p>
-            <button class="returnbtn" id="returnbtn">Return to editing</button>
-            <button class="discardbtn" id="discardbtn">Discard</button>
-          </div>
-        </div>
+        
     </section>
     <!--Content End-->
     <!--Side Bar Scripts-->
@@ -267,17 +286,6 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-
-      $(window).bind("resize", function () {
-        if ($(this).width() < 500) {
-          $('div').removeClass('open');
-          closeBtn.classList.replace("bx-arrow-to-left", "bx-menu");
-        }
-        else if ($(this).width() > 500) {
-          $('.sidebar').addClass('open');
-          closeBtn.classList.replace("bx-menu", "bx-arrow-to-left");
-        }
-      }).trigger('resize');
     </script>
     <!--Side Bar Scripts End-->
     <!--Calendar (Schedule) Scripts End-->
@@ -291,6 +299,44 @@
           const simplepicker = new SimplePicker ({
             zIndex: 10
           });
+          if (button.textContent === "Edit Schedule") {
+            var edit_wrap = document.getElementById('edit-pp-wrap');
+            var edit_popup = document.getElementById('edit-pp');
+            var yahbtn = document.getElementById('yaahbtn');
+            var nahbtn = document.getElementById('naahbtn');
+            edit_wrap.style.display = "block";
+            edit_popup.style.display = "block";
+            edit_wrap.addEventListener("click", function(){
+              edit_wrap.style.display = "none";
+              edit_popup.style.display = "none";
+            });
+            yahbtn.addEventListener("click", function(){
+              edit_wrap.style.display = "none";
+              edit_popup.style.display = "none";
+            });
+            nahbtn.addEventListener("click", function(){
+              edit_wrap.style.display = "none";
+              edit_popup.style.display = "none";
+              calendar_wrap.remove();
+            });
+          }
+          if (button.textContent === "Unavailable") { 
+            var cant_wrap = document.getElementById('cant-pp-wrap');
+            var cant_popup = document.getElementById('cant-pp');
+            var cantbtn = document.getElementById('cant-btn');
+            cant_wrap.style.display = "block";
+            cant_popup.style.display = "block";
+            cant_wrap.addEventListener("click", function(){
+              cant_wrap.style.display = "none";
+              cant_popup.style.display = "none";
+              calendar_wrap.remove();
+            });
+            cantbtn.addEventListener("click", function(){
+              cant_wrap.style.display = "none";
+              cant_popup.style.display = "none";
+              calendar_wrap.remove();
+            });
+          }
           simplepicker.open();
           var parentElement = button.parentElement;
           var id = parentElement.id;
@@ -300,8 +346,25 @@
           if (this.readyState == 4 && this.status == 200) {
             // Check the response from the PHP file and change the color of the button
             console.log(this.responseText);
-            var response = JSON.parse(this.responseText);
-            var time = response.time;
+
+            var respons = (this.responseText);
+            if (respons != 'no'){
+              var response = JSON.parse(this.responseText);
+            var time = response.time; // Assuming the format is 'hr:min am/pm'
+
+            // Extract hour and minute components
+            var parts = time.split(':');
+            var hour = parseInt(parts[0]);
+            var minute = parseInt(parts[1].split(' ')[0]);
+
+            // Add 6 hours and adjust if needed
+            hour += 6;
+            if (hour > 12) {
+              hour -= 12;
+            }
+
+            // Combine the updated components back into the desired format
+            var updatedTime = hour + ':' + minute + ' ' + parts[1].split(' ')[1];
             var day = response.day;
             var month = response.month;
             var year = response.year;
@@ -340,7 +403,7 @@
               month = 'October';
             }
             if (month == '11'){
-              month = 'Novemeber';
+              month = 'November';
             }
             if (month == '12'){
               month = 'December';
@@ -354,8 +417,20 @@
             month_year.textContent = month +' ' +year;
             date_current.textContent = day;
             time_current.textContent = time;
+          }else {
+            console.log('ung current time to')
+            var time_current = document.getElementById("timeID");
+            const currentDate = new Date();
+            const hours = currentDate.getHours();
+            const minutes = currentDate.getMinutes();
+            let formattedHours = hours % 12; // Convert to 12-hour format
+            formattedHours = formattedHours === 0 ? 12 : formattedHours; // Handle 0 as 12
+            const amPm = hours < 12 ? 'AM' : 'PM';
+            const formattedTime = `${formattedHours}:${minutes < 10 ? '0' : ''}${minutes} ${amPm}`;
+            time_current.textContent = formattedTime;
           }
-        };
+          }
+          };
         const url = "./tobepublished_page/COM-display_date.php";
         xhttp.open("GET", url +"?competitionName="+ competitionName, true);
         xhttp.send();
@@ -433,6 +508,11 @@
             wrap_succ.style.display = "block";
             var success_popup = document.getElementById('success-pp');
             success_popup.style.display = "flex";
+            wrap_succ.addEventListener("click", function(){
+              success_popup.style.display = "none";
+              wrap_succ.style.display = "none";
+              calendar_wrap.remove();
+            })
             var close = document.getElementById('close-btn');
             close.addEventListener("click", function(){
               success_popup.style.display = "none";
@@ -462,19 +542,21 @@
             
             if (schedule === null){
               element.style.backgroundColor = 'rgb(216, 232, 90)';
+              element.textContent = "Schedule";
               element.disabled = false;
               console.log(competitionName);
               console.log(schedule);
               console.log("yellow dpat to")
             } else {
               element.style.backgroundColor = 'rgb(102, 232, 90)';
+              element.textContent = "Edit Schedule";
               element.disabled = false;
                 console.log(competitionName);
                 console.log(schedule);
                 console.log("Green dpat to")
               /*A code to change the color to black by sending compName to php */
-
-              $.ajax({
+            }
+            $.ajax({
               type: "POST",
               url: "./tobepublished_page/COM-change_color_black.php",
               data: { competitionName: competitionName },
@@ -482,14 +564,14 @@
                   console.log(response);
                   if (response == 'grey') {
                     document.getElementById(competitionName +' btn').style.backgroundColor = response;
-                    element.disabled = true;
+                    element.textContent = "Unavailable";
+                    element.disabled = false;
                   }
                   if (response == 'notempty') {
                     element.disabled = false;
                   }
                 }
               });
-            }
           }
         };
         const url = "./tobepublished_page/COM-get_compname.php";
@@ -497,4 +579,5 @@
         xhttp.send();
       });
     </script>
+    <script src="./js/COM-calltime.js"></script>
   </body>

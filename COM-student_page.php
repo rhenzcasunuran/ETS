@@ -33,12 +33,38 @@ if($conn){
       <link rel="stylesheet" href="./css/COM-theme-mode.css">
       <link rel="stylesheet" href="./css/responsive.css">
       <link rel="stylesheet" href="./css/COM-style.css">
+      <link rel="stylesheet" href="./css/sidebar-style.css">
       <!-- Page specific CSS -->
       <link rel="stylesheet" href="./COM-student_page/COM-student_page.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <head>
 
   <body>
+  <div class="container-fluid" id="popup">
+      <div class="row popup-card">
+        <form method="post">
+          <div class="row title">
+            <div class="col-11 admin-text">
+              <p>
+                Administrator
+              </p>
+            </div>
+            <div class="col-1 close ">
+              <i class='bx bx-x' onclick="hide()"></i>
+            </div>
+          </div>
+          <div class="row">
+            <input type="text" class="adminInput" name="user_username" placeholder="Username" maxlength="20" required/>
+          </div>
+          <div class="row">
+            <input type="password" class="adminInput" name="user_password" placeholder="Password" maxlength="128" required/>
+          </div>
+          <div class="row justify-content-center">
+            <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <!--SIDEBAR-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
@@ -52,7 +78,7 @@ if($conn){
         <script src="./js/sidebar-state.js"></script>
       </div>
       <div class="wrapper">
-        <div class="sidebar-content-container">
+        <div class="sidebar-content-container" style="border: none;">
           <ul class="nav-list">
             <li class="nav-item">
               <a href="index.php" class="menu_btn">
@@ -68,12 +94,12 @@ if($conn){
             </li>
             <li class="nav-item">
             <a href="#posts" class="menu_btn">
-                <i class="bx bx-line-chart"><i class="dropdown_icon bx bx-chevron-down"></i></i>
+                <i class="bx bx-line-chart"><i class="dropdown_icon bx bx-chevron-right"></i></i>
                 <span class="link_name">Results
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
+                  <i class="change-icon dropdown_icon bx bx-chevron-down"></i>
                 </span>
               </a>
-              <ul class="sub_list">
+              <ul class="sub_list" style="display: block;">
                 <li class="sub-item">
                   <a href="BAR-student.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
@@ -86,9 +112,9 @@ if($conn){
                     <span class="sub_link_name">Tournament</span>
                   </a>
                 </li>
-                <li class="sub-item">
-                  <a href="COM-student_page.php" class="active">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
+                <li class="sub-item active">
+                  <a href="#competition">
+                    <i class="bx bxs-circle sub-icon color-yellow" style="color: var(--color-sidebar-sublist-3) !important;"></i>
                     <span class="sub_link_name">Competition</span>
                   </a>
                 </li>
@@ -164,7 +190,7 @@ if($conn){
         <div id="empty" class="empty">
             <h1 class="empty_header">No Competitions (T^T)</h1>
             <p class="empty_p">Maybe the competitions are still ongoing. Look around for now.</p>
-            <button class="go_to_tobepubBtn" onclick="window.location.href='index.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To be Published</p></button>
+            <button class="go_to_tobepubBtn" onclick="window.location.href='index.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">Go back Home</p></button>
         </div>
         <div class="container">
             <?php
@@ -184,6 +210,7 @@ if($conn){
     <script src="./js/script.js"></script>
     <script src="./js/COM-student-theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -198,17 +225,6 @@ if($conn){
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-
-      $(window).bind("resize", function () {
-        if ($(this).width() < 500) {
-          $('div').removeClass('open');
-          closeBtn.classList.replace("bx-arrow-to-left", "bx-menu");
-        }
-        else if ($(this).width() > 500) {
-          $('.sidebar').addClass('open');
-          closeBtn.classList.replace("bx-menu", "bx-arrow-to-left");
-        }
-      }).trigger('resize');
     </script>
     <script src='./COM-student_page/COM-student_page.js'></script>
     <!--Side Bar Scripts End-->
