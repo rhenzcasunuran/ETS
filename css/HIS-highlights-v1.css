@@ -266,18 +266,13 @@
 
 
   @media only screen and (max-width: 767px) {
-      #main-container {
-        flex-direction: column;
-      }
-      
-    #container-1,
-      #container-2,
-      #container-3 {
-        width: 100%;
-        margin-bottom: 20px;
-      }
-      .button-container {
-          
-          margin-top: 25px;
-        }
+    .flex-container {
+      display: flex;
+      flex-direction: column;
+      display: inline-block;
     }
+    
+    .container {
+      margin-bottom: 10px;
+    }
+  }

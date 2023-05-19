@@ -180,6 +180,51 @@ p{
   border-color: #8c8c8c;
   box-shadow: none;
 }
+/* Styles for card container */
+#card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Styles for event card */
+.event-card {
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 20px;
+  width: 250px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.event-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.event-info {
+  margin-bottom: 10px;
+}
+
+.event-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.category {
+  font-size: 14px;
+  margin: 0;
+  color: #888888;
+}
+.year{
+  font-size: 12px;
+  margin: 0;
+  color: #000;
+}
+
+/* POP SHIT*/
+ 
+
 
 
 /* Mobile Styles */

@@ -127,25 +127,22 @@ h3 {
     color: var(--color-content-text);
 
   }
-  .flex-box input[type="checkbox"] {
-    transform: scale(1.5);
-    margin: 30px;
+  .flex-box input[type="radio"] {
+    transform: scale(2);
+    margin-right: 20%;
+    margin-left: 10%;
     text-align: center;
     vertical-align: sub;
-    white-space: nowrap;
   }
   .activity_container{
     display: flex;
     align-items: center;
     position: relative;
     margin-bottom: 10px;
+    align-items: self-end;
     white-space: nowrap;
   }
-  .activity_container input[type="checkbox"] {
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+ 
  
   
   .selected {
@@ -163,7 +160,8 @@ h3 {
   @media only screen and (max-width: 600px) {
     .main-containers {
       flex-direction: column;
-      height: 600px;
+      height: 100vh;
+      width:90%;
       border-radius: 5px;
       margin-left: 10%;
       margin-right: 10%;
@@ -173,9 +171,14 @@ h3 {
       width: 320px;
     }
     .flex-box-1,.flex-box{
-      height: 400px;
+      height: 100vh;
+      width:100%;
       margin-top: 10px;
       margin-bottom: 10px;
       margin-right: 30px;
+      margin-left:30px;
+    }
+    .btn-group{
+      display: block;
     }
 }  
