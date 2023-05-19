@@ -1,6 +1,33 @@
 <?php
-  @include '/php/connections.php';
+  // Database connection details
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "pupets";
+  
+  // Create connection
+  $conn = new mysqli($servername, $username, $password, $dbname);
+  
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  
+  // Query to retrieve data from the database
+  $sql = "SELECT team_id, team_name FROM teams";
+  $result = $conn->query($sql);
+  
+  // Close the database connection
+  $conn->close();
+  @include '/php/TOU-fetch-data.php';
 ?>
+
+<?php
+  session_start();
+  @include '/php/database_connections.php';
+  @include '/php/TOU-scoring.php'
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,20 +36,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuration</title>
+    <!-- Theme Mode -->
+    <link rel="stylesheet" href="./css/theme-mode.css">
+    <script src="./js/default-theme.js"></script>
     <!-- Link Styles -->
     <link rel="stylesheet" href="./css/boxicons.css">
-    <link rel="stylesheet" href="./css/theme-mode.css">
     <link rel="stylesheet" href="./css/responsive.css">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/styles.css">
-    <link rel="stylesheet" href="./css/table.css">
-    <link rel="stylesheet" href="./css/scoreboard.css">
+    <link rel="stylesheet" href="./css/sidebar-style.css">
+    <link rel="stylesheet" href="./css/home-sidebar-style.css">
+    <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/TOU-bracketing.css">
   </head>
 
   <body>
-    <!--Sidebar-->
-    <div class="container-fluid" id="popup">
+  <div class="container-fluid" id="popup">
       <div class="row popup-card">
         <form method="post">
           <div class="row">
@@ -69,7 +96,7 @@
         <div class="sidebar-content-container">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#posts" class="menu_btn active">
+              <a href="#posts">
                 <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Posts
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -77,7 +104,7 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HOM-create-post.php" class="sub-active">
+                  <a href="HOM-create-post.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Create Post</span>
                   </a>
@@ -153,7 +180,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#tournaments" class="menu_btn">
+              <a href="#tournaments"  class="menu_btn active">
                 <i class="bx bx-trophy"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Tournaments
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -161,13 +188,13 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php">
+                  <a href="TOU-Live-Scoring-Admin.php"   >
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Live Scoring</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="TOU-bracket-admin.php">
+                  <a href="TOU-bracket-admin.php" class="sub-active">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Manage Brackets</span>
                   </a>
@@ -247,6 +274,8 @@
             <label> <a target="_blank" class="First" href='https://docs.google.com/spreadsheets/d/1aYVJ68IonLwiFKHKV1ZaT9QW4cdZ-g5XIc6N4KX1BN0/edit#gid=0'>ORG LIST</a></label>
         </div>
 
+        
+
         <form name = "formId0" class="formId0">
             <label class="number">Current Battle Mode First To</label>
 
@@ -268,7 +297,18 @@
             <div class="Match">
             <div class="Object_1"> <!--Part 3: Name of player & Result 4x of this in this branch-->
 
-                <div><select class="Name" type="text" placeholder="Player 1" id="Player1"></select></div>  <!--Part 4: Name of player 8x of this in this branch-->
+                <div><select class="Name" >
+        <?php
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                echo "<option value='" . $row["team_id"] . "'>" . $row["team_name"] . "</option>";
+            }
+        } else {
+            echo "<option>No options available</option>";
+        }
+        ?>
+        </select></div>  <!--Part 4: Name of player 8x of this in this branch-->
 
                 <div> <!--Part 4: Results 8x of this-->
                 <form name="FormId1" class="Result">
@@ -283,7 +323,8 @@
                 </form>
                 </div>
 
-                <div><select class="Name" type="text" id="Player2"></select></div><!--Part 4: Name of player 8x of this-->
+                <div><select class="Name" id="Player2">
+        </select></div><!--Part 4: Name of player 8x of this-->
 
                 <div> <!--Part 4: Results 8x of this-->
                 <form name="FormId2" class="Result">
@@ -516,14 +557,10 @@
 <!--------------------------------------------------------------------->
     </div>
 </section>
-    <script src="./js/TOU-bracket.js"></script>
-
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/TOU-index.js"></script>
+    <script src="./js/TOU-bracket.js"></script>
     <script src="./js/theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">

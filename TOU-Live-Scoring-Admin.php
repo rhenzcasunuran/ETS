@@ -1,8 +1,33 @@
 <?php
+  // Database connection details
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "pupets";
+  
+  // Create connection
+  $conn = new mysqli($servername, $username, $password, $dbname);
+  
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+  
+  // Query to retrieve data from the database
+  $sql = "SELECT bracket_id, bracket_sports FROM bracket";
+  $result = $conn->query($sql);
+  
+  // Close the database connection
+  $conn->close();
+  @include '/php/TOU-fetch-data.php';
+?>
+
+<?php
   session_start();
   @include '/php/database_connections.php';
   @include '/php/TOU-scoring.php'
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,7 +96,7 @@
         <div class="sidebar-content-container">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#posts" class="menu_btn active">
+              <a href="#posts">
                 <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Posts
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -79,7 +104,7 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HOM-create-post.php" class="sub-active">
+                  <a href="HOM-create-post.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Create Post</span>
                   </a>
@@ -155,7 +180,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#tournaments" class="menu_btn">
+              <a href="#tournaments"  class="menu_btn active">
                 <i class="bx bx-trophy"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Tournaments
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -163,7 +188,7 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php">
+                  <a href="TOU-Live-Scoring-Admin.php"   class="sub-active">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Live Scoring</span>
                   </a>
@@ -248,35 +273,44 @@
       <div class="container">
         <div class="home">
             <h1>ELITE</h1>
-            <form method="POST">
             <button name="score_a" id="home--btn">0</button>
             <div class="operate">
-              
+                <button type ="submit" name="btn_one" id="btn--one" onclick="minusValueOne()">-1</button>
+                <button id="btn--two" onclick="minusValueTwo()">-2</button>
+                <button id="btn--three" onclick="minusValueThree()">-3</button>
                 <button type ="submit" name="btn_one" id="btn--one" onclick="plusOne()">+1</button>
                 <button id="btn--two" onclick="plusTwo()">+2</button>
                 <button id="btn--three" onclick="plusThree()">+3</button>
-              </form>
+                
             </div>
         </div>
         <div class="dropdown-tournament">
         <form action="/action_page.php">
-  <select class="button-tournament"name="tournament" id="tournament">
-      <option value="tournament_type">Tournament</option>
-      <option value="volleyball">VOLLEYBALL</option>
-      <option value="badminton">BADMINTON</option>
-      <option value="chess">CHESS</option>
-      <option value="basketball">BASKETBALL</option>
-  </select>
+        <select class="button-tournament" >
+        <?php
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                echo "<option value='" . $row["bracket_id"] . "'>" . $row["bracket_sports"] . "</option>";
+            }
+        } else {
+            echo "<option>No options available</option>";
+        }
+        ?>
+        </select>
 </form>
             <div class="quarter">
                 <h2>1st <br> Quarter</h2>
             </div>
-            <button type="button" class="button-end-match">End Match</button>
+            <button type="button" class="button-end-match"onclick="showAlert()">End Match</button>
         </div>
         <div class="guest">
             <h1>AECES</h1>
             <button id="guest--btn">0</button>
             <div class="operate">
+                <button type ="submit" name="btn_one" id="btn--one" onclick="decreaseValueOne()">-1</button>
+                <button id="btn--two" onclick="decreaseValueTwo()">-2</button>
+                <button id="btn--three" onclick="decreaseValueThree()">-3</button>
                 <button id="btn--one" onclick="guestPlusOne()">+1</button>
                 <button id="btn--two" onclick="guestPlusTwo()">+2</button>
                 <button id="btn--three" onclick="guestPlusThree()">+3</button>
@@ -301,6 +335,13 @@
     <script src="./js/TOU-index.js"></script>
     <script src="./js/theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+
+    <script>
+        function showAlert() {
+            alert("Match Ended"); // Display the alert box with a message
+        }
+    </script>
+
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
