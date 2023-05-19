@@ -12,6 +12,6 @@
                 VALUES ('$calendar', '$tag', '$title', '$description', '$current_date');";
         mysqli_query($dbname,$sql);
 
-        $_SESSION['message']="Successfully added to the database."; 
+        header('Location: ../index.php');
     }
 ?>
