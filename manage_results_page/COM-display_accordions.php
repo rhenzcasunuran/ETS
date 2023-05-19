@@ -44,6 +44,74 @@ if ($result->num_rows > 0) {
         $top2_row = $result_scores->fetch_assoc();
         $top3_row = $result_scores->fetch_assoc();
 
+        $org1 = $top1_row["organization"];
+        $org2 = $top2_row["organization"];
+        $org3 = $top3_row["organization"];
+
+        $logo1 = '';
+        $logo2 = '';
+        $logo3 = '';
+
+        if ($org1 === 'ACAP') {
+            $logo1 = './photos/ACAP.png';
+        } elseif ($org1 === 'AECES') {
+            $logo1 = './photos/AECES.png';
+        } elseif ($org1 === 'ELITE') {
+            $logo1 = './photos/ELITE.png';
+        } elseif ($org1 === 'GIVE') {
+            $logo1 = './photos/GIVE.png';
+        } elseif ($org1 === 'JEHRA') {
+            $logo1 = './photos/JEHRA.png';
+        } elseif ($org1 === 'JMAP') {
+            $logo1 = './photos/JMAP.png';
+        } elseif ($org1 === 'JPIA') {
+            $logo1 = './photos/JPIA.png';
+        } elseif ($org1 === 'PIIE') {
+            $logo1 = './photos/PIIE.png';
+        } else {
+            $logo1 = './pictures/org_logos.png';
+        }
+
+        if ($org2 === 'ACAP') {
+            $logo2 = './photos/ACAP.png';
+        } elseif ($org2 === 'AECES') {
+            $logo2 = './photos/AECES.png';
+        } elseif ($org2 === 'ELITE') {
+            $logo2 = './photos/ELITE.png';
+        } elseif ($org2 === 'GIVE') {
+            $logo2 = './photos/GIVE.png';
+        } elseif ($org2 === 'JEHRA') {
+            $logo2 = './photos/JEHRA.png';
+        } elseif ($org2 === 'JMAP') {
+            $logo2 = './photos/JMAP.png';
+        } elseif ($org2 === 'JPIA') {
+            $logo2 = './photos/JPIA.png';
+        } elseif ($org2 === 'PIIE') {
+            $logo2 = './photos/PIIE.png';
+        } else {
+            $logo2 = './pictures/org_logos.png';
+        }
+
+        if ($org3 === 'ACAP') {
+            $logo3 = './photos/ACAP.png';
+        } elseif ($org3 === 'AECES') {
+            $logo3 = './photos/AECES.png';
+        } elseif ($org3 === 'ELITE') {
+            $logo3 = './photos/ELITE.png';
+        } elseif ($org3 === 'GIVE') {
+            $logo3 = './photos/GIVE.png';
+        } elseif ($org3 === 'JEHRA') {
+            $logo3 = './photos/JEHRA.png';
+        } elseif ($org3 === 'JMAP') {
+            $logo3 = './photos/JMAP.png';
+        } elseif ($org3 === 'JPIA') {
+            $logo3 = './photos/JPIA.png';
+        } elseif ($org3 === 'PIIE') {
+            $logo3 = './photos/PIIE.png';
+        } else {
+            $logo3 = './pictures/org_logos.png';
+        }
+
         echo "<div class='draggableDiv' draggable='true'>";
         echo "<button id='" . $competition_name . "' class='accordion'>";
         echo $competition_name . "<br>";
@@ -52,18 +120,18 @@ if ($result->num_rows > 0) {
         echo "<div id='top3Container' class='top3Container'>";
         echo "<div class='leftContainer'>";
         echo "<div style='aspect-ratio: 1/1;'>";
-        echo "<div class='logoContainer silver'></div>";
+        echo "<div class='logoContainer silver'><img src='".$logo2."' class='topLogo'></div>";
         echo "</div>";
         echo "<div class='diamondContainer second'>";
         echo "<h4 class='diamondText'>2nd</h4>";
         echo "</div>";
-        echo "<p class='winnerDetails'>" . $top2_row["participant_name"] . " " . $top2_row["overall_score"] . "</p>";
+        echo "<p class='winnerDetails'>" . $top2_row["participant_name"] . "<br>" . $top2_row["overall_score"] . "</p>";
         echo "</div>";
 
         // Top 1
         echo "<div class='middleContainer'>";
         echo "<div style='aspect-ratio: 1/1;'>";
-        echo "<div class='logoContainer gold'></div>";
+        echo "<div class='logoContainer gold'><img src='".$logo1."' class='topLogo'></div>";
         echo "</div>";
         echo "<div class='diamondContainer first'>";
         echo "<h4 class='diamondText'>1st</h4>";
@@ -74,12 +142,12 @@ if ($result->num_rows > 0) {
         // Top 3
         echo "<div class='rightContainer'>";
         echo "<div style='aspect-ratio: 1/1;'>";
-        echo "<div class='logoContainer bronze'></div>";
+        echo "<div class='logoContainer bronze'><img src='".$logo3."' class='topLogo'></div>";
         echo "</div>";
         echo "<div class='diamondContainer third'>";
         echo "<h4 class='diamondText'>3rd</h4>";
         echo "</div>";
-        echo "<p class='winnerDetails'>" . $top3_row["participant_name"] . " " . $top3_row["overall_score"] . "</p>";
+        echo "<p class='winnerDetails'>" . $top3_row["participant_name"] . "<br>" . $top3_row["overall_score"] . "</p>";
         echo "</div>";
         echo "</div>";
         echo "</button>";

@@ -118,22 +118,7 @@ function addAccordionListeners(draggableDiv) {
   const logoBronze = draggableDiv.querySelectorAll('.bronze');
   const button = draggableDiv.querySelector('button');
   button.addEventListener('click', (event) => {
-    if (button.style.height === '120px') {
-      button.style.maxHeight = '450px';
-      button.style.height = '450px';
-      button.style.textAlign = 'center';
-      button.style.justifyContent = 'center';
-      button.classList.add("activeButton");
-      logoGold.forEach((logo) => {
-        logo.style.marginTop = '0px';
-      });
-      logoSilver.forEach((logo) => {
-        logo.style.marginTop = '35px';
-      });
-      logoBronze.forEach((logo) => {
-        logo.style.marginTop = '35px';
-      });
-    } else {
+    if (button.style.height === '450px'){
       button.style.maxHeight = '120px';
       button.style.height = '120px';
       button.style.textAlign = 'left';
@@ -149,6 +134,24 @@ function addAccordionListeners(draggableDiv) {
       logoBronze.forEach((logo) => {
         logo.style.marginTop = '50px';
       });
+      contentDiv.style.display = 'none';
+      
+    } else {
+      button.style.maxHeight = '450px';
+      button.style.height = '450px';
+      button.style.textAlign = 'center';
+      button.style.justifyContent = 'center';
+      button.classList.add("activeButton");
+      logoGold.forEach((logo) => {
+        logo.style.marginTop = '-15px';
+      });
+      logoSilver.forEach((logo) => {
+        logo.style.marginTop = '20px';
+      });
+      logoBronze.forEach((logo) => {
+        logo.style.marginTop = '20px';
+      });
+      contentDiv.style.display = 'block';
     }
     event.stopPropagation();
   });
