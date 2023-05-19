@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2023 at 06:39 PM
+-- Generation Time: May 19, 2023 at 06:42 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -24,6 +24,39 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bracket`
+--
+
+CREATE TABLE `bracket` (
+  `bracket_id` int(11) NOT NULL,
+  `bracket_sports` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bracket`
+--
+
+INSERT INTO `bracket` (`bracket_id`, `bracket_sports`) VALUES
+(1, 'Basketball'),
+(2, 'VOLLEYBALL'),
+(3, 'CHESS'),
+(4, 'BADMINTON');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cache`
+--
+
+CREATE TABLE `cache` (
+  `url` int(11) NOT NULL,
+  `json` longtext NOT NULL,
+  `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categorynametb`
 --
 
@@ -31,7 +64,7 @@ CREATE TABLE `categorynametb` (
   `category_name_id` int(11) NOT NULL,
   `event_name_id` int(11) NOT NULL,
   `event_type_id` int(11) NOT NULL,
-  `category_name` varchar(25) NOT NULL
+  `category_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -39,11 +72,13 @@ CREATE TABLE `categorynametb` (
 --
 
 INSERT INTO `categorynametb` (`category_name_id`, `event_name_id`, `event_type_id`, `category_name`) VALUES
-(65, 53, 1, 'Basketball'),
-(66, 50, 2, 'Poster Making'),
-(67, 54, 3, 'Basta Laro'),
-(69, 50, 2, 'asdsadsad'),
-(70, 50, 2, 'Basketball');
+(71, 59, 1, 'Basketball'),
+(72, 59, 1, 'Volley Ball'),
+(73, 59, 1, 'Badminton'),
+(74, 59, 1, 'Sepak Takraw'),
+(75, 60, 1, 'ML Tournament'),
+(76, 60, 1, 'Valorant Tournament'),
+(77, 60, 1, 'Film Making');
 
 -- --------------------------------------------------------
 
@@ -124,6 +159,25 @@ CREATE TABLE `criteriontb` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `draft`
+--
+
+CREATE TABLE `draft` (
+  `draft_id` int(11) NOT NULL,
+  `draft_calendar` date DEFAULT NULL,
+  `draft_tag` varchar(15) DEFAULT NULL,
+  `draft_title` varchar(60) DEFAULT NULL,
+  `draft_description` text DEFAULT NULL,
+  `draft_cover` text DEFAULT NULL,
+  `draft_cover_path` text DEFAULT NULL,
+  `draft_photos` text DEFAULT NULL,
+  `draft_photos_path` text DEFAULT NULL,
+  `draft_schedule` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `eventhistorytb`
 --
 
@@ -143,7 +197,11 @@ CREATE TABLE `eventhistorytb` (
 --
 
 INSERT INTO `eventhistorytb` (`event_history_id`, `event_name`, `event_type`, `category_name`, `event_description`, `event_code`, `event_date`, `event_time`) VALUES
-(21, 'Foundation Day', 'Competition', 'Basketball', 'lklklklklk', 'CEtKxpNE76gm', '2023-05-28', '03:05:00');
+(1, 'Sports Festival', 'Tournament', 'Basketball', 'EVENT DESCRIPTION', '4yjKwRIRQLWW', '2023-05-19', '00:12:00'),
+(2, 'Sports Festival', 'Tournament', 'Badminton', 'descas', 'WXEtFLMF0zQI', '2023-12-12', '01:56:00'),
+(3, 'Sports Festival', 'Tournament', 'Badminton', 'carcase', 'gnK7nQGAsxC8', '2023-12-12', '00:12:00'),
+(4, 'ELITE Week', 'Tournament', 'Film Making', 'films', 'Zpq8uD6GnybX', '2023-12-12', '01:58:00'),
+(5, 'Sports Festival', 'Tournament', 'Sepak Takraw', 'casda', 'zzMdUTUvVHbk', '2023-12-12', '04:26:00');
 
 -- --------------------------------------------------------
 
@@ -153,7 +211,7 @@ INSERT INTO `eventhistorytb` (`event_history_id`, `event_name`, `event_type`, `c
 
 CREATE TABLE `eventnametb` (
   `event_name_id` int(11) NOT NULL,
-  `event_name` varchar(25) NOT NULL
+  `event_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -161,12 +219,8 @@ CREATE TABLE `eventnametb` (
 --
 
 INSERT INTO `eventnametb` (`event_name_id`, `event_name`) VALUES
-(50, 'Foundation Day'),
-(53, 'Buwan ng Wika'),
-(54, 'Example'),
-(55, 'asdaa'),
-(57, 'ExampleB'),
-(58, 'ExampleC');
+(59, 'Sports Festival'),
+(60, 'ELITE Week');
 
 -- --------------------------------------------------------
 
@@ -226,7 +280,7 @@ INSERT INTO `events_table` (`event_id`, `event_name`) VALUES
 
 CREATE TABLE `eventtypetb` (
   `event_type_id` int(11) NOT NULL,
-  `event_type` varchar(11) NOT NULL
+  `event_type` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -246,9 +300,9 @@ INSERT INTO `eventtypetb` (`event_type_id`, `event_type`) VALUES
 
 CREATE TABLE `image` (
   `id` int(11) NOT NULL,
-  `filename` varchar(100) NOT NULL,
-  `image_Info` varchar(255) DEFAULT NULL,
-  `image_Description` varchar(5000) DEFAULT NULL,
+  `filename` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `image_Info` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `image_Description` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -257,12 +311,9 @@ CREATE TABLE `image` (
 --
 
 INSERT INTO `image` (`id`, `filename`, `image_Info`, `image_Description`, `status`) VALUES
-(13, '646389b0b2eee.png', 'tan', 'tan', 0),
-(14, '646389da17c6c.jpg', 'tanglaw', 'tanglaw', 0),
-(6, '6461a3a4e766e.jpg', 'PPOP', 'PPOP first Place JMAP', 0),
-(12, '64638989726dc.png', '', '', 0),
-(11, '64637edbd5a64.jpg', 'Garden', 'Vilaas', 0),
-(16, '6465634133b59.jpg', 'asdasdasd', 'asdasd', 0);
+(6, '6465195ead571.jpg', 'tanglaw', 'CARL', 0),
+(7, '6465199f405c1.jpg', 'ASDSAD', 'DASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 0),
+(8, '64651b90bceb1.png', 'jffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjff', 'sad', 0);
 
 -- --------------------------------------------------------
 
@@ -280,6 +331,13 @@ CREATE TABLE `listofeventtb` (
   `event_date` date NOT NULL,
   `event_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `listofeventtb`
+--
+
+INSERT INTO `listofeventtb` (`event_id`, `event_name`, `event_type`, `category_name`, `event_description`, `event_code`, `event_date`, `event_time`) VALUES
+(76, 'Sports Festival', 'Tournament', 'Sepak Takraw', 'dasdadasdasd12', 'bILeSGHl4yEH', '2023-12-12', '00:12:00');
 
 -- --------------------------------------------------------
 
@@ -344,8 +402,29 @@ INSERT INTO `participants_table` (`participant_id`, `participant_name`, `organiz
 CREATE TABLE `pjjudges` (
   `judge_id` int(11) NOT NULL,
   `judge_name` varchar(150) NOT NULL,
-  `judge_nick` varchar(150) NOT NULL
+  `judge_nick` varchar(150) NOT NULL,
+  `event_code` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pjjudgestemp`
+--
+
+CREATE TABLE `pjjudgestemp` (
+  `judge_id_temp` int(11) NOT NULL,
+  `judge_name_temp` varchar(100) NOT NULL,
+  `judge_nick_temp` varchar(50) NOT NULL,
+  `event_code_temp` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pjjudgestemp`
+--
+
+INSERT INTO `pjjudgestemp` (`judge_id_temp`, `judge_name_temp`, `judge_nick_temp`, `event_code_temp`) VALUES
+(5, 'Vincent Andrei', 'Vincent', 'Vincent Andrei');
 
 -- --------------------------------------------------------
 
@@ -355,7 +434,6 @@ CREATE TABLE `pjjudges` (
 
 CREATE TABLE `pjparticipants` (
   `participants_id` int(11) NOT NULL,
-  `participants_stud_id` varchar(150) NOT NULL,
   `participants_name` varchar(100) NOT NULL,
   `participants_course` varchar(11) NOT NULL,
   `participants_section` varchar(150) NOT NULL,
@@ -387,6 +465,27 @@ INSERT INTO `post` (`post_id`, `post_calendar`, `post_tag`, `post_title`, `post_
 (16, '0000-00-00', 'ELITE', 'Happy Birthday to Executive Treasurer Junard Joshua Calma!', '\"Count your age by friends, not years. Count your life by smiles, not tears.\" -  John Lennon\r\n\r\nHappy birthday to Junard Joshua Calma our Executive Treasurer of our beloved organization!\r\n\r\nYou are a valuable officer and friend to the company, and we appreciate that. We wish you a day filled with feelings of adoration, gratitude, and celebration. May you experience much joy, success, and happiness this year. May you realize all of your hopes and dreams and you the fortitude and power to face any challenges that may arise. We are happy to have you in our lives since you are a special and valuable individual. Have a happy birthday and may it mark the start of a wonderful new chapter in your life, Junard. 🧡🖤🧡🖤\r\n\r\n(Manlilibre daw siya now.)', '', '', '2023-05-16 03:03:00'),
 (19, '0000-00-00', 'SC', 'RE: WALANG PASOKk', 'Gov. Ramil L. Hernandez on January 14, 2020.\r\n\r\nWALANG PASOK bukas, January 15, 2020, sa lahat ng antas, pribado at pampublikong paaralan sa Laguna.\r\n\r\nMinabuti natin ito upang bigyan ng sapat na panahon ang mga paaralan na linisin ang kanilang pasilidad bago ito gamitin ng mga mag-aaral.\r\nInatasan ko rin ang Provincial Health Office, pangunahin na ang Sanitation Division, na makipag-ugnayan sa Division Office ng Department of Education upang magsagawa ng clean-up drive sa mga paaralan.\r\nHangand natin ang kaligtasan at mabuting kalusugan ng mga mag-aaral at guro.', '', '', '2023-05-16 04:35:39'),
 (26, '0000-00-00', 'GIVE', 'das', 'sadas', '', '', '2023-05-17 07:06:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scores`
+--
+
+CREATE TABLE `scores` (
+  `score_id` int(11) NOT NULL,
+  `scoring_team_a` int(11) NOT NULL,
+  `scoring_team_b` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `scores`
+--
+
+INSERT INTO `scores` (`score_id`, `scoring_team_a`, `scoring_team_b`) VALUES
+(1, 0, 0),
+(4, 0, 0),
+(5, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -495,6 +594,32 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `teams`
+--
+
+CREATE TABLE `teams` (
+  `team_id` int(11) NOT NULL,
+  `team_name` varchar(20) NOT NULL,
+  `team_score` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `teams`
+--
+
+INSERT INTO `teams` (`team_id`, `team_name`, `team_score`) VALUES
+(1, 'ELITE', 0),
+(2, 'JEHRA', 0),
+(3, 'AECES', 0),
+(4, 'ACAP', 0),
+(5, 'GIVE', 0),
+(6, 'JMAP', 0),
+(7, 'JPIA', 0),
+(8, 'PIIE', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -510,6 +635,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_username`, `user_password`) VALUES
 ('admin', 'admin'),
 ('admin', 'admin'),
+('admin', 'admin'),
 ('admin', 'admin');
 
 --
@@ -517,12 +643,23 @@ INSERT INTO `user` (`user_username`, `user_password`) VALUES
 --
 
 --
+-- Indexes for table `bracket`
+--
+ALTER TABLE `bracket`
+  ADD PRIMARY KEY (`bracket_id`);
+
+--
+-- Indexes for table `cache`
+--
+ALTER TABLE `cache`
+  ADD PRIMARY KEY (`url`),
+  ADD UNIQUE KEY `url` (`url`);
+
+--
 -- Indexes for table `categorynametb`
 --
 ALTER TABLE `categorynametb`
-  ADD PRIMARY KEY (`category_name_id`),
-  ADD KEY `event_name_id` (`event_name_id`),
-  ADD KEY `event_type_id` (`event_type_id`);
+  ADD PRIMARY KEY (`category_name_id`);
 
 --
 -- Indexes for table `competitions_table`
@@ -553,6 +690,12 @@ ALTER TABLE `criteriontb`
   ADD KEY `criteria_id` (`criteria_id`);
 
 --
+-- Indexes for table `draft`
+--
+ALTER TABLE `draft`
+  ADD PRIMARY KEY (`draft_id`);
+
+--
 -- Indexes for table `eventhistorytb`
 --
 ALTER TABLE `eventhistorytb`
@@ -568,12 +711,6 @@ ALTER TABLE `eventnametb`
 -- Indexes for table `events`
 --
 ALTER TABLE `events`
-  ADD PRIMARY KEY (`event_id`);
-
---
--- Indexes for table `events_table`
---
-ALTER TABLE `events_table`
   ADD PRIMARY KEY (`event_id`);
 
 --
@@ -595,29 +732,10 @@ ALTER TABLE `listofeventtb`
   ADD PRIMARY KEY (`event_id`);
 
 --
--- Indexes for table `overall_scores_table`
+-- Indexes for table `pjjudgestemp`
 --
-ALTER TABLE `overall_scores_table`
-  ADD KEY `competition_id` (`competition_id`),
-  ADD KEY `participant_id` (`participant_id`);
-
---
--- Indexes for table `participants_table`
---
-ALTER TABLE `participants_table`
-  ADD PRIMARY KEY (`participant_id`);
-
---
--- Indexes for table `pjjudges`
---
-ALTER TABLE `pjjudges`
-  ADD PRIMARY KEY (`judge_id`);
-
---
--- Indexes for table `pjparticipants`
---
-ALTER TABLE `pjparticipants`
-  ADD PRIMARY KEY (`participants_id`);
+ALTER TABLE `pjjudgestemp`
+  ADD PRIMARY KEY (`judge_id_temp`);
 
 --
 -- Indexes for table `post`
@@ -626,38 +744,56 @@ ALTER TABLE `post`
   ADD PRIMARY KEY (`post_id`);
 
 --
+-- Indexes for table `scores`
+--
+ALTER TABLE `scores`
+  ADD PRIMARY KEY (`score_id`);
+
+--
+-- Indexes for table `teams`
+--
+ALTER TABLE `teams`
+  ADD PRIMARY KEY (`team_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `bracket`
+--
+ALTER TABLE `bracket`
+  MODIFY `bracket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `categorynametb`
 --
 ALTER TABLE `categorynametb`
-  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
--- AUTO_INCREMENT for table `criteriatb`
+-- AUTO_INCREMENT for table `draft`
 --
-ALTER TABLE `criteriatb`
-  MODIFY `criteria_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `criteriontb`
---
-ALTER TABLE `criteriontb`
-  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `draft`
+  MODIFY `draft_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `eventhistorytb`
 --
 ALTER TABLE `eventhistorytb`
-  MODIFY `event_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `event_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `eventnametb`
 --
 ALTER TABLE `eventnametb`
-  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT for table `events`
+--
+ALTER TABLE `events`
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `eventtypetb`
@@ -666,10 +802,22 @@ ALTER TABLE `eventtypetb`
   MODIFY `event_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `image`
+--
+ALTER TABLE `image`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT for table `listofeventtb`
 --
 ALTER TABLE `listofeventtb`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+
+--
+-- AUTO_INCREMENT for table `pjjudgestemp`
+--
+ALTER TABLE `pjjudgestemp`
+  MODIFY `judge_id_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `post`
@@ -678,27 +826,16 @@ ALTER TABLE `post`
   MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for table `scores`
 --
+ALTER TABLE `scores`
+  MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- Constraints for table `categorynametb`
+-- AUTO_INCREMENT for table `teams`
 --
-ALTER TABLE `categorynametb`
-  ADD CONSTRAINT `categorynametb_ibfk_1` FOREIGN KEY (`event_name_id`) REFERENCES `eventnametb` (`event_name_id`),
-  ADD CONSTRAINT `categorynametb_ibfk_2` FOREIGN KEY (`event_type_id`) REFERENCES `eventtypetb` (`event_type_id`);
-
---
--- Constraints for table `criteriatb`
---
-ALTER TABLE `criteriatb`
-  ADD CONSTRAINT `criteriatb_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `categorynametb` (`category_name_id`);
-
---
--- Constraints for table `criteriontb`
---
-ALTER TABLE `criteriontb`
-  ADD CONSTRAINT `criteriontb_ibfk_1` FOREIGN KEY (`criteria_id`) REFERENCES `criteriatb` (`criteria_id`);
+ALTER TABLE `teams`
+  MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
