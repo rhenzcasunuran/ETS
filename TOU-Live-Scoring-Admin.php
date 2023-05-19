@@ -248,14 +248,15 @@
       <div class="container">
         <div class="home">
             <h1>ELITE</h1>
-            <form method="POST">
             <button name="score_a" id="home--btn">0</button>
             <div class="operate">
-              
+                <button type ="submit" name="btn_one" id="btn--one" onclick="minusOne()">-1</button>
+                <button id="btn--two" onclick="minusTwo()">-2</button>
+                <button id="btn--three" onclick="minusThree()">-3</button>
                 <button type ="submit" name="btn_one" id="btn--one" onclick="plusOne()">+1</button>
                 <button id="btn--two" onclick="plusTwo()">+2</button>
                 <button id="btn--three" onclick="plusThree()">+3</button>
-              </form>
+                
             </div>
         </div>
         <div class="dropdown-tournament">
@@ -277,6 +278,9 @@
             <h1>AECES</h1>
             <button id="guest--btn">0</button>
             <div class="operate">
+                <button type ="submit" name="btn_one" id="btn--one" onclick="guestMinusOne()">-1</button>
+                <button id="btn--two" onclick="guestMinusTwo()">-2</button>
+                <button id="btn--three" onclick="guestMinusThree()">-3</button>
                 <button id="btn--one" onclick="guestPlusOne()">+1</button>
                 <button id="btn--two" onclick="guestPlusTwo()">+2</button>
                 <button id="btn--three" onclick="guestPlusThree()">+3</button>
