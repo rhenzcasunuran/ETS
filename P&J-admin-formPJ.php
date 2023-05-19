@@ -227,7 +227,7 @@
                 <div class="row popup-card">
                   <i class='row warning-icon bx bx-trash' ></i>
                   <h3 class="row d-flex justify-content-center align-items-center">
-                    Delete Post?
+                    Delete Tables?
                   </h3>
                   <h6 class="row d-flex justify-content-center align-items-center">
                     You cannot undo this action.
@@ -563,6 +563,12 @@ var intJudgeTextBox = 0;
   $("ul").on("click", ".delJ", function(e) {
     e.preventDefault();
     $(this).parent().remove();
+    intJudgeTextBox--;
+});
+
+$("ul").on("click", "#judgedel", function(e) {
+    e.preventDefault();
+    $(".Jbox").parent().remove();
     intJudgeTextBox--;
 });
 
