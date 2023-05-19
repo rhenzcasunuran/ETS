@@ -481,7 +481,11 @@ function deleteImage(id) {
     } else {
       textarea.style.borderColor = 'red';
       textarea.style.borderWidth = '2px'; // set border size to 3px
-      alert("Maximum character limit reached.");
+      Swal.fire({
+      icon: 'warning',
+      title: 'Oops...',
+      text: 'Maximum Character Limit Reach',
+})
     }
   });
 </script>
@@ -495,8 +499,11 @@ function deleteImage(id) {
     } else {
       input.style.borderColor = 'red';
       input.style.borderWidth = '2px'; // set border size to 3px
-      alert("Maximum character limit reached.");
-    }
+      Swal.fire({
+      icon: 'warning',
+      title: 'Oops...',
+      text: 'Maximum Character Limit Reach',
+})    }
   });
 </script>
 <script>

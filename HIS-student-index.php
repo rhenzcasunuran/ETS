@@ -334,28 +334,27 @@ if($conn){
   
     
     <script>
+    function updateTextContainer(slide) {
+        var imageInfo = slide.getAttribute('data-bs-info');
+        var imageDesc = slide.getAttribute('data-bs-desc');
+
+        var textContainer = document.querySelector('.text-container');
+        textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
+        textContainer.style.wordWrap = 'break-word'; // Allow words to break
+        textContainer.style.maxWidth = '100%';
+        textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
+    }
+
     var firstSlide = document.querySelector('#eventsImages .carousel-item:first-child');
-    var imageInfo = firstSlide.getAttribute('data-bs-info');
-    var imageDesc = firstSlide.getAttribute('data-bs-desc');
-
-
-    var textContainer = document.querySelector('.text-container');
-    textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
+    updateTextContainer(firstSlide);
 
     var carousel = document.querySelector('#eventsImages');
     carousel.addEventListener('slide.bs.carousel', function(event) {
-      var currentSlide = event.relatedTarget;
-      var imageInfo = currentSlide.getAttribute('data-bs-info');
-      var imageDesc = currentSlide.getAttribute('data-bs-desc');
-
-      var textContainer = document.querySelector('.text-container');
-      textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
-      textContainer.style.wordWrap = 'break-word'; // Allow words to break
-      textContainer.style.maxWidth = '100%'; 
-      textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
-
+        var currentSlide = event.relatedTarget;
+        updateTextContainer(currentSlide);
     });
 </script>
+
 
 
   </body>
