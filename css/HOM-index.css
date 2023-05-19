@@ -14,20 +14,23 @@
 }
 
 .filter-button{
-    display: inline-block;
     border: none;
     color: whitesmoke;
-    height: 32px;
-    border-radius: 20px;
+    height: 35px;
+    border-radius: 30px;
     cursor: pointer;
-    margin: 15px 0;
+    margin-top: 24px;
     width: 100%;
     font-weight: 300;
-    box-shadow: 0 5px 10px -6px var(--color-shadow);
+    padding: 0;
+    box-shadow: 0 5px 10px -5px var(--color-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .filter-button:hover{
-    opacity: 75%;
+    opacity: 80%;
     transition: all .5s ease;
 }
 

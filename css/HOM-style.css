@@ -50,7 +50,7 @@
     z-index: 100;
 }
 
-#clear-popup{
+#clear-popup, #post-popup{
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
@@ -61,7 +61,7 @@
     z-index: 100;
 }
 
-#discardChanges-popup{
+#discardChanges-popup, #saveChanges-popup{
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
