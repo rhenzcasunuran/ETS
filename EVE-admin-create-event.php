@@ -293,22 +293,22 @@
                 <textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required></textarea>
             </div>
             <div class="form-group col-md-6">
-                <label for="criteria" class="form-label fw-bold">Criteria</label>
+                <label class="form-label fw-bold">Criteria</label>
                 <div class="form-control second-layer" id="criteria" name="criteria"></div>
             </div>
           </div>
           <div class="row flex-column flex-md-row">
             <div class="form-group col-md-5">
-                <label for="event-judges" class="form-label fw-bold">Judges</label>
+                <label class="form-label fw-bold">Judges</label>
                 <div id="event-judges" class="form-control judges-container" name="event-judges"></div>
             </div>
             <div class="form-group col-md-4">
-                <label for="date" class="form-label fw-bold">Date and Time <span class="req">(required)</span></label>
+                <label class="form-label fw-bold">Date and Time <span class="req">(required)</span></label>
                 <input type="date" class="form-control date" id="date" max="" min="" name="date" required>
                 <input type="time" class="form-control mt-2" id="time" name="time" required>
             </div>
             <div class="form-group col-md-3">
-              <label for="code" class="form-label fw-bold">Code</label>
+              <label class="form-label fw-bold">Code</label>
               <div class="form-control" id="no-code">--------------------</div>
               <input type="hidden" class="form-control" id="code" name="code" readonly required>
             </div>
@@ -344,7 +344,6 @@
     <script type="text/javascript" src="./js/EVE-admin-bootstrap4.bundle.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select-picker.js"></script>
-    <script type="text/javascript" src="./js/EVE-admin-list-of-events.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-disable-button.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-popup.js"></script>
     <script>
