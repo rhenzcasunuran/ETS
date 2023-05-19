@@ -130,3 +130,7 @@ td.calendar-rounded-cell:hover {
   width: 200px;
   height: 45px;
 }
+
+.calendar-day-plus {
+  cursor: pointer;
+}
