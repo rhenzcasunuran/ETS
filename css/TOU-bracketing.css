@@ -5,23 +5,25 @@
 }
 
 body{
-    background-color: #191424;
+    background-color: var(--color-body);
     margin: 5px;
 }
 
 
 select {
-    background-color: #191424;
-    color: #FFFFFF;
+    background-color: var(--color-body);
+    color: var(--color-content-text);
     border: transparent;
+    font-weight: bold;
 }
 
 .Container{
     display: flex;
-    background-color: #726A94;
+    background-color: var(--color-content-card);
     width: max-content;
     margin-left: 15%;
     margin-top: 3%;
+    font-weight: bold;
 }
 
 /* Part 2: Branch Style, Branch Size & Display*/
@@ -32,6 +34,7 @@ select {
     display: flex;
     margin-top: 40px;
     margin-left: 20px;
+    color: var(--color-content-text);
 }
 
 .Branch_2{
@@ -53,7 +56,7 @@ select {
 display: grid;
 grid-template-columns: 230px 100px;
 grid-template-rows: 50px 50px;
-background-color: #191424;
+background-color: var(--color-body);
 width: 300px;
 padding-top: 4px;
 padding-left: 4px;
@@ -63,7 +66,7 @@ padding-left: 4px;
     display: grid;
     grid-template-columns: 230px 100px;
     grid-template-rows: 50px 50px;
-    background-color: #191424;
+    background-color: var(--color-body);
     width: 300px;
     padding-top: 4px;
     padding-left: 4px;
@@ -76,8 +79,8 @@ padding-left: 4px;
     height: 40px;
     font-size: 20px;
     border-radius: 4px;
-    background-color: #191424;
-    color: #FFFFFF;
+    background-color: var(--color-body);
+    color: var(--color-content-text);
 }
 
 /* Part 4: Match data sizes*/
@@ -118,7 +121,7 @@ border-radius: 4px;
 
 .First:hover{
     background-color: chocolate;
-    color: white;
+    color: var(--color-content-text);
     font-size: 30px;
     border-radius: 6px;
     padding: 5px;
@@ -127,7 +130,7 @@ border-radius: 4px;
 .First{
     margin-top: 40px;
     margin-left: 50px;
-    color: white;
+    color: var(--color-content-text);
     font-size: 30px;
     border-radius: 6px;
     padding: 5px;
@@ -136,14 +139,17 @@ border-radius: 4px;
 label.number{
     margin-left: 50px;
     font-size: 30px;
-    color: white;
+    color: var(--color-content-text);
+    font-weight: bold;
 }
 
 label.wins{
     font-size: 30px;
-    color: white;
+    color: var(--color-content-text);
+    font-weight: bold;
 }
 
 .Link_Style{
     margin-top: 10px;
+    font-weight: bold;
 }
