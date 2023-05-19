@@ -595,16 +595,29 @@ $(document).ready(function() {
                   'type': 'number',
                   'min': '1',
                   'max': '12',
+                  'required': 'required', // Added the required attribute
                 }).on('input', function() {
                   var value = $(this).val();
 
-                  // Limit the input to two digits
-                  if (value.length > 2) {
-                    value = value.slice(0, 1);
+                  // Allow blank input without defaulting to 1
+                  if (value === '') {
+                    return;
+                  }
+
+                  // Force the value to be within the range of 1-12
+                  if (value < 1 || value > 12) {
+                    value = Math.min(Math.max(value, 1), 12);
                   }
 
                   // Update the input field value
                   $(this).val(value);
+                }).on('blur', function() {
+                  var value = $(this).val();
+
+                  // Set default value to 1 if input is empty
+                  if (value === '') {
+                    $(this).val('1');
+                  }
                 });
 
                 // Create the minutes input field
@@ -612,21 +625,39 @@ $(document).ready(function() {
                   'type': 'number',
                   'min': '0',
                   'max': '59',
+                  'required': 'required', // Added the required attribute
                 }).on('input', function() {
                   var value = $(this).val();
 
-                  // Limit the input to two digits
-                  if (value.length > 2) {
-                    value = value.slice(0, 1);
+                  // Allow blank input without defaulting to 0
+                  if (value === '') {
+                    return;
+                  }
+
+                  // Remove leading zeros if value is not '00'
+                  if (value !== '00') {
+                    value = value.replace(/^0+/, '');
+                  }
+
+                  // Force the value to be within the range of 0-59
+                  if (value < 0 || value > 59) {
+                    value = Math.min(Math.max(value, 0), 59);
                   }
 
                   // Add leading zero if the value is less than 10
-                  if (value < 10) {
+                  if (value.length < 2) {
                     value = '0' + value;
                   }
 
                   // Update the input field value
                   $(this).val(value);
+                }).on('blur', function() {
+                  var value = $(this).val();
+
+                  // Set default value to '00' if input is empty
+                  if (value === '') {
+                    $(this).val('00');
+                  }
                 });
 
                 // Create the select element for AM/PM
@@ -634,74 +665,74 @@ $(document).ready(function() {
 
                 // Create the AM button
                 var amButton = $('<button>')
-                  .addClass('btn btn-link')
-                  .attr({
-                    'type': 'button',
-                    'value': 'AM'
-                  })
-                  .text('AM')
-                  .on('click', function() {
-                    amButton.addClass('fw-bold');
-                    pmButton.removeClass('fw-bold');
-                  });
+                .addClass('btn btn-primary')
+                .attr({
+                  'type': 'button',
+                  'value': 'AM'
+                })
+                .text('AM')
+                .on('click', function() {
+                  amButton.addClass('btn-primary').removeClass('btn-outline-primary');
+                  pmButton.addClass('btn-outline-primary').removeClass('btn-primary');
+                });
 
                 // Create the PM button
                 var pmButton = $('<button>')
-                  .addClass('btn btn-link')
-                  .attr({
-                    'type': 'button',
-                    'value': 'PM'
-                  })
-                  .text('PM')
-                  .on('click', function() {
-                    pmButton.addClass('fw-bold');
-                    amButton.removeClass('fw-bold');
-                  });
+                .addClass('btn btn-outline-primary')
+                .attr({
+                  'type': 'button',
+                  'value': 'PM'
+                })
+                .text('PM')
+                .on('click', function() {
+                  pmButton.addClass('btn-primary').removeClass('btn-outline-primary');
+                  amButton.addClass('btn-outline-primary').removeClass('btn-primary');
+                });
 
-                  // Initialize the default selection as AM
-                  amButton.addClass('fw-bold');
+                // Initialize the default selection as AM
+                amButton.addClass('btn-primary').removeClass('btn-outline-primary');
 
-                  // Append the buttons to the AM/PM container
-                  ampmInput.append(amButton, pmButton);
+                // Append the buttons to the AM/PM container
+                ampmInput.append(amButton, pmButton);
 
-                  // Create the submit button
-                  var createEventButton = $('<button type="submit" class="btn btn-outline-secondary">Create Event</button>');
+                // Create the submit button
+                var createEventButton = $('<button type="submit" class="btn btn-outline-secondary">Create Event</button>');
 
-                  // Create the cancel button
-                  var createAnnouncementButton = $('<button type="submit" class="btn btn-outline-secondary">Create Announcement</button>');
+                // Create the cancel button
+                var createAnnouncementButton = $('<button type="submit" class="btn btn-outline-secondary">Create Announcement</button>');
 
-                  // Append the selected date text, hour input field, and minutes input field to the modal body
-                  modalBody.append(selectedDateInput, hourInput, minsInput, ampmInput, hiddenInput);
+                // Append the selected date text, hour input field, and minutes input field to the modal body
+                modalBody.append(selectedDateInput, hourInput, minsInput, ampmInput, hiddenInput);
 
-                  // Append the buttons to the modal body
-                  modalBody.append(createEventButton, createAnnouncementButton);
+                // Append the buttons to the modal body
+                modalBody.append(createEventButton, createAnnouncementButton);
 
-                  // Append the modal body to the form
-                  form.append(modalBody);
+                // Append the modal body to the form
+                form.append(modalBody);
 
-                  // Append the form to the modal content
-                  modalContent.append(form);
+                // Append the form to the modal content
+                modalContent.append(form);
 
-                  // Create the modal content by combining the header, body, and footer
-                  var modalContent = $('<div>').addClass('modal-content').append(
-                    modalHeader,
-                    modalBody
-                  );
+                // Create the modal content by combining the header, body, and footer
+                var modalContent = $('<div>').addClass('modal-content').append(
+                  modalHeader,
+                  modalBody
+                );
 
-                  // Create the modal
-                  var modal = $('<div>').addClass('modal fade').attr({
-                    'data-bs-backdrop': 'static',
-                    'data-bs-keyboard': 'false',
-                    'tabindex': '-1'
-                  }).append(
-                    $('<div>').addClass('modal-dialog modal-dialog-centered').append(
-                      modalContent
-                    )
-                  );
+                // Create the modal
+                var modal = $('<div>').addClass('modal fade').attr({
+                  'data-bs-backdrop': 'static',
+                  'data-bs-keyboard': 'false',
+                  'tabindex': '-1'
+                }).append(
+                  $('<div>').addClass('modal-dialog modal-dialog-centered').append(
+                    modalContent
+                  )
+                );
 
-                  // Show the modal
-                  modal.modal('show');
-                }
+                // Show the modal
+                modal.modal('show');
+              }
             });
           } else {
             // Cell is after the last day of the month
