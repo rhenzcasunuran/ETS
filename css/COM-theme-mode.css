@@ -1,27 +1,93 @@
-:root {
+:root[data-theme="light"] {
+    --color-sidebar-bg:#282135;
+    --color-sidebar-text: #e5e5e5;
+    --color-sidebar-active: #635B81CC;
+    --color-sidebar-subactive: #635B8180;
+    --color-sidebar-hover: #635B8180;
+    --color-sidebar-sublist-1: #FF605C;
+    --color-sidebar-sublist-2: #00CA4E;
+    --color-sidebar-sublist-3: #FFB546;
+    --color-sidebar-sublist-4: #9747FF;
+
+    --color-sidebar-chevron-icon: #FFB546;
+
+    --color-shadow: #555;
+
+    --color-body: #D7D1BC;
+    --color-content-text: #1a1a1a;
+    --color-content-line: #635B8180;
+    --color-content-card: #EDE7DD;
+    --color-search-show: #FF605C;
+    --color-content-button: #EDE7DD;
+    --color-content-button-line: #635B81;
+
+
     --color-acap: #9747FF;
     --color-aeces: #A84444;
     --color-elite: #DF851B;
     --color-give: #73A9CC;
-    --color-jehra: #DC9C9A;
+    --color-jehra: #D3B692;
     --color-jmap: #FFBD44;
     --color-jpia: #CF1659;
     --color-piie: #16BA9D;
-}
-html[data-theme="dark"] {
-    --color-body: #191424;
-    --color-text: #fff;
-    --color-rslt_cntr: #282135;
-    --color-calendar_bod: #635B81CC;
-    --color-calendar_head: #191424;
-}
 
-html[data-theme="light"] {
-    --color-body: #D7D1BC;
+    --color-red: #A84444;
+    --color-yellow: #FFB546;
+    --color-green: #7FC76D;
+
     --color-text: #000;
     --color-rslt_cntr: #faf4e1;
     --color-calendar_bod: #ffe9cbcc;
     --color-calendar_head: #cba268cc;
+
+    --color-accordion: #EDE7DD;
+    --color-reverse: #191424;
+    --color-reverse_text: #fff;
+}
+:root[data-theme="dark"] {
+    --color-sidebar-bg:#282135;
+    --color-sidebar-text: #f2f2f2;
+    --color-sidebar-active: #635B81CC;
+    --color-sidebar-subactive: #635B8180;
+    --color-sidebar-hover: #635B8180;
+    --color-sidebar-sublist-1: #FF605C;
+    --color-sidebar-sublist-2: #00CA4E;
+    --color-sidebar-sublist-3: #FFB546;
+    --color-sidebar-sublist-4: #9747FF;
+
+    --color-sidebar-chevron-icon: #FFB546;
+
+    --color-shadow: #111;
+
+    --color-body: #191424;
+    --color-content-text: #e5e5e5;
+    --color-content-line: #635B81CC;
+    --color-content-card: #282135;
+    --color-search-show: #FF605C;
+    --color-content-button: #635B81;
+    --color-content-button-line: #635B81;
+
+    --color-acap: #9747FF;
+    --color-aeces: #A84444;
+    --color-elite: #DF851B;
+    --color-give: #73A9CC;
+    --color-jehra: #D3B692;
+    --color-jmap: #FFBD44;
+    --color-jpia: #CF1659;
+    --color-piie: #16BA9D;
+
+    --color-red: #A84444;
+    --color-yellow: #FFB546;
+    --color-green: #7FC76D;
+
+    --color-text: #fff;
+    --color-rslt_cntr: #282135;
+    --color-calendar_bod: #635B81CC;
+    --color-calendar_head: #191424;
+
+    --color-accordion: #282135;
+    --color-reverse: #D7D1BC;;
+    --color-reverse-text: #000;
 }
 
 [data-theme='light'] .lightmode,
