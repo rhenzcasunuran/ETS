@@ -24,7 +24,8 @@ $result = $conn->query($sql);
 
 // If there are competitions, generate HTML code for each of them
 if ($result->num_rows > 0) {
-    ?> <script type="text/javascript">document.getElementById('empty').remove();</script>
+    ?> <script type="text/javascript">document.getElementById('empty').remove();
+    document.getElementById('search').style.display = 'block';</script>
     <?php
     while($row = $result->fetch_assoc()) {
         $competition_id = $row["competition_id"];
