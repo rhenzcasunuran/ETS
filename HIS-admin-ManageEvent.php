@@ -269,8 +269,8 @@
 
       echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
 
-      // Fetch the category names for the current event from the database
-      $query = "SELECT category_name FROM eventhistorytb WHERE event_name = '" . $eventName . "'";
+      // Fetch the distinct category names for the current event from the database
+      $query = "SELECT DISTINCT category_name FROM eventhistorytb WHERE event_name = '" . $eventName . "'" ;
       $categoryResult = mysqli_query($conn, $query);
 
       if ($categoryResult === false) {
@@ -278,7 +278,7 @@
       }
 
       if (mysqli_num_rows($categoryResult) > 0) {
-        // Generate the radio buttons for each category
+        // Generate the radio buttons for each distinct category
         while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
           $categoryName = $categoryRow['category_name'];
           echo "<label><input type='checkbox' name='activity_" . $eventName . "' value='" . $categoryName . "'>" . $categoryName . "</label>";
