@@ -118,7 +118,7 @@ if($conn){
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="#competition">
+                  <a href="COM-student_page.php">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Competition</span>
                   </a>
