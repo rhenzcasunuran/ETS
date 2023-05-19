@@ -1,27 +1,27 @@
-<?php 
-include('./php/database_connect.php');
+<?php
+  include './php/database_connect.php';
 
-session_start();
+  session_start();
 
-if($conn){
-  if(isset($_POST['sign-in-button'])){
-    $username=mysqli_real_escape_string($conn,$_POST['user_username']);
-    $password=mysqli_real_escape_string($conn,$_POST['user_password']);
-    $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
-    $result=mysqli_query($conn,$sql);
-    if($result){
-      if(mysqli_num_rows($result)>0){
-        $_SESSION['message']="You are now Loggged In";
-        $_SESSION['user_username']=$username;
-        header("location:HOM-create-post.php");
-      }
-      else{
-        echo '<script>alert("Username or Password combination are incorrect")</script>';
+  if($conn){
+    if(isset($_POST['sign-in-button'])){
+      $username=mysqli_real_escape_string($conn,$_POST['user_username']);
+      $password=mysqli_real_escape_string($conn,$_POST['user_password']);
+      $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
+      $result=mysqli_query($conn,$sql);
+      if($result){
+        if(mysqli_num_rows($result)>0){
+          $_SESSION['user_username']=$username;
+          header("location:HOM-create-post.php");
+        }
+        else{
+          echo '<script>alert("Username or Password combination are incorrect")</script>';
+        }
       }
     }
   }
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,18 +38,11 @@ if($conn){
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/home-sidebar-style.css">
-
-
-    <!-- EVENT HISTORY -->
-       <!-- CSS only -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
-
-
-          <link rel="stylesheet" href="./css/HIS-student.css">  </head>
-
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/HOM-index.css">
+  </head>
 
   <body>
-    <!--Sidebar-->
     <div class="container-fluid" id="popup">
       <div class="row popup-card">
         <form method="post">
@@ -138,7 +131,7 @@ if($conn){
               </a>
             </li>
             <li class="nav-item">
-              <a href="about.php" class="active">
+              <a href="about.php" class="menu_btn active">
                 <i class="bx bx-info-circle"></i>
                 <span class="link_name">About</span>
               </a>
@@ -187,14 +180,15 @@ if($conn){
         </div>
       </div>
     </div>
-    <!--Page Content-->
+    <!--PAGE-->
     <section class="home-section">
-      <div class="header">About</div>
+            
     </section>
-    <!-- Scripts -->
+    <!--SCRIPT -->
     <script src="./js/script.js"></script>
     <script src="./js/change-theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-script.js"></script>
     <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
@@ -210,8 +204,6 @@ if($conn){
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-
     </script>
   </body>
-
 </html>

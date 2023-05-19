@@ -38,13 +38,13 @@
           <div class="col">
             <a href="HOM-manage-post.php" class="text-decoration-none">
               <div id="clear" class="button-clone continue" onclick="hide_discardChanges()">
-                &nbsp;Continue
+                Continue
               </div>
             </a>
           </div>
           <div class="col">
             <div class="button-clone cancel" onclick="hide_discardChanges()">
-              &nbsp;Cancel
+              Cancel
             </div>
           </div>
         </div>
@@ -249,7 +249,7 @@
         <p class="row title">
           Edit Post
         </p>
-        <form id="post-form" method="post">
+        <form id="post-form" action="./php/HOM-create-post.php" method="post">
           <div class="row create-post">
             <div class="col-7">
               <div class="row">
@@ -314,7 +314,7 @@
                   </div>
                 </div>
                 <div class="col">
-                  <button class="button-clone save-changes" input type="submit" name="post">
+                <button class="button-clone save-changes" type="submit" name="post">
                     <i class='bx bx-save'></i>
                     &nbsp;Save Changes
                   </button>
@@ -345,25 +345,6 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-    </script>
-    <script>
-      var existingCalendar = "<?php echo $post_row[1];?>";
-
-      var dateInput = document.getElementById("calendar");
-
-      dateInput.value = existingCalendar;
-    </script>
-    <script>
-      var selectedTag = "<?php echo $post_row[2];?>";
-
-      var selectElement = document.getElementById("tag");
-
-      for (var i = 0; i < selectElement.options.length; i++) {
-        if (selectElement.options[i].value === selectedTag) {
-          selectElement.options[i].selected = true;
-          break;
-        }
-      }
     </script>
   </body>
 </html>

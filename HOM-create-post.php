@@ -1,7 +1,6 @@
 <?php
   include './php/sign-in.php';
   include './php/database_connect.php';
-  include './php/HOM-create-post.php';
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +41,29 @@
           </div>
           <div class="col">
             <div class="button-clone cancel" onclick="hide_clear()">
+              &nbsp;Cancel
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" id="post-popup">
+      <div class="row popup-card">
+        <i class='row warning-icon bx bx-reset' ></i>
+        <h3 class="row d-flex justify-content-center align-items-center">
+          Post Now?
+        </h3>
+        <h6 class="row d-flex justify-content-center align-items-center">
+          You can edit thisin Manage Post.
+        </h6>
+        <div class="row">
+          <div class="col">
+            <div id="clear" class="button-clone continue" onclick="hide_post()">
+              &nbsp;Continue
+            </div>
+          </div>
+          <div class="col">
+            <div class="button-clone cancel" onclick="hide_post()">
               &nbsp;Cancel
             </div>
           </div>
@@ -247,7 +269,7 @@
         <p class="row title">
           Create Post
         </p>
-        <form id="post-form" method="post">
+        <form id="post-form" action="./php/HOM-create-post.php" method="post">
           <div class="row create-post">
             <div class="col-7">
               <div class="row">
@@ -318,7 +340,7 @@
                   </button>
                 </div>
                 <div class="col">
-                  <button class="button-clone post" input type="submit" name="post">
+                  <button class="button-clone post" type="submit" name="post">
                     <i class='bx bx-upload'></i>
                     &nbsp;Post
                   </button>

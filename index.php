@@ -12,7 +12,6 @@
       $result=mysqli_query($conn,$sql);
       if($result){
         if(mysqli_num_rows($result)>0){
-          $_SESSION['message']="You are now Loggged In";
           $_SESSION['user_username']=$username;
           header("location:HOM-create-post.php");
         }
@@ -118,7 +117,7 @@
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="#competition">
+                  <a href="COM-student_page.php">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Competition</span>
                   </a>
@@ -186,11 +185,6 @@
     <section class="home-section">
       <div class="container">
         <div class="row">
-          <div class="col filter-text">
-            <p class="filter-text">
-              Tags:
-            </p>
-          </div>
           <div class="col">
             <button class="filter-button SC">
               SC
