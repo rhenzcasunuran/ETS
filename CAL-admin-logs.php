@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
-    <!--Calendar JS-->
-    <link rel="stylesheet" href="./css/CAL-calendar.css">
+    <!--Logs CSS-->
+    <link rel="stylesheet" href="./css/CAL-logs.css">
   </head>
 
   <body>
@@ -219,18 +219,18 @@
     </div>
     <section class="home-section">
       <div class="header">Logs</div>
+      <br>
+      <br>
       <!-- Search Bar and Filter -->
       <div class="container">
         <div class="row">
-          <div class="col-md-2">
+          <div class="d-flex justify-content-between">
             <div class="input-group input-group-sm custom-search-bar">
               <input type="text" class="form-control" maxlength="50" style="height:50px;" placeholder="Search">
               <button class="btn btn-outline-primary" style="height:50px;" type="button">
                 <i class="bx bx-search"></i>
               </button>
             </div>
-          </div>
-          <div class="col-md-2">
             <div class="dropdown">
               <button class="btn btn-light btn-lg dropdown-toggle" style="width: 200px;" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                 Filters
@@ -346,57 +346,56 @@
                 </li>
               </ul>
             </div>
+            <input type="text" id="dateInput" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}" placeholder="mm/dd/yyyy" maxlength="10" style="height:48px;">
           </div>
-          <div class="col-md-2">
-            <input type="date" value="Select date" style="height: 48px;" min="1970-01-01" pattern="\d{4}-\d{2}-\d{2}">
-          </div>
+          <div id="dateError" style="color: red;"></div>
+          <br>
+          <br>
+          <table class="table table-dark table-bordered">
+            <caption>1-3 of 3</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="sortable-header" data-column="0">Date <i class="bx bx-chevron-up"></i></th> 
+                <th scope="col" class="sortable-header" data-column="1">Time <i class="bx bx-chevron-up"></i></th>
+                <th scope="col" class="sortable-header" data-column="2">Admin <i class="bx bx-chevron-up"></i></th>
+                <th scope="col" class="sortable-header" data-column="3">Activity Description <i class="bx bx-chevron-up"></i></th>
+                <th scope="col" class="sortable-header" data-column="4">Date Scheduled <i class="bx bx-chevron-up"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">3/29/2023</th>
+                <td>1:27 PM</td>
+                <td>Admin 2</td>
+                <td>Posted in Announcement</td>
+                <td>4/20/2023</td>
+              </tr>
+              <tr>
+                <th scope="row">3/29/2023</th>
+                <td>1:20 PM</td>
+                <td>Admin 1</td>
+                <td>Added in Events</td>
+                <td>5/16/2023</td>
+              </tr>
+              <tr>
+                <th scope="row">3/29/2023</th>
+                <td>1:20 PM</td>
+                <td>Admin 3</td>
+                <td>Posted in Announcement</td>
+                <td>6/23/2023</td>
+              </tr>
+            </tbody>
+          </table>
+          <span class="small-button">
+            <button type="button" class="btn btn-secondary btn-sm">
+                &lt;
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm">
+              &gt;
+            </button>
+          <span>
         </div>
       </div>
-      <br>
-      <br>
-      <table class="table table-dark table-bordered">
-        <caption>1-3 of 3</caption>
-        <thead>
-          <tr>
-            <th scope="col" class="sortable-header" data-column="0">Date <i class="bx bx-chevron-up"></i></th> 
-            <th scope="col" class="sortable-header" data-column="1">Time <i class="bx bx-chevron-up"></i></th>
-            <th scope="col" class="sortable-header" data-column="2">Admin <i class="bx bx-chevron-up"></i></th>
-            <th scope="col" class="sortable-header" data-column="3">Activity Description <i class="bx bx-chevron-up"></i></th>
-            <th scope="col" class="sortable-header" data-column="4">Date Scheduled <i class="bx bx-chevron-up"></i></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">3/29/2023</th>
-            <td>1:27 PM</td>
-            <td>Admin 2</td>
-            <td>Posted in Announcement</td>
-            <td>4/20/2023</td>
-          </tr>
-          <tr>
-            <th scope="row">3/29/2023</th>
-            <td>1:20 PM</td>
-            <td>Admin 1</td>
-            <td>Added in Events</td>
-            <td>5/16/2023</td>
-          </tr>
-          <tr>
-            <th scope="row">3/29/2023</th>
-            <td>1:20 PM</td>
-            <td>Admin 3</td>
-            <td>Posted in Announcement</td>
-            <td>6/23/2023</td>
-          </tr>
-        </tbody>
-      </table>
-      <span>
-          <button type="button" class="btn btn-secondary btn-sm">
-              &lt;
-          </button>
-          <button type="button" class="btn btn-secondary btn-sm">
-            &gt;
-          </button>
-        <span>
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
@@ -461,6 +460,107 @@
           });
         });
       });
+    </script>
+    <script>
+      const dateInput = document.getElementById('dateInput');
+      const dateError = document.getElementById('dateError');
+
+      dateInput.addEventListener('input', formatAndValidateDate);
+      dateInput.addEventListener('keypress', restrictNonNumericInput);
+      dateInput.addEventListener('blur', resetInputIfInvalid);
+
+      function formatAndValidateDate() {
+        let dateValue = dateInput.value;
+
+        // Remove any non-numeric characters
+        dateValue = dateValue.replace(/\D/g, '');
+
+        // Apply the format mm/dd/yyyy
+        if (dateValue.length > 2 && dateValue.charAt(2) !== '/') {
+          dateValue = `${dateValue.slice(0, 2)}/${dateValue.slice(2)}`;
+        }
+        if (dateValue.length > 5 && dateValue.charAt(5) !== '/') {
+          dateValue = `${dateValue.slice(0, 5)}/${dateValue.slice(5)}`;
+        }
+
+        // Update the input value
+        dateInput.value = dateValue;
+
+        // Validate the date
+        validateDate();
+      }
+
+      function restrictNonNumericInput(event) {
+        const key = event.which || event.keyCode;
+        const char = String.fromCharCode(key);
+
+        // Allow only numeric characters and backspace/delete
+        if (!/[\d\b]/.test(char)) {
+          event.preventDefault();
+        }
+      }
+
+      function resetInputIfInvalid() {
+        if (!dateInput.checkValidity()) {
+          dateInput.value = '';
+          dateError.textContent = '';
+        }
+      }
+
+      function validateDate() {
+        const dateValue = dateInput.value;
+
+        // Regular expression pattern for mm/dd/yyyy format
+        const datePattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+
+        if (datePattern.test(dateValue)) {
+          const [month, day, year] = dateValue.split('/');
+
+          // Validate the month (mm)
+          const monthInt = parseInt(month, 10);
+          if (monthInt < 1 || monthInt > 12) {
+            // Invalid month
+            dateInput.setCustomValidity('Invalid month');
+            dateError.textContent = 'Invalid month';
+            return;
+          }
+
+          // Validate the day (dd) based on the month
+          const dayInt = parseInt(day, 10);
+          if (dayInt < 1 || dayInt > getDaysInMonth(monthInt, year)) {
+            // Invalid day
+            dateInput.setCustomValidity('Invalid day');
+            dateError.textContent = 'Invalid day';
+            return;
+          }
+
+          // Create a Date object to validate the input as a valid date
+          const inputDate = new Date(`${year}-${month}-${day}`);
+
+          if (
+            inputDate.getFullYear().toString() === year &&
+            (inputDate.getMonth() + 1).toString().padStart(2, '0') === month &&
+            inputDate.getDate().toString().padStart(2, '0') === day
+          ) {
+            // Valid date
+            dateInput.setCustomValidity('');
+            dateError.textContent = '';
+          } else {
+            // Invalid date
+            dateInput.setCustomValidity('Invalid date');
+            dateError.textContent = 'Invalid date';
+          }
+        } else {
+          // Date format doesn't match mm/dd/yyyy
+          dateInput.setCustomValidity('Invalid date format');
+          dateError.textContent = 'Invalid date format';
+        }
+      }
+
+      function getDaysInMonth(month, year) {
+        // Returns the number of days in a month (accounts for leap years)
+        return new Date(year, month, 0).getDate();
+      }
     </script>
     <!--Logs JS-->
     <script src="./js/CAL-admin-logs.js"></script>
