@@ -1,29 +1,27 @@
-<?php
-  include './php/database_connect.php';
-  include './php/HOM-get-posts.php';
+<?php 
+include('./php/database_connect.php');
 
-  session_start();
+session_start();
 
-  if($conn){
-    if(isset($_POST['sign-in-button'])){
-      $username=mysqli_real_escape_string($conn,$_POST['user_username']);
-      $password=mysqli_real_escape_string($conn,$_POST['user_password']);
-      $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
-      $result=mysqli_query($conn,$sql);
-      if($result){
-        if(mysqli_num_rows($result)>0){
-          $_SESSION['message']="You are now Loggged In";
-          $_SESSION['user_username']=$username;
-          header("location:HOM-create-post.php");
-        }
-        else{
-          echo '<script>alert("Username or Password combination are incorrect")</script>';
-        }
+if($conn){
+  if(isset($_POST['sign-in-button'])){
+    $username=mysqli_real_escape_string($conn,$_POST['user_username']);
+    $password=mysqli_real_escape_string($conn,$_POST['user_password']);
+    $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
+    $result=mysqli_query($conn,$sql);
+    if($result){
+      if(mysqli_num_rows($result)>0){
+        $_SESSION['message']="You are now Loggged In";
+        $_SESSION['user_username']=$username;
+        header("location:HOM-create-post.php");
+      }
+      else{
+        echo '<script>alert("Username or Password combination are incorrect")</script>';
       }
     }
   }
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,9 +38,18 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/home-sidebar-style.css">
-  </head>
+
+
+    <!-- EVENT HISTORY -->
+       <!-- CSS only -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+
+
+          <link rel="stylesheet" href="./css/HIS-student.css">  </head>
+
 
   <body>
+    <!--Sidebar-->
     <div class="container-fluid" id="popup">
       <div class="row popup-card">
         <form method="post">
@@ -68,7 +75,7 @@
         </form>
       </div>
     </div>
-    <!--Sidebar-->
+    <!--SIDEBAR-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
         <div class="design1"></div>
@@ -90,7 +97,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="calendar.html">
+              <a href="CAL-student-overall.php">
                 <i class="bx bx-calendar"></i>
                 <span class="link_name">Calendar</span>
               </a>
@@ -104,7 +111,7 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="#overall">
+                  <a href="BAR-student.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Overall Champion</span>
                   </a>
@@ -116,7 +123,7 @@
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="#competition">
+                  <a href="COM-student_page.php">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Competition</span>
                   </a>
@@ -125,13 +132,13 @@
             </li>
             
             <li class="nav-item">
-              <a href="results.html">
+              <a href="HIS-student-index.php">
                 <i class="bx bx-history"></i>
                 <span class="link_name">Event History</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="about.php" class="menu_btn active">
+              <a href="about.php" class="active">
                 <i class="bx bx-info-circle"></i>
                 <span class="link_name">About</span>
               </a>

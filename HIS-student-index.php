@@ -91,7 +91,7 @@ if($conn){
         <div class="sidebar-content-container">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="index.php" class="menu_btn">
+              <a href="index.php">
                 <i class="bx bx-home-alt"></i>
                 <span class="link_name">Home</span>
               </a>
@@ -123,7 +123,7 @@ if($conn){
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="#competition">
+                  <a href="COM-student_page.php">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Competition</span>
                   </a>
@@ -196,36 +196,41 @@ if($conn){
     <div class="row">
       <div class="col-md-3 left-container">
         <div class="container-fluid left-part">
-          <input type="text" class="form-control" placeholder="Search Event">
+          <input type="text" maxlength="50" class="form-control" placeholder="Search Event" >
           <p>Other Events</p>
           <div class="row">
             <div class="col-12 event">
-                              <?php 
-                  require('./php/database_connect.php');
-                  require('./php/HIS-upload.php');
+            <div id="card-container">
+  <?php
+    $query = "SELECT event_name, category_name, YEAR(event_date) AS event_year FROM eventhistorytb GROUP BY event_name desc LIMIT 3";
+    $result = mysqli_query($conn, $query);
 
-                  $query = "SELECT filename FROM image ORDER BY id DESC LIMIT 3";
-                  $result = mysqli_query($conn, $query);
-                  if (!$result) {
-                      die("Error in the query: " . mysqli_error($conn));
-                  }
-                  $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    if ($result === false) {
+        die('Query Error: ' . mysqli_error($conn));
+    }
 
-                  for ($i = 0; $i < 3; $i++) {
-                    echo '<div class="row">
-                              <div class="col-12">';
-                    if (isset($images[$i])) {
-                        $imagePath = "./images/" . $images[$i]['filename'];
-                        echo '<div class="event-image"><img src="' . $imagePath . '" alt="Event Image" class="event-image__img"></div>';
-                      }
-                    echo '</div>
-                          </div>';
-                    
-                    mysqli_data_seek($result, 0);
-                  }
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $eventName = $row['event_name'];
+            $categoryName = $row['category_name'];
+            $eventYear = $row['event_year'];
+            
+            echo '<div class="event-card" id="event_' . $eventName . '">';
+            echo '  <div class="event-info">';
+            echo '    <h3 class="event-name">' . $eventName . '</h3>';
+            echo '    <p class="category">' . $categoryName . '</p>';
+            echo '    <p class="year">' . $eventYear . '</p>';
+            echo '  </div>';
+            echo '</div>';
+        }
+    } else {
+        echo "No events found.";
+    }
+  ?>
+  
+  </div>
 
-                  mysqli_close($conn);
-                  ?>
+            
 
             </div>
           </div>
@@ -351,6 +356,7 @@ if($conn){
 
     });
 </script>
+
 
   </body>
 

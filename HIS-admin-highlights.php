@@ -228,7 +228,7 @@
   <div class="flex-container">
     <div class="container" id="main-containers">
       <div class="bg-white p-3" id="container-1">
-        <div class="file-type-container">File Type</div>
+        <div class="file-type-container">Image Selection</div>
         <form method="POST" action="" enctype="multipart/form-data">
           <div class="form-group">
             <input class="form-control" type="file" name="uploadfile" id="uploadfile" value="" required />
@@ -237,7 +237,7 @@
       </div>
       <div class="bg-white p-3" id="container-2">
         <div class="file-type-container">
-          Preview
+          Gallery
         </div>
         <div class="container" id="img-container">
           <?php
@@ -382,7 +382,7 @@ Event History Scripts
   if (allowedTypes.indexOf(file_data.type) == -1) {
     Swal.fire({
       icon: 'error',
-      title: 'Oops...',
+      title: 'Upload Failed',
       text: 'File must be an image (JPG, JPEG, PNG)!',
     });
     return false;
@@ -508,6 +508,7 @@ function deleteImage(id) {
     expandedImg.style.display = "none";
   }
 </script>
+
   </body>
 
 </html>

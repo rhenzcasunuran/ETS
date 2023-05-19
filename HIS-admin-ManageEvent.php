@@ -230,9 +230,9 @@
          <div class="flex-box-1">
           
          <div class="search-wrapper">
-         <input type="text" name="search" id="search" onkeyup="filterButtons()">
-  </div>
-  <div id="button-container">
+         <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event"onkeyup="filterButtons()">
+        </div>
+        <div id="button-container">
   <?php
 
     $query = "SELECT  event_name,category_name FROM eventhistorytb group by event_name";
@@ -276,7 +276,7 @@
       if (mysqli_num_rows($categoryResult) > 0) {
         while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
           $categoryName = $categoryRow['category_name'];
-          echo "<label><input type='checkbox' name='activity_" . $eventName . "' value='" . $categoryName . "'>" . $categoryName . "</label>";
+          echo "<label><input type='radio' name='activity_" . $eventName . "' value='" . $categoryName . "'>" . $categoryName . "</label>";
         }
       }
 
@@ -289,11 +289,12 @@
 
        
           <div class="btn-group" id="diffbutton">
-            <button type="button" id="but">Add + </button>
+          <button type="button" id="but" onclick="addToContainer()">Add +</button>
             <button type="button" id="but">Delete -</button>
           </div>
         </div>
 
+        <div id="infoContainer"></div>
 
 
 
@@ -377,6 +378,7 @@ const searchInput = document.getElementById('search');
       }
     });
   }
+            
 </script>
   </body>
 
