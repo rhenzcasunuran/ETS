@@ -307,7 +307,7 @@
         } else {
             echo "<option>No options available</option>";
         }
-        ?>
+        ?>  
         </select></div>  <!--Part 4: Name of player 8x of this in this branch-->
 
                 <div> <!--Part 4: Results 8x of this-->
