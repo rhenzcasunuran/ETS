@@ -1,3 +1,6 @@
+body {
+    overflow-x: hidden;
+}
 .removespace{
     position: relative;
     background-color: var(--color-body);
@@ -310,7 +313,21 @@ input {
     color: var(--color-text);
     padding-bottom: 15px;
 }
-
+@media screen and (max-width:460px){
+    .removespace {
+        width: 100% !important;
+    }
+    .actualbody {
+        width: 100% !important;
+        min-height: 120vh !important;
+    }
+    .sidebar {
+        min-height: 127vh !important;
+    }
+    .sidebar.open ~ .home-section {
+        width: calc(100% - 190px) !important;
+    }
+}
 @media screen and (max-width: 768px) {
     h2 {
         display:flex;

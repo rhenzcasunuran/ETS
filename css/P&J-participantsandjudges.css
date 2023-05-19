@@ -134,6 +134,13 @@
   background: #FFB546;
 }
 
+.buttonsubx{
+  width: 40px;
+  height: 40px;
+  border-radius: 10px; 
+  background: #FFB546;
+}
+
 .buttonadd2{
   position: absolute;
   right:250px;
@@ -407,4 +414,40 @@ th{
 
 .btndel{
   border-radius:15px;width: 40px; height: 40px; color: white;background: #ff3636;
+}
+
+#popuplink{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#clear-popupl{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#discardChanges-popupl{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+.scorelink-container {
+  position: relative;
 }

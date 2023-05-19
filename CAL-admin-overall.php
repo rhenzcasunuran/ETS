@@ -328,13 +328,7 @@
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" value="Standard" id="check-standard">
                           <label class="form-check-label" for="check-standard">
-                            Academic
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="Standard" id="check-standard">
-                          <label class="form-check-label" for="check-standard">
-                            Non-Academic
+                            Standard
                           </label>
                         </div>
                       </div>

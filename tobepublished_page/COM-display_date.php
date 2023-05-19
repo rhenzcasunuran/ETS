@@ -21,7 +21,10 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // There's a schedule for the competition, so return the schedule value
   $row = $result->fetch_assoc();
-  $response["schedule"] = $row['schedule'];
+  if ($row['schedule'] === null){
+    echo 'no';
+  } else {
+    $response["schedule"] = $row['schedule'];
   $datetime = new DateTime($response['schedule']);
   $time = $datetime->format('H:i a');
   $day = $datetime->format('d');
@@ -33,7 +36,9 @@ if ($result->num_rows > 0) {
     'month' => $month,
     'year' => $year
   ));
-}
+  }
+  
+} 
 
 $conn->close();
 ?>

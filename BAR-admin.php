@@ -47,7 +47,7 @@
         <div class="sidebar-content-container">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#posts" class="menu_btn active">
+              <a href="#posts" class="menu_btn">
                 <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Posts
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -55,7 +55,7 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HOM-create-post.php" class="sub-active">
+                  <a href="HOM-create-post.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Create Post</span>
                   </a>
@@ -125,7 +125,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="BAR-admin.php">
+              <a href="BAR-admin.php" class="menu_btn active">
                 <i class='bx bx-bar-chart-alt-2'></i>
                 <span class="link_name">Overall Results</span>
               </a>
@@ -220,7 +220,24 @@
     </div>
     <!--Page Content-->
     <section class="home-section">
+
       <div class="container-fluid" id="body-content">
+
+        <div class="row" id="switches">
+          <div class="col" id="toggle-container">
+            <div class="anon">
+              <label class="switch">
+                <input type="checkbox" id="anon_button">
+                <span class="slider"></span>
+                <div class="row" id="anon-label">Show&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hide</div>
+              </label>
+            </div>
+          </div>
+  
+          <div class="col" id="add-container">
+            <div class="add">Add Org Photo</div>
+          </div>
+        </div>
 
         <div class="col" id="graph-section">
           <div class="graph_container">

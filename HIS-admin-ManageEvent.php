@@ -238,17 +238,14 @@
     $query = "SELECT  event_name,category_name FROM eventhistorytb group by event_name";
     $result = mysqli_query($conn, $query);
     
-    // Check if the query executed successfully
     if ($result === false) {
         die('Query Error: ' . mysqli_error($conn));
     }
     
     if (mysqli_num_rows($result) > 0) {
-        // Loop through the results and generate the button for each event
         while ($row = mysqli_fetch_assoc($result)) {
             $eventName = $row['event_name'];
             
-            // Generate the button HTML
             echo "<button id='event_" . $eventName . "' class='event_button'>$eventName</button>";
             
         }
@@ -269,8 +266,7 @@
 
       echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
 
-      // Fetch the category names for the current event from the database
-      $query = "SELECT category_name FROM eventhistorytb WHERE event_name = '" . $eventName . "'";
+      $query = "SELECT DISTINCT category_name FROM eventhistorytb WHERE event_name = '" . $eventName . "'" ;
       $categoryResult = mysqli_query($conn, $query);
 
       if ($categoryResult === false) {
@@ -278,7 +274,6 @@
       }
 
       if (mysqli_num_rows($categoryResult) > 0) {
-        // Generate the radio buttons for each category
         while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
           $categoryName = $categoryRow['category_name'];
           echo "<label><input type='checkbox' name='activity_" . $eventName . "' value='" . $categoryName . "'>" . $categoryName . "</label>";
@@ -351,20 +346,17 @@ const searchInput = document.getElementById('search');
   
   for (var i = 0; i < event_buttons.length; i++) {
     event_buttons[i].addEventListener("click", function() {
-      // Remove highlight from previously selected button
       var prev_selected_button = document.querySelector(".selected");
       if (prev_selected_button) {
         prev_selected_button.classList.remove("selected");
       }
       
-      // Hide activities of previously clicked event button
       var prev_activity_container = document.querySelector(".activity_container.show");
       if (prev_activity_container) {
         prev_activity_container.classList.remove("show");
         prev_activity_container.style.display = "none";
       }
       
-      // Highlight the clicked button and show its activities
       if (selected_event !== this) {
         this.classList.add("selected");
         selected_event = this;

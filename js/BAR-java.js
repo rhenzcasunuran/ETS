@@ -1,51 +1,56 @@
 document.addEventListener("DOMContentLoaded", function() {
   const graphSection = document.querySelector("#graph-section");
-  const arrowBtn = document.querySelector("#arrow-btn");
+const arrowBtn = document.querySelector("#arrow-btn");
+const containerFluid = document.querySelector(".container-fluid");
 
-  arrowBtn.addEventListener("click", function() {
-    graphSection.classList.toggle("placement_open");
+arrowBtn.addEventListener("click", function() {
+  graphSection.classList.toggle("placement_open");
 
-    const placementOpen = graphSection.classList.contains("placement_open");
+  const placementOpen = graphSection.classList.contains("placement_open");
 
-    updateLogoClickability(placementOpen);
+  updateLogoClickability(placementOpen);
 
-    arrowBtn.classList.toggle("bx-arrow-to-left", !placementOpen);
-    arrowBtn.classList.toggle("bx-arrow-to-right", placementOpen);
+  arrowBtn.classList.toggle("bx-arrow-to-left", !placementOpen);
+  arrowBtn.classList.toggle("bx-arrow-to-right", placementOpen);
 
-    if (typeof Storage !== "undefined") {
-      localStorage.setItem("graph", placementOpen ? "open" : "closed");
+  containerFluid.classList.toggle("placement_open", placementOpen);
+
+  if (typeof Storage !== "undefined") {
+    localStorage.setItem("graph", placementOpen ? "open" : "closed");
+  }
+});
+
+const placementOpen = graphSection.classList.contains("placement_open");
+updateLogoClickability(placementOpen);
+
+const localStorageState = localStorage.getItem("graph");
+if (localStorageState === "open") {
+  graphSection.classList.add("placement_open");
+  updateLogoClickability(true);
+  arrowBtn.classList.add("bx-arrow-to-right");
+  containerFluid.classList.add("placement_open");
+} else if (localStorageState === "closed") {
+  graphSection.classList.remove("placement_open");
+  updateLogoClickability(false);
+  arrowBtn.classList.add("bx-arrow-to-left");
+  containerFluid.classList.remove("placement_open");
+}
+
+function updateLogoClickability(placementOpen) {
+  const logoContainers = document.querySelectorAll(".logo_container");
+  logoContainers.forEach((container) => {
+    const logoName = container.querySelector("img").getAttribute("name");
+    if (placementOpen) {
+      container.addEventListener("click", () => handleLogoClick(logoName));
+      container.style.cursor = "pointer";
+    } else {
+      container.removeEventListener("click", () => handleLogoClick(logoName));
+      container.style.cursor = "default";
     }
   });
 
-  const placementOpen = graphSection.classList.contains("placement_open");
-  updateLogoClickability(placementOpen);
-
-  const localStorageState = localStorage.getItem("graph");
-  if (localStorageState === "open") {
-    graphSection.classList.add("placement_open");
-    updateLogoClickability(true);
-    arrowBtn.classList.add("bx-arrow-to-right");
-  } else if (localStorageState === "closed") {
-    graphSection.classList.remove("placement_open");
-    updateLogoClickability(false);
-    arrowBtn.classList.add("bx-arrow-to-left");
-  }
-
-  function updateLogoClickability(placementOpen) {
-    const logoContainers = document.querySelectorAll(".logo_container");
-    logoContainers.forEach((container) => {
-      const logoName = container.querySelector("img").getAttribute("name");
-      if (placementOpen) {
-        container.addEventListener("click", () => handleLogoClick(logoName));
-        container.style.cursor = "pointer";
-      } else {
-        container.removeEventListener("click", () => handleLogoClick(logoName));
-        container.style.cursor = "default";
-      }
-    });
- 
-    sortMeters();
-  }
+  sortMeters();
+}
 
   function handleLogoClick(logoName) {
     const placementOpen = graphSection.classList.contains("placement_open");

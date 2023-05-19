@@ -1,3 +1,6 @@
+body {
+    overflow-x: hidden;
+}
 .removespace{
     position: relative;
     background-color: var(--color-body);
@@ -136,8 +139,7 @@ button:hover:not(.activeButton){
 .bar {
     border-radius: 20px;
     padding-left: 10px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 10px;
     padding-right: 20px;
     margin-left: 20px;
     margin-top: 10px;
@@ -149,8 +151,10 @@ i.fa-search {
     font-size: 20px;
 }
 .searchInput {
-    width:auto;
-    min-width: 200px;
+    width:79%;
+    min-width: 135x;
+    border: none !important;
+    background-color: white !important;
 }
 .container {
     display: flex;
@@ -197,6 +201,9 @@ i.fa-search {
     min-height: 200px;
     height: 280px;
     width: 98%;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
     /*background-color: red;*/
 }
 .leftContainer {
@@ -260,7 +267,7 @@ i.fa-search {
     width: 50px;
     background-color: black;
     transform:rotate(45deg);
-    margin-top: -10px;
+    margin-top: -20px;
     border: 3px solid white;
     color: white;
 }
@@ -312,6 +319,7 @@ table {
 .diamond {
     padding-left: 20px;
     width: 5%;
+    padding-top: 20px;
 }
 .name {
     border-radius: 10px 0px 0px 10px;
@@ -339,18 +347,76 @@ table {
     vertical-align: center;
     margin-bottom: 10px;
 }
-
-/* Styles for phone */
-@media screen and (max-width: 768px) {
+.topLogo {
+    width: auto;
+    height: auto;
+}
+.accordion {
+    background-color: var(--color-accordion);
+    color: var(--color-text);
+}
+.sign-in-button {
+    min-height: 40px !important;
+    width: 250px !important;
+}
+.popup-card {
+    min-width: 300px !important;
+}
+.bx-x {
+    padding-left: 50px;
+}
+.adminInput {
+    width: 250px;
+}
+.row .title {
+    display:flex;
+    flex-direction: row;
+}
+@media screen and (max-width:460px){
+    .top3Container {
+        margin-left: -45px !important;
+    }
+    .removespace {
+        width: 100% !important;
+    }
+    .actualbody {
+        width: 100% !important;
+        min-height: 105vh !important;
+    }
     button {
-        height: 200px;
-        width: 310px;
-        max-height: 450px;
+        min-width: 290px !important;
+        width:98% !important;
+        max-width: 320px !important;
     }
     .content {
-        width: 310px;
+        min-width: 290px !important;
+        width:98% !important;
+        max-width: 320px !important;
+    }
+    .sidebar {
+        min-height: 127vh !important;
+    }
+    .sidebar.open ~ .home-section {
+        width: calc(100% - 190px) !important;
+    }
+    .sign-in-button {
+        min-height: 40px !important;
+        width: 250px !important;
+    }
+}
+/* Styles for phone */
+@media screen and (max-width: 990px) {
+    button {
+        height: 200px;
+        min-width: 320px;
+        width:98%;
+    }
+    .content {
         height:fit-content;
         min-height: 0;
+        width: 310px;
+        min-width: 320px;
+        width:98%;
     }
     .top3Container {
         display: flex;
@@ -361,7 +427,8 @@ table {
         min-height: 200px;
         height: 260px;
         width: 300px;
-        margin-left: -50px;
+        margin-left: auto;
+        margin-right: auto;
         margin-top: 34px;
     }
     .leftContainer {
@@ -414,6 +481,9 @@ table {
     .bronze {
         margin-top: 0px;
     }
+    .diamond {
+        padding-left: 0px;
+    }
     .diamondContainer {
         display: flex;
         max-width: 50px;
@@ -421,6 +491,7 @@ table {
         height: 40px;
         width: 40px;
         transform:rotate(45deg);
+        margin-top: -4px;
     }
     .winnerDetails {
         text-shadow: 0 0 3px black, 0 0 3px black;
@@ -429,5 +500,10 @@ table {
         font-size: 15px;
         color: white;
         margin: auto;
+    }
+    .sign-in-button {
+        min-height: 40px !important;
+        width: 250px !important;
+        min-width: 250px !important;
     }
 }

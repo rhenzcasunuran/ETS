@@ -16,7 +16,9 @@ $filters = $_GET['filters'];
 
 // If no filters are selected, use a simpler query
 if (empty($filters)) {
-    $sql = "SELECT * FROM listofeventtb WHERE YEAR(event_date) = ? AND MONTH(event_date) = ?";
+    $sql = "SELECT * FROM listofeventtb WHERE YEAR(event_date) = ? AND MONTH(event_date) = ?
+    UNION
+    SELECT * FROM eventhistorytb WHERE YEAR(event_date) = ? AND MONTH(event_date) = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, 'ss', $year, $month);
     mysqli_stmt_execute($stmt);
@@ -24,13 +26,19 @@ if (empty($filters)) {
 } else {
     // Build the parameter placeholders for the filters
     $placeholders = implode(',', array_fill(0, count($filters), '?'));
-    $sql = "SELECT * FROM listofeventtb WHERE YEAR(event_date) = ? AND MONTH(event_date) = ? AND event_type IN ($placeholders)";
+    $sql = "SELECT * FROM (
+                SELECT * FROM listofeventtb 
+                UNION ALL
+                SELECT * FROM eventhistorytb
+            ) AS combined_tables
+            WHERE YEAR(event_date) = ? AND MONTH(event_date) = ? AND event_type IN ($placeholders)";
     $stmt = mysqli_prepare($conn, $sql);
     $params = array_merge([$year, $month], $filters);
     $types = str_repeat('s', count($params));
     mysqli_stmt_bind_param($stmt, $types, ...$params);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
+
 }
 
 // Check if there are any results
