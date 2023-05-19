@@ -353,7 +353,7 @@
                     <tr class="border border-0">
                       <th class="fw-normal fs-5 text-center border border-0" scope="col">SUNDAY</th>
                       <th class="fw-normal fs-5 text-center border border-0" scope="col">MONDAY</th>
-                      <th class="fw-normal fs-5 text-center border border-0" scope="col">TUESUDAY</th>
+                      <th class="fw-normal fs-5 text-center border border-0" scope="col">TUESDAY</th>
                       <th class="fw-normal fs-5 text-center border border-0" scope="col">WEDNESDAY</th>
                       <th class="fw-normal fs-5 text-center border border-0" scope="col">THURSDAY</th>
                       <th class="fw-normal fs-5 text-center border border-0" scope="col">FRIDAY</th>
