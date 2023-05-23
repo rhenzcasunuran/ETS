@@ -45,7 +45,7 @@
     --color-reverse_text: #fff;
     --color-content: #EDE7DD;
 
-    --url-accordion: url("v.png");
+    --url-accordion: url("../pictures/v.png");
 }
 :root[data-theme="dark"] {
     --color-sidebar-bg:#282135;
@@ -93,7 +93,7 @@
     --color-reverse-text: #000;
     --color-content: #282135;
 
-    --url-accordion: url("v2.png");
+    --url-accordion: url("../pictures/v2.png");
 }
 
 [data-theme='light'] .lightmode,
