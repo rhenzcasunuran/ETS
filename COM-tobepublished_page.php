@@ -11,8 +11,8 @@
       <link rel="stylesheet" href="./css/COM-style.css">
       <link rel="stylesheet" href="./css/sidebar-style.css">
       <!-- Page specific CSS -->
-      <link rel="stylesheet" href="./tobepublished_page/COM-tobepublished_page.css">
-      <link rel="stylesheet" href="./tobepublished_page/dist/simplepicker.css">
+      <link rel="stylesheet" href="./css/COM-tobepublished_page.css">
+      <link rel="stylesheet" href="./css/COM-simplepicker.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <head>
 
@@ -258,7 +258,7 @@
         <div class="content">
         <?php
         try {
-            require './tobepublished_page/COM-display_competition_results.php';
+            require './php/COM-display_competition_results.php';
         } catch (Throwable $e) {
             // Show error message na hindi nag connect sa db
             // Pero sa ngayon wag muna
@@ -289,7 +289,7 @@
     </script>
     <!--Side Bar Scripts End-->
     <!--Calendar (Schedule) Scripts End-->
-    <script src="./tobepublished_page/dist/simplepicker.js"></script>
+    <script src="./js/COM-simplepicker.js"></script>
     <script>
       const buttons = document.querySelectorAll('.sched_btn');
       buttons.forEach((button) => {
@@ -431,7 +431,7 @@
           }
           }
           };
-        const url = "./tobepublished_page/COM-display_date.php";
+        const url = "./php/COM-display_date.php";
         xhttp.open("GET", url +"?competitionName="+ competitionName, true);
         xhttp.send();
           /*Code for Caution Pop-up*/
@@ -492,7 +492,7 @@
             const competitionId = h2.id;
 
             const xhr = new XMLHttpRequest();
-            const url = "./tobepublished_page/COM-save_date.php";
+            const url = "./php/COM-save_date.php";
             const params = "competition_name=" + competitionId + "&schedule=" + formattedDate;
 
             xhr.open("POST", url, true);
@@ -558,7 +558,7 @@
             }
             $.ajax({
               type: "POST",
-              url: "./tobepublished_page/COM-change_color_black.php",
+              url: "./php/COM-change_color_black.php",
               data: { competitionName: competitionName },
                 success: function(response) {
                   console.log(response);
@@ -574,7 +574,7 @@
               });
           }
         };
-        const url = "./tobepublished_page/COM-get_compname.php";
+        const url = "./php/COM-get_compname.php";
         xhttp.open("GET", url +"?competitionName="+ competitionName, true);
         xhttp.send();
       });

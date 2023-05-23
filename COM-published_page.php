@@ -11,7 +11,7 @@
       <link rel="stylesheet" href="./css/COM-style.css">
       <link rel="stylesheet" href="./css/sidebar-style.css">
       <!-- Page specific CSS -->
-      <link rel="stylesheet" href="./published_page/COM-published_page.css">
+      <link rel="stylesheet" href="./css/COM-published_page.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <head>
 
@@ -233,7 +233,7 @@
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
-        <img src="/ETS-DEV/pictures/no_result.png" class="no-result" width="500px" height="500px">
+        <img src="./pictures/no_result.png" class="no-result" width="500px" height="500px">
             <h1 class="empty_header">No Published Results</h1>
             <p class="empty_p">There are no competition results to published yet.</p>
             <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-tobepublished_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To Publish</p></button>
@@ -241,7 +241,7 @@
         <div class="content">
         <?php
         try {
-            require './published_page/COM-display_published.php';
+            require './php/COM-display_published.php';
         } catch (Throwable $e) {
             // Show error message na hindi nag connect sa db
             // Pero sa ngayon wag muna
@@ -270,6 +270,6 @@
         });
       });
     </script>
-    <script src='./published_page/COM-published_page.js'></script>
+    <script src='./js/COM-published_page.js'></script>
     <!--Side Bar Scripts End-->
   </body>
