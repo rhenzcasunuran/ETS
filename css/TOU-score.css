@@ -6,8 +6,8 @@
 
 .container{
     margin:33px auto;
-    background-color: #191424;
-    color: white;
+    background-color: var(--color-body);
+    color: var(--color-content-text);
     display: flex;
     width: 1500px;
     height: 600px;
@@ -15,9 +15,10 @@
     align-items: center;
     justify-content: center;
 }
+
 h1{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 60px;
+    font-size: 45px;
 }
 
 h2{
@@ -43,24 +44,29 @@ h2{
 .button-tournament {
     font-family: 'Poppins', sans-serif;
     background-color: #A84444;
-    color: #F0E3D2;
+    color: #FFFFFF;
     border-style: none;
     border-radius: 15px;
     width: 150px;
     height: 60px;
     font-size: 20px;
-    margin-bottom: 60px
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.button-tournament:hover {
+    background-color: #5c1f1f;
+
 }
 
 #home--btn, #guest--btn{
-    width: 425px;
-    height: 425px;
+    width: 350px;
+    height: 350px;
     margin: 15px;
-    background-color: #282135;
-    color: #ffffff;
-    font-size: 300px;
+    background-color: var(--color-content-card);
+    color: var(--color-content-text);
+    font-size: 250px;
     font-family: 'Poppins', sans-serif;
-    border-radius: 7px;
     border-style: none;
 }
 
@@ -68,28 +74,33 @@ h2{
     
     font-family: 'Poppins', sans-serif;
     background-color: #A84444;
-    color: #F0E3D2;
+    color: #FFFFFF;
     width: 150px;
     height: 60px;
     border-radius: 15px;
     border-style: none;
     font-size: 20px;
-    margin-top: 60px;
+    margin-top: 30px;
+}
+
+.button-end-match:hover {
+    background-color: #5c1f1f;
 }
 
 .quarter {
     width: 150px;
     height: 60px;
-    background-color: #282135;
-    color: #F6E1C3;
+    background-color: var(--color-content-card);
+    color: var(--color-content-text);
     font-size: 30px;
-    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif ;
     border-radius: 7px;
     margin-top: 50px;
     margin-bottom: 50px
 }
 .operate{
-    width: 500px;
+    width: 450px;
     height: 110px;
     margin-right: 0px;
     padding-left: 7px;
@@ -99,10 +110,10 @@ h2{
     width: 60px;
     height: 60px;
     margin: 3px;
-    background-color: transparent;
-    border: 2px solid rgb(219, 219, 219);
+    background-color: var(--color-content-button);
+    border: 2px solid var(--color-content-text);
     font-size: 18px;
-    color: rgb(219, 219, 219);
+    color: var(--color-content-text);
     border-radius: 5px;
     font-family: 'Poppins', sans-serif;
 
@@ -115,8 +126,8 @@ h2{
 
 .container-two{
     margin: auto;
-    background-color: #282135;
-    color: white;
+    background-color: var(--color-content-card);
+    color: var(--color-content-text);
     display: flex;
     flex-direction: column;
     width: 550px;
@@ -126,7 +137,6 @@ h2{
     align-items: center;
     justify-content: center;
     border-radius: 9px;
-    border: 3px solid rgb(60, 60, 60);
     padding: 20px;
     overflow-x: auto;
     overflow-y: auto;
@@ -146,12 +156,16 @@ h2{
     border: none;
 }
 
+.save--btn:hover{
+    background-color: #5c1f1f;
+}
+
 .save--btn:active{
     background-color: #000000;
 }
 
 .container-two >p{
-    color: #ffffff;
+    color: var(--color-content-text);
     font-size: 18px;    
 }
 
