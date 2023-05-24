@@ -1,0 +1,368 @@
+:root[data-theme="light"]{
+    --default-secondary-action-color: #FFAD6F;
+    --hover-secondary-action-color: #FFAD6F;
+    --active-secondary-action-color: #FFAD6F;
+
+    --outline-button-border-color: #000;
+    --hover-outline-button-color: #0000000D;
+    --active-outline-button-color: #00000014;
+
+    --hover-text-button-color: #0000000D;
+    --active-text-button-color: #00000014;
+
+    --default-icon-button-color: #FFAD6F;
+    --default-icon-text-color: #FFF;
+
+    --default-delete-button-color: transparent;
+    --hover-delete-button-color: #0000000D;
+    --active-delete-button-color: #00000014;
+
+    --default-delete-text-color: #D03A36;
+    --default-delete-border-color: #D03A36;
+
+    --default-text-color: #1C1C1C;
+    --alternate-text-color: #E4E4E4;
+
+    --element-shadow-color: #9747FF40;
+    --shadow-color: #00000040;
+}
+
+:root[data-theme="dark"]{
+    --default-secondary-action-color: #E4E4E4;
+    --hover-secondary-action-color: #D3D3D3;
+    --active-secondary-action-color: #AEAEAE;
+
+    --outline-button-border-color: #FFF;
+    --hover-outline-button-color: #FFFFFF0d;
+    --active-outline-button-color: #FFFFFF14;
+
+    --hover-text-button-color: #FFFFFF0D;
+    --active-text-button-color: #FFFFFF14;
+
+    --default-icon-button-color: #E4E4E4;
+    --default-icon-text-color: #1C1C1C;
+
+    --default-delete-button-color: #D03A36;
+    --hover-delete-button-color: #E54A47;
+    --active-delete-button-color: #BF3733;
+
+    --default-delete-text-color: #FFF;
+    --default-delete-border-color: transparent;
+
+    --default-text-color: #E4E4E4;
+    --alternate-text-color: #1C1C1C;
+
+    --element-shadow-color: #4800a740;
+    --shadow-color: #00000080;
+}
+
+html {
+    --default-primary-action-color: #5D2BA0;
+    --hover-primary-action-color: #743EBA;
+    --active-primary-action-color: #50208F;
+
+    --disabled-action-text-color: #66666680;
+    --disabled-action-color: #CCCCCC;
+
+    --white-text-color: #fff;
+    --black-text-color: #1C1C1C;
+
+    --default-success-color: #00CA4E;
+    --hover-success-color: #02DF57;
+    --active-success-color: #00BA48;
+
+    --default-warning-color: #FFAD6F;
+
+    --default-danger-color: #D03A36;
+    --hover-danger-color: #E54A47;
+    --active-danger-color: #BF3733;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(../fonts/Poppins-Regular.ttf);
+  }
+
+* {
+    font-family: 'Poppins';
+    letter-spacing: 0.3px;
+    margin: 0;
+    padding: 0;
+}
+
+.success-color {
+    color: var(--default-success-color);
+}
+
+.warning-color {
+    color: var(--default-warning-color);
+}
+
+.danger-color {
+    color: var(--default-danger-color);
+}
+
+.div{
+    display: flex;
+    justify-content: center;
+    margin: 0 0 10px 0;
+    gap: 8px;
+}
+
+/* Buttons */
+.primary-button, .secondary-button, .text-button, .outline-button, .success-button, .warning-button, .danger-button, .delete-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: calc(11px + 0.2vw)!important;
+    font-weight: 500!important;
+    padding: 16px 24px!important;
+    min-width: 130px!important;
+    max-width: 200px!important;
+    border-radius: 30px!important;
+    box-shadow: 0 4px 6px 0 var(--shadow-color);
+    border: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.primary-button i, .secondary-button i, .text-button i, .outline-button i, .success-button i, .warning-button i, .danger-button i, .delete-button i {
+    font-size: calc(12px + 0.3vw);
+    padding: 6px 4px 6px 0!important;
+}
+
+.primary-button:disabled, .secondary-button:disabled, .text-button:disabled, .outline-button:disabled, .success-button:disabled, .warning-button:disabled, .danger-button:disabled {
+    font-weight: 600!important;
+    cursor: no-drop;
+}
+
+.primary-button {
+    color: var(--white-text-color)!important;
+    background-color: var(--default-primary-action-color)!important;
+}
+
+.primary-button:hover {
+    background-color: var(--hover-primary-action-color)!important;
+}
+
+.primary-button:active {
+    background-color: var(--active-primary-action-color)!important;
+}
+
+.secondary-button {
+    color: var(--alternate-text-color)!important;
+    background-color: var(--default-secondary-action-color)!important;
+}
+
+.secondary-button:hover {
+    background-color: var(--hover-secondary-action-color)!important;
+}
+
+.secondary-button:active {
+    background-color: var(--active-secondary-action-color)!important;
+}
+
+.text-button {
+    color: var(--default-text-color)!important;
+    background-color: transparent!important;
+    box-shadow: none!important;
+}
+
+.text-button:hover {
+    background-color: var(--hover-text-button-color)!important;
+}
+
+.text-button:active {
+    background-color: var(--active-text-button-color)!important;
+}
+
+.text-button:disabled {
+    color: var(--disabled-action-text-color)!important;
+    background-color: transparent!important;
+}
+
+.outline-button {
+    color: var(--outline-button-border-color)!important;
+    background-color: transparent!important;
+    border: 2px var(--outline-button-border-color) solid!important;
+}
+
+.outline-button:hover {
+    background-color: var(--hover-outline-button-color)!important;
+}
+
+.outline-button:active {
+    background-color: var(--active-outline-button-color)!important;
+}
+
+.outline-button:disabled {
+    color: var(--disabled-action-text-color)!important;
+    background-color: transparent!important;
+    border: 2px var(--disabled-action-text-color) solid!important;
+}
+
+.success-button {
+    color: var(--white-text-color)!important;
+    background-color: var(--default-success-color)!important;
+    border: 2px transparent solid!important;
+}
+
+.success-button:hover {
+    background-color: var(--hover-success-color)!important;
+}
+
+.success-button:active {
+    background-color: var(--active-success-color)!important;
+}
+
+.warning-button {
+    color: var(--white-text-color)!important;
+    background-color: var(--default-warning-color)!important;
+}
+
+.danger-button {
+    color: var(--white-text-color)!important;
+    background-color: var(--default-danger-color)!important;
+    border: 2px transparent solid!important;
+}
+
+.danger-button:hover {
+    background-color: var(--hover-danger-color)!important;
+}
+
+.danger-button:active {
+    background-color: var(--active-danger-color)!important;
+}
+
+.primary-button:disabled, .secondary-button:disabled, .success-button:disabled, .warning-button:disabled, .danger-button:disabled{
+    color: var(--disabled-action-text-color)!important;
+    background-color: var(--disabled-action-color)!important;
+}
+
+.icon-button {
+    min-width: 0!important;
+    max-width: none!important;
+    padding: 20px!important;
+}
+
+.icon-button i{
+    font-size: calc(12px + 0.3vw)!important;
+    padding: 0!important;
+}
+
+.delete-button {
+    color: var(--default-delete-text-color)!important;
+    background-color: var(--default-delete-button-color)!important;
+    border: 2px var(--default-delete-border-color) solid!important;
+}
+
+.delete-button:hover {
+    background-color: var(--hover-delete-button-color)!important;
+}
+
+.delete-button:active {
+    background-color: var(--active-delete-button-color)!important;
+}
+
+.delete-button i{
+    color: var(--default-delete-text-color)!important;
+}
+
+.bxs-copy, .bx-copy, .bx-show, .bxs-show, .bx-hide, .bxs-hide {
+    cursor: pointer;
+}
+
+/* Popup */
+.popup-background {
+    width: 100vw!important;
+    height: 100vh!important;
+    background-color: rgba(0, 0, 0, 0.5)!important;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 100!important;
+    margin: 0!important;
+    padding: 0!important;
+}
+
+.popup-container {
+    width: 90%!important;
+    min-height: 270px!important;
+    min-width: 270px!important;
+    max-width: 483px!important;
+    background-color: var(--color-content-card)!important;
+    border-radius: 30px!important;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: calc(8px + 1vw)!important;
+    color: var(--color-content-text);
+}
+
+.popup-container .prompt-icon {
+    padding: 0;
+    font-size: calc(70px + 3vw)!important;
+}
+
+.popup-container .text-header {
+    font-weight: 900;
+}
+
+.popup-container .text-container {
+    padding: 10px!important;
+    text-align: start!important;
+}
+
+.popup-container .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px
+}
+
+/* List */
+.element {
+    height: 100%!important;
+    width: 100%!important;
+    max-width: 76vw;
+    border-radius: 30px!important;
+    margin: 5px 0 10px 0!important;
+    padding: calc(20px + 2vw)!important;
+    box-shadow: 0px 0px 10px 0 var(--shadow-color)!important;
+    background-color: var(--color-content-card);
+    color: var(--color-content-text);
+}
+
+.element-group {
+    overflow-wrap: break-word;
+}
+
+.element-label {
+    font-weight: 700!important;
+    font-size: calc(12px + 0.3vw)!important;
+    margin: 0!important;
+    user-select: none;
+}
+
+.element-label i {
+    user-select: auto!important;
+}
+
+.element-content, .element-content-secured {
+    font-size: calc(11px + 0.2vw)!important;
+    overflow: hidden!important;
+    white-space: nowrap!important;
+    text-overflow: ellipsis!important;
+    user-select: none;
+}
+
+.element-content-secured {
+    -webkit-text-security: disc;
+    user-select: auto!important;
+}
+
+.element-content-secured span i {
+    -webkit-text-security: none;
+}
