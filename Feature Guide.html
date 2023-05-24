@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/theme-mode.css">
+    <script src="./js/default-theme.js"></script>
+    
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
+    <link rel="stylesheet" href="./css/boxicons.css">
+</head>
+<body style="background-color: var(--color-body);">
+    <!--Popup Confirm / Success-->
+    <div class="popup-background" id="markAsDoneWrapper">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Mark as Done?</h3>   <!--header-->
+                <p>Marked events will be removed from events list.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideMarkAsDone()"><i class='bx bx-x'></i>Cancel</button>
+                <button class="success-button"><i class='bx bx-check'></i>Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Popup Cancel / Warning-->
+    <div class="popup-background" id="cancelWrapper">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
+                <p>Any unsaved progress will be lost.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideCancel()"><i class='bx bx-chevron-left'></i>Return</button>
+                <button class="primary-button"><i class='bx bx-x'></i>Discard</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Popup Delete / Danger-->
+    <div class="popup-background" id="deleteWrapper">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Delete Event?</h3>   <!--header-->
+                <p>This will delete the event permanently. This action cannot be undone.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideDelete()"><i class='bx bx-x'></i>Cancel</button>
+                <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="div">
+        <button class="success-button" onclick="showMarkAsDone()">Mark as Done</button>
+        <button class="outline-button" onclick="showCancel()">Cancel</button>
+        <button class="danger-button" onclick="showDelete()">Discard</button>
+        <button class="delete-button" onclick="showDelete()">Delete</button>
+    </div>
+
+    <br>
+
+    <div class="div">
+        <button class="success-button icon-button"><i class='bx bx-check-circle'></i></button>
+        <button class="outline-button icon-button"><i class='bx bx-no-entry'></i></button>
+        <button class="danger-button icon-button"><i class='bx bx-x-circle'></i></button>
+        <button class="delete-button icon-button"><i class='bx bx-trash' ></i></button>
+    </div>
+
+    <script>
+        // Confirm
+        popupMarkAsDone = document.getElementById('markAsDoneWrapper');
+  
+        var showMarkAsDone = function() {
+            popupMarkAsDone.style.display ='flex';
+        }
+        var hideMarkAsDone = function() {
+            popupMarkAsDone.style.display ='none';
+        }
+
+        // Cancel
+        popupCancel = document.getElementById('cancelWrapper');
+  
+        var showCancel = function() {
+            popupCancel.style.display ='flex';
+        }
+        var hideCancel = function() {
+            popupCancel.style.display ='none';
+        }
+
+        //Delete
+        popupDelete = document.getElementById('deleteWrapper');
+  
+        var showDelete = function() {
+            popupDelete.style.display ='flex';
+        }
+        var hideDelete = function() {
+            popupDelete.style.display ='none';
+        }
+    </script>
+
+    <br>
+
+    <div class="div">
+        <button class="primary-button">Primary</button>
+        <button class="primary-button" disabled>Primary</button>
+    </div>
+    <div class="div">
+        <button class="secondary-button">Secondary</button>
+        <button class="secondary-button" disabled>Secondary</button>
+    </div>
+    <div class="div">
+        <button class="text-button">Text</button>
+        <button class="text-button" disabled>Text</button>
+    </div>
+
+    <div class="div">
+        <button class="outline-button">Outline</button>
+        <button class="outline-button" disabled>Outline</button>
+    </div>
+
+    <br>
+
+    <div class="div">
+        <button class="primary-button"><i class='bx bx-check-square'></i>Primary</button>
+        <button class="primary-button" disabled><i class='bx bx-check-square'></i>Primary</button>
+    </div>
+    <div class="div">
+        <button class="secondary-button"><i class='bx bx-check-square'></i>Secondary</button>
+        <button class="secondary-button" disabled><i class='bx bx-check-square'></i>Secondary</button>
+    </div>
+    <div class="div">
+        <button class="text-button"><i class='bx bx-check-square'></i>Text</button>
+        <button class="text-button" disabled><i class='bx bx-check-square'></i>Text</button>
+    </div>
+    <div class="div">
+        <button class="outline-button"><i class='bx bx-check-square'></i>Outline</button>
+        <button class="outline-button" disabled><i class='bx bx-check-square'></i>Outline</button>
+    </div>
+    <br>
+    <div class="div">
+        <div class="element">
+            <div class="row">
+                <div class="element-group">
+                    <div class="element-label">Label</div>
+                    <div class="element-content">Content</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
