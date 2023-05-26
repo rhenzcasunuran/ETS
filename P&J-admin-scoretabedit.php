@@ -1,6 +1,7 @@
 <?php
   include './php/sign-in.php';
   include './php/database_connect.php';
+  include 'php/P&J-edit-scores.php'
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +61,6 @@
     <div class="container" style="margin:auto;">
         <div class="row" style="margin-top: 16px;">
             <div class="col-xl-3 col-xxl-2 offset-xxl-0"><label class="form-label" style="color: rgb(255,255,255);margin-left:30px;">Event</label><br>
-            <form action="php/P&J-admin-action-temp-S.php" method="POST" id="add_form">
             <input type='text' class='inputpname' style='border-radius:10px; margin-left:20px;' placeholder='Event Code' name='event_code_temp' id="event_code_temp" minlength="10" maxlength="20" style="margin-left:30px;width: 180px; height: 40px;" Required/>
             </div>
             <div class="col"><label class="form-label" style="color: rgb(255,255,255);margin-left:30px;">Group</label><br>
@@ -91,92 +91,36 @@
                                 <div class="col">
                                     <div class="row">
                                         <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Criteria 1</label></div>
-                                        <div class="col"><input type="number" name="criteria_1_temp" id="criteria_1_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="10" Required></div>
+                                        <div class="col"><input type="number" name="criteria_1_temp" id="criteria_1_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" value="<?php echo $score_row[2];?>" Required></div>
                                     </div>
                                     <div class="row">
                                         <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Criteria 2</label></div>
-                                        <div class="col"><input type="number" name="criteria_2_temp" id="criteria_2_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="10" Required></div>
+                                        <div class="col"><input type="number" name="criteria_2_temp" id="criteria_2_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" value="<?php echo $score_row[3];?>" Required></div>
                                     </div>
                                     <div class="row">
                                         <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Criteria 3</label></div>
-                                        <div class="col"><input type="number" name="criteria_3_temp" id="criteria_3_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="10" required></div>
+                                        <div class="col"><input type="number" name="criteria_3_temp" id="criteria_3_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" value="<?php echo $score_row[3];?>" required></div>
                                     </div>
                                     <div class="row">
                                         <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Criteria 4</label></div>
-                                        <div class="col"><input type="number" name="criteria_4_temp"  id="criteria_4_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="10" required></div>
+                                        <div class="col"><input type="number" name="criteria_4_temp"  id="criteria_4_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" value="<?php echo $score_row[3];?>" required></div>
                                     </div>
                                     <div class="row">
                                         <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Total:</label></div>
-                                        <div class="col"><input type="number" name="sum" id="sum" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="100" readonly></div>
+                                        <div class="col"><input type="number" name="sum" id="sum" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" readonly></div>
                                     </div>
                                     <div class="row text-center" style="text-align: center;">
 
                     <div class="col offset-xl-2 offset-xxl-1" style="text-align: center;">
                         <div class="btn-toolbar" style="text-align: center;">
                             <div class="btn-group" role="group" style="text-align: center;margin-top: 10px;">
-                                <button class="buttonsubmit" value="Add" id="add_btnS" type="submit" style="text-align: center;margin-left: 20px;width: 76px;height: 38px;border-radius: 15px;color:white;">Save</button>
-                                </form>
-                                <form action="php/P&J-admin-action-scores.php" method="POST">
-                                <button class="buttonsave" type="submit"  value="Add" name="add_btnScore"  style="text-align: center;margin-left: 7px;width: 103px;height: 38px;border-radius: 15px;">Submit</button>
-                                </form>
+                                <a href="P&J-admin-scoretab.php"><button class="buttonsubmit" style="text-align: center;margin-left: 80px;width: 76px;height: 38px;border-radius: 15px;color:white;">Save</button></a>
                                 <button class="buttoncancel" onclick="cancelInput()" type="button" style="text-align: center;margin-left: 7px;width: 73px;height: 38px;border-radius: 15px;">Cancel</button></div>
                         </div>
                     </div>
                 </div>
                                 </div>
                             </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-6 col-xl-6 col-xxl-4 offset-lg-0 offset-xxl-2 editscore hide"><label class="form-label" style="margin-left:20px;color: rgb(255,255,255);">Criteria</label>
-                <div class="d-table" style="background: #423c4e;margin-left: 10px;min-height: auto;padding-top: 33px;padding-left: 31px;padding-right: 39px;padding-bottom: 20px;min-width: auto;width: 100%;border-radius: 10px;box-shadow: 7px 5px 13px;">
-                    <div class="row">
-                        <div class="col" style="text-align: center;">
-                            <div class="row">
-                                <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);font-weight:1000;">Hello</label></div>
-                                <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Scores</label></div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Criteria 1</label></div>
-                                        <div class="col"><input type="number" name="criteria_1_temp" id="criteria_1_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="10" Required></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Criteria 2</label></div>
-                                        <div class="col"><input type="number" name="criteria_2_temp" id="criteria_2_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="10" Required></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Criteria 3</label></div>
-                                        <div class="col"><input type="number" name="criteria_3_temp" id="criteria_3_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="10" required></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Criteria 4</label></div>
-                                        <div class="col"><input type="number" name="criteria_4_temp"  id="criteria_4_temp" oninput="calculateTotal()" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="10" required></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><label class="col-form-label" style="color: rgb(255,255,255);">Total:</label></div>
-                                        <div class="col"><input type="number" name="sum" id="sum" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="100" readonly></div>
-                                    </div>
-                                    <div class="row text-center" style="text-align: center;">
-
-                    <div class="col offset-xl-2 offset-xxl-1" style="text-align: center;">
-                        <div class="btn-toolbar" style="text-align: center;">
-                            <div class="btn-group" role="group" style="text-align: center;margin-top: 10px;">
-                                <button class="buttonsubmit" value="Add" id="add_btnS" type="submit" style="text-align: center;margin-left: 20px;width: 76px;height: 38px;border-radius: 15px;color:white;">Save</button>
-                                </form>
-                                
-                                <button class="buttoncancel" onclick="cancelInput()" type="button" style="text-align: center;margin-left: 7px;width: 73px;height: 38px;border-radius: 15px;">Cancel</button></div>
-                        </div>
-                    </div>
-                </div>
-                                </div>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>

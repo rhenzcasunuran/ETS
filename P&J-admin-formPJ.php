@@ -79,7 +79,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="#event_menu">
+              <a href="#event_menu" class="menu_btn">
                 <i class="bx bx-calendar-edit"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Events
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -274,18 +274,43 @@
                   </div>
                 </div>
               </div>
+              <div class="container-fluid" id="popupParg">
+                <div class="row popup-card">
+                  <i class='row warning-icon bx bx-trash' ></i>
+                  <h3 class="row d-flex justify-content-center align-items-center">
+                    Are you sure you want to cancel ALL?
+                  </h3>
+                  <h6 class="row d-flex justify-content-center align-items-center">
+                    You cannot undo this action.
+                  </h6>
+                  <div class="row">
+                    <div class="col">
+                      <a href="HOM-manage-post.php?eed=<?php echo $count[0]?>" class="text-decoration-none" onclick="hidepg()">
+                        <div id="clear" class="button-clone continue" onclick="deleteListPG()">
+                          &nbsp;Yes
+                        </div>
+                      </a>
+                    </div>
+                    <div class="col">
+                      <div class="button-clone cancel" onclick="hidepg()">
+                        &nbsp;No
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="popup container-fluid" id="popuplink">
                 <div class="popup-card">
   <div class="popup-content">
     <span class="close" onclick="closePopup()" style="color:var(--color-content-text);">&times;</span>
-    <h2>Copy the link to score</h2>
-    <p>Copy the meeting link below:</p>
+    <h2 style="color:var(--color-content-text)">Copy the link to score</h2>
+    <p style="color:var(--color-content-text)">Copy the scoring link below:</p>
     <input type="text" value="Https//:SampleLink" readonly><a href='P&J-admin-scoretab.php' target="_blank" style="position:relative;top:0; right:0;">
                 <button class="buttonadd"id="clearlink"style="width:100%;">
                  <i class='bx bxs-copy' ></i>
                 </button>
                 </a></input>
-                <h6>*Only authorized persons can access the link.*</h6>
+                <h6 style="color:var(--color-content-text)">*Only authorized persons can access the link.*</h6>
   </div>
 </div>
 </div>
@@ -302,7 +327,7 @@
                 <div class="row">
                     <div class="col-xxl-12"><label class="form-label fw-bold" style="margin-left: 25px; color:var(--color-content-text);">Event</label><label for="Participant Category" class="form-label fw-bold" style="margin-left: 190px; color:var(--color-content-text);">Participant Category</label>
                     <form action="#" method="POST" id="add_form2">
-                        <div class="dropdown"><input type='text' class='inputpname' style='border-radius:20px; margin-left:20px;' placeholder='Event Code' name='event_code_temp' id="event_code_temp" minlength="10" maxlength="20" style="margin-left:30px;width: 180px; height: 40px;" Required/>
+                        <div class="dropdown"><input type='text' class='inputpname' style='border-radius:20px; margin-left:20px;' placeholder='Event Code' name='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" Required/>
                         
                         <select name ="Participant Category"class='btn dropdown-toggle div-toggle' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);' data-target=".participantsform">
                         <option data-show=".individual">Individual</option>
@@ -310,7 +335,7 @@
                         </select>
                         </div>
                         <div class="row">
-                          <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px;margin-left: 250px; color:var(--color-content-text);">Judges</label></div>
+                          <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px;margin-left: 300px; color:var(--color-content-text);">Judges</label></div>
                           <div class="col text-end" style="margin-right: 18px;">
                             <button onClick="add_judge();" class="buttonadd" style="margin-right:150px;" type="button" id="judgeadd"><i class='bx bxs-user-plus'></i></button>
                           </div>
@@ -331,18 +356,18 @@
                                   <th><h6 class="judgeheader" style="color:var(--color-content-text);">Scoring Link</h6></th>
                                   </table>
                                     <ul id="Jbox">
-                                    
+<!-- Judge Form -->
                                         <li style='list-style-type: none;'>
                                           <br>
-                                          <input type='text' class='inputjname' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="10" maxlength="20" Required pattern="[a-zA-Z, ]*"/>
+                                          <input type='text' class='inputjname' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z,1-9, ]*"/>
                                           <input type='text' class='inputjnick' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/>
                                           <button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button>
-                                          <button class='buttonlink1 delJ btndel' id='deleteJA' style='margin-left: 70px;'><i class='bx bxs-trash-alt' ></i></button>
+                                          <button class='delete-button icon-button delJ btndel' id='deleteJA' style='margin-left: 70px;'><i class='bx bxs-trash-alt' ></i></button>
                                           <br>
                                         </li>
                                         <li style='list-style-type: none;'>
                                         <br>
-                                          <input type='text' class='inputjname' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="10" maxlength="20" Required pattern="[a-zA-Z, ]*"/>
+                                          <input type='text' class='inputjname' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z,1-9, ]*"/>
                                           <input type='text' class='inputjnick' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/>
                                           <button onClick='showl()' class='buttonlink1;' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button>
                                           <button class='buttonlink1 delJ btndel' id='deleteJB' style='margin-left: 70px;'><i class='bx bxs-trash-alt' ></i></button>
@@ -369,9 +394,9 @@
                                         <div class="row">
                                             <div class="participantsform">
                                               <div class="individual hide">
-                                              
+                                            
                                             <div class="col text-end" style="margin-right: 18px;">
-                                            <label class="col text-end" style="margin-top: 25px;margin-right: 600px; color:var(--color-content-text); font-weight:1000;">Participants</label>
+                                            <label class="col text-end" style="position:absolute;margin-top: 25px;left:350px; color:var(--color-content-text); font-weight:1000;">Participants</label>
                                               <button onClick="add_par();" class="buttonadd" style="margin-right:125px;" id="paradd" type="button" ><i class='bx bxs-user-plus'></i></button>
                                             </div>
                                             
@@ -379,7 +404,7 @@
                                             <div class="group hide">
                                             
                                             <div class="col text-end" style="margin-right: 18px;">
-                                            <label class="col text-end" style="margin-top: 25px;margin-right: 600px; color:var(--color-content-text); font-weight:1000;">Participants</label>
+                                            <label class="col text-end" style="position:absolute;margin-top: 25px;left:350px; color:var(--color-content-text); font-weight:1000;">Participants</label>
                                             <button onClick="add_parg();" class="buttonaddg" style="margin-right:125px;" type="button"><i class='bx bxs-group'></i></button>
                                             </div>
                                             
@@ -395,108 +420,117 @@
                             <div class="individual hide">
                                   <div class="col">
                                   <div class="col">
-                                    
+<!-- Participants Form Individual -->
                                   </div>
-                                    <ul id="Pbox">
-                                    <table>
+                                  <table>
                                   <th><h6 style=" margin-left:30px; font-weight:1000; color:var(--color-content-text);">Participant Name</h6></th>
                                   <th><h6 style="color: white; margin-left:60px; font-weight:1000; color:var(--color-content-text);">Course</h6></th>
                                   <th><h6 style="color: white; margin-left:50px; font-weight:1000; color:var(--color-content-text);">Section</h6></th>
                                   <th><h6 style="color: white; margin-left:70px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
                                   </table>
-                                  <form action="#" method="POST" id="add_form2">
+                                  <form action="#" method="POST" id="add_form3">
+                                    <ul id="Pbox">
                                       <li style='list-style-type: none;'>
-                                          <input type='text' class='inputpname' style='border-radius:20px;' placeholder='Participants Name' Required/>
-                                          <input type='text' class='inputpcs' style='border-radius:20px;' placeholder='Course' Required/>
-                                          <input type='text' class='inputpcs' style='border-radius:20px;' placeholder='Section' Required/>
-                                          <select class='btn dropdown-toggle' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
+                                          <input type='text' class='inputpname' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' Required/>
+                                          <input type='text' class='inputpcs' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' Required/>
+                                          <input type='text' class='inputpcs' name='participants_section_temp[]' style='border-radius:20px;' placeholder='Section' Required/>
+                                          <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
                                             <option disabled selected>Organization</option>
-                                            <option>Org 2</option>
-                                            <option>Org 3</option>
+                                            <option>ELITE</option>
+                                            <option>JPIA</option>
                                           </select>
                                           <button class='buttonlink1 delP btndel' id='deleteP' style='margin-left:30px;border-radius:15px;width: 40px; height: 40px; color: white;background: #ff3636;'><i class='bx bxs-trash-alt' ></i></button></i><br/>
                                       </li>
                                       <li style='list-style-type: none;'>
                                       <br>
-                                          <input type='text' class='inputpname' style='border-radius:20px;' placeholder='Participants Name' Required/>
-                                          <input type='text' class='inputpcs' style='border-radius:20px;' placeholder='Course' Required/>
-                                          <input type='text' class='inputpcs' style='border-radius:20px;' placeholder='Section' Required/>
-                                          <select class='btn dropdown-toggle' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
+                                          <input type='text' class='inputpname' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' Required/>
+                                          <input type='text' class='inputpcs' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' Required/>
+                                          <input type='text' class='inputpcs' name='participants_section_temp[]' style='border-radius:20px;' placeholder='Section' Required/>
+                                          <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
                                             <option disabled selected>Organization</option>
-                                            <option>Org 2</option>
-                                            <option>Org 3</option>
+                                            <option>ELITE</option>
+                                            <option>JPIA</option>
                                           </select>
                                           <button class='buttonlink1 delP btndel' id='deleteP' style="margin-left:30px;"><i class='bx bxs-trash-alt' ></i></button></i><br/>
                                       </li>
                                     </ul>
                                   </div>
-                                  <div class="col text-end" style="margin-top:30px;"><button class="buttonsave" type="submit">Save</button><button onClick="showp()" class="buttoncancel" type="button">Cancel</button></div>
+                                  <div class="col text-end" style="margin-top:30px;"><button class="buttonsave" type="submit" id="add_btnPI" value="Add">Save</button><button onClick="showp()" class="buttoncancel" type="button">Cancel</button></div>
                                   </form>
                                   </div>
-                                  <div class="col group hide">
-                                  <div class="">
-                                  
-                                    <ul id="Pbox">
+                                  <div class="col group hide" style="width:700px;">
+                                  <div>
+                                  <form action="#" method="POST" id="add_form4">
+                                    <ul id="Pboxg">
                                     <li style='list-style-type: none;'>
                                     <table  style="margin-left:30px;">
                                   <th><h6 style="margin-left:20px; font-weight:1000; color:var(--color-content-text);">Group Name</h6></th>
                                   <th><h6 style="color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
                                   </table>
-                                  <form action="#" method="POST" id="add_form2">
                                   <div class="dropdown">
-                                    
-                                    <input type='text' class='inputpname' style='border-radius:20px;' placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" Required/>
+<!-- Participants Form Group -->
+                                    <input type='text' class='inputpname' style='border-radius:20px;' name="participants_name_group_temp[]" placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" Required/>
                         
-                                    <select form='orgInput' name ='Organization' class='btn dropdown-toggle orgOption' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);'><option value='ELITE' class='ELITE'>ELITE</option><option value='JPIA' class='JPIA'>JPIA</option></select>
-                                    <button onClick="add_parm()" class="buttonadd" id="paradd" type="button" style="margin-left:200px;"><i class='bx bxs-user-plus'></i></button>
+                                    <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
+                                            <option disabled selected>Organization</option>
+                                            <option>ELITE</option>
+                                            <option>JPIA</option>
+                                          </select>
                                   </div>
                                   <div class="col" style="margin-top: 21px; margin-left: 10px;">
                                   <div class="col">
                                     <table>
-                                  <th><h6 style="color: white; margin-left:5px; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
+                                  <th><h6 style="color: white; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
                                   </table>
                                   </div>
                                   </li>
                                       <li style='list-style-type: none;'>
-                                      <input type='text' class='inputpname' style='border-radius:20px;' placeholder='Participants Name' Required/>
-                                          <input type='text' class='inputpcs' style='border-radius:20px;' placeholder='Course' Required/>
-                                          <input type='text' class='inputpcs' style='border-radius:20px;' placeholder='Section' Required/>
-                                          <label class="orgChanged" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);">ELITE</label>
+                                      <input type='text' class='inputpname' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' Required/>
+                                          <input type='text' class='inputpcs' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' Required/>
+                                          <input type='text' class='inputpcs' name="participants_section_group_temp[]" style='border-radius:20px;' placeholder='Section' Required/>
+                                          <label class="orgChanged" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
                                           <button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/>
                                       </li>
-                                      <li style='list-style-type: none;'>
-                                      <br>
-                                          <input type='text' class='inputpname' style='border-radius:20px;' placeholder='Participants Name' Required/>
-                                          <input type='text' class='inputpcs' style='border-radius:20px;' placeholder='Course' Required/>
-                                          <input type='text' class='inputpcs' style='border-radius:20px;' placeholder='Section' Required/>
-                                          <label class="orgChanged" style="margin-left:40px; margin-right: 70px;color:white; font-weight:1000; color:var(--color-content-text);">ELITE</label>
-                                          <button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/>
-                                      </li>
-                                      <ul id="Pboxm">
+                                      <div class="subformContainer">
 
-                                  </ul>
+                                    </div>
+                                    <button onclick="addSubform(this)" class="buttonadd" id="paradd" type="button" style="margin-left:600px;"><i class='bx bxs-user-plus'></i></button>
+                                    <hr> 
                                   <table  style="margin-left:30px;">
                                   <th><h6 style="margin-left:20px; font-weight:1000; color:var(--color-content-text);">Group Name</h6></th>
                                   <th><h6 style="color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
                                   </table>
                                   <div class="dropdown">
-                                    <input type='text' class='inputpname' style='border-radius:20px;' placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" Required/>
+                                    <input type='text' class='inputpname' name="participants_name_group_temp[]" style='border-radius:20px;' placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" Required/>
                         
-                                    <select form='orgInput' name ='Organization' class='btn dropdown-toggle orgOption2' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);'><option value='ELITE' class='ELITE'>ELITE</option><option value='JPIA' class='JPIA'>JPIA</option></select>
-                                    <button onClick="#" class="buttonadd" id="paradd" type="button" style="margin-left:200px;"><i class='bx bxs-user-plus'></i></button>
+                                    <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
+                                            <option disabled selected>Organization</option>
+                                            <option>ELITE</option>
+                                            <option>JPIA</option>
+                                          </select>
                                     <div class="col">
                                     <table>
                                   <th><h6 style="color: white; margin-left:5px; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
                                   </table>
+                                  <li style='list-style-type: none;'>
+                                      <input type='text' class='inputpname' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' Required/>
+                                          <input type='text' class='inputpcs' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' Required/>
+                                          <input type='text' class='inputpcs' name="participants_section_group_temp[]" style='border-radius:20px;' placeholder='Section' Required/>
+                                          <label class="orgChanged2" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
+                                          <button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/>
+                                      </li>
                                   </div>
-                                    <ul id="Pboxg">
-                                    </ul>
+                                  <div class="subformContainer">
 
-                                    <div class="col text-end" style="margin-top:30px;"><button class="buttonsave" type="submit">Save</button><button class="buttoncancel" type="button">Cancel</button></div>
-                                    </form>
                                   </div>
-                                    </ul>
+                                  <button onclick="addSubform(this)" class="buttonadd" id="paradd" type="button" style="margin-left:600px;"><i class='bx bxs-user-plus'></i></button>
+
                                     
+                                  </div>
+                                  <hr> 
+                                    </ul>
+                                    <div class="col text-end" style="margin-top:30px;"><button class="buttonsave" type="submit">Save</button><button onClick="showpg()" class="buttoncancel" type="button">Cancel</button></div>
+                                    </form>
                                   </div>
                                     <br>
 
@@ -507,7 +541,9 @@
                         </div>
                         </div>
                         <div class="row">
-                            <div class="col text-end" style="margin-top: 10px;margin-bottom: 10px;margin-right: 16px;"><button class="buttonsubmit" type="submit" style="width: 120px; height: 50px; text-align: center;" value="Add" id="add_btn">Submit</button></div>
+                          <form action="php/P&J-admin-action.php" method="POST">
+                            <div class="col text-end" style="margin-top: 10px;margin-bottom: 10px;margin-right: 16px;"><button class="buttonsubmit" type="submit" style="width: 120px; height: 50px; text-align: center;" value="Add" name="add_btnS">Submit</button></div>
+                            </form>
                         </div>
                     </div>
                     
@@ -540,6 +576,12 @@
     </script>
 
 <script  type="text/javascript">
+function updateLabel(dropdown) {
+      var dropdownId = dropdown.id;
+      var label = document.querySelector('label[for="' + dropdownId + '"]');
+      label.textContent = dropdown.value;
+    }
+
   popup = document.getElementById('popup');
 var show = function(){
     popup.style.display = 'flex';
@@ -611,16 +653,48 @@ var show_discardChangesp = function(){
 var hide_discardChangesp = function(){
     discardChangesPopupp.style.display = 'none';
 }
+
+popuppg = document.getElementById('popupParg');
+var showpg = function(){
+    popuppg.style.display = 'flex';
+}
+var hidepg = function(){
+    popuppg.style.display = 'none';
+}
+
+clearPopuppg = document.getElementById('clear-popuppg');
+var show_clearpg = function(){
+    clearPopuppg.style.display = 'flex';
+}
+var hide_clearpg = function(){
+    clearPopuppg.style.display = 'none';
+}
+
+discardChangesPopuppg = document.getElementById('discardChanges-popuppg');
+var show_discardChangespg = function(){
+    discardChangesPopuppg.style.display = 'flex';
+}
+var hide_discardChangespg = function(){
+    discardChangesPopuppg.style.display = 'none';
+}
 </script>
 
-<script>
+<script defer>
 var intParTextBox = 0;
 var intJudgeTextBox = 0;
   function add_judge(){
     intJudgeTextBox++;
     var objNewJDiv = document.createElement('ul');
     objNewJDiv.setAttribute('id', 'ul_' + intJudgeTextBox);
-    objNewJDiv.innerHTML = "<div class='row append_judges'><li style='list-style-type: none;'><br><input type='text' class='inputjname' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' /><input type='text' class='inputjnickd' style='border-radius:20px;' name='judge_nick_temp[]' placeholder='Nickname'/><button onClick='showl()'class='buttonlink1;' type='button' style='border-radius:15px;margin-left: 3px;margin-right:5px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button><button class='buttonlink1 delJ btndel' id='deleteJ' style='margin-left: 70px;'><i class='bx bxs-trash-alt' ></i></button><br/></li></div>";
+    objNewJDiv.innerHTML = `
+                                        <li style='list-style-type: none;'>
+                                          <br>
+                                          <input type='text' class='inputjname' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z,1-9, ]*"/>
+                                          <input type='text' class='inputjnick' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/>
+                                          <button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button>
+                                          <button class='buttonlink1 delJ btndel' id='deleteJA' style='margin-left: 70px;'><i class='bx bxs-trash-alt' ></i></button>
+                                          <br>
+                                        </li>`;
     document.getElementById('Jbox').appendChild(objNewJDiv);  
   }
 
@@ -636,16 +710,6 @@ $("ul").on("click", "#judgedel", function(e) {
     intJudgeTextBox--;
 });
 
-$('.orgOption').on('change', function(){
-    var v = $(this).find(':selected').text();
-    $('.orgChanged').text( v );
-});
-
-$('.orgOption2').on('change', function(){
-    var v = $(this).find(':selected').text();
-    $('.orgChanged2').text( v );
-});
-
 function deleteListJ() {
   var list = document.getElementById("Jbox");
   while (list.firstChild) {
@@ -659,11 +723,17 @@ function deleteListP() {
     list.firstChild.remove();
 } 
 }
+function deleteListPG() {
+  var list = document.getElementById("Pboxg");
+  while (list.firstChild) {
+    list.firstChild.remove();
+} 
+}
   function add_par(){
     intParTextBox++;
     var objNewPDiv = document.createElement('ul');
     objNewPDiv.setAttribute('id', 'ul_' + intParTextBox);
-    objNewPDiv.innerHTML = "<li style='list-style-type: none;' class='append_judges'><br><input type='text' class='inputpname append_judges' style='border-radius:20px;' placeholder='Participants Name'/><input type='text' class='inputpcsd' style='border-radius:20px;' placeholder='Course' /><input type='text' class='inputpcsd' style='border-radius:20px;' placeholder='Section' /><select class='btn dropdown-toggle orgmargin' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-right: 4px;background: var(--bs-light);color: var(--bs-body-color);'><option disabled selected>Organization</option><option>Org 2</option><option>Org 3</option></select><button class='buttonlink1 delP btndel' id='deleteP' style='margin-left:33px;'><i class='bx bxs-trash-alt' ></i></button><br/></li>";
+    objNewPDiv.innerHTML = "<div class='row'><li style='list-style-type: none;'><br><input type='text' class='inputpname' style='border-radius:20px;' name='participants_name_temp[]' placeholder='Participants Name'/><input type='text' class='inputpcsd' style='border-radius:20px;' name='participants_course_temp[]' placeholder='Course' /><input type='text' class='inputpcsd' style='border-radius:20px;' name='participants_section_temp[]' placeholder='Section' /><select class='btn dropdown-toggle orgmargin' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-right: 4px;background: var(--bs-light);color: var(--bs-body-color);'><option disabled selected>Organization</option><option>Org 2</option><option>Org 3</option></select><button class='buttonlink1 delP btndel' id='deleteP' style='margin-left:33px;'><i class='bx bxs-trash-alt' ></i></button><br/></li></div>";
     document.getElementById('Pbox').appendChild(objNewPDiv);  
   }
 
@@ -671,17 +741,24 @@ function deleteListP() {
     intParTextBox++;
     var objNewPDivg = document.createElement('ul');
     objNewPDivg.setAttribute('id', 'ul_' + intParTextBox);
-    objNewPDivg.innerHTML = "<table  style='margin-left:30px;'><th><h6 style='margin-left:20px; font-weight:1000; color:var(--color-content-text);'>Group Name</h6></th><th><h6 style='color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);'>Organization</h6></th></table><input type='text' class='inputpname' style='border-radius:20px;' placeholder='Group Name' style='margin-left:30px;width: 180px; height: 40px;' Required/> <select form='orgInput' name ='Organization' class='btn dropdown-toggle orgOption' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);'><option value='ELITE' class='ELITE'>ELITE</option><option value='JPIA' class='JPIA'>JPIA</option></select><button onClick='#' class='buttonadd' id='paradd' type='button' style='margin-left:200px;'><i class='bx bxs-user-plus'></i></button><div class='col'><table><th><h6 style='color: white; margin-left:5px; font-weight:1000; color:var(--color-content-text);'>Members</h6></th></table></div>";
+    objNewPDivg.innerHTML = `<div class="append_parg"><table  style='margin-left:30px;'><th><h6 style='margin-left:20px; font-weight:1000; color:var(--color-content-text);'>Group Name</h6></th><th><h6 style='color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);'>Organization</h6></th></table><input type='text' class='inputpname' name="participants_name_group_temp[]" style='border-radius:20px;' placeholder='Group Name' style='margin-left:30px;width: 180px; height: 40px;' Required/> <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
+                                            <option disabled selected>Organization</option>
+                                            <option>ELITE</option>
+                                            <option>JPIA</option>
+                                          </select><div class='col'><table><th><h6 style='color: white; margin-left:5px; font-weight:1000; color:var(--color-content-text);'>Members</h6></th></table></div><div class='subformContainer'></div><li style='list-style-type: none;'><br><input type='text' class='inputpname' style='border-radius:20px; margin-right:10px;' name="participants_name_g_temp[]" placeholder='Participants Name' Required/><input type='text' class='inputpcs' name="participants_course_group_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Course' Required/><input type='text' class='inputpcs' name="participants_section_group_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Section' Required/><label class='orgChanged' style='margin-left:40px; margin-right: 70px;color:white; font-weight:1000; color:var(--color-content-text);'></label><button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/></li><button onclick='addSubform(this)' class='buttonadd' id='paradd' type='button' style='margin-left:600px;'><i class='bx bxs-user-plus'></i></button><div><hr> `;
     document.getElementById('Pboxg').appendChild(objNewPDivg);  
   }
 
-  function add_parm(){
-    intParTextBox++;
-    var objNewPDivg = document.createElement('ul');
+  function addSubform(button) {
+  var subgroup = button.parentNode;
+  var subformContainer = subgroup.querySelector(".subformContainer");
+
+  var objNewPDivg = document.createElement('ul');
     objNewPDivg.setAttribute('id', 'ul_' + intParTextBox);
-    objNewPDivg.innerHTML = "<li style='list-style-type: none;'><br><input type='text' class='inputpname' style='border-radius:20px; margin-right:10px;' placeholder='Participants Name' Required/><input type='text' class='inputpcs' style='border-radius:20px; margin-right:10px;' placeholder='Course' Required/><input type='text' class='inputpcs' style='border-radius:20px; margin-right:10px;' placeholder='Section' Required/><label class='orgChanged' style='margin-left:40px; margin-right: 70px;color:white; font-weight:1000; color:var(--color-content-text);'>ELITE</label><button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/></li>";
-    document.getElementById('Pboxm').appendChild(objNewPDivg);  
-  }
+    objNewPDivg.innerHTML = `<li style='list-style-type: none;'><br><input type='text' class='inputpname' name="participants_name_g_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Participants Name' Required/><input type='text' class='inputpcs' name="participants_course_group_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Course' Required/><input type='text' class='inputpcs' name="participants_section_group_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Section' Required/><label class='orgChanged' style='margin-left:40px; margin-right: 70px;color:white; font-weight:1000; color:var(--color-content-text);'></label><button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/></li>`;
+
+  subformContainer.appendChild(objNewPDivg);
+}
 
   $("ul").on("click", ".delP" , function(a) {
     a.preventDefault();
@@ -712,6 +789,39 @@ $(document).ready(function(){
                         $("#add_btnJ").val('Add');
                         $("#add_form2")[0].reset();
                         $(".append_judges").remove();
+                    }
+                })
+            });
+
+            // ajax request
+            $("#add_form3").submit(function(e){
+                e.preventDefault();
+                $("#add_btnPI").val('Adding...');
+                $.ajax({
+                    url:'php/P&J-admin-action-temp-PI.php',
+                    method:'POST',
+                    data: $(this).serialize(),
+                    success:function(response){
+                        console.log(response);
+                        $("#add_btnPI").val('Add');
+                        $("#add_form3")[0].reset();
+                        $(".append_par").remove();
+                    }
+                })
+            });
+            // ajax request
+            $("#add_form4").submit(function(e){
+                e.preventDefault();
+                $("#add_btnPG").val('Adding...');
+                $.ajax({
+                    url:'php/P&J-admin-action-temp-PG.php',
+                    method:'POST',
+                    data: $(this).serialize(),
+                    success:function(response){
+                        console.log(response);
+                        $("#add_btnPG").val('Add');
+                        $("#add_form4")[0].reset();
+                        $(".append_parg").remove();
                     }
                 })
             });
