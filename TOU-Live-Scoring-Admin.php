@@ -46,9 +46,42 @@
     <link rel="stylesheet" href="./css/home-sidebar-style.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/TOU-score.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
   </head>
 
   <body>
+    <div class="popup-background" id="EndMatchWrapper">
+      <div class="row popup-container">
+        <div class = "col-4">
+          <i class="bx bxs-check-circle prompt-icon success-color"></i>
+        </div>
+        <div class="col-8 text-start text-container">
+          <h3 class="text-header">End Match?</h3>
+          <p>Ending Match will be irreversible</p>
+        </div>
+        <div class="div">
+          <button class="outline-button" onclick="hideEndMatch()"><i class='bx bx-x'></i>Cancel</button>
+          <button class="btn btn-danger btn-confirm content-box-shadow"><i class='bx bx-check'></i>Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup-background" id="SaveScoreWrapper">
+      <div class="row popup-container">
+        <div class = "col-4">
+          <i class="bx bxs-check-circle prompt-icon success-color"></i>
+        </div>
+        <div class="col-8 text-start text-container">
+          <h3 class="text-header">Save Score?</h3>
+          <p>Do you want to save the Score?</p>
+        </div>
+        <div class="div">
+          <button class="outline-button" onclick="hideSaveScore()"><i class='bx bx-x'></i>Cancel</button>
+          <button class="btn btn-danger btn-confirm content-box-shadow" type="submit" onclick="saveClick()"><i class='bx bx-check'></i>Confirm</button>
+        </div>
+      </div>
+    </div>
+
   <div class="container-fluid" id="popup">
       <div class="row popup-card">
         <form method="post">
@@ -74,6 +107,7 @@
         </form>
       </div>
     </div>
+     
     <!--Sidebar-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
@@ -275,9 +309,9 @@
             <h1>ELITE</h1>
             <button name="score_a" id="home--btn">0</button>
             <div class="operate">
-                <button type ="submit" name="btn_one" id="btn--one" onclick="minusValueOne()">-1</button>
-                <button id="btn--two" onclick="minusValueTwo()">-2</button>
                 <button id="btn--three" onclick="minusValueThree()">-3</button>
+                <button id="btn--two" onclick="minusValueTwo()">-2</button>
+                <button type ="submit" name="btn_one" id="btn--one" onclick="minusValueOne()">-1</button>
                 <button type ="submit" name="btn_one" id="btn--one" onclick="plusOne()">+1</button>
                 <button id="btn--two" onclick="plusTwo()">+2</button>
                 <button id="btn--three" onclick="plusThree()">+3</button>
@@ -299,18 +333,20 @@
         ?>
         </select>
 </form>
-            <div class="quarter">
+            <div class="quarter" >
                 <h2>1st <br> Quarter</h2>
             </div>
-            <button type="button" class="button-end-match"onclick="showAlert()">End Match</button>
+            <div>
+            <button class="button-end-match" onclick="showEndMatch()">End Match</button>
+      </div>
         </div>
         <div class="guest">
             <h1>AECES</h1>
             <button id="guest--btn">0</button>
             <div class="operate">
-                <button type ="submit" name="btn_one" id="btn--one" onclick="decreaseValueOne()">-1</button>
-                <button id="btn--two" onclick="decreaseValueTwo()">-2</button>
                 <button id="btn--three" onclick="decreaseValueThree()">-3</button>
+                <button id="btn--two" onclick="decreaseValueTwo()">-2</button>
+                <button type ="submit" name="btn_one" id="btn--one" onclick="decreaseValueOne()">-1</button>
                 <button id="btn--one" onclick="guestPlusOne()">+1</button>
                 <button id="btn--two" onclick="guestPlusTwo()">+2</button>
                 <button id="btn--three" onclick="guestPlusThree()">+3</button>
@@ -322,7 +358,7 @@
         
         <p id="home--count" onclick="homeCount">ELITE : </p>
         <p id="guest--count" onclick="guestCount">AECES : </p>
-        <button class="save--btn" onclick="saveClick()" type="submit" name="update_score_data">SAVE</button>
+        <button id="save--counter" class="save--btn" onclick="showSaveScore()" name="update_score_data">SAVE</button>
     </div>
 
     <script src="./index.js"></script>
@@ -335,6 +371,8 @@
     <script src="./js/TOU-index.js"></script>
     <script src="./js/theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script type="text/javascript" src="./js/TOU-popup.js"></script>
+    <script type="text/javascript" src="./js/TOU-AJAX.js"></script>
 
     <script>
         function showAlert() {
