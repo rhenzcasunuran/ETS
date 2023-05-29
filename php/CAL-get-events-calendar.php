@@ -1,33 +1,47 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Origin, Content-Type, Accept");
-
-@include 'database_connect.php';
+include 'database_connect.php';
 
 if (!$conn) {
     die("Connection Failed:" . mysqli_connect_error());
 }
 
 // Retrieve data from events table based on date and filters
-$year = $_GET['year'];
-$month = $_GET['month'];
-$filters = $_GET['filters'];
+$year = isset($_GET['year']) ? $_GET['year'] : null;
+$month = isset($_GET['month']) ? $_GET['month'] : null;
+$filters = isset($_GET['filters']) ? $_GET['filters'] : null;
+
+// Check if filters array is empty
+if (empty($filters)) {
+    echo json_encode(array());
+    exit;
+}
+
+// Validate and sanitize input
+$year = filter_var($year, FILTER_VALIDATE_INT);
+$month = filter_var($month, FILTER_VALIDATE_INT);
+$filters = array_map('htmlspecialchars', $filters);
+
+// Check if filters array is empty
+if (empty($filters)) {
+    echo json_encode(array());
+    exit;
+}
 
 // Build the parameter placeholders for the filters
 $placeholders = implode(',', array_fill(0, count($filters), '?'));
 $sql = "SELECT combined_table.event_id, combined_table.event_name, combined_table.event_type,
         combined_table.category_name, combined_table.event_description, combined_table.event_date,
         TIME_FORMAT(combined_table.event_time, '%h:%i %p') 
-        AS event_time
-        FROM (
-            SELECT event_id, event_name, event_type, category_name, event_description, event_date, event_time
-                FROM listofeventtb
-                    UNION ALL
+            AS event_time
+                FROM (
+                    SELECT event_id, event_name, event_type, category_name, event_description, event_date, event_time
+                    FROM listofeventtb
+                        UNION ALL
                     SELECT event_history_id, event_name, event_type, category_name, event_description, event_date, event_time
-                FROM eventhistorytb
-        ) AS combined_table
-        WHERE YEAR(combined_table.event_date) = ? AND MONTH(combined_table.event_date) = ? AND combined_table.event_type IN ($placeholders);";
+                    FROM eventhistorytb
+            ) AS combined_table
+        WHERE YEAR(combined_table.event_date) = ? AND MONTH(combined_table.event_date) = ? AND combined_table.event_type IN ($placeholders)
+        ORDER BY combined_table.event_time ASC;";
 $stmt = mysqli_prepare($conn, $sql);
 $params = array_merge([$year, $month], $filters);
 $types = str_repeat('s', count($params));
@@ -43,12 +57,13 @@ if (mysqli_num_rows($result) > 0) {
         $events[] = $row;
     }
     // Return the array as JSON
-    echo json_encode($events);
+    echo json_encode($events, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
 } else {
     // Return an empty array as JSON
     echo json_encode(array());
 }
 
-// Close connection
+// Close the statement and connection
+mysqli_stmt_close($stmt);
 mysqli_close($conn);
 ?>
