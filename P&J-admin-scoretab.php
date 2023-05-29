@@ -61,7 +61,7 @@
         <div class="row" style="margin-top: 16px;">
             <div class="col-xl-3 col-xxl-2 offset-xxl-0"><label class="form-label" style="color: rgb(255,255,255);margin-left:30px;">Event</label><br>
             <form action="php/P&J-admin-action-temp-S.php" method="POST" id="add_form">
-            <input type='text' class='inputpname' style='border-radius:10px; margin-left:20px;' placeholder='Event Code' name='event_code_temp' id="event_code_temp" minlength="10" maxlength="20" style="margin-left:30px;width: 180px; height: 40px;" Required/>
+            <input type='text' class='inputpname' style='border-radius:10px; margin-left:20px;' placeholder='Event Code' name='event_code_temp' id="event_code_temp" minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" Required/>
             </div>
             <div class="col"><label class="form-label" style="color: rgb(255,255,255);margin-left:30px;">Group</label><br>
                 <select style="border-radius: 10px;width: 180.031px;height: 40px;margin-left: 19px;background: var(--bs-light);color: var(--bs-body-color); text-align: center;" name=" group_name_temp" id="group_name_temp">
