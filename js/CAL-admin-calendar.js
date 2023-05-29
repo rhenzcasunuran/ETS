@@ -828,6 +828,60 @@ $(document).ready(function() {
                   addMinIconClone.classList.remove('disabled');
                 });
 
+                // Define a variable to store the interval ID
+                var intervalId;
+
+                // Function to handle continuous value update
+                function updateValue(valueElement, step, maxValue) {
+                  var value = parseInt(valueElement.value);
+
+                  // Increase or decrease the value by the step amount
+                  value += step;
+
+                  // Make sure the value stays within the valid range
+                  value = Math.max(0, Math.min(maxValue, value));
+
+                  // Update the input value
+                  valueElement.value = value.toString().padStart(2, '0');
+
+                  // Update the hidden inputs
+                  updateHiddenDateInput(year, month, selectedDate);
+                  updateHiddenTimeInput();
+                }
+
+                // Event listener for adding an hour
+                addHourIconClone.addEventListener('mousedown', function () {
+                  intervalId = setInterval(function () {
+                    updateValue(hourInput, 2, 12);
+                  }, 100); // Adjust the interval time as needed
+                });
+
+                // Event listener for adding a minute
+                addMinIconClone.addEventListener('mousedown', function () {
+                  intervalId = setInterval(function () {
+                    updateValue(minsInput, 2, 59);
+                  }, 100); // Adjust the interval time as needed
+                });
+
+                // Event listener for subtracting an hour
+                subHourIconClone.addEventListener('mousedown', function () {
+                  intervalId = setInterval(function () {
+                    updateValue(hourInput, -2, 12);
+                  }, 100); // Adjust the interval time as needed
+                });
+
+                // Event listener for subtracting a minute
+                subMinIconClone.addEventListener('mousedown', function () {
+                  intervalId = setInterval(function () {
+                    updateValue(minsInput, -2, 59);
+                  }, 100); // Adjust the interval time as needed
+                });
+
+                // Event listener for mouseup event to clear the interval
+                document.addEventListener('mouseup', function () {
+                  clearInterval(intervalId);
+                });
+
                 // Function to update the hidden time input
                 function updateHiddenTimeInput() {
                   var hour = hourInput.value;
