@@ -3,22 +3,10 @@ html{
     overflow-x: hidden;
 }
 
-#edit-event-btn {
-    padding: 15px 15px 15px 15px;
-}
-
-#event-delete-btn{
-    padding: 15px 17px;
-}
-
-#edit-event-btn i, #event-delete-btn i{
-    font-size: 20px;
-}
-
 #more-btn{
     display: none;
     justify-content: end;
-    align-items: end;
+    align-items: center;
 }
 
 #more-btn.editOpen{
@@ -41,16 +29,17 @@ html{
 
 #event-wrapper{
     height: 100%;
+    padding: 0;
 }
 
-#add-event-container {
-    width: 95%;
-    height: 100%;
-    background-color: var(--color-content-card);
-    border-radius: 30px;
-    margin: 10px 0 10px 0;
-    padding: 50px;
-    display: flex;
+#event-create-wrapper, #event-edit-wrapper{
+    height: 100vh;
+}
+
+@media (max-width: 768px) {
+    #event-create-wrapper, #event-edit-wrapper{
+        height: 100%;
+    }
 }
 
 #add-event-form{
@@ -79,7 +68,7 @@ html{
     }
 }
 
-#add-event-form #save-btn, #add-event-form #cancel-btn, .data-group #event-done-btn, .data-group #event-edit-btn{
+#add-event-form #save-btn, #add-event-form #cancel-btn, .data-group #event-done-btn{
     border-radius: 50px;
     padding: 15px 35px 15px 35px;
     margin: 0px 10px 0px 10px;
@@ -95,24 +84,8 @@ html{
     background-color: transparent;
 }
 
-#event-done-btn{
-    display: block;
-    justify-self: end;
-    align-self: end;
-}
-
-#event-done-btn.doneClose{
+.doneClose{
     display: none;
-}
-
-#event-edit-btn{
-    padding: 15px 35px 15px 35px!important;
-}
-
-.bootstrap-select, #event-description{
-    display: inline-flex!important;
-    border-radius: 10px!important;
-    box-shadow: 0 4px 20px -6px var(--color-shadow);
 }
 
 #event-description{
@@ -147,16 +120,20 @@ html{
 
 .data-label{
     font-weight: bold;
+    font-size: 16px;
+    margin: 0;
 }
 
-.description{
+.description, #no-code{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 #eventBtn{
-    display: grid;
+    display: flex;
+    justify-content: end;
+    align-items: end;
 }
 
 #no-event-container{
@@ -178,7 +155,7 @@ html{
 #no-event-container h1{
     font-size: calc(25px + 1vw);
     font-weight: 700;
-    color: var(--color-content-text);
+    color: #FFF;
 }
 
 #no-event-container a i, #no-event-container a i span, #add-event-btn i, #add-event-btn i span{
@@ -205,22 +182,34 @@ html{
     box-shadow: 0 4px 20px -6px var(--color-shadow);
 }
 
-#add-event-container form #no-code{
+.button-container {
+    display: flex;
+    justify-content: end!important;
+    align-items: center!important;
+    gap: 0.5625879043600562vw!important;
+}
+
+.form-control{
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16)!important;
+}
+
+button {
+    outline: none!important;
+}
+
+#display-code {
+    color: #999;
     pointer-events: none;
+    user-select: none;
+    -webkit-text-security: disc;
 }
 
-.req{
-    font-size: 10px;
-    color: #dc3545;
+#edit-event-btn, #create-event-btn {
+    transition: 0.3s ease;
 }
 
-.dropdown-menu.show{
-    margin-left: -3px;
+#edit-event-btn:hover,  #create-event-btn:hover {
+    transform: scale(120%);
+    transition: 0.3s ease;
+    margin: 3px;
 }
-
-.inner{
-    max-height: 130px;
-    overflow-y: auto;
-}
-
-

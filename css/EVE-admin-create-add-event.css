@@ -1,0 +1,126 @@
+html {
+    --not-active-text-color: #999;
+}
+
+.form-control {
+    background-color: #FFF!important;
+    border: none!important;
+    border-radius: 15px!important;
+    line-height: 1.88!important;
+}
+
+.bs-searchbox .form-control {
+    border: 1px solid #ccc!important;
+    border-radius: 15px!important;
+    box-shadow: none!important;
+}
+
+.bootstrap-select.form-control {
+    border-radius: 15px!important;
+}
+
+.form-control:focus {
+    outline: none!important;
+}
+
+.bootstrap-select button{
+    border-radius: 15px!important;
+    background-color: #FFF!important;
+    border: none!important;
+    box-shadow: none!important;
+}
+
+input:not(.form-check-input) {
+    margin-bottom: 5px!important;
+    padding: 6px 12px!important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: var(--color-content-text);
+    background-color: var(--color-body);
+}
+
+#add-event-container form #no-code{
+    pointer-events: none;
+}
+
+.req{
+    font-size: 14px;
+    color: #dc3545;
+}
+
+.dropdown-menu.show{
+    margin-left: -3px;
+}
+
+.inner{
+    max-height: 130px;
+    overflow-y: auto;
+}
+
+.bootstrap-select {
+    display: inline-flex!important;
+    border-radius: 10px!important;
+    box-shadow: 0 4px 20px -6px var(--color-shadow)!important;
+}
+
+.form-control{
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16)!important;
+}
+
+.tooltip-popup {
+    position: absolute;
+    display: flex;
+    text-align: start;
+    background-color: #FFF;
+    color: var(--not-active-text-color);
+    white-space: nowrap;
+    padding: 20px;
+    border-radius: 15px;
+    transform: translateY(-85%);
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s ease;
+    font-weight: 100;
+    pointer-events: none;
+    box-shadow: 0px 0px 10px 0 var(--shadow-color)!important;
+    width: 320px;
+}
+
+.tooltip-popup::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    border: 15px solid;
+    border-color: #fff #0000 #0000 #0000;
+}
+
+.tooltip-popup .tooltipText i {
+    font-size: 24px;
+    margin-top: -5px;
+    padding: 0!important;
+    visibility: hidden;
+}
+
+.tooltip-popup .tooltipText {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+#save-btn:hover .tooltip-popup, #eventSaveBtn:hover .tooltip-popup, #categorySaveBtn:hover .tooltip-popup{
+    visibility: visible;
+    opacity: 1;
+}
+
+#eventSaveBtn .tooltip-popup {
+    transform: translateY(-130%);
+    width: 100%;
+}
+
+#categorySaveBtn:hover .tooltip-popup {
+    
+}

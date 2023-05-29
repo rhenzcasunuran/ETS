@@ -311,9 +311,10 @@ ul {
 
 .home-section .header{
   color:var(--color-content-text);
-  font-size: 30px;
+  font-size: 36px!important;
   font-weight: 900;
-  padding: 20px;
+  padding: 1.4064697609001406vw;
+  padding-left: 3%;
   width: 100%;
 }
 

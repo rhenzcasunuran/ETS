@@ -1,8 +1,4 @@
 :root[data-theme="light"]{
-    --default-secondary-action-color: #FFAD6F;
-    --hover-secondary-action-color: #FFAD6F;
-    --active-secondary-action-color: #FFAD6F;
-
     --outline-button-border-color: #000;
     --hover-outline-button-color: #0000000D;
     --active-outline-button-color: #00000014;
@@ -28,10 +24,6 @@
 }
 
 :root[data-theme="dark"]{
-    --default-secondary-action-color: #E4E4E4;
-    --hover-secondary-action-color: #D3D3D3;
-    --active-secondary-action-color: #AEAEAE;
-
     --outline-button-border-color: #FFF;
     --hover-outline-button-color: #FFFFFF0d;
     --active-outline-button-color: #FFFFFF14;
@@ -60,6 +52,10 @@ html {
     --default-primary-action-color: #5D2BA0;
     --hover-primary-action-color: #743EBA;
     --active-primary-action-color: #50208F;
+
+    --default-secondary-action-color: #E4E4E4;
+    --hover-secondary-action-color: #D3D3D3;
+    --active-secondary-action-color: #AEAEAE;
 
     --disabled-action-text-color: #66666680;
     --disabled-action-color: #CCCCCC;
@@ -115,20 +111,21 @@ html {
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-size: calc(11px + 0.2vw)!important;
+    font-size: 16px!important;
     font-weight: 500!important;
-    padding: 16px 24px!important;
+    padding: 12px 24px!important;
     min-width: 130px!important;
     max-width: 200px!important;
     border-radius: 30px!important;
     box-shadow: 0 4px 6px 0 var(--shadow-color);
-    border: none;
+    border: none!important;
+    outline: none!important;
     cursor: pointer;
     user-select: none;
 }
 
 .primary-button i, .secondary-button i, .text-button i, .outline-button i, .success-button i, .warning-button i, .danger-button i, .delete-button i {
-    font-size: calc(12px + 0.3vw);
+    font-size: 16px;
     padding: 6px 4px 6px 0!important;
 }
 
@@ -151,7 +148,7 @@ html {
 }
 
 .secondary-button {
-    color: var(--alternate-text-color)!important;
+    color: var(--black-text-color)!important;
     background-color: var(--default-secondary-action-color)!important;
 }
 
@@ -185,7 +182,8 @@ html {
 .outline-button {
     color: var(--outline-button-border-color)!important;
     background-color: transparent!important;
-    border: 2px var(--outline-button-border-color) solid!important;
+    outline: 2px var(--outline-button-border-color) solid!important;
+    outline-offset: -2px;
 }
 
 .outline-button:hover {
@@ -243,11 +241,11 @@ html {
 .icon-button {
     min-width: 0!important;
     max-width: none!important;
-    padding: 20px!important;
+    padding: 16px!important;
 }
 
 .icon-button i{
-    font-size: calc(12px + 0.3vw)!important;
+    font-size: 18px!important;
     padding: 0!important;
 }
 
@@ -288,10 +286,10 @@ html {
 }
 
 .popup-container {
-    width: 90%!important;
+    width: max-content!important;
     min-height: 270px!important;
     min-width: 270px!important;
-    max-width: 483px!important;
+    max-width: 410px!important;
     background-color: var(--color-content-card)!important;
     border-radius: 30px!important;
     text-align: center;
@@ -304,7 +302,7 @@ html {
 
 .popup-container .prompt-icon {
     padding: 0;
-    font-size: calc(70px + 3vw)!important;
+    font-size: calc(60px + 3vw)!important;
 }
 
 .popup-container .text-header {
@@ -319,17 +317,20 @@ html {
 .popup-container .button-container {
     display: flex;
     justify-content: center;
-    gap: 12px
+}
+
+.popup-container .div {
+    justify-content: space-around;
+    width: 100%;
 }
 
 /* List */
 .element {
-    height: 100%!important;
     width: 100%!important;
     max-width: 76vw;
     border-radius: 30px!important;
     margin: 5px 0 10px 0!important;
-    padding: calc(20px + 2vw)!important;
+    padding: calc(12px + 2vw)!important;
     box-shadow: 0px 0px 10px 0 var(--shadow-color)!important;
     background-color: var(--color-content-card);
     color: var(--color-content-text);
@@ -341,7 +342,7 @@ html {
 
 .element-label {
     font-weight: 700!important;
-    font-size: calc(12px + 0.3vw)!important;
+    font-size: 16px!important;
     margin: 0!important;
     user-select: none;
 }
@@ -351,7 +352,7 @@ html {
 }
 
 .element-content, .element-content-secured {
-    font-size: calc(11px + 0.2vw)!important;
+    font-size: 14px!important;
     overflow: hidden!important;
     white-space: nowrap!important;
     text-overflow: ellipsis!important;
@@ -365,4 +366,12 @@ html {
 
 .element-content-secured span i {
     -webkit-text-security: none;
+}
+
+.element .primary-button, .element .secondary-button, .element .outline-button, .element .text-button, .element .danger-button, .element .success-button {
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16)!important;
+}
+
+.popup-container .primary-button, .popup-container .secondary-button, .popup-container .outline-button, .popup-container .text-button, .popup-container .danger-button, .popup-container .success-button {
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16)!important;
 }
