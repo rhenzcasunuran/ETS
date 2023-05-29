@@ -20,12 +20,14 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
 
     <!-- Event Config Styles -->
     <link rel="stylesheet" href="./css/EVE-admin-bootstrap-select.min.css">
     <link rel="stylesheet" href="./css/EVE-admin-bootstrap4.min.css">
     <link rel="stylesheet" href="./css/EVE-admin-event-config.css">
     <link rel="stylesheet" href="./css/EVE-admin-confirmation.css">
+    <link rel="stylesheet" href="./css/EVE-admin-create-add-event.css">
   </head>
 
   <body>
@@ -34,23 +36,23 @@
       if ($row > 0){
         while ($row = mysqli_fetch_array($eventName2)):;
     ?>
-      <div class="container-fluid popup-wrapper-delete-name<?php echo $row[0];?>" id="popup-wrapper-delete">
-          <div id="confirm-cancel" class="row">
-            <div class="col-5 text-center">
-              <i class='bx bxs-error popup-icon' id="error-icon"></i>
+      <div class="popup-background popup-wrapper-delete-name<?php echo $row[0];?>" id="deleteWrapper">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
             </div>
-            <div class="col-7" id="text-confirm">
-              <h3 class="bold">Delete <?php echo $row[1];?>?</h3>
-              <p>This action cannot be undone. All related categories will also be deleted</p>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Delete <?php echo $row[1];?>?</h3>   <!--header-->
+                <p>This action cannot be undone. All related categories will also be deleted</p> <!--text-->
             </div>
-            <div class="row flex-column flex-md-row d-flex align-items-center">
-              <button class="btn btn-confirm content-box-shadow" id="btn-return" onclick="hide<?php echo $row[0];?>()"><i class='bx bx-x'></i><span>Cancel</span></button>
-              <a href="EVE-admin-event-configuration.php?eventNameId=<?php echo $row[0]?>">
-                <button class="btn btn-danger btn-confirm content-box-shadow"><i class='bx bx-trash'></i><span>Delete</span></button>
-              </a> 
+            <div  class="div">
+                <button class="outline-button" onclick="hide<?php echo $row[0];?>()"><i class='bx bx-x'></i>Cancel</button>
+                <a href="EVE-admin-event-configuration.php?eventNameId=<?php echo $row[0]?>">
+                  <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
+                </a>
             </div>
-          </div>
-        </div> 
+        </div>
+      </div>
     <?php
     endwhile;
       }
@@ -60,23 +62,23 @@
       if ($row > 0){
         while ($row = mysqli_fetch_array($categoryName2)):;
     ?>
-      <div class="container-fluid popup-wrapper-delete-category-name<?php echo $row[0];?>" id="popup-wrapper-delete">
-          <div id="confirm-cancel" class="row">
-            <div class="col-5 text-center">
-              <i class='bx bxs-error popup-icon' id="error-icon"></i>
+      <div class="popup-background popup-wrapper-delete-category-name<?php echo $row[0];?>" id="deleteWrapper">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
             </div>
-            <div class="col-7" id="text-confirm">
-              <h3 class="bold">Delete <?php echo $row[3];?>?</h3>
-              <p>This action cannot be undone.</p>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Delete <?php echo $row[3];?>?</h3>   <!--header-->
+                <p>This action cannot be undone.</p> <!--text-->
             </div>
-            <div class="row flex-column flex-md-row d-flex align-items-center">
-              <button class="btn btn-confirm content-box-shadow" id="btn-return" onclick="hide<?php echo $row[0];?>()"><i class='bx bx-x'></i><span>Cancel</span></button>
-              <a href="EVE-admin-event-configuration.php?categoryNameId=<?php echo $row[0]?>">
-                <button class="btn btn-danger btn-confirm content-box-shadow"><i class='bx bx-trash'></i><span>Delete</span></button>
-              </a> 
+            <div  class="div">
+                <button class="outline-button" onclick="hide<?php echo $row[0];?>()"><i class='bx bx-x'></i>Cancel</button>
+                <a href="EVE-admin-event-configuration.php?categoryNameId=<?php echo $row[0]?>">
+                  <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
+                </a>
             </div>
-          </div>
-        </div> 
+        </div>
+      </div>
     <?php
     endwhile;
       }
@@ -277,21 +279,26 @@
     <!--Page Content-->
     <section class="home-section">
       <div class="header">Event Configuration</div>
-      <div class="container-fluid d-flex flex-column flex-md-row">
-        <div class="d-flex flex-md-column col-md-6 justify-content-center align-items-center">
-          <div class="event-name-config-container row flex-column d-flex justify-content-center content-box-shadow align-self-end me-3">
+      <div class="container-fluid d-flex flex-column flex-md-row" id="configWrapper">
+        <div class="element config-container d-flex flex-md-column col-md-6 justify-content-center align-items-center">
+          <div class="event-name-config-container row flex-column d-flex justify-content-center content-box-shadow align-self-center">
             <div class="d-flex justify-content-center position-relative h-config">
-              <div class="container position-absolute h-100 pt-4">
+              <div class="container position-absolute h-100">
                 <div class="h3 text-center">Event</div>
-                <form class="d-flex flex-column" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                <form autocomplete="off" class="d-flex flex-column" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                   <div class="form-group">
-                    <label for="inputEventName" class="fs-6">Event <span class="req">(required)</span> </label>
+                    <label for="inputEventName" class="fs-6">Event <span class="req">*</span> </label>
                     <input type="text" class="form-control" id="inputEventName" placeholder="Enter Event Name" name="inputEventName" minlength="5" maxlength="25" required>       
                     <div class="text-danger d-flex w-100 justify-content-center" id="checkEventName"><?php if(isset($error['eventName'])) echo $error['eventName']?></div>  
                   </div>
-                  <div class="row px-3">
-                    <button type="submit" class="col btn btn-danger justify-self-end align-self-end rounded-pill px-4" id="eventSaveBtn" name="eventSaveBtn">Save</button>
-                    <div class="col btn justify-self-end align-self-end rounded-pill px-4" id="eventClearBtn" name="eventClearBtn" onclick="clearFormEvent('inputEventName', 'eventSaveBtn')">Clear</div>
+                  <div class="button-container config-button row">
+                    <button type="submit" class="primary-button col-6" id="eventSaveBtn" name="eventSaveBtn" disabled>
+                      <div class="tooltip-popup flex-column" id="tooltipEvent">
+                        <div class="tooltipText" id="textEventName">Event (5 or more char)<i class='bx bx-check' id="checkEventName"></i></div>
+                      </div>
+                      Save
+                    </button>
+                    <div class="outline-button col-6" id="eventClearBtn" name="eventClearBtn" onclick="clearFormEvent('inputEventName', 'eventSaveBtn')">Clear</div>
                   </div>  
                 </form>
               </div>
@@ -346,14 +353,15 @@
             </div>
           </div>
         </div>
-        <div class="d-flex flex-md-column col-md-6 justify-content-center align-items-center">
-          <div class="category-name-config-container row flex-column d-flex justify-content-start content-box-shadow align-self-start ms-3">
+        <div class="element config-container d-flex flex-md-column col-md-6 justify-content-center align-items-center">
+          <div class="category-name-config-container row flex-column d-flex justify-content-center content-box-shadow align-self-center">
             <div class="d-flex justify-content-center position-relative h-config">
-              <div class="container position-absolute h-100 pt-4">
+              <div class="container position-absolute h-100">
                 <div class="h3 text-center">Category</div>
-                <form class="d-flex flex-column" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                <form autocomplete="off" class="d-flex flex-column" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                  <div class="element-group">
                   <div class="form-group">
-                    <label for="selectEventName" class="fs-6">Event <span class="req">(required)</span></label>
+                    <label for="selectEventName" class="fs-6">Event <span class="req">*</span></label>
                     <select name="selectEventName" id="selectEventName" title="Select Event Name" class="form-control selectpicker" data-live-search="true" required>
                       <option value="" selected>Select Event Name</option>
                       <?php 
@@ -376,7 +384,7 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="selectEventType" class="fs-6">Event Type <span class="req">(required)</span></label>
+                    <label for="selectEventType" class="fs-6">Event Type <span class="req">*</span></label>
                     <select name="selectEventType" id="selectEventType" title="Select Event Type" class="form-control selectpicker" required>
                       <option value="" selected>Select Event Type</option>
                       <?php 
@@ -399,13 +407,21 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="inputCategoryName" class="fs-6">Category <span class="req">(required)</span></label>
+                    <label for="inputCategoryName" class="fs-6">Category <span class="req">*</span></label>
                     <input type="text" class="form-control" id="inputCategoryName" placeholder="Enter Category Name" name="inputCategoryName" minlength="5" maxlength="25" required>
                     <div class="text-danger d-flex w-100 justify-content-center" id="checkCategoryName"><?php if(isset($error['categoryName'])) echo $error['categoryName']?></div>
                   </div>
-                  <div class="row px-3">
-                    <button type="submit" class="col btn btn-danger justify-self-end align-self-end rounded-pill px-4" id="categorySaveBtn" name="categorySaveBtn">Save</button>
-                    <div class="col btn justify-self-end align-self-end rounded-pill px-4" id="categoryClearBtn" name="categoryClearBtn" onclick="clearFormCategory('inputCategoryName', 'categorySaveBtn')">Clear</div>
+                  </div>
+                  <div class="button-container config-button row">
+                    <button type="submit" class="primary-button col-6" id="categorySaveBtn" name="categorySaveBtn" disabled>
+                      <div class="tooltip-popup flex-column" id="tooltipCategory">
+                        <div class="tooltipText" id="selectEvent">Event<i class='bx bx-check' id="checkSelectEvent"></i></div>
+                        <div class="tooltipText" id="selectType">Event Type<i class='bx bx-check' id="checkSelectType"></i></div>
+                        <div class="tooltipText" id="textCategory">Category Name<i class='bx bx-check' id="checkCategory"></i></div>
+                      </div>
+                    Save
+                    </button>
+                    <div class="outline-button col-6" id="categoryClearBtn" name="categoryClearBtn" onclick="clearFormCategory('inputCategoryName', 'categorySaveBtn')">Clear</div>
                   </div>  
                 </form>
               </div>
@@ -493,11 +509,20 @@
         searchBox = document.getElementsByTagName('input');
         $(searchBox).attr('maxlength', '25');
 
+        $('.selectpicker').selectpicker();
+        $('.bs-searchbox input').attr('maxlength', '25');
+
         $('input').keypress(function (e) {
           var txt = String.fromCharCode(e.which);
           if (!txt.match(/[A-Za-z0-9 ]/)) {
               return false;
           }
+        });
+
+        $('input').on('input', function(e) {
+          $(this).val(function(i, v) {
+            return v.replace(/[^\w\s]/gi, '');
+          });
         });
       });
 
