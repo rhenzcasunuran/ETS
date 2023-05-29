@@ -28,7 +28,7 @@
             $get_event_type = mysqli_fetch_assoc($result_event_type);
             $event_type = $get_event_type['event_type'];
 
-            $event_description = trim($event_description," ");
+            $event_description = preg_replace('/\s+/', ' ', $event_description);
 
             if($event_name != ""){
                 $sql = "UPDATE listofeventtb SET event_name = '$event_name', event_type = '$event_type', category_name = '$category_name', event_description = '$event_description', event_date =' $event_date', event_time = '$event_time' WHERE event_code = '$code';";

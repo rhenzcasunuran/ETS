@@ -24,7 +24,7 @@
             $get_event_type = mysqli_fetch_assoc($result_event_type);
             $event_type = $get_event_type['event_type'];
 
-            $event_description = trim($event_description," ");
+            $event_description = preg_replace('/\s+/', ' ', $event_description);
 
         if($event_name != ""){
             $sql = "INSERT INTO listofeventtb (event_name, event_type, category_name, event_description, event_date, event_time) VALUES ('$event_name', '$event_type', '$category_name', '$event_description', '$event_date', '$event_time');";
