@@ -14,14 +14,14 @@
 }
 
 .d-flex #calendar-title {
-  margin-top: 3rem;
+  margin-top: 2rem;
   margin-left: 7rem;
   margin-bottom: 2.5rem;
   color: var(--color-content-text);
 }
 
 .d-flex .dropdown {
-  margin-top: 3rem;
+  margin-top: 2rem;
   margin-right: 8rem;
   margin-bottom: 2.5rem;
 }
@@ -73,7 +73,7 @@
 }
 
 .calendar-smaller-btn  {
-  font-size: 0.75rem !important;
+  font-size: 0.70rem !important;
 }
 
 .calendar-navigation {
@@ -124,8 +124,6 @@ td.calendar-rounded-cell:hover {
   transform: translateY(-50%);
 }
 
-/* LOGS AT THIS POINT */
-
 .custom-search-bar {
   width: 200px;
   height: 45px;
@@ -133,4 +131,298 @@ td.calendar-rounded-cell:hover {
 
 .calendar-day-plus {
   cursor: pointer;
+}
+
+.d-flex.justify-content-end.close-popover {
+  cursor: pointer;
+}
+
+.bx-group {
+  cursor: pointer;
+}
+
+.bx-calendar-plus {
+  cursor: pointer;
+}
+
+.current-date {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #1967d2; 
+  color: var(--color-white);
+  line-height: 30px;
+  text-align: center;
+}
+
+.popover {
+  border-radius: 20px;
+}
+
+.popover-header {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.popover.bs-popover-top .arrow::after {
+  border-top-width: 0;
+  border-bottom-color: transparent;
+}
+
+.shown-event-popover {
+  width: 200px;
+}
+
+.pill-all {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: #6c757d;
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-acap {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-acap);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-aeces {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-aeces);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-elite {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-elite);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-give {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-give);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-jehra {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-jehra);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-jmap {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-jmap);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-jpia {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-jpia);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-piie {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-piie);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.form-check:not(.event-type) {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-input:not(.event-type) {
+  margin-right: 10px;
+}
+
+.accordion-item {
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  border-radius: 0;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.form-check-label {
+  font-size: 14px;
+}
+
+.accordion-button:not(.collapsed) {
+  border-bottom: 2px solid black;
+  border-radius: 0;
+  background-color: transparent;
+  color: #000;
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-color: transparent;
+}
+
+.accordion-button:not(.collapsed)::before {
+  color: #000;
+}
+
+.invisible-header {
+  border-bottom: none;
+}
+
+.invisible-footer {
+  border-top: none;
+}
+
+.time-label {
+  align-self: flex-end;
+}
+
+/* Modal Form Style */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}
+
+#addHour,
+#addMin,
+#subHour,
+#subMin {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+#addHour:hover,
+#addMin:hover,
+#subHour:hover,
+#subMin:hover {
+  transform: scale(1.2);
+}
+
+.eventAnnouncementButtons {
+  margin-left: 52px;
+  margin-top: 20px;
+}
+
+.errorDateTimeInput{
+  color:red;
+}
+
+#subChevronContainer{ 
+  margin-top: -15px;
+}
+
+#subHour {
+  margin-left: 131px;
+}
+
+#subMin {
+  margin-left: 66px;
+}
+
+#amButton {
+  height: 46px; 
+  margin-left: -68px;
+}
+
+#pmButton {
+  height: 46px;
+  margin-left: -70px;
+}
+
+#minsInput{
+  width: 65px;
+  margin-left: -30px;
+}
+
+#colonTime{
+  margin-top: -9px;
+  margin-left: -38px;
+  font-size: 30px
+}
+
+#hourInput{
+  width: 65px;
+}
+
+#timeTextLabel {
+  margin-top: 5px;
+  margin-left: 35px; 
+  margin-right: 4px
+}
+
+#timeInputFields{
+  margin-top: -10px;
+  margin-left: 20px;
+}
+
+#addHour{
+  margin-left: 131px;
+}
+
+#addMin{
+  margin-left: 66px;
+}
+
+#addChevronContainer{
+  margin-bottom: 6px;
+  margin-top: -30px;
+}
+
+#selectedDate{
+  width: 270px;
+  margin-left: 5px;
+}
+
+#dateTextLabel{
+  margin-left: 38px;
+  margin-bottom: -20px;
 }
