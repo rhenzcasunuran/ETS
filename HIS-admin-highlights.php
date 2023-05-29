@@ -263,7 +263,11 @@
           <input type="text" maxlength="150" name="image_Info" id="image_Info" placeholder="Input Title" >
         </div>
         <div class="form-group">
-          <textarea maxlength="3000" name="image_Description" id="image_Description" placeholder="Input Summary" ></textarea>
+        <div class="textarea-wrapper">
+  <textarea maxlength="3000" name="image_Description" id="image_Description" placeholder="Input Summary"></textarea>
+  <span id="character-counter">3000 characters remaining</span>
+</div>
+
 
         </div>
         
@@ -365,28 +369,51 @@ Event History Scripts
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
+    <script>
   $(document).ready(function() {
     $('#upload-btn').click(function() {
-  var file_data = $('#uploadfile').prop('files')[0];
-  var allowedTypes = ['image/jpeg', 'image/png'];
-  var form_data = new FormData();
-  if ($('#image_Info').val() == "" || $('#image_Description').val() == "" || $('#image_Info').val() == "" || !file_data) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Please fill all required fields!',
-    });
-    return false;
+      var file_data = $('#uploadfile').prop('files')[0];
+      var allowedTypes = ['image/jpeg', 'image/png', 'image/heic']; // Include 'image/heic' for iOS images
+      var form_data = new FormData();
+      
+      if ($('#image_Info').val() == "" || $('#image_Description').val() == "" || $('#image_Info').val() == "" || !file_data) {
+  var requiredFields = [];
+  if (!file_data) {
+    requiredFields.push("Image");
   }
-  if (allowedTypes.indexOf(file_data.type) == -1) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Upload Failed',
-      text: 'File must be an image (JPG, JPEG, PNG)!',
-    });
-    return false;
+  
+  if ($('#image_Info').val() == "") {
+    requiredFields.push("Title");
   }
+  
+  if ($('#image_Description').val() == "") {
+    requiredFields.push("Description");
+  }
+  
+ 
+  
+  var errorMessage = 'Please fill in the following required fields: ' + requiredFields.join(', ');
+  
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: errorMessage,
+  });
+  
+  return false;
+}
+
+      
+      if (allowedTypes.indexOf(file_data.type) == -1) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Upload Failed',
+          text: 'File must be an image (JPG, JPEG, PNG, HEIC)!',
+        });
+        return false;
+      }
+    
+      
       form_data.append('file', file_data);
       form_data.append('image_Info', $('#image_Info').val());
       form_data.append('image_Description', $('#image_Description').val());
@@ -419,6 +446,7 @@ Event History Scripts
               });
             },
             error: function(response) {
+              console.log(response); // Check the error response in the browser console
               Swal.fire(
                 'Error!',
                 'Image upload error',
@@ -433,6 +461,7 @@ Event History Scripts
     });
   });
 </script>
+
 
 
 <script>
@@ -515,6 +544,32 @@ function deleteImage(id) {
     expandedImg.style.display = "none";
   }
 </script>
+<script>
+  var fileInput = document.getElementById('uploadfile');
+
+  fileInput.addEventListener('click', function() {
+    fileInput.accept = '.jpg, .jpeg, .png';
+  });
+  // Get the textarea element
+
+// Get the counter element
+var counter = document.getElementById('character-counter');
+
+// Set the maximum character limit
+var maxLength = 3000;
+
+// Add an input event listener to the textarea
+textarea.addEventListener('input', function() {
+  // Calculate the remaining characters
+  var remaining = maxLength - textarea.value.length;
+  
+  // Update the counter text
+  counter.textContent = remaining + ' characters remaining';
+});
+
+</script>
+
+
 
   </body>
 
