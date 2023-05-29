@@ -499,19 +499,6 @@
       $(document).ready(function() {
         $('.selectpicker').selectpicker();
         $('.bs-searchbox input').attr('maxlength', '25');
-
-        $('input').keypress(function (e) {
-          var txt = String.fromCharCode(e.which);
-          if (!txt.match(/[A-Za-z0-9 ]/)) {
-              return false;
-          }
-        });
-
-        $('input').on('input', function(e) {
-          $(this).val(function(i, v) {
-            return v.replace(/[^\w\s]/gi, '');
-          });
-        });
       });
 
       function saveEvent(){
