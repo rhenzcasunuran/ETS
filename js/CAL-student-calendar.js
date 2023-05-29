@@ -76,21 +76,22 @@ $(document).ready(function() {
                     if (i <= 1) {
 
                       // Create button for the event
-                      var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn">')
-                        .addClass(events[eventsCounting].event_type)
-                        .text(events[eventsCounting].event_name.length > 10 ? events[eventsCounting].event_name.substring(0, 10) + '...' : events[eventsCounting].event_name);
+                      var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn shown-event">')
+                        .text(events[eventsCounting].category_name.length > 10 ? events[eventsCounting].category_name.substring(0, 10) + '...' : events[eventsCounting].category_name);
 
                       // Set data attributes for popper
                       button.attr('data-bs-toggle', 'popover');
-                      button.attr('data-bs-content', '<div class="sec-paragraph">' +
+                      button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
                         '<div class="p4">' +
                         '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
-                        '<p><b>' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + '</b></p>' +
-                        '<p>' + events[eventsCounting].event_name + '</p>' +
-                        '<p><b>When: </b>' + events[eventsCounting].event_time + '</p>' +
-                        '<p><b>Description: </b>' + events[eventsCounting].event_description + '</p>' +
-                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' +
-                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' + 
+                        '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
+                        '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
+                        '<p>' + events[eventsCounting].event_time + '</p>' +
+                        '<div class="d-flex justify-content-between align-items-center">' +
+                        '<div class="icon-container">' +
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' +
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                        '</div>' +
                         '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
                         '</div>' +
                         '</div>');
@@ -113,9 +114,9 @@ $(document).ready(function() {
                       modal.attr('aria-hidden', 'true');
                       modal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">' +
                         "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
-                        "<br><b>" + events[eventsCounting].event_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
+                        "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                         '</div><div class="modal-footer border-0">'+ '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' +
-                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill ms-auto" data-bs-dismiss="modal">Back</button></div></div></div>');
 
                       // Append modal to body
                       $('body').append(modal);
@@ -131,7 +132,7 @@ $(document).ready(function() {
                       var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       tournamentModal.attr('id', 'tournament-modal-' + events[eventsCounting].event_id);
                       tournamentModal.attr('aria-hidden', 'true');
-                      tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
+                      tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
                       
                       // Append the tournament modal to the body
                       $('body').append(tournamentModal);
@@ -147,7 +148,7 @@ $(document).ready(function() {
                       var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                       addToCalendarModal.attr('aria-hidden', 'true');
-                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><i class="bx bx-calendar-plus bx-lg"></i><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                       // Append the addToCalendarModal to the body
                       $('body').append(addToCalendarModal);
@@ -164,28 +165,54 @@ $(document).ready(function() {
                     else {
 
                       // Create button for the event
-                      var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn">').addClass(events[eventsCounting].event_type).text(
-                      events[eventsCounting].event_name.length > 10 ? events[eventsCounting].event_name.substring(0, 10) + '...' : events[eventsCounting].event_name);
-                      // Set data attributes for event details
-                      button.attr('data-bs-toggle', 'modal');
-                      button.attr('data-bs-target', '#event-modal-' + events[eventsCounting].event_id);
+                      var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn remaining-event">')
+                      .text(events[eventsCounting].category_name.length > 10 ? events[eventsCounting].category_name.substring(0, 10) + '...' : events[eventsCounting].category_name);
+
+                      // Set data attributes for popper
+                      button.attr('data-bs-toggle', 'popover');
+                      button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
+                        '<div class="p4">' +
+                        '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
+                        '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
+                        '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
+                        '<p>' + events[eventsCounting].event_time + '</p>' +
+                        '<div class="d-flex justify-content-between align-items-center">' +
+                        '<div class="icon-container">' +
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' +
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                        '</div>' +
+                        '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
+                        '</div>' +
+                        '</div>');
+                      button.attr('data-bs-html', 'true');
+
+                      // Initialize popover
+                      var popoverOptions = {
+                      container: 'body',
+                      placement: 'auto',
+                      trigger: 'click',
+                      };
+                      button.popover(popoverOptions);
+
+                      // Append button to the element with class '.d-grid'
                       cell.find('.d-grid').append(button);
+
                       // Create modal for the event
                       var modal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       modal.attr('id', 'event-modal-' + events[eventsCounting].event_id);
                       modal.attr('aria-hidden', 'true');
                       modal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">' +
                       "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
-                      "<br><b>" + events[eventsCounting].event_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
+                      "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                       '</div><div class="modal-footer border-0">'+ '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' +
-                      '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
-                      
+                      '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill ms-auto" data-bs-dismiss="modal">Back</button></div></div></div>');
+
                       // Append modal to body
                       $('body').append(modal);
 
                       // Delegate click event for "Show more details" text within the popover
                       $(document).on("click", ".show-more-details-popover", function() {
-                        var modalId = $(this).attr('href');
+                      var modalId = $(this).attr('href');
                         $(modalId).modal('show');
                         $(this).closest('.popover').popover('hide');
                       });
@@ -194,32 +221,32 @@ $(document).ready(function() {
                       var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       tournamentModal.attr('id', 'tournament-modal-' + events[eventsCounting].event_id);
                       tournamentModal.attr('aria-hidden', 'true');
-                      tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
-                      
+                      tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
+
                       // Append the tournament modal to the body
                       $('body').append(tournamentModal);
 
                       // Event handler for the unique icon click event
                       $(document).on("click", '.bx-group', function() {
-                        var eventId = $(this).attr('id');
-                        $('#tournament-modal-' + eventId).modal('show');
-                        $(this).closest('.popover').popover('hide');
+                      var eventId = $(this).attr('id');
+                      $('#tournament-modal-' + eventId).modal('show');
+                      $(this).closest('.popover').popover('hide');
                       });
 
                       // Create the addToCalendar modal
                       var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                       addToCalendarModal.attr('aria-hidden', 'true');
-                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                       // Append the addToCalendarModal to the body
                       $('body').append(addToCalendarModal);
 
                       // Event handler for the unique icon click event
                       $(document).on("click", '.bx-calendar-plus', function() {
-                        var eventId = $(this).attr('id');
-                        $('#add-to-calendar-modal-' + eventId).modal('show');
-                        $(this).closest('.popover').popover('hide');
+                      var eventId = $(this).attr('id');
+                      $('#add-to-calendar-modal-' + eventId).modal('show');
+                      $(this).closest('.popover').popover('hide');
                       });
 
                       popoverContent.append(button);
@@ -242,21 +269,22 @@ $(document).ready(function() {
                 } else if (eventCounter[keys] <= 2) {
 
                   // Create button for the event
-                  var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn">')
-                    .addClass(events[eventsCounting].event_type)
-                    .text(events[eventsCounting].event_name.length > 10 ? events[eventsCounting].event_name.substring(0, 10) + '...' : events[eventsCounting].event_name);
+                  var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn shown-event">')
+                    .text(events[eventsCounting].category_name.length > 10 ? events[eventsCounting].category_name.substring(0, 10) + '...' : events[eventsCounting].category_name);
 
                   // Set data attributes for popper
                   button.attr('data-bs-toggle', 'popover');
-                  button.attr('data-bs-content', '<div class="sec-paragraph">' +
+                  button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
                     '<div class="p4">' +
                     '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
-                    '<p><b>' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + '</b></p>' +
-                    '<p>' + events[eventsCounting].event_name + '</p>' +
-                    '<p><b>When: </b>' + events[eventsCounting].event_time + '</p>' +
-                    '<p><b>Description: </b>' + events[eventsCounting].event_description + '</p>' +
-                    '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' +
-                    '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' + 
+                    '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
+                    '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
+                    '<p>' + events[eventsCounting].event_time + '</p>' +
+                    '<div class="d-flex justify-content-between align-items-center">' +
+                    '<div class="icon-container">' +
+                    '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' +
+                    '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                    '</div>' +
                     '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
                     '</div>' +
                     '</div>');
@@ -279,9 +307,9 @@ $(document).ready(function() {
                   modal.attr('aria-hidden', 'true');
                   modal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">' +
                   "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
-                  "<br><b>" + events[eventsCounting].event_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
+                  "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                   '</div><div class="modal-footer border-0">'+ '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' +
-                  '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
+                  '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill ms-auto" data-bs-dismiss="modal">Back</button></div></div></div>');
 
                   // Append modal to body
                   $('body').append(modal);
@@ -297,7 +325,7 @@ $(document).ready(function() {
                   var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                   tournamentModal.attr('id', 'tournament-modal-' + events[eventsCounting].event_id);
                   tournamentModal.attr('aria-hidden', 'true');
-                  tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
+                  tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
                   
                   // Append the tournament modal to the body
                   $('body').append(tournamentModal);
@@ -313,7 +341,7 @@ $(document).ready(function() {
                   var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                   addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                   addToCalendarModal.attr('aria-hidden', 'true');
-                  addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                  addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                   // Append the addToCalendarModal to the body
                   $('body').append(addToCalendarModal);
@@ -336,21 +364,22 @@ $(document).ready(function() {
                     if (i <= 1) {
 
                       // Create button for the event
-                      var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn">')
-                        .addClass(events[eventsCounting].event_type)
-                        .text(events[eventsCounting].event_name.length > 10 ? events[eventsCounting].event_name.substring(0, 10) + '...' : events[eventsCounting].event_name);
+                      var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn shown-event">')
+                        .text(events[eventsCounting].category_name.length > 10 ? events[eventsCounting].category_name.substring(0, 10) + '...' : events[eventsCounting].category_name);
 
                       // Set data attributes for popper
                       button.attr('data-bs-toggle', 'popover');
-                      button.attr('data-bs-content', '<div class="sec-paragraph">' +
+                      button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
                         '<div class="p4">' +
                         '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
-                        '<p><b>' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + '</b></p>' +
-                        '<p>' + events[eventsCounting].event_name + '</p>' +
-                        '<p><b>When: </b>' + events[eventsCounting].event_time + '</p>' +
-                        '<p><b>Description: </b>' + events[eventsCounting].event_description + '</p>' +
-                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' +
-                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' + 
+                        '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
+                        '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
+                        '<p>' + events[eventsCounting].event_time + '</p>' +
+                        '<div class="d-flex justify-content-between align-items-center">' +
+                        '<div class="icon-container">' +
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' +
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                        '</div>' +
                         '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
                         '</div>' +
                         '</div>');
@@ -373,9 +402,9 @@ $(document).ready(function() {
                       modal.attr('aria-hidden', 'true');
                       modal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">' +
                         "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
-                        "<br><b>" + events[eventsCounting].event_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
+                        "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                         '</div><div class="modal-footer border-0">'+ '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' +
-                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill ms-auto" data-bs-dismiss="modal">Back</button></div></div></div>');
 
                       // Append modal to body
                       $('body').append(modal);
@@ -391,7 +420,7 @@ $(document).ready(function() {
                       var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       tournamentModal.attr('id', 'tournament-modal-' + events[eventsCounting].event_id);
                       tournamentModal.attr('aria-hidden', 'true');
-                      tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
+                      tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
                       
                       // Append the tournament modal to the body
                       $('body').append(tournamentModal);
@@ -407,7 +436,7 @@ $(document).ready(function() {
                       var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                       addToCalendarModal.attr('aria-hidden', 'true');
-                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                       // Append the addToCalendarModal to the body
                       $('body').append(addToCalendarModal);
@@ -424,61 +453,88 @@ $(document).ready(function() {
                     else {
 
                       // Create button for the event
-                      var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn">').addClass(events[eventsCounting].event_type).text(
-                      events[eventsCounting].event_name.length > 10 ? events[eventsCounting].event_name.substring(0, 10) + '...' : events[eventsCounting].event_name);
-                      // Set data attributes for event details
-                      button.attr('data-bs-toggle', 'modal');
-                      button.attr('data-bs-target', '#event-modal-' + events[eventsCounting].event_id);
+                      var button = $('<button type="button" class="btn btn-primary btn-sm calendar-smaller-btn remaining-event">')
+                      .text(events[eventsCounting].category_name.length > 10 ? events[eventsCounting].category_name.substring(0, 10) + '...' : events[eventsCounting].category_name);
+
+                      // Set data attributes for popper
+                      button.attr('data-bs-toggle', 'popover');
+                      button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
+                        '<div class="p4">' +
+                        '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
+                        '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
+                        '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
+                        '<p>' + events[eventsCounting].event_time + '</p>' +
+                        '<div class="d-flex justify-content-between align-items-center">' +
+                        '<div class="icon-container">' +
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' +
+                        '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                        '</div>' +
+                        '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
+                        '</div>' +
+                        '</div>');
+                      button.attr('data-bs-html', 'true');
+
+                      // Initialize popover
+                      var popoverOptions = {
+                      container: 'body',
+                      placement: 'auto',
+                      trigger: 'click',
+                      };
+                      button.popover(popoverOptions);
+
+                      // Append button to the element with class '.d-grid'
                       cell.find('.d-grid').append(button);
+
                       // Create modal for the event
                       var modal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       modal.attr('id', 'event-modal-' + events[eventsCounting].event_id);
                       modal.attr('aria-hidden', 'true');
                       modal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">' +
                       "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
-                      "<br><b>" + events[eventsCounting].event_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
+                      "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                       '</div><div class="modal-footer border-0">'+ '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' +
-                      '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
+                      '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>'+'<button type="button" class="btn btn-outline-secondary rounded-pill ms-auto" data-bs-dismiss="modal">Back</button></div></div></div>');
+
                       // Append modal to body
-                      $('body').append(modal);  
-                      
+                      $('body').append(modal);
+
                       // Delegate click event for "Show more details" text within the popover
                       $(document).on("click", ".show-more-details-popover", function() {
-                        var modalId = $(this).attr('href');
-                        $(modalId).modal('show');
-                        $(this).closest('.popover').popover('hide');
+                      var modalId = $(this).attr('href');
+                      $(modalId).modal('show');
+                      $(this).closest('.popover').popover('hide');
                       });
 
                       // Create the tournament modal
                       var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       tournamentModal.attr('id', 'tournament-modal-' + events[eventsCounting].event_id);
                       tournamentModal.attr('aria-hidden', 'true');
-                      tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
-                      
+                      tournamentModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3></div><div class="modal-body text-center"><img src="../pictures/sampleTournamentBraket.png" alt="TournamentBracket"></div><div class="modal-footer border-0"><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Back</button></div></div></div>');
+
                       // Append the tournament modal to the body
                       $('body').append(tournamentModal);
 
                       // Event handler for the unique icon click event
                       $(document).on("click", '.bx-group', function() {
-                        var eventId = $(this).attr('id');
-                        $('#tournament-modal-' + eventId).modal('show');
-                        $(this).closest('.popover').popover('hide');
+                      var eventId = $(this).attr('id');
+                      $('#tournament-modal-' + eventId).modal('show');
+                      $(this).closest('.popover').popover('hide');
                       });
 
                       // Create the addToCalendar modal
                       var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                       addToCalendarModal.attr('aria-hidden', 'true');
-                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                       // Append the addToCalendarModal to the body
                       $('body').append(addToCalendarModal);
 
                       // Event handler for the unique icon click event
                       $(document).on("click", '.bx-calendar-plus', function() {
-                        var eventId = $(this).attr('id');
-                        $('#add-to-calendar-modal-' + eventId).modal('show');
-                        $(this).closest('.popover').popover('hide');
+                      var eventId = $(this).attr('id');
+                      $('#add-to-calendar-modal-' + eventId).modal('show');
+                      $(this).closest('.popover').popover('hide');
                       });
 
                       popoverContent.append(button);
@@ -557,23 +613,42 @@ $(document).ready(function() {
     generateCalendar(currentMonth, currentYear, filters);
   });    
 
-  $(document).on('click', 'button', function () {
+  // Event handler for the remaining-event button click
+  $(document).on('click', '.remaining-event', function() {
+    // Hide all other remaining-event popovers
+    $('.remaining-event').not(this).popover('hide');
+  });
+
+  // Event handler for all other buttons and popovers
+  $(document).on('click', 'button:not(.remaining-event), [data-bs-toggle="popover"]:not(.remaining-event)', function() {
+    // Hide all remaining-event popovers
+    $('.remaining-event').popover('hide');
+  });
+
+  $(document).on('click', 'button:not(.remaining-event)', function () {
     // Hide all other popovers
     $('[data-bs-toggle="popover"]').not(this).popover('hide');
   });
 
-  $(document).on('click', '[data-bs-toggle="popover"]', function () {
+  $(document).on('click', '[data-bs-toggle="popover"]:not(.remaining-event)', function () {
     // Hide all other popovers
     $('[data-bs-toggle="popover"]').not(this).popover('hide');
   });
 
   // Initialize popovers
-  $('[data-bs-toggle="popover"]').popover(); 
-  
-  $(document).on("click", ".popover .close-popover" , function(){
-    $(this).closest(".popover").popover('hide');
+  $('[data-bs-toggle="popover"]').popover();
+
+  // Event handler for closing popover
+  $(document).on('click', '.popover .close-popover', function() {
+    $(this).closest('.popover').popover('hide');
   });
 
+  // Event handler for the unique icon click event
+  $(document).on("click", '.bx-group, .bx-calendar-plus, .show-more-details-popover', function() {
+    // Hide all popovers
+    $('[data-bs-toggle="popover"]').popover('hide');
+  });
+  
   const allCheckbox = document.getElementById('check-all-event');
   const tournamentCheckbox = document.getElementById('check-tournament');
   const competitionCheckbox = document.getElementById('check-competition');
