@@ -1,6 +1,7 @@
 <?php
   include './php/sign-in.php';
   include './php/database_connect.php';
+  include './php/CAL-datetime-fill.php'; // CAL datetime autofill php
 ?>
 
 <!DOCTYPE html>
@@ -18,12 +19,28 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/HOM-style.css">
     <link rel="stylesheet" href="./css/HOM-create-post.css">
   </head>
 
   <body>
+    <div class="popup-background" id="cancelWrapper">
+      <div class="row popup-container">
+        <div class="col-4">
+          <i class='bx bxs-error prompt-icon warning-color'></i>
+        </div>
+        <div class="col-8 text-start text-container">
+          <h3 class="text-header">Discard Changes?</h3>
+          <p>Any unsaved progress will be lost.</p>
+        </div>
+        <div class="div">
+          <button class="outline-button" onclick="hideCancel()"><i class='bx bx-chevron-left'></i>Return</button>
+          <button class="primary-button"><i class='bx bx-x'></i>Discard</button>
+        </div>
+      </div>
+    </div>
     <div class="container-fluid" id="clear-popup">
       <div class="row popup-card">
         <i class='row warning-icon bx bx-reset' ></i>
@@ -326,25 +343,19 @@
 
                 </div>
               </div>
-              <div class="row">
-                <div class="col">
-                  <div class="button-clone clear" onclick="show_clear()">
-                    <i class='bx bx-reset'></i>
-                    &nbsp;Clear
-                  </div>
+              <div class="row buttons">
+                <div class="col outline-button" onclick="show_clear()">
+                  <i class='bx bx-reset'></i>
+                  &nbsp;Clear
                 </div>
-                <div class="col">
-                  <button class="button-clone save-draft" class="draft">
-                    <i class='bx bx-save'></i>
-                    Save Draft
-                  </button>
-                </div>
-                <div class="col">
-                  <button class="button-clone post" type="submit" name="post">
-                    <i class='bx bx-upload'></i>
-                    &nbsp;Post
-                  </button>
-                </div>
+                <button class="col secondary-button">
+                  <i class='bx bx-save'></i>
+                  &nbsp;Save
+                </button>
+                <button class="col primary-button" type="submit" name="post">
+                  <i class='bx bx-upload'></i>
+                  &nbsp;Post
+                </button>
               </div>
             </div>
           </div>
@@ -369,6 +380,14 @@
           var $icon = $(this).parent().find('.change-icon');
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
+      });
+    </script>
+    <!-- Date and Time Helper from Calendar -->
+    <script>
+      $(document).ready(function() {
+        var date = "<?php echo isset($sanitizedDate) ? $sanitizedDate : null; ?>";
+
+        $("#calendar").val(date);
       });
     </script>
   </body>

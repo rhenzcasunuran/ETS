@@ -19,37 +19,31 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/HOM-style.css">
     <link rel="stylesheet" href="./css/HOM-create-post.css">
   </head>
 
   <body>
-    <div class="container-fluid" id="discardChanges-popup">
-      <div class="row popup-card">
-        <i class='row warning-icon bx bx-message-alt-x' ></i>
-        <h3 class="row d-flex justify-content-center align-items-center">
-          Discard Changes?
-        </h3>
-        <h6 class="row d-flex justify-content-center align-items-center">
-          You cannot undo this action.
-        </h6>
-        <div class="row">
-          <div class="col">
-            <a href="HOM-manage-post.php" class="text-decoration-none">
-              <div id="clear" class="button-clone continue" onclick="hide_discardChanges()">
-                Continue
-              </div>
-            </a>
-          </div>
-          <div class="col">
-            <div class="button-clone cancel" onclick="hide_discardChanges()">
-              Cancel
+    <div class="popup-background" id="discardChanges-popup">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
             </div>
-          </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
+                <p>Any unsaved progress will be lost.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hide_discardChanges()"><i class='bx bx-chevron-left'></i>Return</button>
+                <a href="HOM-manage-post.php" class="text-decoration-none">
+                  <button class="primary-button"><i class='bx bx-x'></i>Discard</button>
+                </a>
+            </div>
         </div>
-      </div>
     </div>
+
     <!--Sidebar-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
@@ -249,7 +243,7 @@
         <p class="row title">
           Edit Post
         </p>
-        <form id="post-form" action="./php/HOM-create-post.php" method="post">
+        <form id="post-form" method="post">
           <div class="row create-post">
             <div class="col-7">
               <div class="row">
@@ -306,19 +300,13 @@
 
                 </div>
               </div>
-              <div class="row">
-                <div class="col">
-                  <div class="button-clone discard-changes" onclick="show_discardChanges()">
-                    <i class='bx bx-message-alt-x'></i>
-                    &nbsp;Discard Changes
-                  </div>
+              <div class="row buttons">
+                <div class="col-6 outline-button" onclick="show_discardChanges()">
+                    Discard Changes
                 </div>
-                <div class="col">
-                <button class="button-clone save-changes" type="submit" name="post">
-                    <i class='bx bx-save'></i>
-                    &nbsp;Save Changes
-                  </button>
-                </div>
+                <button class="col-6 primary-button" type="submit" name="post">
+                    Save Changes
+                </button>
               </div>
             </div>
           </div>

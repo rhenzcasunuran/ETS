@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/home-sidebar-style.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/HOM-index.css">
@@ -184,52 +185,37 @@
     <!--PAGE-->
     <section class="home-section">
       <div class="container">
-        <div class="row">
-          <div class="col">
-            <button class="filter-button SC">
-              SC
-            </button>
-          </div>
-          <div class="col">
-            <button class="filter-button ACAP">
-              ACAP
-            </button>
-          </div>
-          <div class="col">
-            <button class="filter-button AECES">
-              AECES
-            </button>
-          </div>
-          <div class="col">
-            <button class="filter-button ELITE">
-              ELITE
-            </button>
-          </div>
-          <div class="col">
-            <button class="filter-button GIVE">
-              GIVE
-            </button>
-          </div>
-          <div class="col">
-            <button class="filter-button JEHRA">
-              JEHRA
-            </button>
-          </div>
-          <div class="col">
-            <button class="filter-button JMAP">
-              JMAP
-            </button>
-          </div>
-          <div class="col">
-            <button class="filter-button JPIA">
-              JPIA
-            </button>
-          </div>
-          <div class="col">
-            <button class="filter-button PIIE">
-              PIIE
-            </button>
-          </div>
+        <div class="row filters">
+          <button class="col filter-button active-filter" data-filter="ALL">
+            All
+          </button>
+          <button class="col filter-button" data-filter="SC">
+            SC
+          </button>
+          <button class="col filter-button" data-filter="ACAP">
+            ACAP
+          </button>
+          <button class="col filter-button" data-filter="AECES">
+            AECES
+          </button>
+          <button class="col filter-button" data-filter="ELITE">
+            ELITE
+          </button>
+          <button class="col filter-button" data-filter="GIVE">
+            GIVE
+          </button>
+          <button class="col filter-button" data-filter="JEHRA">
+            JEHRA
+          </button>
+          <button class="col filter-button" data-filter="JMAP">
+            JMAP
+          </button>
+          <button class="col filter-button" data-filter="JPIA">
+            JPIA
+          </button>
+          <button class="col filter-button" data-filter="PIIE">
+            PIIE
+          </button>
         </div>
         <div class="row post-container mx-auto post-snap">
           <?php
@@ -237,7 +223,7 @@
             if($row > 0){
               while($count = mysqli_fetch_array($get_posts)){
           ?>
-                <a href="HOM-post.php?eec=<?php echo $count[0]?>" class="post-click">
+                <a href="HOM-post.php?eec=<?php echo $count[0]?>" class="post-click ALL <?php echo $count[2];?>">
                   <div class="post-card">
                     <img class="post-cover" src="photos/<?php echo $count[2];?>.png">
                     <div class="post-detail">
@@ -410,6 +396,40 @@
         $this.slideToggle(function () {
           var $icon = $(this).parent().find('.change-icon');
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
+        });
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get all filter buttons
+        const filterButtons = document.querySelectorAll(".filter-button");
+
+        // Get all image divs
+        const cards = document.querySelectorAll(".post-click");
+
+        // Add click event listener to each filter button
+        filterButtons.forEach(function(button) {
+          button.addEventListener("click", function() {
+            // Remove 'active' class from all buttons
+            filterButtons.forEach(function(btn) {
+              btn.classList.remove("active-filter");
+            });
+
+            // Add 'active' class to the clicked button
+            this.classList.add("active-filter");
+
+            // Get the data-filter attribute value
+            const filterValue = this.getAttribute("data-filter");
+
+            // Show/hide image divs based on the filter value
+            cards.forEach(function(div) {
+              if (filterValue === "ALL" || div.classList.contains(filterValue)) {
+                div.style.display = "block"; // Show the image div
+              } else {
+                div.style.display = "none"; // Hide the image div
+              }
+            });
+          });
         });
       });
     </script>
