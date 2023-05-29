@@ -2,36 +2,38 @@
     width: 95%;
 }
 
-.filter-text{
-    align-content: center;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 20px;
-
-    margin: auto;
-    width: 100%;
-    color: var(--color-content-text);
+.filters{
+    justify-content: center;
+    gap: 3%;
 }
 
 .filter-button{
     border: none;
-    color: whitesmoke;
-    height: 35px;
-    border-radius: 30px;
+    color: gray;
     cursor: pointer;
-    margin-top: 24px;
-    width: 100%;
-    font-weight: 300;
+    margin-top: 20px;
     padding: 0;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: padding .4s linear, background-color .1s linear;
+    background: none;
+    border-radius: 30px;
+    padding: 12px;
 }
 
 .filter-button:hover{
-    opacity: 80%;
-    transition: all .5s ease;
+    color: var(--color-content-text);
+}
+
+.active-filter{
+    color: whitesmoke;
+    background-color:#5D2BA0;
+    padding: 12px 25px;
+}
+
+.active-filter:hover:not(.no-hover) {
+    color: whitesmoke;
 }
 
 .SC{
@@ -127,12 +129,14 @@
 
 .post-click{
     text-decoration: none;
-    padding: 10px;
+    padding: auto;
+    margin: 20px 0px;
+    border-radius: 10px;
+    background: none;
 }
 
 .post-card{
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
+    transition: 0.25s;
     width: 375px;
     height: 275px;
     vertical-align: top;
@@ -142,12 +146,11 @@
     border-radius: 10px;
     display: grid;
     grid-template-rows: min-content;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
+    box-shadow: var(--color-container-shadow);
 }
 
 .post-card:hover{
-    transition: .5s;
-    box-shadow: 0 5px 20px -5px var(--color-shadow);
+    box-shadow: var(--color-container-hover);
 }
 
 .post-cover{
@@ -227,7 +230,6 @@
 
 .category-card{
     display: flex;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     width: 95%;
     height: 150px;
@@ -237,12 +239,11 @@
     border-radius: 10px;
     grid-template-rows: min-content;
     margin-bottom: 20px;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
+    box-shadow: var(--color-container-shadow);
 }
 
 .category-card:hover{
-    transition: .5s;
-    box-shadow: 0 5px 20px -5px var(--color-shadow);
+    box-shadow: var(--color-container-hover);
 }
 
 .category-column{

@@ -8,7 +8,7 @@
     width: 100%;
     font-weight: 300;
     padding: 0;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
+    box-shadow: var(--color-element-shadow);
     display: flex;
     justify-content: center;
     align-items: center;
