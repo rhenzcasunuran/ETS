@@ -45,7 +45,7 @@
                 <h3 class="text-header">Delete Event?</h3>   <!--header-->
                 <p>This will delete the event permanently. This action cannot be undone.</p> <!--text-->
             </div>
-            <div class="button-container">
+            <div class="div">
                 <button class="outline-button" onclick="hideDelete<?php echo $row[0];?>()"><i class='bx bx-x'></i>Cancel</button>
                 <a href="EVE-admin-list-of-events.php?eed=<?php echo $row[5]?>">
                   <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
@@ -73,22 +73,22 @@
     </div>
 
       <script>
-        popupDelete = document.getElementById('deleteWrapper<?php echo $row[5];?>');
+        popupDelete<?php echo $row[0];?> = document.querySelector('#deleteWrapper<?php echo $row[5];?>');
   
         var showDelete<?php echo $row[0];?> = function() {
-            popupDelete.style.display ='flex';
+            popupDelete<?php echo $row[0];?>.style.display ='flex';
         }
         var hideDelete<?php echo $row[0];?> = function() {
-            popupDelete.style.display ='none';
+            popupDelete<?php echo $row[0];?>.style.display ='none';
         }
 
-        popupMarkAsDone = document.getElementById('markAsDoneWrapper<?php echo $row[5];?>');
+        popupMarkAsDone<?php echo $row[0];?> = document.querySelector('#markAsDoneWrapper<?php echo $row[5];?>');
   
         var showMarkAsDone<?php echo $row[0];?> = function() {
-            popupMarkAsDone.style.display ='flex';
+            popupMarkAsDone<?php echo $row[0];?>.style.display ='flex';
         }
         var hideMarkAsDone<?php echo $row[0];?> = function() {
-            popupMarkAsDone.style.display ='none';
+            popupMarkAsDone<?php echo $row[0];?>.style.display ='none';
         }
       </script>
 
@@ -436,7 +436,7 @@
                 <p>Looks like you have no events created. <br> You can do so by clicking the button below.</p>
                 <div class="row justify-content-center">
                   <a href="EVE-admin-create-event.php?create new event">
-                    <button class="primary-button">
+                    <button class="primary-button" id="create-new-event-btn">
                       <i class='bx bx-add-to-queue d-flex justify-content-center align-items-center'></i>
                       Create an Event
                     </button>
