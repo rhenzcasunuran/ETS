@@ -187,15 +187,21 @@
                 </span>
               </a>
               <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php"   >
+              <li class="sub-item">
+                  <a href="TOU-Create-Tournament.php" >
                     <i class="bx bxs-circle sub-icon color-red"></i>
+                    <span class="sub_link_name">Create Tournament</span>
+                  </a>
+                </li>
+                <li class="sub-item">
+                  <a href="TOU-Live-Scoring-Admin.php">
+                    <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Live Scoring</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="TOU-bracket-admin.php" class="sub-active">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
+                  <a href="TOU-bracket-admin.php"  class="sub-active">
+                    <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Manage Brackets</span>
                   </a>
                 </li>
@@ -307,7 +313,7 @@
         } else {
             echo "<option>No options available</option>";
         }
-        ?>
+        ?>  
         </select></div>  <!--Part 4: Name of player 8x of this in this branch-->
 
                 <div> <!--Part 4: Results 8x of this-->

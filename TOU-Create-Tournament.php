@@ -1,31 +1,9 @@
 <?php
-  // Database connection details
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "pupets";
-  
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
-  
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-  
-  // Query to retrieve data from the database
-  $sql = "SELECT bracket_id, bracket_sports FROM bracket";
-  $result = $conn->query($sql);
-  
-  // Close the database connection
-  $conn->close();
-  @include '/php/TOU-fetch-data.php';
-?>
-
-<?php
-  session_start();
-  @include '/php/database_connections.php';
-  @include '/php/TOU-scoring.php'
+  include './php/sign-in.php';
+  include './php/database_connect.php';
+  include './php/EVE-admin-event-config-get-data.php';
+  include './php/EVE-admin-add-event.php';
+  include './php/EVE-admin-get-event-data.php';
 ?>
 
 <!DOCTYPE html>
@@ -43,71 +21,32 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
-    <link rel="stylesheet" href="./css/home-sidebar-style.css">
-    <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/TOU-score.css">
-    <link rel="stylesheet" href="./css/system-wide.css">
+
+    <!-- Event Config Styles -->
+    <link rel="stylesheet" href="./css/EVE-admin-bootstrap-select.min.css">
+    <link rel="stylesheet" href="./css/EVE-admin-bootstrap4.min.css">
+    <link rel="stylesheet" href="./css/EVE-admin-list-of-events.css">
+    <link rel="stylesheet" href="./css/EVE-admin-confirmation.css">
   </head>
 
   <body>
-    <div class="popup-background" id="EndMatchWrapper">
-      <div class="row popup-container">
-        <div class = "col-4">
-          <i class="bx bxs-check-circle prompt-icon success-color"></i>
+    <div class="container-fluid" id="popup-wrapper">
+      <div id="confirm-cancel" class="row">
+        <div class="col-5 text-center">
+          <i class='bx bxs-error popup-icon' id="error-icon"></i>
         </div>
-        <div class="col-8 text-start text-container">
-          <h3 class="text-header">End Match?</h3>
-          <p>Ending Match will be irreversible</p>
+        <div class="col-7" id="text-confirm">
+          <h3 class="bold">Cancel Editing?</h3>
+          <p>Changes will not be saved.</p>
         </div>
-        <div class="div">
-          <button class="outline-button" onclick="hideEndMatch()"><i class='bx bx-x'></i>Cancel</button>
-          <button class="btn btn-danger btn-confirm content-box-shadow"><i class='bx bx-check'></i>Confirm</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="popup-background" id="SaveScoreWrapper">
-      <div class="row popup-container">
-        <div class = "col-4">
-          <i class="bx bxs-check-circle prompt-icon success-color"></i>
-        </div>
-        <div class="col-8 text-start text-container">
-          <h3 class="text-header">Save Score?</h3>
-          <p>Do you want to save the Score?</p>
-        </div>
-        <div class="div">
-          <button class="outline-button" onclick="hideSaveScore()"><i class='bx bx-x'></i>Cancel</button>
-          <button class="btn btn-danger btn-confirm content-box-shadow" type="submit" onclick="saveClick()"><i class='bx bx-check'></i>Confirm</button>
+        <div class="row flex-column flex-md-row d-flex align-items-center justify-content-center">
+          <button class="btn btn-confirm content-box-shadow" id="btn-return" onclick="hide()">Return to Editing</button>
+          <a href="EVE-admin-list-of-events.php">
+            <button class="btn btn-danger btn-confirm content-box-shadow">Continue</button>
+          </a> 
         </div>
       </div>
-    </div>
-
-  <div class="container-fluid" id="popup">
-      <div class="row popup-card">
-        <form method="post">
-          <div class="row">
-            <div class="col-11 admin-text">
-              <p>
-                Administrator
-              </p>
-            </div>
-            <div class="col-1 close ">
-              <i class='bx bx-x' onclick="hide()"></i>
-            </div>
-          </div>
-          <div class="row">
-            <input type="text" name="user_username" placeholder="Username" maxlength="20" required/>
-          </div>
-          <div class="row">
-            <input type="password" name="user_password" placeholder="Password" maxlength="128" required/>
-          </div>
-          <div class="row justify-content-center">
-            <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
-          </div>
-        </form>
-      </div>
-    </div>
-     
+    </div>    
     <!--Sidebar-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
@@ -130,7 +69,7 @@
         <div class="sidebar-content-container">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="#posts">
+              <a href="#posts" class="menu_btn">
                 <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Posts
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -214,7 +153,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#tournaments"  class="menu_btn active">
+              <a href="#tournaments" class="menu_btn active">
                 <i class="bx bx-trophy"><i class="dropdown_icon bx bx-chevron-down"></i></i>
                 <span class="link_name">Tournaments
                   <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
@@ -222,24 +161,23 @@
               </a>
               <ul class="sub_list">
               <li class="sub-item">
-                <a href="TOU-Create-Tournament.php">
+                  <a href="TOU-Create-Tournament.php" class="sub-active">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Create Tournament</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php"   class="sub-active">
+                  <a href="TOU-Live-Scoring-Admin.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Live Scoring</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="TOU-bracket-admin.php">
+                  <a href="TOU-bracket-admin.php" >
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Manage Brackets</span>
                   </a>
                 </li>
-                
               </ul>
             </li>
             <li class="nav-item">
@@ -310,83 +248,67 @@
     </div>
     <!--Page Content-->
     <section class="home-section">
-      <header class="header">Live Scoring</header>
-      <div class="container">
-        <div class="home">
-            <h1>ELITE</h1>
-            <button name="score_a" id="home--btn">0</button>
-            <div class="operate">
-                <button id="btn--three" onclick="minusValueThree()">-3</button>
-                <button id="btn--two" onclick="minusValueTwo()">-2</button>
-                <button type ="submit" name="btn_one" id="btn--one" onclick="minusValueOne()">-1</button>
-                <button type ="submit" name="btn_one" id="btn--one" onclick="plusOne()">+1</button>
-                <button id="btn--two" onclick="plusTwo()">+2</button>
-                <button id="btn--three" onclick="plusThree()">+3</button>
-                
-            </div>
-        </div>
-        <div class="dropdown-tournament">
-        <form action="/action_page.php">
-        <select class="button-tournament" >
-        <?php
+      <div class="d-flex justify-content-between align-items-center pr-4">
+        <div class="header">Create Event</div>
+      </div>
+      <div class="container-fluid d-flex row justify-content-center align-items-start m-0" id="event-wrapper">
+        <div class="justify-content-center align-items-start content-box-shadow" id="add-event-container">
+          <form id="add-event-form" action="" method="POST" role="form">
+            <div class="row flex-column flex-md-row">
+              <div class="form-group col-md-4">
+                <label for="select-category-name" class="form-label fw-bold">Category <span class="req">(required)</span></label>
+                <select id="select-category-name" name="select-category-name" title="Select Category" class="form-control selectpicker" data-live-search="true" required>
+                  <option value="" selected>Select Category</option>
+                  <?php
         if ($result->num_rows > 0) {
             // Output data of each row
             while ($row = $result->fetch_assoc()) {
-                echo "<option value='" . $row["bracket_id"] . "'>" . $row["bracket_sports"] . "</option>";
+                echo "<option value='" . $row["event_history_id"] . "'>" . $row["category_name"] . "</option>";
             }
         } else {
             echo "<option>No options available</option>";
         }
         ?>
-        </select>
-</form>
-            <div class="quarter" >
-                <h2>1st <br> Quarter</h2>
+                </select>
             </div>
-            <div>
-            <button class="button-end-match" onclick="showEndMatch()">End Match</button>
+          </div>
+          <div class="row flex-column flex-md-row">
+            <div class="form-group col-md-6">
+                <label for="event-description" class="form-label fw-bold">Event Description <span class="req">(required)</span></label>
+                <textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required></textarea>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="criteria" class="form-label fw-bold">Criteria</label>
+                <div class="form-control second-layer" id="criteria" name="criteria"></div>
+            </div>
+          </div>
+          <div class="row flex-column flex-md-row">
+            <div class="form-group col-md-5">
+                <label for="event-judges" class="form-label fw-bold">Judges</label>
+                <div id="event-judges" class="form-control judges-container" name="event-judges"></div>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="date" class="form-label fw-bold">Date and Time <span class="req">(required)</span></label>
+                <input type="date" class="form-control date" id="date" max="" min="" name="date" required>
+                <input type="time" class="form-control mt-2" id="time" name="time" required>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="code" class="form-label fw-bold">Code</label>
+              <div class="form-control" id="no-code">--------------------</div>
+              <input type="hidden" class="form-control" id="code" name="code" readonly required>
+            </div>
+          </div>
+          <div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">
+            <a href="EVE-admin-list-of-events.php?event successfully saved"><button type="submit" class="btn btn-danger" id="save-btn" name="save-btn" disabled>Save Changes</button></a>
+            <a class="btn" id="cancel-btn" onclick="show()">Cancel</a>
+          </div>
+          </form>
+        </div>
       </div>
-        </div>
-        <div class="guest">
-            <h1>AECES</h1>
-            <button id="guest--btn">0</button>
-            <div class="operate">
-                <button id="btn--three" onclick="decreaseValueThree()">-3</button>
-                <button id="btn--two" onclick="decreaseValueTwo()">-2</button>
-                <button type ="submit" name="btn_one" id="btn--one" onclick="decreaseValueOne()">-1</button>
-                <button id="btn--one" onclick="guestPlusOne()">+1</button>
-                <button id="btn--two" onclick="guestPlusTwo()">+2</button>
-                <button id="btn--three" onclick="guestPlusThree()">+3</button>
-            </div>
-        </div>
-    </div>
-    <div class="container-two">
-
-        
-        <p id="home--count" onclick="homeCount">ELITE : </p>
-        <p id="guest--count" onclick="guestCount">AECES : </p>
-        <button type="submit" id="save--counter" class="save--btn" onclick="showSaveScore()" name="update_score_data">SAVE</button>
-    </div>
-
-    <script src="./index.js"></script>
-    <script src="./js/tournament_type.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
-    <script src="./js/TOU-index.js"></script>
-    <script src="./js/theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
-    <script type="text/javascript" src="./js/TOU-popup.js"></script>
-    <script type="text/javascript" src="./js/TOU-AJAX.js"></script>
-
-    <script>
-        function showAlert() {
-            alert("Match Ended"); // Display the alert box with a message
-        }
-    </script>
-
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -401,17 +323,88 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
+    </script>
 
-      $(window).bind("resize", function () {
-        if ($(this).width() < 500) {
-          $('div').removeClass('open');
-          closeBtn.classList.replace("bx-arrow-to-left", "bx-menu");
-        }
-        else if ($(this).width() > 500) {
-          $('.sidebar').addClass('open');
-          closeBtn.classList.replace("bx-menu", "bx-arrow-to-left");
-        }
-      }).trigger('resize');
+    <!-- Event Config Scripts -->
+    <script type="text/javascript" src="./js/EVE-admin-bootstrap4.bundle.min.js"></script>
+    <script type="text/javascript" src="./js/EVE-admin-bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="./js/EVE-admin-bootstrap-select-picker.js"></script>
+    <script type="text/javascript" src="./js/EVE-admin-list-of-events.js"></script>
+    <script type="text/javascript" src="./js/EVE-admin-disable-button.js"></script>
+    <script type="text/javascript" src="./js/EVE-admin-popup.js"></script>
+    <script>
+
+      function randomString(length, chars) {
+          var mask = '';
+          if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
+          if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+          if (chars.indexOf('#') > -1) mask += '0123456789';
+          if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+          var result = '';
+          for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
+          return result;
+      }
+
+      var code = randomString(12, 'aA#');
+      $('#code').prop('value', code);
+
+      $(document).ready(function(){
+        var todaysDate = new Date();
+        
+        var year = todaysDate.getFullYear();		
+        var maxYear = year+10;
+        var month = ("0" + (todaysDate.getMonth() + 1)).slice(-2); 
+        var day = ("0" + todaysDate.getDate()).slice(-2);
+
+        var dtToday = (year + "-" + month + "-" + day);
+        var dtMax = (maxYear + "-" + month + "-" + day);
+        
+        $("#date").attr('max', dtMax);
+        $("#date").attr('min', dtToday);
+      });
+
+      $(document).ready(function(){
+
+        $("#select-event-name").change(function(){
+          var event_name_id = $(this).val();
+          if($('#select-event-type').prop('disabled', false)){
+            $('#select-event-type').prop('disabled', false);
+          }
+          $('#select-event-type option:selected').prop('selected', false);
+          $('#select-event-type').selectpicker('refresh');
+          $('#select-category-name').prop('disabled', true);
+          $('#select-category-name option:selected').prop('selected', false);
+          $('#select-category-name').selectpicker('refresh');
+          document.querySelector("#save-btn").disabled = true;
+          if($(this).val() === ""){
+            $('#select-event-type').prop('disabled', true);
+            $('#select-event-type').selectpicker('refresh');
+          }
+        });
+        $("#select-event-type").change(function(){
+          var s_event_name_id = $("#select-event-name").val();
+          var event_type_id = $(this).val();
+          if($('#select-category-name').prop('disabled', false)){
+            $('#select-category-name').prop('disabled', false);
+          }
+          $('#select-category-name').selectpicker('refresh');
+          document.querySelector("#save-btn").disabled = true;
+          if($(this).val() === ""){
+            $('#select-category-name').prop('disabled', true);
+            $('#select-category-name').selectpicker('refresh');
+          }
+          $.ajax({
+            url:"./php/EVE-admin-action.php",
+            method: "POST",
+            data:{s_eventNameID:s_event_name_id, eventTypeID:event_type_id},
+            success: function(data){
+              $("#select-category-name").html(data);
+              $('#select-category-name').selectpicker('refresh');
+            }
+          });
+        });
+      }); 
+
     </script>
   </body>
 
