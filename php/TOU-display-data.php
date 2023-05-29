@@ -1,6 +1,6 @@
 <?php
-include("connections.php");
-include("fetch-data.php");
+include("database_connect.php");
+include("TOU-fetch-data.php");
 ?>
 <select name="team_name">
    <option>Select Course</option>
