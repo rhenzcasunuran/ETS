@@ -238,58 +238,58 @@
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
                       <div class="accordion-body">
-                        <div class="form-check">
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="" id="check-all-organization" checked>
                           <label class="form-check-label" for="check-all-organization">
-                            All
+                            <span class="pill-all">All</span>
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="ACAP" id="check-acap">
                           <label class="form-check-label" for="check-acap">
-                            ACAP
+                            <span class="pill-acap">ACAP</span>
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="AECES" id="check-aeces">
                           <label class="form-check-label" for="check-aeces">
-                            AECES
+                            <span class="pill-aeces">AECES</span>
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="ELITE" id="check-elite">
                           <label class="form-check-label" for="check-elite">
-                            ELITE
+                            <span class="pill-elite">ELITE</span>
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="GIVE" id="check-give">
                           <label class="form-check-label" for="check-give">
-                            GIVE
+                            <span class="pill-give">GIVE</span>
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="JEHRA" id="check-jehra">
                           <label class="form-check-label" for="check-jehra">
-                            JEHRA
+                            <span class="pill-jehra">JEHRA</span>
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="JMAP" id="check-jmap">
                           <label class="form-check-label" for="check-jmap">
-                            JMAP
+                            <span class="pill-jmap">JMAP</span>
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="JPIA" id="check-jpia">
                           <label class="form-check-label" for="check-jpia">
-                            JPIA
+                            <span class="pill-jpia">JPIA</span>
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="PIIE" id="check-piie">
                           <label class="form-check-label" for="check-piie">
-                            PIIE
+                            <span class="pill-piie">PIIE</span>
                           </label>
                         </div>
                       </div>
@@ -307,28 +307,28 @@
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
                       <div class="accordion-body">
-                        <div class="form-check">
+                        <div class="form-check event-type">
                           <input class="form-check-input" type="checkbox" value="" id="check-all-event" checked>
                           <label class="form-check-label" for="check-all-event">
                             All
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check event-type">
                           <input class="form-check-input" type="checkbox" value="Tournament" id="check-tournament">
                           <label class="form-check-label" for="check-tournament">
-                            Tournament
+                            <i class='bx bxs-square'></i> Tournament
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check event-type">
                           <input class="form-check-input" type="checkbox" value="Competition" id="check-competition">
                           <label class="form-check-label" for="check-competition">
-                            Competition
+                            <i class='bx bxs-circle' ></i> Competition
                           </label>
                         </div>
-                        <div class="form-check">
+                        <div class="form-check event-type">
                           <input class="form-check-input" type="checkbox" value="Standard" id="check-standard">
                           <label class="form-check-label" for="check-standard">
-                            Standard
+                            <i class='bx bxs-up-arrow' ></i> Standard
                           </label>
                         </div>
                       </div>
@@ -369,7 +369,7 @@
         </div>
       </div>
       <br>
-      <br>   
+      <br>
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
@@ -391,11 +391,11 @@
     </script>
     <!--Calendar JS-->
     <script src="./js/CAL-admin-calendar.js"></script>
+    <!--Calendar API-->
+    <script src="https://apis.google.com/js/api.js"></script>
     <!--Popper JS-->
     <script src="./js/popper.min.js"></script>
     <!--Bootstrap JS-->
     <script src="./js/bootstrap.min.js"></script>
-    <!-- Bootstrap Datepicker JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.3/dist/js/bootstrap-datepicker.min.js"></script>
   </body>
 </html>
