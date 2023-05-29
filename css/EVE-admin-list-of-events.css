@@ -213,3 +213,7 @@ button {
     transition: 0.3s ease;
     margin: 3px;
 }
+
+#create-new-event-btn {
+    max-width: 500px!important;
+}
