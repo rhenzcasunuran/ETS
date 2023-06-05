@@ -18,6 +18,7 @@
 
      <!-- Event History CSS -->
      <link rel="stylesheet" href="./css/HIS-manage-v1.css">
+     
 
 
 <!--
@@ -226,9 +227,9 @@
         <div class="flex-container">
           <div class="main-containers">
 
-            
+          <div class="container-header">Events</div>
          <div class="flex-box-1">
-          
+
          <div class="search-wrapper">
          <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event"onkeyup="filterButtons()">
         </div>
@@ -255,9 +256,11 @@
   ?>
 </div>
 </div>
+<div class="container-header-1">Activities</div>
 <div class="flex-box">
-  <div id="select_event_text">Select an event first</div>
-  <div class="radio-holder">
+
+<div id="select_event_text">Select an event first</div>
+<div class="radio-holder">
   <?php
   if ($result->num_rows > 0) {
     $result->data_seek(0);
@@ -274,9 +277,18 @@
       }
 
       if (mysqli_num_rows($categoryResult) > 0) {
+        $categories = array();
         while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
           $categoryName = $categoryRow['category_name'];
-          echo "<label><input type='radio' name='activity_" . $eventName . "' value='" . $categoryName . "'>" . $categoryName . "</label>";
+          $categories[] = $categoryName;
+        }
+        $maxLength = max(array_map('strlen', $categories));
+
+        foreach ($categories as $categoryName) {
+          echo "<label class='form-check'>";
+          echo "<input class='form-check-input' type='radio' name='activity_" . $eventName . "' value='" . $categoryName . "'>";
+          echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
+          echo "</label>";
         }
       }
 
@@ -285,6 +297,7 @@
   }
   ?>
 </div>
+
 </div>
 
        
@@ -293,9 +306,6 @@
             <button type="button" id="but">Delete -</button>
           </div>
         </div>
-
-        <div id="infoContainer"></div>
-
 
 
         </div>

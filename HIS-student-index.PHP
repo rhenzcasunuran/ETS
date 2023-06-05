@@ -192,7 +192,7 @@ if($conn){
     <section class="home-section">
     <div class="header">
   Event History
-  <input type="text" id="search" placeholder="Search">
+  <input type="text" id="search" placeholder="Search" maxlength="30">
   <div class="dropdown">
     <i class="bx bx-filter-alt dropbtn bx-sm" onclick="myFunction()"></i>
     <div id="myDropdown" class="dropdown-content">
@@ -209,61 +209,66 @@ if($conn){
   </div>
 </div>
 
-      <div class="flex-container">
-    <div class="container" id="main-containers">
-      <div class="container">
-   
+<div class="flex-container">
+  <div class="container" id="main-containers">
+    <div class="container">
       <div class="col-md-12">
         <div class="row">
-          <div id="carousel" class="col-md-12 text-white carousel-container">
-          <?php
-              require('./php/database_connect.php');
+          <div id="carousel" class="col-md-12 text-white carousel-container"> <!-- Added carousel-container class -->
+            <?php
+            require('./php/database_connect.php');
 
-              $query = "SELECT * FROM image";
-              $result = mysqli_query($conn, $query);
+            $query = "SELECT * FROM image";
+            $result = mysqli_query($conn, $query);
 
-              $slides = '';
-              $active = 'active';
-              while ($row = mysqli_fetch_assoc($result)) {
-                  $imagePath = "./images/" . $row['filename'];
-                  $imageInfo = $row['image_Info'];
-                  $imageDesc = $row['image_Description'];
-                  $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '"></div>';
-                  $active = '';
-              }
+            $slides = '';
+            $active = 'active';
+            while ($row = mysqli_fetch_assoc($result)) {
+                $imagePath = "./images/" . $row['filename'];
+                $imageInfo = $row['image_Info'];
+                $imageDesc = $row['image_Description'];
+                $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '"></div>';
+                $active = '';
+            }
 
-              mysqli_data_seek($result, 0);
-              $active = 'active';
+            mysqli_data_seek($result, 0);
+            $active = 'active';
 
-              mysqli_close($conn);
-              ?>
+            mysqli_close($conn);
+            ?>
 
-              <div id="eventsImages" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <?php echo $slides; ?>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#eventsImages" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#eventsImages" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-                </div>
+            <div id="eventsImages" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <?php echo $slides; ?>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#eventsImages" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#eventsImages" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
           </div>
-    </div>
-        <div class="row" id="contain">
-        <div class="col-md-12 text-white text-container">
-          
         </div>
+        <div class="row" id="contain">
+          <div class="col-md-12 text-white text-container">
+            <!-- Additional content here -->
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+
+
       <div class="row">
   <div class="col-md-12 left-container">
     <div class="container-fluid left-part">
       <div class="row">
-        <div class="col-12 event">
+        <div class="col-md-12 event">
           <div id="card-container">
             <?php
             require('./php/database_connect.php');
