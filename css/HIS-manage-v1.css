@@ -16,6 +16,8 @@ h3 {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+
+
   }
   
   .main-containers {
@@ -26,9 +28,29 @@ h3 {
     justify-content: center;
     padding: 2%;
     left: 78px;
+    box-shadow: var(--color-container-shadow);
     width: calc(100% - 78px);
+    box-shadow: var(--color-shadow);
+
     align-items: center;
   }
+  .container-header-1 {
+    font-size: 30px;
+    position: absolute;
+    top: 30px;
+    left: 60%;
+
+    color: var(--color-content-text);
+  }
+  .container-header {
+    font-size: 30px;
+    position: absolute;
+    top: 30px;
+    left: 22%;
+
+    color: var(--color-content-text);
+  }
+  
   
   .flex-box {
     width: calc(100% - 78px);
@@ -41,6 +63,8 @@ h3 {
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+    box-shadow: var(--color-container-shadow);
+
     margin-left: 20px;
   }
   .flex-box-1{
@@ -54,6 +78,8 @@ h3 {
     display: block;
     align-items: center;
       flex-direction: column;
+      box-shadow: var(--color-container-shadow);
+
       align-items: center;
     border-radius: 10px;
     margin-left: 20px;
@@ -127,13 +153,64 @@ h3 {
     color: var(--color-content-text);
 
   }
-  .flex-box input[type="radio"] {
-    transform: scale(2);
-    margin-right: 20%;
-    margin-left: 10%;
-    text-align: center;
-    vertical-align: sub;
+  .form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
   }
+  
+  .form-check input[type="radio"] {
+    display: none;
+  }
+  
+  .form-check-label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    width: auto; /* Adjust the width as needed */
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-check-label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-sidebar-active);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  
+  .form-check input[type="radio"]:checked + .form-check-label:before {
+    background-color: #da3030;
+  }
+  
+  .form-check-label:after {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #da3030;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .form-check input[type="radio"]:checked + .form-check-label:after {
+    opacity: 1;
+  }
+  
+  
+  
+  
   .activity_container{
     display: flex;
     align-items: center;
@@ -181,4 +258,10 @@ h3 {
     .btn-group{
       display: block;
     }
+    .container-header,.container-header-1 {
+      font-size: 20px;
+      text-align: center;
+      position: inherit;
+    }
+    
 }  

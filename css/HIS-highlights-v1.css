@@ -86,7 +86,6 @@
     border-style: hidden;
     line-height: 36px;
     text-align: center;
-    background-color: var(--color-sidebar-active);
     color:var(--color-content-text);
     padding: 25px;
     border-radius: 15px 15px 15px 15px;
@@ -230,6 +229,8 @@
     margin-top: 10px;
     border: 1px solid #ccc;
     color: var(--color-content-text);
+    background-color: var(--color-content-card);
+
     padding:3px;
     border-radius: 5px;
     width: 70%;
@@ -237,6 +238,9 @@
   textarea {
     margin-left:10%;
     padding: 10px;
+    background-color: var(--color-content-card);
+    color: var(--color-content-text);
+
     border-radius: 5px;
     border: 1px solid #ccc;
     resize: none;
