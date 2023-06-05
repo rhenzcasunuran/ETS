@@ -22,6 +22,31 @@ const checkTime = document.querySelector("#checkTime");
 
 var tooltip = document.querySelector('#tooltip');
 
+const nextYearDate = new Date(); // Get current date
+const currentDate = new Date(); // Get current date
+nextYearDate.setFullYear(currentDate.getFullYear() + 1); // Add a year to the current 
+currentDate.setFullYear(currentDate.getFullYear()); // Current date
+
+const nextYearDateString = nextYearDate.toISOString().split("T")[0];
+const currentDateString = currentDate.toISOString().split("T")[0];
+
+const currentDay = currentDate.getDate();
+const currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so add 1
+const currentYear = currentDate.getFullYear();
+
+const currentDate1 = `${currentDay}/${currentMonth}/${currentYear}`;
+
+const nextYearDay = nextYearDate.getDate();
+const nextYearMonth = nextYearDate.getMonth() + 1; // Month is zero-based, so add 1
+const nextYearYear = nextYearDate.getFullYear();
+
+const nextYearDate1 = `${nextYearDay}/${nextYearMonth}/${nextYearYear}`;
+
+
+const dateText = document.querySelector("#dateText");
+dateText.textContent = "(" + currentDate1 + ") to (" + nextYearDate1 + ")";
+
+
 // the default state is 'disabled'
 formButton.disabled = true; 
 
@@ -37,7 +62,9 @@ formTime.addEventListener("change", buttonState);
 
 function buttonState() {
     const descValue = formDesc.value.trim().replace(/\s\s+/g, ""); // Remove multiple consecutive spaces
-    if (formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formTime.value !== "" && formEvent.value !== "" && formType.value !== "" && formCategory.value !== "") {
+
+
+    if (formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value < nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "" && formCategory.value !== "") {
         formButton.disabled = false; // enable the button once the input field has content
         tooltip.style.display = 'none';
     } else {
@@ -80,13 +107,13 @@ function buttonState() {
             textDesc.style.color = "var(--default-success-color)";
         }
         //Date
-        if(formDate.value === "") {
-            checkDate.style.visibility = "hidden";
-            textDate.style.color = "var(--not-active-text-color)";
-        }
-        else{
+        if(formDate.value !== "" && (formDate.value < nextYearDateString && formDate.value >= currentDateString)) {
             checkDate.style.visibility = "visible";
             textDate.style.color = "var(--default-success-color)";
+        }
+        else{
+            checkDate.style.visibility = "hidden";
+            textDate.style.color = "var(--not-active-text-color)";
         }
         //Time
         if(formTime.value === "") {
