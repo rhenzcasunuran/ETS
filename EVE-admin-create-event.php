@@ -322,7 +322,7 @@
                   <div class="tooltipText" id="textType">Event Type<i class='bx bx-check' id="checkType"></i></div>
                   <div class="tooltipText" id="textCategory">Category<i class='bx bx-check' id="checkCategory"></i></div>
                   <div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class='bx bx-check' id="checkDescription"></i></div>
-                  <div class="tooltipText" id="textDate">Date<i class='bx bx-check' id="checkDate"></i></div>
+                  <div class="tooltipText" id="textDate">Date: <span id="dateText"></span><i class='bx bx-check' id="checkDate"></i></div>
                   <div class="tooltipText" id="textTime">Time<i class='bx bx-check' id="checkTime"></i></div>
               </div>
               Save Changes
@@ -367,7 +367,6 @@
     <script type="text/javascript" src="./js/EVE-admin-bootstrap4.bundle.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select-picker.js"></script>
-    <script type="text/javascript" src="./js/EVE-admin-disable-button.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-popup.js"></script>
     <script>
 
@@ -384,7 +383,7 @@
 
       var code = randomString(12, 'aA#');
       $('#code').prop('value', code);
-
+      
       $(document).ready(function(){
         var todaysDate = new Date();
         
@@ -465,6 +464,7 @@
         windows.location.href = "EVE-admin-list-of-events.php?event successfully saved";
       }
     </script>
+      <script type="text/javascript" src="./js/EVE-admin-disable-button.js"></script>
   </body>
 
 </html>

@@ -337,7 +337,7 @@
                 <div class="tooltipText" id="textType">Event Type<i class='bx bx-check' id="checkType"></i></div>
                 <div class="tooltipText" id="textCategory">Category<i class='bx bx-check' id="checkCategory"></i></div>
                 <div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class='bx bx-check' id="checkDescription"></i></div>
-                <div class="tooltipText" id="textDate">Date<i class='bx bx-check' id="checkDate"></i></div>
+                <div class="tooltipText" id="textDate">Date: <span id="dateText"></span><i class='bx bx-check' id="checkDate"></i></div>
                 <div class="tooltipText" id="textTime">Time<i class='bx bx-check' id="checkTime"></i></div>
               </div>
                 Save Changes

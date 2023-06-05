@@ -521,7 +521,7 @@
 
         $('input').on('input', function(e) {
           $(this).val(function(i, v) {
-            return v.replace(/[^\w\s]/gi, '');
+            return v.replace(/[^\w\s]|_/gi, '');
           });
         });
       });
