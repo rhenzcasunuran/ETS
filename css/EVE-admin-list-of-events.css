@@ -155,7 +155,7 @@ html{
 #no-event-container h1{
     font-size: calc(25px + 1vw);
     font-weight: 700;
-    color: #FFF;
+    color: var(--color-content-text);
 }
 
 #no-event-container a i, #no-event-container a i span, #add-event-btn i, #add-event-btn i span{
