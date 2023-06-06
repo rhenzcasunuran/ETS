@@ -18,12 +18,13 @@ $result = $conn->query($sql);
 
 // If there are competitions, generate HTML code for each of them
 if ($result->num_rows > 0) {
-    ?> <script type="text/javascript">document.getElementById('empty').style.display = 'none';</script>
+    ?> <script type="text/javascript">document.getElementById('empty').style.display = 'none';
+    console.log("display result");</script>
     <?php
   while($row = $result->fetch_assoc()) {
     echo "<div class='result_container'>";
     // Display the name of the competition and a button with the competition ID as the ID
-    echo "<h2 class='parent' id='" . $row["competition_name"] ."'>" . $row["competition_name"] . "<button class='sched_btn primary-button' id='" . $row["competition_name"] . " btn'>Schedule</button></h2>";
+    echo "<h2 class='parent' id='" . $row["competition_name"] ."'>" . $row["competition_name"] . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='".$row["competition_name"]."-input' class='sched_output' disabled/><button class='sched_btn primary-button' id='" . $row["competition_name"] . " btn'>Schedule</button></h2>";
     // Generate HTML code for the result div and table
     echo "<div class='result'>";
     echo "<table>";
