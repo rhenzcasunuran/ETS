@@ -335,10 +335,14 @@ border-radius: 20px;
 }
 
 .card-body1{
+  width: 100% auto;
+  max-width:100% auto;
+  background: var(--color-content-card);
+  box-shadow: 4px 5px 10px;
   flex:1 1 auto;
   padding:1rem 1rem;
   margin-top: 2px;
-  width: 100% auto;
+  border-radius: 20px; 
   height: 100% auto;
   display: table;
 }
@@ -365,16 +369,16 @@ th{
 }
 
 .inputjname{
-  margin-left: 5px;
-  margin-right: 10px;
-  width: 200px;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 225px;
   border-radius: 20px;
   height: 38px; 
   text-align:center;
 }
 
 .inputjnick{
-  margin-right: 10px;
+  margin-right: 5%;
   width: 160px;
   border-radius: 20px;
   height: 38px; 
@@ -382,8 +386,8 @@ th{
 }
 
 .inputjnickd{
-  margin-right: 10px;
-  margin-left: 5px;
+  margin-right: 5%;
+  margin-left: 5%;
   width: 160px;
   border-radius: 20px;
   height: 38px; 
@@ -392,9 +396,10 @@ th{
 
 .judgeheader{
   color:var(--color-content-text);
-  margin-left:50px; 
-  margin-right:20px;
+  padding-right: 1%;
+  padding-left: 1%;
   font-weight:1000;
+  text-align:center;
 }
 
 .parheader{
@@ -405,7 +410,7 @@ th{
 }
 
 .inputpname{
-  margin-right: 5px;width: 200px;border-radius: 20px;height: 38px; text-align: center;
+  margin-right: 5px;width: 225px;border-radius: 20px;height: 38px; text-align: center;
 }
 .inputpcs{
   margin-right: 5px;width: 100px;border-radius: 20px;height: 38px; text-align: center;
@@ -482,6 +487,39 @@ th{
 }
 
 #discardChanges-popupp{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#popupparg{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#clear-popuppg{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#discardChanges-popuppg{
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
