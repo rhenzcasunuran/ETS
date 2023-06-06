@@ -19,32 +19,46 @@ if (empty($filters)) {
 // Validate and sanitize input
 $year = filter_var($year, FILTER_VALIDATE_INT);
 $month = filter_var($month, FILTER_VALIDATE_INT);
-$filters = array_map('htmlspecialchars', $filters);
 
-// Check if filters array is empty
-if (empty($filters)) {
+// Validate and sanitize filters array
+$allowedEventTypes = array('Tournament', 'Competition', 'Standard');
+$filteredFilters = array();
+
+foreach ($filters as $filter) {
+    $filter = htmlspecialchars($filter);
+    if (in_array($filter, $allowedEventTypes)) {
+        $filteredFilters[] = $filter;
+    }
+}
+
+// Check if filters array is empty after filtering
+if (empty($filteredFilters)) {
     echo json_encode(array());
     exit;
 }
 
 // Build the parameter placeholders for the filters
-$placeholders = implode(',', array_fill(0, count($filters), '?'));
+$placeholders = implode(',', array_fill(0, count($filteredFilters), '?'));
 $sql = "SELECT combined_table.event_id, combined_table.event_name, combined_table.event_type,
         combined_table.category_name, combined_table.event_description, combined_table.event_date,
-        TIME_FORMAT(combined_table.event_time, '%h:%i %p') 
-            AS event_time
-                FROM (
-                    SELECT event_id, event_name, event_type, category_name, event_description, event_date, event_time
-                    FROM listofeventtb
-                        UNION ALL
-                    SELECT event_history_id, event_name, event_type, category_name, event_description, event_date, event_time
-                    FROM eventhistorytb
-            ) AS combined_table
-        WHERE YEAR(combined_table.event_date) = ? AND MONTH(combined_table.event_date) = ? AND combined_table.event_type IN ($placeholders)
+        TIME_FORMAT(combined_table.event_time, '%h:%i %p') AS event_time
+        FROM (
+            SELECT event_id, event_name, event_type, category_name, event_description, event_date, event_time
+            FROM listofeventtb
+            UNION ALL
+            SELECT event_history_id, event_name, event_type, category_name, event_description, event_date, event_time
+            FROM eventhistorytb
+        ) AS combined_table
+        WHERE YEAR(combined_table.event_date) = ? 
+        AND MONTH(combined_table.event_date) = ? 
+        AND combined_table.event_type IN ($placeholders)
         ORDER BY combined_table.event_time ASC;";
+
 $stmt = mysqli_prepare($conn, $sql);
-$params = array_merge([$year, $month], $filters);
+
+$params = array_merge([$year, $month], $filteredFilters);
 $types = str_repeat('s', count($params));
+
 mysqli_stmt_bind_param($stmt, $types, ...$params);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
