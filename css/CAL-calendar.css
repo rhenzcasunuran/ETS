@@ -14,16 +14,15 @@
 }
 
 .d-flex #calendar-title {
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-left: 7rem;
   margin-bottom: 2.5rem;
   color: var(--color-content-text);
 }
 
-.d-flex .dropdown {
-  margin-top: 2rem;
-  margin-right: 8rem;
-  margin-bottom: 2.5rem;
+.dropdown {
+  margin-top: 15px;
+  margin-right: 155px;
 }
 
 #calendar {
@@ -425,4 +424,98 @@ input::-webkit-inner-spin-button {
 #dateTextLabel{
   margin-left: 38px;
   margin-bottom: -20px;
+}
+
+/* Google Calendar */
+
+pre {
+  font-size: 1em;
+}
+
+/* Mini Calendar */
+
+#calendarToggle {
+  margin-top: 31px;
+  font-size: 1.5em;
+}
+
+#miniCalendar .mini-calendar-header {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  width: 279px;
+  height: 100px;
+}
+
+#miniCalendar .mini-calendar-header button {
+  flex: 0 0 auto;
+}
+
+#miniCalendar .mini-calendar-header h2 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+#miniCalendar {
+  margin-top: 65px;
+  margin-left: 335px;
+  width: 200px;
+  font-family: Arial, sans-serif;
+  position: absolute;
+  z-index: 1;
+}
+
+#miniCalendar table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#miniCalendar th,
+#miniCalendar td {
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+#miniCalendar th {
+  background-color: #f2f2f2;
+}
+
+#miniCalendar table td:hover {
+  background-color: #f9f9f9;
+}
+
+#miniCalendar .current-day {
+  background-color: #4a90e2;
+  color: #fff;
+}
+
+#miniCalendar .current-day:hover {
+  background-color: #4a90e2;
+  color: #fff;
+}
+
+#miniCalendar .selected-day {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+#miniCalendar {
+  display: none;
+}
+
+#miniCalendarTable {
+  background-color: white;
+}
+
+.calendar-wrapper {
+  position: relative;
+}
+
+.calendar-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2; /* Ensure the toggle is above the calendar */
 }

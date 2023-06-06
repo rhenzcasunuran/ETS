@@ -19,17 +19,277 @@
   }
 
 .custom-search-bar {
-    width: 200px;
-    height: 45px;
-  }
-  
-.small-button{
-    margin-top: 18.5rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: left;
-    padding: 7.5rem 12rem;
+  width: 200px;
+  height: 45px;
+}
+
+.small-button{ 
+  position: relative;
+  margin-top: -50px;
+  margin-left: 50px;
+}
+
+.table {
+  margin-top: -10px;
+}
+
+.container {
+  margin-top: -50px;
+  margin-left: 130px;
+  margin-right: 100px;
+}
+
+/* Filter Customization  */
+
+.pill-all {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: #6c757d;
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-acap {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-acap);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-aeces {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-aeces);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-elite {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-elite);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-give {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-give);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-jehra {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-jehra);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-jmap {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-jmap);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-jpia {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-jpia);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.pill-piie {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-piie);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.form-check:not(.event-type) {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-input:not(.event-type) {
+  margin-right: 10px;
+}
+
+.accordion-item {
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  border-radius: 0;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.form-check-label {
+  font-size: 14px;
+}
+
+.accordion-button:not(.collapsed) {
+  border-bottom: 2px solid black;
+  border-radius: 0;
+  background-color: transparent;
+  color: #000;
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-color: transparent;
+}
+
+.accordion-button:not(.collapsed)::before {
+  color: #000;
+}
+
+#no-results-row {
+  text-align: center;
+  font-style: italic;
+  color: gray;
+}
+
+.calendar-input-container {
+  position: relative;
+  display: inline-block;
+}
+
+#calendar-icon {
+  display: flex;
+  position: absolute;
+  top: 40%;
+  right: 20px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 24px;
+}
+
+#datepicker {
+  padding-right: 30px; /* Provide space for the icon */
+  width: 200px; /* Set the desired width for the input field */
+}
+
+/* Mini Calendar */
+
+#calendarToggle {
+  margin-top: 31px;
+  font-size: 1.5em;
+}
+
+#miniCalendar .mini-calendar-header {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  width: 279px;
+  height: 100px;
+}
+
+#miniCalendar .mini-calendar-header button {
+  flex: 0 0 auto;
+}
+
+#miniCalendar .mini-calendar-header h2 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+#miniCalendar {
+  margin-top: 55px;
+  margin-left: 390px;
+  width: 200px;
+  font-family: Arial, sans-serif;
+  position: absolute;
+  z-index: 1;
+}
+
+#miniCalendar table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#miniCalendar th,
+#miniCalendar td {
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+#miniCalendar th {
+  background-color: #f2f2f2;
+}
+
+#miniCalendar table td:hover {
+  background-color: #f9f9f9;
+}
+
+#miniCalendar .current-day {
+  background-color: #4a90e2;
+  color: #fff;
+}
+
+#miniCalendar .current-day:hover {
+  background-color: #4a90e2;
+  color: #fff;
+}
+
+#miniCalendar .selected-day {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+#miniCalendar {
+  display: none;
+}
+
+#miniCalendarTable {
+  background-color: white;
+}
+
+.calendar-wrapper {
+  position: relative;
+}
+
+.calendar-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2; /* Ensure the toggle is above the calendar */
 }
