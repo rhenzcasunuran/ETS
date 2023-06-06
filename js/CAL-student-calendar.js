@@ -148,7 +148,7 @@ $(document).ready(function() {
                       var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                       addToCalendarModal.attr('aria-hidden', 'true');
-                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><i class="bx bx-calendar-plus bx-lg"></i><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event to your calendar</p><br><pre id="content"></pre><button class="btn btn-outline-secondary rounded-pill" id="authorize_button" onclick="handleAuthClick(\'' + events[eventsCounting].event_date + '\', \'' + events[eventsCounting].category_name.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_description.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_time + '\')">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                       // Append the addToCalendarModal to the body
                       $('body').append(addToCalendarModal);
@@ -237,7 +237,7 @@ $(document).ready(function() {
                       var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                       addToCalendarModal.attr('aria-hidden', 'true');
-                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event to your calendar</p><br><pre id="content"></pre><button class="btn btn-outline-secondary rounded-pill" id="authorize_button" onclick="handleAuthClick(\'' + events[eventsCounting].event_date + '\', \'' + events[eventsCounting].category_name.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_description.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_time + '\')">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                       // Append the addToCalendarModal to the body
                       $('body').append(addToCalendarModal);
@@ -341,7 +341,7 @@ $(document).ready(function() {
                   var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                   addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                   addToCalendarModal.attr('aria-hidden', 'true');
-                  addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                  addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event to your calendar</p><br><pre id="content"></pre><button class="btn btn-outline-secondary rounded-pill" id="authorize_button" onclick="handleAuthClick(\'' + events[eventsCounting].event_date + '\', \'' + events[eventsCounting].category_name.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_description.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_time + '\')">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                   // Append the addToCalendarModal to the body
                   $('body').append(addToCalendarModal);
@@ -436,7 +436,7 @@ $(document).ready(function() {
                       var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                       addToCalendarModal.attr('aria-hidden', 'true');
-                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event to your calendar</p><br><pre id="content"></pre><button class="btn btn-outline-secondary rounded-pill" id="authorize_button" onclick="handleAuthClick(\'' + events[eventsCounting].event_date + '\', \'' + events[eventsCounting].category_name.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_description.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_time + '\')">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                       // Append the addToCalendarModal to the body
                       $('body').append(addToCalendarModal);
@@ -525,7 +525,7 @@ $(document).ready(function() {
                       var addToCalendarModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                       addToCalendarModal.attr('id', 'add-to-calendar-modal-' + events[eventsCounting].event_id);
                       addToCalendarModal.attr('aria-hidden', 'true');
-                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event/s to your calendar</p><br><button type="button" class="btn btn-outline-secondary rounded-pill">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
+                      addToCalendarModal.append('<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"><div class="modal-content"><div class="modal-header invisible-header"><h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3></div><div class="modal-body text-center"><p>Do you wish to add the event to your calendar</p><br><pre id="content"></pre><button class="btn btn-outline-secondary rounded-pill" id="authorize_button" onclick="handleAuthClick(\'' + events[eventsCounting].event_date + '\', \'' + events[eventsCounting].category_name.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_description.replace(/'/g, "\\'") + '\', \'' + events[eventsCounting].event_time + '\')">Yes</button><button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">No</button></div>');
 
                       // Append the addToCalendarModal to the body
                       $('body').append(addToCalendarModal);
@@ -593,7 +593,10 @@ $(document).ready(function() {
   // Generate calendar for current month and year
   generateCalendar(currentMonth, currentYear, filters); 
   
-  $("#prev-month").click(function() {
+  var prevMonthInterval;
+  var nextMonthInterval;
+
+  $("#prev-month").mousedown(function() {
     $('[data-bs-toggle="popover"]').not(this).popover('hide');
     currentMonth--;
     if (currentMonth < 0) {
@@ -601,9 +604,22 @@ $(document).ready(function() {
       currentYear--;
     }
     generateCalendar(currentMonth, currentYear, filters);
+
+    prevMonthInterval = setInterval(function() {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      generateCalendar(currentMonth, currentYear, filters);
+    }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
+  }).mouseup(function() {
+    clearInterval(prevMonthInterval);
+  }).mouseleave(function() {
+    clearInterval(prevMonthInterval);
   });
-  
-  $("#next-month").click(function() {
+
+  $("#next-month").mousedown(function() {
     $('[data-bs-toggle="popover"]').not(this).popover('hide');
     currentMonth++;
     if (currentMonth > 11) {
@@ -611,7 +627,161 @@ $(document).ready(function() {
       currentYear++;
     }
     generateCalendar(currentMonth, currentYear, filters);
-  });    
+
+    nextMonthInterval = setInterval(function() {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      generateCalendar(currentMonth, currentYear, filters);
+    }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
+  }).mouseup(function() {
+    clearInterval(nextMonthInterval);
+  }).mouseleave(function() {
+    clearInterval(nextMonthInterval);
+  });
+
+  const miniCalendarContainer = document.getElementById("miniCalendar");
+  const miniCurrentDate = new Date();
+  let miniCurrentMonth = miniCurrentDate.getMonth();
+  let miniCurrentYear = miniCurrentDate.getFullYear();
+  let miniSelectedDate = null;
+
+  // Array of month names
+  const miniMonthNames = [
+    "January", "February", "March",
+    "April", "May", "June",
+    "July", "August", "September",
+    "October", "November", "December"
+  ];
+
+  // Update the calendar based on the selected month and year
+  function updateMiniCalendar() {
+    // Get the calendar elements
+    const miniCalendarHeader = document.getElementById("miniCalendarHeader");
+    const miniPreviousButton = document.getElementById("miniPreviousButton");
+    const miniNextButton = document.getElementById("miniNextButton");
+    const miniCalendarTable = document.getElementById("miniCalendarTable");
+
+    // Set the calendar header
+    miniCalendarHeader.innerText = miniMonthNames[miniCurrentMonth] + " " + miniCurrentYear;
+
+    // Add event listeners to the buttons
+    miniPreviousButton.addEventListener("click", goToMiniPreviousMonth);
+    miniNextButton.addEventListener("click", goToMiniNextMonth);
+
+    // Clear the calendar table
+    miniCalendarTable.innerHTML = "";
+
+    // Generate calendar table headers (weekdays)
+    const miniWeekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const miniWeekdaysRow = document.createElement("tr");
+    miniCalendarTable.appendChild(miniWeekdaysRow);
+    miniWeekdays.forEach(function (weekday) {
+      const miniTh = document.createElement("th");
+      miniTh.innerText = weekday;
+      miniWeekdaysRow.appendChild(miniTh);
+    });
+
+    // Get the first day of the month
+    const miniFirstDay = new Date(miniCurrentYear, miniCurrentMonth, 1);
+    const miniStartingDay = miniFirstDay.getDay();
+
+    // Get the number of days in the month
+    const miniLastDay = new Date(miniCurrentYear, miniCurrentMonth + 1, 0);
+    const miniNumDays = miniLastDay.getDate();
+
+    // Calculate the total number of rows needed
+    const miniTotalRows = Math.ceil((miniNumDays + miniStartingDay) / 7);
+
+    // Generate calendar days
+    let miniDate = 1;
+    for (let i = 0; i < miniTotalRows; i++) {
+      const miniRow = document.createElement("tr");
+      miniCalendarTable.appendChild(miniRow);
+      for (let j = 0; j < 7; j++) {
+        const miniCellIndex = i * 7 + j;
+        const miniTd = document.createElement("td");
+        if (miniCellIndex >= miniStartingDay && miniDate <= miniNumDays) {
+          miniTd.innerText = miniDate;
+          if (
+            miniDate === miniCurrentDate.getDate() &&
+            miniCurrentMonth === miniCurrentDate.getMonth() &&
+            miniCurrentYear === miniCurrentDate.getFullYear()
+          ) {
+            miniTd.classList.add("current-day");
+          }
+          miniTd.addEventListener("click", function() {
+            selectMiniDate(this);
+          });
+          miniDate++;
+        }
+        miniRow.appendChild(miniTd);
+      }
+    }
+  }
+
+  // Function to go to the next month
+  function goToMiniNextMonth() {
+    miniCurrentMonth++;
+    if (miniCurrentMonth > 11) {
+      miniCurrentMonth = 0;
+      miniCurrentYear++;
+    }
+    updateMiniCalendar();
+  }
+
+  // Function to go to the previous month
+  function goToMiniPreviousMonth() {
+    miniCurrentMonth--;
+    if (miniCurrentMonth < 0) {
+      miniCurrentMonth = 11;
+      miniCurrentYear--;
+    }
+    updateMiniCalendar();
+  }
+
+  // Function to select a date
+  function selectMiniDate(miniDateCell) {
+    if (miniSelectedDate) {
+      miniSelectedDate.classList.remove("selected-day");
+    }
+    miniSelectedDate = miniDateCell;
+    miniSelectedDate.classList.add("selected-day");
+
+    // Remove current-day style from the previous current day
+    const miniCurrentDay = document.querySelector(".current-day");
+    if (miniCurrentDay) {
+      miniCurrentDay.classList.remove("current-day");
+    }
+
+    // Add current-day style to the selected date
+    miniSelectedDate.classList.add("current-day");
+
+    displayMiniSelectedDate();
+  }
+
+  // Function to display the selected date below the calendar
+  function displayMiniSelectedDate() {
+    if (miniSelectedDate) {
+      currentMonth = miniCurrentMonth;
+      currentYear = miniCurrentYear;
+      generateCalendar(miniCurrentMonth, miniCurrentYear, filters);
+    }
+  }
+
+  // Generate initial mini calendar
+  updateMiniCalendar();
+
+  const miniCalendarToggle = document.getElementById("calendarToggle");
+  const miniCalendar = document.getElementById("miniCalendar");
+
+  miniCalendarToggle.addEventListener("click", function() {
+    miniCalendar.style.display = miniCalendar.style.display === "none" ? "block" : "none";
+  });
+
+  displayMiniSelectedDate();
 
   // Event handler for the remaining-event button click
   $(document).on('click', '.remaining-event', function() {
