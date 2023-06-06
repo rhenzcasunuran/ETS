@@ -17,6 +17,7 @@
     <script src="./js/default-theme.js"></script>
     <!-- Link Styles -->
     <link rel="stylesheet" href="./css/P&J-participantsandjudges.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">

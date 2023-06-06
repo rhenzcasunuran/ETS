@@ -16,15 +16,37 @@
     <link rel="stylesheet" href="css/theme-mode.css">
     <script src="js/default-theme.js"></script>
     <!-- Link Styles -->
-    <link rel="stylesheet" href="css/P&J-participantsandjudges.css"/> 
+    <link rel="stylesheet" href="css/P&J-participantsandjudges.css"/>
+    <link rel="stylesheet" href="./css/system-wide.css"> 
     <link rel="stylesheet" href="css/boxicons.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/sidebar-style.css">
     <link rel="stylesheet" href="css/home-sidebar-style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css'/>
-    <link rel="stylesheet" href="./css/HOM-style.css">
-    
+    <link rel="stylesheet" href="css/HOM-style.css">
+    <style>
+     .table-container {
+  overflow-x: auto;
+}
+
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  th, td {
+    display: block;
+    width: 100%;
+  }
+}
+    </style>
     
     
 
@@ -224,81 +246,73 @@
     </div>
     
     <!--Page Content-->
-              <div class="container-fluid" id="popup">
-                <div class="row popup-card">
-                  <i class='row warning-icon bx bx-trash' ></i>
-                  <h3 class="row d-flex justify-content-center align-items-center">
-                    Are you sure you want to cancel ALL?
-                  </h3>
-                  <h6 class="row d-flex justify-content-center align-items-center">
-                    You cannot undo this action.
-                  </h6>
-                  <div class="row">
-                    <div class="col">
-                      <a href="HOM-manage-post.php?eed=<?php echo $count[0]?>" class="text-decoration-none" onclick="hide()">
-                        <div id="clear" class="button-clone continue" onclick="deleteListJ()">
-                          &nbsp;Yes
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col">
-                      <div class="button-clone cancel" onclick="hide()">
-                        &nbsp;No
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="container-fluid" id="popupPar">
-                <div class="row popup-card">
-                  <i class='row warning-icon bx bx-trash' ></i>
-                  <h3 class="row d-flex justify-content-center align-items-center">
-                    Are you sure you want to cancel ALL?
-                  </h3>
-                  <h6 class="row d-flex justify-content-center align-items-center">
-                    You cannot undo this action.
-                  </h6>
-                  <div class="row">
-                    <div class="col">
-                      <a href="HOM-manage-post.php?eed=<?php echo $count[0]?>" class="text-decoration-none" onclick="hidep()">
-                        <div id="clear" class="button-clone continue" onclick="deleteListP()">
-                          &nbsp;Yes
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col">
-                      <div class="button-clone cancel" onclick="hidep()">
-                        &nbsp;No
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="container-fluid" id="popupParg">
-                <div class="row popup-card">
-                  <i class='row warning-icon bx bx-trash' ></i>
-                  <h3 class="row d-flex justify-content-center align-items-center">
-                    Are you sure you want to cancel ALL?
-                  </h3>
-                  <h6 class="row d-flex justify-content-center align-items-center">
-                    You cannot undo this action.
-                  </h6>
-                  <div class="row">
-                    <div class="col">
-                      <a href="HOM-manage-post.php?eed=<?php echo $count[0]?>" class="text-decoration-none" onclick="hidepg()">
-                        <div id="clear" class="button-clone continue" onclick="deleteListPG()">
-                          &nbsp;Yes
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col">
-                      <div class="button-clone cancel" onclick="hidepg()">
-                        &nbsp;No
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <!--Popup Confirm / Success for submit all button-->
+    <div class="popup-background" id="submitWrapper">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Submit All to Database?</h3>   <!--header-->
+                <p>You cannot undo this action.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideSubmit()"><i class='bx bx-x'></i>Cancel</button>
+                <button class="success-button" id="submitPopup" name="save_btnS"><i class='bx bx-check'></i>Confirm</button>
+            </div>
+        </div>
+    </div>
+    <!--Popup Cancel / Warning for judges-->
+    <div class="popup-background" id="popup">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
+                <p>Any unsaved progress will be lost.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hide()"><i class='bx bx-chevron-left'></i>Return</button>
+                <button id="clear" class="primary-button continue" onclick="deleteListJ();hide();"><i class='bx bx-x'></i>Discard</button>
+            </div>
+        </div>
+    </div>
+             
+    <!--Popup Cancel / Warning for participants-->
+    <div class="popup-background" id="popupPar">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
+                <p>Any unsaved progress will be lost.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hidep()"><i class='bx bx-chevron-left'></i>Return</button>
+                <button class="primary-button" onclick="deleteListP();hidep();"><i class='bx bx-x'></i>Discard</button>
+            </div>
+        </div>
+    </div>
+              
+    <!--Popup Cancel / Warning for participants grouped-->
+    <div class="popup-background" id="popupparg">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
+                <p>Any unsaved progress will be lost.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hidepg()"><i class='bx bx-chevron-left'></i>Return</button>
+                <button class="primary-button" onclick="deleteListPG();hidepg();"><i class='bx bx-x'></i>Discard</button>
+            </div>
+        </div>
+    </div>
+  
               <div class="popup container-fluid" id="popuplink">
                 <div class="popup-card">
   <div class="popup-content">
@@ -318,7 +332,7 @@
     <section class="home-section">
       <div class="container">
         <div class="row" style="min-width: 100%;">
-            <div class="col-md-10" style="max-width: 1400px;min-width: 100%;">
+            <div class="col-md-10" style="max-width: 100%;min-width: 100% auto;">
                 <div class="row" style="margin-bottom: 20px;margin-top: 20px;">
                     <div class="col">
                         <h4 class="fw-bold d-table-cell" style="color:var(--color-content-text);font-weight:1000;">Judges and Participants</h4>
@@ -327,7 +341,7 @@
                 <div class="row">
                     <div class="col-xxl-12"><label class="form-label fw-bold" style="margin-left: 25px; color:var(--color-content-text);">Event</label><label for="Participant Category" class="form-label fw-bold" style="margin-left: 190px; color:var(--color-content-text);">Participant Category</label>
                     <form action="#" method="POST" id="add_form2">
-                        <div class="dropdown"><input type='text' class='inputpname' style='border-radius:20px; margin-left:20px;' placeholder='Event Code' name='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" Required/>
+                        <div class="dropdown"><input type='text' class='inputpname cformj' style='border-radius:20px; margin-left:20px;' placeholder='Event Code' name='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" pattern="[a-zA-Z0-9 ]*" Required/>
                         
                         <select name ="Participant Category"class='btn dropdown-toggle div-toggle' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);' data-target=".participantsform">
                         <option data-show=".individual">Individual</option>
@@ -335,44 +349,50 @@
                         </select>
                         </div>
                         <div class="row">
-                          <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px;margin-left: 300px; color:var(--color-content-text);">Judges</label></div>
+                          <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Judges</label></div>
                           <div class="col text-end" style="margin-right: 18px;">
-                            <button onClick="add_judge();" class="buttonadd" style="margin-right:150px;" type="button" id="judgeadd"><i class='bx bxs-user-plus'></i></button>
+                            <button onClick="add_judge();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="judgeadd"><i class='bx bxs-user-plus'></i></button>
                           </div>
                       </div>
-                    
-                        <div style="border-radius: 20px;min-height: 300px; margin: auto; margin-top: 2px;width: auto;height: 100px;display: table;">
-                            <div class="card-body1" style="border-radius: 20px; background: var(--color-content-card);box-shadow: 4px 5px 10px;">
-                            
-                                <div id="show_judges">
+    <div class="div">
+        <div class="element">
+            <div class="row">
+                <div class="element-group">
+                <div id="show_judges">
                                     <div class="row">
                                     <div class="col">
                                     
                                   </div>
                                   <div>
                                   <table>
-                                  <th><h6 class="judgeheader" style="color:var(--color-content-text);">Judge Name</h6></th>
-                                  <th><h6 class="judgeheader" style="color:var(--color-content-text);">Judge Nickname</h6></th>
-                                  <th><h6 class="judgeheader" style="color:var(--color-content-text);">Scoring Link</h6></th>
+                                    <tr>
+                                  <th><h6 class="judgeheader">Judge Name</h6></th>
+                                  <th><h6 class="judgeheader">Judge Nickname</h6></th>
+                                  <th><h6 class="judgeheader">Scoring Link</h6></th>
+                                  </tr>
                                   </table>
                                     <ul id="Jbox">
 <!-- Judge Form -->
+                                      <div class="append_judges">
                                         <li style='list-style-type: none;'>
-                                          <br>
-                                          <input type='text' class='inputjname' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputjnick' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/>
-                                          <button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button>
-                                          <button class='delete-button icon-button delJ btndel' id='deleteJA' style='margin-left: 70px;'><i class='bx bxs-trash-alt' ></i></button>
+                                        <tr>
+                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
+                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
+                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
+                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJA' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
+                                          </tr>
                                           <br>
                                         </li>
                                         <li style='list-style-type: none;'>
-                                        <br>
-                                          <input type='text' class='inputjname' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputjnick' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/>
-                                          <button onClick='showl()' class='buttonlink1;' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button>
-                                          <button class='buttonlink1 delJ btndel' id='deleteJB' style='margin-left: 70px;'><i class='bx bxs-trash-alt' ></i></button>
-                                          <br/>
+                                        <br><tr>
+                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
+                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
+                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
+                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJB' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
+                                          </tr>
+                                          <br>
                                         </li>
+                                        </div>
                                     </ul>
                                     </div>
                                     <div>
@@ -381,12 +401,15 @@
                                     </div>
                                 </div>
                                 <div class="col text-end" style="margin-right:30px;">
-                                <button class="buttonsave" type="submit" value="Add" id="add_btnJ">Save</button>
-                                  <button onClick="show()" class="buttoncancel delJ" type="button" style="display:inline;">Cancel</button></div>
-                                </div>
-                            </form>
-                            </div>
+                                <button class="primary-button" type="submit" value="Add" id="save_btnJ" style="display:inline;" disabled>Save</button>
+                                <button onClick="show()" class="secondary-button delJ" id="can_btnJ" type="button"  style="display:inline;" disabled>Cancel</button></div>
+                                </form>
+                </div>
+            </div>
+        </div>
+    </div>
                         </div>
+    
                         <div class="row">
                             <div class="col">
                                 <div class="row">
@@ -394,19 +417,21 @@
                                         <div class="row">
                                             <div class="participantsform">
                                               <div class="individual hide">
-                                            
-                                            <div class="col text-end" style="margin-right: 18px;">
-                                            <label class="col text-end" style="position:absolute;margin-top: 25px;left:350px; color:var(--color-content-text); font-weight:1000;">Participants</label>
-                                              <button onClick="add_par();" class="buttonadd" style="margin-right:125px;" id="paradd" type="button" ><i class='bx bxs-user-plus'></i></button>
-                                            </div>
+                      <div class="row">
+                          <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Participants</label></div>
+                          <div class="col text-end" style="margin-right: 18px;">
+                            <button onClick="add_par();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddi"><i class='bx bxs-user-plus'></i></button>
+                          </div>
+                      </div>
                                             
                                             </div>
                                             <div class="group hide">
-                                            
-                                            <div class="col text-end" style="margin-right: 18px;">
-                                            <label class="col text-end" style="position:absolute;margin-top: 25px;left:350px; color:var(--color-content-text); font-weight:1000;">Participants</label>
-                                            <button onClick="add_parg();" class="buttonaddg" style="margin-right:125px;" type="button"><i class='bx bxs-group'></i></button>
-                                            </div>
+                      <div class="row">
+                          <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Participants</label></div>
+                          <div class="col text-end" style="margin-right: 18px;">
+                            <button onClick="add_parg();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddg"><i class='bx bxs-group'></i></button>
+                          </div>
+                      </div> 
                                             
                                             </div>
                                             </div>
@@ -415,9 +440,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="border-radius: 20px;min-height: 300px; margin: auto; margin-top: 2px;width: auto;height: 100px;display: table;">
-                        <div class="card-body2 participantsform" style="border-radius: 20px; background: var(--color-content-card);box-shadow: 4px 5px 10px;">
-                            <div class="individual hide">
+    <div class="div">
+        <div class="element">
+            <div class="row">
+                <div class="element-group participantsform">
+                <div class="individual hide">
                                   <div class="col">
                                   <div class="col">
 <!-- Participants Form Individual -->
@@ -431,53 +458,57 @@
                                   <form action="#" method="POST" id="add_form3">
                                     <ul id="Pbox">
                                       <li style='list-style-type: none;'>
-                                          <input type='text' class='inputpname' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required/>
-                                          <input type='text' class='inputpcs' name='participants_section_temp[]' style='border-radius:20px;' placeholder='Section' minlength="3" maxlength="3" Required/>
+                                          <input type='text' class='inputpname cformpi' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
+                                          <input type='text' class='inputpcs cformpi' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
+                                          <input type='text' class='inputpcs cformpi' name='participants_section_temp[]' style='border-radius:20px; width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
                                           <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
                                             <option disabled selected>Organization</option>
                                             <option>ELITE</option>
                                             <option>JPIA</option>
                                           </select>
-                                          <button class='buttonlink1 delP btndel' id='deleteP' style='margin-left:30px;border-radius:15px;width: 40px; height: 40px; color: white;background: #ff3636;'><i class='bx bxs-trash-alt' ></i></button></i><br/>
+                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
                                       </li>
                                       <li style='list-style-type: none;'>
                                       <br>
-                                          <input type='text' class='inputpname' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required/>
-                                          <input type='text' class='inputpcs' name='participants_section_temp[]' style='border-radius:20px;' placeholder='Section' minlength="3" maxlength="3" Required/>
+                                          <input type='text' class='inputpname cformpi' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
+                                          <input type='text' class='inputpcs cformpi' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
+                                          <input type='text' class='inputpcs cformpi' name='participants_section_temp[]' style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
                                           <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
                                             <option disabled selected>Organization</option>
                                             <option>ELITE</option>
                                             <option>JPIA</option>
                                           </select>
-                                          <button class='buttonlink1 delP btndel' id='deleteP' style="margin-left:30px;"><i class='bx bxs-trash-alt' ></i></button></i><br/>
+                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
                                       </li>
                                     </ul>
                                   </div>
-                                  <div class="col text-end" style="margin-top:30px;"><button class="buttonsave" type="submit" id="add_btnPI" value="Add">Save</button><button onClick="showp()" class="buttoncancel" type="button">Cancel</button></div>
+                                  <div class="col text-end" style="margin-top:30px;">
+                                  <button class="primary-button" type="submit" value="Add" id="save_btnPI" style="display:inline;" disabled>Save</button>
+                                  <button onClick="showp()" class="secondary-button" type="button" id="can_btnPI"  style="display:inline;" disabled>Cancel</button></div>
                                   </form>
                                   </div>
-                                  <div class="col group hide" style="width:700px;">
+                                  <div class="col group hide" style="width:auto;">
                                   <div>
                                   <form action="#" method="POST" id="add_form4">
                                     <ul id="Pboxg">
+                                      <div class="Pargdel">
+                                      <button class='delete-button icon-button delPGD btndel' id='deleteP' type="button" style="float:right;"><i class='bx bxs-trash-alt' ></i></button>
                                     <li style='list-style-type: none;'>
                                     <table  style="margin-left:30px;">
                                   <th><h6 style="margin-left:20px; font-weight:1000; color:var(--color-content-text);">Group Name</h6></th>
                                   <th><h6 style="color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
                                   </table>
-                                  <div class="dropdown">
 <!-- Participants Form Group -->
-                                    <input type='text' class='inputpname' style='border-radius:20px;' name="participants_name_group_temp[]" placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                        
+                                    <input type='text' class='inputpname cformpg' style='border-radius:20px;' name="participants_name_group_temp[]" placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
+                                    <div class="dropdown" style="display:inline;">
                                     <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
                                             <option disabled selected>Organization</option>
                                             <option>ELITE</option>
                                             <option>JPIA</option>
                                           </select>
+                                          
                                   </div>
-                                  <div class="col" style="margin-top: 21px; margin-left: 10px;">
+                                  <div class="col" style="margin-top: 21px;">
                                   <div class="col">
                                     <table>
                                   <th><h6 style="color: white; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
@@ -485,51 +516,28 @@
                                   </div>
                                   </li>
                                       <li style='list-style-type: none;'>
-                                      <input type='text' class='inputpname' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required/>
-                                          <input type='text' class='inputpcs' name="participants_section_group_temp[]" style='border-radius:20px;' placeholder='Section' Required/>
+                                      <input type='text' class='inputpname subform cformpg' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
+                                          <input type='text' class='inputpcs cformpg' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
+                                          <input type='text' class='inputpcs cformpg' name="participants_section_group_temp[]" style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3"  Required pattern="[\d-]*"/>
                                           <label class="orgChanged" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
-                                          <button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/>
+                                          <button class='delete-button icon-button delPG btndel' id='deleteP' type="button" style="float:right;"><i class='bx bxs-trash-alt' ></i></button>
+                                          <br/>
                                       </li>
                                       <div class="subformContainer">
 
                                     </div>
-                                    <button onclick="addSubform(this)" class="buttonadd" id="paradd" type="button" style="margin-left:600px;"><i class='bx bxs-user-plus'></i></button>
-                                    <hr> 
-                                  <table  style="margin-left:30px;">
-                                  <th><h6 style="margin-left:20px; font-weight:1000; color:var(--color-content-text);">Group Name</h6></th>
-                                  <th><h6 style="color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
-                                  </table>
-                                  <div class="dropdown">
-                                    <input type='text' class='inputpname' name="participants_name_group_temp[]" style='border-radius:20px;' placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                        
-                                    <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
-                                            <option disabled selected>Organization</option>
-                                            <option>ELITE</option>
-                                            <option>JPIA</option>
-                                          </select>
-                                    <div class="col">
-                                    <table>
-                                  <th><h6 style="color: white; margin-left:5px; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
-                                  </table>
-                                  <li style='list-style-type: none;'>
-                                      <input type='text' class='inputpname' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required/>
-                                          <input type='text' class='inputpcs' name="participants_section_group_temp[]" style='border-radius:20px;' placeholder='Section' Required/>
-                                          <label class="orgChanged2" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
-                                          <button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/>
-                                      </li>
-                                  </div>
-                                  <div class="subformContainer">
-
-                                  </div>
-                                  <button onclick="addSubform(this)" class="buttonadd" id="paradd" type="button" style="margin-left:600px;"><i class='bx bxs-user-plus'></i></button>
+                                    <button onclick="addSubform(this)" class="buttonadd success-button icon-button" style="float:right; margin-top:0px;" type="button"><i class='bx bxs-user-plus'></i></button>
+                                    <br>
+                                    <hr>
+                                    </div>
+                                    </div>
 
                                     
-                                  </div>
-                                  <hr> 
                                     </ul>
-                                    <div class="col text-end" style="margin-top:30px;"><button class="buttonsave" type="submit">Save</button><button onClick="showpg()" class="buttoncancel" type="button">Cancel</button></div>
+                                    <div class="col text-end" style="margin-top:30px;">
+                                    <button class="primary-button" type="submit" value="Add" id="save_btnPG" style="display:inline;" disabled>Save</button>
+                                  <button onClick="showpg()" class="secondary-button" type="button" id="can_btnPG"  style="display:inline;" disabled>Cancel</button>
+                                    </div>
                                     </form>
                                   </div>
                                     <br>
@@ -538,11 +546,15 @@
                             
                         </div>
                         
-                        </div>
-                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
                         <div class="row">
-                          <form action="php/P&J-admin-action.php" method="POST">
-                            <div class="col text-end" style="margin-top: 10px;margin-bottom: 10px;margin-right: 16px;"><button class="buttonsubmit" type="submit" style="width: 120px; height: 50px; text-align: center;" value="Add" name="add_btnS">Submit</button></div>
+                          <form action="php/P&J-admin-action.php" method="POST" id="submitAll">
+                            <div class="col text-end" style="margin-top: 10px;margin-bottom: 10px;margin-right: 16px;">
+                            <button class="success-button buttonsubmit" type="submit" style="float:right; margin-bottom:10px;"  value="Add" name="save_btnS" id="save_btnS"onclick="showSubmit()" disabled>Submit</button>
+                            </div>
                             </form>
                         </div>
                     </div>
@@ -576,6 +588,45 @@
     </script>
 
 <script  type="text/javascript">
+var saveJudge = document.getElementById("save_btnJ");
+var saveParIndiv = document.getElementById("save_btnPI");
+var saveParGroup = document.getElementById("save_btnPG");
+var saveAll = document.getElementById("save_btnS");
+
+saveJudge.addEventListener("click", function() {
+      saveAll.disabled = false; // Enable the target button
+    });
+saveParIndiv.addEventListener("click", function() {
+      saveAll.disabled = false; // Enable the target button
+    });
+saveParGroup.addEventListener("click", function() {
+      saveAll.disabled = false; // Enable the target button
+    });
+
+// Confirm
+const formSubmit = document.getElementById('submitAll');
+const popupSubmit = document.getElementById('submitWrapper');
+const okButton = document.getElementById('submitPopup');
+
+formSubmit.addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the form from submitting directly
+  
+});
+
+var showSubmit = function() {
+      popupSubmit.style.display ='flex';
+  }
+  var hideSubmit = function() {
+      popupSubmit.style.display ='none';
+  }
+
+// Add event listener to handle form submission on OK button click
+okButton.addEventListener('click', function() {
+  //formSubmit.submit(); // Submit the form
+});
+  
+
+
 function updateLabel(dropdown) {
       var dropdownId = dropdown.id;
       var label = document.querySelector('label[for="' + dropdownId + '"]');
@@ -654,7 +705,7 @@ var hide_discardChangesp = function(){
     discardChangesPopupp.style.display = 'none';
 }
 
-popuppg = document.getElementById('popupParg');
+popuppg = document.getElementById('popupparg');
 var showpg = function(){
     popuppg.style.display = 'flex';
 }
@@ -680,6 +731,40 @@ var hide_discardChangespg = function(){
 </script>
 
 <script defer>
+// Get the form and submit button element
+const form = document.getElementById('add_form2');
+const submitButton = document.getElementById('save_btnJ');
+const cancelButton = document.getElementById('can_btnJ');
+
+// Add event listener to the form for input change
+form.addEventListener('input', validateForm);
+
+// Add event listener to the "Add Input" button
+document.getElementById('judgeadd').addEventListener('click', judgeadd);
+
+// Validate the form inputs
+function validateForm() {
+  // Get all dynamic input elements
+  const dynamicInputs = document.getElementsByClassName('cformj');
+  let hasInvalidInput = false;
+
+  // Loop through each dynamic input
+  for (let i = 0; i < dynamicInputs.length; i++) {
+    const input = dynamicInputs[i];
+    if (input.value.trim() === '') {
+      hasInvalidInput = true;
+      break;
+    }
+    // Add your specific input validation logic here
+    // For example, check if the input follows a certain pattern or meets specific criteria
+    // If the input is invalid, set hasInvalidInput to true and break the loop
+  }
+
+  // Disable or enable the submit button based on the input validity
+  save_btnJ.disabled = hasInvalidInput || dynamicInputs.length === 0;
+  can_btnJ.disabled = hasInvalidInput || dynamicInputs.length === 0;
+}
+
 var intParTextBox = 0;
 var intJudgeTextBox = 0;
   function add_judge(){
@@ -688,14 +773,19 @@ var intJudgeTextBox = 0;
     objNewJDiv.setAttribute('id', 'ul_' + intJudgeTextBox);
     objNewJDiv.innerHTML = `
                                         <li style='list-style-type: none;'>
-                                          <br>
-                                          <input type='text' class='inputjname' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputjnick' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/>
-                                          <button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button>
-                                          <button class='buttonlink1 delJ btndel' id='deleteJA' style='margin-left: 70px;'><i class='bx bxs-trash-alt' ></i></button>
+                                        <br><tr>
+                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
+                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
+                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
+                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJB' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
+                                          </tr>
                                           <br>
                                         </li>`;
     document.getElementById('Jbox').appendChild(objNewJDiv);  
+    var submitButton = document.getElementById("save_btnJ");
+    submitButton.disabled = true;
+    var cancelButton = document.getElementById("can_btnJ");
+    cancelButton.disabled = true;
   }
 
   $("ul").on("click", ".delJ", function(e) {
@@ -715,6 +805,21 @@ function deleteListJ() {
   while (list.firstChild) {
     list.firstChild.remove();
 } 
+intJudgeTextBox++;
+    var objNewJDiv = document.createElement('ul');
+    objNewJDiv.setAttribute('id', 'ul_' + intJudgeTextBox);
+    objNewJDiv.innerHTML = `
+    <li style='list-style-type: none;'>
+                                        <br><tr>
+                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
+                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
+                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
+                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJB' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
+                                          </tr>
+                                          <br>
+                                        </li>`;
+    document.getElementById('Jbox').appendChild(objNewJDiv);  
+    validateForm()
 }
 
 function deleteListP() {
@@ -722,42 +827,227 @@ function deleteListP() {
   while (list.firstChild) {
     list.firstChild.remove();
 } 
-}
-function deleteListPG() {
-  var list = document.getElementById("Pboxg");
-  while (list.firstChild) {
-    list.firstChild.remove();
-} 
-}
-  function add_par(){
-    intParTextBox++;
+intParTextBox++;
     var objNewPDiv = document.createElement('ul');
     objNewPDiv.setAttribute('id', 'ul_' + intParTextBox);
     objNewPDiv.innerHTML = `<div class='row'><li style='list-style-type: none;'>
-                                          <input type='text' class='inputpname' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required/>
-                                          <input type='text' class='inputpcs' name='participants_section_temp[]' style='border-radius:20px;' placeholder='Section' minlength="3" maxlength="3" Required/>
+                                          <input type='text' class='inputpname cformpi' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
+                                          <input type='text' class='inputpcs cformpi' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
+                                          <input type='text' class='inputpcs cformpi' name='participants_section_temp[]' style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
                                           <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
                                             <option disabled selected>Organization</option>
                                             <option>ELITE</option>
                                             <option>JPIA</option>
                                           </select>
-                                          <button class='buttonlink1 delP btndel' id='deleteP' style='margin-left:30px;border-radius:15px;width: 40px; height: 40px; color: white;background: #ff3636;'><i class='bx bxs-trash-alt' ></i></button></i><br/>
+                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
                                       </li></div>`;
     document.getElementById('Pbox').appendChild(objNewPDiv);  
-  }
-
-  function add_parg(){
+    var submitButtonpi = document.getElementById("save_btnPI");
+    submitButtonpi.disabled = true;
+    var cancelButtonpi = document.getElementById("can_btnPI");
+    cancelButtonpi.disabled = true;
+}
+function deleteListPG() {
+  var list = document.getElementById("Pboxg");
+  while (list.firstChild) {
+    list.firstChild.remove();
+}
     intParTextBox++;
     var objNewPDivg = document.createElement('ul');
     objNewPDivg.setAttribute('id', 'ul_' + intParTextBox);
-    objNewPDivg.innerHTML = `<div class="append_parg"><table  style='margin-left:30px;'><th><h6 style='margin-left:20px; font-weight:1000; color:var(--color-content-text);'>Group Name</h6></th><th><h6 style='color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);'>Organization</h6></th></table><input type='text' class='inputpname' name="participants_name_group_temp[]" style='border-radius:20px;' placeholder='Group Name' style='margin-left:30px;width: 180px; height: 40px;' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/> <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
+    objNewPDivg.innerHTML = `
+    <div class="Pargdel">
+      <button class='buttonlink1 delPGD btndel' style="float:right;" type="button"><i class='bx bxs-trash-alt'></i></button>
+      <table style="margin-left:30px;">
+        <th><h6 style="margin-left:20px; font-weight:1000; color:var(--color-content-text);">Group Name</h6></th>
+        <th><h6 style="color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
+      </table>
+      <div class="dropdown">
+        <input type='text' class='inputpname cformpg' name="participants_name_group_temp[]" style='border-radius:20px;' placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\\- ]*"/>
+        <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
+          <option disabled selected>Organization</option>
+          <option>ELITE</option>
+          <option>JPIA</option>
+        </select>
+      </div>
+      <div class="col">
+        <table>
+          <th><h6 style="color: white; margin-left:5px; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
+        </table>
+        <li style='list-style-type: none;'>
+          <input type='text' class='inputpname subform cformpg' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\\- ]*"/>
+          <input type='text' class='inputpcs cformpg' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
+          <input type='text' class='inputpcs cformpg' name="participants_section_group_temp[]" style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
+          <label class="orgChanged2" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
+          <button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt'></i></button></i><br/>
+        </li>
+      </div>
+      <div class="subformContainer">
+
+      </div>
+      <button onclick="addSubform(this)" class="buttonadd" id="paradd" type="button" style="margin-left:600px;"><i class='bx bxs-user-plus'></i></button>
+      <hr>
+    </div>`;
+    document.getElementById('Pboxg').appendChild(objNewPDivg);  
+    var submitButtonpg = document.getElementById("save_btnPG");
+    submitButtonpg.disabled = true;
+    var cancelButtonpg = document.getElementById("can_btnPG");
+    cancelButtonpg.disabled = true;
+}
+
+// Get the form and submit button element
+const formpi = document.getElementById('add_form3');
+const submitButtonpi = document.getElementById('save_btnPI');
+const cancelButtonpi = document.getElementById('can_btnPI');
+
+// Add event listener to the form for input change
+formpi.addEventListener('input', validateFormpi);
+
+// Add event listener to the "Add Input" button
+document.getElementById('paraddi').addEventListener('click', paraddi);
+
+// Validate the form inputs
+function validateFormpi() {
+  // Get all dynamic input elements
+  const dynamicInputspi = document.getElementsByClassName('cformpi');
+  let hasInvalidInputpi = false;
+
+  // Loop through each dynamic input
+  for (let i = 0; i < dynamicInputspi.length; i++) {
+    const input = dynamicInputspi[i];
+    if (input.value.trim() === '') {
+      hasInvalidInputpi = true;
+      break;
+    }
+    // Add your specific input validation logic here
+    // For example, check if the input follows a certain pattern or meets specific criteria
+    // If the input is invalid, set hasInvalidInput to true and break the loop
+  }
+
+  // Disable or enable the submit button based on the input validity
+  save_btnPI.disabled = hasInvalidInputpi || dynamicInputspi.length === 0;
+  can_btnPI.disabled = hasInvalidInputpi || dynamicInputspi.length === 0;
+}
+  function add_par(){
+    intParTextBox++;
+    var objNewPDiv = document.createElement('div');
+    objNewPDiv.setAttribute('id', 'div_' + intParTextBox);
+    objNewPDiv.innerHTML = `<div class='row'><li style='list-style-type: none;'><br>
+                                          <input type='text' class='inputpname cformpi' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
+                                          <input type='text' class='inputpcs cformpi' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
+                                          <input type='text' class='inputpcs cformpi' name='participants_section_temp[]' style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
+                                          <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
                                             <option disabled selected>Organization</option>
                                             <option>ELITE</option>
                                             <option>JPIA</option>
-                                          </select><div class='col'><table><th><h6 style='color: white; margin-left:5px; font-weight:1000; color:var(--color-content-text);'>Members</h6></th></table></div><div class='subformContainer'></div><li style='list-style-type: none;'><br><input type='text' class='inputpname' style='border-radius:20px; margin-right:10px;' name="participants_name_g_temp[]" placeholder='Participants Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/><input type='text' class='inputpcs' name="participants_course_group_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Course' minlength="4" maxlength="5" Required/><input type='text' class='inputpcs' name="participants_section_group_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Section' Required/><label class='orgChanged' style='margin-left:40px; margin-right: 70px;color:white; font-weight:1000; color:var(--color-content-text);'></label><button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/></li><button onclick='addSubform(this)' class='buttonadd' id='paradd' type='button' style='margin-left:600px;'><i class='bx bxs-user-plus'></i></button><div><hr> `;
-    document.getElementById('Pboxg').appendChild(objNewPDivg);  
+                                          </select>
+                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
+                                      </li></div>`;
+    document.getElementById('Pbox').appendChild(objNewPDiv);  
+    var submitButtonpi = document.getElementById("save_btnPI");
+    submitButtonpi.disabled = true;
+    var cancelButtonpi = document.getElementById("can_btnPI");
+    cancelButtonpi.disabled = true;
+    validateFormpi()
   }
+
+  $(document).ready(function() {
+  // Add event listener to the parent element for delete buttons
+  $('#Pboxg').on('click', '.delPGD', function() {
+    // Find the parent textbox and remove it
+    $(this).closest('.Pargdel').remove();
+    intJudgeTextBox--;
+    validateFormpg();
+  });
+});
+
+// Get the form and submit button element
+const formpg = document.getElementById('add_form4');
+const submitButtonpg = document.getElementById('save_btnPG');
+const cancelButtonpg = document.getElementById('can_btnPG');
+
+// Add event listener to the form for input change
+formpg.addEventListener('input', validateFormpg);
+
+// Add event listener to the "Add Input" button
+document.getElementById('paraddg').addEventListener('click', paraddg);
+
+// Validate the form inputs
+function validateFormpg() {
+  const dynamicInputspg = document.getElementsByClassName('cformpg');
+  const textBoxes = document.getElementsByClassName('subform');
+  let hasInvalidInputpg = false;
+
+  for (let i = 0; i < dynamicInputspg.length; i++) {
+    const input = dynamicInputspg[i];
+    if (input.value.trim() === '' || textBoxes.length === 0) {
+      hasInvalidInputpg = true;
+      break;
+    }
+    // Add your specific input validation logic here
+    // For example, check if the input follows a certain pattern or meets specific criteria
+    // If the input is invalid, set hasInvalidInputpg to true and break the loop
+  }
+
+  // Disable or enable the submit and cancel buttons based on the input validity
+  submitButtonpg.disabled = hasInvalidInputpg || dynamicInputspg.length === 0;
+  cancelButtonpg.disabled = hasInvalidInputpg || dynamicInputspg.length === 0;
+}
+
+// Function to add a new group textbox
+function add_parg() {
+  intParTextBox++;
+  var objNewPDivg = document.createElement('div');
+  objNewPDivg.setAttribute('id', 'div_' + intParTextBox);
+  objNewPDivg.innerHTML = `
+  <div class="Pargdel">
+  <button class='delete-button icon-button delPGD btndel' id='deleteP' type="button" style="float:right;"><i class='bx bxs-trash-alt' ></i></button>
+                                    <li style='list-style-type: none;'>
+                                    <table  style="margin-left:30px;">
+                                  <th><h6 style="margin-left:20px; font-weight:1000; color:var(--color-content-text);">Group Name</h6></th>
+                                  <th><h6 style="color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
+                                  </table>
+<!-- Participants Form Group -->
+                                    <input type='text' class='inputpname cformpg' style='border-radius:20px;' name="participants_name_group_temp[]" placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
+                                    <div class="dropdown" style="display:inline;">
+                                    <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
+                                            <option disabled selected>Organization</option>
+                                            <option>ELITE</option>
+                                            <option>JPIA</option>
+                                          </select>
+                                          
+                                  </div>
+                                  <div class="col" style="margin-top: 21px;">
+                                  <div class="col">
+                                    <table>
+                                  <th><h6 style="color: white; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
+                                  </table>
+                                  </div>
+                                  </li>
+                                      <li style='list-style-type: none;'>
+                                      <input type='text' class='inputpname subform cformpg' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
+                                          <input type='text' class='inputpcs cformpg' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
+                                          <input type='text' class='inputpcs cformpg' name="participants_section_group_temp[]" style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3"  Required pattern="[\d-]*" />
+                                          <label class="orgChanged" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
+                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
+                                      </li>
+                                      <div class="subformContainer">
+
+                                    </div>
+                                    <button onclick="addSubform(this)" class="buttonadd success-button icon-button" style="float:right; margin-top:0px;" type="button"><i class='bx bxs-user-plus'></i></button><br>
+                                    <hr>
+                                    </div>
+                                    </div>`;
+
+  document.getElementById('Pboxg').appendChild(objNewPDivg);
+
+  // Add event listener to the new group textbox for input change
+  objNewPDivg.querySelector('.cformpg').addEventListener('input', validateFormpg);
+
+  // Disable the submit and cancel buttons for the new textbox
+  submitButtonpg.disabled = true;
+  cancelButtonpg.disabled = true;
+}
 
   function addSubform(button) {
   var subgroup = button.parentNode;
@@ -765,15 +1055,41 @@ function deleteListPG() {
 
   var objNewPDivg = document.createElement('ul');
     objNewPDivg.setAttribute('id', 'ul_' + intParTextBox);
-    objNewPDivg.innerHTML = `<li style='list-style-type: none;'><br><input type='text' class='inputpname' name="participants_name_g_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Participants Name' minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/><input type='text' class='inputpcs' name="participants_course_group_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Course' minlength="4" maxlength="5" Required/><input type='text' class='inputpcs' name="participants_section_group_temp[]" style='border-radius:20px; margin-right:10px;' placeholder='Section' Required/><label class='orgChanged' style='margin-left:40px; margin-right: 70px;color:white; font-weight:1000; color:var(--color-content-text);'></label><button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt' ></i></button></i><br/></li>`;
+    objNewPDivg.innerHTML = `<li style='list-style-type: none;'>
+                                      <input type='text' class='inputpname subform cformpg' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
+                                          <input type='text' class='inputpcs cformpg' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
+                                          <input type='text' class='inputpcs cformpg' name="participants_section_group_temp[]" style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
+                                          <label class="orgChanged" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
+                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
+                                      </li>`;
 
   subformContainer.appendChild(objNewPDivg);
+  var submitButtonpg = document.getElementById("save_btnPG");
+    submitButtonpg.disabled = true;
+    var cancelButtonpg = document.getElementById("can_btnPG");
+    cancelButtonpg.disabled = true;
 }
 
-  $("ul").on("click", ".delP" , function(a) {
+$("ul").on("click", ".delP" , function(a) {
     a.preventDefault();
     $(this).parent().remove();
     intParTextBox--;
+    var submitButtonpi = document.getElementById("save_btnPI");
+    submitButtonpi.disabled = true;
+    var cancelButtonpi = document.getElementById("can_btnPI");
+    cancelButtonpi.disabled = true;
+    validateFormpi()
+});
+
+  $("ul").on("click", ".delPG" , function(a) {
+    a.preventDefault();
+    $(this).parent().remove();
+    intParTextBox--;
+    var submitButtonpg = document.getElementById("save_btnPG");
+    submitButtonpg.disabled = true;
+    var cancelButtonpg = document.getElementById("can_btnPG");
+    cancelButtonpg.disabled = true;
+    validateFormpg()
 });
 
 $(document).on('change', '.div-toggle', function() {
@@ -789,16 +1105,30 @@ $(document).ready(function(){
             // ajax request
             $("#add_form2").submit(function(e){
                 e.preventDefault();
-                $("#add_btnJ").val('Adding...');
+                $("#save_btnJ").val('Adding...');
                 $.ajax({
                     url:'php/P&J-admin-action-temp.php',
                     method:'POST',
                     data: $(this).serialize(),
                     success:function(response){
                         console.log(response);
-                        $("#add_btnJ").val('Add');
-                        $("#add_form2")[0].reset();
+                        $("#save_btnJ").val('Add');
                         $(".append_judges").remove();
+    intJudgeTextBox++;
+    var objNewJDiv = document.createElement('ul');
+    objNewJDiv.setAttribute('id', 'ul_' + intJudgeTextBox);
+    objNewJDiv.innerHTML = `
+    <li style='list-style-type: none;'>
+                                        <br><tr>
+                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
+                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
+                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
+                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJB' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
+                                          </tr>
+                                          <br>
+                                        </li>`;
+    document.getElementById('Jbox').appendChild(objNewJDiv); 
+    validateForm()
                     }
                 })
             });
@@ -806,30 +1136,31 @@ $(document).ready(function(){
             // ajax request
             $("#add_form3").submit(function(e){
                 e.preventDefault();
-                $("#add_btnPI").val('Adding...');
+                $("#save_btnPI").val('Adding...');
                 $.ajax({
                     url:'php/P&J-admin-action-temp-PI.php',
                     method:'POST',
                     data: $(this).serialize(),
                     success:function(response){
                         console.log(response);
-                        $("#add_btnPI").val('Add');
+                        $("#save_btnPI").val('Add');
                         $("#add_form3")[0].reset();
                         $(".append_par").remove();
+                        validateFormpi()
                     }
                 })
             });
             // ajax request
             $("#add_form4").submit(function(e){
                 e.preventDefault();
-                $("#add_btnPG").val('Adding...');
+                $("#save_btnPG").val('Adding...');
                 $.ajax({
                     url:'php/P&J-admin-action-temp-PG.php',
                     method:'POST',
                     data: $(this).serialize(),
                     success:function(response){
                         console.log(response);
-                        $("#add_btnPG").val('Add');
+                        $("#save_btnPG").val('Add');
                         $("#add_form4")[0].reset();
                         $(".append_parg").remove();
                     }
