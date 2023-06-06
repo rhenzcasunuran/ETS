@@ -64,10 +64,11 @@ CREATE TABLE `bracket` (
 --
 
 INSERT INTO `bracket` (`bracket_id`, `bracket_sports`) VALUES
-(1, 'Basketball'),
-(2, 'VOLLEYBALL'),
-(3, 'CHESS'),
-(4, 'BADMINTON');
+(1, 'TOURNAMENT'),
+(2, 'BASKETBALL'),
+(3, 'VOLLEYBALL'),
+(4, 'CHESS'),
+(5, 'BADMINTON');
 
 -- --------------------------------------------------------
 
