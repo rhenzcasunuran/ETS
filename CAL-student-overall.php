@@ -1,5 +1,6 @@
 <?php
 include './php/database_connect.php';
+include './php/CAL-connect-to-gapi.php';
 
 session_start();
 
@@ -184,10 +185,20 @@ if($conn){
    <!--Page Content-->
    <section class="home-section">
       <div class="header">Calendar</div>
-        <div class="d-flex justify-content-between">
-          <h1 id="calendar-title"></h1>
+        <div class="d-flex">
+          <h1 class="p-2" id="calendar-title"></h1>
+          <!-- Mini Calendar -->
+          <i id="calendarToggle" class='bx bxs-down-arrow flex-grow-1 p-2'></i>
+          <div id="miniCalendar">
+            <div class="mini-calendar-header">
+              <button id="miniPreviousButton" class="previous-button"><i class='bx bxs-left-arrow'></i></button>
+              <h2 id="miniCalendarHeader"></h2>
+              <button id="miniNextButton" class="next-button"><i class='bx bxs-right-arrow'></i></button>
+            </div>
+            <table id="miniCalendarTable"></table>
+          </div>
           <!-- Filter Dropdown -->
-          <div class="dropdown">
+          <div class="dropdown p-2">
             <button class="btn btn-light btn-lg dropdown-toggle" style="width: 200px;" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
               Filters
             </button>
@@ -356,12 +367,131 @@ if($conn){
       });
     </script>
     <!--Calendar JS-->
-    <script src="./js/CAL-student-calendar.js"></script>
-    <!--Calendar API-->
-    <script src="https://apis.google.com/js/api.js"></script>
+    <script defer src="./js/CAL-student-calendar.js"></script>
+    <!-- Google API Calendar -->
+    <script type="text/javascript">
+      const CLIENT_ID = '<?php echo $CLIENT_ID; ?>';
+      const API_KEY = '<?php echo $API_KEY; ?>';
+      const DISCOVERY_DOC = '<?php echo $DISCOVERY_DOC; ?>';
+      const SCOPES = '<?php echo $SCOPES; ?>';
+
+      let tokenClient;
+      let gapiInited = false;
+      let gisInited = false;
+
+      function gapiLoaded() {
+        gapi.load('client', initializeGapiClient);
+      }
+
+      async function initializeGapiClient() {
+        await gapi.client.init({
+          apiKey: API_KEY,
+          discoveryDocs: [DISCOVERY_DOC],
+        });
+        gapiInited = true;
+      }
+
+      function gisLoaded() {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: CLIENT_ID,
+          scope: SCOPES,
+          callback: '',
+        });
+        gisInited = true;
+      }
+
+      async function handleAuthClick(eventDate, categoryName, eventDescription, eventTime) {
+        tokenClient.callback = async (resp) => {
+          if (resp.error !== undefined) {
+            throw (resp);
+          }
+          await listUpcomingEvents(eventDate, categoryName, eventDescription, eventTime);
+        };
+
+        if (gapi.client.getToken() === null) {
+          tokenClient.requestAccessToken({prompt: 'consent'});
+        } else {
+          tokenClient.requestAccessToken({prompt: ''});
+          await handleSignoutClick();
+        }
+      }
+
+      async function handleSignoutClick() {
+        const token = gapi.client.getToken();
+        if (token !== null) {
+          google.accounts.oauth2.revoke(token.access_token);
+          gapi.client.setToken('');
+        }
+      }
+
+      async function listUpcomingEvents(eventDate, categoryName, eventDescription, eventTime) {
+
+        let timeString = eventTime;
+        let date = new Date();
+        date.setHours(0); // Set the date to a fixed value to only represent the time
+        date.setMinutes(0);
+        date.setSeconds(0);
+
+        let timeParts = timeString.split(':');
+        let hours = parseInt(timeParts[0], 10);
+        let minutes = parseInt(timeParts[1].split(' ')[0], 10);
+
+        if (timeString.indexOf('PM') !== -1 && hours !== 12) {
+          hours += 12;
+        }
+
+        date.setHours(hours);
+        date.setMinutes(minutes);
+
+        let formattedTime = date.toLocaleTimeString('en-US', { hour12: false });
+
+        const encodedEventDesc = he.encode(eventDescription);
+        const encodedCategoryName = he.encode(categoryName);
+
+        const event = {
+          'summary': encodedCategoryName,
+          'description': encodedEventDesc,
+          'start': {
+            'dateTime': eventDate + 'T' + formattedTime,
+            'timeZone': 'Asia/Singapore'
+          },
+          'end': {
+            'dateTime': eventDate + 'T' + formattedTime,
+            'timeZone': 'Asia/Singapore'
+          },
+          'reminders': {
+            'useDefault': false,
+            'overrides': [
+              {'method': 'email', 'minutes': 24 * 60},
+              {'method': 'popup', 'minutes': 10}
+            ]
+          }
+        };
+
+        const request = gapi.client.calendar.events.insert({
+          'calendarId': 'primary',
+          'resource': event
+        });
+
+        function appendPre(message) {
+          var content = document.getElementById('content');
+          var pre = document.createElement('pre');
+          pre.textContent = message;
+          content.appendChild(pre);
+        }
+
+        request.execute(function(event) {
+          appendPre('Event added successfully!');
+        });
+      }
+    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
     <!--Popper JS-->
     <script src="./js/popper.min.js"></script>
     <!--Bootstrap JS-->
     <script src="./js/bootstrap.min.js"></script>
+    <!--HE JS-->
+    <script src="https://cdn.jsdelivr.net/npm/he/he.js"></script>
   </body>
 </html>

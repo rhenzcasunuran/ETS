@@ -218,20 +218,18 @@
       </div>
     </div>
     <section class="home-section">
-      <div class="header">Logs</div>
+      <div class="header">Activity Logs</div>
       <br>
       <br>
       <!-- Search Bar and Filter -->
       <div class="container">
         <div class="row">
-          <div class="d-flex justify-content-between">
-            <div class="input-group input-group-sm custom-search-bar">
-              <input type="text" class="form-control" maxlength="50" style="height:50px;" placeholder="Search">
-              <button class="btn btn-outline-primary" style="height:50px;" type="button">
-                <i class="bx bx-search"></i>
-              </button>
+          <div class="d-flex justify-content-start">
+            <div class="input-group input-group-sm custom-search-bar p-2">
+              <input type="text" class="form-control w-100" id="search-input" maxlength="50" style="height:50px;" placeholder="Search">
             </div>
-            <div class="dropdown">
+            <!-- Filter Dropdown -->
+            <div class="dropdown p-2">
               <button class="btn btn-light btn-lg dropdown-toggle" style="width: 200px;" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                 Filters
               </button>
@@ -246,58 +244,58 @@
                       </h2>
                       <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
                         <div class="accordion-body">
-                          <div class="form-check">
+                          <div class="form-check org-type">
                             <input class="form-check-input" type="checkbox" value="" id="check-all-organization" checked>
                             <label class="form-check-label" for="check-all-organization">
-                              All
+                              <span class="pill-all">All</span>
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div class="form-check org-type">
                             <input class="form-check-input" type="checkbox" value="ACAP" id="check-acap">
                             <label class="form-check-label" for="check-acap">
-                              ACAP
+                              <span class="pill-acap">ACAP</span>
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div class="form-check org-type">
                             <input class="form-check-input" type="checkbox" value="AECES" id="check-aeces">
                             <label class="form-check-label" for="check-aeces">
-                              AECES
+                              <span class="pill-aeces">AECES</span>
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div class="form-check org-type">
                             <input class="form-check-input" type="checkbox" value="ELITE" id="check-elite">
                             <label class="form-check-label" for="check-elite">
-                              ELITE
+                              <span class="pill-elite">ELITE</span>
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div class="form-check org-type">
                             <input class="form-check-input" type="checkbox" value="GIVE" id="check-give">
                             <label class="form-check-label" for="check-give">
-                              GIVE
+                              <span class="pill-give">GIVE</span>
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div class="form-check org-type">
                             <input class="form-check-input" type="checkbox" value="JEHRA" id="check-jehra">
                             <label class="form-check-label" for="check-jehra">
-                              JEHRA
+                              <span class="pill-jehra">JEHRA</span>
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div class="form-check org-type">
                             <input class="form-check-input" type="checkbox" value="JMAP" id="check-jmap">
                             <label class="form-check-label" for="check-jmap">
-                              JMAP
+                              <span class="pill-jmap">JMAP</span>
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div class="form-check org-type">
                             <input class="form-check-input" type="checkbox" value="JPIA" id="check-jpia">
                             <label class="form-check-label" for="check-jpia">
-                              JPIA
+                              <span class="pill-jpia">JPIA</span>
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div class="form-check org-type">
                             <input class="form-check-input" type="checkbox" value="PIIE" id="check-piie">
                             <label class="form-check-label" for="check-piie">
-                              PIIE
+                              <span class="pill-piie">PIIE</span>
                             </label>
                           </div>
                         </div>
@@ -346,54 +344,48 @@
                 </li>
               </ul>
             </div>
-            <input type="text" id="dateInput" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}" placeholder="mm/dd/yyyy" maxlength="10" style="height:48px;">
+            <div class="calendar-input-container p-2">
+              <input type="text" id="dateInput" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}" placeholder="mm/dd/yyyy" maxlength="10" style="height:48px;">
+              <i class="bx bx-calendar-event" id="calendar-icon"></i>
+            </div>
           </div>
-          <div id="dateError" style="color: red;"></div>
+          <div id="miniCalendar">
+            <div class="mini-calendar-header">
+              <button id="miniPreviousButton" class="previous-button"><i class='bx bxs-left-arrow'></i></button>
+              <h2 id="miniCalendarHeader"></h2>
+              <button id="miniNextButton" class="next-button"><i class='bx bxs-right-arrow'></i></button>
+            </div>
+            <table id="miniCalendarTable"></table>
+          </div>
           <br>
           <br>
           <table class="table table-dark table-bordered">
-            <caption>1-3 of 3</caption>
             <thead>
               <tr>
-                <th scope="col" class="sortable-header" data-column="0">Date <i class="bx bx-chevron-up"></i></th> 
-                <th scope="col" class="sortable-header" data-column="1">Time <i class="bx bx-chevron-up"></i></th>
-                <th scope="col" class="sortable-header" data-column="2">Admin <i class="bx bx-chevron-up"></i></th>
-                <th scope="col" class="sortable-header" data-column="3">Activity Description <i class="bx bx-chevron-up"></i></th>
-                <th scope="col" class="sortable-header" data-column="4">Date Scheduled <i class="bx bx-chevron-up"></i></th>
+                <th scope="col" class="sortable" data-column="log_id">ID <span id="sort-indicator-log_id"></span></th>
+                <th scope="col" class="sortable" data-column="log_date">Date <span id="sort-indicator-log_date"></span></th>
+                <th scope="col" class="sortable" data-column="log_time">Time <span id="sort-indicator-log_time"></span></th>
+                <th scope="col" class="sortable" data-column="admin">Admin <span id="sort-indicator-admin"></span></th>
+                <th scope="col" class="sortable" data-column="activity_description">Activity Description <span id="sort-indicator-activity_description"></span></th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">3/29/2023</th>
-                <td>1:27 PM</td>
-                <td>Admin 2</td>
-                <td>Posted in Announcement</td>
-                <td>4/20/2023</td>
-              </tr>
-              <tr>
-                <th scope="row">3/29/2023</th>
-                <td>1:20 PM</td>
-                <td>Admin 1</td>
-                <td>Added in Events</td>
-                <td>5/16/2023</td>
-              </tr>
-              <tr>
-                <th scope="row">3/29/2023</th>
-                <td>1:20 PM</td>
-                <td>Admin 3</td>
-                <td>Posted in Announcement</td>
-                <td>6/23/2023</td>
+            <tbody id="log-table-body">
+              <tr id="no-results-row" style="display: none;">
+                <td colspan="5">No results to display</td>
               </tr>
             </tbody>
           </table>
-          <span class="small-button">
-            <button type="button" class="btn btn-secondary btn-sm">
-                &lt;
-            </button>
-            <button type="button" class="btn btn-secondary btn-sm">
-              &gt;
-            </button>
-          <span>
+          <div class="d-flex justify-content-end">
+            <div class="text-muted p-1 me-2" id="pagination-info"></div>
+            <div>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-prev" disabled>
+                &lt; 
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-next">
+                &gt;
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -414,153 +406,6 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-    </script>
-    <!-- Table Sort JavaScript -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const table = document.querySelector('.table');
-        const headers = table.querySelectorAll('.sortable-header');
-        let ascending = true; // Indicates the sorting direction
-
-        headers.forEach(header => {
-          header.addEventListener('click', () => {
-            const column = header.dataset.column;
-            const rows = Array.from(table.querySelectorAll('tbody tr'));
-
-            rows.sort((rowA, rowB) => {
-              const valueA = rowA.children[column].textContent.trim();
-              const valueB = rowB.children[column].textContent.trim();
-
-              // Compare the values based on the data type of the column
-              if (isNaN(valueA) || isNaN(valueB)) {
-                return valueA.localeCompare(valueB);
-              } else {
-                return Number(valueA) - Number(valueB);
-              }
-            });
-
-            // Reverse the order if the same header is clicked again
-            if (!ascending) {
-              rows.reverse();
-            }
-
-            // Update the table with the sorted rows
-            table.tBodies[0].append(...rows);
-
-            // Toggle the sorting direction
-            ascending = !ascending;
-
-            // Update the sort icons in the header
-            headers.forEach(header => {
-              header.querySelector('i').classList.remove('bx-chevron-up', 'bx-chevron-down');
-              if (header.dataset.column === column) {
-                header.querySelector('i').classList.add(ascending ? 'bx-chevron-up' : 'bx-chevron-down');
-              }
-            });
-          });
-        });
-      });
-    </script>
-    <script>
-      const dateInput = document.getElementById('dateInput');
-      const dateError = document.getElementById('dateError');
-
-      dateInput.addEventListener('input', formatAndValidateDate);
-      dateInput.addEventListener('keypress', restrictNonNumericInput);
-      dateInput.addEventListener('blur', resetInputIfInvalid);
-
-      function formatAndValidateDate() {
-        let dateValue = dateInput.value;
-
-        // Remove any non-numeric characters
-        dateValue = dateValue.replace(/\D/g, '');
-
-        // Apply the format mm/dd/yyyy
-        if (dateValue.length > 2 && dateValue.charAt(2) !== '/') {
-          dateValue = `${dateValue.slice(0, 2)}/${dateValue.slice(2)}`;
-        }
-        if (dateValue.length > 5 && dateValue.charAt(5) !== '/') {
-          dateValue = `${dateValue.slice(0, 5)}/${dateValue.slice(5)}`;
-        }
-
-        // Update the input value
-        dateInput.value = dateValue;
-
-        // Validate the date
-        validateDate();
-      }
-
-      function restrictNonNumericInput(event) {
-        const key = event.which || event.keyCode;
-        const char = String.fromCharCode(key);
-
-        // Allow only numeric characters and backspace/delete
-        if (!/[\d\b]/.test(char)) {
-          event.preventDefault();
-        }
-      }
-
-      function resetInputIfInvalid() {
-        if (!dateInput.checkValidity()) {
-          dateInput.value = '';
-          dateError.textContent = '';
-        }
-      }
-
-      function validateDate() {
-        const dateValue = dateInput.value;
-
-        // Regular expression pattern for mm/dd/yyyy format
-        const datePattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
-
-        if (datePattern.test(dateValue)) {
-          const [month, day, year] = dateValue.split('/');
-
-          // Validate the month (mm)
-          const monthInt = parseInt(month, 10);
-          if (monthInt < 1 || monthInt > 12) {
-            // Invalid month
-            dateInput.setCustomValidity('Invalid month');
-            dateError.textContent = 'Invalid month';
-            return;
-          }
-
-          // Validate the day (dd) based on the month
-          const dayInt = parseInt(day, 10);
-          if (dayInt < 1 || dayInt > getDaysInMonth(monthInt, year)) {
-            // Invalid day
-            dateInput.setCustomValidity('Invalid day');
-            dateError.textContent = 'Invalid day';
-            return;
-          }
-
-          // Create a Date object to validate the input as a valid date
-          const inputDate = new Date(`${year}-${month}-${day}`);
-
-          if (
-            inputDate.getFullYear().toString() === year &&
-            (inputDate.getMonth() + 1).toString().padStart(2, '0') === month &&
-            inputDate.getDate().toString().padStart(2, '0') === day
-          ) {
-            // Valid date
-            dateInput.setCustomValidity('');
-            dateError.textContent = '';
-          } else {
-            // Invalid date
-            dateInput.setCustomValidity('Invalid date');
-            dateError.textContent = 'Invalid date';
-          }
-        } else {
-          // Date format doesn't match mm/dd/yyyy
-          dateInput.setCustomValidity('Invalid date format');
-          dateError.textContent = 'Invalid date format';
-        }
-      }
-
-      function getDaysInMonth(month, year) {
-        // Returns the number of days in a month (accounts for leap years)
-        return new Date(year, month, 0).getDate();
-      }
     </script>
     <!--Logs JS-->
     <script src="./js/CAL-admin-logs.js"></script>
