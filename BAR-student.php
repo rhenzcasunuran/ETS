@@ -40,7 +40,7 @@ if($conn){
     <link rel="stylesheet" href="./css/home-sidebar-style.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/BAR-obg.css">
-    <script src="./js/BAR-student-java.js"></script>
+    <script src="./js/BAR-java.js"></script>
   </head>
 
 
@@ -184,9 +184,7 @@ if($conn){
       </div>
     </div>
     <!--Page Content-->
-    <section class="home-section">
-      <div class="header">Overall Organization Standing</div>
-      
+    <section class="home-section" style="display: flex; justify-content: center; align-items: center;">
       <div class="container-fluid" id="body-content">
 
         <div class="col" id="graph-section">
@@ -197,74 +195,60 @@ if($conn){
               </div>
             </div>
             <div class="row">
+
               <div class="col" id="rank_container">
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\ACAP.png" alt="" class="logos" name="acap"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\aeces.png" alt="" class="logos" name="aeces"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\elite.png" alt="" class="logos" name="elite"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\give.png" alt="" class="logos" name="give"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\jehra.png" alt="" class="logos" name="jehra"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\jmap.png" alt="" class="logos" name="jmap"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\jpia.png" alt="" class="logos" name="jpia"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\piie.png" alt="" class="logos" name="piie"></div>
-                </div>
+                <?php
+                  $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
+                  $result = $conn->query($obg);
+                  
+                  if ($result->num_rows > 0) {
+                    $organizations = array();
+                    while ($row = $result->fetch_assoc()) {
+                        $organizations[] = $row;
+                    }
+                
+                    foreach ($organizations as $org) {
+                        $organization = $org["organization"];
+                        $imagePath = "logos/" . $organization . ".png";
+                
+                        echo '<div class="row" id="logos">
+                          <div class="logo_container"><img src="' . $imagePath . '"></div>
+                        </div>';
+                    }
+                } else {
+                    echo "No organizations found in the database.";
+                }
+
+                ?>
               </div>
+
               <div class="col-11">
-                <div class="row">
+                <?php
+                $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
+                $result = $conn->query($obg);
+
+                if ($result->num_rows > 0) {
+                  $organizations = array();
+                  while ($row = $result->fetch_assoc()) {
+                      $organizations[] = $row;
+                  }
+              
+                  foreach ($organizations as $org) {
+                    $organization = $org["organization"];
+                    $barMeter = $org["barMeter"];
+              
+                      echo '<div class="row">
                   <div class="meter_container">
-                    <div class="meter" id="acap_bar" name="acap"></div>
+                    <div class="meter" id="'. $organization .'" style="width: ' . $barMeter . '%;"></div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="aeces_bar" name="aeces"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="elite_bar" name="elite"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="give_bar" name="give"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="jehra_bar" name="jehra"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="jmap_bar" name="jmap"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="jpia_bar" name="jpia"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="piie_bar" name="piie"></div>
-                  </div>
-                </div>
+                </div>';
+                  }
+              } else {
+                  echo "No organizations found in the database.";
+              }
+                ?>
               </div>
+
             </div>
           </div>
 

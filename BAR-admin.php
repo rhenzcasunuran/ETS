@@ -226,19 +226,13 @@
         <div class="row" id="switches">
           <div class="col" id="toggle-container">
             <div class="anon">
-              <label class="switch">
-                <input type="checkbox" id="anon_button">
-                <span class="slider"></span>
-                <div class="row" id="anon-label">Show&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hide</div>
-              </label>
-            </div>
-          </div>
-  
-          <div class="col" id="add-container">
-            <div class="add-clickable">
-              <a href="#">
-                <div class="add" >Add Org Photo</div>
-              </a>
+              <div class="anon-switch">
+                <label class="switch">
+                  <input type="checkbox" id="anon_button">
+                  <span class="slider"></span>
+                  <div class="row" id="anon-label">Show&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hide</div>
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -251,74 +245,79 @@
               </div>
             </div>
             <div class="row">
+
               <div class="col" id="rank_container">
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\ACAP.png" alt="" class="logos" name="acap"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\aeces.png" alt="" class="logos" name="aeces"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\elite.png" alt="" class="logos" name="elite"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\give.png" alt="" class="logos" name="give"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\jehra.png" alt="" class="logos" name="jehra"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\jmap.png" alt="" class="logos" name="jmap"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\jpia.png" alt="" class="logos" name="jpia"></div>
-                </div>
-                <div class="row" id="logos">
-                  <div class="logo_container"><img src="logos\piie.png" alt="" class="logos" name="piie"></div>
-                </div>
+                <?php
+                  $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
+                  $result = $conn->query($obg);
+                  
+                  if ($result->num_rows > 0) {
+                    $organizations = array();
+                    while ($row = $result->fetch_assoc()) {
+                        $organizations[] = $row;
+                    }
+                
+                    foreach ($organizations as $org) {
+                        $organization = $org["organization"];
+                        $imagePath = "logos/" . $organization . ".png";
+                        $imageAnonPath = "logos/anon.png";
+                        $isAnon = $org["isAnon"];
+
+                        if ($isAnon == 0){
+                          echo '<div class="row" id="logos">
+                          <div class="logo_container"><img src="' . $imagePath . '"></div>
+                        </div>';
+                        } else {
+                          echo '<div class="row" id="logos">
+                          <div class="logo_container"><img src="' . $imageAnonPath . '"></div>
+                        </div>';
+                        }
+                
+                        
+                    }
+                } else {
+                    echo "No organizations found in the database.";
+                }
+
+                ?>
               </div>
+
               <div class="col-11">
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="acap_bar" name="acap"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="aeces_bar" name="aeces"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="elite_bar" name="elite"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="give_bar" name="give"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="jehra_bar" name="jehra"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="jmap_bar" name="jmap"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="jpia_bar" name="jpia"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="piie_bar" name="piie"></div>
-                  </div>
-                </div>
+                <?php
+                $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
+                $result = $conn->query($obg);
+
+                if ($result->num_rows > 0) {
+                  $organizations = array();
+                  while ($row = $result->fetch_assoc()) {
+                      $organizations[] = $row;
+                  }
+              
+                  foreach ($organizations as $org) {
+                    $organization = $org["organization"];
+                    $barMeter = $org["barMeter"];
+                    $isAnon = $org["isAnon"];
+
+                    if ($isAnon == 0){
+                            echo '<div class="row">
+                        <div class="meter_container">
+                          <div class="meter" id="'. $organization .'" style="width: ' . $barMeter . '%;"></div>
+                        </div>
+                      </div>';
+                    } else {
+                      echo '<div class="row">
+                        <div class="meter_container">
+                          <div class="meter" id="anon" style="width: ' . $barMeter . '%;"></div>
+                        </div>
+                      </div>';
+                    } 
+                  }
+              } else {
+                  echo "No organizations found in the database.";
+              }
+                ?>
               </div>
+
             </div>
           </div>
 
