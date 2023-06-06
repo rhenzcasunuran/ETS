@@ -94,15 +94,16 @@ body {
     max-width: 90%;
     margin-top: 8px;
     margin-bottom: 8px;
-    color:var(--color-text);
-    background-color: var(--color-rslt_cntr);
+    color:var(--color-content-text);
+    background-color: var(--color-content-card);
     padding: 5px 10px 5px 10px;
+    box-shadow: var(--color-container-shadow);
 }
 h2 {
     margin-left: 30px;
     margin-top: 10px;
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 .result {
     border: solid var(--color-text);
@@ -139,7 +140,7 @@ th {
 td {
     font-size: 15px;
     text-align: center;
-    border-top: 2px solid rgb(53, 45, 67);
+    border-top: 2px solid rgb(92, 87, 102);
     border-collapse: collapse;
     padding: 5px;
     text-overflow: ellipsis;
@@ -167,6 +168,7 @@ input {
     transition: all .5s ease;
     max-height: 40px;
     color: black;
+    margin-top: 6px;
 }
 .sched_btn:hover {
     background-color: rgb(233, 233, 230);
@@ -468,6 +470,15 @@ input {
 }
 .simplepicker-fade {
     color: var(--color-text) !important;
+}
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    margin-right: calc(var(--bs-gutter-x) * -.5);
+    margin-left: calc(var(--bs-gutter-x) * -.5);
 }
 
 @media screen and (max-width: 768px) {
