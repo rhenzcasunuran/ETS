@@ -1,56 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <title>To Publish</title>
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- Side Bar CSS -->
-      <link rel="stylesheet" href="./css/boxicons.css">
-      <link rel="stylesheet" href="./css/COM-theme-mode.css">
-      <link rel="stylesheet" href="./css/responsive.css">
-      <link rel="stylesheet" href="./css/COM-style.css">
-      <link rel="stylesheet" href="./css/sidebar-style.css">
-      <!-- Page specific CSS -->
-      <link rel="stylesheet" href="./css/COM-tobepublished_page.css">
-      <link rel="stylesheet" href="./css/COM-simplepicker.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>To Publish</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Side Bar CSS -->
+        <link rel="stylesheet" href="./css/boxicons.css">
+        <link rel="stylesheet" href="./css/COM-theme-mode.css">
+        <link rel="stylesheet" href="./css/responsive.css">
+        <link rel="stylesheet" href="./css/COM-style.css">
+        <link rel="stylesheet" href="./css/sidebar-style.css">
+        <link rel="stylesheet" href="./css/system-wide.css">
+        <!-- Page specific CSS -->
+        <link rel="stylesheet" href="./css/COM-tobepublished_page.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" media="all" href="./css/COM-daterangepicker.css" />
   <head>
-
   <body>
-        <div class="succ-wrapper" id="success-pp-wrap" style="display:none;">
-          <div class="succ" id="success-pp">
-            <i class="fa fa-check-circle"></i>
-            <h1 class="suc-head">Successfully Added!</h1>
-            <p class="suc-p">The result is now scheduled and ready to be published.</p>
-            <button class="suc-btn" id="close-btn"><i class="fa fa-long-arrow-right"></i></button>
-          </div>
+    <!--Popup Success-->
+    <div class="popup-background" id="markAsDoneWrapper"  style="z-index:4000 !important;">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Success!</h3>   <!--header-->
+                <p>The result is scheduled and will be published.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <!--<button class="outline-button"  id="success-cancel"><i class='bx bx-x'></i>Cancel</button>-->
+                <button class="success-button"  id="success-confirm"><i class='bx bx-check'></i>Confirm</button>
+            </div>
         </div>
-        <div class="cau-wrapper" id="caution-pp-wrap" style="display:none;">
-          <div class="bacc" id="caution-pp">
-            <i class="fa fa-exclamation-triangle"></i>
-            <h1 class="suc-head">Unsaved Changes</h1>
-            <p class="suc-p">Changes won't be saved. Are you sure you want to discard all changes?</p>
-            <button class="returnbtn" id="returnbtn">Return to editing</button>
-            <button class="discardbtn" id="discardbtn">Discard</button>
-          </div>
+    </div>
+
+    <!--Popup Discard Changes?-->
+    <div class="popup-background" id="cancelWrapper" onclick="hideCancel()" style="z-index:4000 !important;">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
+                <p>Any unsaved progress will be lost.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" id="discard-return"><i class='bx bx-chevron-left'></i>Return</button> <!--Change to function to show calendar -->
+                <button class="primary-button" id="discard-ok"><i class='bx bx-x'></i>Discard</button>
+            </div>
         </div>
-        <div class="edit-wrapper" id="edit-pp-wrap" style="display:none;">
-          <div class="ediit" id="edit-pp">
-            <i class="fa fa-exclamation-triangle"></i>
-            <h1 class="edi-head">Edit schedule?</h1>
-            <p class="edi-p">Are you sure you want to change the schedule?</p>
-            <button class="yahbtn" id="yaahbtn">Yeah</button>
-            <button class="nahbtn" id="naahbtn">Nah</button>
-          </div>
+    </div>
+
+    <!--Popup: Edit Schedule?-->
+    <div class="popup-background edit-sched" id="editWrapper" onclick="hideEdit()" style="z-index:4000 !important;">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Edit Schedule?</h3>   <!--header-->
+                <p>Are you sure you want to change the schedule?</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideEdit()" id="edit-cancel"><i class='bx bx-chevron-left'></i>Cancel</button>
+                <button class="primary-button" onclick="openCalendar()" id="edit-ok"><i class='bx bx-x'></i>Edit Schedule</button>
+            </div>
         </div>
-        <div class="cant-wrapper" id="cant-pp-wrap" style="display:none;">
-          <div class="cant" id="cant-pp">
-          <i class='bx bxs-x-circle' style="color: red; font-size: 80px"></i>
-            <h1 class="cant-head">Incomplete</h1>
-            <p class="cant-p">The result is not yet complete.<br>Please make sure that all required scores are completed</p>
-            <button class="cant-btn" id="cant-btn"><i class="fa fa-long-arrow-right"></i></button>
-          </div>
+    </div>
+
+    <!--Popup: Unavailable-->
+    <div class="popup-background" id="deleteWrapper" onclick="hideDelete()" style="z-index:4000 !important;">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Incomplete</h3>   <!--header-->
+                <p>The result is not yet complete. Please make sure that all required scores are completed.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideDelete()"><i class='bx bx-x'></i>Cancel</button>
+                <!--<button class="danger-button"><i class='bx bx-trash'></i>Delete</button>-->
+            </div>
         </div>
+    </div>
+    <!--Popups End-->
     <!--Sidebar Start-->
     <div class="sidebar open box-shadow">
       <div class="bottom-design">
@@ -258,14 +295,13 @@
         <div class="content">
         <?php
         try {
-            require './php/COM-display_competition_results.php';
+            require './php/COM-display-result-in-topublish.php';
         } catch (Throwable $e) {
             // Show error message na hindi nag connect sa db
             // Pero sa ngayon wag muna
         }
         ?>
         </div>
-        
     </section>
     <!--Content End-->
     <!--Side Bar Scripts-->
@@ -288,242 +324,145 @@
       });
     </script>
     <!--Side Bar Scripts End-->
-    <!--Calendar (Schedule) Scripts End-->
-    <script src="./js/COM-simplepicker.js"></script>
+    <script type="text/javascript" src="./js/COM-daterangepicker.js"></script>
+    <script>
+      console.log("daterangepicker in the html");
+      //encase this function in an if statement of listening if the sched btn is clicked
+        $(function() {
+            $('input[name="datetimes"]').daterangepicker({
+                timePicker: true,
+                startDate: moment().startOf('hour'),
+                endDate: moment().startOf('hour').add(32, 'hour'),
+                locale: {
+                    format: 'MMMM D, YYYY hh:mm A',
+                    applyLabel: "Set Schedule",
+                    cancelLabel: "Cancel",
+                    "daysOfWeek": [
+                        "Sun",
+                        "Mon",
+                        "Tue",
+                        "Wed",
+                        "Thu",
+                        "Fri",
+                        "Sat"
+                    ],
+                    monthNames: [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December"
+                    ],
+                }
+            });
+            $('input[name="datetimes"]').val('');
+        });
+    </script>
+    <script>
+      // Success
+      popupMarkAsDone = document.getElementById('markAsDoneWrapper');
+  
+  var showMarkAsDone = function() {
+    popupMarkAsDone.style.display ='flex';
+  }
+  var hideMarkAsDone = function() {
+    popupMarkAsDone.style.display ='none';
+    //input.disabled = true;
+  }
+
+  // Unsaved Changes
+  popupCancel = document.getElementById('cancelWrapper');
+
+  var showCancel = function() {
+    popupCancel.style.display ='flex';
+  }
+  var hideCancel = function() {
+    popupCancel.style.display ='none';
+    //input.disabled = true;
+  }
+
+  //Incomplete
+  popupDelete = document.getElementById('deleteWrapper');
+
+  var showDelete = function() {
+    popupDelete.style.display ='flex';
+  }
+  var hideDelete = function() {
+    popupDelete.style.display ='none';
+    //input.disabled = true;
+  }
+  
+  //Edit Schedule
+  popupEditChanges = document.getElementById('editWrapper');
+
+  var showEdit = function() {
+    popupEditChanges.style.display ='flex';
+  }
+  var hideEdit = function() {
+    popupEditChanges.style.display ='none';
+    //input.disabled = true;
+  }
+
+  // Function to call the calendar
+  var openCalendar = function(x,competitionName) {
+    name = competitionName;
+    compId = competitionName+"-input";
+    input = x;
+    hideEdit();
+    hideDelete();
+    hideCancel();
+    hideMarkAsDone();
+    console.log(input+" is the input value in the calendar");
+    input.disabled = false;
+    if (input.id == compId) {
+      input.click();
+      console.log("input.id: "+input.id);
+      console.log("compId: "+compId);
+    }
+    
+    input.disabled = true;
+  }
+    </script>
     <script>
       const buttons = document.querySelectorAll('.sched_btn');
       buttons.forEach((button) => {
         button.addEventListener("click", (e) => {
           const h2 = e.target.closest('.parent');
           const input = h2.querySelector('.sched_output');
-          const simplepicker = new SimplePicker ({
-            zIndex: 10
-          });
-          if (button.textContent === "Edit Schedule") {
-            var edit_wrap = document.getElementById('edit-pp-wrap');
-            var edit_popup = document.getElementById('edit-pp');
-            var yahbtn = document.getElementById('yaahbtn');
-            var nahbtn = document.getElementById('naahbtn');
-            edit_wrap.style.display = "block";
-            edit_popup.style.display = "block";
-            edit_wrap.addEventListener("click", function(){
-              edit_wrap.style.display = "none";
-              edit_popup.style.display = "none";
-            });
-            yahbtn.addEventListener("click", function(){
-              edit_wrap.style.display = "none";
-              edit_popup.style.display = "none";
-            });
-            nahbtn.addEventListener("click", function(){
-              edit_wrap.style.display = "none";
-              edit_popup.style.display = "none";
-              calendar_wrap.remove();
-            });
-          }
-          if (button.textContent === "Unavailable") { 
-            var cant_wrap = document.getElementById('cant-pp-wrap');
-            var cant_popup = document.getElementById('cant-pp');
-            var cantbtn = document.getElementById('cant-btn');
-            cant_wrap.style.display = "block";
-            cant_popup.style.display = "block";
-            cant_wrap.addEventListener("click", function(){
-              cant_wrap.style.display = "none";
-              cant_popup.style.display = "none";
-              calendar_wrap.remove();
-            });
-            cantbtn.addEventListener("click", function(){
-              cant_wrap.style.display = "none";
-              cant_popup.style.display = "none";
-              calendar_wrap.remove();
-            });
-          }
-          simplepicker.open();
           var parentElement = button.parentElement;
           var id = parentElement.id;
           var competitionName = id;
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            // Check the response from the PHP file and change the color of the button
-            console.log(this.responseText);
-
-            var respons = (this.responseText);
-            if (respons != 'no'){
-              var response = JSON.parse(this.responseText);
-            var time = response.time; // Assuming the format is 'hr:min am/pm'
-
-            // Extract hour and minute components
-            var parts = time.split(':');
-            var hour = parseInt(parts[0]);
-            var minute = parseInt(parts[1].split(' ')[0]);
-
-            // Add 6 hours and adjust if needed
-            hour += 6;
-            if (hour > 12) {
-              hour -= 12;
-            }
-
-            // Combine the updated components back into the desired format
-            var updatedTime = hour + ':' + minute + ' ' + parts[1].split(' ')[1];
-            var day = response.day;
-            var month = response.month;
-            var year = response.year;
-            var day_header = document.getElementById("day-headerID");
-            var month_year = document.getElementById("month-yearID");
-            var date_current = document.getElementById("dateID");
-            var time_current = document.getElementById("timeID");
-            if (month == '01'){
-              month = 'January';
-            }
-            if (month == '02'){
-              month = 'February';
-            }
-            if (month == '03'){
-              month = 'March';
-            }
-            if (month == '04'){
-              month = 'April';
-            }
-            if (month == '05'){
-              month = 'May';
-            }
-            if (month == '06'){
-              month = 'June';
-            }
-            if (month == '07'){
-              month = 'July';
-            }
-            if (month == '08'){
-              month = 'August';
-            }
-            if (month == '09'){
-              month = 'September';
-            }
-            if (month == '10'){
-              month = 'October';
-            }
-            if (month == '11'){
-              month = 'November';
-            }
-            if (month == '12'){
-              month = 'December';
-            }
-            var green = 'rgb(102, 232, 90)';
-            var btnColor = button.style.backgroundColor;
-            if (btnColor == green){
-              day_header.textContent = 'Current Scheduled Time';
-            }
-            
-            month_year.textContent = month +' ' +year;
-            date_current.textContent = day;
-            time_current.textContent = time;
-          }else {
-            console.log('ung current time to')
-            var time_current = document.getElementById("timeID");
-            const currentDate = new Date();
-            const hours = currentDate.getHours();
-            const minutes = currentDate.getMinutes();
-            let formattedHours = hours % 12; // Convert to 12-hour format
-            formattedHours = formattedHours === 0 ? 12 : formattedHours; // Handle 0 as 12
-            const amPm = hours < 12 ? 'AM' : 'PM';
-            const formattedTime = `${formattedHours}:${minutes < 10 ? '0' : ''}${minutes} ${amPm}`;
-            time_current.textContent = formattedTime;
-          }
-          }
-          };
-        const url = "./php/COM-display_date.php";
-        xhttp.open("GET", url +"?competitionName="+ competitionName, true);
-        xhttp.send();
-          /*Code for Caution Pop-up*/
-          var calendar_wrap = document.getElementById('calendar-wrapper');
-          var cancelbtn = document.getElementById('cancelbtn');
-          var cau_wrap = document.getElementById('caution-pp-wrap');
-          var caution_popup = document.getElementById('caution-pp');
-          if (calendar_wrap) {
-            calendar_wrap.addEventListener("click", function(){
-            cau_wrap.style.display = "block";
-            caution_popup.style.display = "block";
-            var returnbtn = document.getElementById('returnbtn');
-            var discardbtn = document.getElementById('discardbtn');
-            returnbtn.addEventListener("click",function(){
-              calendar_wrap.classList.add("active");
-              cau_wrap.style.display = "none";
-              caution_popup.style.display = "none";
-            });
-            discardbtn.addEventListener("click",function(){
-              cau_wrap.style.display = "none";
-              caution_popup.style.display = "none";
-              calendar_wrap.remove();
-            });
-          });
-          }
-          if (cancelbtn) {
-            cancelbtn.addEventListener("click", function(){
-            cau_wrap.style.display = "block";
-            caution_popup.style.display = "block";
-            var returnbtn = document.getElementById('returnbtn');
-            var discardbtn = document.getElementById('discardbtn');
-            returnbtn.addEventListener("click",function(){
-              calendar_wrap.classList.add("active");
-              cau_wrap.style.display = "none";
-              caution_popup.style.display = "none";
-            });
-            discardbtn.addEventListener("click",function(){
-              cau_wrap.style.display = "none";
-              caution_popup.style.display = "none";
-              calendar_wrap.remove();
-            });
-          });
-          }
+          var x = document.getElementById(competitionName+"-input");
+          console.log(x.id+" is the current id");
+          console.log(input.id+" is the input id");
           
-          /*Code End */
-          simplepicker.on("submit", function (date,readableDate){
-            const dateObj = new Date(readableDate);
-            console.log(dateObj);
-            const year = dateObj.getFullYear();
-            const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-            const day = dateObj.getDate().toString().padStart(2, '0');
-            const hours = dateObj.getHours().toString().padStart(2, '0');
-            const minutes = dateObj.getMinutes().toString().padStart(2, '0');
-            const seconds = dateObj.getSeconds().toString().padStart(2, '0');
-
-            const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-            console.log(formattedDate);
-            const competitionId = h2.id;
-
-            const xhr = new XMLHttpRequest();
-            const url = "./php/COM-save_date.php";
-            const params = "competition_name=" + competitionId + "&schedule=" + formattedDate;
-
-            xhr.open("POST", url, true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-              if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.responseText);
-              }
-            };
-            xhr.send(params);
-            /*Open success pop-up */
-            var wrap_succ = document.getElementById('success-pp-wrap');
-            wrap_succ.style.display = "block";
-            var success_popup = document.getElementById('success-pp');
-            success_popup.style.display = "flex";
-            wrap_succ.addEventListener("click", function(){
-              success_popup.style.display = "none";
-              wrap_succ.style.display = "none";
-              calendar_wrap.remove();
-            })
-            var close = document.getElementById('close-btn');
-            close.addEventListener("click", function(){
-              success_popup.style.display = "none";
-              wrap_succ.style.display = "none";
-              calendar_wrap.remove();
-            });
-            /*Open success pop-up code end*/
-            document.getElementById(competitionId+' btn').style.backgroundColor = 'rgb(102, 232, 90)';
-          });
+          
+          // Popups depending on the button type
+          if (button.textContent === "Edit Schedule") {
+            showEdit();
+            openCalendar(x,competitionName);
+            //var editOk = document.getElementById("edit-ok");
+            //editOk.addEventListener("click", function open(e){
+            //  if (x.id == input.id){
+            //    
+            //  }
+            //  e.stopPropagation();
+            //});
+          }
+          if (button.textContent === "Unavailable") { 
+            showDelete();
+          }
+          e.stopPropagation();
         });
       });
+      // Set button name and color
       // Get the competition name from the h2 element
       buttons.forEach((button) => {
         var parentElement = button.parentElement;
@@ -551,9 +490,9 @@
               element.style.backgroundColor = 'rgb(102, 232, 90)';
               element.textContent = "Edit Schedule";
               element.disabled = false;
-                console.log(competitionName);
-                console.log(schedule);
-                console.log("Green dpat to")
+              console.log(competitionName);
+              console.log(schedule);
+              console.log("Green dpat to")
               /*A code to change the color to black by sending compName to php */
             }
             $.ajax({
@@ -563,7 +502,7 @@
                 success: function(response) {
                   console.log(response);
                   if (response == 'grey') {
-                    document.getElementById(competitionName +' btn').style.backgroundColor = response;
+                    document.getElementById(competitionName +' btn').style.backgroundColor = response + "!important";
                     element.textContent = "Unavailable";
                     element.disabled = false;
                   }
@@ -579,5 +518,8 @@
         xhttp.send();
       });
     </script>
-    <script src="./js/COM-calltime.js"></script>
+    <script>
+      
+    </script>
   </body>
+</html>

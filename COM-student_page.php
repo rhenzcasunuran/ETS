@@ -36,6 +36,7 @@ if($conn){
       <link rel="stylesheet" href="./css/sidebar-style.css">
       <!-- Page specific CSS -->
       <link rel="stylesheet" href="./css/COM-student_page.css">
+      <link rel="stylesheet" href="./css/system-wide.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <head>
 
