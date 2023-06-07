@@ -317,7 +317,6 @@
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
     <script src="./js/HOM-create-post.js"></script>
-    <script src="./js/HOM-edit-post.js"></script>
     <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
@@ -333,6 +332,26 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
+    </script>
+    <script>
+      //get calendar
+      var existingCalendar = "<?php echo $post_row[1];?>";
+
+      var dateInput = document.getElementById("calendar");
+
+      dateInput.value = existingCalendar;
+
+      //get tag
+      var selectedTag = "<?php echo $post_row[2];?>";
+
+      var selectElement = document.getElementById("tag");
+
+      for (var i = 0; i < selectElement.options.length; i++) {
+        if (selectElement.options[i].value === selectedTag) {
+          selectElement.options[i].selected = true;
+          break;
+        }
+      }
     </script>
   </body>
 </html>

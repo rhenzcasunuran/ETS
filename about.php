@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/home-sidebar-style.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/HOM-index.css">
   </head>
