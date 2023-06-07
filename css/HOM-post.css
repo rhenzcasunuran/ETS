@@ -23,7 +23,7 @@
     background-color: var(--color-content-card);
     padding: 30px;
     border-radius: 30px;
-    box-shadow: 0 4px 20px -6px var(--color-shadow);
+    box-shadow: var(--color-container-shadow);
     width: 100%;
 }
 
