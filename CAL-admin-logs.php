@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
     <!--Logs CSS-->
     <link rel="stylesheet" href="./css/CAL-logs.css">
   </head>

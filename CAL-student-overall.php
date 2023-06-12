@@ -40,6 +40,7 @@ if($conn){
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/home-sidebar-style.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
     <!--Calendar JS-->
     <link rel="stylesheet" href="./css/CAL-calendar.css">
   </head>
