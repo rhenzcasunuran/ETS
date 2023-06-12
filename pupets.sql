@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2023 at 06:13 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jun 12, 2023 at 06:17 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,21 +32,21 @@ CREATE TABLE `bar_graph` (
   `organization` text NOT NULL,
   `barMeter` decimal(5,2) NOT NULL,
   `isAnon` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bar_graph`
 --
 
 INSERT INTO `bar_graph` (`orgId`, `organization`, `barMeter`, `isAnon`) VALUES
-(1, 'acap', 48.00, 0),
-(2, 'aeces', 21.00, 0),
-(3, 'elite', 90.00, 0),
-(4, 'give', 11.00, 0),
-(5, 'jehra', 80.00, 0),
-(6, 'jmap', 10.00, 0),
-(7, 'jpia', 25.00, 0),
-(8, 'piie', 69.00, 0);
+(1, 'acap', '48.00', 0),
+(2, 'aeces', '21.00', 0),
+(3, 'elite', '90.00', 0),
+(4, 'give', '11.00', 0),
+(5, 'jehra', '80.00', 0),
+(6, 'jmap', '10.00', 0),
+(7, 'jpia', '25.00', 0),
+(8, 'piie', '69.00', 0);
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ INSERT INTO `bar_graph` (`orgId`, `organization`, `barMeter`, `isAnon`) VALUES
 CREATE TABLE `bracket` (
   `bracket_id` int(11) NOT NULL,
   `bracket_sports` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bracket`
@@ -80,7 +80,7 @@ CREATE TABLE `cache` (
   `url` int(11) NOT NULL,
   `json` longtext NOT NULL,
   `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE `categorynametb` (
   `event_name_id` int(11) NOT NULL,
   `event_type_id` int(11) NOT NULL,
   `category_name` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `categorynametb`
@@ -107,7 +107,9 @@ INSERT INTO `categorynametb` (`category_name_id`, `event_name_id`, `event_type_i
 (75, 60, 1, 'ML Tournament'),
 (76, 60, 1, 'Valorant Tournament'),
 (77, 60, 1, 'Film Making'),
-(78, 59, 1, 'testt');
+(78, 59, 1, 'testt'),
+(79, 60, 3, 'testt'),
+(80, 61, 2, 'Category');
 
 -- --------------------------------------------------------
 
@@ -120,7 +122,7 @@ CREATE TABLE `competitions_table` (
   `competition_name` varchar(255) NOT NULL,
   `event_id` int(11) NOT NULL,
   `schedule` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `competitions_table`
@@ -142,7 +144,7 @@ INSERT INTO `competitions_table` (`competition_id`, `competition_name`, `event_i
 CREATE TABLE `criteriatb` (
   `criteria_id` int(11) NOT NULL,
   `category_name_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -155,22 +157,22 @@ CREATE TABLE `criteria_table` (
   `criteria_name` varchar(255) NOT NULL,
   `max_score` decimal(5,2) NOT NULL,
   `competition_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `criteria_table`
 --
 
 INSERT INTO `criteria_table` (`criteria_id`, `criteria_name`, `max_score`, `competition_id`) VALUES
-(1, 'Relevance', 25.00, 1),
-(2, 'Comprehensiveness', 25.00, 1),
-(3, 'Originality', 25.00, 1),
-(4, 'Insight', 25.00, 1),
-(5, 'Presence', 10.00, 2),
-(6, 'Articulation', 15.00, 2),
-(7, 'Dramatic Appropriation', 15.00, 2),
-(8, 'Overall Performance', 10.00, 2),
-(17, 'Dance Moves', 25.00, 3);
+(1, 'Relevance', '25.00', 1),
+(2, 'Comprehensiveness', '25.00', 1),
+(3, 'Originality', '25.00', 1),
+(4, 'Insight', '25.00', 1),
+(5, 'Presence', '10.00', 2),
+(6, 'Articulation', '15.00', 2),
+(7, 'Dramatic Appropriation', '15.00', 2),
+(8, 'Overall Performance', '10.00', 2),
+(17, 'Dance Moves', '25.00', 3);
 
 -- --------------------------------------------------------
 
@@ -183,7 +185,7 @@ CREATE TABLE `criterion` (
   `category_name_id` int(11) NOT NULL,
   `criterion_name` varchar(25) NOT NULL,
   `criterion_percent` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `criterion`
@@ -208,7 +210,7 @@ CREATE TABLE `criteriontb` (
   `criteria_id` int(11) NOT NULL,
   `criterion_name` varchar(50) NOT NULL,
   `criterion_percent` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -227,7 +229,7 @@ CREATE TABLE `draft` (
   `draft_photos` text DEFAULT NULL,
   `draft_photos_path` text DEFAULT NULL,
   `draft_schedule` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -244,7 +246,7 @@ CREATE TABLE `eventhistorytb` (
   `event_code` varchar(12) NOT NULL,
   `event_date` date NOT NULL,
   `event_time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `eventhistorytb`
@@ -270,7 +272,7 @@ INSERT INTO `eventhistorytb` (`event_history_id`, `event_name`, `event_type`, `c
 CREATE TABLE `eventnametb` (
   `event_name_id` int(11) NOT NULL,
   `event_name` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `eventnametb`
@@ -278,7 +280,8 @@ CREATE TABLE `eventnametb` (
 
 INSERT INTO `eventnametb` (`event_name_id`, `event_name`) VALUES
 (59, 'Sports Festival'),
-(60, 'ELITE Week');
+(60, 'ELITE Week'),
+(61, 'Compe Event');
 
 -- --------------------------------------------------------
 
@@ -296,7 +299,7 @@ CREATE TABLE `events` (
   `activity_4` varchar(255) DEFAULT NULL,
   `activity_5` varchar(255) DEFAULT NULL,
   `image` longblob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `events`
@@ -320,13 +323,17 @@ INSERT INTO `events` (`event_id`, `event_name`, `event_date`, `activity_1`, `act
 CREATE TABLE `events_table` (
   `event_id` int(11) NOT NULL,
   `event_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `events_table`
 --
 
 INSERT INTO `events_table` (`event_id`, `event_name`) VALUES
+(1, 'Buwan ng Wika'),
+(2, 'Foundation'),
+(1, 'Buwan ng Wika'),
+(2, 'Foundation'),
 (1, 'Buwan ng Wika'),
 (2, 'Foundation');
 
@@ -339,7 +346,7 @@ INSERT INTO `events_table` (`event_id`, `event_name`) VALUES
 CREATE TABLE `eventtypetb` (
   `event_type_id` int(11) NOT NULL,
   `event_type` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `eventtypetb`
@@ -358,11 +365,11 @@ INSERT INTO `eventtypetb` (`event_type_id`, `event_type`) VALUES
 
 CREATE TABLE `image` (
   `id` int(11) NOT NULL,
-  `filename` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `image_Info` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `image_Description` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `filename` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `image_Info` varchar(250) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `image_Description` varchar(3000) CHARACTER SET utf8mb4 NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `image`
@@ -388,7 +395,7 @@ CREATE TABLE `listofeventtb` (
   `event_code` varchar(12) NOT NULL,
   `event_date` date NOT NULL,
   `event_time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `listofeventtb`
@@ -400,12 +407,14 @@ INSERT INTO `listofeventtb` (`event_id`, `event_name`, `event_type`, `category_n
 (78, 'Sports Festival', 'Tournament', 'Sepak Takraw', 'dasdadasdasd12', 'bILeSGHl4yEH', '2023-05-31', '00:24:00'),
 (79, 'Sports Festival', 'Tournament', 'Sepak Takraw', 'dasdadasdasd12', 'bILeSGHl4yEH', '2023-05-31', '00:16:00'),
 (80, 'Sports Festival', 'Tournament', 'Badminton', 'wqeqweqwe', 'Igop', '2023-05-31', '15:46:00'),
-(81, 'ELITE Week', 'Tournament', 'Valorant Tournament', 'qweqweqweqweqwe', 'Smz6ZMsEYdeo', '2023-05-25', '00:00:00'),
 (82, 'Sports Festival', 'Tournament', 'Basketball', 'asdasdasdasdas', 'tP3ZGvzaKouZ', '2023-05-29', '00:00:00'),
 (83, 'Sports Festival', 'Tournament', 'Volley Ball', 'asdasfefefefefef', 'OcdfMVSA1gmZ', '2023-12-20', '06:00:00'),
 (84, 'Sports Festival', 'Tournament', 'Basketball', 'qwerqwer', 'octxU2k3uNAr', '2023-05-30', '01:00:00'),
 (85, 'Sports Festival', 'Tournament', 'Badminton', 'wqeqweqwewqe', 'Md0MNFSQN07w', '2023-05-27', '00:00:00'),
-(86, 'Sports Festival', 'Tournament', 'Badminton', 'qrrigop', 'f53IdfX4Zxl3', '2023-05-31', '00:00:00');
+(86, 'Sports Festival', 'Tournament', 'Badminton', 'qrrigop', 'f53IdfX4Zxl3', '2023-05-31', '00:00:00'),
+(87, 'ELITE Week', 'Standard', 'testt', 'dwqdadqwd', 'fcws8XynJoNW', '2023-06-09', '12:31:00'),
+(88, 'Compe Event', 'Competition', 'Category', 'adsafas', 'LoSIAIVFNn8F', '2023-06-21', '19:37:00'),
+(89, 'Compe Event', 'Competition', 'Category', 'ffsdfsdfsfs', 'BQbjX4Z3vmRE', '2023-06-29', '15:37:00');
 
 -- --------------------------------------------------------
 
@@ -419,7 +428,7 @@ CREATE TABLE `logs` (
   `log_time` time NOT NULL,
   `admin` varchar(255) NOT NULL,
   `activity_description` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -431,22 +440,40 @@ CREATE TABLE `overall_scores_table` (
   `competition_id` int(11) NOT NULL,
   `participant_id` int(11) NOT NULL,
   `overall_score` decimal(5,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `overall_scores_table`
 --
 
 INSERT INTO `overall_scores_table` (`competition_id`, `participant_id`, `overall_score`) VALUES
-(1, 1, 192.00),
-(1, 2, 184.00),
-(1, 3, 176.00),
-(1, 4, 168.00),
-(2, 5, 100.00),
-(2, 6, 92.00),
-(2, 7, 84.00),
-(2, 8, 76.00),
-(3, 9, 50.00);
+(1, 1, '192.00'),
+(1, 2, '184.00'),
+(1, 3, '176.00'),
+(1, 4, '168.00'),
+(2, 5, '100.00'),
+(2, 6, '92.00'),
+(2, 7, '84.00'),
+(2, 8, '76.00'),
+(3, 9, '50.00'),
+(1, 1, '192.00'),
+(1, 2, '184.00'),
+(1, 3, '176.00'),
+(1, 4, '168.00'),
+(2, 5, '100.00'),
+(2, 6, '92.00'),
+(2, 7, '84.00'),
+(2, 8, '76.00'),
+(3, 9, '50.00'),
+(1, 1, '192.00'),
+(1, 2, '184.00'),
+(1, 3, '176.00'),
+(1, 4, '168.00'),
+(2, 5, '100.00'),
+(2, 6, '92.00'),
+(2, 7, '84.00'),
+(2, 8, '76.00'),
+(3, 9, '50.00');
 
 -- --------------------------------------------------------
 
@@ -458,13 +485,31 @@ CREATE TABLE `participants_table` (
   `participant_id` int(11) NOT NULL,
   `participant_name` varchar(255) NOT NULL,
   `organization` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `participants_table`
 --
 
 INSERT INTO `participants_table` (`participant_id`, `participant_name`, `organization`) VALUES
+(1, 'Robbie 1 Boco', 'ELITE'),
+(2, 'Robbie 2 Boco', 'JMAP'),
+(3, 'Robbie 3 Boco', 'JEHRA'),
+(4, 'Robbie 4 Boco', 'ACAP'),
+(5, 'Robbie 5 Boco', 'MenInBlack'),
+(6, 'Robbie 6 Boco', 'Illuminati'),
+(7, 'Robbie 7 Boco', 'Olympus'),
+(8, 'Robbie 8 Boco', 'Avengers'),
+(9, 'Robbie 9 Boco', 'Teamates'),
+(1, 'Robbie 1 Boco', 'ELITE'),
+(2, 'Robbie 2 Boco', 'JMAP'),
+(3, 'Robbie 3 Boco', 'JEHRA'),
+(4, 'Robbie 4 Boco', 'ACAP'),
+(5, 'Robbie 5 Boco', 'MenInBlack'),
+(6, 'Robbie 6 Boco', 'Illuminati'),
+(7, 'Robbie 7 Boco', 'Olympus'),
+(8, 'Robbie 8 Boco', 'Avengers'),
+(9, 'Robbie 9 Boco', 'Teamates'),
 (1, 'Robbie 1 Boco', 'ELITE'),
 (2, 'Robbie 2 Boco', 'JMAP'),
 (3, 'Robbie 3 Boco', 'JEHRA'),
@@ -486,7 +531,7 @@ CREATE TABLE `pjjudges` (
   `event_code_id` int(11) DEFAULT NULL,
   `judge_name` varchar(150) NOT NULL,
   `judge_nick` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjjudges`
@@ -505,14 +550,15 @@ INSERT INTO `pjjudges` (`judge_id`, `event_code_id`, `judge_name`, `judge_nick`)
 CREATE TABLE `pjjudgeseventcode` (
   `event_code_id` int(11) NOT NULL,
   `event_code` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjjudgeseventcode`
 --
 
 INSERT INTO `pjjudgeseventcode` (`event_code_id`, `event_code`) VALUES
-(3, 'twelvechar12');
+(3, 'twelvechar12'),
+(4, 'LoSIAIVFNn8F');
 
 -- --------------------------------------------------------
 
@@ -524,7 +570,14 @@ CREATE TABLE `pjjudgestemp` (
   `judge_id_temp` int(11) NOT NULL,
   `judge_name_temp` varchar(50) NOT NULL,
   `judge_nick_temp` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pjjudgestemp`
+--
+
+INSERT INTO `pjjudgestemp` (`judge_id_temp`, `judge_name_temp`, `judge_nick_temp`) VALUES
+(7, 'domff', 'Adafas');
 
 -- --------------------------------------------------------
 
@@ -538,7 +591,7 @@ CREATE TABLE `pjparticipants` (
   `participants_course` varchar(20) NOT NULL,
   `participants_section` varchar(50) NOT NULL,
   `participants_organization` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -550,7 +603,7 @@ CREATE TABLE `pjparticipantsgroup` (
   `participants_id_group` int(11) NOT NULL,
   `participants_name_group` varchar(50) NOT NULL,
   `participants_organization_group` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -564,7 +617,7 @@ CREATE TABLE `pjparticipantsgroupmembers` (
   `participants_name_g` varchar(50) NOT NULL,
   `participants_course_group` varchar(20) NOT NULL,
   `participants_section_group` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -578,7 +631,7 @@ CREATE TABLE `pjparticipantsgroupmemberstemp` (
   `participants_name_g_temp` varchar(50) NOT NULL,
   `participants_course_group_temp` varchar(20) NOT NULL,
   `participants_section_group_temp` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -590,7 +643,7 @@ CREATE TABLE `pjparticipantsgrouptemp` (
   `participants_id_group_temp` int(11) NOT NULL,
   `participants_name_group_temp` varchar(50) NOT NULL,
   `participants_organization_group_temp` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -604,7 +657,15 @@ CREATE TABLE `pjparticipantstemp` (
   `participants_course_temp` varchar(20) NOT NULL,
   `participants_section_temp` varchar(50) NOT NULL,
   `participants_organization_temp` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pjparticipantstemp`
+--
+
+INSERT INTO `pjparticipantstemp` (`participants_id_individual_temp`, `participants_name_temp`, `participants_course_temp`, `participants_section_temp`, `participants_organization_temp`) VALUES
+(6, 'dadad', 'dada', 'das', 'ELITE'),
+(7, 'adadad', 'dada', 'das', 'JPIA');
 
 -- --------------------------------------------------------
 
@@ -620,15 +681,15 @@ CREATE TABLE `pjscores` (
   `criteria_3` int(11) NOT NULL,
   `criteria_4` int(11) NOT NULL,
   `total_score` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjscores`
 --
 
 INSERT INTO `pjscores` (`score_id`, `group_name`, `criteria_1`, `criteria_2`, `criteria_3`, `criteria_4`, `total_score`) VALUES
-(1, 'ITDS', 10, 10, 10, 10, 100.00),
-(2, 'JPIA', 10, 10, 10, 8, 95.00);
+(1, 'ITDS', 10, 10, 10, 10, '100.00'),
+(2, 'JPIA', 10, 10, 10, 8, '95.00');
 
 -- --------------------------------------------------------
 
@@ -644,7 +705,7 @@ CREATE TABLE `pjscorestemp` (
   `criteria_3_temp` int(11) NOT NULL,
   `criteria_4_temp` int(11) NOT NULL,
   `total_score_temp` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -660,21 +721,22 @@ CREATE TABLE `post` (
   `post_description` text NOT NULL,
   `post_cover` text DEFAULT NULL,
   `post_photos` text DEFAULT NULL,
-  `post_schedule` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `post_schedule` datetime NOT NULL,
+  `post_calendar_type` varchar(8) DEFAULT 'Standard'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `post`
 --
 
-INSERT INTO `post` (`post_id`, `post_calendar`, `post_tag`, `post_title`, `post_description`, `post_cover`, `post_photos`, `post_schedule`) VALUES
-(28, '2023-06-07', 'JMAP', 'Kislap Livelihood is finally here!', 'Join us as we light up the world in this year\'s livelihood program hold by 𝐉𝐮𝐧𝐢𝐨𝐫 𝐌𝐚𝐫𝐤𝐞𝐭𝐢𝐧𝐠 𝐀𝐬𝐬𝐨𝐜𝐢𝐚𝐭𝐢𝐨𝐧 𝐨𝐟 𝐭𝐡𝐞 𝐏𝐡𝐢𝐥𝐢𝐩𝐩𝐢𝐧𝐞𝐬 - 𝐁𝐚𝐭𝐜𝐡 𝐙𝐞𝐭𝐚. This activity will run starting June 6-8, 2023 from 2pm-4pm in PUP-SRC. All registered participants, check your email for the further details.\r\n\r\nShine vividly, Iskolar ng Bayan! 🕯️✨', NULL, NULL, '2023-01-07 02:07:33'),
-(29, '2023-06-12', 'JEHRA', 'JEHRA Seminar', '“𝑨𝒏 𝒐𝒓𝒈𝒂𝒏𝒊𝒛𝒂𝒕𝒊𝒐𝒏’𝒔 𝒂𝒃𝒊𝒍𝒊𝒕𝒚 𝒕𝒐 𝑳𝑬𝑨𝑹𝑵, 𝒂𝒏𝒅 𝒕𝒓𝒂𝒏𝒔𝒍𝒂𝒕𝒆 𝒕𝒉𝒂𝒕 𝒍𝒆𝒂𝒓𝒏𝒊𝒏𝒈 𝒊𝒏𝒕𝒐 𝑨𝑪𝑻𝑰𝑶𝑵 𝒓𝒂𝒑𝒊𝒅𝒍𝒚 𝒊𝒔 𝒕𝒉𝒆 𝒖𝒍𝒕𝒊𝒎𝒂𝒕𝒆 𝑪𝑶𝑴𝑷𝑬𝑻𝑰𝑻𝑰𝑽𝑬 𝑨𝑫𝑽𝑨𝑵𝑻𝑨𝑮𝑬.” – 𝑱𝒂𝒄𝒌 𝑾𝒆𝒍𝒄𝒉\r\n\r\nWarmest Greetings!\r\n\r\nWe are inviting you to join us on the 𝟏𝟐𝒕𝒉 𝒐𝒇 𝑱𝒂𝒏𝒖𝒂𝒓𝒚 𝟐𝟎𝟐𝟑 (Thursday), from 𝟐:𝟎𝟎𝑷𝑴 𝒕𝒐 𝟓:𝟎𝟎 𝑷𝑴at the 𝑨𝒖𝒅𝒊𝒐-𝒗𝒊𝒔𝒖𝒂𝒍 𝑹𝒐𝒐𝒎 𝟑𝟎𝟖 (𝟑𝒓𝒅 𝑭𝒍𝒐𝒐𝒓), 𝑷𝑼𝑷 𝑺𝒂𝒏𝒕𝒂 𝑹𝒐𝒔𝒂 𝑪𝒂𝒎𝒑𝒖𝒔.\r\n\r\nGet ready to learn as we discuss 𝑻𝑹𝑨𝑰𝑵𝑰𝑵𝑮 𝑨𝑵𝑫 𝑫𝑬𝑽𝑬𝑳𝑶𝑷𝑴𝑬𝑵𝑻: 𝑨𝒑𝒑𝒓𝒐𝒂𝒄𝒉𝒆𝒔 𝒂𝒏𝒅 𝑻𝒆𝒄𝒉𝒏𝒊𝒒𝒖𝒆𝒔 𝒊𝒏 𝑬𝒒𝒖𝒊𝒑𝒑𝒊𝒏𝒈 𝑷𝒆𝒐𝒑𝒍𝒆 𝑻𝒐𝒘𝒂𝒓𝒅𝒔 𝑪𝒐𝒎𝒑𝒂𝒏𝒚 𝑺𝒖𝒄𝒄𝒆𝒔𝒔. Immerse ourselves in a thorough exploration of the significance of proficiently educating individuals within an organization, considering our role as a Future Human Resource.\r\n\r\n𝐖𝐞 𝐚𝐫𝐞 𝐭𝐫𝐚𝐢𝐧𝐞𝐝 𝐭𝐨 𝐭𝐫𝐚𝐢𝐧 𝐩𝐞𝐨𝐩𝐥𝐞 𝐚𝐧𝐝 𝐦𝐨𝐥𝐝 𝐭𝐡𝐞𝐦 𝐭𝐨 𝐛𝐞 𝐭𝐡𝐞 𝐜𝐨𝐦𝐩𝐚𝐧𝐲’𝐬 𝐚𝐬𝐬𝐞𝐭𝐬.', NULL, NULL, '2023-02-12 02:09:10'),
-(30, '0000-00-00', 'ACAP', 'ACAP Midyear Graduates', '\"𝐆𝐫𝐞𝐚𝐭 𝐥𝐞𝐚𝐝𝐞𝐫𝐬 𝐝𝐨𝐧\'𝐭 𝐬𝐞𝐭 𝐨𝐮𝐭 𝐭𝐨 𝐛𝐞 𝐚 𝐥𝐞𝐚𝐝𝐞𝐫. 𝐓𝐡𝐞𝐲 𝐬𝐞𝐭 𝐨𝐮𝐭 𝐭𝐨 𝐦𝐚𝐤𝐞 𝐭𝐡𝐞 𝐝𝐢𝐟𝐟𝐞𝐫𝐞𝐧𝐜𝐞. 𝐈𝐭 𝐢𝐬 𝐧𝐞𝐯𝐞𝐫 𝐚𝐛𝐨𝐮𝐭 𝐭𝐡𝐞 𝐫𝐨𝐥𝐞 - 𝐚𝐥𝐰𝐚𝐲𝐬 𝐚𝐛𝐨𝐮𝐭 𝐭𝐡𝐞 𝐠𝐨𝐚𝐥.\" - 𝐋𝐢𝐬𝐚 𝐇𝐚𝐢𝐬𝐡𝐚\r\n\r\nThese exceptional women showcased their unwavering dedication to assisting and supporting their students and colleagues despite facing various challenges during their academic journeys. Managing your education, profession, and organizational duties can be difficult, but you have persevered and are now eagerly approaching the conclusion of this remarkable journey.\r\n\r\nWith that, we are pleased to recognize the midyear graduates of the Polytechnic University of the Philippines Santa Rosa Campus who have assisted the (𝟭) 𝑨𝒔𝒔𝒐𝒄𝒊𝒂𝒕𝒊𝒐𝒏 𝒐𝒇 𝑪𝒐𝒎𝒑𝒆𝒕𝒆𝒏𝒕 𝒂𝒏𝒅 𝑨𝒔𝒑𝒊𝒓𝒊𝒏𝒈 𝑷𝒔𝒚𝒄𝒉𝒐𝒍𝒐𝒈𝒊𝒔𝒕𝒔 and (𝟮) 𝑺𝒕𝒖𝒅𝒆𝒏𝒕 𝑪𝒐𝒖𝒏𝒄𝒊𝒍 𝑶𝒓𝒈𝒂𝒏𝒊𝒛𝒂𝒕𝒊𝒐𝒏. ✨\r\n\r\nThank you for your hard work, commitment, and for making a difference. Hat\'s off, Sikolohistas! 🧑🏻‍🎓🔱\r\n\r\n#ACAPFamily #PUP #BatchPinagpala 🤍💜', NULL, NULL, '2023-03-07 02:09:51'),
-(31, '0000-00-00', 'SC', 'Flag Ceremony', 'It’s the first week of the month, that’s why the PUP Santa Rosa Campus, together with AECES will spearhead the Flag Raising Ceremony for the Month of June.\r\n\r\nWe are encouraging every student to join the flag raising, morning exercises and other programs as we start this month of June.\r\n\r\nSo be on time at 7:30 AM, PUPSRC School Grounds and don’t forget to observe the wearing of proper school uniform. However, students who will attend the program that does not have a uniform yet, must wear white t-shirt and pants pursuant to the school’s official dress codes.\r\n\r\n𝙎𝙚𝙚 𝙮𝙤𝙪 𝙩𝙝𝙚𝙧𝙚 𝙋𝙐𝙋𝙞𝙖𝙣𝙨!', NULL, NULL, '2023-04-01 02:10:40'),
-(32, '2023-06-09', 'ELITE', 'ELITE Audition Post', 'ATTENTION ENTHUSIASTS! 🧡🖤\r\n\r\nWe are excited to have you join us for our audition for ELITE\'s IT Dance Squad!\r\n\r\nInterested? Audition will take place on Monday, January 9, 2023 in Kanluran Court, 9:00 am - 12:00 pm. Prepare a 30 second - 1 minute piece.\r\n\r\nFor further inquiries please approach Joshua Basa (BSIT 4-2) or Paulo Ariel Griarte (BSIT 4-1).\r\n\r\nSee you then!!', NULL, NULL, '2023-04-07 02:11:17'),
-(33, '2023-06-07', 'SC', 'Mother’s Day', '“𝓣𝓱𝓮 𝓲𝓷𝓯𝓵𝓾𝓮𝓷𝓬𝓮 𝓸𝓯 𝓪 𝓶𝓸𝓽𝓱𝓮𝓻 𝓲𝓷 𝓽𝓱𝓮 𝓵𝓲𝓿𝓮𝓼 𝓸𝓯 𝓱𝓮𝓻 𝓬𝓱𝓲𝓵𝓭𝓻𝓮𝓷 𝓲𝓼 𝓫𝓮𝔂𝓸𝓷𝓭 𝓬𝓪𝓵𝓬𝓾𝓵𝓪𝓽𝓲𝓸𝓷.”—𝓙𝓪𝓶𝓮𝓼 𝓔. 𝓕𝓪𝓾𝓼𝓽\r\n\r\nWe, extends our heartfelt greetings to all the mothers and individuals who firmly stands as the light of the world a 𝐇𝐀𝐏𝐏𝐘 𝐌𝐎𝐓𝐇𝐄𝐑𝐒 𝐃𝐀𝐘!🎊💛. Your unconditional warmth love and endless sacrifices has truly made a significant impact on who we are today.', NULL, NULL, '2023-05-23 02:15:48'),
-(34, '2023-06-12', 'AECES', 'Bridging the Gap', 'Calling all Electronics Engineering Students! Join us in our upcoming seminar as we delve into the crucial role of electronics engineers in advancing medical technology. Be part of the movement in \'Bridging the Gap\' and discover the opportunities for technological innovation in the field of medicine. Register now and empower yourself to make a difference!\r\n\r\nwith the topic of \"𝗕𝗿𝗶𝗱𝗴𝗶𝗻𝗴 𝘁𝗵𝗲 𝗚𝗮𝗽: 𝗘𝗺𝗽𝗼𝘄𝗲𝗿𝗶𝗻𝗴 𝘁𝗵𝗲 𝗩𝗶𝘁𝗮𝗹 𝗥𝗼𝗹𝗲 𝗼𝗳 𝗘𝗹𝗲𝗰𝘁𝗿𝗼𝗻𝗶𝗰𝘀 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝘀 𝗶𝗻 𝘁𝗵𝗲 𝗠𝗲𝗱𝗶𝗰𝗮𝗹 𝗙𝗶𝗲𝗹𝗱\"\r\n\r\nPlease be advised that the number of available slots for this event is 𝗹𝗶𝗺𝗶𝘁𝗲𝗱 𝘁𝗼 𝟳𝟱, 𝘄𝗶𝘁𝗵 𝘁𝗵𝗲 𝗲𝘅𝗰𝗹𝘂𝘀𝗶𝗼𝗻 𝗼𝗳 𝟰𝘁𝗵-𝘆𝗲𝗮𝗿 𝘀𝘁𝘂𝗱𝗲𝗻𝘁𝘀. We highly encourage interested participants to register at the earliest possible time.\r\n\r\n𝗪𝗵𝗲𝗻: May 12, 2023 | Friday\r\n𝗪𝗵𝗲𝗿𝗲: PUP - Sta. Rosa Campus (AVR)\r\n𝗧𝗶𝗺𝗲: 8:00 AM- 12:00 PM\r\n𝗦𝗽𝗲𝗮𝗸𝗲𝗿: Engr. Mark Dairen C. Camcaman', NULL, NULL, '2023-06-07 02:28:10');
+INSERT INTO `post` (`post_id`, `post_calendar`, `post_tag`, `post_title`, `post_description`, `post_cover`, `post_photos`, `post_schedule`, `post_calendar_type`) VALUES
+(28, '2023-06-07', 'JMAP', 'Kislap Livelihood is finally here!', 'Join us as we light up the world in this year\'s livelihood program hold by 𝐉𝐮𝐧𝐢𝐨𝐫 𝐌𝐚𝐫𝐤𝐞𝐭𝐢𝐧𝐠 𝐀𝐬𝐬𝐨𝐜𝐢𝐚𝐭𝐢𝐨𝐧 𝐨𝐟 𝐭𝐡𝐞 𝐏𝐡𝐢𝐥𝐢𝐩𝐩𝐢𝐧𝐞𝐬 - 𝐁𝐚𝐭𝐜𝐡 𝐙𝐞𝐭𝐚. This activity will run starting June 6-8, 2023 from 2pm-4pm in PUP-SRC. All registered participants, check your email for the further details.\r\n\r\nShine vividly, Iskolar ng Bayan! 🕯️✨', NULL, NULL, '2023-01-07 02:07:33', 'Standard'),
+(29, '2023-06-12', 'JEHRA', 'JEHRA Seminar', '“𝑨𝒏 𝒐𝒓𝒈𝒂𝒏𝒊𝒛𝒂𝒕𝒊𝒐𝒏’𝒔 𝒂𝒃𝒊𝒍𝒊𝒕𝒚 𝒕𝒐 𝑳𝑬𝑨𝑹𝑵, 𝒂𝒏𝒅 𝒕𝒓𝒂𝒏𝒔𝒍𝒂𝒕𝒆 𝒕𝒉𝒂𝒕 𝒍𝒆𝒂𝒓𝒏𝒊𝒏𝒈 𝒊𝒏𝒕𝒐 𝑨𝑪𝑻𝑰𝑶𝑵 𝒓𝒂𝒑𝒊𝒅𝒍𝒚 𝒊𝒔 𝒕𝒉𝒆 𝒖𝒍𝒕𝒊𝒎𝒂𝒕𝒆 𝑪𝑶𝑴𝑷𝑬𝑻𝑰𝑻𝑰𝑽𝑬 𝑨𝑫𝑽𝑨𝑵𝑻𝑨𝑮𝑬.” – 𝑱𝒂𝒄𝒌 𝑾𝒆𝒍𝒄𝒉\r\n\r\nWarmest Greetings!\r\n\r\nWe are inviting you to join us on the 𝟏𝟐𝒕𝒉 𝒐𝒇 𝑱𝒂𝒏𝒖𝒂𝒓𝒚 𝟐𝟎𝟐𝟑 (Thursday), from 𝟐:𝟎𝟎𝑷𝑴 𝒕𝒐 𝟓:𝟎𝟎 𝑷𝑴at the 𝑨𝒖𝒅𝒊𝒐-𝒗𝒊𝒔𝒖𝒂𝒍 𝑹𝒐𝒐𝒎 𝟑𝟎𝟖 (𝟑𝒓𝒅 𝑭𝒍𝒐𝒐𝒓), 𝑷𝑼𝑷 𝑺𝒂𝒏𝒕𝒂 𝑹𝒐𝒔𝒂 𝑪𝒂𝒎𝒑𝒖𝒔.\r\n\r\nGet ready to learn as we discuss 𝑻𝑹𝑨𝑰𝑵𝑰𝑵𝑮 𝑨𝑵𝑫 𝑫𝑬𝑽𝑬𝑳𝑶𝑷𝑴𝑬𝑵𝑻: 𝑨𝒑𝒑𝒓𝒐𝒂𝒄𝒉𝒆𝒔 𝒂𝒏𝒅 𝑻𝒆𝒄𝒉𝒏𝒊𝒒𝒖𝒆𝒔 𝒊𝒏 𝑬𝒒𝒖𝒊𝒑𝒑𝒊𝒏𝒈 𝑷𝒆𝒐𝒑𝒍𝒆 𝑻𝒐𝒘𝒂𝒓𝒅𝒔 𝑪𝒐𝒎𝒑𝒂𝒏𝒚 𝑺𝒖𝒄𝒄𝒆𝒔𝒔. Immerse ourselves in a thorough exploration of the significance of proficiently educating individuals within an organization, considering our role as a Future Human Resource.\r\n\r\n𝐖𝐞 𝐚𝐫𝐞 𝐭𝐫𝐚𝐢𝐧𝐞𝐝 𝐭𝐨 𝐭𝐫𝐚𝐢𝐧 𝐩𝐞𝐨𝐩𝐥𝐞 𝐚𝐧𝐝 𝐦𝐨𝐥𝐝 𝐭𝐡𝐞𝐦 𝐭𝐨 𝐛𝐞 𝐭𝐡𝐞 𝐜𝐨𝐦𝐩𝐚𝐧𝐲’𝐬 𝐚𝐬𝐬𝐞𝐭𝐬.', NULL, NULL, '2023-02-12 02:09:10', 'Standard'),
+(30, '0000-00-00', 'ACAP', 'ACAP Midyear Graduates', '\"𝐆𝐫𝐞𝐚𝐭 𝐥𝐞𝐚𝐝𝐞𝐫𝐬 𝐝𝐨𝐧\'𝐭 𝐬𝐞𝐭 𝐨𝐮𝐭 𝐭𝐨 𝐛𝐞 𝐚 𝐥𝐞𝐚𝐝𝐞𝐫. 𝐓𝐡𝐞𝐲 𝐬𝐞𝐭 𝐨𝐮𝐭 𝐭𝐨 𝐦𝐚𝐤𝐞 𝐭𝐡𝐞 𝐝𝐢𝐟𝐟𝐞𝐫𝐞𝐧𝐜𝐞. 𝐈𝐭 𝐢𝐬 𝐧𝐞𝐯𝐞𝐫 𝐚𝐛𝐨𝐮𝐭 𝐭𝐡𝐞 𝐫𝐨𝐥𝐞 - 𝐚𝐥𝐰𝐚𝐲𝐬 𝐚𝐛𝐨𝐮𝐭 𝐭𝐡𝐞 𝐠𝐨𝐚𝐥.\" - 𝐋𝐢𝐬𝐚 𝐇𝐚𝐢𝐬𝐡𝐚\r\n\r\nThese exceptional women showcased their unwavering dedication to assisting and supporting their students and colleagues despite facing various challenges during their academic journeys. Managing your education, profession, and organizational duties can be difficult, but you have persevered and are now eagerly approaching the conclusion of this remarkable journey.\r\n\r\nWith that, we are pleased to recognize the midyear graduates of the Polytechnic University of the Philippines Santa Rosa Campus who have assisted the (𝟭) 𝑨𝒔𝒔𝒐𝒄𝒊𝒂𝒕𝒊𝒐𝒏 𝒐𝒇 𝑪𝒐𝒎𝒑𝒆𝒕𝒆𝒏𝒕 𝒂𝒏𝒅 𝑨𝒔𝒑𝒊𝒓𝒊𝒏𝒈 𝑷𝒔𝒚𝒄𝒉𝒐𝒍𝒐𝒈𝒊𝒔𝒕𝒔 and (𝟮) 𝑺𝒕𝒖𝒅𝒆𝒏𝒕 𝑪𝒐𝒖𝒏𝒄𝒊𝒍 𝑶𝒓𝒈𝒂𝒏𝒊𝒛𝒂𝒕𝒊𝒐𝒏. ✨\r\n\r\nThank you for your hard work, commitment, and for making a difference. Hat\'s off, Sikolohistas! 🧑🏻‍🎓🔱\r\n\r\n#ACAPFamily #PUP #BatchPinagpala 🤍💜', NULL, NULL, '2023-03-07 02:09:51', 'Standard'),
+(31, '0000-00-00', 'SC', 'Flag Ceremony', 'It’s the first week of the month, that’s why the PUP Santa Rosa Campus, together with AECES will spearhead the Flag Raising Ceremony for the Month of June.\r\n\r\nWe are encouraging every student to join the flag raising, morning exercises and other programs as we start this month of June.\r\n\r\nSo be on time at 7:30 AM, PUPSRC School Grounds and don’t forget to observe the wearing of proper school uniform. However, students who will attend the program that does not have a uniform yet, must wear white t-shirt and pants pursuant to the school’s official dress codes.\r\n\r\n𝙎𝙚𝙚 𝙮𝙤𝙪 𝙩𝙝𝙚𝙧𝙚 𝙋𝙐𝙋𝙞𝙖𝙣𝙨!', NULL, NULL, '2023-04-01 02:10:40', 'Standard'),
+(32, '2023-06-09', 'ELITE', 'ELITE Audition Post', 'ATTENTION ENTHUSIASTS! 🧡🖤\r\n\r\nWe are excited to have you join us for our audition for ELITE\'s IT Dance Squad!\r\n\r\nInterested? Audition will take place on Monday, January 9, 2023 in Kanluran Court, 9:00 am - 12:00 pm. Prepare a 30 second - 1 minute piece.\r\n\r\nFor further inquiries please approach Joshua Basa (BSIT 4-2) or Paulo Ariel Griarte (BSIT 4-1).\r\n\r\nSee you then!!', NULL, NULL, '2023-04-07 02:11:17', 'Standard'),
+(33, '2023-06-07', 'SC', 'Mother’s Day', '“𝓣𝓱𝓮 𝓲𝓷𝓯𝓵𝓾𝓮𝓷𝓬𝓮 𝓸𝓯 𝓪 𝓶𝓸𝓽𝓱𝓮𝓻 𝓲𝓷 𝓽𝓱𝓮 𝓵𝓲𝓿𝓮𝓼 𝓸𝓯 𝓱𝓮𝓻 𝓬𝓱𝓲𝓵𝓭𝓻𝓮𝓷 𝓲𝓼 𝓫𝓮𝔂𝓸𝓷𝓭 𝓬𝓪𝓵𝓬𝓾𝓵𝓪𝓽𝓲𝓸𝓷.”—𝓙𝓪𝓶𝓮𝓼 𝓔. 𝓕𝓪𝓾𝓼𝓽\r\n\r\nWe, extends our heartfelt greetings to all the mothers and individuals who firmly stands as the light of the world a 𝐇𝐀𝐏𝐏𝐘 𝐌𝐎𝐓𝐇𝐄𝐑𝐒 𝐃𝐀𝐘!🎊💛. Your unconditional warmth love and endless sacrifices has truly made a significant impact on who we are today.', NULL, NULL, '2023-05-23 02:15:48', 'Standard'),
+(34, '2023-06-12', 'AECES', 'Bridging the Gap2', 'Calling all Electronics Engineering Students! Join us in our upcoming seminar as we delve into the crucial role of electronics engineers in advancing medical technology. Be part of the movement in \'Bridging the Gap\' and discover the opportunities for technological innovation in the field of medicine. Register now and empower yourself to make a difference!\r\n\r\nwith the topic of \"𝗕𝗿𝗶𝗱𝗴𝗶𝗻𝗴 𝘁𝗵𝗲 𝗚𝗮𝗽: 𝗘𝗺𝗽𝗼𝘄𝗲𝗿𝗶𝗻𝗴 𝘁𝗵𝗲 𝗩𝗶𝘁𝗮𝗹 𝗥𝗼𝗹𝗲 𝗼𝗳 𝗘𝗹𝗲𝗰𝘁𝗿𝗼𝗻𝗶𝗰𝘀 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝘀 𝗶𝗻 𝘁𝗵𝗲 𝗠𝗲𝗱𝗶𝗰𝗮𝗹 𝗙𝗶𝗲𝗹𝗱\"\r\n\r\nPlease be advised that the number of available slots for this event is 𝗹𝗶𝗺𝗶𝘁𝗲𝗱 𝘁𝗼 𝟳𝟱, 𝘄𝗶𝘁𝗵 𝘁𝗵𝗲 𝗲𝘅𝗰𝗹𝘂𝘀𝗶𝗼𝗻 𝗼𝗳 𝟰𝘁𝗵-𝘆𝗲𝗮𝗿 𝘀𝘁𝘂𝗱𝗲𝗻𝘁𝘀. We highly encourage interested participants to register at the earliest possible time.\r\n\r\n𝗪𝗵𝗲𝗻: May 12, 2023 | Friday\r\n𝗪𝗵𝗲𝗿𝗲: PUP - Sta. Rosa Campus (AVR)\r\n𝗧𝗶𝗺𝗲: 8:00 AM- 12:00 PM\r\n𝗦𝗽𝗲𝗮𝗸𝗲𝗿: Engr. Mark Dairen C. Camcaman', NULL, NULL, '2023-06-07 02:28:10', 'Standard');
 
 -- --------------------------------------------------------
 
@@ -686,7 +748,7 @@ CREATE TABLE `scores` (
   `score_id` int(11) NOT NULL,
   `scoring_team_a` int(11) NOT NULL,
   `scoring_team_b` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `scores`
@@ -709,79 +771,79 @@ CREATE TABLE `scores_table` (
   `criteria_id` int(11) NOT NULL,
   `score` decimal(5,2) NOT NULL,
   `competition_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `scores_table`
 --
 
 INSERT INTO `scores_table` (`score_id`, `participant_id`, `criteria_id`, `score`, `competition_id`) VALUES
-(1, 1, 1, 24.00, 1),
-(2, 1, 2, 24.00, 1),
-(3, 1, 3, 24.00, 1),
-(4, 1, 4, 24.00, 1),
-(5, 2, 1, 23.00, 1),
-(6, 2, 2, 23.00, 1),
-(7, 2, 3, 23.00, 1),
-(8, 2, 4, 23.00, 1),
-(9, 3, 1, 22.00, 1),
-(10, 3, 2, 22.00, 1),
-(11, 3, 3, 22.00, 1),
-(12, 3, 4, 22.00, 1),
-(13, 4, 1, 21.00, 1),
-(14, 4, 2, 21.00, 1),
-(15, 4, 3, 21.00, 1),
-(16, 4, 4, 21.00, 1),
-(17, 5, 5, 10.00, 2),
-(18, 5, 6, 15.00, 2),
-(19, 5, 7, 15.00, 2),
-(20, 5, 8, 10.00, 2),
-(21, 6, 5, 9.00, 2),
-(22, 6, 6, 14.00, 2),
-(23, 6, 7, 14.00, 2),
-(24, 6, 8, 9.00, 2),
-(25, 7, 5, 8.00, 2),
-(26, 7, 6, 13.00, 2),
-(27, 7, 7, 13.00, 2),
-(28, 7, 8, 8.00, 2),
-(29, 8, 5, 7.00, 2),
-(30, 8, 6, 12.00, 2),
-(31, 8, 7, 12.00, 2),
-(32, 8, 8, 7.00, 2),
-(33, 9, 17, 25.00, 3),
-(1, 1, 1, 24.00, 1),
-(2, 1, 2, 24.00, 1),
-(3, 1, 3, 24.00, 1),
-(4, 1, 4, 24.00, 1),
-(5, 2, 1, 23.00, 1),
-(6, 2, 2, 23.00, 1),
-(7, 2, 3, 23.00, 1),
-(8, 2, 4, 23.00, 1),
-(9, 3, 1, 22.00, 1),
-(10, 3, 2, 22.00, 1),
-(11, 3, 3, 22.00, 1),
-(12, 3, 4, 22.00, 1),
-(13, 4, 1, 21.00, 1),
-(14, 4, 2, 21.00, 1),
-(15, 4, 3, 21.00, 1),
-(16, 4, 4, 21.00, 1),
-(17, 5, 5, 10.00, 2),
-(18, 5, 6, 15.00, 2),
-(19, 5, 7, 15.00, 2),
-(20, 5, 8, 10.00, 2),
-(21, 6, 5, 9.00, 2),
-(22, 6, 6, 14.00, 2),
-(23, 6, 7, 14.00, 2),
-(24, 6, 8, 9.00, 2),
-(25, 7, 5, 8.00, 2),
-(26, 7, 6, 13.00, 2),
-(27, 7, 7, 13.00, 2),
-(28, 7, 8, 8.00, 2),
-(29, 8, 5, 7.00, 2),
-(30, 8, 6, 12.00, 2),
-(31, 8, 7, 12.00, 2),
-(32, 8, 8, 7.00, 2),
-(33, 9, 17, 25.00, 3);
+(1, 1, 1, '24.00', 1),
+(2, 1, 2, '24.00', 1),
+(3, 1, 3, '24.00', 1),
+(4, 1, 4, '24.00', 1),
+(5, 2, 1, '23.00', 1),
+(6, 2, 2, '23.00', 1),
+(7, 2, 3, '23.00', 1),
+(8, 2, 4, '23.00', 1),
+(9, 3, 1, '22.00', 1),
+(10, 3, 2, '22.00', 1),
+(11, 3, 3, '22.00', 1),
+(12, 3, 4, '22.00', 1),
+(13, 4, 1, '21.00', 1),
+(14, 4, 2, '21.00', 1),
+(15, 4, 3, '21.00', 1),
+(16, 4, 4, '21.00', 1),
+(17, 5, 5, '10.00', 2),
+(18, 5, 6, '15.00', 2),
+(19, 5, 7, '15.00', 2),
+(20, 5, 8, '10.00', 2),
+(21, 6, 5, '9.00', 2),
+(22, 6, 6, '14.00', 2),
+(23, 6, 7, '14.00', 2),
+(24, 6, 8, '9.00', 2),
+(25, 7, 5, '8.00', 2),
+(26, 7, 6, '13.00', 2),
+(27, 7, 7, '13.00', 2),
+(28, 7, 8, '8.00', 2),
+(29, 8, 5, '7.00', 2),
+(30, 8, 6, '12.00', 2),
+(31, 8, 7, '12.00', 2),
+(32, 8, 8, '7.00', 2),
+(33, 9, 17, '25.00', 3),
+(1, 1, 1, '24.00', 1),
+(2, 1, 2, '24.00', 1),
+(3, 1, 3, '24.00', 1),
+(4, 1, 4, '24.00', 1),
+(5, 2, 1, '23.00', 1),
+(6, 2, 2, '23.00', 1),
+(7, 2, 3, '23.00', 1),
+(8, 2, 4, '23.00', 1),
+(9, 3, 1, '22.00', 1),
+(10, 3, 2, '22.00', 1),
+(11, 3, 3, '22.00', 1),
+(12, 3, 4, '22.00', 1),
+(13, 4, 1, '21.00', 1),
+(14, 4, 2, '21.00', 1),
+(15, 4, 3, '21.00', 1),
+(16, 4, 4, '21.00', 1),
+(17, 5, 5, '10.00', 2),
+(18, 5, 6, '15.00', 2),
+(19, 5, 7, '15.00', 2),
+(20, 5, 8, '10.00', 2),
+(21, 6, 5, '9.00', 2),
+(22, 6, 6, '14.00', 2),
+(23, 6, 7, '14.00', 2),
+(24, 6, 8, '9.00', 2),
+(25, 7, 5, '8.00', 2),
+(26, 7, 6, '13.00', 2),
+(27, 7, 7, '13.00', 2),
+(28, 7, 8, '8.00', 2),
+(29, 8, 5, '7.00', 2),
+(30, 8, 6, '12.00', 2),
+(31, 8, 7, '12.00', 2),
+(32, 8, 8, '7.00', 2),
+(33, 9, 17, '25.00', 3);
 
 --
 -- Triggers `scores_table`
@@ -811,7 +873,7 @@ CREATE TABLE `teams` (
   `team_id` int(11) NOT NULL,
   `team_name` varchar(20) NOT NULL,
   `team_score` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `teams`
@@ -834,20 +896,19 @@ INSERT INTO `teams` (`team_id`, `team_name`, `team_score`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
   `user_username` varchar(20) NOT NULL,
   `user_password` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `user_username`, `user_password`) VALUES
-(1, 'admin', 'admin'),
-(2, 'admin', 'admin'),
-(3, 'admin', 'admin'),
-(4, 'admin', 'admin');
+INSERT INTO `user` (`user_username`, `user_password`) VALUES
+('admin', 'admin'),
+('admin', 'admin'),
+('admin', 'admin'),
+('admin', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -900,12 +961,6 @@ ALTER TABLE `criteria_table`
   ADD KEY `competition to criteria` (`competition_id`);
 
 --
--- Indexes for table `criterion`
---
-ALTER TABLE `criterion`
-  ADD PRIMARY KEY (`criterion_id`);
-
---
 -- Indexes for table `criteriontb`
 --
 ALTER TABLE `criteriontb`
@@ -953,12 +1008,6 @@ ALTER TABLE `image`
 --
 ALTER TABLE `listofeventtb`
   ADD PRIMARY KEY (`event_id`);
-
---
--- Indexes for table `logs`
---
-ALTER TABLE `logs`
-  ADD PRIMARY KEY (`log_id`);
 
 --
 -- Indexes for table `pjjudges`
@@ -1048,12 +1097,6 @@ ALTER TABLE `teams`
   ADD PRIMARY KEY (`team_id`);
 
 --
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1073,13 +1116,7 @@ ALTER TABLE `bracket`
 -- AUTO_INCREMENT for table `categorynametb`
 --
 ALTER TABLE `categorynametb`
-  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
-
---
--- AUTO_INCREMENT for table `criterion`
---
-ALTER TABLE `criterion`
-  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `draft`
@@ -1097,7 +1134,7 @@ ALTER TABLE `eventhistorytb`
 -- AUTO_INCREMENT for table `eventnametb`
 --
 ALTER TABLE `eventnametb`
-  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -1121,13 +1158,7 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT for table `listofeventtb`
 --
 ALTER TABLE `listofeventtb`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
-
---
--- AUTO_INCREMENT for table `logs`
---
-ALTER TABLE `logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `pjjudges`
@@ -1139,13 +1170,13 @@ ALTER TABLE `pjjudges`
 -- AUTO_INCREMENT for table `pjjudgeseventcode`
 --
 ALTER TABLE `pjjudgeseventcode`
-  MODIFY `event_code_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `event_code_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pjjudgestemp`
 --
 ALTER TABLE `pjjudgestemp`
-  MODIFY `judge_id_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `judge_id_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `pjparticipants`
@@ -1181,7 +1212,7 @@ ALTER TABLE `pjparticipantsgrouptemp`
 -- AUTO_INCREMENT for table `pjparticipantstemp`
 --
 ALTER TABLE `pjparticipantstemp`
-  MODIFY `participants_id_individual_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `participants_id_individual_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `pjscores`
@@ -1212,12 +1243,6 @@ ALTER TABLE `scores`
 --
 ALTER TABLE `teams`
   MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
