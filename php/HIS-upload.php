@@ -2,7 +2,7 @@
 include('database_connect.php');
 
 $msg = "";
-$folder = "../images/";
+$folder = "./images/";
 $filename = "";
 $tempname = "";
 $image_info = "";
@@ -22,7 +22,7 @@ if (isset($_FILES['file'])) {
 
   $filename = $_FILES["file"]["name"];
   $tempname = $_FILES["file"]["tmp_name"];
-  $folder = "../images/";
+  $folder = "./images/";
   $image_info = $_POST['image_Info'];
   $image_description = $_POST['image_Description'];
 
