@@ -128,7 +128,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
               </a>
             </li>
             <li class="sub-item">
-              <a href="#criteria_config" class="<?php echo ($activeSubItem === 'criteria-configuration') ? 'sub-active' : ''; ?>">
+              <a href="EVE-admin-criteria-configuration.php" class="<?php echo ($activeSubItem === 'criteria-configuration') ? 'sub-active' : ''; ?>">
                 <i class="bx bxs-circle sub-icon color-yellow"></i>
                 <span class="sub_link_name">Criteria Configuration</span>
               </a>
