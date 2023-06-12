@@ -1,0 +1,117 @@
+#criteriaConfigWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.upper-element {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upper-element h3 {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.middle-element {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 2px var(--color-content-line) solid;
+    border-bottom: 2px var(--color-content-line) solid;
+}
+
+#addCriterion {
+    margin: 20px 0;
+}
+
+.lower-element {
+    text-align: end;
+    margin: 10px 0;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.form-fields {
+    width: 100%;
+}
+
+.form-control {
+    margin-top: 10px!important;
+    background: transparent!important;
+    border: transparent!important;
+    border-bottom: 2px var(--color-content-text) solid!important;
+    border-radius: 0!important;
+    box-shadow: none!important;
+    color: var(--color-content-text)!important;
+}
+
+.form-control::placeholder {
+    color: var(--color-content-text);
+}
+
+input:not(.form-check-input) {
+    margin-bottom: 5px!important;
+}
+
+#criterionForm, #criterionData {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#removeBtn {
+    cursor: pointer;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+a {
+    text-decoration: none!important;
+}
+
+.x-icon {
+    align-items: center;
+    color: #D03A36;
+    font-size: 24px;
+}
+
+#categorySaveBtn:hover .tooltip-popup{
+    visibility: visible;
+    opacity: 1;
+}
+
+input[name="percentage[]"]{
+    text-align: center;
+}
+
+#criterionInput, #criterionPercentInput {
+    color: var(--color-content-line)!important;
+    border-bottom: 2px var(--color-content-line) solid!important;
+}
+
+#criterionInput::placeholder, #criterionPercentInput::placeholder {
+    color: var(--color-content-line);
+}
+
+input {
+    height: 44px;
+}
+
+.bootstrap-select{
+    display: inline-flex!important;
+    border-radius: 10px!important;
+    box-shadow: 0 4px 20px -6px var(--color-shadow);
+}
+
+.dropdown-menu.show{
+    width: 100%;
+}
+
+input[type="search"]{
+    color: black!important;
+}

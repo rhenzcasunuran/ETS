@@ -116,11 +116,12 @@ input:not(.form-check-input) {
     opacity: 1;
 }
 
+#criteriaSaveBtn:hover .tooltip-popup{
+    visibility: visible;
+    opacity: 1;
+}
+
 #eventSaveBtn .tooltip-popup {
     transform: translateY(-130%);
     width: 100%;
-}
-
-#categorySaveBtn:hover .tooltip-popup {
-    
 }
