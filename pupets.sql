@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2023 at 04:20 PM
+-- Generation Time: Jun 12, 2023 at 05:05 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -809,6 +809,7 @@ INSERT INTO `teams` (`team_id`, `team_name`, `team_score`) VALUES
 --
 
 CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
   `user_username` varchar(20) NOT NULL,
   `user_password` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -817,11 +818,11 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_username`, `user_password`) VALUES
-('admin', 'admin'),
-('admin', 'admin'),
-('admin', 'admin'),
-('admin', 'admin');
+INSERT INTO `user` (`id`, `user_username`, `user_password`) VALUES
+(1, 'admin', 'admin'),
+(2, 'admin', 'admin'),
+(3, 'admin', 'admin'),
+(4, 'admin', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -1016,6 +1017,12 @@ ALTER TABLE `teams`
   ADD PRIMARY KEY (`team_id`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1168,6 +1175,12 @@ ALTER TABLE `scores`
 --
 ALTER TABLE `teams`
   MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
