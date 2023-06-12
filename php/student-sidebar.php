@@ -45,7 +45,31 @@ Here are the variables for the sidebar items in the provided HTML code:
 Note: If $activeSubItem variable doesnt exist, only do $activeModule.
 
 -->
-
+<div class="container-fluid" id="popup">
+  <div class="row popup-card">
+    <form method="post">
+      <div class="row title">
+        <div class="col-11 admin-text">
+          <p>
+            Administrator
+          </p>
+        </div>
+        <div class="col-1 close ">
+          <i class='bx bx-x' onclick="hide()"></i>
+        </div>
+      </div>
+      <div class="row">
+        <input type="text" class="adminInput" name="user_username" placeholder="Username" maxlength="20" required/>
+      </div>
+      <div class="row">
+        <input type="password" class="adminInput" name="user_password" placeholder="Password" maxlength="128" required/>
+      </div>
+      <div class="row justify-content-center">
+        <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
+      </div>
+    </form>
+  </div>
+</div>
 <div class="sidebar open box-shadow">
   <div class="bottom-design">
     <div class="design1"></div>
@@ -67,7 +91,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
           </a>
         </li>
         <li class="nav-item">
-          <a href="CAL-student-overall.php" class="menu_btn <?php echo $activeModule === 'calendar' ? 'active' : ''; ?>">
+          <a href="CAL-student-overall.php" class="<?php echo $activeModule === 'calendar' ? 'active' : ''; ?>">
             <i class="bx bx-calendar"></i>
             <span class="link_name">Calendar</span>
           </a>
