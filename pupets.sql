@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2023 at 05:05 PM
+-- Generation Time: Jun 12, 2023 at 06:13 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -171,6 +171,31 @@ INSERT INTO `criteria_table` (`criteria_id`, `criteria_name`, `max_score`, `comp
 (7, 'Dramatic Appropriation', 15.00, 2),
 (8, 'Overall Performance', 10.00, 2),
 (17, 'Dance Moves', 25.00, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `criterion`
+--
+
+CREATE TABLE `criterion` (
+  `criterion_id` int(11) NOT NULL,
+  `category_name_id` int(11) NOT NULL,
+  `criterion_name` varchar(25) NOT NULL,
+  `criterion_percent` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `criterion`
+--
+
+INSERT INTO `criterion` (`criterion_id`, `category_name_id`, `criterion_name`, `criterion_percent`) VALUES
+(9, 79, 'Array', 90),
+(12, 79, 'Array', 5),
+(13, 79, 'Array', 3),
+(14, 79, 'a a a sdd', 1),
+(15, 79, 'D A G Q S', 1),
+(16, 80, 'Power', 50);
 
 -- --------------------------------------------------------
 
@@ -875,6 +900,12 @@ ALTER TABLE `criteria_table`
   ADD KEY `competition to criteria` (`competition_id`);
 
 --
+-- Indexes for table `criterion`
+--
+ALTER TABLE `criterion`
+  ADD PRIMARY KEY (`criterion_id`);
+
+--
 -- Indexes for table `criteriontb`
 --
 ALTER TABLE `criteriontb`
@@ -1043,6 +1074,12 @@ ALTER TABLE `bracket`
 --
 ALTER TABLE `categorynametb`
   MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+
+--
+-- AUTO_INCREMENT for table `criterion`
+--
+ALTER TABLE `criterion`
+  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `draft`
