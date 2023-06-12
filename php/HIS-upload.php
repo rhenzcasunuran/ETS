@@ -1,5 +1,6 @@
 <?php
 include('database_connect.php');
+include 'CAL-logger.php';
 
 $msg = "";
 $folder = "./images/";
@@ -26,8 +27,6 @@ if (isset($_FILES['file'])) {
   $image_info = $_POST['image_Info'];
   $image_description = $_POST['image_Description'];
 
-  $db = mysqli_connect("localhost", "root", "", "pupets");
-
   $unique_id = uniqid();
 
   $new_filename = $unique_id . '.' . $file_extension;
@@ -35,7 +34,8 @@ if (isset($_FILES['file'])) {
   $sql = "INSERT INTO image (filename, image_Info, image_Description) 
       VALUES ('$new_filename', '$image_info', '$image_description')";
 
-  mysqli_query($db, $sql);
+  mysqli_query($conn, $sql);
+  to_log($conn, $sql);
 
   if (move_uploaded_file($tempname, $folder . $new_filename)) {
     echo "Image uploaded successfully!";

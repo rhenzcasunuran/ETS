@@ -1,5 +1,6 @@
 <?php
 include('database_connect.php');
+include 'CAL-logger.php';
 
 if (isset($_POST['id'])) {
   $id = $_POST['id'];
@@ -17,6 +18,7 @@ if (isset($_POST['id'])) {
   $query = "DELETE FROM image WHERE id='$id'";
   if (mysqli_query($conn, $query)) {
     echo "success";
+    to_log($conn, $query);
   } else {
     echo "error";
   }

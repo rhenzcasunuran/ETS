@@ -1,5 +1,7 @@
 <?php
 include('database_connect.php');
+include 'CAL-logger.php';
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Get the selected activity value from the AJAX request
     $selectedActivity = $_POST["activity"];
@@ -10,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (mysqli_query($conn, $updateQuery)) {
         // Successful update
         echo "Activity status updated to suggested.";
+        to_log($conn, $updateQuery);
     } else {
         // Error in update
         echo "Error updating activity status: " . mysqli_error($conn);
