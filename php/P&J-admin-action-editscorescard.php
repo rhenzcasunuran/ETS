@@ -1,16 +1,5 @@
 <?php
-
-$server= "localhost";
-$username = "root";
-$password = "";
-$dbname = "pupets";
-
-$conn = mysqli_connect($server, $username, $password, $dbname);
-
-if(!$conn) {
-    die("Connection Failed:".mysqli_connect_error());
-}
-
+include 'database_connect.php';
 
 // Get the ID from the URL parameter
 $id = $_GET['score_id_temp'];

@@ -1,12 +1,5 @@
 <?php
-    // Connect to your database
-
-    $server= "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "pupets";
-    
-    $conn = mysqli_connect($server, $username, $password, $dbname);
+    include 'database_connect.php';
 
     if (isset($_POST['add_btnScore'])) {
 

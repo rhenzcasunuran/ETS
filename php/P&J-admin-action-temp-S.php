@@ -1,16 +1,5 @@
 <?php
-// Retrieve the form data
-$server= "localhost";
-$username = "root";
-$password = "";
-$dbname = "pupets";
-
-$conn = mysqli_connect($server, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include 'database_connect.php';
 print_r($_POST);
 
 $groupname = $_POST['group_name_temp'];

@@ -1,17 +1,7 @@
 <?php
-    // Connect to your database
-    $server = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "pupets";
+    include 'database_connect.php';
 
-    $conn = mysqli_connect($server, $username, $password, $dbname);
-
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-
-    if (isset($_POST['add_btnS'])) {
+    if (isset($_POST['save_btnS'])) {
         // Select the data from judgestemp
         $query = "SELECT * FROM pjjudgestemp";
         $result = mysqli_query($conn, $query);
@@ -99,6 +89,6 @@
 
         // Redirect the user back to the form page
         header("Location: ../P&J-admin-formPJ.php");
-        exit();
+        die();
     }
 ?>

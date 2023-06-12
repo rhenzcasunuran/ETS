@@ -1,5 +1,5 @@
 <?php
-    $dbname=mysqli_connect("localhost","root","","pupets");
+    include 'database_connect.php';
 
     if(isset($_GET['epj'])){
         $id = $_GET['epj'];
