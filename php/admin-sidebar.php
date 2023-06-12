@@ -77,7 +77,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
         <span class="link_name">Go Back</span>
       </a>
     </li>
-    <div class="sidebar-content-container">
+    <div class="sidebar-content-container"  style="border:none !important;">
       <ul class="nav-list">
         <li class="nav-item">
           <a href="#posts" class="menu_btn <?php echo ($activeModule === 'posts') ? 'active' : ''; ?>">
