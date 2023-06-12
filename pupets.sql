@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2023 at 02:55 AM
+-- Generation Time: Jun 12, 2023 at 04:20 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -390,7 +390,8 @@ INSERT INTO `listofeventtb` (`event_id`, `event_name`, `event_type`, `category_n
 
 CREATE TABLE `logs` (
   `log_id` bigint(20) NOT NULL,
-  `log_date_time` datetime NOT NULL,
+  `log_date` date NOT NULL,
+  `log_time` time NOT NULL,
   `admin` varchar(255) NOT NULL,
   `activity_description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
