@@ -286,11 +286,15 @@
 
 
           // Popups depending on the button type
-          if (button.textContent === "Edit Schedule" || button.textContent === "Schedule") {
+          if (button.textContent === "Edit Schedule") {
             console.log("Edit schedule is clicked");
             btnClicked = competitionName;
             showEdit(x,competitionName);
             //openCalendar(x,competitionName);
+            return;
+          }
+          if (button.textContent === "Schedule") {
+            openCalendar(x,competitionName);
             return;
           }
           if (button.textContent === "Unavailable") { 
