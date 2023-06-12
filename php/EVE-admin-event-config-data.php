@@ -5,6 +5,9 @@
         $event_name =  mysqli_real_escape_string($dbname,$_POST['inputEventName']);
         $sql_event_name = "SELECT * FROM eventnametb WHERE event_name = '$event_name'";
         $result_event_name = mysqli_query($dbname,$sql_event_name);  
+        
+        // Trim leading and trailing spaces
+        $event_name = trim($event_name);
 
         $event_name = preg_replace('/\s+/', ' ', $event_name);
 
@@ -43,6 +46,7 @@
             $sql_category_name = "SELECT * FROM categorynametb WHERE event_name_id = $event_name_id AND event_type_id = $event_type_id AND category_name = '$category_name'";
             $result_category_name = mysqli_query($dbname,$sql_category_name);  
 
+            $category_name = trim($category_name);
             $category_name = preg_replace('/\s+/', ' ', $category_name);
 
             if (mysqli_num_rows($result_category_name) > 0){
