@@ -223,94 +223,105 @@
     </div>
     <!--Page Content-->
     <section class="home-section">
-      <div class="header">Manage Event</div>
-        <div class="flex-container">
-          <div class="main-containers">
+    <div class="header">Manage Event</div>
+    <div class="flex-container">
+        <div class="main-containers">
+            <div class="container-header">Events</div>
+            <div class="flex-box-1">
+                <div class="search-wrapper">
+                    <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event" onkeyup="filterButtons()">
+                </div>
+                <div id="button-container">
+                    <?php
+                    $query = "SELECT  event_name,category_name FROM eventhistorytb group by event_name";
+                    $result = mysqli_query($conn, $query);
 
-          <div class="container-header">Events</div>
-         <div class="flex-box-1">
+                    if ($result === false) {
+                        die('Query Error: ' . mysqli_error($conn));
+                    }
 
-         <div class="search-wrapper">
-         <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event"onkeyup="filterButtons()">
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $eventName = $row['event_name'];
+
+                            echo "<form id='event_form_" . $eventName . "' method='post' action='../php/HIS-process.php'>";
+                            echo "<button id='event_" . $eventName . "' class='event_button' name='event_button' value='$eventName'>$eventName</button>";
+                            echo "<input type='hidden' name='selected_event' value='$eventName'>";
+                            echo "</form>";
+                        }
+                    } else {
+                        echo "No events found.";
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="container-header-1">Activities</div>
+            <div class="flex-box">
+                <div id="select_event_text">Select an event first</div>
+                <div class="radio-holder">
+                    <?php
+                    if ($result->num_rows > 0) {
+                        $result->data_seek(0);
+                        while ($row = $result->fetch_assoc()) {
+                            $eventName = $row['event_name'];
+
+                            echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
+
+                            $query = "SELECT DISTINCT category_name FROM eventhistorytb WHERE event_name = '" . $eventName . "'";
+                            $categoryResult = mysqli_query($conn, $query);
+
+                            if ($categoryResult === false) {
+                                die('Query Error: ' . mysqli_error($conn));
+                            }
+
+                            if (mysqli_num_rows($categoryResult) > 0) {
+                                $categories = array();
+                                while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
+                                    $categoryName = $categoryRow['category_name'];
+                                    $categories[] = $categoryName;
+                                }
+                                $maxLength = max(array_map('strlen', $categories));
+
+                                foreach ($categories as $categoryName) {
+                                    echo "<label class='form-check'>";
+                                    echo "<input class='form-check-input' type='radio' name='activity_" . $eventName . "' value='" . $categoryName . "'>";
+                                    echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
+                                    echo "</label>";
+                                }
+                            }
+
+                            echo "</div>";
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="btn-group" id="diffbutton">
+                <button type="button" id="add_button">Add +</button>
+                <button type="button" id="but">Delete -</button>
+            </div>
         </div>
-        <div id="button-container">
-  <?php
+    </div>
+</section>
 
-    $query = "SELECT  event_name,category_name FROM eventhistorytb group by event_name";
-    $result = mysqli_query($conn, $query);
-    
-    if ($result === false) {
-        die('Query Error: ' . mysqli_error($conn));
-    }
-    
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $eventName = $row['event_name'];
-            
-            echo "<button id='event_" . $eventName . "' class='event_button'>$eventName</button>";
-            
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $("#add_button").click(function() {
+        var selectedEvent = $("input[name='event_button']:checked").val();
+        var selectedActivity = $("input[name='activity_" + selectedEvent + "']:checked").val();
+
+        if (selectedEvent && selectedActivity) {
+            var formId = "#event_form_" + selectedEvent;
+            $(formId).append("<input type='hidden' name='selected_activity' value='" + selectedActivity + "'>");
+            $(formId).submit();
+        } else {
+            alert("Please select an event and an activity.");
         }
-    } else {
-        echo "No events found.";
-    }
-  ?>
-</div>
-</div>
-<div class="container-header-1">Activities</div>
-<div class="flex-box">
+    });
+});
+</script>
 
-<div id="select_event_text">Select an event first</div>
-<div class="radio-holder">
-  <?php
-  if ($result->num_rows > 0) {
-    $result->data_seek(0);
-    while ($row = $result->fetch_assoc()) {
-      $eventName = $row['event_name'];
-
-      echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
-
-      $query = "SELECT DISTINCT category_name FROM eventhistorytb WHERE event_name = '" . $eventName . "'" ;
-      $categoryResult = mysqli_query($conn, $query);
-
-      if ($categoryResult === false) {
-        die('Query Error: ' . mysqli_error($conn));
-      }
-
-      if (mysqli_num_rows($categoryResult) > 0) {
-        $categories = array();
-        while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
-          $categoryName = $categoryRow['category_name'];
-          $categories[] = $categoryName;
-        }
-        $maxLength = max(array_map('strlen', $categories));
-
-        foreach ($categories as $categoryName) {
-          echo "<label class='form-check'>";
-          echo "<input class='form-check-input' type='radio' name='activity_" . $eventName . "' value='" . $categoryName . "'>";
-          echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
-          echo "</label>";
-        }
-      }
-
-      echo "</div>";
-    }
-  }
-  ?>
-</div>
-
-</div>
-
-       
-          <div class="btn-group" id="diffbutton">
-          <button type="button" id="but" onclick="addToContainer()">Add +</button>
-            <button type="button" id="but">Delete -</button>
-          </div>
-        </div>
-
-
-        </div>
-      
-    </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
@@ -332,6 +343,22 @@
     <!--
 Event History Scripts
 -->
+<script>
+$(document).ready(function() {
+    $("#add_button").click(function() {
+        var selectedEvent = $("input[name='event_button']:checked").val();
+        var selectedActivity = $("input[name='activity_" + selectedEvent + "']:checked").val();
+
+        if (selectedEvent && selectedActivity) {
+            var formId = "#event_form_" + selectedEvent;
+            $(formId).append("<input type='hidden' name='selected_activity' value='" + selectedActivity + "'>");
+            $(formId).submit();
+        } else {
+            alert("Please select an event and an activity.");
+        }
+    });
+});
+</script>
 <script>
 
 const searchInput = document.getElementById('search');
