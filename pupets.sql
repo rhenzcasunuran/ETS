@@ -3,13 +3,19 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2023 at 11:29 PM
+-- Generation Time: Jun 13, 2023 at 01:30 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `pupets`
@@ -33,14 +39,14 @@ CREATE TABLE `bar_graph` (
 --
 
 INSERT INTO `bar_graph` (`orgId`, `organization`, `barMeter`, `isAnon`) VALUES
-(1, 'acap', 48.00, 0),
-(2, 'aeces', 21.00, 0),
-(3, 'elite', 90.00, 0),
-(4, 'give', 11.00, 0),
-(5, 'jehra', 80.00, 0),
-(6, 'jmap', 10.00, 0),
-(7, 'jpia', 25.00, 0),
-(8, 'piie', 69.00, 0);
+(1, 'acap', 48.00, 1),
+(2, 'aeces', 21.00, 1),
+(3, 'elite', 90.00, 1),
+(4, 'give', 11.00, 1),
+(5, 'jehra', 80.00, 1),
+(6, 'jmap', 10.00, 1),
+(7, 'jpia', 25.00, 1),
+(8, 'piie', 69.00, 1);
 
 -- --------------------------------------------------------
 
@@ -259,7 +265,7 @@ INSERT INTO `eventhistorytb` (`event_history_id`, `event_name`, `event_type`, `c
 (8, 'Sports Festival', 'Tournament', 'Basketball', 'EVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT EVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONDESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTION', '4yjKwRIRQLWW', '2023-05-24', '00:12:00', 0),
 (9, 'Sports Festival', 'Tournament', 'Basketball', 'EVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT EVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONDESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTIONEVENT DESCRIPTION', '4yjKwRIRQLWW', '2023-05-24', '00:12:00', 0),
 (10, 'Sports Festival', 'Tournament', 'Badminton', 'qrrigop', 'f53IdfX4Zxl3', '2023-05-31', '00:00:00', 0),
-(11, 'ELITE Week', 'Tournament', 'Valorant Tournament', 'qweqweqweqweqwe', 'Smz6ZMsEYdeo', '2023-05-25', '00:00:00', 0);
+(11, 'ELITE Week', 'Tournament', 'Valorant Tournament', 'qweqweqweqweqwe', 'Smz6ZMsEYdeo', '2023-05-25', '00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -376,7 +382,8 @@ CREATE TABLE `image` (
 INSERT INTO `image` (`id`, `filename`, `image_Info`, `image_Description`, `status`) VALUES
 (6, '6465195ead571.jpg', 'tanglaw', 'CARL', 0),
 (7, '6465199f405c1.jpg', 'ASDSAD', 'DASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASSADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 0),
-(8, '64651b90bceb1.png', 'jffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjffffffffffffffffffjff', 'sad', 0);
+(16, '64879e11336ab.jpg', 'asdasdas', 'asdasd', 0),
+(17, '64879e3fd309e.jpg', 'as', 'as', 0);
 
 -- --------------------------------------------------------
 
@@ -412,7 +419,9 @@ INSERT INTO `listofeventtb` (`event_id`, `event_name`, `event_type`, `category_n
 (86, 'Sports Festival', 'Tournament', 'Badminton', 'qrrigop', 'f53IdfX4Zxl3', '2023-05-31', '00:00:00'),
 (87, 'ELITE Week', 'Standard', 'testt', 'dwqdadqwd', 'fcws8XynJoNW', '2023-06-09', '12:31:00'),
 (88, 'Compe Event', 'Competition', 'Category', 'adsafas', 'LoSIAIVFNn8F', '2023-06-21', '19:37:00'),
-(89, 'Compe Event', 'Competition', 'Category', 'ffsdfsdfsfs', 'BQbjX4Z3vmRE', '2023-06-29', '15:37:00');
+(89, 'Compe Event', 'Competition', 'Category', 'ffsdfsdfsfs', 'BQbjX4Z3vmRE', '2023-06-29', '15:37:00'),
+(90, 'Sports Festival', 'Tournament', 'Badminton', 'wqewqewqeqweqweqweqweqwe', 'qEbxGrEdKtAy', '2023-06-14', '10:28:00'),
+(91, 'Sports Festival', 'Tournament', 'Badminton', 'adasdasdasdasdas', 'bYojfSF1Rg6p', '2023-06-28', '06:29:00');
 
 -- --------------------------------------------------------
 
@@ -427,6 +436,58 @@ CREATE TABLE `logs` (
   `admin` varchar(255) NOT NULL,
   `activity_description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `logs`
+--
+
+INSERT INTO `logs` (`log_id`, `log_date`, `log_time`, `admin`, `activity_description`) VALUES
+(1, '2023-06-13', '06:24:19', 'admin', 'Added in Events'),
+(2, '2023-06-13', '06:24:19', 'admin', 'Edited in Events'),
+(3, '2023-06-13', '06:25:25', 'admin', 'Added in Events'),
+(4, '2023-06-13', '06:25:25', 'admin', 'Edited in Events'),
+(5, '2023-06-13', '06:32:47', 'admin', 'Removed in Event History'),
+(6, '2023-06-13', '06:37:51', 'admin', 'Added in Event History'),
+(7, '2023-06-13', '06:38:18', 'admin', 'Edited in Event History'),
+(8, '2023-06-13', '06:38:19', 'admin', 'Edited in Event History'),
+(9, '2023-06-13', '06:38:19', 'admin', 'Edited in Event History'),
+(10, '2023-06-13', '06:38:22', 'admin', 'Edited in Event History'),
+(11, '2023-06-13', '06:38:22', 'admin', 'Edited in Event History'),
+(12, '2023-06-13', '06:38:22', 'admin', 'Edited in Event History'),
+(13, '2023-06-13', '06:39:30', 'admin', 'Added in Event History'),
+(14, '2023-06-13', '06:39:48', 'admin', 'Removed in Event History'),
+(15, '2023-06-13', '06:42:24', 'admin', 'Added in Announcements'),
+(16, '2023-06-13', '06:43:21', 'admin', 'Removed in Announcements'),
+(17, '2023-06-13', '06:45:07', 'admin', 'Edited in Announcements'),
+(18, '2023-06-13', '06:45:20', 'admin', 'Edited in Announcements'),
+(19, '2023-06-13', '06:55:57', 'admin', 'Added in Participants and Judges'),
+(20, '2023-06-13', '06:55:57', 'admin', 'Added in Participants and Judges'),
+(21, '2023-06-13', '06:56:30', 'admin', 'Added in Participants and Judges'),
+(22, '2023-06-13', '06:56:30', 'admin', 'Added in Participants and Judges'),
+(23, '2023-06-13', '06:56:52', 'admin', 'Added in Participants and Judges'),
+(24, '2023-06-13', '06:56:52', 'admin', 'Added in Participants and Judges'),
+(25, '2023-06-13', '06:56:52', 'admin', 'Added in Participants and Judges'),
+(26, '2023-06-13', '06:56:52', 'admin', 'Added in Participants and Judges'),
+(27, '2023-06-13', '06:59:14', 'admin', 'Edited in Overall Results'),
+(28, '2023-06-13', '06:59:17', 'admin', 'Edited in Overall Results'),
+(29, '2023-06-13', '06:59:20', 'admin', 'Edited in Overall Results'),
+(30, '2023-06-13', '06:59:26', 'admin', 'Edited in Overall Results'),
+(31, '2023-06-13', '07:03:20', 'admin', 'Added in Announcements'),
+(32, '2023-06-13', '07:05:18', 'admin', 'Edited in Announcements'),
+(33, '2023-06-13', '07:05:40', 'admin', 'Edited in Overall Results'),
+(34, '2023-06-13', '07:06:11', 'admin', 'Edited in Event History'),
+(35, '2023-06-13', '07:06:12', 'admin', 'Edited in Event History'),
+(36, '2023-06-13', '07:06:12', 'admin', 'Edited in Event History'),
+(37, '2023-06-13', '07:06:14', 'admin', 'Edited in Event History'),
+(38, '2023-06-13', '07:06:14', 'admin', 'Edited in Event History'),
+(39, '2023-06-13', '07:06:14', 'admin', 'Edited in Event History'),
+(40, '2023-06-13', '07:06:42', 'admin', 'Added in Event History'),
+(41, '2023-06-13', '07:06:49', 'admin', 'Removed in Event History'),
+(42, '2023-06-13', '07:07:10', 'admin', 'Added in Participants and Judges'),
+(43, '2023-06-13', '07:07:10', 'admin', 'Added in Participants and Judges'),
+(44, '2023-06-13', '07:07:26', 'admin', 'Added in Participants and Judges'),
+(45, '2023-06-13', '07:08:13', 'admin', 'Added in Participants and Judges'),
+(46, '2023-06-13', '07:08:13', 'admin', 'Added in Participants and Judges');
 
 -- --------------------------------------------------------
 
@@ -556,7 +617,9 @@ CREATE TABLE `pjjudgeseventcode` (
 
 INSERT INTO `pjjudgeseventcode` (`event_code_id`, `event_code`) VALUES
 (3, 'twelvechar12'),
-(4, 'LoSIAIVFNn8F');
+(4, 'LoSIAIVFNn8F'),
+(5, 'qweqweqweqwe'),
+(6, 'asdasdasdasd');
 
 -- --------------------------------------------------------
 
@@ -575,7 +638,11 @@ CREATE TABLE `pjjudgestemp` (
 --
 
 INSERT INTO `pjjudgestemp` (`judge_id_temp`, `judge_name_temp`, `judge_nick_temp`) VALUES
-(7, 'domff', 'Adafas');
+(7, 'domff', 'Adafas'),
+(8, 'qweqweqwe', 'qweqweqwe'),
+(9, 'qweqweqwe', 'qweqweqweq'),
+(10, 'asda', 'asda'),
+(11, 'asda', 'asda');
 
 -- --------------------------------------------------------
 
@@ -631,6 +698,17 @@ CREATE TABLE `pjparticipantsgroupmemberstemp` (
   `participants_section_group_temp` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `pjparticipantsgroupmemberstemp`
+--
+
+INSERT INTO `pjparticipantsgroupmemberstemp` (`participants_id_member_temp`, `participants_id_group_temp`, `participants_name_g_temp`, `participants_course_group_temp`, `participants_section_group_temp`) VALUES
+(24, NULL, 'qweqweqwe', 'qweqw', 'qwe'),
+(25, NULL, 'asdasd', 'asdas', 'asd'),
+(26, NULL, 'asdasd', 'asdas', 'asd'),
+(27, NULL, 'asdasd', 'asdas', 'asd'),
+(28, NULL, 'dasdasdas', 'dasda', 'das');
+
 -- --------------------------------------------------------
 
 --
@@ -642,6 +720,15 @@ CREATE TABLE `pjparticipantsgrouptemp` (
   `participants_name_group_temp` varchar(50) NOT NULL,
   `participants_organization_group_temp` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pjparticipantsgrouptemp`
+--
+
+INSERT INTO `pjparticipantsgrouptemp` (`participants_id_group_temp`, `participants_name_group_temp`, `participants_organization_group_temp`) VALUES
+(20, 'qweqweqwe', 'ELITE'),
+(21, 'asdasd', 'ELITE'),
+(22, 'asdasda', 'ELITE');
 
 -- --------------------------------------------------------
 
@@ -705,6 +792,13 @@ CREATE TABLE `pjscorestemp` (
   `total_score_temp` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `pjscorestemp`
+--
+
+INSERT INTO `pjscorestemp` (`score_id_temp`, `group_name_temp`, `criteria_1_temp`, `criteria_2_temp`, `criteria_3_temp`, `criteria_4_temp`, `total_score_temp`) VALUES
+(11, 'ITDS', 10, 10, 10, 10, 100.00);
+
 -- --------------------------------------------------------
 
 --
@@ -734,7 +828,8 @@ INSERT INTO `post` (`post_id`, `post_calendar`, `post_tag`, `post_title`, `post_
 (31, '0000-00-00', 'SC', 'Flag Ceremony', 'It’s the first week of the month, that’s why the PUP Santa Rosa Campus, together with AECES will spearhead the Flag Raising Ceremony for the Month of June.\r\n\r\nWe are encouraging every student to join the flag raising, morning exercises and other programs as we start this month of June.\r\n\r\nSo be on time at 7:30 AM, PUPSRC School Grounds and don’t forget to observe the wearing of proper school uniform. However, students who will attend the program that does not have a uniform yet, must wear white t-shirt and pants pursuant to the school’s official dress codes.\r\n\r\n𝙎𝙚𝙚 𝙮𝙤𝙪 𝙩𝙝𝙚𝙧𝙚 𝙋𝙐𝙋𝙞𝙖𝙣𝙨!', NULL, NULL, '2023-04-01 02:10:40', 'Standard'),
 (32, '2023-06-09', 'ELITE', 'ELITE Audition Post', 'ATTENTION ENTHUSIASTS! 🧡🖤\r\n\r\nWe are excited to have you join us for our audition for ELITE\'s IT Dance Squad!\r\n\r\nInterested? Audition will take place on Monday, January 9, 2023 in Kanluran Court, 9:00 am - 12:00 pm. Prepare a 30 second - 1 minute piece.\r\n\r\nFor further inquiries please approach Joshua Basa (BSIT 4-2) or Paulo Ariel Griarte (BSIT 4-1).\r\n\r\nSee you then!!', NULL, NULL, '2023-04-07 02:11:17', 'Standard'),
 (33, '2023-06-07', 'SC', 'Mother’s Day', '“𝓣𝓱𝓮 𝓲𝓷𝓯𝓵𝓾𝓮𝓷𝓬𝓮 𝓸𝓯 𝓪 𝓶𝓸𝓽𝓱𝓮𝓻 𝓲𝓷 𝓽𝓱𝓮 𝓵𝓲𝓿𝓮𝓼 𝓸𝓯 𝓱𝓮𝓻 𝓬𝓱𝓲𝓵𝓭𝓻𝓮𝓷 𝓲𝓼 𝓫𝓮𝔂𝓸𝓷𝓭 𝓬𝓪𝓵𝓬𝓾𝓵𝓪𝓽𝓲𝓸𝓷.”—𝓙𝓪𝓶𝓮𝓼 𝓔. 𝓕𝓪𝓾𝓼𝓽\r\n\r\nWe, extends our heartfelt greetings to all the mothers and individuals who firmly stands as the light of the world a 𝐇𝐀𝐏𝐏𝐘 𝐌𝐎𝐓𝐇𝐄𝐑𝐒 𝐃𝐀𝐘!🎊💛. Your unconditional warmth love and endless sacrifices has truly made a significant impact on who we are today.', NULL, NULL, '2023-05-23 02:15:48', 'Standard'),
-(34, '2023-06-12', 'AECES', 'Bridging the Gap', 'Calling all Electronics Engineering Students! Join us in our upcoming seminar as we delve into the crucial role of electronics engineers in advancing medical technology. Be part of the movement in \'Bridging the Gap\' and discover the opportunities for technological innovation in the field of medicine. Register now and empower yourself to make a difference!\r\n\r\nwith the topic of \"𝗕𝗿𝗶𝗱𝗴𝗶𝗻𝗴 𝘁𝗵𝗲 𝗚𝗮𝗽: 𝗘𝗺𝗽𝗼𝘄𝗲𝗿𝗶𝗻𝗴 𝘁𝗵𝗲 𝗩𝗶𝘁𝗮𝗹 𝗥𝗼𝗹𝗲 𝗼𝗳 𝗘𝗹𝗲𝗰𝘁𝗿𝗼𝗻𝗶𝗰𝘀 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝘀 𝗶𝗻 𝘁𝗵𝗲 𝗠𝗲𝗱𝗶𝗰𝗮𝗹 𝗙𝗶𝗲𝗹𝗱\"\r\n\r\nPlease be advised that the number of available slots for this event is 𝗹𝗶𝗺𝗶𝘁𝗲𝗱 𝘁𝗼 𝟳𝟱, 𝘄𝗶𝘁𝗵 𝘁𝗵𝗲 𝗲𝘅𝗰𝗹𝘂𝘀𝗶𝗼𝗻 𝗼𝗳 𝟰𝘁𝗵-𝘆𝗲𝗮𝗿 𝘀𝘁𝘂𝗱𝗲𝗻𝘁𝘀. We highly encourage interested participants to register at the earliest possible time.\r\n\r\n𝗪𝗵𝗲𝗻: May 12, 2023 | Friday\r\n𝗪𝗵𝗲𝗿𝗲: PUP - Sta. Rosa Campus (AVR)\r\n𝗧𝗶𝗺𝗲: 8:00 AM- 12:00 PM\r\n𝗦𝗽𝗲𝗮𝗸𝗲𝗿: Engr. Mark Dairen C. Camcaman', NULL, NULL, '2023-06-07 02:28:10', 'Standard');
+(34, '2023-06-14', 'AECES', 'Bridging the Gap', 'Calling all Electronics Engineering Students! Join us in our upcoming seminar as we delve into the crucial role of electronics engineers in advancing medical technology. Be part of the movement in \'Bridging the Gap\' and discover the opportunities for technological innovation in the field of medicine. Register now and empower yourself to make a difference!asd\r\n\r\nwith the topic of \"𝗕𝗿𝗶𝗱𝗴𝗶𝗻𝗴 𝘁𝗵𝗲 𝗚𝗮𝗽: 𝗘𝗺𝗽𝗼𝘄𝗲𝗿𝗶𝗻𝗴 𝘁𝗵𝗲 𝗩𝗶𝘁𝗮𝗹 𝗥𝗼𝗹𝗲 𝗼𝗳 𝗘𝗹𝗲𝗰𝘁𝗿𝗼𝗻𝗶𝗰𝘀 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝘀 𝗶𝗻 𝘁𝗵𝗲 𝗠𝗲𝗱𝗶𝗰𝗮𝗹 𝗙𝗶𝗲𝗹𝗱\"\r\n\r\nPlease be advised that the number of available slots for this event is 𝗹𝗶𝗺𝗶𝘁𝗲𝗱 𝘁𝗼 𝟳𝟱, 𝘄𝗶𝘁𝗵 𝘁𝗵𝗲 𝗲𝘅𝗰𝗹𝘂𝘀𝗶𝗼𝗻 𝗼𝗳 𝟰𝘁𝗵-𝘆𝗲𝗮𝗿 𝘀𝘁𝘂𝗱𝗲𝗻𝘁𝘀. We highly encourage interested participants to register at the earliest possible time.\r\n\r\n𝗪𝗵𝗲𝗻: May 12, 2023 | Friday\r\n𝗪𝗵𝗲𝗿𝗲: PUP - Sta. Rosa Campus (AVR)\r\n𝗧𝗶𝗺𝗲: 8:00 AM- 12:00 PM\r\n𝗦𝗽𝗲𝗮𝗸𝗲𝗿: Engr. Mark Dairen C. Camcaman', NULL, NULL, '2023-06-07 02:28:10', 'Standard'),
+(36, '2023-06-16', 'AECES', 'asdasd', 'asdasdasdasdasd', NULL, NULL, '2023-06-13 01:03:20', 'Standard');
 
 -- --------------------------------------------------------
 
@@ -1009,6 +1104,12 @@ ALTER TABLE `listofeventtb`
   ADD PRIMARY KEY (`event_id`);
 
 --
+-- Indexes for table `logs`
+--
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`log_id`);
+
+--
 -- Indexes for table `pjjudges`
 --
 ALTER TABLE `pjjudges`
@@ -1157,13 +1258,19 @@ ALTER TABLE `eventtypetb`
 -- AUTO_INCREMENT for table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `listofeventtb`
 --
 ALTER TABLE `listofeventtb`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+
+--
+-- AUTO_INCREMENT for table `logs`
+--
+ALTER TABLE `logs`
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `pjjudges`
@@ -1175,13 +1282,13 @@ ALTER TABLE `pjjudges`
 -- AUTO_INCREMENT for table `pjjudgeseventcode`
 --
 ALTER TABLE `pjjudgeseventcode`
-  MODIFY `event_code_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `event_code_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `pjjudgestemp`
 --
 ALTER TABLE `pjjudgestemp`
-  MODIFY `judge_id_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `judge_id_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `pjparticipants`
@@ -1205,13 +1312,13 @@ ALTER TABLE `pjparticipantsgroupmembers`
 -- AUTO_INCREMENT for table `pjparticipantsgroupmemberstemp`
 --
 ALTER TABLE `pjparticipantsgroupmemberstemp`
-  MODIFY `participants_id_member_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `participants_id_member_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `pjparticipantsgrouptemp`
 --
 ALTER TABLE `pjparticipantsgrouptemp`
-  MODIFY `participants_id_group_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `participants_id_group_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `pjparticipantstemp`
@@ -1229,13 +1336,13 @@ ALTER TABLE `pjscores`
 -- AUTO_INCREMENT for table `pjscorestemp`
 --
 ALTER TABLE `pjscorestemp`
-  MODIFY `score_id_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `score_id_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `scores`
@@ -1255,3 +1362,7 @@ ALTER TABLE `teams`
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
