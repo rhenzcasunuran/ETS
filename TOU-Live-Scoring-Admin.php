@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/home-sidebar-style.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/TOU-score.css">
+    <link rel="stylesheet" href="./css/TOU-live-score.css">
     <link rel="stylesheet" href="./css/system-wide.css">
   </head>
 
@@ -313,50 +313,75 @@
       <header class="header">Live Scoring</header>
       <div class="container">
         <div class="home">
-            <h1>ELITE</h1>
+            <h1>TEAM A</h1>
             <button name="score_a" id="home--btn">0</button>
             <div class="operate">
-                <button id="btn--three" onclick="minusValueThree()">-3</button>
-                <button id="btn--two" onclick="minusValueTwo()">-2</button>
-                <button type ="submit" name="btn_one" id="btn--one" onclick="minusValueOne()">-1</button>
-                <button type ="submit" name="btn_one" id="btn--one" onclick="plusOne()">+1</button>
-                <button id="btn--two" onclick="plusTwo()">+2</button>
-                <button id="btn--three" onclick="plusThree()">+3</button>
+                <button id="btn--three" onclick="minusValueThree()" disabled>-3</button>
+                <button id="btn--two" onclick="minusValueTwo()" disabled>-2</button>
+                <button type ="submit" name="btn_one" id="btn--one" onclick="minusValueOne()" disabled>-1</button>
+                <button type ="submit" name="btn_one" id="btn--one" onclick="plusOne()" disabled>+1</button>
+                <button id="btn--two" onclick="plusTwo()" disabled>+2</button>
+                <button id="btn--three" onclick="plusThree()" disabled>+3</button>
                 
             </div>
         </div>
         <div class="dropdown-tournament">
         <form action="/action_page.php">
-        <select class="button-tournament" >
-        <?php
-        if ($result->num_rows > 0) {
-            // Output data of each row
-            while ($row = $result->fetch_assoc()) {
-                echo "<option value='" . $row["bracket_id"] . "'>" . $row["bracket_sports"] . "</option>";
-            }
-        } else {
-            echo "<option>No options available</option>";
-        }
-        ?>
-        </select>
+    <select id="sport" class="button-tournament">
+        <option value="TOURNAMENT">TOURNAMENT</option>
+        <option value="BASKETBALL">BASKETBALL</option>
+        <option value="VOLLEYBALL">VOLLEYBALL</option>
+        <option value="CHESS">CHESS</option>
+        <option value="BADMINTON">BADMINTON</option>
+    </select>
 </form>
+
+<script>
+        // Get the dropdown element
+        var dropdown = document.getElementById("sport");
+
+        // Add an event listener to handle the selection change
+        dropdown.addEventListener("change", function() {
+            // Get the selected value
+            var selectedValue = dropdown.value;
+
+            // Redirect to a new page based on the selected value
+            switch (selectedValue) {
+                case "BASKETBALL":
+                    window.location.href = "./php/TOU-basketball.php";
+                    break;
+                case "VOLLEYBALL":
+                    window.location.href = "./php/TOU-volleyball.php";
+                    break;
+                case "CHESS":
+                    window.location.href = "./php/TOU-chess.php";
+                    break;
+                case "BADMINTON":
+                    window.location.href = "./php/TOU-badminton.php";
+                    break;
+                default:
+                    // Do nothing or handle the default case
+                    break;
+            }
+        });
+    </script>
             <div class="quarter" >
                 <h2>1st <br> Quarter</h2>
             </div>
             <div>
-            <button class="button-end-match" onclick="showEndMatch()">End Match</button>
+            <button class="button-end-match" onclick="showEndMatch()" disabled>End Match</button>
       </div>
         </div>
         <div class="guest">
-            <h1>AECES</h1>
+            <h1>TEAM B</h1>
             <button id="guest--btn">0</button>
             <div class="operate">
-                <button id="btn--three" onclick="decreaseValueThree()">-3</button>
-                <button id="btn--two" onclick="decreaseValueTwo()">-2</button>
-                <button type ="submit" name="btn_one" id="btn--one" onclick="decreaseValueOne()">-1</button>
-                <button id="btn--one" onclick="guestPlusOne()">+1</button>
-                <button id="btn--two" onclick="guestPlusTwo()">+2</button>
-                <button id="btn--three" onclick="guestPlusThree()">+3</button>
+                <button id="btn--three" onclick="decreaseValueThree()" disabled>-3</button>
+                <button id="btn--two" onclick="decreaseValueTwo()" disabled>-2</button>
+                <button type ="submit" name="btn_one" id="btn--one" onclick="decreaseValueOne()" disabled>-1</button>
+                <button id="btn--one" onclick="guestPlusOne()" disabled>+1</button>
+                <button id="btn--two" onclick="guestPlusTwo()" disabled>+2</button>
+                <button id="btn--three" onclick="guestPlusThree()" disabled>+3</button>
             </div>
         </div>
     </div>
@@ -365,7 +390,7 @@
         
         <p id="home--count" onclick="homeCount">ELITE : </p>
         <p id="guest--count" onclick="guestCount">AECES : </p>
-        <button type="submit" id="save--counter" class="save--btn" onclick="showSaveScore()" name="update_score_data">SAVE</button>
+        <button type="submit" id="save--counter" class="save--btn" onclick="showSaveScore()" name="update_score_data" disabled>SAVE</button>
     </div>
 
     <script src="./index.js"></script>
