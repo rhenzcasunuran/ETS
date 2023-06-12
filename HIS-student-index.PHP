@@ -76,118 +76,14 @@ if($conn){
         </form>
       </div>
     </div>
-    <!--SIDEBAR-->
-    <div class="sidebar open box-shadow">
-      <div class="bottom-design">
-        <div class="design1"></div>
-        <div class="design2"></div>
-      </div>
-      <div class="logo_details">
-        <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
-        <div class="logo_name">Events Tabulation System</div>
-        <i class="bx bx-arrow-to-right" id="btn"></i>
-        <script src="./js/sidebar-state.js"></script>
-      </div>
-      <div class="wrapper">
-        <div class="sidebar-content-container">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="index.php">
-                <i class="bx bx-home-alt"></i>
-                <span class="link_name">Home</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="CAL-student-overall.php">
-                <i class="bx bx-calendar"></i>
-                <span class="link_name">Calendar</span>
-              </a>
-            </li>
-            <li class="nav-item">
-            <a href="#posts" class="menu_btn">
-                <i class="bx bx-line-chart"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Results
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="BAR-student.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Overall Champion</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#tournament">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Tournament</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-student_page.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Competition</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            
-            <li class="nav-item">
-              <a href="HIS-student-index.php" class="active">
-                <i class="bx bx-history"></i>
-                <span class="link_name">Event History</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="about.php">
-                <i class="bx bx-info-circle"></i>
-                <span class="link_name">About</span>
-              </a>
-            </li>
-            <?php
-              if(isset($_SESSION['user_username'])){
-            ?>
-            <li class="nav-item">
-              <a href="HOM-create-post.php">
-                <i class="bx bx-cog"></i>
-                <span class="link_name">Configuration</span>
-              </a>
-            </li>
-            <?php
-              }
-            ?>
-          </ul>
-        </div>
-        <div class="bottom-container">
-          <div class="mode-btn" id="theme-toggle">
-            <i class='lightmode bx bx-sun'></i>
-            <i class='darkmode bx bx-moon'></i>
-          </div>
-          <?php
-            if(isset($_SESSION['user_username'])){
-          ?>
-            <li class="nav-item bottom">
-              <a href="./php/sign-out.php">
-                <i class="bx bx-log-out"></i>
-                <span class="link_name">Sign Out</span>
-              </a>
-            </li>
-          <?php
-            }
-            else{
-          ?>
-              <li class="nav-item bottom">
-                <a onclick="show()">
-                  <i class="bx bx-log-in"></i>
-                  <span class="link_name">Sign In</span>
-                </a>
-              </li>
-          <?php
-            }
-          ?>
-        </div>
-      </div>
-    </div>
+   <!--SIDEBAR-->
+    <?php
+      // Set the active module and sub-active sub-item variables
+      $activeModule = 'event-history';
+
+      // Include the sidebar template
+      require './php/student-sidebar.php';
+    ?>
     <!--Page Content-->
     <section class="home-section">
     <div class="header">
@@ -260,54 +156,59 @@ if($conn){
       </div>
     </div>
   </div>
-</div>
 
 
 
-      <div class="row">
-  <div class="col-md-12 left-container">
+<div class="row justify-content-center">
+      <div class="col-md-12 left-container custom-left-container">
     <div class="container-fluid left-part">
       <div class="row">
         <div class="col-md-12 event">
           <div id="card-container">
-            <?php
-            require('./php/database_connect.php');
+                  <?php
+                require('./php/database_connect.php');
 
-            $query = "SELECT event_name, category_name, YEAR(event_date) AS event_year FROM eventhistorytb ";
-            $result = mysqli_query($conn, $query);
-
-            if ($result === false) {
-                die('Query Error: ' . mysqli_error($conn));
-            }
-
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $eventName = $row['event_name'];
-                    $categoryName = $row['category_name'];
-                    $eventYear = $row['event_year'];
-
-                    echo '<div class="event-card" id="event_' . $eventName . '">';
-                    echo '  <div class="event-info">';
-                    echo '    <h3 class="event-name">' . $eventName . '</h3>';
-                    echo '    <p class="category">' . $categoryName . '</p>';
-                    echo '    <p class="year">' . $eventYear . '</p>';
-                    echo '  </div>';
-                    echo '</div>';
+                $query = "SELECT event_name, category_name, YEAR(event_date) AS event_year, suggested_status FROM eventhistorytb ORDER BY suggested_status DESC";
+                $result = mysqli_query($conn, $query);
+                
+                if ($result === false) {
+                    die('Query Error: ' . mysqli_error($conn));
                 }
-            } else {
-                echo "No events found.";
-            }
-            ?>
+                
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $eventName = $row['event_name'];
+                        $categoryName = $row['category_name'];
+                        $eventYear = $row['event_year'];
+                        $suggestedStatus = $row['suggested_status'];
+                
+                        echo '<div class="event-card" id="event_' . $eventName . '">';
+                        echo '  <div class="event-info">';
+                        echo '    <h3 class="event-name">' . $eventName . '</h3>';
+                        echo '    <p class="category">' . $categoryName . '</p>';
+                        echo '    <p class="year">' . $eventYear . '</p>';
+                
+                        // Check if the event is suggested
+                        if ($suggestedStatus == 1) {
+                          echo '    <p class="suggested-text">Suggested</p>'; // Add the class here
+                        }
+                
+                        echo '  </div>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo "No events found.";
+                }
+                
+        ?>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
- 
-
       </div>
-    </div>
+</div>
+</div>
+    </section>
   
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
