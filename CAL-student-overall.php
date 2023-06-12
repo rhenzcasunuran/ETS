@@ -71,124 +71,60 @@ if($conn){
       </div>
     </div>
      <!--SIDEBAR-->
-     <div class="sidebar open box-shadow">
-      <div class="bottom-design">
-        <div class="design1"></div>
-        <div class="design2"></div>
-      </div>
-      <div class="logo_details">
-        <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
-        <div class="logo_name">Events Tabulation System</div>
-        <i class="bx bx-arrow-to-right" id="btn"></i>
-        <script src="./js/sidebar-state.js"></script>
-      </div>
-      <div class="wrapper">
-        <div class="sidebar-content-container">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="index.php">
-                <i class="bx bx-home-alt"></i>
-                <span class="link_name">Home</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="CAL-student-overall.php" class="menu_btn active">
-                <i class="bx bx-calendar"></i>
-                <span class="link_name">Calendar</span>
-              </a>
-            </li>
-            <li class="nav-item">
-            <a href="#posts" class="menu_btn">
-                <i class="bx bx-line-chart"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Results
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="BAR-student.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Overall Champion</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#tournament">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Tournament</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-student_page.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Competition</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            
-            <li class="nav-item">
-              <a href="HIS-student-index.php">
-                <i class="bx bx-history"></i>
-                <span class="link_name">Event History</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="about.php">
-                <i class="bx bx-info-circle"></i>
-                <span class="link_name">About</span>
-              </a>
-            </li>
-            <?php
-              if(isset($_SESSION['user_username'])){
-            ?>
-            <li class="nav-item">
-              <a href="HOM-create-post.php">
-                <i class="bx bx-cog"></i>
-                <span class="link_name">Configuration</span>
-              </a>
-            </li>
-            <?php
-              }
-            ?>
-          </ul>
-        </div>
-        <div class="bottom-container">
-          <div class="mode-btn" id="theme-toggle">
-            <i class='lightmode bx bx-sun'></i>
-            <i class='darkmode bx bx-moon'></i>
+     <?php
+      // Set the active module and sub-active sub-item variables
+      $activeModule = 'calendar';
+
+      // Include the sidebar template
+      require './php/student-sidebar.php';
+    ?>
+<!--Page Content-->
+<section class="home-section mobile-size">
+      <div id="calendar-container">
+        <br>
+        <br>
+        <div id="calendar-header">
+          <div class="calendar-navigation">
+            <button type="button" id="mobile-prev-month" class="btn btn-outline-secondary"><</button>
+            <button type="button" id="mobile-next-month" class="btn btn-outline-secondary">></button>
           </div>
-          <?php
-            if(isset($_SESSION['user_username'])){
-          ?>
-            <li class="nav-item bottom">
-              <a href="./php/sign-out.php">
-                <i class="bx bx-log-out"></i>
-                <span class="link_name">Sign Out</span>
-              </a>
-            </li>
-          <?php
-            }
-            else{
-          ?>
-              <li class="nav-item bottom">
-                <a onclick="show()">
-                  <i class="bx bx-log-in"></i>
-                  <span class="link_name">Sign In</span>
-                </a>
-              </li>
-          <?php
-            }
-          ?>
+          <h2 id="current-month"></h2>
+        </div>
+        <table id="mobile-calendar" class="table">
+          <thead>
+            <tr>
+              <th class="text-center" scope="col">SU</th>
+              <th class="text-center" scope="col">M</th>
+              <th class="text-center" scope="col">TU</th>
+              <th class="text-center" scope="col">W</th>
+              <th class="text-center" scope="col">TH</th>
+              <th class="text-center" scope="col">F</th>
+              <th class="text-center" scope="col">SA</th>
+            </tr>
+          </thead>
+          <tbody id="mobile-calendar-days" class="border border-5">
+          </tbody>
+        </table>
+        <div>
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
+          <p>Test</p>
         </div>
       </div>
-    </div>
-   <!--Page Content-->
-   <section class="home-section">
+    </section>
+    <!-- Calendar Computer-->
+    <section class="home-section computer-size">
       <div class="header">Calendar</div>
         <div class="d-flex">
           <h1 class="p-2" id="calendar-title"></h1>
           <!-- Mini Calendar -->
-          <i id="calendarToggle" class='bx bxs-down-arrow flex-grow-1 p-2'></i>
+          <div class="flex-grow-1 p-2">
+            <i id="calendarToggle" class="bx bxs-down-arrow"></i>
+          </div>
           <div id="miniCalendar">
             <div class="mini-calendar-header">
               <button id="miniPreviousButton" class="previous-button"><i class='bx bxs-left-arrow'></i></button>
@@ -323,7 +259,7 @@ if($conn){
                   <button type="button" id="prev-month" class="btn btn-primary rounded-pill"><h2><</h2></button>
                   <button type="button" id="next-month" class="btn btn-primary rounded-pill"><h2>></h2></button>
                 </div>
-                <table id="calendar" class="table table-bordered">
+                <table id="calendar" class="table">
                   <thead class="calendar-weeks">
                     <tr class="border border-0">
                       <th class="fw-normal fs-5 text-center border border-0" scope="col">SUNDAY</th>
@@ -344,7 +280,7 @@ if($conn){
         </div>
       </div>
       <br>
-      <br>   
+      <br>
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
