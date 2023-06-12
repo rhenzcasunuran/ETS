@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 $currentDateTime = date("Y-m-d H:i:s");
 
 // Query the competitions table with the condition for schedule
-$sql = "SELECT * FROM competitions_table WHERE schedule <= '$currentDateTime'";
+$sql = "SELECT * FROM competitions_table WHERE schedule IS NOT NULL AND schedule_end IS NOT NULL";
 $result = $conn->query($sql);
 
 // If there are competitions, generate HTML code for each of them
@@ -26,7 +26,7 @@ if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     echo "<div class='result_container'>";
     // Display the name of the competition and a button with the competition ID as the ID
-    echo "<h2 class='parent' id='" . $row["competition_name"] ."'>" . $row["competition_name"] . "<button class='archive_btn' id='" . $row["competition_name"] . " btn'><i class='bx bx-archive-in'></i><p class='ac'>Archive</p></button></h2>";
+    echo "<h2 class='parent' id='" . $row["competition_name"] ."'>" . $row["competition_name"] . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='".$row["competition_name"]."-input' class='sched_output' disabled/><button class='archive_btn' id='" . $row["competition_name"] . " btn'><i class='bx bx-archive-in'></i><p class='ac'>Archive</p></button></h2>";
     // Generate HTML code for the result div and table
     echo "<div class='result'>";
     echo "<table>";
@@ -71,12 +71,15 @@ if ($result->num_rows > 0) {
       while ($row_criteria = $result_criteria->fetch_assoc()) {
         $score = isset($score_data["criteria_scores"][$row_criteria["criteria_id"]]) ? $score_data["criteria_scores"][$row_criteria["criteria_id"]] : "";
         echo "<td>" . $score . "</td>";
-        }
-        echo "<td>" . $score_data["overall_score"] . "</td></tr>";
-        }
-        echo "</tbody></table></div>";
-        echo "</div>";
+      }
+      echo "<td>" . $score_data["overall_score"] . "</td></tr>";
     }
+    echo "</tbody></table></div>";
+    echo "</div>";
+  }
+} else {
+  // No competitions found
+  echo "<div id='empty'>No competitions found.</div>";
 }
 
 // Close connection
