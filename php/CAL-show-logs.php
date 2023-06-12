@@ -5,6 +5,13 @@ $sortColumn = $_GET['sortColumn'];
 $sortOrder = $_GET['sortOrder'];
 $searchTerm = $_GET['searchTerm'];
 $searchDate = $_GET['searchDate'];
+$adminFilters = isset($_GET['searchAdmin']) ? $_GET['searchAdmin'] : array();
+
+// Check if filters array is empty
+if (empty($adminFilters)) {
+  echo json_encode(array('logs' => array())); // Return an empty logs array
+  exit;
+}
 
 $validColumns = ['log_id', 'log_date', 'log_time', 'admin', 'activity_description'];
 $validOrders = ['ASC', 'DESC'];
@@ -22,43 +29,59 @@ if (!in_array($sortOrder, $validOrders)) {
 $orderBy = $sortColumn . ' ' . $sortOrder;
 
 $searchCondition = '';
+$parameters = array();
 
 if (!empty($searchTerm)) {
   // Sanitize the search term to prevent SQL injection
   $searchTerm = mysqli_real_escape_string($conn, $searchTerm);
 
-  $searchCondition .= "(log_id LIKE '%$searchTerm%' OR admin LIKE '%$searchTerm%' OR activity_description LIKE '%$searchTerm%')";
+  $searchCondition .= "(log_id LIKE ? OR admin LIKE ? OR activity_description LIKE ?)";
+  $parameters[] = "%$searchTerm%";
+  $parameters[] = "%$searchTerm%";
+  $parameters[] = "%$searchTerm%";
 }
 
-$dateCondition = '';
-if (!empty($searchDate)) {
-  // Convert the search date to the appropriate format
-  $searchDateFormatted = date('Y-m-d', strtotime($searchDate));
+$adminPlaceholders = implode(',', array_fill(0, count($adminFilters), '?'));
 
-  $dateCondition = "DATE(log_date_time) = ?";
-}
-
-// Add appropriate conjunction between search conditions
-if (!empty($searchTerm) && !empty($searchDate)) {
-  $searchCondition .= " AND ";
-}
+$adminCondition = "admin IN ($adminPlaceholders)";
+$parameters = array_merge($parameters, $adminFilters);
 
 // Use prepared statements to prevent SQL injection
 $log_sql = "SELECT * FROM logs";
 
-// Add search condition and date condition if applicable
-if (!empty($searchCondition) || !empty($dateCondition)) {
+// Add search condition and admin condition if applicable
+if (!empty($searchCondition) || !empty($adminCondition)) {
   $log_sql .= " WHERE ";
-  $log_sql .= $searchCondition;
-  $log_sql .= $dateCondition;
+  
+  if (!empty($searchCondition)) {
+    $log_sql .= $searchCondition;
+  }
+  
+  if (!empty($searchCondition) && !empty($adminCondition)) {
+    $log_sql .= " AND ";
+  }
+  
+  if (!empty($adminCondition)) {
+    $log_sql .= $adminCondition;
+  }
 }
 
-$log_sql .= " ORDER BY $orderBy";
+// Add date condition if searchDate is not empty
+if (!empty($searchDate)) {
+  // Convert the search date to the appropriate format
+  $searchDateFormatted = date('Y-m-d', strtotime($searchDate));
+
+  $log_sql .= " AND DATE(log_date) = ?";
+  $parameters[] = $searchDateFormatted;
+}
+
+$log_sql .= " ORDER BY $orderBy, log_time DESC";
 $log_stmt = mysqli_prepare($conn, $log_sql);
 
-// Bind the search date parameter to the prepared statement if it exists
-if (!empty($searchDate)) {
-  mysqli_stmt_bind_param($log_stmt, 's', $searchDateFormatted);
+// Bind the parameters to the prepared statement
+if (!empty($parameters)) {
+  $types = str_repeat('s', count($parameters)); // Assuming all parameters are strings
+  mysqli_stmt_bind_param($log_stmt, $types, ...$parameters);
 }
 
 mysqli_stmt_execute($log_stmt);
@@ -66,6 +89,9 @@ $log_result = mysqli_stmt_get_result($log_stmt);
 
 $logs = array();
 while ($row = mysqli_fetch_assoc($log_result)) {
+  // Convert log_date and log_time to appropriate formats
+  $row['log_date'] = date('Y-m-d', strtotime($row['log_date']));
+  $row['log_time'] = date('H:i:s', strtotime($row['log_time']));
   $logs[] = $row;
 }
 

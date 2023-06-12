@@ -1,4 +1,10 @@
 <?php
+
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+} 
+
 include 'database_connect.php';
 
 // Log the activity in the logs table 
@@ -29,7 +35,7 @@ function to_log($conn, $sql) {
     }
 
     $admin = $_SESSION['user_username'];
-    $log_sql = "INSERT INTO logs (log_date_time, admin, activity_description) VALUES (NOW(), ?, ?)";
+    $log_sql = "INSERT INTO logs (log_date, log_time, admin, activity_description) VALUES (CURDATE(), CURTIME(), ?, ?)";
     $log_stmt = mysqli_prepare($conn, $log_sql);
 
     // Determine the action based on the SQL query
@@ -50,7 +56,5 @@ function to_log($conn, $sql) {
     }
 
     mysqli_stmt_execute($log_stmt);
-    mysqli_stmt_close($log_stmt);
-    mysqli_close($conn);
 }
 ?>
