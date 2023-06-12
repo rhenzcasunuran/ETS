@@ -18,6 +18,7 @@
 
      <!-- Event History CSS -->
      <link rel="stylesheet" href="./css/HIS-manage-v1.css">
+     
 
 
 <!--
@@ -222,89 +223,105 @@
     </div>
     <!--Page Content-->
     <section class="home-section">
-      <div class="header">Manage Event</div>
-        <div class="flex-container">
-          <div class="main-containers">
+    <div class="header">Manage Event</div>
+    <div class="flex-container">
+        <div class="main-containers">
+            <div class="container-header">Events</div>
+            <div class="flex-box-1">
+                <div class="search-wrapper">
+                    <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event" onkeyup="filterButtons()">
+                </div>
+                <div id="button-container">
+                    <?php
+                    $query = "SELECT  event_name,category_name FROM eventhistorytb group by event_name";
+                    $result = mysqli_query($conn, $query);
 
-            
-         <div class="flex-box-1">
-          
-         <div class="search-wrapper">
-         <input type="text" name="search" id="search" onkeyup="filterButtons()">
-  </div>
-  <div id="button-container">
-  <?php
+                    if ($result === false) {
+                        die('Query Error: ' . mysqli_error($conn));
+                    }
 
-    $query = "SELECT  event_name,category_name FROM eventhistorytb group by event_name";
-    $result = mysqli_query($conn, $query);
-    
-    // Check if the query executed successfully
-    if ($result === false) {
-        die('Query Error: ' . mysqli_error($conn));
-    }
-    
-    if (mysqli_num_rows($result) > 0) {
-        // Loop through the results and generate the button for each event
-        while ($row = mysqli_fetch_assoc($result)) {
-            $eventName = $row['event_name'];
-            
-            // Generate the button HTML
-            echo "<button id='event_" . $eventName . "' class='event_button'>$eventName</button>";
-            
-        }
-    } else {
-        echo "No events found.";
-    }
-  ?>
-</div>
-</div>
-<div class="flex-box">
-  <div id="select_event_text">Select an event first</div>
-  <div class="radio-holder">
-  <?php
-  if ($result->num_rows > 0) {
-    $result->data_seek(0);
-    while ($row = $result->fetch_assoc()) {
-      $eventName = $row['event_name'];
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $eventName = $row['event_name'];
 
-      echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
+                            echo "<form id='event_form_" . $eventName . "' method='post' action='../php/HIS-process.php'>";
+                            echo "<button id='event_" . $eventName . "' class='event_button' name='event_button' value='$eventName'>$eventName</button>";
+                            echo "<input type='hidden' name='selected_event' value='$eventName'>";
+                            echo "</form>";
+                        }
+                    } else {
+                        echo "No events found.";
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="container-header-1">Activities</div>
+            <div class="flex-box">
+                <div id="select_event_text">Select an event first</div>
+                <div class="radio-holder">
+                    <?php
+                    if ($result->num_rows > 0) {
+                        $result->data_seek(0);
+                        while ($row = $result->fetch_assoc()) {
+                            $eventName = $row['event_name'];
 
-      // Fetch the category names for the current event from the database
-      $query = "SELECT category_name FROM eventhistorytb WHERE event_name = '" . $eventName . "'";
-      $categoryResult = mysqli_query($conn, $query);
+                            echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
 
-      if ($categoryResult === false) {
-        die('Query Error: ' . mysqli_error($conn));
-      }
+                            $query = "SELECT DISTINCT category_name FROM eventhistorytb WHERE event_name = '" . $eventName . "'";
+                            $categoryResult = mysqli_query($conn, $query);
 
-      if (mysqli_num_rows($categoryResult) > 0) {
-        // Generate the radio buttons for each category
-        while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
-          $categoryName = $categoryRow['category_name'];
-          echo "<label><input type='checkbox' name='activity_" . $eventName . "' value='" . $categoryName . "'>" . $categoryName . "</label>";
-        }
-      }
+                            if ($categoryResult === false) {
+                                die('Query Error: ' . mysqli_error($conn));
+                            }
 
-      echo "</div>";
-    }
-  }
-  ?>
-</div>
-</div>
+                            if (mysqli_num_rows($categoryResult) > 0) {
+                                $categories = array();
+                                while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
+                                    $categoryName = $categoryRow['category_name'];
+                                    $categories[] = $categoryName;
+                                }
+                                $maxLength = max(array_map('strlen', $categories));
 
-       
-          <div class="btn-group" id="diffbutton">
-            <button type="button" id="but">Add + </button>
-            <button type="button" id="but">Delete -</button>
-          </div>
+                                foreach ($categories as $categoryName) {
+                                    echo "<label class='form-check'>";
+                                    echo "<input class='form-check-input' type='radio' name='activity_" . $eventName . "' value='" . $categoryName . "'>";
+                                    echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
+                                    echo "</label>";
+                                }
+                            }
+
+                            echo "</div>";
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="btn-group" id="diffbutton">
+                <button type="button" id="add_button">Add +</button>
+                <button type="button" id="but">Delete -</button>
+            </div>
         </div>
+    </div>
+</section>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $("#add_button").click(function() {
+        var selectedEvent = $("input[name='event_button']:checked").val();
+        var selectedActivity = $("input[name='activity_" + selectedEvent + "']:checked").val();
 
+        if (selectedEvent && selectedActivity) {
+            var formId = "#event_form_" + selectedEvent;
+            $(formId).append("<input type='hidden' name='selected_activity' value='" + selectedActivity + "'>");
+            $(formId).submit();
+        } else {
+            alert("Please select an event and an activity.");
+        }
+    });
+});
+</script>
 
-
-        </div>
-      
-    </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
@@ -326,6 +343,22 @@
     <!--
 Event History Scripts
 -->
+<script>
+$(document).ready(function() {
+    $("#add_button").click(function() {
+        var selectedEvent = $("input[name='event_button']:checked").val();
+        var selectedActivity = $("input[name='activity_" + selectedEvent + "']:checked").val();
+
+        if (selectedEvent && selectedActivity) {
+            var formId = "#event_form_" + selectedEvent;
+            $(formId).append("<input type='hidden' name='selected_activity' value='" + selectedActivity + "'>");
+            $(formId).submit();
+        } else {
+            alert("Please select an event and an activity.");
+        }
+    });
+});
+</script>
 <script>
 
 const searchInput = document.getElementById('search');
@@ -351,20 +384,17 @@ const searchInput = document.getElementById('search');
   
   for (var i = 0; i < event_buttons.length; i++) {
     event_buttons[i].addEventListener("click", function() {
-      // Remove highlight from previously selected button
       var prev_selected_button = document.querySelector(".selected");
       if (prev_selected_button) {
         prev_selected_button.classList.remove("selected");
       }
       
-      // Hide activities of previously clicked event button
       var prev_activity_container = document.querySelector(".activity_container.show");
       if (prev_activity_container) {
         prev_activity_container.classList.remove("show");
         prev_activity_container.style.display = "none";
       }
       
-      // Highlight the clicked button and show its activities
       if (selected_event !== this) {
         this.classList.add("selected");
         selected_event = this;
@@ -385,6 +415,7 @@ const searchInput = document.getElementById('search');
       }
     });
   }
+            
 </script>
   </body>
 
