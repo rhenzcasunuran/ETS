@@ -7,6 +7,8 @@
 */
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
 console.log("daterangepicker start");
+//var btnClicked;
+var present = false;
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Make globaly available as well
@@ -1190,6 +1192,10 @@ console.log("daterangepicker start");
             }
         },
         show: function(e) {
+            console.log("show: starts..")
+            btnClicked = e.target.id;
+            console.log("show: btnClicked is "+btnClicked);
+            
             if (this.isShowing) return;
 
             // Create a click proxy that is private to this instance of datepicker, for unbinding
@@ -1220,6 +1226,14 @@ console.log("daterangepicker start");
         },
 
         hide: function(e) {
+            //closes the popup: cancel if it is open
+            popupCancel = document.getElementById('cancelWrapper');
+            if (popupCancel.style.display == "flex") {
+                popupCancel.style.display = "none";
+            } else {
+                console.log("popup cancel already closed");
+            }
+            console.log("hide: starts..")
             if (!this.isShowing) return;
 
             //incomplete date selection, revert to last values
@@ -1236,7 +1250,8 @@ console.log("daterangepicker start");
 
             
             this.updateElement();
-            console.log("hide is called");
+            console.log("hide: updates");
+            saveDate();
 
             $(document).off('.daterangepicker');
             $(window).off('.daterangepicker');
@@ -1246,6 +1261,7 @@ console.log("daterangepicker start");
         },
 
         cancel: function(e) {
+            console.log("cancel: starts..");
             if (!this.isShowing) return;
 
             //incomplete date selection, revert to last values
@@ -1263,39 +1279,14 @@ console.log("daterangepicker start");
             var c=this.container.hide();
             var d=this.element.trigger('hide.daterangepicker', this);
             var e=this.isShowing = false;
-
             //this.updateElement();
-            popupCancel = document.getElementById('cancelWrapper');
-
-            var showCancel = function() {
-                popupCancel.style.display ='flex';
-            }
-            var hideCancel = function() {
-                popupCancel.style.display ='none';
-            //input.disabled = true;
-            }
-            showCancel();
-            var returnUC = document.getElementById("discard-return");
-            var discardUC = document.getElementById("discard-ok");
-            returnUC.addEventListener("click", function(){
-                hideCancel();
-                console.log("Return to Editing");
-            })
-            discardUC.addEventListener("click", function(){
-                hideCancel();
-                console.log("Discard Edits");
-                a;
-                b;
-                c;
-                d;
-                e;
-            })
-            console.log("cancel is called");
-
+            present = false;
             
+
         },
 
         popup: function() {
+            console.log("popup: starts..")
             popupCancel = document.getElementById('cancelWrapper');
 
             var showCancel = function() {
@@ -1314,37 +1305,66 @@ console.log("daterangepicker start");
             var returnUC = document.getElementById("discard-return");
             var discardUC = document.getElementById("discard-ok");
             var canc = this.cancel();
-            returnUC.addEventListener("click", function(){
+            var reclick = document.getElementById(btnClicked);
+            console.log(btnClicked+" is btnClicked");
+            console.log(globalComp+" is the competition name");
+            returnUC.addEventListener("click", function(e){
                 hideCancel();
-                console.log("Return to Editing");
+                console.log("Popup: Return to Editing");
+                console.log("returnUC: reclick is "+reclick);
+                console.log("returnUC: globalComp is "+globalComp);
+                if (reclick.id == globalComp){
+                    reclick.disabled = false;
+                    reclick.click();
+                    reclick.disabled = true;
+                    console.log("returnUC: returned to the current daterangepicker");
+                } else {
+                    console.log("returnUC: closed the extra daterangepicker popups");
+                }
+                return;
             })
             discardUC.addEventListener("click", function(){
                 hideCancel();
-                console.log("Discard Edits");
+                console.log("Popup: Discard Edits");
                 a;
                 b;
                 c;
                 d;
                 e;
                 canc;
+                return;
             })
         },
 
         toggle: function(e) {
             if (this.isShowing) {
+                console.log("toggle: hide");
                 this.hide();
             } else {
+                console.log("toggle: show");
                 this.show();
             }
         },
 
         outsideClick: function(e) {
-            console.log("Outside click is called");
+            console.log("outsideClick: starts..");
+            //if the function "return", then the outsideClick function will run.
+            //if the function didn't return, then it should not call the popup()
             var target = $(e.target);
+
+            if (target.hasClass('cancelBtn') || target.closest('.cancelBtn').length > 0){
+                console.log("cancelBtn is clicked");
+                return;
+            }
+            if (target.hasClass('applyBtn') || target.closest('.applyBtn').length > 0){
+                console.log("applyBtn is clicked");
+                return;
+            }
             var clickedZIndex = target.css('z-index');
             if (clickedZIndex == 'auto'){
                 clickedZIndex = 4000;
             }
+            console.log("outsideClick: continues..");
         
             // if the page is clicked anywhere except within the daterangerpicker/button
             // itself or if the clicked element has a lower z-index, then call this.hide()
@@ -1353,9 +1373,10 @@ console.log("daterangepicker start");
                 e.type == "focusin" ||
                 target.closest(this.element).length ||
                 target.closest(this.container).length ||
-                target.closest('.calendar-table').length ||
+                target.closest('.daterangepicker').length ||
                 (clickedZIndex == 'auto' && parseInt(clickedZIndex) > parseInt(this.container.css('z-index')))
             ) {
+                console.log("outsideClick: clicked inside the popup");
                 return;
             }
         
@@ -1363,6 +1384,7 @@ console.log("daterangepicker start");
             //this.cancel();
             this.popup();
             //this.element.trigger('outsideClick.daterangepicker', this);
+            e.stopPropagation();
         },
 
         showCalendars: function() {
@@ -1572,6 +1594,7 @@ console.log("daterangepicker start");
         },
         
         clickApply: function(e) {
+            console.log("clickApply: starts..")
             // show a popup confirming the changes
             popupMarkAsDone = document.getElementById('markAsDoneWrapper');
             var showMarkAsDone = function() {
@@ -1586,6 +1609,7 @@ console.log("daterangepicker start");
                 hidediscard.style.display = 'none';
             }
             hidehidediscard();
+            //this hide() is the one that saves the schedule to the input
             this.hide();
             showMarkAsDone();
             //var cancel = document.getElementById("success-cancel");
@@ -1598,16 +1622,19 @@ console.log("daterangepicker start");
             //    canc;
             //})
             confirm.addEventListener("click", function(){
-                console.log("confirm isss clicked");
+                console.log("success popup: confirm");
                 hideMarkAsDone();
-                conf;
+                return;
+                //this conf is not being called, maybe because the calendar is closed right after clicking the confirm button
+                //conf;
             })
-            this.hide();
+            //this.hide();
             this.element.trigger('apply.daterangepicker', this);
             
         },
 
         clickCancel: function(e) {
+            console.log("clickCancel: starts..")
             
             this.startDate = this.oldStartDate;
             this.endDate = this.oldEndDate;
