@@ -82,7 +82,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
     <script src="./js/sidebar-state.js"></script>
   </div>
   <div class="wrapper">
-    <div class="sidebar-content-container">
+    <div class="sidebar-content-container" style="border: none !important;">
       <ul class="nav-list">
         <li class="nav-item">
           <a href="index.php" class="<?php echo $activeModule === 'home' ? 'active' : ''; ?>">
