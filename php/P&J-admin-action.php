@@ -1,5 +1,6 @@
 <?php
     include 'database_connect.php';
+    include 'CAL-logger.php';
 
     if (isset($_POST['save_btnS'])) {
         // Select the data from judgestemp
@@ -15,11 +16,13 @@
             $stmt = mysqli_prepare($conn, $insertQuery);
             mysqli_stmt_bind_param($stmt, "ss", $column1Value, $column2Value);
             mysqli_stmt_execute($stmt);
+            to_log($conn, $insertQuery);
         }
 
         // Delete the transferred data from judgestemp
         $deleteQuery = "DELETE FROM pjjudgestemp";
         mysqli_query($conn, $deleteQuery);
+        to_log($conn, $deleteQuery);
 
         // Select the data from participantstemp
         $query = "SELECT * FROM pjparticipantstemp";
@@ -36,11 +39,13 @@
             $stmt = mysqli_prepare($conn, $insertQuery);
             mysqli_stmt_bind_param($stmt, "ssss", $column1Value, $column2Value, $column3Value, $column4Value);
             mysqli_stmt_execute($stmt);
+            to_log($conn, $insertQuery);
         }
 
         // Delete the transferred data from participantstemp
         $deleteQuery = "DELETE FROM pjparticipantstemp";
         mysqli_query($conn, $deleteQuery);
+        to_log($conn, $deleteQuery);
 
         // Select the data from participantsgrouptemp
         $query = "SELECT * FROM pjparticipantsgrouptemp";
@@ -55,11 +60,13 @@
             $stmt = mysqli_prepare($conn, $insertQuery);
             mysqli_stmt_bind_param($stmt, "ss", $column1Value, $column2Value);
             mysqli_stmt_execute($stmt);
+            to_log($conn, $deleteQuery);
         }
 
         // Delete the transferred data from participantgrouptemp
         $deleteQuery = "DELETE FROM pjparticipantsgrouptemp";
         mysqli_query($conn, $deleteQuery);
+        to_log($conn, $deleteQuery);
 
         // Select the data from participantsgroupmemberstemp
         $query = "SELECT * FROM pjparticipantsgroupmemberstemp";
@@ -75,11 +82,13 @@
             $stmt = mysqli_prepare($conn, $insertQuery);
             mysqli_stmt_bind_param($stmt, "sss", $column1Value, $column2Value, $column3Value);
             mysqli_stmt_execute($stmt);
+            to_log($conn, $insertQuery);
         }
 
         // Delete the transferred data from participantgroupmembertemp
         $deleteQuery = "DELETE FROM pjparticipantsgroupmemberstemp";
         mysqli_query($conn, $deleteQuery);
+        to_log($conn, $deleteQuery);
 
         // Close the prepared statements
         mysqli_stmt_close($stmt);

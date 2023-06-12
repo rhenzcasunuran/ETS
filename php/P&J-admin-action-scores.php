@@ -1,5 +1,6 @@
 <?php
     include 'database_connect.php';
+    include 'CAL-logger.php';
 
     if (isset($_POST['add_btnScore'])) {
 
@@ -18,11 +19,13 @@
 
         $insertQuery = "INSERT INTO pjscores (group_name, criteria_1, criteria_2, criteria_3, criteria_4, total_score) VALUES ('$groupname', '$column1Value', '$column2Value', '$column3Value', '$column4Value', '$totalscore')";
         mysqli_query($conn, $insertQuery);
+        to_log($conn, $insertQuery);
     }
 
     // Delete the transferred data from pjscorestemp
     $deleteQuery = "DELETE FROM pjscorestemp";
     mysqli_query($conn, $deleteQuery);
+    to_log($conn, $deleteQuery);
 
     // Close the database conn
     header("Location: ../P&J-admin-scoretab.php");

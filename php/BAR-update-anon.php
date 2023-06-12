@@ -4,6 +4,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, Content-Type, Accept");
 
 @include 'database_connect.php';
+include 'CAL-logger.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $isAnon = $_POST["isAnon"];
@@ -13,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if ($stmt->execute()) {
     echo json_encode(["success" => true]);
+    to_log($conn, $query);
   } else {
     echo json_encode(["success" => false, "message" => "Failed to update isAnon column"]);
   }

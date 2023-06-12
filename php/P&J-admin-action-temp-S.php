@@ -1,5 +1,6 @@
 <?php
 include 'database_connect.php';
+include 'CAL-logger.php';
 print_r($_POST);
 
 $groupname = $_POST['group_name_temp'];
@@ -15,6 +16,7 @@ $sql = "INSERT INTO pjscorestemp (group_name_temp, criteria_1_temp, criteria_2_t
 
 if ($conn->query($sql) === TRUE) {
   echo "Data inserted successfully!";
+  to_log($conn, $sql);
 } else {
   echo "Error: " . $sql . "<br>" . $conn->error;
 }
