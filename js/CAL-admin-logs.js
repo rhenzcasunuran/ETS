@@ -1,258 +1,74 @@
 $(document).ready(function() {
 
-  var filtersOrg = [];
+  // Array to store the checkbox values
+  var checkboxValues = [];
 
-  const allCheckboxOrg = document.getElementById('check-all-organization');
-  const acapCheckbox = document.getElementById('check-acap');
-  const aecesCheckbox = document.getElementById('check-aeces');
-  const eliteCheckbox = document.getElementById('check-elite');
-  const giveCheckbox = document.getElementById('check-give');
-  const jehraCheckbox = document.getElementById('check-jehra');
-  const jmapCheckbox = document.getElementById('check-jmap');
-  const jpiaCheckbox = document.getElementById('check-jpia');
-  const piieCheckbox = document.getElementById('check-piie');
+  // Function to dynamically generate admin checkboxes
+  function generateAdminCheckboxes(adminUsers) {
+    const adminCheckboxesContainer = $('#adminCheckboxes');
+    adminCheckboxesContainer.empty(); // Clear previous checkboxes
 
-  function updateAllCheckboxOrg() {
-    if (
-      !acapCheckbox.checked &&
-      !aecesCheckbox.checked &&
-      !eliteCheckbox.checked &&
-      !giveCheckbox.checked &&
-      !jehraCheckbox.checked &&
-      !jmapCheckbox.checked &&
-      !jpiaCheckbox.checked &&
-      !piieCheckbox.checked
-    ) {
-      allCheckboxOrg.checked = false;
-    } else if (
-      acapCheckbox.checked &&
-      aecesCheckbox.checked &&
-      eliteCheckbox.checked &&
-      giveCheckbox.checked &&
-      jehraCheckbox.checked &&
-      jmapCheckbox.checked &&
-      jpiaCheckbox.checked &&
-      piieCheckbox.checked
-    ) {
-      allCheckboxOrg.checked = true;
-    } else {
-      allCheckboxOrg.checked = false;
+    for (const adminUser of adminUsers) {
+      const checkbox = $('<div>').addClass('form-check');
+
+      const input = $('<input>').addClass('form-check-input admin-checkbox')
+        .attr('type', 'checkbox')
+        .val(adminUser.username)
+        .attr('id', `check-admin-${adminUser.id}`);
+
+      const label = $('<label>').addClass('form-check-label')
+        .attr('for', `check-admin-${adminUser.id}`)
+        .text(adminUser.username);
+
+      checkbox.append(input);
+      checkbox.append(label);
+
+      adminCheckboxesContainer.append(checkbox);
     }
-    // update checkbox array
-    filtersOrg.length = 0; // clear previous values
-    if (acapCheckbox.checked) {
-      filtersOrg.push(acapCheckbox.value);
-    }
-    if (aecesCheckbox.checked) {
-      filtersOrg.push(aecesCheckbox.value);
-    }
-    if (eliteCheckbox.checked) {
-      filtersOrg.push(eliteCheckbox.value);
-    }
-    if (giveCheckbox.checked) {
-      filtersOrg.push(giveCheckbox.value);
-    }
-    if (jehraCheckbox.checked) {
-      filtersOrg.push(jehraCheckbox.value);
-    }
-    if (jmapCheckbox.checked) {
-      filtersOrg.push(jmapCheckbox.value);
-    }
-    if (jpiaCheckbox.checked) {
-      filtersOrg.push(jpiaCheckbox.value);
-    }
-    if (piieCheckbox.checked) {
-      filtersOrg.push(piieCheckbox.value);
-    }
+
+    // Check all admin checkboxes initially
+    $('.form-check-input.admin-checkbox').prop('checked', true);
+
+    // Update checkboxValues array when checkboxes are checked or unchecked
+    $('.form-check-input.admin-checkbox').on('change', function() {
+      const value = $(this).val();
+      if ($(this).prop('checked')) {
+        // Checkbox is checked, add value to the array
+        checkboxValues.push(value);
+      } else {
+        // Checkbox is unchecked, remove value from the array
+        const index = checkboxValues.indexOf(value);
+        if (index > -1) {
+          checkboxValues.splice(index, 1);
+        }
+      }
+
+      loadLogs();
+    });
+
+    // Add all initial checkbox values to the array
+    $('.form-check-input.admin-checkbox').each(function() {
+      const value = $(this).val();
+      checkboxValues.push(value);
+    });
+
+    loadLogs();
   }
 
-  // Add event listeners to update "All" checkbox when other checkboxes are clicked
-  acapCheckbox.addEventListener('click', updateAllCheckboxOrg);
-  aecesCheckbox.addEventListener('click', updateAllCheckboxOrg);
-  eliteCheckbox.addEventListener('click', updateAllCheckboxOrg);
-  giveCheckbox.addEventListener('click', updateAllCheckboxOrg);
-  jehraCheckbox.addEventListener('click', updateAllCheckboxOrg);
-  jmapCheckbox.addEventListener('click', updateAllCheckboxOrg);
-  jpiaCheckbox.addEventListener('click', updateAllCheckboxOrg);
-  piieCheckbox.addEventListener('click', updateAllCheckboxOrg);
-
-  // Add event listener to check other checkboxes when "All" checkbox is checked
-  allCheckboxOrg.addEventListener('click', function() {
-    filtersOrg.length = 0;
-    if (allCheckboxOrg.checked) {
-      acapCheckbox.checked = true;
-      aecesCheckbox.checked = true;
-      eliteCheckbox.checked = true;
-      giveCheckbox.checked = true;
-      jehraCheckbox.checked = true;
-      jmapCheckbox.checked = true;
-      jpiaCheckbox.checked = true;
-      piieCheckbox.checked = true;
-      filtersOrg.push(acapCheckbox.value);
-      filtersOrg.push(aecesCheckbox.value);
-      filtersOrg.push(eliteCheckbox.value);
-      filtersOrg.push(giveCheckbox.value);
-      filtersOrg.push(jehraCheckbox.value);
-      filtersOrg.push(jmapCheckbox.value);
-      filtersOrg.push(jpiaCheckbox.value);
-      filtersOrg.push(piieCheckbox.value);
-    } else {
-      acapCheckbox.checked = false;
-      aecesCheckbox.checked = false;
-      eliteCheckbox.checked = false;
-      giveCheckbox.checked = false;
-      jehraCheckbox.checked = false;
-      jmapCheckbox.checked = false;
-      jpiaCheckbox.checked = false;
-      piieCheckbox.checked = false;
+  // Fetch admin data from the server
+  $.ajax({
+    url: './php/CAL-log-adminfetch.php',
+    method: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      // Generate the admin checkboxes and check all initially
+      generateAdminCheckboxes(response.adminUsers);
+    },
+    error: function(xhr, error) {
+      console.error('Error fetching admin data:', error);
+      console.log('Response:', xhr.responseText); // Log the response text for debugging
     }
-    updateCalendarOrg();
   });
-
-  // Select all checkboxes at startup
-  allCheckboxOrg.checked = true;
-  acapCheckbox.checked = true;
-  aecesCheckbox.checked = true;
-  eliteCheckbox.checked = true;
-  giveCheckbox.checked = true;
-  jehraCheckbox.checked = true;
-  jmapCheckbox.checked = true;
-  jpiaCheckbox.checked = true;
-  piieCheckbox.checked = true;
-
-  
-  function updateCalendarOrg() {
-    //generateCalendar(currentMonth, currentYear, filtersOrg);
-  }
-
-  acapCheckbox.addEventListener('click', updateCalendarOrg);
-  aecesCheckbox.addEventListener('click', updateCalendarOrg);
-  eliteCheckbox.addEventListener('click', updateCalendarOrg);
-  giveCheckbox.addEventListener('click', updateCalendarOrg);
-  jehraCheckbox.addEventListener('click', updateCalendarOrg);
-  jmapCheckbox.addEventListener('click', updateCalendarOrg);
-  jpiaCheckbox.addEventListener('click', updateCalendarOrg);
-  piieCheckbox.addEventListener('click', updateCalendarOrg);
-
-  function updateAllCheckboxOrg() {
-    if (
-      !acapCheckbox.checked &&
-      !aecesCheckbox.checked &&
-      !eliteCheckbox.checked &&
-      !giveCheckbox.checked &&
-      !jehraCheckbox.checked &&
-      !jmapCheckbox.checked &&
-      !jpiaCheckbox.checked &&
-      !piieCheckbox.checked
-    ) {
-      allCheckboxOrg.checked = false;
-    } else if (
-      acapCheckbox.checked &&
-      aecesCheckbox.checked &&
-      eliteCheckbox.checked &&
-      giveCheckbox.checked &&
-      jehraCheckbox.checked &&
-      jmapCheckbox.checked &&
-      jpiaCheckbox.checked &&
-      piieCheckbox.checked
-    ) {
-      allCheckboxOrg.checked = true;
-    } else {
-      allCheckboxOrg.checked = false;
-    }
-    // update checkbox array
-    filtersOrg.length = 0; // clear previous values
-    if (acapCheckbox.checked) {
-      filtersOrg.push(acapCheckbox.value);
-    }
-    if (aecesCheckbox.checked) {
-      filtersOrg.push(aecesCheckbox.value);
-    }
-    if (eliteCheckbox.checked) {
-      filtersOrg.push(eliteCheckbox.value);
-    }
-    if (giveCheckbox.checked) {
-      filtersOrg.push(giveCheckbox.value);
-    }
-    if (jehraCheckbox.checked) {
-      filtersOrg.push(jehraCheckbox.value);
-    }
-    if (jmapCheckbox.checked) {
-      filtersOrg.push(jmapCheckbox.value);
-    }
-    if (jpiaCheckbox.checked) {
-      filtersOrg.push(jpiaCheckbox.value);
-    }
-    if (piieCheckbox.checked) {
-      filtersOrg.push(piieCheckbox.value);
-    }
-  }
-
-  const allCheckboxAdmin = document.getElementById('check-all-admin');
-  const adminOneCheckbox = document.getElementById('check-admin-one');
-  const adminTwoCheckbox = document.getElementById('check-admin-two');
-  const adminThreeCheckbox = document.getElementById('check-admin-three');  
-  
-  function updateAllCheckboxAdmin() {
-    if (!adminOneCheckbox.checked && !adminTwoCheckbox.checked && !adminThreeCheckbox.checked) {
-      allCheckboxAdmin.checked = false;
-    } else if (adminOneCheckbox.checked && adminTwoCheckbox.checked && adminThreeCheckbox.checked) {
-      allCheckboxAdmin.checked = true;
-    } else {
-      allCheckboxAdmin.checked = false;
-    }
-    // update checkbox array
-    filtersAdmin.length = 0; // clear previous values
-    if (adminOneCheckbox.checked) {
-      filtersAdmin.push(adminOneCheckbox.value);
-    }
-    if (adminTwoCheckbox.checked) {
-      filtersAdmin.push(adminTwoCheckbox.value);
-    }
-    if (adminThreeCheckbox.checked) {
-      filtersAdmin.push(adminThreeCheckbox.value);
-    }
-  }
-  
-  // Add event listeners to update "All" checkbox when other checkboxes are clicked
-  adminOneCheckbox.addEventListener('click', updateAllCheckboxAdmin);
-  adminTwoCheckbox.addEventListener('click', updateAllCheckboxAdmin);
-  adminThreeCheckbox.addEventListener('click', updateAllCheckboxAdmin);
-  
-  // Add event listener to check other checkboxes when "All" checkbox is checked
-  allCheckboxAdmin.addEventListener('click', function () {
-    if (allCheckboxAdmin.checked) {
-      adminOneCheckbox.checked = true;
-      adminTwoCheckbox.checked = true;
-      adminThreeCheckbox.checked = true;
-      filtersAdmin = [
-        adminOneCheckbox.value,
-        adminTwoCheckbox.value,
-        adminThreeCheckbox.value
-      ];
-    } else {
-      adminOneCheckbox.checked = false;
-      adminTwoCheckbox.checked = false;
-      adminThreeCheckbox.checked = false;
-      filtersAdmin = [];
-    }
-    updateAllCheckboxAdmin(); // Update the "All" checkbox based on the individual checkboxes' state
-    updateLogs(); // Call the updateLogs function to perform any necessary actions
-  });  
-  
-  // Select all checkboxes at startup
-  allCheckboxAdmin.checked = true;
-  adminOneCheckbox.checked = true;
-  adminTwoCheckbox.checked = true;
-  adminThreeCheckbox.checked = true;
-  
-  function updateLogs() {
-    //generateLogs(currentMonth, currentYear, filtersAdmin);
-  }
-  
-  adminOneCheckbox.addEventListener('click', updateLogs);
-  adminTwoCheckbox.addEventListener('click', updateLogs);
-  adminThreeCheckbox.addEventListener('click', updateLogs);
 
   var tbody = $('#log-table-body');
   var currentPage = 1;
@@ -278,10 +94,10 @@ $(document).ready(function() {
       noResultsCell.appendTo(noResultsRow);
       noResultsRow.appendTo(tbody);
     } else {
-      logs.forEach(function(log) {
-        var date = new Date(log.log_date_time);
-        var formattedDate = date.toLocaleDateString();
-        var formattedTime = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+      logs.forEach(function (log) {
+        var logDate = new Date(log.log_date);
+        var formattedDate = formatDate(logDate);
+        var formattedTime = formatTime(logDate, log.log_time);
   
         var row = $('<tr></tr>');
   
@@ -294,6 +110,29 @@ $(document).ready(function() {
         row.appendTo(tbody);
       });
     }
+  }
+  
+  // Function to format the date
+  function formatDate(date) {
+    var day = date.getDate();
+    var month = date.getMonth() + 1; // Months are zero-based
+    var year = date.getFullYear();
+  
+    // Ensure leading zeros for day and month if necessary
+    day = day < 10 ? '0' + day : day;
+    month = month < 10 ? '0' + month : month;
+  
+    return month + '/' + day + '/' + year;
+  }
+  
+  // Function to format the time
+  function formatTime(date, time) {
+    var logDateTime = new Date(date.toISOString().split('T')[0] + 'T' + time + 'Z');
+    var timezoneOffset = date.getTimezoneOffset() / 60; // Get the local time zone offset in hours
+    logDateTime.setHours(logDateTime.getHours() + timezoneOffset); // Adjust the hours based on the time zone offset
+    var formattedTime = logDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+    return formattedTime;
   }
 
   document.getElementById("calendar-icon").addEventListener("click", function() {
@@ -443,7 +282,8 @@ $(document).ready(function() {
         sortColumn: sortColumn,
         sortOrder: sortOrder,
         searchTerm: searchTerm,
-        searchDate: searchDate
+        searchDate: searchDate,
+        searchAdmin: checkboxValues
       },
       success: function(response) {
         var logs = response.logs;
@@ -548,6 +388,7 @@ $(document).ready(function() {
 
     // Validate the date
     validateDate();
+    loadLogs();
   }
 
   function restrictNonNumericInput(event) {
@@ -562,41 +403,47 @@ $(document).ready(function() {
 
   function resetInputIfInvalid() {
     if (!dateInput.checkValidity()) {
+      loadLogs();
       dateInput.value = '';
-      dateError.textContent = '';
     }
+    loadLogs();
   }
 
   function validateDate() {
     const dateValue = dateInput.value;
-
+    const dateError = document.getElementById('date-error'); // Get the date error element
+  
     // Regular expression pattern for mm/dd/yyyy format
     const datePattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
-
+  
     if (datePattern.test(dateValue)) {
       const [month, day, year] = dateValue.split('/');
-
+  
       // Validate the month (mm)
       const monthInt = parseInt(month, 10);
       if (monthInt < 1 || monthInt > 12) {
         // Invalid month
         dateInput.setCustomValidity('Invalid month');
-        dateError.textContent = 'Invalid month';
+        if (dateError) {
+          dateError.textContent = 'Invalid month';
+        }
         return;
       }
-
+  
       // Validate the day (dd) based on the month
       const dayInt = parseInt(day, 10);
       if (dayInt < 1 || dayInt > getDaysInMonth(monthInt, year)) {
         // Invalid day
         dateInput.setCustomValidity('Invalid day');
-        dateError.textContent = 'Invalid day';
+        if (dateError) {
+          dateError.textContent = 'Invalid day';
+        }
         return;
       }
-
+  
       // Create a Date object to validate the input as a valid date
       const inputDate = new Date(`${year}-${month}-${day}`);
-
+  
       if (
         inputDate.getFullYear().toString() === year &&
         (inputDate.getMonth() + 1).toString().padStart(2, '0') === month &&
@@ -604,18 +451,25 @@ $(document).ready(function() {
       ) {
         // Valid date
         dateInput.setCustomValidity('');
-        dateError.textContent = '';
+        if (dateError) {
+          dateError.textContent = '';
+        }
       } else {
         // Invalid date
         dateInput.setCustomValidity('Invalid date');
-        dateError.textContent = 'Invalid date';
+        if (dateError) {
+          dateError.textContent = 'Invalid date';
+        }
       }
     } else {
       // Date format doesn't match mm/dd/yyyy
       dateInput.setCustomValidity('Invalid date format');
-      dateError.textContent = 'Invalid date format';
+      if (dateError) {
+        dateError.textContent = 'Invalid date format';
+      }
     }
-  }
+    loadLogs();
+  }  
 
   function getDaysInMonth(month, year) {
     // Returns the number of days in a month (accounts for leap years)
