@@ -1,3 +1,5 @@
+<?php include './php/database_connect.php' ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,7 +30,7 @@
             </div>
             <div class="col-8 text-start text-container">
                 <h3 class="text-header">Success!</h3>   <!--header-->
-                <p>The result is scheduled and will be published.</p> <!--text-->
+                <p style="max-width: 235px; padding-left:15px;">The result is scheduled and will be published.</p> <!--text-->
             </div>
             <div  class="div">
                 <!--<button class="outline-button"  id="success-cancel"><i class='bx bx-x'></i>Cancel</button>-->
@@ -45,7 +47,7 @@
             </div>
             <div class="col-8 text-start text-container">
                 <h3 class="text-header">Discard Changes?</h3>   <!--header-->
-                <p>Any unsaved progress will be lost.</p> <!--text-->
+                <p style="max-width: 235px; padding-left:15px;">Any unsaved progress will be lost.</p> <!--text-->
             </div>
             <div  class="div">
                 <button class="outline-button" id="discard-return"><i class='bx bx-chevron-left'></i>Return</button> <!--Change to function to show calendar -->
@@ -62,11 +64,11 @@
             </div>
             <div class="col-8 text-start text-container">
                 <h3 class="text-header">Edit Schedule?</h3>   <!--header-->
-                <p>Are you sure you want to change the schedule?</p> <!--text-->
+                <p style="max-width: 235px; padding-left:15px;">Are you sure you want to change the schedule?</p> <!--text-->
             </div>
             <div  class="div">
-                <button class="outline-button" onclick="hideEdit()" id="edit-cancel"><i class='bx bx-chevron-left'></i>Cancel</button>
-                <button class="primary-button" onclick="openCalendar()" id="edit-ok"><i class='bx bx-x'></i>Edit Schedule</button>
+                <button class="outline-button" id="edit-cancel"><i class='bx bx-chevron-left'></i>Cancel</button>
+                <button class="primary-button" id="edit-ok"><i class='bx bx-x'></i>Edit Schedule</button>
             </div>
         </div>
     </div>
@@ -79,7 +81,7 @@
             </div>
             <div class="col-8 text-start text-container">
                 <h3 class="text-header">Incomplete</h3>   <!--header-->
-                <p>The result is not yet complete. Please make sure that all required scores are completed.</p> <!--text-->
+                <p style="max-width: 235px; padding-left:15px;">The result is not yet complete. Please make sure that all required scores are completed.</p> <!--text-->
             </div>
             <div  class="div">
                 <button class="outline-button" onclick="hideDelete()"><i class='bx bx-x'></i>Cancel</button>
@@ -89,198 +91,11 @@
     </div>
     <!--Popups End-->
     <!--Sidebar Start-->
-    <div class="sidebar open box-shadow">
-      <div class="bottom-design">
-        <div class="design1"></div>
-        <div class="design2"></div>
-      </div>
-      <div class="logo_details">
-        <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
-        <div class="logo_name">Events Tabulation System</div>
-        <i class="bx bx-arrow-to-right" id="btn"></i>
-        <script src="./js/sidebar-state.js"></script>
-      </div>
-      <div class="wrapper">
-        <li class="nav-item top">
-          <a href="index.php">
-            <i class="bx bx-home-alt"></i>
-            <span class="link_name">Go Back</span>
-          </a>
-        </li>
-        <div class="sidebar-content-container" style="border:none;">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="#posts" class="menu_btn">
-                <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Posts
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="HOM-create-post.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Create Post</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HOM-draft-scheduled-post.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Draft & Scheduled Post</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HOM-manage-post.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Manage Post</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#event_menu" class="menu_btn">
-                <i class="bx bx-calendar-edit"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Events
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="EVE-admin-list-of-events.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">List of Events</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="EVE-admin-event-configuration.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Event Configuration</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#criteria_config">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Criteria Configuration</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="menu_btn">
-                <i class="bx bx-calendar"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Calendar
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="CAL-admin-overall.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Overview</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="CAL-admin-logs.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Logs</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="BAR-admin.php">
-                <i class='bx bx-bar-chart-alt-2'></i>
-                <span class="link_name">Overall Results</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#tournaments" class="menu_btn">
-                <i class="bx bx-trophy"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Tournaments
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Live Scoring</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="TOU-bracket-admin.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Manage Brackets</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#competition" class="menu_btn active">
-                <i class="bx bx-medal"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Competition
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="COM-manage_results_page.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Manage Results</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-tobepublished_page.php" class="sub-active">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">To Publish</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-published_page.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Published Results</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#archive">
-                    <i class="bx bxs-circle sub-icon color-purple"></i>
-                    <span class="sub_link_name">Archive</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#event_history" class="menu_btn">
-                <i class="bx bx-history"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Event History
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="HIS-admin-ManageEvent.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Event Page</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HIS-admin-highlights.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Highlights Page</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="P&J-admin-formPJ.php">
-                <i class="bx bx-group"></i>
-                <span class="link_name">Judges & <br> Participants</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <?php 
+        $activeModule = 'competition';
+        $activeSubItem = 'to-publish';
+        require './php/admin-sidebar.php';
+    ?>
     <!--Sidebar End-->
     <!--Content Start-->
     <section class="home-section removespace">
@@ -363,6 +178,7 @@
                 }
             });
             $('input[name="datetimes"]').val('');
+            console.log('datepicker is created');
         });
     </script>
     <script>
@@ -399,19 +215,11 @@
     //input.disabled = true;
   }
   
-  //Edit Schedule
-  popupEditChanges = document.getElementById('editWrapper');
-
-  var showEdit = function() {
-    popupEditChanges.style.display ='flex';
-  }
-  var hideEdit = function() {
-    popupEditChanges.style.display ='none';
-    //input.disabled = true;
-  }
+  
 
   // Function to call the calendar
   var openCalendar = function(x,competitionName) {
+    console.log("openCalendar(php page): starts..");
     name = competitionName;
     compId = competitionName+"-input";
     input = x;
@@ -429,41 +237,71 @@
     
     input.disabled = true;
   }
+  //Edit Schedule
+  popupEditChanges = document.getElementById('editWrapper');
+
+  var showEdit = function(x,competitionName) {
+    popupEditChanges.style.display ='flex';
+    var ok = document.getElementById('edit-ok');
+    var cance = document.getElementById('edit-cancel');
+    var a = x;
+    var b = competitionName;
+    var reclick = document.getElementById(btnClicked);
+    console.log(btnClicked+" is btnClicked");
+    console.log(globalComp+" is the competition name");
+    ok.addEventListener("click", function(){
+      if (b == btnClicked){
+        openCalendar(a,b);
+      }
+      
+    });
+    cance.addEventListener("click", function(){
+      popupEditChanges.style.display ='none';
+    });
+  }
+  var hideEdit = function() {
+    popupEditChanges.style.display ='none';
+    //input.disabled = true;
+  }
     </script>
     <script>
+      var btnClicked;
+      var globalComp;
+      var competitionId;
       const buttons = document.querySelectorAll('.sched_btn');
-      buttons.forEach((button) => {
+      for (let i = 0; i < buttons.length; i++) {
+        const button = buttons[i];
         button.addEventListener("click", (e) => {
+          e.stopPropagation();
           const h2 = e.target.closest('.parent');
           const input = h2.querySelector('.sched_output');
           var parentElement = button.parentElement;
           var id = parentElement.id;
           var competitionName = id;
+          globalComp = competitionName+"-input";
           var x = document.getElementById(competitionName+"-input");
+
           console.log(x.id+" is the current id");
           console.log(input.id+" is the input id");
-          
-          
+
+
           // Popups depending on the button type
-          if (button.textContent === "Edit Schedule") {
-            showEdit();
-            openCalendar(x,competitionName);
-            //var editOk = document.getElementById("edit-ok");
-            //editOk.addEventListener("click", function open(e){
-            //  if (x.id == input.id){
-            //    
-            //  }
-            //  e.stopPropagation();
-            //});
+          if (button.textContent === "Edit Schedule" || button.textContent === "Schedule") {
+            console.log("Edit schedule is clicked");
+            btnClicked = competitionName;
+            showEdit(x,competitionName);
+            //openCalendar(x,competitionName);
+            return;
           }
           if (button.textContent === "Unavailable") { 
             showDelete();
+            return;
           }
-          e.stopPropagation();
         });
-      });
+      }
       // Set button name and color
       // Get the competition name from the h2 element
+      
       buttons.forEach((button) => {
         var parentElement = button.parentElement;
         var id = parentElement.id;
@@ -478,21 +316,23 @@
             var response = JSON.parse(this.responseText);
             var schedule = response['schedule'];
             var element = document.getElementById(competitionName+' btn');
-            
+            var inputfield = document.getElementById(competitionName+'-input');
             if (schedule === null){
               element.style.backgroundColor = 'rgb(216, 232, 90)';
               element.textContent = "Schedule";
               element.disabled = false;
-              console.log(competitionName);
+              console.log("The competition: "+competitionName+" have a schedule of");
               console.log(schedule);
               console.log("yellow dpat to")
             } else {
               element.style.backgroundColor = 'rgb(102, 232, 90)';
               element.textContent = "Edit Schedule";
               element.disabled = false;
-              console.log(competitionName);
+              console.log("The competition: "+competitionName+" have a schedule of");
               console.log(schedule);
-              console.log("Green dpat to")
+              console.log("Green dpat to");
+              inputfield.value = schedule;
+              console.log("The input field value is "+inputfield.value);
               /*A code to change the color to black by sending compName to php */
             }
             $.ajax({
@@ -519,7 +359,107 @@
       });
     </script>
     <script>
-      
+      //call to save the date
+      function saveDate() {
+        console.log("input value: "+document.getElementById(globalComp).value);
+        var inputvalue = document.getElementById(globalComp).value;
+        var dates = inputvalue.split(" - ");
+        var startDate = new Date(dates[0]);
+        var endDate = new Date(dates[1]);
+        // Adjust for the timezone offset
+        // if the time do not match, this would be the cause
+        var timezoneOffset = startDate.getTimezoneOffset(); // Get the timezone offset in minutes
+        startDate.setMinutes(startDate.getMinutes() - timezoneOffset);
+        endDate.setMinutes(endDate.getMinutes() - timezoneOffset);
+
+        var formattedStartDate = startDate.toISOString().slice(0, 19).replace("T", " ");
+        var formattedEndDate = endDate.toISOString().slice(0, 19).replace("T", " ");
+
+        console.log("the start date: "+formattedStartDate);
+        console.log("the end date: "+formattedEndDate);
+
+        competitionId = globalComp.replace("-input", "");
+        console.log("The competitionId is "+competitionId);
+        var element = document.getElementById(competitionId+' btn');
+        console.log("The element text content is "+element.textContent);
+        element.textContent = "Edit Schedule";
+
+        //send dates to save_date.php
+        const xhr = new XMLHttpRequest();
+        const url = "./php/COM-save_date.php";
+        const params = "competition_name=" + competitionId + "&schedule=" + formattedStartDate + "&schedule_end=" + formattedEndDate;
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+          }
+        };
+        xhr.send(params);
+      }
+    </script>
+    <script>
+      window.onload = function(){
+        if (document.querySelectorAll('.daterangepicker')){
+          buttons.forEach((button) => {
+        var parentElement = button.parentElement;
+        var id = parentElement.id;
+        var competitionName = id;
+
+        // Send the competition name to the PHP file using AJAX
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            // Check the response from the PHP file and change the color of the button
+            console.log(this.responseText);
+            var response = JSON.parse(this.responseText);
+            var schedule = response['schedule'];
+            var element = document.getElementById(competitionName+' btn');
+            var inputfield = document.getElementById(competitionName+'-input');
+            if (schedule === null){
+              //button is overwritten by system-wide css so it can't change color
+              element.classList.add('.yellow');
+              element.textContent = "Schedule";
+              element.disabled = false;
+              console.log("The competition: "+competitionName+" have a schedule of");
+              console.log(schedule);
+              console.log("yellow dpat to")
+            } else {
+              element.style.backgroundColor = 'var(--color-green) !important';
+              element.textContent = "Edit Schedule";
+              element.disabled = false;
+              console.log("The competition: "+competitionName+" have a schedule of");
+              console.log(schedule);
+              console.log("Green dpat to");
+              inputfield.value = schedule;
+              console.log("The input field value is "+inputfield.value);
+              /*A code to change the color to black by sending compName to php */
+            }
+            $.ajax({
+              type: "POST",
+              url: "./php/COM-change_color_black.php",
+              data: { competitionName: competitionName },
+                success: function(response) {
+                  console.log(response);
+                  if (response == 'grey') {
+                    document.getElementById(competitionName +' btn').style.backgroundColor = response + "!important";
+                    element.textContent = "Unavailable";
+                    element.disabled = false;
+                  }
+                  if (response == 'notempty') {
+                    element.disabled = false;
+                  }
+                }
+              });
+          }
+        };
+        const url = "./php/COM-get_compname.php";
+        xhttp.open("GET", url +"?competitionName="+ competitionName, true);
+        xhttp.send();
+      });
+        }
+      }
     </script>
   </body>
 </html>
