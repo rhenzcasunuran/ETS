@@ -180,7 +180,7 @@ i.fa-search {
     border-radius: 20px;
     width: 98%;
     min-height: 200px;
-    background-color: var(--color-content);
+    background-color: var(--color-content-card);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     border: black;
     /*margin-left: auto;*/
@@ -353,9 +353,10 @@ table {
     height: auto;
 }
 .accordion {
-    background-color: var(--color-accordion);
-    color: var(--color-text);
+    background-color: var(--color-content-card);
+    color:var(--color-content-text);
     font-weight: bold;
+    box-shadow: 0px 0px 30px 0 var(--shadow-color)!important;
 }
 .no-result {
     margin-top: -85px;
