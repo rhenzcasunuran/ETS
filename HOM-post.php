@@ -2,8 +2,6 @@
   include './php/database_connect.php';
   include './php/HOM-post-data.php';
 
-  session_start();
-
   if($conn){
     if(isset($_POST['sign-in-button'])){
       $username=mysqli_real_escape_string($conn,$_POST['user_username']);
@@ -12,7 +10,6 @@
       $result=mysqli_query($conn,$sql);
       if($result){
         if(mysqli_num_rows($result)>0){
-          $_SESSION['message']="You are now Loggged In";
           $_SESSION['user_username']=$username;
           header("location:HOM-create-post.php");
         }
@@ -123,6 +120,7 @@
     <script src="js/script.js"></script>
     <script src="js/change-theme.js"></script>
     <script src="js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
