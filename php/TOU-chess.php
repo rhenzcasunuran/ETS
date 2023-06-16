@@ -115,7 +115,7 @@
         <div class="design2"></div>
       </div>
       <div class="logo_details">
-        <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
+        <img src="../pictures/logo.png" alt="student council logo" class="icon logo">
         <div class="logo_name">Events Tabulation System</div>
         <i class="bx bx-arrow-to-right" id="btn"></i>
         <script src="./js/sidebar-state.js"></script>
@@ -393,18 +393,18 @@
         <button type="submit" id="save--counter" class="save--btn" onclick="showSaveScore()" name="update_score_data">SAVE</button>
     </div>
 
-    <script src="./index.js"></script>
-    <script src="./js/tournament_type.js"></script>
+    <script src="../index.js"></script>
+    <script src="../js/tournament_type.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </section>
     <!-- Scripts -->
-    <script src="./js/script.js"></script>
-    <script src="./js/TOU-index.js"></script>
-    <script src="./js/theme.js"></script>
-    <script src="./js/jquery-3.6.4.js"></script>
-    <script type="text/javascript" src="./js/TOU-popup.js"></script>
-    <script type="text/javascript" src="./js/TOU-AJAX.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/TOU-index.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/jquery-3.6.4.js"></script>
+    <script type="text/javascript" src="../js/TOU-popup.js"></script>
+    <script type="text/javascript" src="../js/TOU-AJAX.js"></script>
 
     <script>
         function showAlert() {
