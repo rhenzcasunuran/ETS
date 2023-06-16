@@ -48,94 +48,149 @@
                     <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event" onkeyup="filterButtons()">
                 </div>
                 <div id="button-container">
-                    <?php
-                    $query = "SELECT event_name, category_name FROM eventhistorytb GROUP BY event_name";
-                    $result = mysqli_query($conn, $query);
+    <?php
+    $query = "SELECT event_history_id, event_name, category_name FROM eventhistorytb GROUP BY event_name";
+    $result = mysqli_query($conn, $query);
 
-                    if ($result === false) {
-                        die('Query Error: ' . mysqli_error($conn));
-                    }
+    if ($result === false) {
+        die('Query Error: ' . mysqli_error($conn));
+    }
 
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $eventName = $row['event_name'];
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $eventHistoryId = $row['event_history_id'];
+            $eventName = $row['event_name'];
 
-                            echo "<button id='event_" . $eventName . "' class='event_button' onclick='handleEventClick(\"$eventName\")'>$eventName</button>";
-                        }
-                    } else {
-                        echo "No events found.";
-                    }
-                    ?>
-                </div>
+            echo "<button id='event_" . $eventName . "' class='event_button' data-event-history-id='$eventHistoryId' onclick='handleEventClick(\"$eventName\")'>$eventName</button>";
+        }
+    } else {
+        echo "No events found.";
+    }
+    ?>
+</div>
+
             </div>
             <div class="container-header-1">Activities</div>
             <div class="flex-box">
-                <div id="select_event_text">Select an event first</div>
-                <div class="radio-holder">
-                    <?php
-                    if ($result->num_rows > 0) {
-                        $result->data_seek(0);
-                        while ($row = $result->fetch_assoc()) {
-                            $eventName = $row['event_name'];
+            <div id="select_event_text">Select an event first</div>
+<div class="radio-holder">
+    <?php
+    if ($result->num_rows > 0) {
+        $result->data_seek(0);
+        while ($row = $result->fetch_assoc()) {
+            $eventName = $row['event_name'];
 
-                            echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
+            echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
 
-                            $query = "SELECT category_name FROM eventhistorytb WHERE event_name = '" . $eventName . "'";
-                            $categoryResult = mysqli_query($conn, $query);
+            $query = "SELECT category_name, suggested_status FROM eventhistorytb WHERE event_name = '" . $eventName . "'";
+            $categoryResult = mysqli_query($conn, $query);
 
-                            if ($categoryResult === false) {
-                                die('Query Error: ' . mysqli_error($conn));
-                            }
+            if ($categoryResult === false) {
+                die('Query Error: ' . mysqli_error($conn));
+            }
 
-                            if (mysqli_num_rows($categoryResult) > 0) {
-                                $categories = array();
-                                while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
-                                    $categoryName = $categoryRow['category_name'];
-                                    $categories[] = $categoryName;
-                                }
-                                $maxLength = max(array_map('strlen', $categories));
+            if (mysqli_num_rows($categoryResult) > 0) {
+                $categories = array();
+                while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
+                    $categoryName = $categoryRow['category_name'];
+                    $suggestedStatus = $categoryRow['suggested_status'];
+                    $categories[] = array(
+                        'name' => $categoryName,
+                        'status' => $suggestedStatus
+                    );
+                }
+                $maxLength = max(array_map('strlen', array_column($categories, 'name')));
 
-                                foreach ($categories as $categoryName) {
-                                    echo "<label class='form-check'>";
-                                    echo "<input class='form-check-input' type='radio' name='activity_" . $eventName . "' value='" . $categoryName . "'>";
-                                    echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
-                                    echo "</label>";
-                                }
-                            }
+                foreach ($categories as $category) {
+                    $categoryName = $category['name'];
+                    $suggestedStatus = $category['status'];
+                    $isChecked = $suggestedStatus == 1 ? 'checked' : '';
 
-                            echo "</div>";
-                        }
-                    }
-                    ?>
-                </div>
+                    echo "<label class='form-check'>";
+                    echo "<input class='form-check-input' type='checkbox' name='activity_" . $eventName . "[]' value='" . $categoryName . "' " . $isChecked . ">";
+                    echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
+                    echo "</label>";
+                }
+            }
+
+            echo "</div>";
+        }
+    }
+    ?>
+</div>
+
             </div>
-            <div class="btn-group" id="diffbutton">
-                <button type="button" id="add_button">Add +</button>
-                <button type="button" id="but">Delete -</button>
-            </div>
-        </div>
-    </div>
+<div class="btn-group" id="diffbutton">
+    <button type="button" id="add_button"> Update </button>
+</div>
+</div>
 </section>
 
-<script>
-    // Add an event listener to the "Add" button
-    document.getElementById("add_button").addEventListener("click", function() {
-        // Get the selected activity value
-        var selectedActivity = document.querySelector('input[name^="activity_"]:checked').value;
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> <!-- Include SweetAlert2 library -->
 
-        // Make an AJAX request to update the suggested_status in the database
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "./php/HIS-update_suggested_status.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
+<script>
+  document.getElementById("add_button").addEventListener("click", function() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Suggest activity/ies?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, suggest activities!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Check for changes in the checkboxes
+        var checkboxes = document.querySelectorAll('.activity_container input[type="checkbox"]');
+        var hasChanges = Array.from(checkboxes).some(function (checkbox) {
+          return checkbox.checked !== checkbox.defaultChecked;
+        });
+
+        if (hasChanges) {
+          // Get the selected activities
+          var selectedActivities = Array.from(document.querySelectorAll('input[name^="activity_"]:checked'))
+            .map(input => input.value);
+
+          // Make an AJAX request to update the suggested_status in the database
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "./php/HIS-update_suggested_status.php", true);
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                // Display a success message or perform any other desired action
-                console.log(xhr.responseText);
+              // Display a success message
+              Swal.fire({
+                title: 'Suggest Success',
+                text: 'Activities suggested successfully!',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+              }).then((result) => {
+                // Refresh the page
+                if (result.isConfirmed) {
+                  location.reload();
+                }
+              });
+              console.log(xhr.responseText);
             }
-        };
-        xhr.send("activity=" + encodeURIComponent(selectedActivity));
+          };
+          xhr.send("activities=" + encodeURIComponent(JSON.stringify(selectedActivities)));
+        } else {
+          // Display an error message for no changes
+          Swal.fire({
+            title: 'Error',
+            text: 'No changes applied.',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          });
+        }
+      }
     });
+  });
 </script>
+
+
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
