@@ -1,19 +1,22 @@
 <?php
-  // Database connection details
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "pupets";
-  
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
-  
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-    // Retrieve the existing value for Team A from the database
-$sql = "SELECT scoring_team_a FROM scores";
+// Create a MySQL connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "pupets";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Unique identifier for the row
+$rowId = 5; // Update this with the actual row identifier column name
+
+// Retrieve the existing value for Team A from the database
+$sql = "SELECT scoring_team_a FROM scores WHERE score_id = '$rowId'"; // Replace "id_column_name" with the actual column name for row identifiers
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 $existingValueA = $row['scoring_team_a'];
@@ -30,20 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update the value in the database
-    $sql = "UPDATE scores SET scoring_team_a = $newValueA";
+    $sql = "UPDATE scores SET scoring_team_a = $newValueA WHERE score_id = $rowId";
     if ($conn->query($sql) === TRUE) {
-      echo "Value updated successfully!";
+      // Update the existing value for Team A
+      $existingValueA = $newValueA;
     } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
     }
-
-    // Update the existing value for Team A
-    $existingValueA = $newValueA;
   }
 }
 
 // Retrieve the existing value for Team B from the database
-$sql = "SELECT scoring_team_b FROM scores";
+$sql = "SELECT scoring_team_b FROM scores WHERE score_id = $rowId";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 $existingValueB = $row['scoring_team_b'];
@@ -60,18 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update the value in the database
-    $sql = "UPDATE scores SET scoring_team_b = $newValueB";
+    $sql = "UPDATE scores SET scoring_team_b = $newValueB WHERE score_id = $rowId";
     if ($conn->query($sql) === TRUE) {
-      echo "Value updated successfully!";
+      // Update the existing value for Team B
+      $existingValueB = $newValueB;
     } else {
       echo "Error: " . $sql . "<br>" . $conn->error;
     }
-
-    // Update the existing value for Team B
-    $existingValueB = $newValueB;
   }
 }
-  
   // Query to retrieve data from the database
   $sql = "SELECT bracket_id, bracket_sports FROM bracket";
   $result = $conn->query($sql);
@@ -379,12 +377,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
     
     <div class="operate">
-      <button type="submit" name="updated_value_a" value="-3" id="btn--three">-3</button>
-      <button type="submit" name="updated_value_a" value="-2" id="btn--two" >-2</button>
-      <button type="submit" name="updated_value_a" value="-1" id="btn--one" >-1</button>
-      <button type="submit" name="updated_value_a" value="1" id="btn--one" >+1</button>
-      <button type="submit" name="updated_value_a" value="2" id="btn--two" >+2</button>
-      <button type="submit" name="updated_value_a" value="3" id="btn--three" >+3</button>
+      <button type="submit" name="updated_value_a" value="-3" id="btn--three"disabled>-3</button>
+      <button type="submit" name="updated_value_a" value="-2" id="btn--two" disabled>-2</button>
+      <button type="submit" name="updated_value_a" value="-1" id="btn--one" disabled>-1</button>
+      <button type="submit" name="updated_value_a" value="1" id="btn--one" disabled>+1</button>
+      <button type="submit" name="updated_value_a" value="2" id="btn--two" disabled>+2</button>
+      <button type="submit" name="updated_value_a" value="3" id="btn--three" disabled>+3</button>
     </div>
   </form>
         </div>
@@ -441,12 +439,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
     
     <div class="operate">
-      <button type="submit" name="updated_value_b" value="-3" id="btn--three" >-3</button>
-      <button type="submit" name="updated_value_b" value="-2" id="btn--two" >-2</button>
-      <button type="submit" name="updated_value_b" value="-1" id="btn--one" >-1</button>
-      <button type="submit" name="updated_value_b" value="1" id="btn--one" >+1</button>
-      <button type="submit" name="updated_value_b" value="2" id="btn--two" >+2</button>
-      <button type="submit" name="updated_value_b" value="3" id="btn--three" >+3</button>
+      <button type="submit" name="updated_value_b" value="-3" id="btn--three" disabled>-3</button>
+      <button type="submit" name="updated_value_b" value="-2" id="btn--two" disabled>-2</button>
+      <button type="submit" name="updated_value_b" value="-1" id="btn--one" disabled>-1</button>
+      <button type="submit" name="updated_value_b" value="1" id="btn--one" disabled>+1</button>
+      <button type="submit" name="updated_value_b" value="2" id="btn--two" disabled>+2</button>
+      <button type="submit" name="updated_value_b" value="3" id="btn--three" disabled>+3</button>
     </div>
   </form>
         </div>

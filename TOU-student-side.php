@@ -377,20 +377,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>ELITE</h1>
             <button name="score_a" id="home--btn"><?php echo $existingValueA; ?></button>
         </div>
+
         <div class="dropdown-tournament">
         <form action="/action_page.php">
-        <select class="button-tournament" >
-        <?php
-        if ($result->num_rows > 0) {
-            // Output data of each row
-            while ($row = $result->fetch_assoc()) {
-                echo "<option value='" . $row["bracket_id"] . "'>" . $row["bracket_sports"] . "</option>";
+    <select id="sport" class="button-tournament">
+        <option value="TOURNAMENT">TOURNAMENT</option>
+        <option value="BASKETBALL">BASKETBALL</option>
+        <option value="VOLLEYBALL">VOLLEYBALL</option>
+        <option value="CHESS">CHESS</option>
+        <option value="BADMINTON">BADMINTON</option>
+    </select>
+</form>
+
+<script>
+        // Get the dropdown element
+        var dropdown = document.getElementById("sport");
+
+        // Add an event listener to handle the selection change
+        dropdown.addEventListener("change", function() {
+            // Get the selected value
+            var selectedValue = dropdown.value;
+
+            // Redirect to a new page based on the selected value
+            switch (selectedValue) {
+                case "BASKETBALL":
+                    window.location.href = "./php/TOU-basketball-stud.php";
+                    break;
+                case "VOLLEYBALL":
+                    window.location.href = "./php/TOU-volleyball.php";
+                    break;
+                case "CHESS":
+                    window.location.href = "./php/TOU-chess.php";
+                    break;
+                case "BADMINTON":
+                    window.location.href = "./php/TOU-badminton.php";
+                    break;
+                default:
+                    // Do nothing or handle the default case
+                    break;
             }
-        } else {
-            echo "<option>No options available</option>";
-        }
-        ?>
-        </select>
+        });
+    </script>
 </form>
             <div class="quarter" >
                 <h2>1st <br> Quarter</h2>
