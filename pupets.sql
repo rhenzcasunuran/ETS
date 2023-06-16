@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2023 at 01:30 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jun 16, 2023 at 09:20 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,21 +32,21 @@ CREATE TABLE `bar_graph` (
   `organization` text NOT NULL,
   `barMeter` decimal(5,2) NOT NULL,
   `isAnon` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bar_graph`
 --
 
 INSERT INTO `bar_graph` (`orgId`, `organization`, `barMeter`, `isAnon`) VALUES
-(1, 'acap', 48.00, 1),
-(2, 'aeces', 21.00, 1),
-(3, 'elite', 90.00, 1),
-(4, 'give', 11.00, 1),
-(5, 'jehra', 80.00, 1),
-(6, 'jmap', 10.00, 1),
-(7, 'jpia', 25.00, 1),
-(8, 'piie', 69.00, 1);
+(1, 'acap', '48.00', 1),
+(2, 'aeces', '21.00', 1),
+(3, 'elite', '90.00', 1),
+(4, 'give', '11.00', 1),
+(5, 'jehra', '80.00', 1),
+(6, 'jmap', '10.00', 1),
+(7, 'jpia', '25.00', 1),
+(8, 'piie', '69.00', 1);
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ INSERT INTO `bar_graph` (`orgId`, `organization`, `barMeter`, `isAnon`) VALUES
 CREATE TABLE `bracket` (
   `bracket_id` int(11) NOT NULL,
   `bracket_sports` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bracket`
@@ -80,36 +80,29 @@ CREATE TABLE `cache` (
   `url` int(11) NOT NULL,
   `json` longtext NOT NULL,
   `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categorynametb`
+-- Table structure for table `category_name`
 --
 
-CREATE TABLE `categorynametb` (
+CREATE TABLE `category_name` (
   `category_name_id` int(11) NOT NULL,
   `event_name_id` int(11) NOT NULL,
   `event_type_id` int(11) NOT NULL,
-  `category_name` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `category_name` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `categorynametb`
+-- Dumping data for table `category_name`
 --
 
-INSERT INTO `categorynametb` (`category_name_id`, `event_name_id`, `event_type_id`, `category_name`) VALUES
-(71, 59, 1, 'Basketball'),
-(72, 59, 1, 'Volley Ball'),
-(73, 59, 1, 'Badminton'),
-(74, 59, 1, 'Sepak Takraw'),
-(75, 60, 1, 'ML Tournament'),
-(76, 60, 1, 'Valorant Tournament'),
-(77, 60, 1, 'Film Making'),
-(78, 59, 1, 'testt'),
-(79, 60, 3, 'testt'),
-(80, 61, 2, 'Category');
+INSERT INTO `category_name` (`category_name_id`, `event_name_id`, `event_type_id`, `category_name`) VALUES
+(14, 5, 1, 'Basketball'),
+(15, 6, 2, 'Example A'),
+(19, 8, 1, 'JAJAJAJA');
 
 -- --------------------------------------------------------
 
@@ -123,7 +116,7 @@ CREATE TABLE `competitions_table` (
   `event_id` int(11) NOT NULL,
   `schedule` datetime DEFAULT NULL,
   `schedule_end` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `competitions_table`
@@ -139,17 +132,6 @@ INSERT INTO `competitions_table` (`competition_id`, `competition_name`, `event_i
 -- --------------------------------------------------------
 
 --
--- Table structure for table `criteriatb`
---
-
-CREATE TABLE `criteriatb` (
-  `criteria_id` int(11) NOT NULL,
-  `category_name_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `criteria_table`
 --
 
@@ -158,22 +140,22 @@ CREATE TABLE `criteria_table` (
   `criteria_name` varchar(255) NOT NULL,
   `max_score` decimal(5,2) NOT NULL,
   `competition_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `criteria_table`
 --
 
 INSERT INTO `criteria_table` (`criteria_id`, `criteria_name`, `max_score`, `competition_id`) VALUES
-(1, 'Relevance', 25.00, 1),
-(2, 'Comprehensiveness', 25.00, 1),
-(3, 'Originality', 25.00, 1),
-(4, 'Insight', 25.00, 1),
-(5, 'Presence', 10.00, 2),
-(6, 'Articulation', 15.00, 2),
-(7, 'Dramatic Appropriation', 15.00, 2),
-(8, 'Overall Performance', 10.00, 2),
-(17, 'Dance Moves', 25.00, 3);
+(1, 'Relevance', '25.00', 1),
+(2, 'Comprehensiveness', '25.00', 1),
+(3, 'Originality', '25.00', 1),
+(4, 'Insight', '25.00', 1),
+(5, 'Presence', '10.00', 2),
+(6, 'Articulation', '15.00', 2),
+(7, 'Dramatic Appropriation', '15.00', 2),
+(8, 'Overall Performance', '10.00', 2),
+(17, 'Dance Moves', '25.00', 3);
 
 -- --------------------------------------------------------
 
@@ -184,34 +166,9 @@ INSERT INTO `criteria_table` (`criteria_id`, `criteria_name`, `max_score`, `comp
 CREATE TABLE `criterion` (
   `criterion_id` int(11) NOT NULL,
   `category_name_id` int(11) NOT NULL,
-  `criterion_name` varchar(25) NOT NULL,
-  `criterion_percent` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `criterion`
---
-
-INSERT INTO `criterion` (`criterion_id`, `category_name_id`, `criterion_name`, `criterion_percent`) VALUES
-(9, 79, 'Array', 90),
-(12, 79, 'Array', 5),
-(13, 79, 'Array', 3),
-(14, 79, 'a a a sdd', 1),
-(15, 79, 'D A G Q S', 1),
-(16, 80, 'Power', 50);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `criteriontb`
---
-
-CREATE TABLE `criteriontb` (
-  `criterion_id` int(11) NOT NULL,
-  `criteria_id` int(11) NOT NULL,
   `criterion_name` varchar(50) NOT NULL,
   `criterion_percent` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -230,7 +187,7 @@ CREATE TABLE `draft` (
   `draft_photos` text DEFAULT NULL,
   `draft_photos_path` text DEFAULT NULL,
   `draft_schedule` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -248,7 +205,7 @@ CREATE TABLE `eventhistorytb` (
   `event_date` date NOT NULL,
   `event_time` time NOT NULL,
   `suggested_status` tinyint(4) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `eventhistorytb`
@@ -270,26 +227,6 @@ INSERT INTO `eventhistorytb` (`event_history_id`, `event_name`, `event_type`, `c
 -- --------------------------------------------------------
 
 --
--- Table structure for table `eventnametb`
---
-
-CREATE TABLE `eventnametb` (
-  `event_name_id` int(11) NOT NULL,
-  `event_name` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `eventnametb`
---
-
-INSERT INTO `eventnametb` (`event_name_id`, `event_name`) VALUES
-(59, 'Sports Festival'),
-(60, 'ELITE Week'),
-(61, 'Compe Event');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `events`
 --
 
@@ -303,7 +240,7 @@ CREATE TABLE `events` (
   `activity_4` varchar(255) DEFAULT NULL,
   `activity_5` varchar(255) DEFAULT NULL,
   `image` longblob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `events`
@@ -327,7 +264,7 @@ INSERT INTO `events` (`event_id`, `event_name`, `event_date`, `activity_1`, `act
 CREATE TABLE `events_table` (
   `event_id` int(11) NOT NULL,
   `event_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `events_table`
@@ -344,19 +281,40 @@ INSERT INTO `events_table` (`event_id`, `event_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `eventtypetb`
+-- Table structure for table `event_name`
 --
 
-CREATE TABLE `eventtypetb` (
+CREATE TABLE `event_name` (
+  `event_name_id` int(11) NOT NULL,
+  `event_name` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `event_name`
+--
+
+INSERT INTO `event_name` (`event_name_id`, `event_name`) VALUES
+(5, 'Foundation Day'),
+(6, 'Event A'),
+(7, 'Buwan ng Wiks'),
+(8, 'HAHAHAHA');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event_type`
+--
+
+CREATE TABLE `event_type` (
   `event_type_id` int(11) NOT NULL,
-  `event_type` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `event_type` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `eventtypetb`
+-- Dumping data for table `event_type`
 --
 
-INSERT INTO `eventtypetb` (`event_type_id`, `event_type`) VALUES
+INSERT INTO `event_type` (`event_type_id`, `event_type`) VALUES
 (1, 'Tournament'),
 (2, 'Competition'),
 (3, 'Standard');
@@ -369,11 +327,11 @@ INSERT INTO `eventtypetb` (`event_type_id`, `event_type`) VALUES
 
 CREATE TABLE `image` (
   `id` int(11) NOT NULL,
-  `filename` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `image_Info` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `image_Description` varchar(3000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `filename` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `image_Info` varchar(250) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `image_Description` varchar(3000) CHARACTER SET utf8mb4 NOT NULL,
   `status` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `image`
@@ -388,44 +346,6 @@ INSERT INTO `image` (`id`, `filename`, `image_Info`, `image_Description`, `statu
 -- --------------------------------------------------------
 
 --
--- Table structure for table `listofeventtb`
---
-
-CREATE TABLE `listofeventtb` (
-  `event_id` int(11) NOT NULL,
-  `event_name` varchar(30) NOT NULL,
-  `event_type` varchar(30) NOT NULL,
-  `category_name` varchar(30) NOT NULL,
-  `event_description` text NOT NULL,
-  `event_code` varchar(12) NOT NULL,
-  `event_date` date NOT NULL,
-  `event_time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `listofeventtb`
---
-
-INSERT INTO `listofeventtb` (`event_id`, `event_name`, `event_type`, `category_name`, `event_description`, `event_code`, `event_date`, `event_time`) VALUES
-(76, 'Sports Festival', 'Tournament', 'Sepak Takraw', 'dasdadasdasd12', 'bILeSGHl4yEH', '2023-05-31', '00:12:00'),
-(77, 'Sports Festival', 'Tournament', 'Sepak Takraw', 'dasdadasdasd12', 'bILeSGHl4yEH', '2023-05-31', '00:13:00'),
-(78, 'Sports Festival', 'Tournament', 'Sepak Takraw', 'dasdadasdasd12', 'bILeSGHl4yEH', '2023-05-31', '00:24:00'),
-(79, 'Sports Festival', 'Tournament', 'Sepak Takraw', 'dasdadasdasd12', 'bILeSGHl4yEH', '2023-05-31', '00:16:00'),
-(80, 'Sports Festival', 'Tournament', 'Badminton', 'wqeqweqwe', 'Igop', '2023-05-31', '15:46:00'),
-(82, 'Sports Festival', 'Tournament', 'Basketball', 'asdasdasdasdas', 'tP3ZGvzaKouZ', '2023-05-29', '00:00:00'),
-(83, 'Sports Festival', 'Tournament', 'Volley Ball', 'asdasfefefefefef', 'OcdfMVSA1gmZ', '2023-12-20', '06:00:00'),
-(84, 'Sports Festival', 'Tournament', 'Basketball', 'qwerqwer', 'octxU2k3uNAr', '2023-05-30', '01:00:00'),
-(85, 'Sports Festival', 'Tournament', 'Badminton', 'wqeqweqwewqe', 'Md0MNFSQN07w', '2023-05-27', '00:00:00'),
-(86, 'Sports Festival', 'Tournament', 'Badminton', 'qrrigop', 'f53IdfX4Zxl3', '2023-05-31', '00:00:00'),
-(87, 'ELITE Week', 'Standard', 'testt', 'dwqdadqwd', 'fcws8XynJoNW', '2023-06-09', '12:31:00'),
-(88, 'Compe Event', 'Competition', 'Category', 'adsafas', 'LoSIAIVFNn8F', '2023-06-21', '19:37:00'),
-(89, 'Compe Event', 'Competition', 'Category', 'ffsdfsdfsfs', 'BQbjX4Z3vmRE', '2023-06-29', '15:37:00'),
-(90, 'Sports Festival', 'Tournament', 'Badminton', 'wqewqewqeqweqweqweqweqwe', 'qEbxGrEdKtAy', '2023-06-14', '10:28:00'),
-(91, 'Sports Festival', 'Tournament', 'Badminton', 'adasdasdasdasdas', 'bYojfSF1Rg6p', '2023-06-28', '06:29:00');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `logs`
 --
 
@@ -435,7 +355,7 @@ CREATE TABLE `logs` (
   `log_time` time NOT NULL,
   `admin` varchar(255) NOT NULL,
   `activity_description` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `logs`
@@ -492,6 +412,107 @@ INSERT INTO `logs` (`log_id`, `log_date`, `log_time`, `admin`, `activity_descrip
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ongoing_category_name`
+--
+
+CREATE TABLE `ongoing_category_name` (
+  `category_name_id` int(11) NOT NULL,
+  `event_name_id` int(11) NOT NULL,
+  `event_type_id` int(11) NOT NULL,
+  `category_name` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ongoing_category_name`
+--
+
+INSERT INTO `ongoing_category_name` (`category_name_id`, `event_name_id`, `event_type_id`, `category_name`) VALUES
+(14, 5, 1, 'Basketball'),
+(17, 7, 2, 'Poster Making'),
+(18, 7, 2, 'FAFAFA');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ongoing_criterion`
+--
+
+CREATE TABLE `ongoing_criterion` (
+  `criterion_id` int(11) NOT NULL,
+  `category_name_id` int(11) NOT NULL,
+  `criterion_name` varchar(50) NOT NULL,
+  `criterion_percent` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ongoing_criterion`
+--
+
+INSERT INTO `ongoing_criterion` (`criterion_id`, `category_name_id`, `criterion_name`, `criterion_percent`) VALUES
+(6, 17, 'Creativity', 50),
+(7, 17, 'Originality', 50),
+(8, 18, 'Criteria A', 25),
+(9, 18, 'Criteria B', 25),
+(10, 18, 'Criteria C', 50);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ongoing_event_name`
+--
+
+CREATE TABLE `ongoing_event_name` (
+  `event_name_id` int(11) NOT NULL,
+  `event_name` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ongoing_event_name`
+--
+
+INSERT INTO `ongoing_event_name` (`event_name_id`, `event_name`) VALUES
+(5, 'Foundation Day'),
+(7, 'Buwan ng Wiks');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ongoing_list_of_event`
+--
+
+CREATE TABLE `ongoing_list_of_event` (
+  `event_id` int(11) NOT NULL,
+  `category_name_id` int(11) NOT NULL,
+  `event_description` varchar(255) NOT NULL,
+  `event_code` varchar(12) NOT NULL,
+  `event_date` date NOT NULL,
+  `event_time` time NOT NULL,
+  `judge_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ongoing_list_of_event`
+--
+
+INSERT INTO `ongoing_list_of_event` (`event_id`, `category_name_id`, `event_description`, `event_code`, `event_date`, `event_time`, `judge_id`) VALUES
+(21, 18, 'GAGAGAGAGAGs', 'lpXOgCbWFU4T', '2023-07-06', '11:40:00', 0),
+(26, 17, 'HAHAHAHAHAHA', 'RKDwN2ItD2xs', '2023-06-30', '22:48:00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ongoing_tournament`
+--
+
+CREATE TABLE `ongoing_tournament` (
+  `tournament_id` int(11) NOT NULL,
+  `category_name_id` int(11) NOT NULL,
+  `number_of_wins` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `overall_scores_table`
 --
 
@@ -499,40 +520,40 @@ CREATE TABLE `overall_scores_table` (
   `competition_id` int(11) NOT NULL,
   `participant_id` int(11) NOT NULL,
   `overall_score` decimal(5,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `overall_scores_table`
 --
 
 INSERT INTO `overall_scores_table` (`competition_id`, `participant_id`, `overall_score`) VALUES
-(1, 1, 192.00),
-(1, 2, 184.00),
-(1, 3, 176.00),
-(1, 4, 168.00),
-(2, 5, 100.00),
-(2, 6, 92.00),
-(2, 7, 84.00),
-(2, 8, 76.00),
-(3, 9, 50.00),
-(1, 1, 192.00),
-(1, 2, 184.00),
-(1, 3, 176.00),
-(1, 4, 168.00),
-(2, 5, 100.00),
-(2, 6, 92.00),
-(2, 7, 84.00),
-(2, 8, 76.00),
-(3, 9, 50.00),
-(1, 1, 192.00),
-(1, 2, 184.00),
-(1, 3, 176.00),
-(1, 4, 168.00),
-(2, 5, 100.00),
-(2, 6, 92.00),
-(2, 7, 84.00),
-(2, 8, 76.00),
-(3, 9, 50.00);
+(1, 1, '192.00'),
+(1, 2, '184.00'),
+(1, 3, '176.00'),
+(1, 4, '168.00'),
+(2, 5, '100.00'),
+(2, 6, '92.00'),
+(2, 7, '84.00'),
+(2, 8, '76.00'),
+(3, 9, '50.00'),
+(1, 1, '192.00'),
+(1, 2, '184.00'),
+(1, 3, '176.00'),
+(1, 4, '168.00'),
+(2, 5, '100.00'),
+(2, 6, '92.00'),
+(2, 7, '84.00'),
+(2, 8, '76.00'),
+(3, 9, '50.00'),
+(1, 1, '192.00'),
+(1, 2, '184.00'),
+(1, 3, '176.00'),
+(1, 4, '168.00'),
+(2, 5, '100.00'),
+(2, 6, '92.00'),
+(2, 7, '84.00'),
+(2, 8, '76.00'),
+(3, 9, '50.00');
 
 -- --------------------------------------------------------
 
@@ -544,7 +565,7 @@ CREATE TABLE `participants_table` (
   `participant_id` int(11) NOT NULL,
   `participant_name` varchar(255) NOT NULL,
   `organization` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `participants_table`
@@ -590,7 +611,7 @@ CREATE TABLE `pjjudges` (
   `event_code_id` int(11) DEFAULT NULL,
   `judge_name` varchar(150) NOT NULL,
   `judge_nick` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjjudges`
@@ -609,7 +630,7 @@ INSERT INTO `pjjudges` (`judge_id`, `event_code_id`, `judge_name`, `judge_nick`)
 CREATE TABLE `pjjudgeseventcode` (
   `event_code_id` int(11) NOT NULL,
   `event_code` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjjudgeseventcode`
@@ -631,7 +652,7 @@ CREATE TABLE `pjjudgestemp` (
   `judge_id_temp` int(11) NOT NULL,
   `judge_name_temp` varchar(50) NOT NULL,
   `judge_nick_temp` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjjudgestemp`
@@ -656,7 +677,7 @@ CREATE TABLE `pjparticipants` (
   `participants_course` varchar(20) NOT NULL,
   `participants_section` varchar(50) NOT NULL,
   `participants_organization` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -668,7 +689,7 @@ CREATE TABLE `pjparticipantsgroup` (
   `participants_id_group` int(11) NOT NULL,
   `participants_name_group` varchar(50) NOT NULL,
   `participants_organization_group` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -682,7 +703,7 @@ CREATE TABLE `pjparticipantsgroupmembers` (
   `participants_name_g` varchar(50) NOT NULL,
   `participants_course_group` varchar(20) NOT NULL,
   `participants_section_group` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -696,7 +717,7 @@ CREATE TABLE `pjparticipantsgroupmemberstemp` (
   `participants_name_g_temp` varchar(50) NOT NULL,
   `participants_course_group_temp` varchar(20) NOT NULL,
   `participants_section_group_temp` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjparticipantsgroupmemberstemp`
@@ -719,7 +740,7 @@ CREATE TABLE `pjparticipantsgrouptemp` (
   `participants_id_group_temp` int(11) NOT NULL,
   `participants_name_group_temp` varchar(50) NOT NULL,
   `participants_organization_group_temp` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjparticipantsgrouptemp`
@@ -742,7 +763,7 @@ CREATE TABLE `pjparticipantstemp` (
   `participants_course_temp` varchar(20) NOT NULL,
   `participants_section_temp` varchar(50) NOT NULL,
   `participants_organization_temp` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjparticipantstemp`
@@ -766,15 +787,15 @@ CREATE TABLE `pjscores` (
   `criteria_3` int(11) NOT NULL,
   `criteria_4` int(11) NOT NULL,
   `total_score` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjscores`
 --
 
 INSERT INTO `pjscores` (`score_id`, `group_name`, `criteria_1`, `criteria_2`, `criteria_3`, `criteria_4`, `total_score`) VALUES
-(1, 'ITDS', 10, 10, 10, 10, 100.00),
-(2, 'JPIA', 10, 10, 10, 8, 95.00);
+(1, 'ITDS', 10, 10, 10, 10, '100.00'),
+(2, 'JPIA', 10, 10, 10, 8, '95.00');
 
 -- --------------------------------------------------------
 
@@ -790,14 +811,14 @@ CREATE TABLE `pjscorestemp` (
   `criteria_3_temp` int(11) NOT NULL,
   `criteria_4_temp` int(11) NOT NULL,
   `total_score_temp` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pjscorestemp`
 --
 
 INSERT INTO `pjscorestemp` (`score_id_temp`, `group_name_temp`, `criteria_1_temp`, `criteria_2_temp`, `criteria_3_temp`, `criteria_4_temp`, `total_score_temp`) VALUES
-(11, 'ITDS', 10, 10, 10, 10, 100.00);
+(11, 'ITDS', 10, 10, 10, 10, '100.00');
 
 -- --------------------------------------------------------
 
@@ -815,7 +836,7 @@ CREATE TABLE `post` (
   `post_photos` text DEFAULT NULL,
   `post_schedule` datetime NOT NULL,
   `post_calendar_type` varchar(8) DEFAULT 'Standard'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `post`
@@ -841,7 +862,7 @@ CREATE TABLE `scores` (
   `score_id` int(11) NOT NULL,
   `scoring_team_a` int(11) NOT NULL,
   `scoring_team_b` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `scores`
@@ -864,79 +885,79 @@ CREATE TABLE `scores_table` (
   `criteria_id` int(11) NOT NULL,
   `score` decimal(5,2) NOT NULL,
   `competition_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `scores_table`
 --
 
 INSERT INTO `scores_table` (`score_id`, `participant_id`, `criteria_id`, `score`, `competition_id`) VALUES
-(1, 1, 1, 24.00, 1),
-(2, 1, 2, 24.00, 1),
-(3, 1, 3, 24.00, 1),
-(4, 1, 4, 24.00, 1),
-(5, 2, 1, 23.00, 1),
-(6, 2, 2, 23.00, 1),
-(7, 2, 3, 23.00, 1),
-(8, 2, 4, 23.00, 1),
-(9, 3, 1, 22.00, 1),
-(10, 3, 2, 22.00, 1),
-(11, 3, 3, 22.00, 1),
-(12, 3, 4, 22.00, 1),
-(13, 4, 1, 21.00, 1),
-(14, 4, 2, 21.00, 1),
-(15, 4, 3, 21.00, 1),
-(16, 4, 4, 21.00, 1),
-(17, 5, 5, 10.00, 2),
-(18, 5, 6, 15.00, 2),
-(19, 5, 7, 15.00, 2),
-(20, 5, 8, 10.00, 2),
-(21, 6, 5, 9.00, 2),
-(22, 6, 6, 14.00, 2),
-(23, 6, 7, 14.00, 2),
-(24, 6, 8, 9.00, 2),
-(25, 7, 5, 8.00, 2),
-(26, 7, 6, 13.00, 2),
-(27, 7, 7, 13.00, 2),
-(28, 7, 8, 8.00, 2),
-(29, 8, 5, 7.00, 2),
-(30, 8, 6, 12.00, 2),
-(31, 8, 7, 12.00, 2),
-(32, 8, 8, 7.00, 2),
-(33, 9, 17, 25.00, 3),
-(1, 1, 1, 24.00, 1),
-(2, 1, 2, 24.00, 1),
-(3, 1, 3, 24.00, 1),
-(4, 1, 4, 24.00, 1),
-(5, 2, 1, 23.00, 1),
-(6, 2, 2, 23.00, 1),
-(7, 2, 3, 23.00, 1),
-(8, 2, 4, 23.00, 1),
-(9, 3, 1, 22.00, 1),
-(10, 3, 2, 22.00, 1),
-(11, 3, 3, 22.00, 1),
-(12, 3, 4, 22.00, 1),
-(13, 4, 1, 21.00, 1),
-(14, 4, 2, 21.00, 1),
-(15, 4, 3, 21.00, 1),
-(16, 4, 4, 21.00, 1),
-(17, 5, 5, 10.00, 2),
-(18, 5, 6, 15.00, 2),
-(19, 5, 7, 15.00, 2),
-(20, 5, 8, 10.00, 2),
-(21, 6, 5, 9.00, 2),
-(22, 6, 6, 14.00, 2),
-(23, 6, 7, 14.00, 2),
-(24, 6, 8, 9.00, 2),
-(25, 7, 5, 8.00, 2),
-(26, 7, 6, 13.00, 2),
-(27, 7, 7, 13.00, 2),
-(28, 7, 8, 8.00, 2),
-(29, 8, 5, 7.00, 2),
-(30, 8, 6, 12.00, 2),
-(31, 8, 7, 12.00, 2),
-(32, 8, 8, 7.00, 2),
-(33, 9, 17, 25.00, 3);
+(1, 1, 1, '24.00', 1),
+(2, 1, 2, '24.00', 1),
+(3, 1, 3, '24.00', 1),
+(4, 1, 4, '24.00', 1),
+(5, 2, 1, '23.00', 1),
+(6, 2, 2, '23.00', 1),
+(7, 2, 3, '23.00', 1),
+(8, 2, 4, '23.00', 1),
+(9, 3, 1, '22.00', 1),
+(10, 3, 2, '22.00', 1),
+(11, 3, 3, '22.00', 1),
+(12, 3, 4, '22.00', 1),
+(13, 4, 1, '21.00', 1),
+(14, 4, 2, '21.00', 1),
+(15, 4, 3, '21.00', 1),
+(16, 4, 4, '21.00', 1),
+(17, 5, 5, '10.00', 2),
+(18, 5, 6, '15.00', 2),
+(19, 5, 7, '15.00', 2),
+(20, 5, 8, '10.00', 2),
+(21, 6, 5, '9.00', 2),
+(22, 6, 6, '14.00', 2),
+(23, 6, 7, '14.00', 2),
+(24, 6, 8, '9.00', 2),
+(25, 7, 5, '8.00', 2),
+(26, 7, 6, '13.00', 2),
+(27, 7, 7, '13.00', 2),
+(28, 7, 8, '8.00', 2),
+(29, 8, 5, '7.00', 2),
+(30, 8, 6, '12.00', 2),
+(31, 8, 7, '12.00', 2),
+(32, 8, 8, '7.00', 2),
+(33, 9, 17, '25.00', 3),
+(1, 1, 1, '24.00', 1),
+(2, 1, 2, '24.00', 1),
+(3, 1, 3, '24.00', 1),
+(4, 1, 4, '24.00', 1),
+(5, 2, 1, '23.00', 1),
+(6, 2, 2, '23.00', 1),
+(7, 2, 3, '23.00', 1),
+(8, 2, 4, '23.00', 1),
+(9, 3, 1, '22.00', 1),
+(10, 3, 2, '22.00', 1),
+(11, 3, 3, '22.00', 1),
+(12, 3, 4, '22.00', 1),
+(13, 4, 1, '21.00', 1),
+(14, 4, 2, '21.00', 1),
+(15, 4, 3, '21.00', 1),
+(16, 4, 4, '21.00', 1),
+(17, 5, 5, '10.00', 2),
+(18, 5, 6, '15.00', 2),
+(19, 5, 7, '15.00', 2),
+(20, 5, 8, '10.00', 2),
+(21, 6, 5, '9.00', 2),
+(22, 6, 6, '14.00', 2),
+(23, 6, 7, '14.00', 2),
+(24, 6, 8, '9.00', 2),
+(25, 7, 5, '8.00', 2),
+(26, 7, 6, '13.00', 2),
+(27, 7, 7, '13.00', 2),
+(28, 7, 8, '8.00', 2),
+(29, 8, 5, '7.00', 2),
+(30, 8, 6, '12.00', 2),
+(31, 8, 7, '12.00', 2),
+(32, 8, 8, '7.00', 2),
+(33, 9, 17, '25.00', 3);
 
 --
 -- Triggers `scores_table`
@@ -966,7 +987,7 @@ CREATE TABLE `teams` (
   `team_id` int(11) NOT NULL,
   `team_name` varchar(20) NOT NULL,
   `team_score` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `teams`
@@ -985,6 +1006,18 @@ INSERT INTO `teams` (`team_id`, `team_name`, `team_score`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tournament`
+--
+
+CREATE TABLE `tournament` (
+  `tournament_id` int(11) NOT NULL,
+  `category_name_id` int(11) NOT NULL,
+  `number_of_wins` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -992,7 +1025,7 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `user_username` varchar(20) NOT NULL,
   `user_password` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
@@ -1028,10 +1061,12 @@ ALTER TABLE `cache`
   ADD UNIQUE KEY `url` (`url`);
 
 --
--- Indexes for table `categorynametb`
+-- Indexes for table `category_name`
 --
-ALTER TABLE `categorynametb`
-  ADD PRIMARY KEY (`category_name_id`);
+ALTER TABLE `category_name`
+  ADD PRIMARY KEY (`category_name_id`),
+  ADD KEY `event_name_id` (`event_name_id`),
+  ADD KEY `event_type_id` (`event_type_id`);
 
 --
 -- Indexes for table `competitions_table`
@@ -1041,13 +1076,6 @@ ALTER TABLE `competitions_table`
   ADD KEY `event_id` (`event_id`);
 
 --
--- Indexes for table `criteriatb`
---
-ALTER TABLE `criteriatb`
-  ADD PRIMARY KEY (`criteria_id`),
-  ADD KEY `category_name_id` (`category_name_id`);
-
---
 -- Indexes for table `criteria_table`
 --
 ALTER TABLE `criteria_table`
@@ -1055,11 +1083,11 @@ ALTER TABLE `criteria_table`
   ADD KEY `competition to criteria` (`competition_id`);
 
 --
--- Indexes for table `criteriontb`
+-- Indexes for table `criterion`
 --
-ALTER TABLE `criteriontb`
+ALTER TABLE `criterion`
   ADD PRIMARY KEY (`criterion_id`),
-  ADD KEY `criteria_id` (`criteria_id`);
+  ADD KEY `category_name_id` (`category_name_id`);
 
 --
 -- Indexes for table `draft`
@@ -1074,21 +1102,21 @@ ALTER TABLE `eventhistorytb`
   ADD PRIMARY KEY (`event_history_id`);
 
 --
--- Indexes for table `eventnametb`
---
-ALTER TABLE `eventnametb`
-  ADD PRIMARY KEY (`event_name_id`);
-
---
 -- Indexes for table `events`
 --
 ALTER TABLE `events`
   ADD PRIMARY KEY (`event_id`);
 
 --
--- Indexes for table `eventtypetb`
+-- Indexes for table `event_name`
 --
-ALTER TABLE `eventtypetb`
+ALTER TABLE `event_name`
+  ADD PRIMARY KEY (`event_name_id`);
+
+--
+-- Indexes for table `event_type`
+--
+ALTER TABLE `event_type`
   ADD PRIMARY KEY (`event_type_id`);
 
 --
@@ -1098,16 +1126,45 @@ ALTER TABLE `image`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `listofeventtb`
---
-ALTER TABLE `listofeventtb`
-  ADD PRIMARY KEY (`event_id`);
-
---
 -- Indexes for table `logs`
 --
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`log_id`);
+
+--
+-- Indexes for table `ongoing_category_name`
+--
+ALTER TABLE `ongoing_category_name`
+  ADD PRIMARY KEY (`category_name_id`),
+  ADD KEY `event_type_id` (`event_type_id`),
+  ADD KEY `ongoing_category_name_ibfk_1` (`event_name_id`);
+
+--
+-- Indexes for table `ongoing_criterion`
+--
+ALTER TABLE `ongoing_criterion`
+  ADD PRIMARY KEY (`criterion_id`),
+  ADD KEY `category_name_id` (`category_name_id`);
+
+--
+-- Indexes for table `ongoing_event_name`
+--
+ALTER TABLE `ongoing_event_name`
+  ADD PRIMARY KEY (`event_name_id`);
+
+--
+-- Indexes for table `ongoing_list_of_event`
+--
+ALTER TABLE `ongoing_list_of_event`
+  ADD PRIMARY KEY (`event_id`),
+  ADD KEY `category_name_id` (`category_name_id`);
+
+--
+-- Indexes for table `ongoing_tournament`
+--
+ALTER TABLE `ongoing_tournament`
+  ADD PRIMARY KEY (`tournament_id`),
+  ADD KEY `category_name_id` (`category_name_id`);
 
 --
 -- Indexes for table `pjjudges`
@@ -1197,6 +1254,13 @@ ALTER TABLE `teams`
   ADD PRIMARY KEY (`team_id`);
 
 --
+-- Indexes for table `tournament`
+--
+ALTER TABLE `tournament`
+  ADD PRIMARY KEY (`tournament_id`),
+  ADD KEY `category_name_id` (`category_name_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -1219,10 +1283,16 @@ ALTER TABLE `bracket`
   MODIFY `bracket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `categorynametb`
+-- AUTO_INCREMENT for table `category_name`
 --
-ALTER TABLE `categorynametb`
-  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+ALTER TABLE `category_name`
+  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `criterion`
+--
+ALTER TABLE `criterion`
+  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `draft`
@@ -1237,21 +1307,21 @@ ALTER TABLE `eventhistorytb`
   MODIFY `event_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `eventnametb`
---
-ALTER TABLE `eventnametb`
-  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
-
---
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
   MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `eventtypetb`
+-- AUTO_INCREMENT for table `event_name`
 --
-ALTER TABLE `eventtypetb`
+ALTER TABLE `event_name`
+  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `event_type`
+--
+ALTER TABLE `event_type`
   MODIFY `event_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -1261,16 +1331,40 @@ ALTER TABLE `image`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `listofeventtb`
---
-ALTER TABLE `listofeventtb`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
-
---
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
   MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT for table `ongoing_category_name`
+--
+ALTER TABLE `ongoing_category_name`
+  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `ongoing_criterion`
+--
+ALTER TABLE `ongoing_criterion`
+  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `ongoing_event_name`
+--
+ALTER TABLE `ongoing_event_name`
+  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `ongoing_list_of_event`
+--
+ALTER TABLE `ongoing_list_of_event`
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `ongoing_tournament`
+--
+ALTER TABLE `ongoing_tournament`
+  MODIFY `tournament_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pjjudges`
@@ -1357,10 +1451,64 @@ ALTER TABLE `teams`
   MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `tournament`
+--
+ALTER TABLE `tournament`
+  MODIFY `tournament_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `category_name`
+--
+ALTER TABLE `category_name`
+  ADD CONSTRAINT `category_name_ibfk_1` FOREIGN KEY (`event_name_id`) REFERENCES `event_name` (`event_name_id`),
+  ADD CONSTRAINT `category_name_ibfk_2` FOREIGN KEY (`event_type_id`) REFERENCES `event_type` (`event_type_id`);
+
+--
+-- Constraints for table `criterion`
+--
+ALTER TABLE `criterion`
+  ADD CONSTRAINT `criterion_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `category_name` (`category_name_id`);
+
+--
+-- Constraints for table `ongoing_category_name`
+--
+ALTER TABLE `ongoing_category_name`
+  ADD CONSTRAINT `ongoing_category_name_ibfk_1` FOREIGN KEY (`event_name_id`) REFERENCES `ongoing_event_name` (`event_name_id`),
+  ADD CONSTRAINT `ongoing_category_name_ibfk_2` FOREIGN KEY (`event_type_id`) REFERENCES `event_type` (`event_type_id`);
+
+--
+-- Constraints for table `ongoing_criterion`
+--
+ALTER TABLE `ongoing_criterion`
+  ADD CONSTRAINT `ongoing_criterion_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `ongoing_category_name` (`category_name_id`);
+
+--
+-- Constraints for table `ongoing_list_of_event`
+--
+ALTER TABLE `ongoing_list_of_event`
+  ADD CONSTRAINT `ongoing_list_of_event_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `ongoing_category_name` (`category_name_id`);
+
+--
+-- Constraints for table `ongoing_tournament`
+--
+ALTER TABLE `ongoing_tournament`
+  ADD CONSTRAINT `ongoing_tournament_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `ongoing_category_name` (`category_name_id`);
+
+--
+-- Constraints for table `tournament`
+--
+ALTER TABLE `tournament`
+  ADD CONSTRAINT `tournament_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `category_name` (`category_name_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
