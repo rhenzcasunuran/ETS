@@ -1,18 +1,75 @@
 <?php
-  // Database connection details
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "pupets";
-  
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
-  
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
+// Create a MySQL connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "pupets";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Unique identifier for the row
+$rowId = 1; // Update this with the actual row identifier column name
+
+// Retrieve the existing value for Team A from the database
+$sql = "SELECT scoring_team_a FROM scores WHERE score_id = '$rowId'"; // Replace "id_column_name" with the actual column name for row identifiers
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$existingValueA = $row['scoring_team_a'];
+
+// Process the form submission for Team A
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (isset($_POST['updated_value_a'])) {
+    $updatedValueA = $_POST['updated_value_a'];
+    $newValueA = $existingValueA + $updatedValueA;
+
+    // Ensure the value does not go below 0
+    if ($newValueA < 0) {
+      $newValueA = 0;
+    }
+
+    // Update the value in the database
+    $sql = "UPDATE scores SET scoring_team_a = $newValueA WHERE score_id = $rowId";
+    if ($conn->query($sql) === TRUE) {
+      // Update the existing value for Team A
+      $existingValueA = $newValueA;
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+    }
   }
-  
+}
+
+// Retrieve the existing value for Team B from the database
+$sql = "SELECT scoring_team_b FROM scores WHERE score_id = $rowId";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$existingValueB = $row['scoring_team_b'];
+
+// Process the form submission for Team B
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (isset($_POST['updated_value_b'])) {
+    $updatedValueB = $_POST['updated_value_b'];
+    $newValueB = $existingValueB + $updatedValueB;
+
+    // Ensure the value does not go below 0
+    if ($newValueB < 0) {
+      $newValueB = 0;
+    }
+
+    // Update the value in the database
+    $sql = "UPDATE scores SET scoring_team_b = $newValueB WHERE score_id = $rowId";
+    if ($conn->query($sql) === TRUE) {
+      // Update the existing value for Team B
+      $existingValueB = $newValueB;
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+  }
+}
   // Query to retrieve data from the database
   $sql = "SELECT bracket_id, bracket_sports FROM bracket";
   $result = $conn->query($sql);
@@ -20,6 +77,8 @@
   // Close the database connection
   $conn->close();
   @include '/php/TOU-fetch-data.php';
+
+
 ?>
 
 <?php
@@ -118,7 +177,7 @@
         <img src="../pictures/logo.png" alt="student council logo" class="icon logo">
         <div class="logo_name">Events Tabulation System</div>
         <i class="bx bx-arrow-to-right" id="btn"></i>
-        <script src="./js/sidebar-state.js"></script>
+        <script src="../js/sidebar-state.js"></script>
       </div>
       <div class="wrapper">
         <li class="nav-item top">
@@ -138,19 +197,19 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HOM-create-post.php">
+                  <a href="../HOM-create-post.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Create Post</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="HOM-draft-scheduled-post.php">
+                  <a href="../HOM-draft-scheduled-post.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Draft & Scheduled Post</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="HOM-manage-post.php">
+                  <a href="../HOM-manage-post.php">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Manage Post</span>
                   </a>
@@ -166,13 +225,13 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="EVE-admin-list-of-events.php">
+                  <a href="../EVE-admin-list-of-events.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">List of Events</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="EVE-admin-event-configuration.php">
+                  <a href="../EVE-admin-event-configuration.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Event Configuration</span>
                   </a>
@@ -194,13 +253,13 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="CAL-admin-overall.php">
+                  <a href="../CAL-admin-overall.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Overview</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="CAL-admin-logs.php">
+                  <a href="../CAL-admin-logs.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Logs</span>
                   </a>
@@ -208,7 +267,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="BAR-admin.php">
+              <a href="../BAR-admin.php">
                 <i class='bx bx-bar-chart-alt-2'></i>
                 <span class="link_name">Overall Results</span>
               </a>
@@ -222,19 +281,19 @@
               </a>
               <ul class="sub_list">
               <li class="sub-item">
-                <a href="TOU-Create-Tournament.php">
+                <a href="../TOU-Create-Tournament.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Create Tournament</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php"   class="sub-active">
+                  <a href="../TOU-Live-Scoring-Admin.php"   class="sub-active">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Live Scoring</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="TOU-bracket-admin.php">
+                  <a href="../TOU-bracket-admin.php">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Manage Brackets</span>
                   </a>
@@ -251,19 +310,19 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="COM-manage_results_page.php">
+                  <a href="../COM-manage_results_page.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Manage Results</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="COM-tobepublished_page.php">
+                  <a href="../COM-tobepublished_page.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">To Publish</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="COM-published_page.php">
+                  <a href="../COM-published_page.php">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Published Results</span>
                   </a>
@@ -285,13 +344,13 @@
               </a>
               <ul class="sub_list">
                 <li class="sub-item">
-                  <a href="HIS-admin-ManageEvent.php">
+                  <a href="../HIS-admin-ManageEvent.php">
                     <i class="bx bxs-circle sub-icon color-red"></i>
                     <span class="sub_link_name">Event Page</span>
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="HIS-admin-highlights.php">
+                  <a href="../HIS-admin-highlights.php">
                     <i class="bx bxs-circle sub-icon color-green"></i>
                     <span class="sub_link_name">Highlights Page</span>
                   </a>
@@ -299,7 +358,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="P&J-admin-formPJ.php">
+              <a href="../P&J-admin-formPJ.php">
                 <i class="bx bx-group"></i>
                 <span class="link_name">Judges & <br> Participants</span>
               </a>
@@ -313,26 +372,28 @@
       <header class="header">Basketball Live Scoring</header>
       <div class="container">
         <div class="home">
-            <h1>ELITE</h1>
-            <button name="score_a" id="home--btn">0</button>
-            <div class="operate">
-                <button id="btn--three" onclick="minusValueThree()">-3</button>
-                <button id="btn--two" onclick="minusValueTwo()">-2</button>
-                <button type ="submit" name="btn_one" id="btn--one" onclick="minusValueOne()">-1</button>
-                <button type ="submit" name="btn_one" id="btn--one" onclick="plusOne()">+1</button>
-                <button id="btn--two" onclick="plusTwo()">+2</button>
-                <button id="btn--three" onclick="plusThree()">+3</button>
-                
-            </div>
+            <h1>TEAM A</h1>
+            <button name="score_a" id="home--btn"><?php echo $existingValueA; ?></button>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+    
+    <div class="operate">
+      <button type="submit" name="updated_value_a" value="-3" id="btn--three">-3</button>
+      <button type="submit" name="updated_value_a" value="-2" id="btn--two" >-2</button>
+      <button type="submit" name="updated_value_a" value="-1" id="btn--one" >-1</button>
+      <button type="submit" name="updated_value_a" value="1" id="btn--one" >+1</button>
+      <button type="submit" name="updated_value_a" value="2" id="btn--two" >+2</button>
+      <button type="submit" name="updated_value_a" value="3" id="btn--three" >+3</button>
+    </div>
+  </form>
         </div>
         <div class="dropdown-tournament">
         <form action="/action_page.php">
     <select id="sport" class="button-tournament">
-        <option value="TOURNAMENT">TOURNAMENT</option>
         <option value="BASKETBALL">BASKETBALL</option>
         <option value="VOLLEYBALL">VOLLEYBALL</option>
         <option value="CHESS">CHESS</option>
         <option value="BADMINTON">BADMINTON</option>
+        <option value="TOURNAMENT">TOURNAMENT</option>
     </select>
 </form>
 
@@ -347,17 +408,17 @@
 
             // Redirect to a new page based on the selected value
             switch (selectedValue) {
-                case "BASKETBALL":
-                    window.location.href = "TOU-basketball.php";
+                case "TOURNAMENT":
+                    window.location.href = "../TOU-Live-Scoring-Admin.php";
                     break;
                 case "VOLLEYBALL":
-                    window.location.href = "TOU-volleyball.php";
+                    window.location.href = "./TOU-volleyball.php";
                     break;
                 case "CHESS":
-                    window.location.href = "TOU-chess.php";
+                    window.location.href = "./TOU-chess.php";
                     break;
                 case "BADMINTON":
-                    window.location.href = "TOU-badminton.php";
+                    window.location.href = "./TOU-badminton.php";
                     break;
                 default:
                     // Do nothing or handle the default case
@@ -366,30 +427,33 @@
         });
     </script>
             <div class="quarter" >
-                <h2>1st <br> Quarter</h2>
+                <h2>NO ONGOING<br> MATCH</h2>
             </div>
             <div>
             <button class="button-end-match" onclick="showEndMatch()">End Match</button>
       </div>
         </div>
         <div class="guest">
-            <h1>AECES</h1>
-            <button id="guest--btn">0</button>
-            <div class="operate">
-                <button id="btn--three" onclick="decreaseValueThree()">-3</button>
-                <button id="btn--two" onclick="decreaseValueTwo()">-2</button>
-                <button type ="submit" name="btn_one" id="btn--one" onclick="decreaseValueOne()">-1</button>
-                <button id="btn--one" onclick="guestPlusOne()">+1</button>
-                <button id="btn--two" onclick="guestPlusTwo()">+2</button>
-                <button id="btn--three" onclick="guestPlusThree()">+3</button>
-            </div>
+            <h1>TEAM B</h1>
+            <button id="guest--btn"><?php echo $existingValueB; ?></button>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+    
+    <div class="operate">
+      <button type="submit" name="updated_value_b" value="-3" id="btn--three" >-3</button>
+      <button type="submit" name="updated_value_b" value="-2" id="btn--two" >-2</button>
+      <button type="submit" name="updated_value_b" value="-1" id="btn--one" >-1</button>
+      <button type="submit" name="updated_value_b" value="1" id="btn--one" >+1</button>
+      <button type="submit" name="updated_value_b" value="2" id="btn--two" >+2</button>
+      <button type="submit" name="updated_value_b" value="3" id="btn--three" >+3</button>
+    </div>
+  </form>
         </div>
     </div>
     <div class="container-two">
 
         
-        <p id="home--count" onclick="homeCount">ELITE : </p>
-        <p id="guest--count" onclick="guestCount">AECES : </p>
+        <p id="home--count" onclick="homeCount">TEAM A : </p>
+        <p id="guest--count" onclick="guestCount">TEAM B : </p>
         <button type="submit" id="save--counter" class="save--btn" onclick="showSaveScore()" name="update_score_data">SAVE</button>
     </div>
 
