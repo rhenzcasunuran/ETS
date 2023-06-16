@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/HOM-style.css">
-    <link rel="stylesheet" href="./css/HOM-create-post.css">
+    <link rel="stylesheet" href="./css/HOM-config.css">
   </head>
 
   <body>
@@ -33,7 +33,7 @@
         </div>
         <div class="col-8 text-start text-container">
           <h3 class="text-header">Discard Changes?</h3>
-          <p>Any unsaved progress will be lost.</p>
+          <p>Any unsaved progress will be lost.</h2>
         </div>
         <div class="div">
           <button class="outline-button" onclick="hideCancel()"><i class='bx bx-chevron-left'></i>Return</button>
@@ -99,23 +99,23 @@
     <!--Page Content-->
     <section class="home-section">
       <div class="container">
-        <p class="row title">
+        <h1 class="row">
           Create Post
-        </p>
+        </h1>
         <form id="post-form" action="./php/HOM-create-post.php" method="post">
-          <div class="row create-post">
+          <div class="row config">
             <div class="col-7">
               <div class="row">
                 <div class="col textbox">
-                  <p class="text">
+                  <h2>
                     Add to Calendar (Optional)
-                  </p>
+                  </h2>
                   <input type="date" id="calendar" name="post_calendar" placeholder="Select Date">
                 </div>
                 <div class="col textbox">
-                  <p class="text">
+                  <h2>
                     Tag
-                  </p>
+                  </h2>
                   <select id="tag" name="post_tag">
                     <option value="SC">Student Council</option>
                     <option value="ACAP">ACAP</option>
@@ -130,31 +130,31 @@
                 </div>
               </div>
               <div class="row textbox">
-                <p class="text">
+                <h2>
                   Title
-                </p>
+                </h2>
                 <input type="text" id="title" name="post_title" placeholder="Enter Title" maxlength="60" required>
               </div>
               <div class="row textbox">
-                <p class="text">
+                <h2>
                   Description
-                </p>
+                </h2>
                 <textarea id="description" name="post_description" placeholder="Enter Description" rows="4" cols="50" required></textarea>
               </div>
             </div>
             <div class="col-5 column2">
               <div>
-                <p class="text">
+                <h2>
                   Cover
-                </p>
+                </h2>
                 <div class="temp-cover">
 
                 </div>
               </div>
               <div>
-                <p class="text">
+                <h2>
                   Photos
-                </p>
+                </h2>
                 <div class="temp-photos">
 
                 </div>
