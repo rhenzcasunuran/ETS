@@ -39,7 +39,7 @@ function minusValueTwo() {
         changeCount.textContent = homeCount;
     }
 
-    if (homeCount === 0) {
+    if (homeCount === 1) {
         decreaseOneButton.disabled = true; // Disable the button
     }
 }
@@ -50,7 +50,7 @@ function minusValueThree() {
         changeCount.textContent = homeCount;
     }
 
-    if (homeCount === 0) {
+    if (homeCount === 2) {
         decreaseOneButton.disabled = true; // Disable the button
     }
 }
@@ -116,6 +116,16 @@ function saveClick() {
     else{
         document.getElementById("id").disabled=true;
     }
+
+    $(document).ready(function() {
+        var textValues = ['1st Quarter', '2nd Quarter', '3rd Quarter', '4th Quarter']; // Array of text values
+        var currentIndex = 0; // Current index of the array
+        
+        $('save--counter').click(function() {
+            $('#textToChange').text(textValues[currentIndex]);
+            currentIndex = (currentIndex + 1) % textValues.length; // Increment the index and wrap around if necessary
+        });
+    });
 
     
    // Save the current text displayed in localStorage
