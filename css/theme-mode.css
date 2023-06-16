@@ -16,10 +16,12 @@
     --color-element-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
     --color-element-hover: 0px 1px 4px 3px 3px rgba(0, 0, 0, 0.16);
 
-    --color-body: #E5E5E5;
-    --color-content-text: #1a1a1a;
-    --color-content-line: #635B8180;
+    --color-body: #e5e5e5;
     --color-content-card: #F2F2F2;
+    --color-content-element: #ffffff;
+    --color-content-outline: #cccccc;
+    --color-content-text: #272727;
+    --color-content-line: #635B8180;
     --color-search-show: #FF605C;
     --color-content-button: #EDE7DD;
     --color-content-button-line: #635B81;
@@ -56,10 +58,12 @@
     --color-element-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
     --color-element-hover: 0px 1px 4px rgba(0, 0, 0, 0.16);
 
-    --color-body: #232323;
+    --color-body: #1a1a1a;
+    --color-content-card: #272727;
+    --color-content-element: #343434;
+    --color-content-outline: #333333;
     --color-content-text: #f2f2f2;
     --color-content-line: #635B81CC;
-    --color-content-card: #303030;
     --color-search-show: #FF605C;
     --color-content-button: #635B81;
     --color-content-button-line: #635B81;
