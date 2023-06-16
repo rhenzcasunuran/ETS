@@ -7,6 +7,7 @@
         $tag =  mysqli_real_escape_string($conn,$_POST['post_tag']);
         $title =  mysqli_real_escape_string($conn,$_POST['post_title']);
         $description =  mysqli_real_escape_string($conn,$_POST['post_description']);
+        date_default_timezone_set('Asia/Manila');
         $current_date = date("y-m-d h:i:s");
 
         $sql = "INSERT INTO post (post_calendar, post_tag, post_title, post_description, post_schedule) 
