@@ -374,90 +374,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <header class="header">Live Scoring</header>
       <div class="container">
         <div class="home">
-            <h1>TEAM A</h1>
+            <h1>ELITE</h1>
             <button name="score_a" id="home--btn"><?php echo $existingValueA; ?></button>
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-    
-    <div class="operate">
-      <button type="submit" name="updated_value_a" value="-3" id="btn--three">-3</button>
-      <button type="submit" name="updated_value_a" value="-2" id="btn--two" >-2</button>
-      <button type="submit" name="updated_value_a" value="-1" id="btn--one" >-1</button>
-      <button type="submit" name="updated_value_a" value="1" id="btn--one" >+1</button>
-      <button type="submit" name="updated_value_a" value="2" id="btn--two" >+2</button>
-      <button type="submit" name="updated_value_a" value="3" id="btn--three" >+3</button>
-    </div>
-  </form>
         </div>
         <div class="dropdown-tournament">
         <form action="/action_page.php">
-    <select id="sport" class="button-tournament">
-        <option value="TOURNAMENT">TOURNAMENT</option>
-        <option value="BASKETBALL">BASKETBALL</option>
-        <option value="VOLLEYBALL">VOLLEYBALL</option>
-        <option value="CHESS">CHESS</option>
-        <option value="BADMINTON">BADMINTON</option>
-    </select>
-</form>
-
-<script>
-        // Get the dropdown element
-        var dropdown = document.getElementById("sport");
-
-        // Add an event listener to handle the selection change
-        dropdown.addEventListener("change", function() {
-            // Get the selected value
-            var selectedValue = dropdown.value;
-
-            // Redirect to a new page based on the selected value
-            switch (selectedValue) {
-                case "BASKETBALL":
-                    window.location.href = "./php/TOU-basketball.php";
-                    break;
-                case "VOLLEYBALL":
-                    window.location.href = "./php/TOU-volleyball.php";
-                    break;
-                case "CHESS":
-                    window.location.href = "./php/TOU-chess.php";
-                    break;
-                case "BADMINTON":
-                    window.location.href = "./php/TOU-badminton.php";
-                    break;
-                default:
-                    // Do nothing or handle the default case
-                    break;
+        <select class="button-tournament" >
+        <?php
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                echo "<option value='" . $row["bracket_id"] . "'>" . $row["bracket_sports"] . "</option>";
             }
-        });
-    </script>
+        } else {
+            echo "<option>No options available</option>";
+        }
+        ?>
+        </select>
+</form>
             <div class="quarter" >
-                <h2>NO ONGOING<br> MATCH</h2>
+                <h2>1st <br> Quarter</h2>
             </div>
             <div>
-            <button class="button-end-match" onclick="showEndMatch()" disabled>End Match</button>
       </div>
         </div>
         <div class="guest">
-            <h1>TEAM B</h1>
+            <h1>AECES</h1>
             <button id="guest--btn"><?php echo $existingValueB; ?></button>
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-    
-    <div class="operate">
-      <button type="submit" name="updated_value_b" value="-3" id="btn--three" >-3</button>
-      <button type="submit" name="updated_value_b" value="-2" id="btn--two" >-2</button>
-      <button type="submit" name="updated_value_b" value="-1" id="btn--one" >-1</button>
-      <button type="submit" name="updated_value_b" value="1" id="btn--one" >+1</button>
-      <button type="submit" name="updated_value_b" value="2" id="btn--two" >+2</button>
-      <button type="submit" name="updated_value_b" value="3" id="btn--three" >+3</button>
-    </div>
-  </form>
         </div>
     </div>
-    <div class="container-two">
 
-        
-        <p id="home--count" onclick="homeCount">TEAM A : </p>
-        <p id="guest--count" onclick="guestCount">TEAM B : </p>
-        <button type="submit" id="save--counter" class="save--btn" onclick="showSaveScore()" name="update_score_data" disabled>SAVE</button>
-    </div>
 
     <script src="./index.js"></script>
     <script src="./js/tournament_type.js"></script>
