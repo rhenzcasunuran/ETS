@@ -47,9 +47,16 @@ p{
   color: var(--color-content-text);
   margin-top: 2;
 }
+.p, #event-description {
+  font-size: large;
+  color: var(--color-content-text);
+  margin-top: 2rem;
+  word-wrap: break-word;
+}
+
 
 .left-container {
-  height: 130px;
+  height: 170px;
   background: var(--color-body);
   display: flex;
   border: 2px solid ;
@@ -79,7 +86,8 @@ p{
 }
 
 .carousel-container {
-  max-height: auto; /* Replace 400px with your desired height value */
+  min-height: 50vh;
+  max-height: auto;
   background: var(--color-body);
   margin-bottom: 10px;
   overflow: hidden;
@@ -88,6 +96,7 @@ p{
   zoom: normal;
 
 }
+ 
 
 .carousel-container .carousel-inner {
   height: 100%; /* Set the height to 100% to fill the container vertically */
@@ -97,7 +106,7 @@ p{
 .carousel-container .carousel-inner img {
   height: 100%;
   width: 100%;
-  object-fit: cover; /* Use "cover" instead of "contain" */
+  object-fit: contain; /* Use "cover" instead of "contain" */
 }
 .carousel-item img {
   max-width: 100%;
@@ -236,7 +245,6 @@ p{
 .left-container .event {
   height: 100px;
   justify-content: center;
-  cursor: pointer;
 }
 .image .expanded-image {
   display: none;
@@ -263,36 +271,97 @@ p{
 /* Styles for card container */
 #card-container {
   display: flex;
-  justify-content: flex-start; /* Adjust the alignment based on your preference */
+  justify-content: flex-start;
   overflow-x: auto;
-  margin-top: 20px;
-  width: 90%;
-  margin-left: 5%;
-  margin-bottom: 20px;
+  width: 100%; /* Adjust the width to fit the parent container */
   border-radius: 10px;
-  white-space: nowrap; /* Prevent card wrapping */
+  white-space: nowrap;
+  justify-content: flex-start; /* Adjust the alignment based on your preference */
+  overflow-y: hidden; /* Hide vertical scrollbar */
+  padding:2px;
 }
 
-.event-card {
+.suggested-events {
+  margin-bottom: 20px;
+  min-width: 24%;
+}
+
+.event-container {
+  display: flex;
+}
+
+.suggested-events,
+.other-events {
+  margin-right: 20px;
+}
+
+.suggested-events .event-cards,
+.other-events .event-cards {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.suggested-events .event-card,
+.other-events .event-card {
+  flex: 0 0 auto;
   background-color: var(--color-content-card);
   border-radius: 10px;
-  padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  margin-right: 10px; /* Adjust spacing between cards */
-  flex-shrink: 0; /* Prevent card shrinking */
+  margin-right: 10px;
+  margin-bottom: 10px;
+  min-width: 150px;
 }
 
-.event-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.suggested-events .event-card.last-event,
+.other-events .event-card.last-event {
+  margin-right: 1px;
 }
 
-.event-info {
+.suggested-events .section-heading,
+.other-events .section-heading {
   margin-bottom: 10px;
 }
-  .event-name,.category,.year{
-  color: var( --color-content-text) 
- }
+
+
+.section-heading {
+  color: var(--color-content-text);
+  font-size: 18px; /* Customize the font size */
+  font-weight: bold; /* Customize the font weight */
+  margin-bottom: 20px; /* Customize the margin-bottom */
+  margin-right: 100%;
+  
+}
+
+
+.other-events .event-name,
+.other-events .category,
+.other-events .year {
+  color: var(--color-content-text);
+  text-align: center;
+}
+
+.other-events .event-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+
+.event-info {
+text-align: center;
+}
+
+.event-name,
+.category,
+.year {
+  color: var(--color-content-text);
+  text-align: center;
+}
+
 .event-name {
   font-size: 18px;
   font-weight: bold;
@@ -309,29 +378,121 @@ p{
   margin: 0;
 }
 
-.p .h3 {
-  word-wrap: break-word;
+  /* Modal styles */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Ensure the modal appears above other elements */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scrolling if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black with transparency */
+  }
+
+  
+  .modal-content {
+    background-color: var(--color-content-text);
+    margin: 15% auto; /* 15% from the top and centered horizontally */
+    padding: 20px;
+    border: 1px solid #888;
+    overflow: auto;
+    word-wrap: normal;
+    white-space: normal;
+  }
+  .btn-close{
+      background-color: red !important;
+      
+  }
+  
+  .close {
+    color: var(--color-content-text);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  modal-backdrop.show {
+     opacity: 0 !important; 
 }
+
+.modal-content{
+  max-height: 80vh !important;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    color: var(--color-content-text);;
+  }  
+.modal-content {
+  background-color: var(--color-content-card);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.modal-body p {
+  margin-bottom: 0.5rem;
+  word-break: break-all;
+}
+
+
+.modal-header {
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  color: var(--color-content-text);;
+}
+
+.modal-title {
+  margin-bottom: 0;
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.modal-body h3 {
+  margin-top: 0;
+}
+
+
+
+.modal-footer {
+  padding: 1rem;
+  border-top: 1px solid #dee2e6;
+}
+
 /* width */
-::-webkit-scrollbar {
-  width: 10px;
+::-webkit-scrollbar{
+  height: 5px;
+  width: 5px;
+  border-radius: 10px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888; 
+::-webkit-scrollbar-track{
+  background-color: var(--color-content-card);
+  border-radius: 10px;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+::-webkit-scrollbar-thumb{
+  background-color: #5D2BA0;
+  border-radius: 10px;
 }
 
+::-webkit-scrollbar-thumb:hover{
+  background-color: #743EBA;
+}
 
 
 /* Mobile Styles */

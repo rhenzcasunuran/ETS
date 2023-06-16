@@ -31,6 +31,7 @@ h3 {
     box-shadow: var(--color-container-shadow);
     width: calc(100% - 78px);
     box-shadow: var(--color-shadow);
+    border:30px;
 
     align-items: center;
   }
@@ -87,8 +88,8 @@ h3 {
   }
   
   
-  #but {
-    background-color: var(--color-sidebar-active);
+  #add_button {
+    background-color:  #5D2BA0;
     color:var(--color-content-text);
     margin-right: 50px;
     position: relative;
@@ -101,13 +102,13 @@ h3 {
     margin-bottom: 10px;
   }
   
-  #but:hover {
-    background-color: #CF9FFF;
+  #add_button:hover {
+    background-color: var( --color-sidebar-hover);
   }
   
   button {
     color:var(--color-content-text);
-    background: var(--color-sidebar-subactive);
+    background: #5D2BA0;
     border: none;
     padding: 1%;
     width: calc(80%);
@@ -124,7 +125,7 @@ h3 {
   }
   
   button:hover {
-    background-color: #CF9FFF;
+    background-color:var( --color-sidebar-hover);
   }
   
   .search-wrapper {
@@ -145,25 +146,24 @@ h3 {
   #buttons > button {
     display: none;
   }
-  
   .activity_container label {
     display: block;
     margin-right: 10%;
     text-align: right;
     color: var(--color-content-text);
+}
 
-  }
-  .form-check {
+.form-check {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-  }
-  
-  .form-check input[type="radio"] {
+}
+
+.form-check input[type="checkbox"] {
     display: none;
-  }
-  
-  .form-check-label {
+}
+
+.form-check-label {
     position: relative;
     padding-left: 30px;
     cursor: pointer;
@@ -171,9 +171,9 @@ h3 {
     width: auto; /* Adjust the width as needed */
     display: flex;
     align-items: center;
-  }
-  
-  .form-check-label:before {
+}
+
+.form-check-label:before {
     content: "";
     position: absolute;
     left: 0;
@@ -181,16 +181,17 @@ h3 {
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    background-color: var(--color-sidebar-active);
-    border-radius: 50%;
+    background-color: #5D2BA0;
+    border-radius: 4px;
     transition: all 0.3s ease;
-  }
-  
-  .form-check input[type="radio"]:checked + .form-check-label:before {
-    background-color: #da3030;
-  }
-  
-  .form-check-label:after {
+    border: 2px solid #fff;
+}
+
+.form-check input[type="checkbox"]:checked + .form-check-label:before {
+    background-color:  var(--color-sidebar-active);
+}
+
+.form-check-label:after {
     content: "";
     position: absolute;
     left: 7px;
@@ -198,33 +199,29 @@ h3 {
     transform: translateY(-50%);
     width: 6px;
     height: 6px;
-    border-radius: 50%;
-    background-color: #da3030;
-    opacity: 0;
-    transition: all 0.3s ease;
-  }
-  
-  .form-check input[type="radio"]:checked + .form-check-label:after {
+    border-radius: 2px;
     opacity: 1;
-  }
-  
-  
-  
-  
-  .activity_container{
+    transition: all 0.3s ease;
+}
+
+.form-check input[type="checkbox"]:checked + .form-check-label:after {
+    opacity: 1;
+}
+
+.activity_container {
     display: flex;
     align-items: center;
     position: relative;
     margin-bottom: 10px;
     align-items: self-end;
+    border : 30px;
     white-space: nowrap;
-  }
- 
- 
-  
-  .selected {
-    background-color: #c02525;
-  }
+}
+
+.selected {
+    background-color: var(--color-sidebar-active);
+}
+
   
   #select_event_text {
     display: block;
