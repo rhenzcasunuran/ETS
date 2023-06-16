@@ -8,7 +8,7 @@
     width: 100%;
     font-weight: 300;
     padding: 0;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
+    box-shadow: var(--color-element-shadow);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,7 +50,7 @@
     z-index: 100;
 }
 
-#clear-popup{
+#clear-popup, #post-popup{
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
@@ -61,7 +61,7 @@
     z-index: 100;
 }
 
-#discardChanges-popup{
+#discardChanges-popup, #saveChanges-popup{
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);

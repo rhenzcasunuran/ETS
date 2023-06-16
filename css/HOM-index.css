@@ -1,34 +1,41 @@
 .container{
     width: 95%;
+    padding: 0;
 }
 
-.filter-text{
-    align-content: center;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 20px;
-
-    margin: auto;
-    width: 100%;
-    color: var(--color-content-text);
+.filters{
+    gap: 1%;
 }
 
 .filter-button{
-    display: inline-block;
     border: none;
-    color: whitesmoke;
-    height: 32px;
-    border-radius: 20px;
+    color: #808080;
     cursor: pointer;
-    margin: 15px 0;
-    width: 100%;
-    font-weight: 300;
-    box-shadow: 0 5px 10px -6px var(--color-shadow);
+    margin: 20px 4px 0px 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border-radius: 30px;
+    padding: 12px;
 }
 
 .filter-button:hover{
-    opacity: 75%;
-    transition: all .5s ease;
+    color: var(--color-content-text);
+    font-weight: 300;
+}
+
+.active-filter{
+    font-weight: 300;
+    color: whitesmoke;
+    background-color:#5D2BA0;
+    transition: margin .4s, padding .4s;
+    margin: 20px 0px 0px 0px;
+    padding: 12px 16px;
+}
+
+.active-filter:hover:not(.no-hover){
+    color: whitesmoke;
 }
 
 .SC{
@@ -69,27 +76,32 @@
 
 .post-container{
     margin-top: 10px;
-    display: grid;
+    display: flex;
     grid-auto-flow: column;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
-    padding: 20px 0;
-    width: 100%;
+    padding: 10px 0;
+    gap: 10px;
 }
 
-.post-container::-webkit-scrollbar{
+.post-container::-webkit-scrollbar, .category-container::-webkit-scrollbar{
     height: 5px;
     width: 5px;
-}
-  
-.post-container::-webkit-scrollbar-track{
-    background-color: rgb(255 255 255 / 10%);
     border-radius: 10px;
 }
   
-.post-container::-webkit-scrollbar-thumb{
-    background-color: rgb(255 255 255 / 10%);
+.post-container::-webkit-scrollbar-track, .category-container::-webkit-scrollbar-track{
+    background-color: var(--color-content-card);
     border-radius: 10px;
+}
+  
+.post-container::-webkit-scrollbar-thumb, .category-container::-webkit-scrollbar-thumb{
+    background-color: var(--color-content-outline);
+    border-radius: 10px;
+}
+
+.post-container::-webkit-scrollbar-thumb:hover, .category-container::-webkit-scrollbar-thumb:hover{
+    background-color: var(--color-content-text);
 }
 
 .post-snap{
@@ -124,35 +136,36 @@
 
 .post-click{
     text-decoration: none;
-    padding: 10px;
+    padding: auto;
+    margin: 20px 0px;
+    border-radius: 10px;
+    background: none;
 }
 
 .post-card{
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
+    transition: 0.25s;
     width: 375px;
     height: 275px;
     vertical-align: top;
-    background-color: var(--color-content-card);
+    background-color: var(--color-sidebar-chevron-icon);
     cursor: pointer;
-    padding: 0;
-    border-radius: 10px;
-    display: grid;
+    padding: 0px;
+    margin: 0px 10px;
     grid-template-rows: min-content;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
+    box-shadow: var(--color-container-shadow);
+    border-radius: 20px;
 }
 
 .post-card:hover{
-    transition: .5s;
-    box-shadow: 0 5px 20px -5px var(--color-shadow);
+    box-shadow: var(--color-container-hover);
 }
 
 .post-cover{
     width: 375px;
     height: 180px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    object-fit: contain;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    object-fit: fill;
 }
 
 .post-detail{
@@ -166,7 +179,7 @@
     font-size: 10px;
     font-style: italic;
     margin-bottom: 0;
-    color: var(--color-content-text);
+    color: #f2f2f2;
 }
 
 .post-title-container{
@@ -183,7 +196,7 @@
     width: 355px;
     line-height: 150%;
     text-align: center;
-    color: var(--color-content-text);
+    color: #f2f2f2;
     padding: 0px;
     margin: auto;
 }
@@ -207,39 +220,22 @@
     padding-top: 20px;
 }
 
-.category-container::-webkit-scrollbar{
-    height: 5px;
-    width: 5px;
-}
-  
-.category-container::-webkit-scrollbar-track{
-    background-color: rgb(255 255 255 / 10%);
-    border-radius: 10px;
-}
-  
-.category-container::-webkit-scrollbar-thumb{
-    background-color: rgb(255 255 255 / 10%);
-    border-radius: 10px;
-}
-
 .category-card{
     display: flex;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     width: 95%;
     height: 150px;
     background-color: var(--color-content-card);
     cursor: pointer;
     padding: 0;
-    border-radius: 10px;
+    border-radius: 20px;
     grid-template-rows: min-content;
     margin-bottom: 20px;
-    box-shadow: 0 5px 10px -5px var(--color-shadow);
+    box-shadow: var(--color-container-shadow);
 }
 
 .category-card:hover{
-    transition: .5s;
-    box-shadow: 0 5px 20px -5px var(--color-shadow);
+    box-shadow: var(--color-container-hover);
 }
 
 .category-column{
