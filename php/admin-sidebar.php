@@ -15,8 +15,6 @@ List of variables:
 
 1. Calendar:
    - Active: `$activeModule = 'calendar'`
-   - Sub-Active: `$activeSubItem = 'overview'`
-   - Sub-Active: `$activeSubItem = 'logs'`
 
 2. Posts:
    - Active: `$activeModule = 'posts'`
@@ -53,6 +51,9 @@ List of variables:
 
 8. Judges & Participants:
    - Active: `$activeModule = 'judges-participants'`
+
+9. Activity Logs:
+- Active: `$activeModule = 'activity-logs'`
 
 Note: If $activeSubItem variable doesnt exist, only do $activeModule.
 
