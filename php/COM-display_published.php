@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 $currentDateTime = date("Y-m-d H:i:s");
 
 // Query the competitions table with the condition for schedule
-$sql = "SELECT * FROM competitions_table WHERE schedule IS NOT NULL AND schedule_end IS NOT NULL";
+$sql = "SELECT * FROM competitions_table WHERE schedule IS NOT NULL AND schedule_end IS NOT NULL AND archived='0'";
 $result = $conn->query($sql);
 
 // If there are competitions, generate HTML code for each of them
