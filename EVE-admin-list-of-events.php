@@ -36,7 +36,7 @@
       if ($row > 0){
         while ($row = mysqli_fetch_array($event_data)):;
     ?>
-      <div class="popup-background" id="deleteWrapper<?php echo $row[5];?>">
+      <div class="popup-background" id="deleteWrapper<?php echo $row[3];?>">
         <div class="row popup-container">
             <div class="col-4">
                 <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
@@ -47,7 +47,7 @@
             </div>
             <div class="div">
                 <button class="outline-button" onclick="hideDelete<?php echo $row[0];?>()"><i class='bx bx-x'></i>Cancel</button>
-                <a href="EVE-admin-list-of-events.php?eed=<?php echo $row[5]?>">
+                <a href="EVE-admin-list-of-events.php?eed=<?php echo $row[3]?>">
                   <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
                 </a>
             </div>
@@ -73,7 +73,7 @@
     </div>
 
       <script>
-        popupDelete<?php echo $row[0];?> = document.querySelector('#deleteWrapper<?php echo $row[5];?>');
+        popupDelete<?php echo $row[0];?> = document.querySelector('#deleteWrapper<?php echo $row[3];?>');
   
         var showDelete<?php echo $row[0];?> = function() {
             popupDelete<?php echo $row[0];?>.style.display ='flex';
@@ -82,7 +82,7 @@
             popupDelete<?php echo $row[0];?>.style.display ='none';
         }
 
-        popupMarkAsDone<?php echo $row[0];?> = document.querySelector('#markAsDoneWrapper<?php echo $row[5];?>');
+        popupMarkAsDone<?php echo $row[0];?> = document.querySelector('#markAsDoneWrapper<?php echo $row[3];?>');
   
         var showMarkAsDone<?php echo $row[0];?> = function() {
             popupMarkAsDone<?php echo $row[0];?>.style.display ='flex';
@@ -97,198 +97,12 @@
       }
     ?>
     <!--Sidebar-->
-    <div class="sidebar open box-shadow">
-      <div class="bottom-design">
-        <div class="design1"></div>
-        <div class="design2"></div>
-      </div>
-      <div class="logo_details">
-        <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
-        <div class="logo_name">Events Tabulation System</div>
-        <i class="bx bx-arrow-to-right" id="btn"></i>
-        <script src="./js/sidebar-state.js"></script>
-      </div>
-      <div class="wrapper">
-        <li class="nav-item top">
-          <a href="index.php">
-            <i class="bx bx-home-alt"></i>
-            <span class="link_name">Go Back</span>
-          </a>
-        </li>
-        <div class="sidebar-content-container">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="#posts" class="menu_btn">
-                <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Posts
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="HOM-create-post.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Create Post</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HOM-draft-scheduled-post.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Draft & Scheduled Post</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HOM-manage-post.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Manage Post</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#event_menu" class="menu_btn active">
-                <i class="bx bx-calendar-edit"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Events
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="EVE-admin-list-of-events.php" class="sub-active">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">List of Events</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="EVE-admin-event-configuration.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Event Configuration</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#criteria_config">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Criteria Configuration</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="menu_btn">
-                <i class="bx bx-calendar"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Calendar
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="CAL-admin-overall.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Overview</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="CAL-admin-logs.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Logs</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="BAR-admin.php">
-                <i class='bx bx-bar-chart-alt-2'></i>
-                <span class="link_name">Overall Results</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#tournaments" class="menu_btn">
-                <i class="bx bx-trophy"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Tournaments
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Live Scoring</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="TOU-bracket-admin.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Manage Brackets</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#competition" class="menu_btn">
-                <i class="bx bx-medal"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Competition
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="COM-manage_results_page.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Manage Results</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-tobepublished_page.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">To Publish</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-published_page.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Published Results</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#archive">
-                    <i class="bx bxs-circle sub-icon color-purple"></i>
-                    <span class="sub_link_name">Archive</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#event_history" class="menu_btn">
-                <i class="bx bx-history"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Event History
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="HIS-admin-ManageEvent.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Event Page</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HIS-admin-highlights.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Highlights Page</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="P&J-admin-formPJ.php">
-                <i class="bx bx-group"></i>
-                <span class="link_name">Judges & <br> Participants</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <?php
+      $activeModule = 'events';
+      $activeSubItem = 'list-of-events';
+
+      require './php/admin-sidebar.php';
+    ?>
     <!--Page Content-->
     <section class="home-section">
       <div class="container-fluid d-flex row justify-content-center m-0" id="event-wrapper">
@@ -306,31 +120,31 @@
                 </div>
               </div>
             <?php
-            while ($row = mysqli_fetch_array($event_data2)):;?>
+            while ($row = mysqli_fetch_array($query)):;?>
             <div class="element">
               <div class="row">
                 <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Event</p>
-                  <p class="element-content"><?php echo $row[1];?></p>
+                  <p class="element-content"><?php echo $row['event_name'];?></p>
                 </div>
                 <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Event Type</p>
-                  <p class="element-content"><?php echo $row[2];?></p>
+                  <p class="element-content"><?php echo $row['event_type'];?></p>
                 </div>
                 <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Category</p>
-                  <p class="element-content"><?php echo $row[3];?></p>
+                  <p class="element-content"><?php echo $row['category_name'];?></p>
                 </div>
                 <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Date & Time</p>
                   <p class="element-content"><?php 
-                  $date_sql = "SELECT DATE_FORMAT('$row[6]', '%M %d, %Y') AS formattedDate FROM listofeventtb;";
-                  $date_result = mysqli_query($dbname, $date_sql);
+                  $date_sql = "SELECT DATE_FORMAT('$row[event_date]', '%M %d, %Y') AS formattedDate FROM ongoing_list_of_event;";
+                  $date_result = mysqli_query($conn, $date_sql);
                   $get_date_result = mysqli_fetch_assoc($date_result);
                   $date = $get_date_result['formattedDate'];
 
-                  $time_sql = "SELECT TIME_FORMAT('$row[7]', '%h:%i %p') AS formattedTime FROM listofeventtb;";
-                  $time_result = mysqli_query($dbname, $time_sql);
+                  $time_sql = "SELECT TIME_FORMAT('$row[event_time]', '%h:%i %p') AS formattedTime FROM ongoing_list_of_event;";
+                  $time_result = mysqli_query($conn, $time_sql);
                   $get_time_result = mysqli_fetch_assoc($time_result);
                   $time = $get_time_result['formattedTime'];
                   echo $date;?>; <?php echo $time;?></p>
@@ -339,7 +153,7 @@
               <div class="row">
                 <div class="element-group col-sm-6 col-lg-6">
                   <p class="element-label">Event Desciption</p>
-                  <p class="element-content"><?php echo $row[4];?></p>
+                  <p class="element-content"><?php echo $row['event_description'];?></p>
                 </div>
                 <div class="element-group col-sm-6 col-lg-2">
                   <p class="element-label">Code 
@@ -348,12 +162,12 @@
                     </i> 
                     <i class='bx bx-hide' id="revealCode<?php echo $row[0];?>"></i>
                   </p>
-                  <p class="element-content-secured" id="eventCode<?php echo $row[0];?>"><?php echo $row[5];?></p>
+                  <p class="element-content-secured" id="eventCode<?php echo $row['event_id'];?>"><?php echo $row[3];?></p>
                 </div>
                 <div class="element-group col-sm-12 col-lg-4" id="eventBtn">
-                  <button class="success-button justify-self-end event-done-btn<?php echo $row[0];?>" onclick="showMarkAsDone<?php echo $row[0];?>()">Mark as Done</button>
+                  <button class="success-button justify-self-end event-done-btn<?php echo $row['event_id'];?>" onclick="showMarkAsDone<?php echo $row[0];?>()">Mark as Done</button>
                   <div class="button-container more-btn<?php echo $row[0];?>" id="more-btn">
-                    <a href="EVE-admin-edit-event.php?eec=<?php echo $row[5]?>">
+                    <a href="EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>">
                       <button class="primary-button justify-self-end" id="event-edit-btn"><i class='bx bx-edit-alt'></i>Edit Event</button>
                     </a>
                     <button class="danger-button icon-button" id="event-delete-btn" onclick="showDelete<?php echo $row[0];?>()"><i class='bx bx-trash'></i></button>

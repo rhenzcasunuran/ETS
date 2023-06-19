@@ -51,213 +51,32 @@
     </div>
 
     <!--Sidebar-->
-    <div class="sidebar open box-shadow">
-      <div class="bottom-design">
-        <div class="design1"></div>
-        <div class="design2"></div>
-      </div>
-      <div class="logo_details">
-        <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
-        <div class="logo_name">Events Tabulation System</div>
-        <i class="bx bx-arrow-to-right" id="btn"></i>
-        <script src="./js/sidebar-state.js"></script>
-      </div>
-      <div class="wrapper">
-        <li class="nav-item top">
-          <a href="index.php">
-            <i class="bx bx-home-alt"></i>
-            <span class="link_name">Go Back</span>
-          </a>
-        </li>
-        <div class="sidebar-content-container">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="#posts" class="menu_btn">
-                <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Posts
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="HOM-create-post.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Create Post</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HOM-draft-scheduled-post.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Draft & Scheduled Post</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HOM-manage-post.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Manage Post</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#event_menu" class="menu_btn active">
-                <i class="bx bx-calendar-edit"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Events
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="EVE-admin-list-of-events.php" class="sub-active">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">List of Events</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="EVE-admin-event-configuration.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Event Configuration</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#criteria_config">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Criteria Configuration</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="menu_btn">
-                <i class="bx bx-calendar"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Calendar
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="CAL-admin-overall.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Overview</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="CAL-admin-logs.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Logs</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="BAR-admin.php">
-                <i class='bx bx-bar-chart-alt-2'></i>
-                <span class="link_name">Overall Results</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#tournaments" class="menu_btn">
-                <i class="bx bx-trophy"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Tournaments
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="TOU-Live-Scoring-Admin.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Live Scoring</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="TOU-bracket-admin.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Manage Brackets</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#competition" class="menu_btn">
-                <i class="bx bx-medal"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Competition
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="COM-manage_results_page.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Manage Results</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-tobepublished_page.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">To Publish</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-published_page.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Published Results</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#archive">
-                    <i class="bx bxs-circle sub-icon color-purple"></i>
-                    <span class="sub_link_name">Archive</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#event_history" class="menu_btn">
-                <i class="bx bx-history"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Event History
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="HIS-admin-ManageEvent.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Event Page</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="HIS-admin-highlights.php">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Highlights Page</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="P&J-admin-formPJ.php">
-                <i class="bx bx-group"></i>
-                <span class="link_name">Judges & <br> Participants</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <?php
+      $activeModule = 'events';
+      $activeSubItem = 'list-of-events';
+
+      require './php/admin-sidebar.php';
+    ?>
     <!--Page Content-->
     <section class="home-section">
       <div class="container-fluid d-flex row justify-content-center align-items-center m-0" id="event-edit-wrapper">
         <div class="element">
-          <form id="add-event-form" action="" method="POST" role="form">
+          <form id="add-event-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" role="form">
             <div class="row flex-column flex-md-row">
               <div class="form-group col-md-4">
                   <label for="select-event-name" class="form-label fw-bold">Event <span class="req" id="reqName">*</span></label>
-                  <select id="select-event-name" name="select-event-name" title="<?php echo $edit_event_row[1]?>" class="form-control selectpicker" data-live-search="true" required>
+                  <select id="select-event-name" name="select-event-name" title="<?php echo $edit_event_row['event_name']?>" class="form-control selectpicker" data-live-search="true" required>
                   <option value="">Select Event Name</option>
                   <?php 
                       $row = mysqli_num_rows($eventName);
+                      $currentEventID = $edit_event_row['event_name_id'];
+                      $sql = "SELECT event_name_id, event_name FROM event_name
+                              UNION
+                              SELECT event_name_id, event_name FROM ongoing_event_name WHERE event_name_id = '$currentEventID'";
+                      $result = mysqli_query($conn, $sql);
                       if ($row > 0) {
-                      while($row = mysqli_fetch_array($selectEventName)):;
-                        if($edit_event_row[1] !== $row[1]){
+                      while($row = mysqli_fetch_array($result)):;
+                        if($edit_event_row['event_name'] !== $row[1]){
                       ?>
                       <option value="<?php echo $row[0]; ?>">
                         <?php echo $row[1]; ?>
@@ -265,7 +84,7 @@
                       <?php } 
                         else {
                           ?>
-                          <option value="<?php echo $row[0]?>" selected><?php echo $edit_event_row[1]?></option>
+                          <option value="<?php echo $row['event_name_id']?>" selected><?php echo $row['event_name']?></option>
                           <?php
                         }  
                     
@@ -275,13 +94,13 @@
               </div>
               <div class="form-group col-md-4">
                   <label for="select-event-type" class="form-label fw-bold">Event Type <span class="req" id="reqType">*</span></label>
-                  <select id="select-event-type" name="select-event-type" title="<?php echo $edit_event_row[2]?>" class="form-control selectpicker" required>
+                  <select id="select-event-type" name="select-event-type" title="<?php echo $edit_event_row['event_type']?>" class="form-control selectpicker" required>
                   <option value="">Select Event Type</option>
                   <?php 
                       $row = mysqli_num_rows($eventType);
                       if ($row > 0) {
                       while($row = mysqli_fetch_array($eventType)):;
-                        if($edit_event_row[2] !== $row[1]){
+                        if($edit_event_row['event_type'] !== $row[1]){
                       ?>
                       <option value="<?php echo $row[0]; ?>">
                         <?php echo $row[1]; ?>
@@ -289,7 +108,7 @@
                       <?php } 
                         else{
                           ?>
-                            <option value="<?php echo $row[0]?>" selected><?php echo $edit_event_row[2]?></option>
+                            <option value="<?php echo $row[0]?>" selected><?php echo $row[1]?></option>
                           <?php
                         }  
                     
@@ -300,15 +119,15 @@
               </div>
               <div class="form-group col-md-4">
                 <label for="select-category-name" class="form-label fw-bold">Category <span class="req" id="reqCategory">*</span></label>
-                <select id="select-category-name" name="select-category-name" title="<?php echo $edit_event_row[3]?>" class="form-control selectpicker" data-live-search="true" required>
-                  <option value="<?php echo $edit_event_row[3]?>" id="selectedCategory" selected><?php echo $edit_event_row[3]?></option>
+                <select id="select-category-name" name="select-category-name" title="<?php echo $edit_event_row['category_name']?>" class="form-control selectpicker" data-live-search="true" required>
+                  <option value="<?php echo $edit_event_row['category_name_id']?>" id="selectedCategory" selected><?php echo $edit_event_row['category_name']?></option>
                 </select>
             </div>
           </div>
           <div class="row flex-column flex-md-row">
             <div class="form-group col-md-6">
                 <label for="event-description" class="form-label fw-bold">Event Description <span class="req" id="reqDesc">*</span></label>
-                <textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required><?php echo $edit_event_row[4] ?></textarea>
+                <textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required><?php echo $edit_event_row['event_description'] ?></textarea>
             </div>
             <div class="form-group col-md-6">
                 <label class="form-label fw-bold">Criteria</label>
@@ -322,16 +141,17 @@
             </div>
             <div class="form-group col-md-4">
                 <label class="form-label fw-bold">Date and Time <span class="req" id="reqDateTime">*</span></label>
-                <input type="date" class="form-control date" id="date" max="" min="" name="date" value="<?php echo $edit_event_row[6] ?>">
-                <input type="time" class="form-control mt-2" id="time" name="time" value="<?php echo $edit_event_row[7] ?>">
+                <input type="date" class="form-control date" id="date" max="" min="" name="date" value="<?php echo $edit_event_row['event_date'] ?>">
+                <input type="time" class="form-control mt-2" id="time" name="time" value="<?php echo $edit_event_row['event_time'] ?>">
             </div>
             <div class="form-group col-md-3">
               <label class="form-label fw-bold">Code <i class='bx bx-copy' onclick="copyCode(this)" data-placement="bottom" title="Copied"></i> <i class='bx bx-hide' id="revealCode"></i></label>
-              <div class="form-control" id="display-code"><?php echo $edit_event_row[5]?></div>
+              <div class="form-control" id="display-code"><?php echo $edit_event_row['event_code']?></div>
+              <input type="hidden" name="id" value="<?php echo isset($_GET['eec']) ? htmlspecialchars($_GET['eec']) : ''; ?>">
             </div>
           </div>
           <div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">
-            <button type="submit" class="primary-button" id="save-btn" name="save-btn" onclick="saveEvent()" disabled>
+            <button type="submit" class="primary-button" id="save-btn" name="save-btn" disabled>
               <div class="tooltip-popup flex-column" id="tooltip">
                 <div class="tooltipText" id="textEvent">Event<i class='bx bx-check' id="checkEvent"></i></div>
                 <div class="tooltipText" id="textType">Event Type<i class='bx bx-check' id="checkType"></i></div>
@@ -434,7 +254,7 @@
       $(document).ready(function(){
         var default_event_name_id = $("#select-event-name").val();
         var default_event_type_id = $("#select-event-type").val();
-        var default_category_name = '<?php echo $edit_event_row[3]?>';
+        var default_category_name = "<?php echo $edit_event_row['category_name_id']?>";
 
         $.ajax({
             url:"./php/EVE-admin-edit-action.php",
@@ -501,9 +321,6 @@
         $('.bs-searchbox input').attr('maxlength', '25');
       });
 
-      function saveEvent(){
-        windows.location.href = "EVE-admin-list-of-events.php?event successfully saved";
-      }
     </script>
   </body>
 
