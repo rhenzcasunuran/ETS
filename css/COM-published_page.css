@@ -339,6 +339,26 @@ input {
     margin-bottom: -200px;
     aspect-ratio: 1/1;
 }
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    margin-right: calc(var(--bs-gutter-x) * -.5);
+    margin-left: calc(var(--bs-gutter-x) * -.5);
+}
+.text-container {
+    max-width: 280px;
+}
+.text-header {
+    padding: 15px;
+}
+.sched_output {
+    background-color: var(--color-content-card) !important;
+    color: var(--color-content-text);
+}
+
 @media screen and (max-width:460px){
     .removespace {
         width: 100% !important;

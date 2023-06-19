@@ -489,6 +489,10 @@ input {
 .text-header {
     padding: 15px;
 }
+.sched_output {
+    background-color: var(--color-content-card) !important;
+    color: var(--color-content-text);
+}
 
 @media screen and (max-width: 768px) {
     h2 {

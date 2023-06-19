@@ -1,0 +1,97 @@
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: var(--color-content-text);
+}
+.pagination-left {
+    width: 30%;
+    margin: auto;
+    margin-top: 20px;
+}
+.pagination-center {
+    width: 40%;
+    margin: auto;
+}
+.pagination-right {
+    width: 30%;
+    margin: auto;
+    margin-top: 10px;
+    margin-right: -20px;
+}
+.prevBtn, .nextBtn {
+    width: 35px;
+    height: 35px;
+    border: 1px solid var(--outline-button-border-color);
+    border-radius: 50%;
+    text-align: center;
+    font-size: 15px;
+    aspect-ratio: 1 / 1;
+    margin-right: 10px;
+    margin-left: 10px;
+    transition: all .5s ease;
+    background-color: rgba(255, 255, 255, 0);
+    color: var(--color-content-text);
+}
+.pageBtn {
+    width: 35px;
+    height: 35px;
+    border: 1px solid var(--outline-button-border-color);
+    border-radius: 50%;
+    text-align: center;
+    font-size: 15px;
+    aspect-ratio: 1 / 1;
+    margin-right: 3px;
+    transition: all .5s ease;
+    background-color: rgba(255, 255, 255, 0);
+    color: var(--color-content-text);
+}
+.pageBtn:hover, .nextBtn:hover, .prevBtn:hover {
+    background-color: var(--hover-primary-action-color);
+    color: var(--alternate-text-color);
+}
+.active {
+    background-color: var(--active-primary-action-color);
+    color: var(--alternate-text-color);
+}
+.itemDD {
+    padding: 10px 10px!important;
+    margin-bottom: 20px!important;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: var(--color-content-card);
+    color: var(--color-content-text);
+}
+.jump-button {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 5px 24px;
+    min-width: 50px;
+    max-width: 100px;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px 0 var(--shadow-color);
+    border: 1px var(--outline-button-border-color) solid!important;
+    outline: none!important;
+    cursor: pointer;
+    user-select: none;
+    color: var(--outline-button-border-color)!important;
+    background-color: transparent!important;
+
+}
+.jump-button:hover {
+    background-color: var(--hover-outline-button-color)!important;
+}
+.jump-button:active {
+    background-color: var(--active-outline-button-color)!important;
+}
+.jump-input {
+    background-color: var(--color-content-card) !important;
+    color: var(--color-content-text);
+}

@@ -4,12 +4,13 @@
   background-color: var(--color-body);
   border-radius: 15px;
   border: 1px solid #ddd;
-  width: 80%;
+  width: 75%;
   max-width: none;
   padding: 0;
   margin-top: 7px;
   top: 100px;
   left: 20px;
+  right: 20px !important;
   z-index: 3001;
   display: none;
   font-family: arial;
@@ -440,7 +441,7 @@ input[name="datetimes"] {
 /*  Larger Screen Styling */
 @media (min-width: 564px) {
   .daterangepicker {
-    width: 80%;
+    width: 75%;
   }
 
   .daterangepicker .ranges ul {
