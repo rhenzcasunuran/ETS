@@ -6,6 +6,7 @@
       <title>Manage Results</title>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="page-id" content="manageresult">
       <!-- Side Bar CSS -->
       <link rel="stylesheet" href="./css/boxicons.css">
       <link rel="stylesheet" href="./css/COM-theme-mode.css">
@@ -16,6 +17,7 @@
       <link rel="stylesheet" href="./css/COM-manage_results_page.css">
       <link rel="stylesheet" href="./css/system-wide.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="./css/COM-pagination.css">
   <head>
 
   <body>
@@ -52,7 +54,9 @@
                 }
             ?>
         </div>
-        <!--<div class='piechart-popup'></div>-->
+        <!--PAGINATION-->
+        <?php include './php/COM-pagination.php'; ?>
+        <!--END-->
     </section>
     <!--Content End-->
     <!--Side Bar Scripts-->
@@ -75,5 +79,6 @@
       });
     </script>
     <script src='./js/COM-manage_results_page.js'></script>
+    <script type="text/javascript" src="./js/COM-pagination.js"></script>
     <!--Side Bar Scripts End-->
   </body>

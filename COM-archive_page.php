@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <title>Published</title>
+      <title>Archive</title>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="page-id" content="published">
@@ -78,7 +78,7 @@
     <!--Sidebar Start-->
     <?php 
         $activeModule = 'competition';
-        $activeSubItem = 'published-results';
+        $activeSubItem = 'archive';
         require './php/admin-sidebar.php';
     ?>
     <!--Sidebar End-->
@@ -89,14 +89,14 @@
     <section class="home-section actualbody">
         <div id="empty" class="empty">
         <img src="./pictures/no_result.png" class="no-result" width="500px" height="500px">
-            <h1 class="empty_header">No Published Results</h1>
-            <p class="empty_p">There are no competition results to published yet.</p>
+            <h1 class="empty_header">No Archived Results</h1>
+            <p class="empty_p">There are no competition results arhived yet.</p>
             <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-tobepublished_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To Publish</p></button>
         </div>
         <div class="content">
         <?php
         try {
-            require './php/COM-display_published.php';
+            require './php/COM-display_archive.php';
         } catch (Throwable $e) {
             // Show error message na hindi nag connect sa db
             // Pero sa ngayon wag muna

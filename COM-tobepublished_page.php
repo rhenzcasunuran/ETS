@@ -6,6 +6,7 @@
         <title>To Publish</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="page-id" content="topublish">
         <!-- Side Bar CSS -->
         <link rel="stylesheet" href="./css/boxicons.css">
         <link rel="stylesheet" href="./css/COM-theme-mode.css">
@@ -18,6 +19,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <link rel="stylesheet" href="./css/COM-pagination.css">
         
         <link rel="stylesheet" type="text/css" media="all" href="./css/COM-daterangepicker.css" />
   <head>
@@ -117,6 +119,9 @@
         }
         ?>
         </div>
+        <!--PAGINATION-->
+        <?php include './php/COM-pagination.php'; ?>
+        <!--END-->
     </section>
     <!--Content End-->
     <!--Side Bar Scripts-->
@@ -465,5 +470,6 @@
         }
       }
     </script>
+    <script type="text/javascript" src="./js/COM-pagination.js"></script>
   </body>
 </html>
