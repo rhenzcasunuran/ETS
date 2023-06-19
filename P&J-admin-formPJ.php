@@ -46,6 +46,19 @@ th, td {
     width: 100%;
   }
 }
+
+input[readonly] {
+  background-color: var(--color-content-card);
+  color:var(--color-content-text)
+  border: none;
+  border-color: var(--color-content-card);
+  padding: 0;
+  cursor: pointer;
+}
+
+.editable {
+      cursor: pointer;
+    }
     </style>
     
     
@@ -147,7 +160,7 @@ th, td {
             <div class="col-md-10" style="max-width: 100%;min-width: 100% auto;">
                 <div class="row" style="margin-bottom: 20px;margin-top: 20px;">
                     <div class="col">
-                        <h4 class="fw-bold d-table-cell" style="color:var(--color-content-text);font-weight:1000;">Judges and Participants</h4>
+                        <h4 class="fw-bold d-table-cell title">Judges and Participants</h4>
                     </div>
                 </div>
                 <div class="row">
@@ -161,11 +174,18 @@ th, td {
                         </select>
                         </div>
                         <div class="row">
-                          <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Judges</label></div>
-                          <div class="col text-end" style="margin-right: 18px;">
-                            <button onClick="add_judge();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="judgeadd"><i class='bx bxs-user-plus'></i></button>
+                          <div class="col">
+                              <label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Judges</label>
                           </div>
-                      </div>
+                          <div class="col text-end" style="margin-right: 18px;">
+                            <div style="display: flex; justify-content: flex-end;">
+                                <button onClick="addRow();" class="buttonadd success-button icon-button" style="margin-right: 5px;" type="button" id="judgeadd">
+                                <i class='bx bxs-user-plus'></i></button>
+                                <button onclick="deleteSelected()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="judgeadd">
+                                <i class='bx bxs-trash-alt'></i></button>
+                            </div>
+                          </div>
+                        </div>
     <div class="div">
         <div class="element">
             <div class="row">
@@ -176,16 +196,18 @@ th, td {
                                     
                                   </div>
                                   <div>
-                                  <table class="table" style="text-align:center; margin-left:40px; margin-top:1px;">
+                                  <table class="#" style="text-align:center; margin-left:40px; margin-top:1px; color:var(--color-content-text);" id="Jtable">
                                   <thread>
                                     <tr>
-                                  <th><h6 class='judgeheader'>Judge Name</h6></th>
-                                  <th><h6 class='judgeheader'>Judge Nickname</h6></th>
-                                  <th><h6 class='judgeheader'>Scoring Link</h6></th>
+                                    <th class="bordertable">
+                                      <input type="checkbox" id="select-all" onchange="toggleAllCheckboxes()">
+                                  </th>
+                                  <th class="bordertable"><h6 class='judgeheader'>Judge Name</h6></th>
+                                  <th class="bordertable"><h6 class='judgeheader'>Judge Nickname</h6></th>
+                                  <th class="bordertable"><h6 class='judgeheader'>Scoring Link</h6></th>
                                   </tr>
-                                  </thread>
-<!-- Judge Form -->                 
-                                     <tbody>
+                                  </thread>      
+                                     <tbody id="Jbox">
                                       <?php
                                       $sql = "SELECT * FROM pjjudgestemp";
                                       $result = $conn -> query($sql);
@@ -198,51 +220,30 @@ th, td {
 
                                       echo"
                                       <tr>
-                                      <td>" . $row["judge_name_temp"] . "</td>
-                                      <td>" . $row["judge_nick_temp"] . "</td>
-                                      <td>https://sample.link</td>
                                       <td>
-                                       <a class='btn btn-primary btn-sm' style='margin-left:30px;'>Edit</a>
+                                          <input type='checkbox' class='checkbox'>
                                       </td>
+                                      <td><span class='editable' onclick='editEntry(this)'>" . $row["judge_name_temp"] . "</span></td>
+                                      <td><span class='editable' onclick='editEntry(this)'>" . $row["judge_nick_temp"] . "</span></td>
+                                      <td>https://sample.link</td>
                                       </tr>";
                                     }
                                     
                                       
                                       ?>
-                                      </tbody>
-                                    </table>
-                                    <ul id="Jbox">
+                                    <ul>
 <!-- Judge Form -->
-                                      <div class="append_judges">
-                                        <li style='list-style-type: none;'>
-                                        <tr>
-                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
-                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
-                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
-                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJA' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
-                                          </tr>
-                                          <br>
-                                        </li>
-                                        <li style='list-style-type: none;'>
-                                        <br><tr>
-                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
-                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
-                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
-                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJB' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
-                                          </tr>
-                                          <br>
-                                        </li>
-                                        </div>
+                                      
                                     </ul>
+                                    </tbody>
+                                    </table>
                                     </div>
                                     <div>
 
                                     </div>
                                     </div>
                                 </div>
-                                <div class="col text-end" style="margin-right:30px;">
-                                <button class="primary-button" type="submit" value="Add" id="save_btnJ" style="display:inline;" disabled>Save</button>
-                                <button onClick="show()" class="secondary-button delJ" id="can_btnJ" type="button"  style="display:inline;" disabled>Cancel</button></div>
+                                
                                 </form>
                 </div>
             </div>
@@ -259,8 +260,10 @@ th, td {
                                               <div class="individual hide">
                       <div class="row">
                           <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Participants</label></div>
-                          <div class="col text-end" style="margin-right: 18px;">
-                            <button onClick="add_par();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddi"><i class='bx bxs-user-plus'></i></button>
+                          <div class="col text-end" style="display:flex;">
+                            <button onClick="addRowP();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddi"><i class='bx bxs-user-plus'></i></button>
+                            <button onclick="deleteSelectedP()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="judgeadd">
+                                <i class='bx bxs-trash-alt'></i></button>
                           </div>
                       </div>
                                             
@@ -289,16 +292,19 @@ th, td {
                                   <div class="col">
 <!-- Participants Form Individual -->
                                   </div>
-                                  <table class="table" style="text-align:center; margin-left:10px; margin-top:1px;">
+                                  <table class="#" style="text-align:center; margin-left:40px; margin-top:1px; color:var(--color-content-text);" id="Ptable">
                                   <thread>
                                     <tr>
-                                  <th><h6 style=" margin-left:30px; font-weight:1000; color:var(--color-content-text);">Participant Name</h6></th>
-                                  <th><h6 style="color: white; margin-left:60px; font-weight:1000; color:var(--color-content-text);">Course</h6></th>
-                                  <th><h6 style="color: white; margin-left:50px; font-weight:1000; color:var(--color-content-text);">Section</h6></th>
-                                  <th><h6 style="color: white; margin-left:70px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
+                                    <th class="bordertable">
+                                      <input type="checkbox" id="select-allP" onchange="toggleAllCheckboxesP()">
+                                  </th>
+                                  <th class="bordertable"><h6 class='judgeheader'>Participant Name</h6></th>
+                                  <th class="bordertable"><h6  class='judgeheader'>Course</h6></th>
+                                  <th class="bordertable"><h6  class='judgeheader'>Section</h6></th>
+                                  <th class="bordertable"><h6  class='judgeheader'>Organization</h6></th>
                                   </tr>
                                   </thread>
-                                  <tbody>
+                                  <tbody id="Pbox">
                                       <?php
                                       $sql = "SELECT * FROM pjparticipantstemp";
                                       $result = $conn -> query($sql);
@@ -311,55 +317,32 @@ th, td {
 
                                       echo"
                                       <tr>
+                                      <td>
+                                          <input type='checkbox' class='checkboxP'>
+                                      </td>
                                       <td>" . $row["participants_name_temp"] . "</td>
                                       <td>" . $row["participants_course_temp"] . "</td>
                                       <td>" . $row["participants_section_temp"] . "</td>
                                       <td>" . $row["participants_organization_temp"] . "</td>
-                                      <td>
-                                       <a class='btn btn-primary btn-sm' style='margin-left:30px;'>Edit</a>
-                                      </td>
                                       </tr>";
                                     }
                                     
                                       
                                       ?>
-                                      </tbody>
-                                    </table>
+                                      
                                   <form action="#" method="POST" id="add_form3">
-                                    <ul id="Pbox">
-                                      <li style='list-style-type: none;'>
-                                          <input type='text' class='inputpname cformpi' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs cformpi' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
-                                          <input type='text' class='inputpcs cformpi' name='participants_section_temp[]' style='border-radius:20px; width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
-                                          <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
-                                            <option disabled selected>Organization</option>
-                                            <option>ELITE</option>
-                                            <option>JPIA</option>
-                                          </select>
-                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
-                                      </li>
-                                      <li style='list-style-type: none;'>
-                                      <br>
-                                          <input type='text' class='inputpname cformpi' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs cformpi' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
-                                          <input type='text' class='inputpcs cformpi' name='participants_section_temp[]' style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
-                                          <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
-                                            <option disabled selected>Organization</option>
-                                            <option>ELITE</option>
-                                            <option>JPIA</option>
-                                          </select>
-                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
-                                      </li>
+                                    <ul >
+                                      
                                     </ul>
+                                    </tbody>
+                                    </table>
                                   </div>
-                                  <div class="col text-end" style="margin-top:30px;">
-                                  <button class="primary-button" type="submit" value="Add" id="save_btnPI" style="display:inline;" disabled>Save</button>
-                                  <button onClick="showp()" class="secondary-button" type="button" id="can_btnPI"  style="display:inline;" disabled>Cancel</button></div>
+                                  
                                   </form>
                                   </div>
                                   <div class="col group hide" style="width:auto;">
                                   <div>
- <table class="table" style="color:var(--color-content-text);">
+ <table class="table" style=" color:var(--color-content-text);">
     <thead>
       <tr>
         <?php
@@ -371,8 +354,8 @@ th, td {
                                     }
 
                                     while($row = $result -> fetch_assoc()) {
-       echo" <th>Group Name</th>
-       <th>" . $row["participants_organization_group_temp"] . " <a class='btn btn-primary btn-sm' style='margin-left:30px;'>Edit</a></th>
+       echo" <th style='color:var(--color-content-text);'>Group Name</th>
+       <th style='color:var(--color-content-text);'>" . $row["participants_organization_group_temp"] . " <a class='btn btn-primary btn-sm' style='margin-left:30px;'>Edit</a></th>
       </tr>
     </thead>
     <tbody>
@@ -382,9 +365,9 @@ th, td {
           <table>
             <thead>
               <tr>
-                <th>Member Name</th>
-                <th>Course</th>
-                <th>Section</th>
+                <th style='color:var(--color-content-text);'>Member Name</th>
+                <th style='color:var(--color-content-text);'>Course</th>
+                <th style='color:var(--color-content-text);'>Section</th>
               </tr>
             </thead>";
             $sql = "SELECT * FROM pjparticipantsgroupmemberstemp";
@@ -509,22 +492,51 @@ th, td {
 
 
     </script>
-
 <script  type="text/javascript">
-var saveJudge = document.getElementById("save_btnJ");
-var saveParIndiv = document.getElementById("save_btnPI");
-var saveParGroup = document.getElementById("save_btnPG");
-var saveAll = document.getElementById("save_btnS");
 
-saveJudge.addEventListener("click", function() {
-      saveAll.disabled = false; // Enable the target button
-    });
-saveParIndiv.addEventListener("click", function() {
-      saveAll.disabled = false; // Enable the target button
-    });
-saveParGroup.addEventListener("click", function() {
-      saveAll.disabled = false; // Enable the target button
-    });
+function toggleAllCheckboxes() {
+            var checkboxes = document.getElementsByClassName('checkbox');
+            var selectAllCheckbox = document.getElementById('select-all');
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = selectAllCheckbox.checked;
+            }
+        }
+
+        function deleteSelected() {
+            var checkboxes = document.getElementsByClassName('checkbox');
+            var selectAllCheckbox = document.getElementById('select-all');
+
+            for (var i = checkboxes.length - 1; i >= 0; i--) {
+                if (checkboxes[i].checked) {
+                    checkboxes[i].parentNode.parentNode.remove();
+                }
+            }
+
+            selectAllCheckbox.checked = false;
+        }
+
+function toggleAllCheckboxesP() {
+            var checkboxesP = document.getElementsByClassName('checkboxP');
+            var selectAllCheckbox = document.getElementById('select-allP');
+            
+            for (var i = 0; i < checkboxesP.length; i++) {
+                checkboxesP[i].checked = selectAllCheckbox.checked;
+            }
+        }
+
+        function deleteSelectedP() {
+            var checkboxesP = document.getElementsByClassName('checkboxP');
+            var selectAllCheckboxP = document.getElementById('select-allP');
+
+            for (var i = checkboxesP.length - 1; i >= 0; i--) {
+                if (checkboxesP[i].checked) {
+                    checkboxesP[i].parentNode.parentNode.remove();
+                }
+            }
+
+            selectAllCheckboxP.checked = false;
+        }
 
 // Confirm
 const formSubmit = document.getElementById('submitAll');
@@ -683,27 +695,139 @@ function validateForm() {
     // If the input is invalid, set hasInvalidInput to true and break the loop
   }
 
-  // Disable or enable the submit button based on the input validity
-  save_btnJ.disabled = hasInvalidInput || dynamicInputs.length === 0;
-  can_btnJ.disabled = hasInvalidInput || dynamicInputs.length === 0;
 }
+function toggleEdit(element) {
+      element.readOnly = !element.readOnly;
+      element.classList.toggle("editable");
+    }
 
 var intParTextBox = 0;
 var intJudgeTextBox = 0;
+var activeInput = null;
+
+function editEntry(span) {
+      if (activeInput) {
+        activeInput.parentNode.innerHTML = activeInput.value;
+        activeInput = null;
+      }
+      
+      var input = document.createElement("input");
+      input.type = "text";
+      input.value = span.innerText;
+      
+      activeInput = input;
+      
+      span.innerHTML = "";
+      span.appendChild(input);
+      
+      input.focus();
+      input.addEventListener("keypress", function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          span.innerHTML = input.value;
+          activeInput = null;
+        }
+      });
+      
+      input.addEventListener("blur", function() {
+        span.innerHTML = input.value;
+        activeInput = null;
+      });
+    }
+
+function addRow() {
+      var table = document.getElementById("Jtable");
+      var row = table.insertRow(-1);
+
+      // Create checkbox
+      var checkCell = row.insertCell(0);
+      var checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.className = "checkbox";
+      checkCell.appendChild(checkbox);
+      
+      // Create judge name input
+      var nameCell = row.insertCell(1);
+      var judgeNameInput = document.createElement("input");
+      judgeNameInput.type = "text";
+      judgeNameInput.className = "inputjname cformj";
+      judgeNameInput.name = "judge_name_temp[]";
+      judgeNameInput.style = "border-radius:20px;";
+      judgeNameInput.pattern = "[A-Za-z0-9 -]{4,20}";
+      judgeNameInput.placeholder = "Judge Name";
+      judgeNameInput.title = "Enter a valid name (4-20 characters)";
+      judgeNameInput.addEventListener("dblclick", function() {
+        toggleEdit(this);
+      });
+      nameCell.appendChild(judgeNameInput);
+      
+      // Create judge nickname input
+      var nicknameCell = row.insertCell(2);
+      var judgeNickInput = document.createElement("input");
+      judgeNickInput.type = "text";
+      judgeNickInput.className = "inputjnick cformj";
+      judgeNickInput.name = "judge_nick_temp[]";
+      judgeNickInput.style = "border-radius:20px;";
+      judgeNickInput.pattern = "[A-Za-z0-9 -]{4,20}";
+      judgeNickInput.placeholder = "Nickname";
+      judgeNickInput.title = "Enter a valid nickname (4-20 characters)";
+      judgeNickInput.addEventListener("dblclick", function() {
+        toggleEdit(this);
+      });
+      nicknameCell.appendChild(judgeNickInput);
+
+      // Create generate link button
+      var buttonCell = row.insertCell(3);
+      var generateLinkButton = document.createElement("button");
+      generateLinkButton.type = "button";
+      generateLinkButton.className = "buttonlink1";
+      generateLinkButton.onclick = showl;
+      generateLinkButton.style = "border-radius:15px;min-width: 160px; height: 40px; color: white;background: #73A9CC;";
+      generateLinkButton.innerHTML = "<i class='bx bx-link'></i> Generate Link";
+      buttonCell.appendChild(generateLinkButton);
+
+    }
+/*
+function addRow() {
+      var table = document.getElementById("userTable");
+      var row = table.insertRow(-1);
+      
+      var nameCell = row.insertCell(0);
+      var nameInput = document.createElement("input");
+      nameInput.type = "text";
+      nameInput.name = "judge_name_temp[]";
+      nameInput.addEventListener("dblclick", function() {
+        toggleEdit(this);
+      });
+      nameCell.appendChild(nameInput);
+      
+      var nicknameCell = row.insertCell(1);
+      var nicknameInput = document.createElement("input");
+      nicknameInput.type = "text";
+      nicknameInput.className = "inputjnick cformj";
+      nicknameInput.name = "judge_nick_temp[]";
+      nicknameInput.addEventListener("dblclick", function() {
+        toggleEdit(this);
+      });
+      nicknameCell.appendChild(nicknameInput);
+    }
+
   function add_judge(){
     intJudgeTextBox++;
-    var objNewJDiv = document.createElement('ul');
-    objNewJDiv.setAttribute('id', 'ul_' + intJudgeTextBox);
+    var objNewJDiv = document.createElement('tr');
+    var judgeInput = document.getElementsByClassName("cformj");
+    objNewJDiv.setAttribute('id', 'tr_' + intJudgeTextBox);
     objNewJDiv.innerHTML = `
-                                        <li style='list-style-type: none;'>
-                                        <br><tr>
+                                        <td>
+                                          <input type="checkbox" class="checkbox">
+                                        </td>
                                           <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
                                           <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
                                           <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
-                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJB' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
-                                          </tr>
-                                          <br>
-                                        </li>`;
+                                          </tr>`;
+    judgeInput.addEventListener("dblclick", function() {
+        toggleEdit(this);
+      });
     document.getElementById('Jbox').appendChild(objNewJDiv);  
     var submitButton = document.getElementById("save_btnJ");
     submitButton.disabled = true;
@@ -744,79 +868,8 @@ intJudgeTextBox++;
     document.getElementById('Jbox').appendChild(objNewJDiv);  
     validateForm()
 }
+*/
 
-function deleteListP() {
-  var list = document.getElementById("Pbox");
-  while (list.firstChild) {
-    list.firstChild.remove();
-} 
-intParTextBox++;
-    var objNewPDiv = document.createElement('ul');
-    objNewPDiv.setAttribute('id', 'ul_' + intParTextBox);
-    objNewPDiv.innerHTML = `<div class='row'><li style='list-style-type: none;'>
-                                          <input type='text' class='inputpname cformpi' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs cformpi' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
-                                          <input type='text' class='inputpcs cformpi' name='participants_section_temp[]' style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
-                                          <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
-                                            <option disabled selected>Organization</option>
-                                            <option>ELITE</option>
-                                            <option>JPIA</option>
-                                          </select>
-                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
-                                      </li></div>`;
-    document.getElementById('Pbox').appendChild(objNewPDiv);  
-    var submitButtonpi = document.getElementById("save_btnPI");
-    submitButtonpi.disabled = true;
-    var cancelButtonpi = document.getElementById("can_btnPI");
-    cancelButtonpi.disabled = true;
-}
-function deleteListPG() {
-  var list = document.getElementById("Pboxg");
-  while (list.firstChild) {
-    list.firstChild.remove();
-}
-    intParTextBox++;
-    var objNewPDivg = document.createElement('ul');
-    objNewPDivg.setAttribute('id', 'ul_' + intParTextBox);
-    objNewPDivg.innerHTML = `
-    <div class="Pargdel">
-      <button class='buttonlink1 delPGD btndel' style="float:right;" type="button"><i class='bx bxs-trash-alt'></i></button>
-      <table style="margin-left:30px;">
-        <th><h6 style="margin-left:20px; font-weight:1000; color:var(--color-content-text);">Group Name</h6></th>
-        <th><h6 style="color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
-      </table>
-      <div class="dropdown">
-        <input type='text' class='inputpname cformpg' name="participants_name_group_temp[]" style='border-radius:20px;' placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\\- ]*"/>
-        <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
-          <option disabled selected>Organization</option>
-          <option>ELITE</option>
-          <option>JPIA</option>
-        </select>
-      </div>
-      <div class="col">
-        <table>
-          <th><h6 style="color: white; margin-left:5px; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
-        </table>
-        <li style='list-style-type: none;'>
-          <input type='text' class='inputpname subform cformpg' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\\- ]*"/>
-          <input type='text' class='inputpcs cformpg' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
-          <input type='text' class='inputpcs cformpg' name="participants_section_group_temp[]" style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
-          <label class="orgChanged2" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
-          <button class='buttonlink1 delP btndel' id='deleteP'><i class='bx bxs-trash-alt'></i></button></i><br/>
-        </li>
-      </div>
-      <div class="subformContainer">
-
-      </div>
-      <button onclick="addSubform(this)" class="buttonadd" id="paradd" type="button" style="margin-left:600px;"><i class='bx bxs-user-plus'></i></button>
-      <hr>
-    </div>`;
-    document.getElementById('Pboxg').appendChild(objNewPDivg);  
-    var submitButtonpg = document.getElementById("save_btnPG");
-    submitButtonpg.disabled = true;
-    var cancelButtonpg = document.getElementById("can_btnPG");
-    cancelButtonpg.disabled = true;
-}
 
 // Get the form and submit button element
 const formpi = document.getElementById('add_form3');
@@ -847,10 +900,93 @@ function validateFormpi() {
     // If the input is invalid, set hasInvalidInput to true and break the loop
   }
 
-  // Disable or enable the submit button based on the input validity
-  save_btnPI.disabled = hasInvalidInputpi || dynamicInputspi.length === 0;
-  can_btnPI.disabled = hasInvalidInputpi || dynamicInputspi.length === 0;
 }
+
+function addRowP() {
+      var table = document.getElementById("Ptable");
+      var row = table.insertRow(-1);
+
+      // Create checkbox
+      var checkCellP = row.insertCell(0);
+      var checkboxP = document.createElement("input");
+      checkboxP.type = "checkbox";
+      checkboxP.className = "checkboxP";
+      checkCellP.appendChild(checkboxP);
+      
+      // Create judge name input
+      var nameCellP = row.insertCell(1);
+      var parNameInput = document.createElement("input");
+      parNameInput.type = "text";
+      parNameInput.className = "inputpname cformpi";
+      parNameInput.name = "participants_name_temp[]";
+      parNameInput.style = "border-radius:20px;";
+      parNameInput.pattern = "[A-Za-z0-9 -]{4,20}";
+      parNameInput.placeholder = "Participant Name";
+      parNameInput.title = "Enter a valid name (4-20 characters)";
+      parNameInput.addEventListener("dblclick", function() {
+        toggleEdit(this);
+      });
+      nameCellP.appendChild(parNameInput);
+
+      var courseCellP = row.insertCell(2);
+      var courseInputP = document.createElement("input");
+      courseInputP.type = "text";
+      courseInputP.className = "inputpcs cformpi";
+      courseInputP.name = "participants_course_temp[]";
+      courseInputP.style = "border-radius:20px;";
+      courseInputP.minLength = 4;
+      courseInputP.maxLength = 5;
+      courseInputP.pattern = "[A-Za-z]+";
+      courseInputP.placeholder = "Course";
+      courseInputP.addEventListener("dblclick", function() {
+        toggleEdit(this);
+      });
+      courseCellP.appendChild(courseInputP);
+
+      var sectionCellP = row.insertCell(3);
+      var sectionInputP = document.createElement("input");
+      sectionInputP.type = "text";
+      sectionInputP.className = "inputpcs cformpi";
+      sectionInputP.name = "participants_section_temp[]";
+      sectionInputP.style = "border-radius:20px;";
+      sectionInputP.minLength = 3;
+      sectionInputP.maxLength = 3;
+      sectionInputP.pattern = "[1-9\\-]+";
+      sectionInputP.placeholder = "Section";
+      sectionInputP.addEventListener("dblclick", function() {
+        toggleEdit(this);
+      });
+      sectionCellP.appendChild(sectionInputP);
+
+      // Organization dropdown
+      var orgCellP = row.insertCell(4);
+      var orgSelectP = document.createElement("select");
+      orgSelectP.name = "participants_organization_temp[]";
+      orgSelectP.style = "border-radius:20px;";
+      orgSelectP.className = "btn dropdown-toggle";
+      sectionInputP.addEventListener("keypress", function() {
+        toggleEdit(this);
+      });
+      orgCellP.appendChild(orgSelectP);
+
+      var defaultOptionP = document.createElement("option");
+      defaultOptionP.disabled = true;
+      defaultOptionP.selected = true;
+      defaultOptionP.innerHTML = "Organization";
+      orgSelectP.appendChild(defaultOptionP);
+
+      var eliteOptionP = document.createElement("option");
+      eliteOptionP.value = "ELITE";
+      eliteOptionP.innerHTML = "ELITE";
+      orgSelectP.appendChild(eliteOptionP);
+
+      var jpiOptionP = document.createElement("option");
+      jpiOptionP.value = "JPIA";
+      jpiOptionP.innerHTML = "JPIA";
+      orgSelectP.appendChild(jpiOptionP);
+
+    }
+
   function add_par(){
     intParTextBox++;
     var objNewPDiv = document.createElement('div');
