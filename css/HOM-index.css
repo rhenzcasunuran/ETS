@@ -23,6 +23,8 @@
 .filter-button:hover{
     color: var(--color-content-text);
     font-weight: 300;
+    transform: scale(115%);
+    transition: transform 0.2s;
 }
 
 .active-filter{
@@ -32,6 +34,11 @@
     transition: margin .4s, padding .4s;
     margin: 20px 0px 0px 0px;
     padding: 12px 16px;
+}
+
+.active-filter:hover{
+    color: whitesmoke;
+    transform: scale(100%);
 }
 
 .active-filter:hover:not(.no-hover){
@@ -158,6 +165,8 @@
 
 .post-card:hover{
     box-shadow: var(--color-container-hover);
+    transform: scale(101%);
+    transition: 0.5s;
 }
 
 .post-cover{
