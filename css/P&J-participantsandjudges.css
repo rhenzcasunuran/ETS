@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+.title{
+    color: var(--color-content-text);
+    font-size: 40px;
+    font-weight: bold;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
 .form1{
   position:absolute;
   margin-bottom: 50px;
@@ -394,6 +402,18 @@ th{
   text-align:center;
 }
 
+input[readonly] {
+  background-color: #4149b8;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.bordertable{
+  border-bottom: 2px solid; 
+  color:var(--color-content-text);
+}
+
 .judgeheader{
   color:var(--color-content-text);
   padding-right: 1%;
@@ -413,7 +433,7 @@ th{
   margin-right: 5px;width: 225px;border-radius: 20px;height: 38px; text-align: center;
 }
 .inputpcs{
-  margin-right: 5px;width: 100px;border-radius: 20px;height: 38px; text-align: center;
+  margin-right: 5px;width: 110px;border-radius: 20px;height: 38px; text-align: center;
 }
 
 .inputpcsd{
