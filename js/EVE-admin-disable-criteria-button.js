@@ -6,13 +6,24 @@ const textPercentage = document.querySelector("#textPercentage");
 const textTotalPercentage = document.querySelector("#textTotalPercentage");
 
 const checkCriterionName = document.querySelector("#checkCriterionName");
+const checkCriterionNameChar = document.querySelector("#checkCriterionNameChar");
 const checkPercentage = document.querySelector("#checkPercentage");
 const checkTotalPercentage = document.querySelector("#checkTotalPercentage");
 
+
+
 function updateTotalPercentage() {
     var total = 0;
-    var allCriterionValuesEntered = true; 
-    var allPercentValuesEntered = true; 
+    var nmbrCriterion = 0;
+    var nmbrPercent = 0;
+    var allCriterionValuesEntered = false; 
+    var allPercentValuesEntered = false; 
+
+    var criterion = document.querySelectorAll('input[name="criterion[]"]');
+    var criterionCount = criterion.length;
+
+    var percentage = document.querySelectorAll('input[name="percentage[]"]');
+    var percentageCount = percentage.length;
 
     $('input[name="criterion[]"]').keypress(function(e) {
       var txt = String.fromCharCode(e.which);
@@ -37,10 +48,10 @@ function updateTotalPercentage() {
     $('input[name="criterion[]"]').each(function() {
       var value = $(this).val();
       if ($(this).val() === '' || value.replace(/\s/g, '').length < 5 || value.trim() === '')  {
-          allCriterionValuesEntered = false;
+ 
       }
       else{
-        allCriterionValuesEntered = true;
+        nmbrCriterion += 1;
       }
     });
 
@@ -56,12 +67,28 @@ function updateTotalPercentage() {
           total += percentage;
       }
       if ($(this).val() === '' || ($(this).val() === '0') || ($(this).val() === '00') || ($(this).val() === '000')) {
-          allPercentValuesEntered = false;
+ 
       }
       else{
-        allPercentValuesEntered = true;
+        nmbrPercent += 1;
       }
     });
+
+    if (nmbrCriterion === criterionCount){
+      allCriterionValuesEntered = true;
+    
+    }
+    else{
+      allCriterionValuesEntered = false;
+    }
+
+    if (nmbrPercent === percentageCount){
+      allPercentValuesEntered = true;
+    }
+    else{
+      allPercentValuesEntered = false;
+    }
+
 
     $('#totalPercentage p').text(total + '%');
     
