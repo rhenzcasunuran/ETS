@@ -15,8 +15,6 @@ List of variables:
 
 1. Calendar:
    - Active: `$activeModule = 'calendar'`
-   - Sub-Active: `$activeSubItem = 'overview'`
-   - Sub-Active: `$activeSubItem = 'logs'`
 
 2. Posts:
    - Active: `$activeModule = 'posts'`
@@ -53,6 +51,9 @@ List of variables:
 
 8. Judges & Participants:
    - Active: `$activeModule = 'judges-participants'`
+
+9. Activity Logs:
+- Active: `$activeModule = 'activity-logs'`
 
 Note: If $activeSubItem variable doesnt exist, only do $activeModule.
 
@@ -128,7 +129,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
               </a>
             </li>
             <li class="sub-item">
-              <a href="#criteria_config" class="<?php echo ($activeSubItem === 'criteria-configuration') ? 'sub-active' : ''; ?>">
+              <a href="EVE-admin-criteria-configuration.php" class="<?php echo ($activeSubItem === 'criteria-configuration') ? 'sub-active' : ''; ?>">
                 <i class="bx bxs-circle sub-icon color-yellow"></i>
                 <span class="sub_link_name">Criteria Configuration</span>
               </a>
@@ -136,26 +137,10 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
           </ul>
         </li>
         <li class="nav-item">
-          <a href="#" class="menu_btn <?php echo ($activeModule === 'calendar') ? 'active' : ''; ?>">
-            <i class="bx bx-calendar"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-            <span class="link_name">Calendar
-              <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-            </span>
+          <a href="CAL-admin-overall.php" class="<?php echo ($activeModule === 'calendar') ? 'active' : ''; ?>">
+              <i class="bx bx-calendar"></i>
+              <span class="link_name">Calendar</span>
           </a>
-          <ul class="sub_list">
-            <li class="sub-item">
-              <a href="CAL-admin-overall.php" class="<?php echo ($activeSubItem === 'overview') ? 'sub-active' : ''; ?>">
-                <i class="bx bxs-circle sub-icon color-red"></i>
-                <span class="sub_link_name">Overview</span>
-              </a>
-            </li>
-            <li class="sub-item">
-              <a href="CAL-admin-logs.php" class="<?php echo ($activeSubItem === 'logs') ? 'sub-active' : ''; ?>">
-                <i class="bx bxs-circle sub-icon color-green"></i>
-                <span class="sub_link_name">Logs</span>
-              </a>
-            </li>
-          </ul>
         </li>
         <li class="nav-item">
             <a href="BAR-admin.php" class="<?php echo ($activeModule === 'overall-results') ? 'active' : ''; ?>">
@@ -252,6 +237,12 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
                 <i class="bx bx-group"></i>
                 <span class="link_name">Judges & <br> Participants</span>
             </a>
+        </li>
+        <li class="nav-item">
+          <a href="CAL-admin-logs.php" class="<?php echo ($activeModule === 'activity-logs') ? 'active' : ''; ?>">
+              <i class='bx bx-receipt'></i>
+              <span class="link_name">Activity Logs</span>
+          </a>
         </li>
       </ul>
     </div>
