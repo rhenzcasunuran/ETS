@@ -217,3 +217,40 @@ button {
 #create-new-event-btn {
     max-width: 500px!important;
 }
+
+#criteria-container {
+    height: 100%;
+    width: 100%;
+}
+
+#criteria-container p {
+    margin-bottom: 0;
+}
+
+.upper-layer, .lower-layer {
+    font-weight: 700;
+    color: var(--color-content-text); 
+}
+
+.upper-layer, .middle-layer, .lower-layer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+}
+
+.middle-layer {
+    height: 65%;
+    color: var(--color-content-text); 
+    border-top: 2px var(--color-content-text) dotted;
+    border-bottom: 2px var(--color-content-text) dotted;
+    justify-content: start;
+    align-items: center;
+    overflow-y: auto;
+}
+
+#criterion-container {
+    padding: 5px 0 5px 0;
+    border-bottom: 2px var(--color-content-text) dotted;
+    width: 100%;
+}

@@ -115,3 +115,7 @@ input {
 input[type="search"]{
     color: black!important;
 }
+
+.tooltip-popup {
+    width: fit-content;
+}
