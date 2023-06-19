@@ -5,29 +5,45 @@ buttons.forEach((button) => {
     var id = parentElement.id;
     var competitionName = id;
 
-    var close = document.getElementById('close-btn');
-    var cancel = document.getElementById('backbtn');
-    var go = document.getElementById('gobtn');
-    var okpopup_wrapper = document.getElementById('archive-pp-wrap');
-    var cautionpopup_wrapper = document.getElementById('caution-pp-wrap');
-    var arcc = document.getElementById('archive-pp');
-    var bacc = document.getElementById('caution-pp');
-    cautionpopup_wrapper.style.display = 'block';
-    bacc.style.display='block';
-    /*If the area outside the Caution popup is clicked */
-    if (cautionpopup_wrapper) {
-        cautionpopup_wrapper.addEventListener("click", function(){
-            cautionpopup_wrapper.style.display = "none";
-            bacc.style.display='none';
-        });
-        go.addEventListener("click", function(){
-            cautionpopup_wrapper.style.display = "none";
-            bacc.style.display='none';
-            okpopup_wrapper.style.display = 'block';
-            arcc.style.display = 'block';
-            var post = document.getElementById(competitionName).parentElement;
+
+    //New popups
+    var gotoarchiveBtn = document.getElementById('gotoarchiveBtn');
+    var confirmBtn = document.getElementById('confirmBtn');
+    // Confirm
+    popupMarkAsDone = document.getElementById('markAsDoneWrapper');
+  
+    var showMarkAsDone = function() {
+        popupMarkAsDone.style.display ='flex';
+    }
+    var hideMarkAsDone = function() {
+        popupMarkAsDone.style.display ='none';
+    }
+
+    // Cancel
+    popupCancel = document.getElementById('cancelWrapper');
+
+    var showCancel = function() {
+        popupCancel.style.display ='flex';
+    }
+    var hideCancel = function() {
+        popupCancel.style.display ='none';
+    }
+
+    showCancel();
+    confirmBtn.addEventListener("click", function(e){
+        hideCancel();
+        var post = document.getElementById(competitionName).parentElement;
             if (post != null){
                 post.remove();
+                showMarkAsDone();
+                $.ajax({
+                    type: "POST",
+                    url: "./php/COM-display_archive.php",
+                    data: { competitionName: competitionName },
+                      success: function(response) {
+                        console.log(response);
+                      }
+                    });
             }
             var remaining_posts = document.querySelectorAll('.result_container');
             console.log(remaining_posts);
@@ -35,23 +51,31 @@ buttons.forEach((button) => {
                 var empty = document.getElementById('empty');
                 empty.style.display = 'flex';
             }
-        });
-        cancel.addEventListener("click", function(){
-            cautionpopup_wrapper.style.display = "none";
-            bacc.style.display='none';
-        });
-    }
-    /*If the area outside the Ok popup is clicked */
-    if (okpopup_wrapper) {
-        okpopup_wrapper.addEventListener("click", function(){
-            okpopup_wrapper.style.display = "none";
-            arcc.style.display = 'none';
-        });
-        close.addEventListener("click", function(){
-            okpopup_wrapper.style.display = "none";
-            arcc.style.display = 'none';
-        });
-    }
-
+        e.stopPropagation();
+    })
+    gotoarchiveBtn.addEventListener("click", function(e) {
+        hideMarkAsDone();
+        window.location.href = "COM-archive_page.php";
+        e.stopPropagation();
+    })
   });
 });
+// Confirm
+popupMarkAsDone = document.getElementById('markAsDoneWrapper');
+  
+var showMarkAsDone = function() {
+    popupMarkAsDone.style.display ='flex';
+}
+var hideMarkAsDone = function() {
+    popupMarkAsDone.style.display ='none';
+}
+
+// Cancel
+popupCancel = document.getElementById('cancelWrapper');
+
+var showCancel = function() {
+    popupCancel.style.display ='flex';
+}
+var hideCancel = function() {
+    popupCancel.style.display ='none';
+}
