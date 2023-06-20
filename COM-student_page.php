@@ -1,26 +1,6 @@
 <?php
 @include './php/database_connect.php';
-
-session_start();
-
-if($conn){
-  if(isset($_POST['sign-in-button'])){
-    $username=mysqli_real_escape_string($conn,$_POST['user_username']);
-    $password=mysqli_real_escape_string($conn,$_POST['user_password']);
-    $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
-    $result=mysqli_query($conn,$sql);
-    if($result){
-      if(mysqli_num_rows($result)>0){
-        $_SESSION['message']="You are now Loggged In";
-        $_SESSION['user_username']=$username;
-        header("location:HOM-create-post.php");
-      }
-      else{
-        echo '<script>alert("Username or Password combination are incorrect")</script>';
-      }
-    }
-  }
-}
+include './php/admin-signin.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
