@@ -34,14 +34,16 @@ buttons.forEach((button) => {
         hideCancel();
         var post = document.getElementById(competitionName).parentElement;
             if (post != null){
-                post.remove();
-                showMarkAsDone();
+                console.log("competitionName is "+competitionName);
                 $.ajax({
                     type: "POST",
-                    url: "./php/COM-display_archive.php",
+                    url: "./php/COM-archive_result.php",
                     data: { competitionName: competitionName },
                       success: function(response) {
                         console.log(response);
+                        console.log("Successful AJAX");
+                        post.remove();
+                        showMarkAsDone();
                       }
                     });
             }
