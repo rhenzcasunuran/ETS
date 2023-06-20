@@ -13,7 +13,7 @@ $(document).ready(function() {
 
       const input = $('<input>').addClass('form-check-input admin-checkbox')
         .attr('type', 'checkbox')
-        .val(adminUser.username)
+        .val(adminUser.id)
         .attr('id', `check-admin-${adminUser.id}`);
 
       const label = $('<label>').addClass('form-check-label')
@@ -104,7 +104,7 @@ $(document).ready(function() {
         $('<td></td>').text(log.log_id).appendTo(row);
         $('<td></td>').text(formattedDate).appendTo(row);
         $('<td></td>').text(formattedTime).appendTo(row);
-        $('<td></td>').text(log.admin).appendTo(row);
+        $('<td></td>').text(log.user_username).appendTo(row);
         $('<td></td>').text(log.activity_description).appendTo(row);
   
         row.appendTo(tbody);
