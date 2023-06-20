@@ -84,7 +84,7 @@
     <!--Sidebar End-->
     <!--Content Start-->
     <section class="home-section removespace">
-      <div class="header">Published</div>
+      <div class="header">Archive</div>
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
