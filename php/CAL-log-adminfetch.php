@@ -10,7 +10,7 @@ if ($result) {
 
     while ($row = $result->fetch_assoc()) {
         $adminUser = array(
-            'id' => $row['id'],
+            'id' => $row['admin_id'],
             'username' => $row['user_username']
         );
         $adminUsers[] = $adminUser;

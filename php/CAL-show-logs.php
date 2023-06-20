@@ -1,5 +1,5 @@
 <?php
-include 'database_connect.php';
+require_once 'database_connect.php';
 
 $sortColumn = $_GET['sortColumn'];
 $sortOrder = $_GET['sortOrder'];
@@ -13,7 +13,7 @@ if (empty($adminFilters)) {
   exit;
 }
 
-$validColumns = ['log_id', 'log_date', 'log_time', 'admin', 'activity_description'];
+$validColumns = ['log_id', 'log_date', 'log_time', 'admin_id', 'activity_description'];
 $validOrders = ['ASC', 'DESC'];
 
 // Validate and sanitize the sort column and sort order
@@ -35,7 +35,7 @@ if (!empty($searchTerm)) {
   // Sanitize the search term to prevent SQL injection
   $searchTerm = mysqli_real_escape_string($conn, $searchTerm);
 
-  $searchCondition .= "(log_id LIKE ? OR admin LIKE ? OR activity_description LIKE ?)";
+  $searchCondition .= "(logs.log_id LIKE ? OR user.user_username LIKE ? OR logs.activity_description LIKE ?)";
   $parameters[] = "%$searchTerm%";
   $parameters[] = "%$searchTerm%";
   $parameters[] = "%$searchTerm%";
@@ -43,11 +43,13 @@ if (!empty($searchTerm)) {
 
 $adminPlaceholders = implode(',', array_fill(0, count($adminFilters), '?'));
 
-$adminCondition = "admin IN ($adminPlaceholders)";
+$adminCondition = "logs.admin_id IN ($adminPlaceholders)";
 $parameters = array_merge($parameters, $adminFilters);
 
 // Use prepared statements to prevent SQL injection
-$log_sql = "SELECT * FROM logs";
+$log_sql = "SELECT logs.*, user.user_username 
+            FROM logs
+            INNER JOIN user ON logs.admin_id = user.admin_id";
 
 // Add search condition and admin condition if applicable
 if (!empty($searchCondition) || !empty($adminCondition)) {
@@ -71,11 +73,11 @@ if (!empty($searchDate)) {
   // Convert the search date to the appropriate format
   $searchDateFormatted = date('Y-m-d', strtotime($searchDate));
 
-  $log_sql .= " AND DATE(log_date) = ?";
+  $log_sql .= " AND DATE(logs.log_date) = ?";
   $parameters[] = $searchDateFormatted;
 }
 
-$log_sql .= " ORDER BY $orderBy, log_time DESC";
+$log_sql .= " ORDER BY $orderBy, logs.log_time DESC";
 $log_stmt = mysqli_prepare($conn, $log_sql);
 
 // Bind the parameters to the prepared statement

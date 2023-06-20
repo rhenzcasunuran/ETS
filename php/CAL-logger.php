@@ -35,25 +35,25 @@ if (!function_exists('to_log')) {
             $module_name = 'Undefined';
         }
 
-        $admin = $_SESSION['user_username'];
-        $log_sql = "INSERT INTO logs (log_date, log_time, admin, activity_description) VALUES (CURDATE(), CURTIME(), ?, ?)";
+        $admin_id = $_SESSION['admin_id'];
+        $log_sql = "INSERT INTO logs (log_date, log_time, admin_id, activity_description) VALUES (CURDATE(), CURTIME(), ?, ?)";
         $log_stmt = mysqli_prepare($conn, $log_sql);
 
         // Determine the action based on the SQL query
         if (stripos($sql, 'INSERT') !== false) {
             $action = 'Added';
             $formattedDesc = $action . ' in ' . $module_name;
-            mysqli_stmt_bind_param($log_stmt, "ss", $admin, $formattedDesc);
+            mysqli_stmt_bind_param($log_stmt, "ss", $admin_id, $formattedDesc);
 
         } elseif (stripos($sql, 'UPDATE') !== false) {
             $action = 'Edited';
             $formattedDesc = $action . ' in ' . $module_name;
-            mysqli_stmt_bind_param($log_stmt, "ss", $admin, $formattedDesc);
+            mysqli_stmt_bind_param($log_stmt, "ss", $admin_id, $formattedDesc);
 
         } elseif (stripos($sql, 'DELETE') !== false) {
             $action = 'Removed';
             $formattedDesc = $action . ' in ' . $module_name;
-            mysqli_stmt_bind_param($log_stmt, "ss", $admin, $formattedDesc);
+            mysqli_stmt_bind_param($log_stmt, "ss", $admin_id, $formattedDesc);
         }
 
         mysqli_stmt_execute($log_stmt);
