@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2023 at 11:24 AM
+-- Generation Time: Jun 20, 2023 at 02:34 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pupets`
+-- Database: `pupets_rmk`
 --
 
 -- --------------------------------------------------------
@@ -148,61 +148,9 @@ CREATE TABLE `logs` (
   `log_id` bigint(20) NOT NULL,
   `log_date` date NOT NULL,
   `log_time` time NOT NULL,
-  `admin` varchar(255) NOT NULL,
+  `admin_id` int(11) NOT NULL,
   `activity_description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `logs`
---
-
-INSERT INTO `logs` (`log_id`, `log_date`, `log_time`, `admin`, `activity_description`) VALUES
-(1, '2023-06-13', '06:24:19', 'admin', 'Added in Events'),
-(2, '2023-06-13', '06:24:19', 'admin', 'Edited in Events'),
-(3, '2023-06-13', '06:25:25', 'admin', 'Added in Events'),
-(4, '2023-06-13', '06:25:25', 'admin', 'Edited in Events'),
-(5, '2023-06-13', '06:32:47', 'admin', 'Removed in Event History'),
-(6, '2023-06-13', '06:37:51', 'admin', 'Added in Event History'),
-(7, '2023-06-13', '06:38:18', 'admin', 'Edited in Event History'),
-(8, '2023-06-13', '06:38:19', 'admin', 'Edited in Event History'),
-(9, '2023-06-13', '06:38:19', 'admin', 'Edited in Event History'),
-(10, '2023-06-13', '06:38:22', 'admin', 'Edited in Event History'),
-(11, '2023-06-13', '06:38:22', 'admin', 'Edited in Event History'),
-(12, '2023-06-13', '06:38:22', 'admin', 'Edited in Event History'),
-(13, '2023-06-13', '06:39:30', 'admin', 'Added in Event History'),
-(14, '2023-06-13', '06:39:48', 'admin', 'Removed in Event History'),
-(15, '2023-06-13', '06:42:24', 'admin', 'Added in Announcements'),
-(16, '2023-06-13', '06:43:21', 'admin', 'Removed in Announcements'),
-(17, '2023-06-13', '06:45:07', 'admin', 'Edited in Announcements'),
-(18, '2023-06-13', '06:45:20', 'admin', 'Edited in Announcements'),
-(19, '2023-06-13', '06:55:57', 'admin', 'Added in Participants and Judges'),
-(20, '2023-06-13', '06:55:57', 'admin', 'Added in Participants and Judges'),
-(21, '2023-06-13', '06:56:30', 'admin', 'Added in Participants and Judges'),
-(22, '2023-06-13', '06:56:30', 'admin', 'Added in Participants and Judges'),
-(23, '2023-06-13', '06:56:52', 'admin', 'Added in Participants and Judges'),
-(24, '2023-06-13', '06:56:52', 'admin', 'Added in Participants and Judges'),
-(25, '2023-06-13', '06:56:52', 'admin', 'Added in Participants and Judges'),
-(26, '2023-06-13', '06:56:52', 'admin', 'Added in Participants and Judges'),
-(27, '2023-06-13', '06:59:14', 'admin', 'Edited in Overall Results'),
-(28, '2023-06-13', '06:59:17', 'admin', 'Edited in Overall Results'),
-(29, '2023-06-13', '06:59:20', 'admin', 'Edited in Overall Results'),
-(30, '2023-06-13', '06:59:26', 'admin', 'Edited in Overall Results'),
-(31, '2023-06-13', '07:03:20', 'admin', 'Added in Announcements'),
-(32, '2023-06-13', '07:05:18', 'admin', 'Edited in Announcements'),
-(33, '2023-06-13', '07:05:40', 'admin', 'Edited in Overall Results'),
-(34, '2023-06-13', '07:06:11', 'admin', 'Edited in Event History'),
-(35, '2023-06-13', '07:06:12', 'admin', 'Edited in Event History'),
-(36, '2023-06-13', '07:06:12', 'admin', 'Edited in Event History'),
-(37, '2023-06-13', '07:06:14', 'admin', 'Edited in Event History'),
-(38, '2023-06-13', '07:06:14', 'admin', 'Edited in Event History'),
-(39, '2023-06-13', '07:06:14', 'admin', 'Edited in Event History'),
-(40, '2023-06-13', '07:06:42', 'admin', 'Added in Event History'),
-(41, '2023-06-13', '07:06:49', 'admin', 'Removed in Event History'),
-(42, '2023-06-13', '07:07:10', 'admin', 'Added in Participants and Judges'),
-(43, '2023-06-13', '07:07:10', 'admin', 'Added in Participants and Judges'),
-(44, '2023-06-13', '07:07:26', 'admin', 'Added in Participants and Judges'),
-(45, '2023-06-13', '07:08:13', 'admin', 'Added in Participants and Judges'),
-(46, '2023-06-13', '07:08:13', 'admin', 'Added in Participants and Judges');
 
 -- --------------------------------------------------------
 
@@ -308,6 +256,105 @@ CREATE TABLE `ongoing_tournament` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pjjudges`
+--
+
+CREATE TABLE `pjjudges` (
+  `judge_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `judge_name` varchar(150) NOT NULL,
+  `judge_nick` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pjparticipants`
+--
+
+CREATE TABLE `pjparticipants` (
+  `participants_id_individual` int(11) NOT NULL,
+  `participants_name` varchar(50) NOT NULL,
+  `participants_course` varchar(20) NOT NULL,
+  `participants_section` varchar(50) NOT NULL,
+  `participants_organization` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pjparticipantsgroup`
+--
+
+CREATE TABLE `pjparticipantsgroup` (
+  `participants_id_group` int(11) NOT NULL,
+  `participants_name_group` varchar(50) NOT NULL,
+  `participants_organization_group` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pjparticipantsgroupmembers`
+--
+
+CREATE TABLE `pjparticipantsgroupmembers` (
+  `participants_id_member` int(11) NOT NULL,
+  `participants_id_group` int(11) DEFAULT NULL,
+  `participants_name_g` varchar(50) NOT NULL,
+  `participants_course_group` varchar(20) NOT NULL,
+  `participants_section_group` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pjparticipantsgroupmemberstemp`
+--
+
+CREATE TABLE `pjparticipantsgroupmemberstemp` (
+  `participants_id_member_temp` int(11) NOT NULL,
+  `participants_id_group_temp` int(11) DEFAULT NULL,
+  `participants_name_g_temp` varchar(50) NOT NULL,
+  `participants_course_group_temp` varchar(20) NOT NULL,
+  `participants_section_group_temp` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pjparticipantsgroupmemberstemp`
+--
+
+INSERT INTO `pjparticipantsgroupmemberstemp` (`participants_id_member_temp`, `participants_id_group_temp`, `participants_name_g_temp`, `participants_course_group_temp`, `participants_section_group_temp`) VALUES
+(24, NULL, 'qweqweqwe', 'qweqw', 'qwe'),
+(25, NULL, 'asdasd', 'asdas', 'asd'),
+(26, NULL, 'asdasd', 'asdas', 'asd'),
+(27, NULL, 'asdasd', 'asdas', 'asd'),
+(28, NULL, 'dasdasdas', 'dasda', 'das');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pjparticipantsgrouptemp`
+--
+
+CREATE TABLE `pjparticipantsgrouptemp` (
+  `participants_id_group_temp` int(11) NOT NULL,
+  `participants_name_group_temp` varchar(50) NOT NULL,
+  `participants_organization_group_temp` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pjparticipantsgrouptemp`
+--
+
+INSERT INTO `pjparticipantsgrouptemp` (`participants_id_group_temp`, `participants_name_group_temp`, `participants_organization_group_temp`) VALUES
+(20, 'qweqweqwe', 'ELITE'),
+(21, 'asdasd', 'ELITE'),
+(22, 'asdasda', 'ELITE');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `post`
 --
 
@@ -356,7 +403,7 @@ CREATE TABLE `tournament` (
 --
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
   `user_username` varchar(20) NOT NULL,
   `user_password` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -365,7 +412,7 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `user_username`, `user_password`) VALUES
+INSERT INTO `user` (`admin_id`, `user_username`, `user_password`) VALUES
 (1, 'admin', 'admin'),
 (2, 'admin', 'admin'),
 (3, 'admin', 'admin'),
@@ -419,7 +466,8 @@ ALTER TABLE `image`
 -- Indexes for table `logs`
 --
 ALTER TABLE `logs`
-  ADD PRIMARY KEY (`log_id`);
+  ADD PRIMARY KEY (`log_id`),
+  ADD KEY `admin_id` (`admin_id`);
 
 --
 -- Indexes for table `ongoing_category_name`
@@ -457,6 +505,45 @@ ALTER TABLE `ongoing_tournament`
   ADD KEY `category_name_id` (`category_name_id`);
 
 --
+-- Indexes for table `pjjudges`
+--
+ALTER TABLE `pjjudges`
+  ADD PRIMARY KEY (`judge_id`),
+  ADD KEY `event_code_id` (`event_id`);
+
+--
+-- Indexes for table `pjparticipants`
+--
+ALTER TABLE `pjparticipants`
+  ADD PRIMARY KEY (`participants_id_individual`);
+
+--
+-- Indexes for table `pjparticipantsgroup`
+--
+ALTER TABLE `pjparticipantsgroup`
+  ADD PRIMARY KEY (`participants_id_group`);
+
+--
+-- Indexes for table `pjparticipantsgroupmembers`
+--
+ALTER TABLE `pjparticipantsgroupmembers`
+  ADD PRIMARY KEY (`participants_id_member`),
+  ADD KEY `participants_id_group_temp` (`participants_id_group`);
+
+--
+-- Indexes for table `pjparticipantsgroupmemberstemp`
+--
+ALTER TABLE `pjparticipantsgroupmemberstemp`
+  ADD PRIMARY KEY (`participants_id_member_temp`),
+  ADD KEY `participants_id_group_temp` (`participants_id_group_temp`);
+
+--
+-- Indexes for table `pjparticipantsgrouptemp`
+--
+ALTER TABLE `pjparticipantsgrouptemp`
+  ADD PRIMARY KEY (`participants_id_group_temp`);
+
+--
 -- Indexes for table `post`
 --
 ALTER TABLE `post`
@@ -473,7 +560,7 @@ ALTER TABLE `tournament`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`admin_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -519,7 +606,7 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ongoing_category_name`
@@ -552,6 +639,42 @@ ALTER TABLE `ongoing_tournament`
   MODIFY `tournament_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `pjjudges`
+--
+ALTER TABLE `pjjudges`
+  MODIFY `judge_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pjparticipants`
+--
+ALTER TABLE `pjparticipants`
+  MODIFY `participants_id_individual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `pjparticipantsgroup`
+--
+ALTER TABLE `pjparticipantsgroup`
+  MODIFY `participants_id_group` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `pjparticipantsgroupmembers`
+--
+ALTER TABLE `pjparticipantsgroupmembers`
+  MODIFY `participants_id_member` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `pjparticipantsgroupmemberstemp`
+--
+ALTER TABLE `pjparticipantsgroupmemberstemp`
+  MODIFY `participants_id_member_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `pjparticipantsgrouptemp`
+--
+ALTER TABLE `pjparticipantsgrouptemp`
+  MODIFY `participants_id_group_temp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
@@ -567,7 +690,7 @@ ALTER TABLE `tournament`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -593,6 +716,12 @@ ALTER TABLE `eventhistorytb`
   ADD CONSTRAINT `eventhistorytb_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `ongoing_category_name` (`category_name_id`);
 
 --
+-- Constraints for table `logs`
+--
+ALTER TABLE `logs`
+  ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `user` (`admin_id`);
+
+--
 -- Constraints for table `ongoing_category_name`
 --
 ALTER TABLE `ongoing_category_name`
@@ -616,6 +745,12 @@ ALTER TABLE `ongoing_list_of_event`
 --
 ALTER TABLE `ongoing_tournament`
   ADD CONSTRAINT `ongoing_tournament_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `ongoing_category_name` (`category_name_id`);
+
+--
+-- Constraints for table `pjjudges`
+--
+ALTER TABLE `pjjudges`
+  ADD CONSTRAINT `pjjudges_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
 
 --
 -- Constraints for table `tournament`
