@@ -19,37 +19,249 @@
   }
 
   .current-day {
-    background-color: #ffd700;
+    display: inline-block;
+    border-radius: 10px; /* Adjust the border radius value as needed */
+    background-color: #1967d2;
+    color: var(--color-white);
+    width: 2em;
+    height: 2em;
+    line-height: 2em;
+    text-align: center;
   }
-
+  
   #mobile-calendar tr,
   #mobile-calendar th,
   #mobile-calendar td {
     border: none;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    line-height: 2em;
+  }
+
+  #mobile-calendar tr,
+  #mobile-calendar td {
+    font-size: 18px;  
   }
 
   .calendar-navigation {
-    margin-top: 2.5em;
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     right: 0;
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 0.5rem;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  #mobile-prev-month {
+    margin-left: calc(1vw * 3.75);  
+  }
+
+  #mobile-next-month {
+    margin-right: calc(1vw * 3.75); 
+  }
+
+  td, .text-center, p {
+    text-align: center;
+    color: var(--color-content-text);
   }
 
   #current-month {
-    text-align: center;
+    margin-left: calc(1vw * 3.75);
+    margin-top: 20px;
+    font-size: 45px;
+    color: var(--color-content-text);
   }
+  
+  .dropdown-toggle {
+    margin-top: 5px;
+    margin-right: calc(1vw * 3);
+    font-size: 25px;
+    width: 190px;
+  }
+  
+  @media (max-width: 768px) {
+    #current-month {
+      font-size: 25px;
+    }
+  
+    .dropdown-toggle {
+      font-size: 15px;
+      width: 100px;
+    }
+
+    #mobile-calendar tr,
+    #mobile-calendar td {
+      font-size: 14px;  
+    }
+  }
+
+  #calendar-container {
+    padding-top: 1em;
+  }
+
+  .pill-all {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 0px 15px;
+    background-color: #6c757d;
+    margin-right: 5px;
+    color: white;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  
+  .pill-acap {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 0px 15px;
+    background-color: var(--color-acap);
+    margin-right: 5px;
+    color: white;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  
+  .pill-aeces {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 0px 15px;
+    background-color: var(--color-aeces);
+    margin-right: 5px;
+    color: white;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  
+  .pill-elite {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 0px 15px;
+    background-color: var(--color-elite);
+    margin-right: 5px;
+    color: white;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  
+  .pill-give {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 0px 15px;
+    background-color: var(--color-give);
+    margin-right: 5px;
+    color: white;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  
+  .pill-jehra {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 0px 15px;
+    background-color: var(--color-jehra);
+    margin-right: 5px;
+    color: white;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  
+  .pill-jmap {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 0px 15px;
+    background-color: var(--color-jmap);
+    margin-right: 5px;
+    color: white;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  
+  .pill-jpia {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 0px 15px;
+    background-color: var(--color-jpia);
+    margin-right: 5px;
+    color: white;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  
+  .pill-piie {
+    display: inline-block;
+    border-radius: 50px;
+    padding: 0px 15px;
+    background-color: var(--color-piie);
+    margin-right: 5px;
+    color: white;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  
+  .form-check:not(.event-type) {
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-check-input:not(.event-type) {
+    margin-right: 10px;
+  }
+  
+  .accordion-item {
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    border-radius: 0;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .form-check-label {
+    font-size: 14px;
+  }
+  
+  .accordion-button:not(.collapsed) {
+    border-bottom: 2px solid black;
+    border-radius: 0;
+    background-color: transparent;
+    color: #000;
+  }
+  
+  .accordion-button:not(.collapsed)::after {
+    background-color: transparent;
+  }
+  
+  .accordion-button:not(.collapsed)::before {
+    color: #000;
+  }
+  
+  .invisible-header {
+    border-bottom: none;
+  }
+  
+  .invisible-footer {
+    border-top: none;
+  }
+  
+  .time-label {
+    align-self: flex-end;
+  } 
 }
 
 @media (min-width: 1390px) {
 
   .mobile-size {
     display: none;
+  }
+
+  #createEventButton, #createAnnouncementButton, #back-button, #no-button {
+    max-width: 100px;
+    max-height: 50px;
   }
 
   .d-flex #calendar-title {
@@ -354,6 +566,7 @@
   
   .invisible-footer {
     border-top: none;
+    margin-left: -30px;
   }
   
   .time-label {
@@ -383,8 +596,18 @@
   }
 
   .eventAnnouncementButtons {
-    margin-left: 52px;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: -10px;
+    display: flex; 
+    justify-content: center; 
+  }
+
+  .eventAnnouncementButtons button {
+    margin: 0 5px; 
+  }
+
+  .modal-content {
+    background-color: var(--color-content-card);
   }
 
   .errorDateTimeInput{
@@ -397,31 +620,36 @@
 
   #subHour {
     margin-left: 131px;
+    color: var(--color-content-text);
   }
 
   #subMin {
-    margin-left: 66px;
+    margin-left: 76px;
+    color: var(--color-content-text);
   }
 
   #amButton {
     height: 46px; 
-    margin-left: -68px;
+    margin-left: -86px;
+    color: var(--color-content-text);
   }
 
   #pmButton {
     height: 46px;
-    margin-left: -70px;
+    margin-left: -76px;
+    color: var(--color-content-text);
   }
 
   #minsInput{
     width: 65px;
-    margin-left: -30px;
+    margin-left: -40px;
   }
 
   #colonTime{
     margin-top: -9px;
-    margin-left: -38px;
-    font-size: 30px
+    margin-left: -52px;
+    font-size: 30px;
+    color: var(--color-content-text);
   }
 
   #hourInput{
@@ -431,7 +659,8 @@
   #timeTextLabel {
     margin-top: 5px;
     margin-left: 35px; 
-    margin-right: 4px
+    margin-right: 4px;
+    color: var(--color-content-text);
   }
 
   #timeInputFields{
@@ -441,10 +670,12 @@
 
   #addHour{
     margin-left: 131px;
+    color: var(--color-content-text);
   }
 
   #addMin{
-    margin-left: 66px;
+    margin-left: 76px;
+    color: var(--color-content-text);
   }
 
   #addChevronContainer{
@@ -453,13 +684,56 @@
   }
 
   #selectedDate{
-    width: 270px;
+    width: 325px;
     margin-left: 5px;
   }
 
   #dateTextLabel{
     margin-left: 38px;
     margin-bottom: -20px;
+    color: var(--color-content-text);
+  }
+
+  .close-btn {
+    color: var(--color-content-text) !important;
+    outline: none !important;
+    box-shadow: none !important;
+    position: absolute;
+    margin-left: 480px;
+    font-size: 20px;
+  }
+
+  .custom-modal-width {
+    max-width: 600px;
+  }
+
+  .extend-modal-border {
+    width: 300px;
+    height: 415px;
+    border: none !important;
+  }
+  
+  .modal-content {
+    border: none !important;
+    padding-top: 30px !important;
+    border-radius: 30px  !important;
+  }
+
+  .form-modal-content {
+    padding-left: 25px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .modal-title, .modal-body {
+    color: var(--color-content-text) !important;
+  }
+
+  .bx.bx-group.bx-lg {
+    color: var(--color-content-text) !important;
+  }
+
+  .bx.bx-calendar-plus.bx-lg {
+    color: var(--color-content-text) !important;
   }
 
   /* Google Calendar */
@@ -469,92 +743,75 @@
   }
 
   /* Mini Calendar */
-
-  #calendarToggle {
+  
+  #miniCalendarToggle {
     margin-top: 31px;
     font-size: 1.5em;
     cursor: pointer;
     color: var(--color-content-text);
   }
-
-  #miniCalendar .mini-calendar-header {
+  
+  #miniCalendarContainer {
+    position: absolute;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    background-color: white;
-    width: 279px;
-    height: 100px;
-  }
-
-  #miniCalendar .mini-calendar-header button {
-    flex: 0 0 auto;
-  }
-
-  #miniCalendar .mini-calendar-header h2 {
-    flex: 1;
-    text-align: center;
-    margin: 0;
-  }
+    justify-content: center;
+    top: calc(160px + 1vh);
+    left: calc(280px + 1vw);
+    max-width: 375px;
+  }  
 
   #miniCalendar {
-    margin-top: 65px;
-    margin-left: 335px;
-    width: 200px;
-    font-family: Arial, sans-serif;
+    width: 300px;
+  }
+
+  #miniCalendar .td, #miniCalendar .th, #miniCalendar .tr {
+    padding-bottom: 100px;
+  }
+
+  #miniCalendarTable, #miniCalendarThead {
+    text-align: center;
+  }
+
+  #miniButtonContainer {
     position: absolute;
-    z-index: 1;
+    display: flex;
+    top: calc(38px + 1vh);
+    left: calc(220px + 1vw);
+  }  
+
+  #calendarElement {
+    height: 450px;
   }
 
-  #miniCalendar table {
-    width: 100%;
-    border-collapse: collapse;
+  #miniNextButton {
+    margin-left: 40px;
+    font-size: 25px;
+    cursor: pointer;
   }
 
-  #miniCalendar th,
-  #miniCalendar td {
+  #miniPreviousButton {
+    font-size: 25px;
+    cursor: pointer;
+  }
+
+  #miniCalendarHeader {
+    text-align: center;
+  }  
+
+  #miniCalendar td, #miniCalendar th {
+    border-radius: 50px;
     padding: 5px;
-    text-align: center;
-    border: 1px solid #ccc;
   }
 
-  #miniCalendar th {
-    background-color: #f2f2f2;
-  }
+  #miniCalendarTable td.mini-active {
+    background-color: lightgray;
+    color: lightcoral;
+  }  
 
-  #miniCalendar table td:hover {
-    background-color: #f9f9f9;
-  }
-
-  #miniCalendar .current-day {
-    background-color: #4a90e2;
-    color: #fff;
-  }
-
-  #miniCalendar .current-day:hover {
-    background-color: #4a90e2;
-    color: #fff;
-  }
-
-  #miniCalendar .selected-day {
-    background-color: #4CAF50;
-    color: #fff;
-  }
-
-  #miniCalendar {
-    display: none;
-  }
-
-  #miniCalendarTable {
-    background-color: white;
-  }
-
-  .calendar-wrapper {
-    position: relative;
-  }
-
-  .calendar-toggle {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 2; /* Ensure the toggle is above the calendar */
+  .mini-current-day.mini-active {
+    background-color: lightgray;
+    color: lightcoral;
   }
 }
