@@ -1,11 +1,28 @@
 <?php 
 include './php/database_connect.php';
 
-include './php/admin-signin.php';
-    $activeModule = 'results';
-    $activeSubItem = 'overall-champion';
+session_start();
 
-    require './php/student-sidebar.php';
+include './php/admin-signin.php';
+
+// if($conn){
+//   if(isset($_POST['sign-in-button'])){
+//     $username=mysqli_real_escape_string($conn,$_POST['user_username']);
+//     $password=mysqli_real_escape_string($conn,$_POST['user_password']);
+//     $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
+//     $result=mysqli_query($conn,$sql);
+//     if($result){
+//       if(mysqli_num_rows($result)>0){
+//         $_SESSION['message']="You are now Loggged In";
+//         $_SESSION['user_username']=$username;
+//         header("location:HOM-create-post.php");
+//       }
+//       else{
+//         echo '<script>alert("Username or Password combination are incorrect")</script>';
+//       }
+//     }
+//   }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +48,14 @@ include './php/admin-signin.php';
 
 
   <body>
+
+  <?php
+    $activeModule = 'results';
+    $activeSubItem = 'overall-champion';
+      
+    require './php/student-sidebar.php';
+  ?>
+
     <!--Page Content-->
     <section class="home-section" style="display: flex; justify-content: center; align-items: center;">
       <div class="container-fluid" id="body-content">
@@ -48,52 +73,68 @@ include './php/admin-signin.php';
                 <?php
                   $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
                   $result = $conn->query($obg);
-                  
+
                   if ($result->num_rows > 0) {
                     $organizations = array();
                     while ($row = $result->fetch_assoc()) {
-                        $organizations[] = $row;
+                      $organizations[] = $row;
                     }
-                
+
                     foreach ($organizations as $org) {
-                        $organization = $org["organization"];
-                        $imagePath = "logos/" . $organization . ".png";
-                
+                      $organization = $org["organization"];
+                      $imagePath = "logos/" . $organization . ".png";
+                      $imageAnonPath = "logos/anon.png";
+                      $isAnon = $org["isAnon"];
+
+                      if ($isAnon) {
+                        echo '<div class="row" id="logos">
+                          <div class="logo_container"><img src="' . $imageAnonPath . '"></div>
+                        </div>';
+                      } else {
                         echo '<div class="row" id="logos">
                           <div class="logo_container"><img src="' . $imagePath . '"></div>
                         </div>';
+                      }
                     }
-                } else {
+                  } else {
                     echo "No organizations found in the database.";
-                }
-
+                  }
                 ?>
               </div>
 
               <div class="col-11">
                 <?php
-                $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
-                $result = $conn->query($obg);
+                  $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
+                  $result = $conn->query($obg);
 
-                if ($result->num_rows > 0) {
-                  $organizations = array();
-                  while ($row = $result->fetch_assoc()) {
+                  if ($result->num_rows > 0) {
+                    $organizations = array();
+                    while ($row = $result->fetch_assoc()) {
                       $organizations[] = $row;
+                    }
+
+                    foreach ($organizations as $org) {
+                      $organization = $org["organization"];
+                      $barMeter = $org["barMeter"];
+                      $isAnon = $org["isAnon"];
+
+                      if ($isAnon) {
+                        echo '<div class="row">
+                        <div class="meter_container">
+                          <div class="meter" id="anon" style="width: ' . $barMeter . '%;"></div>
+                        </div>
+                      </div>';
+                      } else {
+                        echo '<div class="row">
+                                <div class="meter_container">
+                                  <div class="meter" id="' . $organization . '" style="width: ' . $barMeter . '%;"></div>
+                                </div>
+                              </div>';
+                      }
+                    }
+                  } else {
+                    echo "No organizations found in the database.";
                   }
-              
-                  foreach ($organizations as $org) {
-                    $organization = $org["organization"];
-                    $barMeter = $org["barMeter"];
-              
-                      echo '<div class="row">
-                  <div class="meter_container">
-                    <div class="meter" id="'. $organization .'" style="width: ' . $barMeter . '%;"></div>
-                  </div>
-                </div>';
-                  }
-              } else {
-                  echo "No organizations found in the database.";
-              }
                 ?>
               </div>
 
