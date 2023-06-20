@@ -36,26 +36,48 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     const anonButton = document.getElementById("anon_button");
-    anonButton.addEventListener("change", function() {
-    if (confirm("Are you sure you want to update the ranking anonymity?")) {
-      const isChecked = anonButton.checked ? 1 : 0;
-      $.ajax({
-        url: "./php/BAR-update-anon.php",
-        type: "POST",
-        data: { isAnon: isChecked },
-        success: function(response) {
-          console.log("Anonymity updated successfully");
-          anonymous()
-        },
-        error: function(error) {
-          console.error("Update failed:", error);
-        }
-      });
-    } else {
-      anonButton.checked = !anonButton.checked;
+const slider = document.querySelector(".slider");
+const cancelWrapper = document.getElementById("cancelWrapper");
+
+anonButton.addEventListener("click", function(event) {
+  event.stopPropagation();
+  cancelWrapper.style.display = "flex";
+});
+
+const confirmButton = document.getElementById("anon_button_confirm");
+confirmButton.addEventListener("click", function() {
+  const isChecked = anonButton.checked ? 1 : 0;
+  $.ajax({
+    url: "./php/BAR-update-anon.php",
+    type: "POST",
+    data: { isAnon: isChecked },
+    success: function() {
+      console.log("Anonymity updated successfully");
+      anonymous();
+      slider.classList.toggle("slide");
+      cancelWrapper.style.display = "none";
+      anonButton.checked = isChecked === 1;
+    },
+    error: function(error) {
+      console.error("Update failed:", error);
     }
   });
+});
 
+cancelWrapper.addEventListener("click", function(event) {
+  const target = event.target;
+  if (target === cancelWrapper || target.classList.contains("outline-button") || target.classList.contains("primary-button")) {
+    if (target.classList.contains("outline-button")) {
+      cancelWrapper.style.display = "none";
+      anonButton.checked = !anonButton.checked;
+    }
+  } else {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+});
+
+    
     function anonymous(){
       const anon = document.getElementById("anon_button")
       const logos = document.querySelectorAll("#logos");
@@ -75,8 +97,6 @@ document.addEventListener("DOMContentLoaded", function() {
               img.src = imageAnonPath;
             });
             meters.forEach(function(meter) {
-              const organization = meter.getAttribute("id");
-              meter.dataset.originalId = organization;
               meter.setAttribute("id", "anon");
             });
           } else {
@@ -92,6 +112,10 @@ document.addEventListener("DOMContentLoaded", function() {
                   const imagePath = "logos/" + organization + ".png";
                   const img = container.querySelector("img");
                   img.src = imagePath;
+                });
+                meters.forEach(function (meter, index) {
+                  const organization = organizations[index];
+                  meter.setAttribute("id", organization);
                 });
               },
               error: function (error) {
