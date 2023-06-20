@@ -1,8 +1,6 @@
 <?php 
 include './php/database_connect.php';
 
-session_start();
-
 include './php/admin-signin.php';
 
 // if($conn){
