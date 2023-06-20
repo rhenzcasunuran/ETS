@@ -1,7 +1,6 @@
 <?php
   include './php/sign-in.php';
   include './php/database_connect.php';
-  include './php/CAL-connect-to-gapi.php';
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +28,6 @@
     <?php
       // Set the active module and sub-active sub-item variables
       $activeModule = 'calendar';
-      $activeSubItem = 'overview';
 
       // Include the sidebar template
       require './php/admin-sidebar.php';
@@ -37,14 +35,130 @@
     <!--Page Content-->
     <section class="home-section mobile-size">
       <div id="calendar-container">
-        <br>
-        <br>
+        <div class="d-flex justify-content-between">
+          <h2 id="current-month"></h2>
+          <!-- Filter Dropdown -->
+          <div class="dropdown p-2">
+            <button class="btn btn-light btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+              Filters
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li>
+                <div class="accordion" id="organizationAccordion">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" data-bs-parent="#organizationAccordion">
+                        Organization
+                      </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
+                      <div class="accordion-body">
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="" id="mobile-check-all-organization" checked>
+                          <label class="form-check-label" for="check-all-organization">
+                            <span class="pill-all">All</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="ACAP" id="mobile-check-acap">
+                          <label class="form-check-label" for="check-acap">
+                            <span class="pill-acap">ACAP</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="AECES" id="mobile-check-aeces">
+                          <label class="form-check-label" for="check-aeces">
+                            <span class="pill-aeces">AECES</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="ELITE" id="mobile-check-elite">
+                          <label class="form-check-label" for="check-elite">
+                            <span class="pill-elite">ELITE</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="GIVE" id="mobile-check-give">
+                          <label class="form-check-label" for="check-give">
+                            <span class="pill-give">GIVE</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="JEHRA" id="mobile-check-jehra">
+                          <label class="form-check-label" for="check-jehra">
+                            <span class="pill-jehra">JEHRA</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="JMAP" id="mobile-check-jmap">
+                          <label class="form-check-label" for="check-jmap">
+                            <span class="pill-jmap">JMAP</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="JPIA" id="mobile-check-jpia">
+                          <label class="form-check-label" for="check-jpia">
+                            <span class="pill-jpia">JPIA</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="PIIE" id="mobile-check-piie">
+                          <label class="form-check-label" for="check-piie">
+                            <span class="pill-piie">PIIE</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="accordion" id="eventTypeAccordion">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" data-bs-parent="#eventTypeAccordion">
+                        Event Type
+                      </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
+                      <div class="accordion-body">
+                        <div class="form-check event-type">
+                          <input class="form-check-input" type="checkbox" value="" id="mobile-check-all-event" checked>
+                          <label class="form-check-label" for="check-all-event">
+                            All
+                          </label>
+                        </div>
+                        <div class="form-check event-type">
+                          <input class="form-check-input" type="checkbox" value="Tournament" id="mobile-check-tournament">
+                          <label class="form-check-label" for="check-tournament">
+                            Tournament
+                          </label>
+                        </div>
+                        <div class="form-check event-type">
+                          <input class="form-check-input" type="checkbox" value="Competition" id="mobile-check-competition">
+                          <label class="form-check-label" for="check-competition">
+                            Competition
+                          </label>
+                        </div>
+                        <div class="form-check event-type">
+                          <input class="form-check-input" type="checkbox" value="Standard" id="mobile-check-standard">
+                          <label class="form-check-label" for="check-standard">
+                            Standard
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div id="calendar-header">
           <div class="calendar-navigation">
-            <button type="button" id="mobile-prev-month" class="btn btn-outline-secondary"><</button>
-            <button type="button" id="mobile-next-month" class="btn btn-outline-secondary">></button>
+            <button type="button" id="mobile-prev-month" class="btn btn-secondary"><</button>
+            <button type="button" id="mobile-next-month" class="btn btn-secondary">></button>
           </div>
-          <h2 id="current-month"></h2>
         </div>
         <table id="mobile-calendar" class="table">
           <thead>
@@ -58,10 +172,10 @@
               <th class="text-center" scope="col">SA</th>
             </tr>
           </thead>
-          <tbody id="mobile-calendar-days" class="border border-5">
+          <tbody id="mobile-calendar-days">
           </tbody>
         </table>
-        <div>
+        <div class="container-fluid">
           <p>Test</p>
           <p>Test</p>
           <p>Test</p>
@@ -79,15 +193,40 @@
           <h1 class="p-2" id="calendar-title"></h1>
           <!-- Mini Calendar -->
           <div class="flex-grow-1 p-2">
-            <i id="calendarToggle" class="bx bxs-down-arrow"></i>
+            <i id="miniCalendarToggle" class="bx bxs-down-arrow"></i>
           </div>
-          <div id="miniCalendar">
-            <div class="mini-calendar-header">
-              <button id="miniPreviousButton" class="previous-button"><i class='bx bxs-left-arrow'></i></button>
-              <h2 id="miniCalendarHeader"></h2>
-              <button id="miniNextButton" class="next-button"><i class='bx bxs-right-arrow'></i></button>
+          <div class="div" id="miniCalendarContainer" style="display: none;">
+            <div class="element" id="calendarElement">
+              <div class="row">
+                <div id="miniCalendar">
+                  <h5>Select a date</h5>
+                  <div class="mini-calendar-header">
+                    <div id="miniButtonContainer">
+                      <i id="miniPreviousButton" class='bx bxs-chevron-left'></i>
+                      <i id="miniNextButton" class='bx bxs-chevron-right'></i>
+                    </div>
+                  </div>
+                  <br>
+                  <table id="miniCalendar">
+                    <thead id="miniCalendarThead">
+                      <tr>
+                        <th scope="col">SU</th>
+                        <th scope="col">M</th>
+                        <th scope="col">TU</th>
+                        <th scope="col">W</th>
+                        <th scope="col">TH</th>
+                        <th scope="col">F</th>
+                        <th scope="col">SA</th>
+                      </tr>
+                    </thead>
+                    <tbody id="miniCalendarTable">
+                    </tbody>
+                  </table>
+                  <br>
+                  <h5 id="miniCalendarHeader"></h5>
+                </div>
+              </div>
             </div>
-            <table id="miniCalendarTable"></table>
           </div>
           <!-- Filter Dropdown -->
           <div class="dropdown p-2">
@@ -260,14 +399,26 @@
     <script defer src="./js/CAL-admin-calendar.js"></script>
     <!-- Google API Calendar -->
     <script type="text/javascript">
-      const CLIENT_ID = '<?php echo $CLIENT_ID; ?>';
-      const API_KEY = '<?php echo $API_KEY; ?>';
-      const DISCOVERY_DOC = '<?php echo $DISCOVERY_DOC; ?>';
-      const SCOPES = '<?php echo $SCOPES; ?>';
-
       let tokenClient;
       let gapiInited = false;
       let gisInited = false;
+
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            CLIENT_ID = data.CLIENT_ID;
+            API_KEY = data.API_KEY;
+            DISCOVERY_DOC = data.DISCOVERY_DOC;
+            SCOPES = data.SCOPES;
+          } else {
+            console.error('Failed to retrieve values from the server');
+          }
+        }
+      };
+      xhr.open('GET', './php/CAL-gapi-retrieve-values.php', true);
+      xhr.send();
 
       function gapiLoaded() {
         gapi.load('client', initializeGapiClient);
