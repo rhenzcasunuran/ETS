@@ -2,11 +2,6 @@
   include './php/sign-in.php';
   include './php/database_connect.php';
   include './php/HOM-create-post.php';
-
-  $activeModule = 'overall-results';
-  $activeSubItem = '';
-    
-  require './php/admin-sidebar.php';
 ?>
 
 <!DOCTYPE html>
@@ -28,10 +23,33 @@
     <link rel="stylesheet" href="./css/BAR-obg.css">
     <link rel="stylesheet" href="./css/system-wide.css">
     <script src="./js/BAR-java.js"></script>
+    
   </head>
 
   <body>
-  
+
+  <?php
+    $activeModule = 'overall-results';
+    $activeSubItem = '';
+      
+    require './php/admin-sidebar.php';
+  ?>
+
+  <div class="popup-background" id="cancelWrapper">
+          <div class="row popup-container" id="anon_prompt">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Update Anonymity?</h3>   <!--header-->
+                <p>This will update both the admin and student side of the module.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button"><i class='bx bx-chevron-left'></i>Return</button>
+                <button class="primary-button" id="anon_button_confirm"><i class='bx bx-x'></i>Confirm</button>
+            </div>
+          </div>
+        </div>
     <!--Page Content-->
     <section class="home-section">
 
@@ -50,7 +68,7 @@
             </div>
           </div>
         </div>
-
+        
         <div class="col" id="graph-section">
           <div class="graph_container">
             <div class="row" id="arrow-container">
