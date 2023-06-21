@@ -150,4 +150,11 @@ $(document).ready(function() {
     var paginationButtons = generatePaginationButtons(currentPage);
     $('.pagination-center').html(paginationButtons);
   });
-  
+
+  var empty = document.getElementById('empty');
+  var searchbar = document.querySelector('.inputAndDeleteDiv');
+  var pagini = document.querySelector('.pagination');
+  if (empty.style.display != 'none'){
+    searchbar.style.display = 'none';
+    pagini.style.display = 'none';
+}

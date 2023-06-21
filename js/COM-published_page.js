@@ -1,3 +1,8 @@
+function emptiness() {
+    
+
+}
+
 const buttons = document.querySelectorAll('.archive_btn');
 buttons.forEach((button) => {
   button.addEventListener("click", (e) => {
@@ -33,6 +38,8 @@ buttons.forEach((button) => {
     confirmBtn.addEventListener("click", function(e){
         hideCancel();
         var post = document.getElementById(competitionName).parentElement;
+        var remaining_posts = document.querySelectorAll('.result_container');
+        console.log(remaining_posts);
             if (post != null){
                 console.log("competitionName is "+competitionName);
                 $.ajax({
@@ -40,18 +47,28 @@ buttons.forEach((button) => {
                     url: "./php/COM-archive_result.php",
                     data: { competitionName: competitionName },
                       success: function(response) {
-                        console.log(response);
-                        console.log("Successful AJAX");
                         post.remove();
                         showMarkAsDone();
+                        remaining_posts = document.querySelectorAll('.result_container');
                       }
                     });
+                    if (remaining_posts.length-1 <= 0 || remaining_posts == null || remaining_posts == undefined){
+                        var empty = document.getElementById('empty');
+                        var searchbar = document.querySelector('.inputAndDeleteDiv');
+                        var pagini = document.querySelector('.pagination');
+                        empty.style.display = 'flex';
+                        searchbar.style.display = 'none';
+                        pagini.style.display = 'none';
+                    }
             }
-            var remaining_posts = document.querySelectorAll('.result_container');
-            console.log(remaining_posts);
+            
             if (remaining_posts.length <= 0){
                 var empty = document.getElementById('empty');
+                var searchbar = document.querySelector('.inputAndDeleteDiv');
+                var pagini = document.querySelector('.pagination');
                 empty.style.display = 'flex';
+                searchbar.style.display = 'none';
+                pagini.style.display = 'none';
             }
         e.stopPropagation();
     })
