@@ -1,5 +1,9 @@
+html, body {
+    overflow-x: hidden;
+}
 body {
     overflow-x: hidden;
+    position: relative;
 }
 .removespace{
     position: relative;
@@ -24,7 +28,8 @@ body {
 .content {
     margin-top: -10px;
     height: calc(100vh + 130px);
-    height:fit-content
+    height:fit-content;
+    padding-top: 20px;
 }
 .empty {
     display: flex;
@@ -38,10 +43,11 @@ body {
 .empty_header {
     font-size: 45px;
     margin: 15px;
-    margin-top: 10%;
+    margin-top: 90px;
     margin-left: auto;
     margin-right: auto;
     height:auto;
+    text-align: center;
 }
 .empty_p {
     font-size: 18px;
@@ -69,15 +75,23 @@ body {
     color: white;
     min-height: 70px !important;
     font-size: 30px;
+    min-width: 300px;
 }
 .go_to_tobepubBtn:hover {
     background-color: #d52020 !important;
     color: white !important;
 }
+.bxs-plus-square {
+    display: inline-block;
+    font-size: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: white;
+}
 .btnContent {
     display: inline-block;
+    font-size: 15px;
     color: white;
-    padding-left: 10px;
 }
 h1 {
     font-size: 38px;
@@ -384,7 +398,7 @@ table {
     margin-top: -85px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: -260px;
+    margin-bottom: -200px;
     aspect-ratio: 1/1;
 }
 @media screen and (max-width:460px){
