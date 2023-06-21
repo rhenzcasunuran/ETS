@@ -1,31 +1,16 @@
 <?php
-  // Database connection details
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "pupets";
-  
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
-  
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-  
+  session_start();
+  @include './php/database_connect.php';
+
   // Query to retrieve data from the database
   $sql = "SELECT team_id, team_name FROM teams";
   $result = $conn->query($sql);
-  
+
+  @include './php/TOU-fetch-data.php';
+  @include './php/TOU-scoring.php';
+
   // Close the database connection
   $conn->close();
-  @include '/php/TOU-fetch-data.php';
-?>
-
-<?php
-  session_start();
-  @include '/php/database_connections.php';
-  @include '/php/TOU-scoring.php'
 ?>
 
 <!DOCTYPE html>

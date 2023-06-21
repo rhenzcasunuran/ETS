@@ -1,16 +1,8 @@
 <?php
-// Create a MySQL connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "pupets";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+  session_start();
+  @include './php/database_connect.php';
+  @include './php/TOU-scoring.php';
+  @include './php/TOU-fetch-data.php';
 
 // Unique identifier for the row
 $rowId = 5; // Update this with the actual row identifier column name
@@ -73,18 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Query to retrieve data from the database
   $sql = "SELECT bracket_id, bracket_sports FROM bracket";
   $result = $conn->query($sql);
-  
+
+
   // Close the database connection
   $conn->close();
-  @include '/php/TOU-fetch-data.php';
-
-
-?>
-
-<?php
-  session_start();
-  @include '/php/database_connections.php';
-  @include '/php/TOU-scoring.php'
 ?>
 
 <!DOCTYPE html>
