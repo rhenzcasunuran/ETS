@@ -17,3 +17,30 @@
     <input type="number" id="jump-to-page" class="jump-input" min="1" max="10">
   </div>
 </div>
+
+<script>
+  var pageID = document.querySelector('meta[name="page-id"]').getAttribute('content');
+    var item;
+    switch (pageID) {
+        case "topublish":
+            item = ".result_container";
+            break;
+        case "published":
+            item = ".result_container";
+            break;
+        case "archive":
+            item = ".result_container";
+            break;
+        case "comstudent":
+            item = ".draggableDiv";
+            break;
+        case "manageresult":
+            item = ".draggableDiv";
+            break;
+    }
+    var totalItems = $(item).length;
+    if (totalItems <= 0) {
+      var paginations = document.querySelector('.pagination');
+      paginations.style.display = "none";
+    }
+</script>

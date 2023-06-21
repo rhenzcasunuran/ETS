@@ -20,7 +20,7 @@ if ($conn->connect_error) {
 $currentDateTime = date("Y-m-d H:i:s");
 
 // Query the competitions table with the condition for schedule
-$sql = "SELECT * FROM competitions_table WHERE schedule <= '$currentDateTime'";
+$sql = "SELECT * FROM competitions_table WHERE schedule <= '$currentDateTime' AND archived ='0'";
 $result = $conn->query($sql);
 
 // If there are competitions, generate HTML code for each of them
@@ -193,6 +193,13 @@ if ($result->num_rows > 0) {
         echo "</div>";
         echo "</div>";
     }
+} else {
+    ?><script>
+      var empty = document.getElementById('empty');
+      var searchbar = document.querySelector('.inputAndDeleteDiv');
+      empty.style.display = 'flex';
+      searchbar.style.display = 'none';
+    </script><?php
 }
 // Close connection
 $conn->close();

@@ -22,8 +22,8 @@ if (isset($_POST['competitionName'])) {
     $result = $conn->query($query);
 
     if ($result && $result->num_rows > 0) {
-        // Update the value inside the archived column to "1"
-        $updateQuery = "UPDATE competitions_table SET archived = '1', schedule = NULL, schedule_end = NULL WHERE competition_name = '$competitionName'";
+        // Update the value inside the archived column to "0"
+        $updateQuery = "UPDATE competitions_table SET archived = '0', schedule = NULL, schedule_end = NULL WHERE competition_name = '$competitionName'";
         if ($conn->query($updateQuery) === true) {
             echo "Update successful";
         } else {

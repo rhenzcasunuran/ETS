@@ -78,8 +78,14 @@ if ($result->num_rows > 0) {
     echo "</div>";
   }
 } else {
-  // No competitions found
-  echo "<div id='empty'>No competitions found.</div>";
+  ?><script>
+    var empty = document.getElementById('empty');
+    var searchbar = document.querySelector('.inputAndDeleteDiv');
+    var pagini = document.querySelector('.pagination');
+    empty.style.display = 'flex';
+    searchbar.style.display = 'none';
+    pagini.style.display = 'none';
+  </script><?php
 }
 
 // Close connection

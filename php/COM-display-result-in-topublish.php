@@ -76,7 +76,16 @@ if ($result->num_rows > 0) {
     echo "</tbody></table></div>";
     echo "</div>";
   }
-} 
+} else {
+  ?><script>
+    var empty = document.getElementById('empty');
+    var searchbar = document.querySelector('.inputAndDeleteDiv');
+    var pagini = document.querySelector('.pagination');
+    empty.style.display = 'flex';
+    searchbar.style.display = 'none';
+    pagini.style.display = 'none';
+  </script><?php
+}
 
 // Close connection
 $conn->close();

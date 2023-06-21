@@ -24,7 +24,7 @@ if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     echo "<div class='result_container'>";
     // Display the name of the competition and a button with the competition ID as the ID
-    echo "<h2 class='parent' id='" . $row["competition_name"] ."'>" . $row["competition_name"] . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='".$row["competition_name"]."-input' class='sched_output' disabled/><button class='sched_btn primary-button' id='" . $row["competition_name"] . " btn'>Republish</button></h2>";
+    echo "<h2 class='parent' id='" . $row["competition_name"] ."'>" . $row["competition_name"] . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='".$row["competition_name"]."-input' class='sched_output' disabled/><button class='republished_btn' id='" . $row["competition_name"] . " btn'><i class='bx bx-repost' style='font-size:20px;'  ></i>Republish</button><button id='".$row["competition_name"]."-selected'class='selectBtn'><i class='bx bx-x'></i></button></h2>";
     // Generate HTML code for the result div and table
     echo "<div class='result'>";
     echo "<table>";
@@ -76,7 +76,16 @@ if ($result->num_rows > 0) {
     echo "</tbody></table></div>";
     echo "</div>";
   }
-} 
+} else {
+  ?><script>
+    var empty = document.getElementById('empty');
+    var searchbar = document.querySelector('.inputAndDeleteDiv');
+    var pagini = document.querySelector('.pagination');
+    empty.style.display = 'flex';
+    searchbar.style.display = 'none';
+    pagini.style.display = 'none';
+  </script><?php
+}
 
 // Close connection
 $conn->close();
