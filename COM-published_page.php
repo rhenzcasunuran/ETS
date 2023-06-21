@@ -94,6 +94,12 @@
             <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-tobepublished_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To Publish</p></button>
         </div>
         <div class="content">
+        <div class="inputAndDeleteDiv">
+          <div class="left search bar" id='search'>
+              <i class="fa fa-search"></i>
+	          <input class="searchInput" type="text" placeholder="Search..">
+          </div>
+        </div>
         <?php
         try {
             require './php/COM-display_published.php';

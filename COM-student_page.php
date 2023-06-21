@@ -1,6 +1,26 @@
 <?php
 @include './php/database_connect.php';
-include './php/admin-signin.php';
+
+session_start();
+
+if($conn){
+  if(isset($_POST['sign-in-button'])){
+    $username=mysqli_real_escape_string($conn,$_POST['user_username']);
+    $password=mysqli_real_escape_string($conn,$_POST['user_password']);
+    $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
+    $result=mysqli_query($conn,$sql);
+    if($result){
+      if(mysqli_num_rows($result)>0){
+        $_SESSION['message']="You are now Loggged In";
+        $_SESSION['user_username']=$username;
+        header("location:HOM-create-post.php");
+      }
+      else{
+        echo '<script>alert("Username or Password combination are incorrect")</script>';
+      }
+    }
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,10 +81,6 @@ include './php/admin-signin.php';
     <!--Content Start-->
     <section class="home-section removespace">
       <div class="header">Competitions</div>
-        <div class="left search bar" style="display:none;" id='search'>
-            <i class="fa fa-search"></i>
-	        <input class="searchInput" type="text" placeholder="Search..">
-        </div>
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
@@ -74,6 +90,12 @@ include './php/admin-signin.php';
             <button class="go_to_tobepubBtn" onclick="window.location.href='#TOU-student-page';"><i class='bx bxs-plus-square'></i><p class="btnContent">Go to Tournaments</p></button>
         </div>
         <div class="container">
+        <div class="inputAndDeleteDiv">
+          <div class="left search bar" id='search'>
+              <i class="fa fa-search"></i>
+	          <input class="searchInput" type="text" placeholder="Search..">
+          </div>
+        </div>
             <?php
                 try {
                     require './php/COM-student_accordion.php';

@@ -105,11 +105,18 @@
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
+        <img src="./pictures/no_result.png" class="no-result" width="500px" height="500px">
             <h1 class="empty_header">No Results</h1>
             <p class="empty_p">There are no competition results to be published yet.</p>
-            <button class="go_to_manageBtn" onclick="window.location.href='./COM-manage_results_page.php';"><i class='bx bxs-plus-square'></i><p class="pBtn">Manage Results</p></button>
+            <button class="go_to_manageBtn" onclick="window.location.href='EVE-admin-create-event.php';"><i class='bx bxs-plus-square'></i><p class="pBtn">Create Event</p></button>
         </div>
         <div class="content">
+        <div class="inputAndDeleteDiv">
+          <div class="lefty search bar" id='search'>
+              <i class="fa fa-search"></i>
+	          <input class="searchInput" type="text" placeholder="Search..">
+          </div>
+        </div>
         <?php
         try {
             require './php/COM-display-result-in-topublish.php';

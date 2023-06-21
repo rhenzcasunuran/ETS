@@ -14,7 +14,7 @@
       <link rel="stylesheet" href="./css/COM-style.css">
       <link rel="stylesheet" href="./css/sidebar-style.css">
       <!-- Page specific CSS -->
-      <link rel="stylesheet" href="./css/COM-published_page.css">
+      <link rel="stylesheet" href="./css/COM-archive_page.css">
       <link rel="stylesheet" href="./css/system-wide.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -31,12 +31,29 @@
                 <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
             </div>
             <div class="col-8 text-start text-container">
-                <h3 class="text-header">Successfully Moved!</h3>   <!--header-->
-                <p style="max-width: 235px; padding-left:15px;">The result is now moved to archive. You may check it right now.</p> <!--text-->
+                <h3 class="text-header">Successfully Republished!</h3>   <!--header-->
+                <p style="max-width: 235px; padding-left:15px;">The result is now republished. You may check it right now.</p> <!--text-->
             </div>
             <div  class="div">
-                <button id="gotoarchiveBtn" class="outline-button"><i class='bx bxs-file-archive'></i>Go To Archive</button>
-                <button id="returnBtn" class="success-button" onclick="hideMarkAsDone()"><i class='bx bx-chevron-left'></i>Return</button>
+                <button id="gotopublishBtn" class="outline-button"><i class='bx bx-calendar' ></i>Go to To Publish</button>
+                <button class="success-button" onclick="hideMarkAsDone()"><i class='bx bx-chevron-left'></i>Return</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Popup Confirm / Successfully Deleted-->
+    <div class="popup-background" id="markAsDeletedWrapper" onclick="hideMarkAsDeleted()">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Successfully Deleted!</h3>   <!--header-->
+                <p style="max-width: 235px; padding-left:15px;">The selected results are now deleted.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <!--<button id="gotopublishBtn" class="outline-button"><i class='bx bxs-file-archive'></i>Go to To Publish</button>-->
+                <button class="success-button" onclick="hideMarkAsDeleted()"><i class='bx bx-chevron-left'></i>Return</button>
             </div>
         </div>
     </div>
@@ -45,36 +62,52 @@
     <div class="popup-background" id="cancelWrapper" onclick="hideCancel()">
         <div class="row popup-container">
             <div class="col-4">
-              <i class='bx bxs-file-archive' style="font-size: 95px;"></i> <!--icon-->
+            <i class='bx bx-repost' style='font-size:95px;'  ></i> <!--icon-->
             </div>
             <div class="col-8 text-start text-container">
-                <h3 class="text-header">Archive Result?</h3>   <!--header-->
-                <p style="max-width: 235px; padding-left:15px;">Are you sure you want to archive the result?</p> <!--text-->
+                <h3 class="text-header">Republish result?</h3>   <!--header-->
+                <p style="max-width: 235px; padding-left:15px;">Are you sure you want to republish the result?</p> <!--text-->
             </div>
             <div  class="div">
-                <button id="cancelBtn" class="outline-button" onclick="hideCancel()"><i class='bx bx-x'></i>Cancel</button>
+                <button class="outline-button" onclick="hideCancel()"><i class='bx bx-x'></i>Cancel</button>
                 <button id="confirmBtn" class="primary-button"><i class='bx bx-check'></i>Confirm</button>
             </div>
         </div>
     </div>
+
+    <!--Popup No selected results to delete-->
+    <div class="popup-background" id="noselectWrapper" onclick="hidenoselect()">
+        <div class="row popup-container">
+            <div class="col-4">
+            <i class='bx bxs-error prompt-icon warning-color'></i><!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">No results to delete</h3>   <!--header-->
+                <p style="max-width: 235px; padding-left:15px;">Select a result to delete first</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hidenoselect()"><i class='bx bx-x'></i>Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Popup Delete / Danger-->
+    <div class="popup-background" id="deleteWrapper" onclick="hideDelete()">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Delete Result?</h3>   <!--header-->
+                <p>This will delete the selected competition result permanently. This action cannot be undone.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideDelete()"><i class='bx bx-x'></i>Cancel</button>
+                <button id="deleteBtn" class="danger-button"><i class='bx bx-trash'></i>Delete</button>
+            </div>
+        </div>
+    </div>
    <!--End of popups-->
-  <div class="archive-wrapper" id="archive-pp-wrap" style="display:none;">
-          <div class="arcc" id="archive-pp">
-            <i class="fa fa-check-circle"></i>
-            <h1 class="arc-head">Successfully Moved!</h1>
-            <p class="arc-p">The result is now moved to archived.<br>You may check it right now.</p>
-            <button class="arc-btn" id="close-btn"><i class="fa fa-long-arrow-right"></i></button>
-          </div>
-        </div>
-        <div class="cau-wrapper" id="caution-pp-wrap" style="display:none;">
-          <div class="bacc" id="caution-pp">
-          <i class='bx bxs-file-archive' style="color: var(--color-text); font-size: 90px"></i>
-            <h1 class="arc-head">Archive Result?</h1>
-            <p class="arc-p">Are you sure you want to archive this result?</p>
-            <button class="gobackbtn" id="backbtn">Cancel</button>
-            <button class="gobtn" id="gobtn">Confirm</button>
-          </div>
-        </div>
     <!--Sidebar Start-->
     <?php 
         $activeModule = 'competition';
@@ -90,10 +123,17 @@
         <div id="empty" class="empty">
         <img src="./pictures/no_result.png" class="no-result" width="500px" height="500px">
             <h1 class="empty_header">No Archived Results</h1>
-            <p class="empty_p">There are no competition results arhived yet.</p>
-            <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-tobepublished_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To Publish</p></button>
+            <p class="empty_p">There are no competition results archived yet.</p>
+            <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-published_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To Published</p></button>
         </div>
         <div class="content">
+        <div class="inputAndDeleteDiv">
+          <div class="left search bar" id='search'>
+              <i class="fa fa-search"></i>
+	          <input class="searchInput" type="text" placeholder="Search..">
+          </div>
+          <button id="deleteAll" class="deleteAll"><i class='bx bxs-trash' ></i></button>
+        </div>
         <?php
         try {
             require './php/COM-display_archive.php';
@@ -127,7 +167,7 @@
         });
       });
     </script>
-    <script src='./js/COM-published_page.js'></script>
+    <script src='./js/COM-archive_page.js'></script>
     <!--Side Bar Scripts End-->
     <script type="text/javascript" src="./js/COM-daterangepicker.js"></script>
     <script>

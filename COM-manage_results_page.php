@@ -31,10 +31,6 @@
     <!--Content Start-->
     <section class="home-section removespace">
       <div class="header">Manage Results</div>
-        <div class="left search bar" style="display:none;" id='search'>
-            <i class="fa fa-search"></i>
-	        <input class="searchInput" type="text" placeholder="Search..">
-        </div>
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
@@ -44,6 +40,12 @@
             <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-tobepublished_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To Publish</p></button>
         </div>
         <div class="container">
+        <div class="inputAndDeleteDiv">
+          <div class="left search bar" id='search'>
+              <i class="fa fa-search"></i>
+	          <input class="searchInput" type="text" placeholder="Search..">
+          </div>
+        </div>
             <?php
                 try {
                     require './php/COM-display_accordions.php';
