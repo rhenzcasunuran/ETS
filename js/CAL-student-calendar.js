@@ -718,7 +718,7 @@ var studentCalendarComputer = {
               date++;
             } else {
               // Cell is after the last day of the month
-              cell.classList.add("disabled");
+              cell.classList.add("mini-disabled");
             }
           }
 
@@ -753,61 +753,52 @@ var studentCalendarComputer = {
       }
     }
 
-    let tempMonth = currentMonth;  
-    let tempYear = currentYear;  
-
     $("#miniPreviousButton").mousedown(function() {
       $('[data-bs-toggle="popover"]').not(this).popover('hide');   
        
-      tempMonth--;
-      if (tempMonth < 0) {
-        tempMonth = 11;
-        tempYear--;
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
       }
-      generateMiniCalendar(tempMonth, tempYear, filters);
-      currentMonth = tempMonth;
-      currentYear = tempYear;
+      generateCalendar(currentMonth, currentYear, filters);
+      generateMiniCalendar(currentMonth, currentYear, filters);
 
       prevMonthInterval = setInterval(function() {
-        tempMonth--;
-        if (tempMonth < 0) {
-          tempMonth = 11;
-          tempYear--;
+        currentMonth--;
+        if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
         }
-        generateMiniCalendar(tempMonth, tempYear, filters);
-        currentMonth = tempMonth;
-        currentYear = tempYear;
+        generateCalendar(currentMonth, currentYear, filters);
+        generateMiniCalendar(currentMonth, currentYear, filters);
+
       }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
     }).mouseup(function() {
       clearInterval(prevMonthInterval);
-      currentMonth = tempMonth;
-      currentYear = tempYear;
     }).mouseleave(function() {
       clearInterval(prevMonthInterval);
-      currentMonth = tempMonth;
-      currentYear = tempYear;
     });
 
     $("#miniNextButton").mousedown(function() {
       $('[data-bs-toggle="popover"]').not(this).popover('hide');
-      tempMonth++;
-      if (tempMonth > 11) {
-        tempMonth = 0;
-        tempYear++;
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
       }
-      generateMiniCalendar(tempMonth, tempYear, filters);
-      currentMonth = tempMonth;
-      currentYear = tempYear;
+      generateCalendar(currentMonth, currentYear, filters);
+      generateMiniCalendar(currentMonth, currentYear, filters);
 
       nextMonthInterval = setInterval(function() {
-        tempMonth++;
-        if (tempMonth > 11) {
-          tempMonth = 0;
-          tempYear++;
+        currentMonth++;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
         }
-        generateMiniCalendar(tempMonth, tempYear, filters);
-        currentMonth = tempMonth;
-        currentYear = tempYear;
+        generateCalendar(currentMonth, currentYear, filters);
+        generateMiniCalendar(currentMonth, currentYear, filters);
+
       }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
     }).mouseup(function() {
       clearInterval(nextMonthInterval);
@@ -913,8 +904,8 @@ var studentCalendarComputer = {
     tournamentCheckbox.addEventListener('click', updateCalendar);
     competitionCheckbox.addEventListener('click', updateCalendar);
     standardCheckbox.addEventListener('click', updateCalendar);
-
     const allCheckboxOrg = document.getElementById('check-all-organization');
+    const scCheckbox = document.getElementById('check-sc');
     const acapCheckbox = document.getElementById('check-acap');
     const aecesCheckbox = document.getElementById('check-aeces');
     const eliteCheckbox = document.getElementById('check-elite');
@@ -926,6 +917,7 @@ var studentCalendarComputer = {
 
     function updateAllCheckboxOrg() {
       if (
+        !scCheckbox.checked &&
         !acapCheckbox.checked &&
         !aecesCheckbox.checked &&
         !eliteCheckbox.checked &&
@@ -937,6 +929,7 @@ var studentCalendarComputer = {
       ) {
         allCheckboxOrg.checked = false;
       } else if (
+        scCheckbox.checked &&
         acapCheckbox.checked &&
         aecesCheckbox.checked &&
         eliteCheckbox.checked &&
@@ -952,6 +945,9 @@ var studentCalendarComputer = {
       }
       // update checkbox array
       filtersOrg.length = 0; // clear previous values
+      if (scCheckbox.checked) {
+        filtersOrg.push(scCheckbox.value);
+      }
       if (acapCheckbox.checked) {
         filtersOrg.push(acapCheckbox.value);
       }
@@ -979,6 +975,7 @@ var studentCalendarComputer = {
     }
 
     // Add event listeners to update "All" checkbox when other checkboxes are clicked
+    scCheckbox.addEventListener('click', updateAllCheckboxOrg);
     acapCheckbox.addEventListener('click', updateAllCheckboxOrg);
     aecesCheckbox.addEventListener('click', updateAllCheckboxOrg);
     eliteCheckbox.addEventListener('click', updateAllCheckboxOrg);
@@ -992,6 +989,7 @@ var studentCalendarComputer = {
     allCheckboxOrg.addEventListener('click', function() {
       filtersOrg.length = 0;
       if (allCheckboxOrg.checked) {
+        scCheckbox.checked = true;
         acapCheckbox.checked = true;
         aecesCheckbox.checked = true;
         eliteCheckbox.checked = true;
@@ -1000,6 +998,7 @@ var studentCalendarComputer = {
         jmapCheckbox.checked = true;
         jpiaCheckbox.checked = true;
         piieCheckbox.checked = true;
+        filtersOrg.push(scCheckbox.value);
         filtersOrg.push(acapCheckbox.value);
         filtersOrg.push(aecesCheckbox.value);
         filtersOrg.push(eliteCheckbox.value);
@@ -1009,6 +1008,7 @@ var studentCalendarComputer = {
         filtersOrg.push(jpiaCheckbox.value);
         filtersOrg.push(piieCheckbox.value);
       } else {
+        scCheckbox.checked = false;
         acapCheckbox.checked = false;
         aecesCheckbox.checked = false;
         eliteCheckbox.checked = false;
@@ -1023,6 +1023,7 @@ var studentCalendarComputer = {
 
     // Select all checkboxes at startup
     allCheckboxOrg.checked = true;
+    scCheckbox.checked = true;
     acapCheckbox.checked = true;
     aecesCheckbox.checked = true;
     eliteCheckbox.checked = true;
@@ -1037,6 +1038,7 @@ var studentCalendarComputer = {
       generateCalendar(currentMonth, currentYear, filtersOrg);
     }*/
 
+    scCheckbox.addEventListener('click', updateCalendarOrg);
     acapCheckbox.addEventListener('click', updateCalendarOrg);
     aecesCheckbox.addEventListener('click', updateCalendarOrg);
     eliteCheckbox.addEventListener('click', updateCalendarOrg);
@@ -1048,6 +1050,7 @@ var studentCalendarComputer = {
 
     function updateAllCheckboxOrg() {
       if (
+        !scCheckbox.checked &&
         !acapCheckbox.checked &&
         !aecesCheckbox.checked &&
         !eliteCheckbox.checked &&
@@ -1059,6 +1062,7 @@ var studentCalendarComputer = {
       ) {
         allCheckboxOrg.checked = false;
       } else if (
+        scCheckbox.checked &&
         acapCheckbox.checked &&
         aecesCheckbox.checked &&
         eliteCheckbox.checked &&
@@ -1074,6 +1078,9 @@ var studentCalendarComputer = {
       }
       // update checkbox array
       filtersOrg.length = 0; // clear previous values
+      if (scCheckbox.checked) {
+        filtersOrg.push(scCheckbox.value);
+      }
       if (acapCheckbox.checked) {
         filtersOrg.push(acapCheckbox.value);
       }
@@ -1100,7 +1107,7 @@ var studentCalendarComputer = {
       }
     }
   }
-}
+};
 
 var studentCalendarPhone = {
   initialize: function() {
@@ -1245,6 +1252,7 @@ var studentCalendarPhone = {
     standardCheckbox.addEventListener('click', updateCalendar);
 
     const allCheckboxOrg = document.getElementById('mobile-check-all-organization');
+    const scCheckbox = document.getElementById('mobile-check-sc');
     const acapCheckbox = document.getElementById('mobile-check-acap');
     const aecesCheckbox = document.getElementById('mobile-check-aeces');
     const eliteCheckbox = document.getElementById('mobile-check-elite');
@@ -1256,6 +1264,7 @@ var studentCalendarPhone = {
 
     function updateAllCheckboxOrg() {
       if (
+        !scCheckbox.checked &&
         !acapCheckbox.checked &&
         !aecesCheckbox.checked &&
         !eliteCheckbox.checked &&
@@ -1267,6 +1276,7 @@ var studentCalendarPhone = {
       ) {
         allCheckboxOrg.checked = false;
       } else if (
+        scCheckbox.checked &&
         acapCheckbox.checked &&
         aecesCheckbox.checked &&
         eliteCheckbox.checked &&
@@ -1282,6 +1292,9 @@ var studentCalendarPhone = {
       }
       // update checkbox array
       filtersOrg.length = 0; // clear previous values
+      if (scCheckbox.checked) {
+        filtersOrg.push(scCheckbox.value);
+      }
       if (acapCheckbox.checked) {
         filtersOrg.push(acapCheckbox.value);
       }
@@ -1309,6 +1322,7 @@ var studentCalendarPhone = {
     }
 
     // Add event listeners to update "All" checkbox when other checkboxes are clicked
+    scCheckbox.addEventListener('click', updateAllCheckboxOrg);
     acapCheckbox.addEventListener('click', updateAllCheckboxOrg);
     aecesCheckbox.addEventListener('click', updateAllCheckboxOrg);
     eliteCheckbox.addEventListener('click', updateAllCheckboxOrg);
@@ -1322,6 +1336,7 @@ var studentCalendarPhone = {
     allCheckboxOrg.addEventListener('click', function() {
       filtersOrg.length = 0;
       if (allCheckboxOrg.checked) {
+        scCheckbox.checked = true;
         acapCheckbox.checked = true;
         aecesCheckbox.checked = true;
         eliteCheckbox.checked = true;
@@ -1330,6 +1345,7 @@ var studentCalendarPhone = {
         jmapCheckbox.checked = true;
         jpiaCheckbox.checked = true;
         piieCheckbox.checked = true;
+        filtersOrg.push(scCheckbox.value);
         filtersOrg.push(acapCheckbox.value);
         filtersOrg.push(aecesCheckbox.value);
         filtersOrg.push(eliteCheckbox.value);
@@ -1339,6 +1355,7 @@ var studentCalendarPhone = {
         filtersOrg.push(jpiaCheckbox.value);
         filtersOrg.push(piieCheckbox.value);
       } else {
+        scCheckbox.checked = false;
         acapCheckbox.checked = false;
         aecesCheckbox.checked = false;
         eliteCheckbox.checked = false;
@@ -1353,6 +1370,7 @@ var studentCalendarPhone = {
 
     // Select all checkboxes at startup
     allCheckboxOrg.checked = true;
+    scCheckbox.checked = true;
     acapCheckbox.checked = true;
     aecesCheckbox.checked = true;
     eliteCheckbox.checked = true;
@@ -1367,6 +1385,7 @@ var studentCalendarPhone = {
       generateCalendar(currentMonth, currentYear, filtersOrg);
     }*/
 
+    scCheckbox.addEventListener('click', updateCalendarOrg);
     acapCheckbox.addEventListener('click', updateCalendarOrg);
     aecesCheckbox.addEventListener('click', updateCalendarOrg);
     eliteCheckbox.addEventListener('click', updateCalendarOrg);
@@ -1378,6 +1397,7 @@ var studentCalendarPhone = {
 
     function updateAllCheckboxOrg() {
       if (
+        !scCheckbox.checked &&
         !acapCheckbox.checked &&
         !aecesCheckbox.checked &&
         !eliteCheckbox.checked &&
@@ -1389,6 +1409,7 @@ var studentCalendarPhone = {
       ) {
         allCheckboxOrg.checked = false;
       } else if (
+        scCheckbox.checked &&
         acapCheckbox.checked &&
         aecesCheckbox.checked &&
         eliteCheckbox.checked &&
@@ -1404,6 +1425,9 @@ var studentCalendarPhone = {
       }
       // update checkbox array
       filtersOrg.length = 0; // clear previous values
+      if (scCheckbox.checked) {
+        filtersOrg.push(scCheckbox.value);
+      }
       if (acapCheckbox.checked) {
         filtersOrg.push(acapCheckbox.value);
       }

@@ -42,7 +42,7 @@ $(document).ready(function() {
           checkboxValues.splice(index, 1);
         }
       }
-
+      currentPage = 1;
       loadLogs();
     });
 
@@ -51,7 +51,7 @@ $(document).ready(function() {
       const value = $(this).val();
       checkboxValues.push(value);
     });
-
+    currentPage = 1;
     loadLogs();
   }
 
@@ -69,71 +69,6 @@ $(document).ready(function() {
       console.log('Response:', xhr.responseText); // Log the response text for debugging
     }
   });
-
-  var tbody = $('#log-table-body');
-  var currentPage = 1;
-  var pageSize = 10;
-  var totalEntries = 0;
-  var totalPages = 0;
-  var sortColumn = 'log_id';
-  var sortOrder = 'DESC';
-  
-  function updatePaginationInfo() {
-    var startIndex = (currentPage - 1) * pageSize + 1;
-    var endIndex = Math.min(startIndex + pageSize - 1, totalEntries);
-    var paginationText = startIndex + '-' + endIndex + ' of ' + totalEntries;
-    $('#pagination-info').text(paginationText);
-  }
-  
-  function displayLogs(logs) {
-    tbody.empty();
-  
-    if (logs.length === 0) {
-      var noResultsRow = $('<tr></tr>').addClass('no-results-row');
-      var noResultsCell = $('<td></td>').attr('colspan', '5').text('No results to display');
-      noResultsCell.appendTo(noResultsRow);
-      noResultsRow.appendTo(tbody);
-    } else {
-      logs.forEach(function (log) {
-        var logDate = new Date(log.log_date);
-        var formattedDate = formatDate(logDate);
-        var formattedTime = formatTime(logDate, log.log_time);
-  
-        var row = $('<tr></tr>');
-  
-        $('<td></td>').text(log.log_id).appendTo(row);
-        $('<td></td>').text(formattedDate).appendTo(row);
-        $('<td></td>').text(formattedTime).appendTo(row);
-        $('<td></td>').text(log.user_username).appendTo(row);
-        $('<td></td>').text(log.activity_description).appendTo(row);
-  
-        row.appendTo(tbody);
-      });
-    }
-  }
-  
-  // Function to format the date
-  function formatDate(date) {
-    var day = date.getDate();
-    var month = date.getMonth() + 1; // Months are zero-based
-    var year = date.getFullYear();
-  
-    // Ensure leading zeros for day and month if necessary
-    day = day < 10 ? '0' + day : day;
-    month = month < 10 ? '0' + month : month;
-  
-    return month + '/' + day + '/' + year;
-  }
-  
-  // Function to format the time
-  function formatTime(date, time) {
-    var logDateTime = new Date(date.toISOString().split('T')[0] + 'T' + time + 'Z');
-    var timezoneOffset = date.getTimezoneOffset() / 60; // Get the local time zone offset in hours
-    logDateTime.setHours(logDateTime.getHours() + timezoneOffset); // Adjust the hours based on the time zone offset
-    var formattedTime = logDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-
-    return formattedTime;
-  }
 
   document.getElementById("calendar-icon").addEventListener("click", function() {
     const miniCalendar = document.getElementById("miniCalendar");
@@ -269,6 +204,16 @@ $(document).ready(function() {
   miniPreviousButton.addEventListener("click", goToMiniPreviousMonth);
   miniNextButton.addEventListener("click", goToMiniNextMonth);
 
+  var tbody = $('#log-table-body');
+  var currentPage = 1;
+  var pageSize;
+  var totalEntries;
+  var totalPages;
+  var startIndex;
+  var endIndex;
+  var sortColumn = 'log_id';
+  var sortOrder = 'DESC';
+
   function loadLogs() { 
     
     var searchTerm = $('#search-input').val();
@@ -283,18 +228,51 @@ $(document).ready(function() {
         sortOrder: sortOrder,
         searchTerm: searchTerm,
         searchDate: searchDate,
-        searchAdmin: checkboxValues
+        searchAdmin: checkboxValues,
+        currentPage: currentPage,
       },
       success: function(response) {
         var logs = response.logs;
-        totalEntries = logs.length;
-        totalPages = Math.ceil(totalEntries / pageSize);
-        var startIndex = (currentPage - 1) * pageSize;
-        var endIndex = Math.min(startIndex + pageSize, totalEntries);
-        var paginatedLogs = logs.slice(startIndex, endIndex);
+        totalEntries = response.totalEntries;
+        totalPages = response.totalPages;
+        pageSize = response.pageSize;
+        startIndex = response.startIndex;
+        endIndex = response.endIndex; 
+
+        var paginationText;
   
-        displayLogs(paginatedLogs);
-        updatePaginationInfo();
+        if (totalEntries === 0) {
+          paginationText = '0 of 0';
+        } else {
+          paginationText = startIndex + 1 + '-' + endIndex + ' of ' + totalEntries;
+        }
+
+        $('#pagination-info').text(paginationText);
+
+        tbody.empty();
+  
+        if (logs.length === 0) {
+          var noResultsRow = $('<tr></tr>').addClass('no-results-row');
+          var noResultsCell = $('<td></td>').attr('colspan', '5').text('No results to display');
+          noResultsCell.appendTo(noResultsRow);
+          noResultsRow.appendTo(tbody);
+        } else {
+          logs.forEach(function (log) {
+            var logDate = new Date(log.log_date);
+            var formattedDate = formatDate(logDate);
+            var formattedTime = formatTime(logDate, log.log_time);
+      
+            var row = $('<tr></tr>');
+      
+            $('<td></td>').text(log.log_id).appendTo(row);
+            $('<td></td>').text(formattedDate).appendTo(row);
+            $('<td></td>').text(formattedTime).appendTo(row);
+            $('<td></td>').text(log.user_username).appendTo(row);
+            $('<td></td>').text(log.activity_description).appendTo(row);
+      
+            row.appendTo(tbody);
+          });
+        }
   
         $('#btn-prev').prop('disabled', currentPage === 1);
         $('#btn-next').prop('disabled', currentPage === totalPages);
@@ -318,7 +296,31 @@ $(document).ready(function() {
     });
   }
   
+  // Function to format the date
+  function formatDate(date) {
+    var day = date.getDate();
+    var month = date.getMonth() + 1; // Months are zero-based
+    var year = date.getFullYear();
+  
+    // Ensure leading zeros for day and month if necessary
+    day = day < 10 ? '0' + day : day;
+    month = month < 10 ? '0' + month : month;
+  
+    return month + '/' + day + '/' + year;
+  }
+  
+  // Function to format the time
+  function formatTime(date, time) {
+    var logDateTime = new Date(date.toISOString().split('T')[0] + 'T' + time + 'Z');
+    var timezoneOffset = date.getTimezoneOffset() / 60; // Get the local time zone offset in hours
+    logDateTime.setHours(logDateTime.getHours() + timezoneOffset); // Adjust the hours based on the time zone offset
+    var formattedTime = logDateTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+    return formattedTime;
+  }
+  
   function setSortColumn(column) {
+    currentPage = 1; // Reset to first page
     if (sortColumn === column) {
       sortOrder = sortOrder === 'ASC' ? 'DESC' : 'ASC';
     } else {
@@ -327,20 +329,20 @@ $(document).ready(function() {
     }
   
     loadLogs();
-  }
+  }  
   
-  $('#btn-prev').click(function() {
+  $('#btn-prev').on('mousedown', function() {
     if (currentPage > 1) {
       currentPage--;
-      loadLogs();
     }
+    loadLogs();
   });
   
-  $('#btn-next').click(function() {
+  $('#btn-next').on('mousedown', function() {
     if (currentPage < totalPages) {
       currentPage++;
-      loadLogs();
     }
+    loadLogs();
   });
   
   $('.sortable').click(function() {
@@ -388,6 +390,7 @@ $(document).ready(function() {
 
     // Validate the date
     validateDate();
+    currentPage = 1; // Reset to first page when searching
     loadLogs();
   }
 
@@ -406,6 +409,7 @@ $(document).ready(function() {
       loadLogs();
       dateInput.value = '';
     }
+    currentPage = 1; // Reset to first page when searching
     loadLogs();
   }
 
@@ -468,6 +472,7 @@ $(document).ready(function() {
         dateError.textContent = 'Invalid date format';
       }
     }
+    currentPage = 1; // Reset to first page when searching
     loadLogs();
   }  
 
