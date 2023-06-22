@@ -6,6 +6,8 @@ $sortOrder = $_GET['sortOrder'];
 $searchTerm = $_GET['searchTerm'];
 $searchDate = $_GET['searchDate'];
 $adminFilters = isset($_GET['searchAdmin']) ? $_GET['searchAdmin'] : array();
+$currentPage = isset($_GET['currentPage']) ? $_GET['currentPage'] : 1;
+$startIndex = isset($_GET['startIndex']) ? $_GET['startIndex'] : 0;
 
 // Check if filters array is empty
 if (empty($adminFilters)) {
@@ -25,8 +27,11 @@ if (!in_array($sortOrder, $validOrders)) {
   $sortOrder = 'ASC'; // Default sort order
 }
 
-// Construct the SQL query with sorting and filtering
-$orderBy = $sortColumn . ' ' . $sortOrder;
+if ($sortColumn === 'log_date') {
+  $orderBy = "CONCAT(logs.log_date, ' ', logs.log_time) $sortOrder";
+} else {
+  $orderBy = $sortColumn . ' ' . $sortOrder;
+}
 
 $searchCondition = '';
 $parameters = array();
@@ -78,6 +83,34 @@ if (!empty($searchDate)) {
 }
 
 $log_sql .= " ORDER BY $orderBy, logs.log_time DESC";
+
+// Execute the SQL query without the limit clause to get the total number of entries
+$log_count_sql = "SELECT COUNT(*) as count FROM ($log_sql) AS countQuery";
+$log_count_stmt = mysqli_prepare($conn, $log_count_sql);
+
+// Bind the parameters to the prepared statement
+if (!empty($parameters)) {
+  $types = str_repeat('s', count($parameters)); // Assuming all parameters are strings
+  mysqli_stmt_bind_param($log_count_stmt, $types, ...$parameters);
+}
+
+// Execute the prepared statement
+mysqli_stmt_execute($log_count_stmt);
+
+// Fetch the result
+$countResult = mysqli_stmt_get_result($log_count_stmt);
+$totalEntries = mysqli_fetch_assoc($countResult)['count'];
+
+// Calculate pagination values
+$pageSize = 10; // Number of logs per page
+$totalPages = ceil($totalEntries / $pageSize);
+$startIndex = ($currentPage - 1) * $pageSize;
+$endIndex = min($startIndex + $pageSize, $totalEntries);
+
+// Modify the original SQL query to include the limit and offset
+$log_sql .= " LIMIT $startIndex, $pageSize";
+
+// Execute the modified SQL query with the limit and offset
 $log_stmt = mysqli_prepare($conn, $log_sql);
 
 // Bind the parameters to the prepared statement
@@ -86,22 +119,39 @@ if (!empty($parameters)) {
   mysqli_stmt_bind_param($log_stmt, $types, ...$parameters);
 }
 
+// Execute the prepared statement
 mysqli_stmt_execute($log_stmt);
-$log_result = mysqli_stmt_get_result($log_stmt);
 
+// Fetch the result
+$result = mysqli_stmt_get_result($log_stmt);
+
+// Format the log data
 $logs = array();
-while ($row = mysqli_fetch_assoc($log_result)) {
-  // Convert log_date and log_time to appropriate formats
-  $row['log_date'] = date('Y-m-d', strtotime($row['log_date']));
-  $row['log_time'] = date('H:i:s', strtotime($row['log_time']));
-  $logs[] = $row;
+while ($row = mysqli_fetch_assoc($result)) {
+  $logs[] = array(
+    'log_id' => $row['log_id'],
+    'log_date' => $row['log_date'],
+    'log_time' => $row['log_time'],
+    'admin_id' => $row['admin_id'],
+    'user_username' => $row['user_username'],
+    'activity_description' => $row['activity_description']
+  );
 }
 
+// Construct the response array
 $response = array(
-  'logs' => $logs
+  'logs' => $logs,
+  'totalEntries' => $totalEntries,
+  'totalPages' => $totalPages,
+  'currentPage' => $currentPage,
+  'pageSize' => $pageSize,
+  'totalPages' => $totalPages,
+  'startIndex' => $startIndex,
+  'endIndex' => $endIndex
 );
 
-echo json_encode($response, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+// Encode the response array as JSON and echo it
+echo json_encode($response);
 mysqli_stmt_close($log_stmt);
 mysqli_close($conn);
 ?>
