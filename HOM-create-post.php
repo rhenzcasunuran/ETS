@@ -26,64 +26,55 @@
   </head>
 
   <body>
-    <div class="popup-background" id="cancelWrapper">
+    <form id="post-form" action="./php/HOM-create-post.php" method="post">
+    <div class="popup-background" id="cancelPost-popup">
       <div class="row popup-container">
         <div class="col-4">
           <i class='bx bxs-error prompt-icon warning-color'></i>
         </div>
         <div class="col-8 text-start text-container">
-          <h3 class="text-header">Discard Changes?</h3>
-          <p>Any unsaved progress will be lost.</h2>
+          <h3 class="text-header">Cancel Post?</h3>
+          <p>This will delete your progress. You cannot undo this action.</h2>
         </div>
         <div class="div">
-          <button class="outline-button" onclick="hideCancel()"><i class='bx bx-chevron-left'></i>Return</button>
-          <button class="primary-button"><i class='bx bx-x'></i>Discard</button>
+          <div class="outline-button" onclick="hide_cancelPost()"><i class='bx bx-chevron-left'></i>Return</div>
+          <a href="HOM-manage-post.php" class="text-decoration-none">
+            <div id="clear" class="primary-button"><i class='bx bx-x'></i>Continue</div>
+          </a>
         </div>
       </div>
     </div>
-    <div class="container-fluid" id="clear-popup">
-      <div class="row popup-card">
-        <i class='row warning-icon bx bx-reset' ></i>
-        <h3 class="row d-flex justify-content-center align-items-center">
-          Clear Form?
-        </h3>
-        <h6 class="row d-flex justify-content-center align-items-center">
-          You cannot undo this action.
-        </h6>
-        <div class="row">
-          <div class="col">
-            <div id="clear" class="button-clone continue" onclick="hide_clear()">
-              &nbsp;Continue
-            </div>
-          </div>
-          <div class="col">
-            <div class="button-clone cancel" onclick="hide_clear()">
-              &nbsp;Cancel
-            </div>
-          </div>
+    <div class="popup-background" id="saveDraft-popup">
+      <div class="row popup-container">
+        <div class="col-4">
+          <i class='bx bx-save prompt-icon warning-color'></i>
+        </div>
+        <div class="col-8 text-start text-container">
+          <h3 class="text-header">Save Draft?</h3>
+          <p>This will save your progress. You can edit this post in Drafts.</h2>
+        </div>
+        <div class="div">
+          <div class="outline-button" onclick="hide_saveDraft()"><i class='bx bx-chevron-left'></i>Return</div>
+          <a href="HOM-draft-post.php" class="text-decoration-none">
+            <button class="primary-button" type="submit" name="save"><i class='bx bx-save'></i>Continue</button>
+          </a>
         </div>
       </div>
     </div>
-    <div class="container-fluid" id="post-popup">
-      <div class="row popup-card">
-        <i class='row warning-icon bx bx-reset' ></i>
-        <h3 class="row d-flex justify-content-center align-items-center">
-          Post Now?
-        </h3>
-        <h6 class="row d-flex justify-content-center align-items-center">
-          You can edit thisin Manage Post.
-        </h6>
-        <div class="row">
-          <div class="col">
-            <div id="clear" class="button-clone continue" onclick="hide_post()">
-              &nbsp;Continue
-            </div>
-          </div>
-          <div class="col">
-            <div class="button-clone cancel" onclick="hide_post()">
-              &nbsp;Cancel
-            </div>
-          </div>
+    <div class="popup-background" id="postNow-popup">
+      <div class="row popup-container">
+        <div class="col-4">
+          <i class='bx bx-upload prompt-icon warning-color'></i>
+        </div>
+        <div class="col-8 text-start text-container">
+          <h3 class="text-header">Post Now?</h3>
+          <p>This will publish the post now. You can edit this post in Manage Post.</h2>
+        </div>
+        <div class="div">
+          <div class="outline-button" onclick="hide_postNow()"><i class='bx bx-chevron-left'></i>Return</div>
+          <a href="HOM-manage-post.php" class="text-decoration-none">
+            <button class="primary-button" type="submit" name="post"><i class='bx bx-upload'></i>Continue</button>
+          </a>
         </div>
       </div>
     </div>
@@ -102,7 +93,6 @@
         <h1 class="row">
           Create Post
         </h1>
-        <form id="post-form" action="./php/HOM-create-post.php" method="post">
           <div class="row config">
             <div class="col-7">
               <div class="row">
@@ -160,24 +150,32 @@
                 </div>
               </div>
               <div class="row buttons">
-                <div class="col outline-button" onclick="show_clear()">
-                  <i class='bx bx-reset'></i>
-                  &nbsp;Clear
+                <div class="col outline-button" onclick="show_cancelPost()">
+                  <i class='bx bx-x'></i>
+                  &nbsp;Cancel
                 </div>
-                <button class="col secondary-button">
+                <div class="col secondary-button" onclick="show_saveDraft()">
                   <i class='bx bx-save'></i>
                   &nbsp;Save
-                </button>
-                <button class="col primary-button" type="submit" name="post">
+                </div>    
+                <div class="col post-menu primary-button">
                   <i class='bx bx-upload'></i>
                   &nbsp;Post
-                </button>
+                  <div class="post-menu-content">
+                    <a href="#" class="post-now" onclick="show_postNow()">Now</a>
+                    <a href="#" class="post-later">Later</a>
+                    <a href="#" class="no-hover">
+                      <i class='bx bx-upload'></i>
+                      &nbsp;Post
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </form>
       </div>
     </section>
+    </form>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>

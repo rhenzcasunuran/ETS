@@ -1,7 +1,7 @@
 <?php
   include './php/sign-in.php';
   include './php/database_connect.php';
-  include './php/HOM-get-posts.php';
+  include './php/HOM-get-drafts.php';
   include './php/HOM-delete-post.php';
 ?>
 
@@ -30,7 +30,7 @@
     <?php
       // Set the active module and sub-active sub-item variables
       $activeModule = 'posts';
-      $activeSubItem = 'manage-post';
+      $activeSubItem = 'draft-post';
 
       // Include the sidebar template
       require './php/admin-sidebar.php';
@@ -39,7 +39,7 @@
     <section class="home-section">
       <div class="container">
         <p class="row title">
-          Manage Post
+          Draft Post
         </p>
         <?php
           $row = mysqli_num_rows($get_posts);
@@ -97,10 +97,10 @@
                   </div>
                 </div>
                 <div class="col-2">
-                  <a href="HOM-edit-post.php?eec=<?php echo $count[0]?>" class="text-decoration-none">
+                  <a href="HOM-edit-draft.php?eec=<?php echo $count[0]?>" class="text-decoration-none">
                     <button class="button-clone edit-post">
                       <i class='bx bx-edit'></i>
-                      &nbsp;Edit Post
+                      &nbsp;Edit Draft
                     </button>
                   </a>
                 </div>

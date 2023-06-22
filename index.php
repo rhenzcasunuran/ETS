@@ -100,7 +100,7 @@
             $row = mysqli_num_rows($get_posts);
             if($row > 0){
               while($count = mysqli_fetch_array($get_posts)){
-                $date = date("F d, Y", strtotime($count[7]));
+                $date = date("F d, Y", strtotime($count[6]));
           ?>
             <a href="HOM-post.php?eec=<?php echo $count[0]?>" class="post-click ALL <?php echo $count[2];?>">
               <div class="post-card">

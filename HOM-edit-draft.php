@@ -1,7 +1,7 @@
 <?php
   include './php/sign-in.php';
   include './php/database_connect.php';
-  include './php/HOM-edit-post.php';
+  include './php/HOM-edit-draft.php';
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +48,7 @@
     <?php
       // Set the active module and sub-active sub-item variables
       $activeModule = 'posts';
-      $activeSubItem = 'manage-post';
+      $activeSubItem = 'draft-post';
 
       // Include the sidebar template
       require './php/admin-sidebar.php';
@@ -57,7 +57,7 @@
     <section class="home-section">
       <div class="container">
         <h1 class="row title">
-          Edit Post
+          Edit Draft
         </h1>
           <div class="row config">
             <div class="col-7">
@@ -120,10 +120,18 @@
                   <i class='bx bx-x'></i>
                   &nbsp;Discard Changes
                 </div>
-                <button class="col primary-button" type="submit" name="post">
+                <div class="col post-menu primary-button">
                   <i class='bx bx-upload'></i>
-                  &nbsp;Save Post
-                </button>
+                  &nbsp;Post Draft
+                  <div class="post-menu-content">
+                    <a href="#" class="post-now" onclick="show_postNow()">Now</a>
+                    <a href="#" class="post-later">Later</a>
+                    <a href="#" class="no-hover">
+                      <i class='bx bx-upload'></i>
+                      &nbsp;Post Draft
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
