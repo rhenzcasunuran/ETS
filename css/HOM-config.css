@@ -109,6 +109,51 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus
 
 .buttons{
     gap: 20px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+}
+
+.post-menu{
+    position: relative;
+    display: inline-block;
+    padding: 0px;
+}
+  
+.post-menu-content{
+    border-radius: 30px;
+    display: none;
+    position: absolute;
+    background-color: #743EBA;
+    width: 100%;
+    right:0%;
+    bottom: 0%;
+}
+
+.post-menu-content:active{
+    border-bottom-left-radius: 26px;
+    border-bottom-right-radius: 26px;
+}
+  
+.post-menu-content a{
+    color: #f2f2f2;
+    padding: 12px 0px;
+    text-decoration: none;
+    display: block;
+}
+  
+.post-menu-content a:hover{
+    color: #f2f2f2;
+    transform: scale(110%);
+}
+
+.post-menu:hover .post-menu-content{
+    display: block;
+}
+
+.post-menu-content .no-hover{
+    pointer-events: none;
+}
+
+.outline-button, .secondary-button, .primary-button{
+    max-width: 100%!important;
 }
