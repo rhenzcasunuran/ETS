@@ -86,6 +86,12 @@ include './php/admin-signin.php';
                           </label>
                         </div>
                         <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="sc" id="mobile-check-sc">
+                          <label class="form-check-label" for="check-sc">
+                            <span class="pill-sc">SC</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
                           <input class="form-check-input" type="checkbox" value="ACAP" id="mobile-check-acap">
                           <label class="form-check-label" for="check-acap">
                             <span class="pill-acap">ACAP</span>
@@ -274,6 +280,12 @@ include './php/admin-signin.php';
                           <input class="form-check-input" type="checkbox" value="" id="check-all-organization" checked>
                           <label class="form-check-label" for="check-all-organization">
                             <span class="pill-all">All</span>
+                          </label>
+                        </div>
+                        <div class="form-check org-type">
+                          <input class="form-check-input" type="checkbox" value="SC" id="check-sc">
+                          <label class="form-check-label" for="check-sc">
+                            <span class="pill-sc">SC</span>
                           </label>
                         </div>
                         <div class="form-check org-type">
