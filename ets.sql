@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 22, 2023 at 12:29 PM
+-- Generation Time: Jun 22, 2023 at 02:44 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -142,7 +142,7 @@ CREATE TABLE `highlights` (
 
 CREATE TABLE `judges` (
   `judge_id` int(11) NOT NULL,
-  `event_id` int(11) NOT NULL,
+  `competition_id` int(11) NOT NULL,
   `judge_name` varchar(150) NOT NULL,
   `judge_nickname` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -218,18 +218,6 @@ CREATE TABLE `ongoing_list_of_event` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ongoing_tournament`
---
-
-CREATE TABLE `ongoing_tournament` (
-  `tournament_id` int(11) NOT NULL,
-  `category_name_id` int(11) NOT NULL,
-  `number_of_wins` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `organization`
 --
 
@@ -246,7 +234,7 @@ CREATE TABLE `organization` (
 
 CREATE TABLE `participants` (
   `participants_id` int(11) NOT NULL,
-  `event_id` int(11) NOT NULL,
+  `competition_id` int(11) NOT NULL,
   `organization_id` int(11) NOT NULL,
   `participant_name` varchar(50) NOT NULL,
   `participant_course` varchar(50) NOT NULL,
@@ -279,7 +267,7 @@ CREATE TABLE `post` (
 
 CREATE TABLE `tournament` (
   `tournament_id` int(11) NOT NULL,
-  `category_name_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
   `number_of_wins` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -291,7 +279,7 @@ CREATE TABLE `tournament` (
 
 CREATE TABLE `tou_bracket` (
   `bracket_id` int(11) NOT NULL,
-  `event_id` int(11) DEFAULT NULL,
+  `tournament_id` int(11) NOT NULL,
   `team1_id` int(11) DEFAULT NULL,
   `team2_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -316,6 +304,7 @@ CREATE TABLE `tou_team` (
 
 CREATE TABLE `tou_team_stat` (
   `team_id` int(11) NOT NULL,
+  `tournament_id` int(11) NOT NULL,
   `organization_id` int(11) NOT NULL,
   `winning` tinyint(1) NOT NULL,
   `losing` tinyint(1) NOT NULL
@@ -405,7 +394,7 @@ ALTER TABLE `highlights`
 --
 ALTER TABLE `judges`
   ADD PRIMARY KEY (`judge_id`),
-  ADD KEY `event_id` (`event_id`);
+  ADD KEY `competition_id` (`competition_id`);
 
 --
 -- Indexes for table `logs`
@@ -443,13 +432,6 @@ ALTER TABLE `ongoing_list_of_event`
   ADD KEY `category_name_id` (`category_name_id`);
 
 --
--- Indexes for table `ongoing_tournament`
---
-ALTER TABLE `ongoing_tournament`
-  ADD PRIMARY KEY (`tournament_id`),
-  ADD KEY `category_name_id` (`category_name_id`);
-
---
 -- Indexes for table `organization`
 --
 ALTER TABLE `organization`
@@ -460,8 +442,8 @@ ALTER TABLE `organization`
 --
 ALTER TABLE `participants`
   ADD PRIMARY KEY (`participants_id`),
-  ADD KEY `event_id` (`event_id`),
-  ADD KEY `organization_id` (`organization_id`);
+  ADD KEY `organization_id` (`organization_id`),
+  ADD KEY `competition_id` (`competition_id`);
 
 --
 -- Indexes for table `post`
@@ -475,7 +457,7 @@ ALTER TABLE `post`
 --
 ALTER TABLE `tournament`
   ADD PRIMARY KEY (`tournament_id`),
-  ADD KEY `category_name_id` (`category_name_id`);
+  ADD KEY `event_id` (`event_id`);
 
 --
 -- Indexes for table `tou_bracket`
@@ -484,7 +466,7 @@ ALTER TABLE `tou_bracket`
   ADD PRIMARY KEY (`bracket_id`),
   ADD KEY `team1_id` (`team1_id`),
   ADD KEY `team2_id` (`team2_id`),
-  ADD KEY `event_id` (`event_id`);
+  ADD KEY `tournament_id` (`tournament_id`);
 
 --
 -- Indexes for table `tou_team`
@@ -498,7 +480,8 @@ ALTER TABLE `tou_team`
 --
 ALTER TABLE `tou_team_stat`
   ADD PRIMARY KEY (`team_id`),
-  ADD KEY `organization_id` (`organization_id`);
+  ADD KEY `organization_id` (`organization_id`),
+  ADD KEY `tournament_id` (`tournament_id`);
 
 --
 -- Indexes for table `user`
@@ -589,12 +572,6 @@ ALTER TABLE `ongoing_list_of_event`
   MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ongoing_tournament`
---
-ALTER TABLE `ongoing_tournament`
-  MODIFY `tournament_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `organization`
 --
 ALTER TABLE `organization`
@@ -682,7 +659,7 @@ ALTER TABLE `highlights`
 -- Constraints for table `judges`
 --
 ALTER TABLE `judges`
-  ADD CONSTRAINT `judges_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
+  ADD CONSTRAINT `judges_ibfk_1` FOREIGN KEY (`competition_id`) REFERENCES `competition` (`competition_id`);
 
 --
 -- Constraints for table `logs`
@@ -710,17 +687,11 @@ ALTER TABLE `ongoing_list_of_event`
   ADD CONSTRAINT `ongoing_list_of_event_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `ongoing_category_name` (`category_name_id`);
 
 --
--- Constraints for table `ongoing_tournament`
---
-ALTER TABLE `ongoing_tournament`
-  ADD CONSTRAINT `ongoing_tournament_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `ongoing_category_name` (`category_name_id`);
-
---
 -- Constraints for table `participants`
 --
 ALTER TABLE `participants`
-  ADD CONSTRAINT `participants_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`),
-  ADD CONSTRAINT `participants_ibfk_2` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`);
+  ADD CONSTRAINT `participants_ibfk_2` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`),
+  ADD CONSTRAINT `participants_ibfk_3` FOREIGN KEY (`competition_id`) REFERENCES `competition` (`competition_id`);
 
 --
 -- Constraints for table `post`
@@ -732,7 +703,7 @@ ALTER TABLE `post`
 -- Constraints for table `tournament`
 --
 ALTER TABLE `tournament`
-  ADD CONSTRAINT `tournament_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `category_name` (`category_name_id`);
+  ADD CONSTRAINT `tournament_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
 
 --
 -- Constraints for table `tou_bracket`
@@ -740,7 +711,7 @@ ALTER TABLE `tournament`
 ALTER TABLE `tou_bracket`
   ADD CONSTRAINT `tou_bracket_ibfk_1` FOREIGN KEY (`team1_id`) REFERENCES `tou_team_stat` (`team_id`),
   ADD CONSTRAINT `tou_bracket_ibfk_2` FOREIGN KEY (`team2_id`) REFERENCES `tou_team_stat` (`team_id`),
-  ADD CONSTRAINT `tou_bracket_ibfk_3` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
+  ADD CONSTRAINT `tou_bracket_ibfk_3` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`);
 
 --
 -- Constraints for table `tou_team`
@@ -752,7 +723,8 @@ ALTER TABLE `tou_team`
 -- Constraints for table `tou_team_stat`
 --
 ALTER TABLE `tou_team_stat`
-  ADD CONSTRAINT `tou_team_stat_ibfk_1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`);
+  ADD CONSTRAINT `tou_team_stat_ibfk_1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`),
+  ADD CONSTRAINT `tou_team_stat_ibfk_2` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
