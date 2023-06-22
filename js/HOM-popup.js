@@ -6,28 +6,20 @@ var hide = function(){
     popup.style.display = 'none';
 }
 
-clearPopup = document.getElementById('clear-popup');
-var show_clear = function(){
-    clearPopup.style.display = 'flex';
+cancelPostPopup = document.getElementById('cancelPost-popup');
+var show_cancelPost = function(){
+    cancelPostPopup.style.display = 'flex';
 }
-var hide_clear = function(){
-    clearPopup.style.display = 'none';
-}
-
-postPopup = document.getElementById('post-popup');
-var show_post = function(){
-    postPopup.style.display = 'flex';
-}
-var hide_post = function(){
-    postPopup.style.display = 'none';
+var hide_cancelPost = function(){
+    cancelPostPopup.style.display = 'none';
 }
 
-discardChangesPopup = document.getElementById('discardChanges-popup');
-var show_discardChanges = function(){
-    discardChangesPopup.style.display = 'flex';
+saveDraftPopup = document.getElementById('saveDraft-popup');
+var show_saveDraft = function(){
+    saveDraftPopup.style.display = 'flex';
 }
-var hide_discardChanges = function(){
-    discardChangesPopup.style.display = 'none';
+var hide_saveDraft = function(){
+    saveDraftPopup.style.display = 'none';
 }
 
 saveChangesPopup = document.getElementById('saveChanges-popup');
@@ -36,4 +28,20 @@ var show_saveChanges = function(){
 }
 var hide_saveChanges = function(){
     saveChangesPopup.style.display = 'none';
+}
+
+postNowPopup = document.getElementById('postNow-popup');
+var show_postNow = function(){
+    postNowPopup.style.display = 'flex';
+}
+var hide_postNow = function(){
+    postNowPopup.style.display = 'none';
+}
+
+discardChangesPopup = document.getElementById('discardChanges-popup');
+var show_discardChanges = function(){
+    discardChangesPopup.style.display = 'flex';
+}
+var hide_discardChanges = function(){
+    discardChangesPopup.style.display = 'none';
 }
