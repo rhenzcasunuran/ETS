@@ -39,19 +39,65 @@ if (empty($filteredFilters)) {
 
 // Build the parameter placeholders for the filters
 $placeholders = implode(',', array_fill(0, count($filteredFilters), '?'));
-$sql = "SELECT combined_table.event_id, combined_table.event_name, combined_table.event_type,
-        combined_table.category_name, combined_table.event_description, combined_table.event_date,
-        TIME_FORMAT(combined_table.event_time, '%h:%i %p') AS event_time
-        FROM (
-            SELECT event_id, event_name, event_type, category_name, event_description, event_date, event_time
-            FROM listofeventtb
-            UNION ALL
-            SELECT event_history_id, event_name, event_type, category_name, event_description, event_date, event_time
-            FROM eventhistorytb
-        ) AS combined_table
-        WHERE YEAR(combined_table.event_date) = ? 
-        AND MONTH(combined_table.event_date) = ? 
-        AND combined_table.event_type IN ($placeholders)
+$sql = "SELECT
+            CASE
+                WHEN combined_table.event_id LIKE 'P%' THEN CONCAT('Post_', SUBSTRING(combined_table.event_id, 2))
+                ELSE combined_table.event_id
+                    END AS event_id,
+                    combined_table.category_name_id,
+                    combined_table.event_description,
+                    combined_table.category_name,
+                    combined_table.event_date,
+                    combined_table.event_name,
+                    combined_table.event_time,
+                    combined_table.event_type
+                    FROM (
+                    SELECT
+                        olfe.event_id,
+                        olfe.category_name_id,
+                        olfe.event_description,
+                        ocn.category_name,
+                        olfe.event_date,
+                        olfe.event_time,
+                        en.event_name,
+                        et.event_type
+                    FROM ongoing_list_of_event AS olfe
+                    INNER JOIN ongoing_category_name AS ocn ON olfe.category_name_id = ocn.category_name_id
+                    INNER JOIN event_name AS en ON en.event_name_id = ocn.event_name_id
+                    INNER JOIN event_type AS et ON et.event_type_id = ocn.event_type_id
+
+                    UNION ALL
+
+                    SELECT
+                        eh.event_id,
+                        eh.category_name_id,
+                        eh.event_description,
+                        ocn.category_name,
+                        eh.event_date,
+                        eh.event_time,
+                        en.event_name,
+                        et.event_type
+                    FROM eventhistorytb AS eh
+                    INNER JOIN ongoing_category_name AS ocn ON eh.category_name_id = ocn.category_name_id
+                    INNER JOIN event_name AS en ON en.event_name_id = ocn.event_name_id
+                    INNER JOIN event_type AS et ON et.event_type_id = ocn.event_type_id
+
+                    UNION ALL
+
+                    SELECT
+                        CONCAT('P', post.post_id) AS event_id,
+                        post.post_calendar AS category_name_id,
+                        post.post_description AS event_description,
+                        post.post_title AS category_name,
+                        post.post_calendar AS event_date,
+                        NULL AS event_name,
+                        NULL AS event_time,
+                        post.post_calendar_type AS event_type
+                    FROM post
+                    ) AS combined_table
+                WHERE YEAR(combined_table.event_date) = ?
+            AND MONTH(combined_table.event_date) = ?
+            AND combined_table.event_type IN ($placeholders)
         ORDER BY combined_table.event_time ASC;";
 
 $stmt = mysqli_prepare($conn, $sql);
