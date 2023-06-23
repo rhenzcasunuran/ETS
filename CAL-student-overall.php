@@ -1,6 +1,7 @@
 <?php
 include './php/database_connect.php';
 include './php/admin-signin.php';
+include './php/CAL-gapi-retrieve-values.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -439,26 +440,14 @@ include './php/admin-signin.php';
     <script defer src="./js/CAL-student-calendar.js"></script>
     <!-- Google API Calendar -->
     <script type="text/javascript">
+      const CLIENT_ID = '<?php echo $CLIENT_ID; ?>';
+      const API_KEY = '<?php echo $API_KEY; ?>';
+      const DISCOVERY_DOC = '<?php echo $DISCOVERY_DOC; ?>';
+      const SCOPES = '<?php echo $SCOPES; ?>';
+
       let tokenClient;
       let gapiInited = false;
       let gisInited = false;
-
-      const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            const data = JSON.parse(xhr.responseText);
-            CLIENT_ID = data.CLIENT_ID;
-            API_KEY = data.API_KEY;
-            DISCOVERY_DOC = data.DISCOVERY_DOC;
-            SCOPES = data.SCOPES;
-          } else {
-            console.error('Failed to retrieve values from the server');
-          }
-        }
-      };
-      xhr.open('GET', './php/CAL-gapi-retrieve-values.php', true);
-      xhr.send();
 
       function gapiLoaded() {
         gapi.load('client', initializeGapiClient);
