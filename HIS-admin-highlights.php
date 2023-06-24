@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
 
      <!-- Event History CSS -->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -87,8 +88,8 @@
 
         </div>
         
-        <div class="container" id="button-container">
-        <button type="submit" id="upload-btn">Upload</button>
+       <div class="container" id="button-container">
+        <button type="submit" id="upload-btn" class="btn btn-primary">Upload</button>
       </div>
       </div>
    
