@@ -89,7 +89,7 @@ h3 {
   
   
   #add_button {
-    background-color:  #5D2BA0;
+    background-color: var(--active-primary-action-color) !important;
     color:var(--color-content-text);
     margin-right: 50px;
     position: relative;
@@ -107,8 +107,8 @@ h3 {
   }
   
   button {
-    color:var(--color-content-text);
-    background: #5D2BA0;
+    color: var(--white-text-color)!important;
+    background-color: var(--default-primary-action-color)!important;
     border: none;
     padding: 1%;
     width: calc(80%);
@@ -119,13 +119,15 @@ h3 {
     cursor: pointer;
     display: block;
     margin-left: 10%;
+    border-radius: 30px!important;
+
     align-items: center;
     padding: 3%;
     border-radius: 10px;
   }
   
   button:hover {
-    background-color:var( --color-sidebar-hover);
+    background-color: var(--hover-primary-action-color) !important;
   }
   
   .search-wrapper {
@@ -181,18 +183,18 @@ h3 {
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    background-color: #5D2BA0;
+    background-color:  var(--color-sidebar-active);
     border-radius: 4px;
     transition: all 0.3s ease;
     border: 2px solid #fff;
 }
 
 .form-check input[type="checkbox"]:checked + .form-check-label:before {
-    background-color:  var(--color-sidebar-active);
+    background-color: var(--hover-primary-action-color) !important;
+
 }
 
 .form-check-label:after {
-    content: "";
     position: absolute;
     left: 7px;
     top: 50%;
@@ -219,7 +221,7 @@ h3 {
 }
 
 .selected {
-    background-color: var(--color-sidebar-active);
+    background-color: var(--active-primary-action-color) !important;
 }
 
   
