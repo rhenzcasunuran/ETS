@@ -186,110 +186,121 @@
   color: gray;
 }
 
+/* Mini Calendar */
+
 .calendar-input-container {
   position: relative;
   display: inline-block;
+}
+
+#miniCalendarContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  max-width: 400px;
+}
+
+#miniButtonContainer {
+  position: relative;
+  display: inline-flex;
+  top: -35px;
+  left: 170px;
 }
 
 #calendar-icon {
   display: flex;
   position: absolute;
   top: 40%;
-  right: 20px;
+  right: 20px; 
   transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 24px;
-}
-
-#datepicker {
-  padding-right: 30px; /* Provide space for the icon */
-  width: 200px; /* Set the desired width for the input field */
-}
-
-/* Mini Calendar */
-
-#calendarToggle {
-  margin-top: 31px;
   font-size: 1.5em;
+  cursor: pointer;
 }
 
-#miniCalendar .mini-calendar-header {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  width: 279px;
-  height: 100px;
-}
-
-#miniCalendar .mini-calendar-header button {
-  flex: 0 0 auto;
-}
-
-#miniCalendar .mini-calendar-header h2 {
-  flex: 1;
-  text-align: center;
-  margin: 0;
+#calendar-icon i {
+  color: var(--color-content-text) !important;
 }
 
 #miniCalendar {
-  margin-top: 55px;
-  margin-left: 390px;
-  width: 200px;
-  font-family: Arial, sans-serif;
-  position: absolute;
-  z-index: 1;
+  width: 300px;
+  margin-right: 20px;
 }
 
-#miniCalendar table {
-  width: 100%;
-  border-collapse: collapse;
+#dateInput {
+  min-width: 320px;
+  width: 320px;
 }
 
-#miniCalendar th,
-#miniCalendar td {
+#miniCalendar .td, #miniCalendar .th, #miniCalendar .tr {
+  padding-bottom: 100px;
+}
+
+#miniCalendarTable, #miniCalendarThead {
+  text-align: center;
+}
+
+#calendarElement {
+  height: 430px;
+}
+
+#miniNextButton {
+  margin-left: 70px;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#miniPreviousButton {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#miniCalendarHeader {
+  text-align: left;
+}  
+
+#miniCalendar td, #miniCalendar th {
+  border-radius: 50px;
   padding: 5px;
-  text-align: center;
-  border: 1px solid #ccc;
 }
 
-#miniCalendar th {
-  background-color: #f2f2f2;
+#miniCalendarTable td.mini-active {
+  background-color: lightgray;
+  color: lightcoral;
+}  
+
+.mini-current-day.mini-active {
+  background-color: lightgray;
+  color: lightcoral;
 }
 
-#miniCalendar table td:hover {
-  background-color: #f9f9f9;
-}
+@media (max-width: 575.98px) {
+  .below {
+    left: 0 !important;
+    right: 0 !important;
+  }
 
-#miniCalendar .current-day {
-  background-color: #4a90e2;
-  color: #fff;
-}
+  #calendarElement {
+    height: 350px;
+  }
 
-#miniCalendar .current-day:hover {
-  background-color: #4a90e2;
-  color: #fff;
-}
+  #miniCalendar {
+    width: 230px;
+    margin-right: 50px !important;
+  }
 
-#miniCalendar .selected-day {
-  background-color: #4CAF50;
-  color: #fff;
-}
+  #dateInput {
+    min-width: 320px;
+  }
 
-#miniCalendar {
-  display: none;
-}
-
-#miniCalendarTable {
-  background-color: white;
-}
-
-.calendar-wrapper {
-  position: relative;
-}
-
-.calendar-toggle {
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 2; /* Ensure the toggle is above the calendar */
+  #miniNextButton {
+    margin-left: 25px;
+    font-size: 25px;
+    cursor: pointer;
+  }
+  
+  #miniPreviousButton {
+    font-size: 25px;
+    cursor: pointer;
+  }
 }
