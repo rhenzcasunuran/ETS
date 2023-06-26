@@ -142,11 +142,11 @@
                   <i class='bx bx-x'></i>
                   &nbsp;Cancel
                 </div>
-                <div class="col secondary-button disabled allowed-hover" id="save_draft">
+                <div class="col secondary-button disabled" id="save_draft">
                   <i class='bx bx-save'></i>
                   &nbsp;Draft
                 </div>    
-                <div class="col post-menu primary-button disabled allowed-hover" id="post">
+                <div class="col post-menu primary-button disabled" id="post">
                   <i class='bx bx-upload'></i>
                   &nbsp;Post
                   <div class="post-menu-content">
@@ -191,6 +191,22 @@
         var date = "<?php echo isset($sanitizedDate) ? $sanitizedDate : null; ?>";
 
         $("#calendar").val(date);
+      });
+    </script>
+    <script>
+      const postMenu = document.querySelector('.post-menu');
+      const postMenuContent = document.querySelector('.post-menu-content');
+
+      postMenu.addEventListener('click', function() {
+        if (!postMenu.classList.contains('disabled')) {
+          postMenu.classList.toggle('active');
+        }
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!postMenu.contains(e.target) && !postMenuContent.contains(e.target)) {
+          postMenu.classList.remove('active');
+        }
       });
     </script>
   </body>
