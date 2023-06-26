@@ -242,15 +242,30 @@ button {
 .middle-layer {
     height: 65%;
     color: var(--color-content-text); 
-    border-top: 2px var(--color-content-text) dotted;
-    border-bottom: 2px var(--color-content-text) dotted;
+    border-top: 2px var(--color-content-text) solid;
+    border-bottom: 2px var(--color-content-text) solid;
     justify-content: start;
     align-items: center;
-    overflow-y: auto;
+    overflow-y: overlay;
 }
 
 #criterion-container {
-    padding: 5px 0 5px 0;
-    border-bottom: 2px var(--color-content-text) dotted;
     width: 100%;
+}
+
+#criterionName {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.groupCriteria {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.groupCriteria .icon-button {
+    padding: 4px!important;
+    box-shadow: none!important;
 }

@@ -119,3 +119,42 @@ input[type="search"]{
 .tooltip-popup {
     width: fit-content;
 }
+
+#no-competition-container{
+    width: 100%;
+    height: 85vh;
+    display: grid;
+    align-content: center;
+}
+
+#no-competition-container .bxs-message-alt-x{
+    font-size: calc(8vw + 50px);
+}
+
+#no-competition-container i, #no-competition-container p, #no-competition-container span, #add-competition-btn i, #add-competition-btn span{
+    font-size: calc(0.6vw + 8px);
+    color: var(--color-content-text);
+}
+
+#no-competition-container p {
+    margin-bottom: 1rem!important;
+}
+
+#no-competition-container h1{
+    font-size: calc(25px + 1vw);
+    font-weight: 700;
+    color: var(--color-content-text);
+}
+
+#no-competition-container a i, #no-competition-container a i span, #add-competition-btn i, #add-competition-btn i span{
+    color: white;
+}
+
+#no-competition-container a button, #add-competition-btn {
+    border-radius: 50px;
+    padding: 15px 25px 15px 25px;
+}
+
+#create-new-event-btn {
+    max-width: 500px!important;
+}
