@@ -3,10 +3,24 @@ $(document).ready(function() {
   // Array to store the checkbox values
   var checkboxValues = [];
 
-  // Function to dynamically generate admin checkboxes
   function generateAdminCheckboxes(adminUsers) {
     const adminCheckboxesContainer = $('#adminCheckboxes');
     adminCheckboxesContainer.empty(); // Clear previous checkboxes
+
+    const allCheckbox = $('<div>').addClass('form-check');
+
+    const allInput = $('<input>').addClass('form-check-input admin-checkbox')
+      .attr('type', 'checkbox')
+      .attr('id', 'check-admin-all');
+
+    const allLabel = $('<label>').addClass('form-check-label')
+      .attr('for', 'check-admin-all')
+      .text('All');
+
+    allCheckbox.append(allInput);
+    allCheckbox.append(allLabel);
+
+    adminCheckboxesContainer.append(allCheckbox);
 
     for (const adminUser of adminUsers) {
       const checkbox = $('<div>').addClass('form-check');
@@ -31,26 +45,36 @@ $(document).ready(function() {
 
     // Update checkboxValues array when checkboxes are checked or unchecked
     $('.form-check-input.admin-checkbox').on('change', function() {
-      const value = $(this).val();
-      if ($(this).prop('checked')) {
-        // Checkbox is checked, add value to the array
-        checkboxValues.push(value);
-      } else {
-        // Checkbox is unchecked, remove value from the array
-        const index = checkboxValues.indexOf(value);
-        if (index > -1) {
-          checkboxValues.splice(index, 1);
-        }
+      if ($(this).attr('id') === 'check-admin-all') {
+        // Check/uncheck all checkboxes
+        const isChecked = $(this).prop('checked');
+        $('.form-check-input.admin-checkbox').prop('checked', isChecked);
       }
+
+      checkboxValues = $('.form-check-input.admin-checkbox:checked').map(function() {
+        return $(this).val();
+      }).get();
+
       currentPage = 1;
       loadLogs();
     });
 
-    // Add all initial checkbox values to the array
-    $('.form-check-input.admin-checkbox').each(function() {
-      const value = $(this).val();
-      checkboxValues.push(value);
+    // "All" checkbox functionality
+    $('#check-admin-all').on('change', function() {
+      const isChecked = $(this).prop('checked');
+      $('.form-check-input.admin-checkbox').prop('checked', isChecked);
+
+      checkboxValues = isChecked ? adminUsers.map(adminUser => adminUser.id) : [];
+
+      currentPage = 1;
+      loadLogs();
     });
+
+    // Add initial checkbox values to the array
+    checkboxValues = $('.form-check-input.admin-checkbox:checked').map(function() {
+      return $(this).val();
+    }).get();
+
     currentPage = 1;
     loadLogs();
   }
@@ -75,16 +99,13 @@ $(document).ready(function() {
   var pageSize;
   var totalEntries;
   var totalPages;
-  var startIndex;
-  var endIndex;
   var sortColumn = 'log_id';
   var sortOrder = 'DESC';
 
-  function loadLogs() { 
-    
+  function loadLogs() {
     var searchTerm = $('#search-input').val();
     var searchDate = $('#dateInput').val();
-
+  
     $.ajax({
       url: './php/CAL-show-logs.php',
       type: 'GET',
@@ -102,19 +123,17 @@ $(document).ready(function() {
         totalEntries = response.totalEntries;
         totalPages = response.totalPages;
         pageSize = response.pageSize;
-        startIndex = response.startIndex;
-        endIndex = response.endIndex; 
-
-        var paginationText;
   
-        if (totalEntries === 0) {
-          paginationText = '0 of 0';
+        // Calculate startIndex and endIndex
+        var startIndex = (currentPage - 1) * pageSize + 1;
+        var endIndex = Math.min(startIndex + pageSize - 1, totalEntries);
+
+        if (startIndex === NaN || endIndex === NaN || totalEntries === undefined) {
+          $('#pagination-info').text('0-0 of 0');
         } else {
-          paginationText = startIndex + 1 + '-' + endIndex + ' of ' + totalEntries;
+          $('#pagination-info').text(startIndex + '-' + endIndex + ' of ' + totalEntries);
         }
-
-        $('#pagination-info').text(paginationText);
-
+  
         tbody.empty();
   
         if (logs.length === 0) {
@@ -122,31 +141,30 @@ $(document).ready(function() {
           var noResultsCell = $('<td></td>').attr('colspan', '5').text('No results to display');
           noResultsCell.appendTo(noResultsRow);
           noResultsRow.appendTo(tbody);
+  
+          // Disable both buttons when there are no results
+          $('#btn-prev').prop('disabled', true);
+          $('#btn-next').prop('disabled', true);
         } else {
-          logs.forEach(function (log) {
+          logs.forEach(function(log) {
             var logDate = new Date(log.log_date);
             var formattedDate = formatDate(logDate);
             var formattedTime = formatTime(logDate, log.log_time);
-      
+  
             var row = $('<tr></tr>');
-      
+  
             $('<td></td>').text(log.log_id).appendTo(row);
             $('<td></td>').text(formattedDate).appendTo(row);
             $('<td></td>').text(formattedTime).appendTo(row);
             $('<td></td>').text(log.user_username).appendTo(row);
             $('<td></td>').text(log.activity_description).appendTo(row);
-      
+  
             row.appendTo(tbody);
           });
-        }
   
-        $('#btn-prev').prop('disabled', currentPage === 1);
-        $('#btn-next').prop('disabled', currentPage === totalPages);
-  
-        // Disable both buttons if there are no search results
-        if (totalEntries === 0) {
-          $('#btn-prev').prop('disabled', true);
-          $('#btn-next').prop('disabled', true);
+          // Enable/disable pagination buttons based on current page
+          $('#btn-prev').prop('disabled', currentPage === 1);
+          $('#btn-next').prop('disabled', currentPage === totalPages);
         }
   
         // Reset sort indicators
@@ -160,7 +178,7 @@ $(document).ready(function() {
         console.log('AJAX request error:', error);
       }
     });
-  }
+  }  
   
   // Function to format the date
   function formatDate(date) {
