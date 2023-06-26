@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/system-wide.css">
+    <link rel="stylesheet" href="./css/miniCalendarPicker.css">
     <!--Logs CSS-->
     <link rel="stylesheet" href="./css/CAL-logs.css">
   </head>
@@ -28,8 +29,7 @@
    
     <?php
       // Set the active module and sub-active sub-item variables
-      $activeModule = 'calendar';
-      $activeSubItem = 'logs';
+      $activeModule = 'activity-logs';
 
       // Include the sidebar template
       require './php/admin-sidebar.php';
@@ -70,17 +70,43 @@
               </ul>
             </div>
             <div class="calendar-input-container p-2">
-              <input type="text" id="dateInput" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}" placeholder="mm/dd/yyyy" maxlength="10" style="height:48px;">
+              <input type="text" id="dateInput" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}" placeholder="mm/dd/yyyy" maxlength="10" style="height:49px;">
               <i class="bx bx-calendar-event" id="calendar-icon"></i>
             </div>
-          </div>
-          <div id="miniCalendar">
-            <div class="mini-calendar-header">
-              <button id="miniPreviousButton" class="previous-button"><i class='bx bxs-left-arrow'></i></button>
-              <h2 id="miniCalendarHeader"></h2>
-              <button id="miniNextButton" class="next-button"><i class='bx bxs-right-arrow'></i></button>
+            <div class="div" id="miniCalendarContainer" style="display: none;">
+              <div class="element" id="calendarElement">
+                <div class="row">
+                  <div id="miniCalendar">
+                    <h5 id="miniCalendarHeader"></h5>
+                    <div id="miniButtonContainer">
+                      <i id="miniPreviousButton" class='bx bxs-chevron-left'></i>
+                      <i id="miniNextButton" class='bx bxs-chevron-right'></i>
+                    </div>
+                    <br>
+                    <table id="miniCalendar">
+                      <thead id="miniCalendarThead">
+                        <tr>
+                          <th scope="col">SU</th>
+                          <th scope="col">M</th>
+                          <th scope="col">TU</th>
+                          <th scope="col">W</th>
+                          <th scope="col">TH</th>
+                          <th scope="col">F</th>
+                          <th scope="col">SA</th>
+                        </tr>
+                      </thead>
+                      <tbody id="miniCalendarTable">
+                      </tbody>
+                    </table>
+                    <br>
+                  </div>
+                </div>
+                <div class="div">
+                  <button id="clearButton" class="outline-button p-3">Clear</button>
+                  <button id="todayButton" class="primary-button p-3">Today</button>
+                </div>
+              </div>
             </div>
-            <table id="miniCalendarTable"></table>
           </div>
           <br>
           <br>

@@ -209,15 +209,22 @@ include './php/CAL-gapi-retrieve-values.php';
           </tbody>
         </table>
         <div class="container-fluid">
-          <p>Test</p>
-          <p>Test</p>
-          <p>Test</p>
-          <p>Test</p>
-          <p>Test</p>
-          <p>Test</p>
-          <p>Test</p>
+          <div class="container-fluid" id="current-events">
+            <h2 class="text-center" id="currentEventsTitle"></h2>
+            <br>
+            <div class="scrollable-container" id="showSelectedEvents">
+            </div>
+          </div>
+          <br>
+          <div class="container-fluid" id="upcoming-events">
+            <h2 class="text-center" id="currentEventsTitle">Upcoming Events</h2>
+            <br>
+            <div class="scrollable-container" id="showUpcomingEvents">
+            </div>
+          </div>
         </div>
       </div>
+      <br>
     </section>
     <!-- Calendar Computer-->
     <section class="home-section computer-size">
@@ -232,12 +239,10 @@ include './php/CAL-gapi-retrieve-values.php';
             <div class="element" id="calendarElement">
               <div class="row">
                 <div id="miniCalendar">
-                  <h5>Select a date</h5>
-                  <div class="mini-calendar-header">
-                    <div id="miniButtonContainer">
-                      <i id="miniPreviousButton" class='bx bxs-chevron-left'></i>
-                      <i id="miniNextButton" class='bx bxs-chevron-right'></i>
-                    </div>
+                  <h5 id="miniCalendarHeader"></h5>
+                  <div id="miniButtonContainer">
+                    <i id="miniPreviousButton" class='bx bxs-chevron-left'></i>
+                    <i id="miniNextButton" class='bx bxs-chevron-right'></i>
                   </div>
                   <br>
                   <table id="miniCalendar">
@@ -256,8 +261,11 @@ include './php/CAL-gapi-retrieve-values.php';
                     </tbody>
                   </table>
                   <br>
-                  <h5 id="miniCalendarHeader"></h5>
                 </div>
+              </div>
+              <div class="div">
+                <button id="closeButton" class="outline-button p-3">Close</button>
+                <button id="todayButton" class="primary-button p-3">Today</button>
               </div>
             </div>
           </div>
@@ -394,7 +402,7 @@ include './php/CAL-gapi-retrieve-values.php';
                   <button type="button" id="next-month" class="btn btn-primary rounded-pill"><h2>></h2></button>
                 </div>
                 <table id="calendar" class="table">
-                  <thead class="calendar-weeks">
+                  <thead class="calendar-weeks" id="table-headers">
                     <tr class="border border-0">
                       <th class="fw-normal fs-5 text-center border border-0" scope="col">SUNDAY</th>
                       <th class="fw-normal fs-5 text-center border border-0" scope="col">MONDAY</th>
