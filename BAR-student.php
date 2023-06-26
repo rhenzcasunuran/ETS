@@ -1,26 +1,6 @@
 <?php 
-include './php/database_connect.php';
-
-include './php/admin-signin.php';
-
-// if($conn){
-//   if(isset($_POST['sign-in-button'])){
-//     $username=mysqli_real_escape_string($conn,$_POST['user_username']);
-//     $password=mysqli_real_escape_string($conn,$_POST['user_password']);
-//     $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
-//     $result=mysqli_query($conn,$sql);
-//     if($result){
-//       if(mysqli_num_rows($result)>0){
-//         $_SESSION['message']="You are now Loggged In";
-//         $_SESSION['user_username']=$username;
-//         header("location:HOM-create-post.php");
-//       }
-//       else{
-//         echo '<script>alert("Username or Password combination are incorrect")</script>';
-//       }
-//     }
-//   }
-// }
+  include './php/database_connect.php';
+  include './php/admin-signin.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +26,7 @@ include './php/admin-signin.php';
 
 
   <body>
+    
 
   <?php
     $activeModule = 'results';
@@ -68,71 +49,74 @@ include './php/admin-signin.php';
             <div class="row">
 
               <div class="col" id="rank_container">
-                <?php
-                  $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
+              <?php
+                  $obg = "SELECT organization_name, bar_meter, isAnon FROM `bar_graph` INNER JOIN organization on bar_graph.organization_id = organization.organization_id ORDER BY bar_meter DESC";
                   $result = $conn->query($obg);
-
+                  
                   if ($result->num_rows > 0) {
                     $organizations = array();
                     while ($row = $result->fetch_assoc()) {
-                      $organizations[] = $row;
+                        $organizations[] = $row;
                     }
-
+                
                     foreach ($organizations as $org) {
-                      $organization = $org["organization"];
-                      $imagePath = "logos/" . $organization . ".png";
-                      $imageAnonPath = "logos/anon.png";
-                      $isAnon = $org["isAnon"];
+                        $organization = $org["organization_name"];
+                        $imagePath = "logos/" . $organization . ".png";
+                        $imageAnonPath = "logos/anon.png";
+                        $isAnon = $org["isAnon"];
 
-                      if ($isAnon) {
-                        echo '<div class="row" id="logos">
-                          <div class="logo_container"><img src="' . $imageAnonPath . '"></div>
-                        </div>';
-                      } else {
-                        echo '<div class="row" id="logos">
+                        if ($isAnon == 0){
+                          echo '<div class="row" id="logos">
                           <div class="logo_container"><img src="' . $imagePath . '"></div>
                         </div>';
-                      }
+                        } else {
+                          echo '<div class="row" id="logos">
+                          <div class="logo_container"><img src="' . $imageAnonPath . '"></div>
+                        </div>';
+                        }
+                
+                        
                     }
-                  } else {
+                } else {
                     echo "No organizations found in the database.";
-                  }
+                }
+
                 ?>
               </div>
 
               <div class="col-11">
-                <?php
-                  $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
-                  $result = $conn->query($obg);
+              <?php
+                $obg = "SELECT organization_name, bar_meter, isAnon FROM `bar_graph` INNER JOIN organization on bar_graph.organization_id = organization.organization_id ORDER BY bar_meter DESC";
+                $result = $conn->query($obg);
 
-                  if ($result->num_rows > 0) {
-                    $organizations = array();
-                    while ($row = $result->fetch_assoc()) {
+                if ($result->num_rows > 0) {
+                  $organizations = array();
+                  while ($row = $result->fetch_assoc()) {
                       $organizations[] = $row;
-                    }
+                  }
+              
+                  foreach ($organizations as $org) {
+                    $organization = $org["organization_name"];
+                    $barMeter = $org["bar_meter"];
+                    $isAnon = $org["isAnon"];
 
-                    foreach ($organizations as $org) {
-                      $organization = $org["organization"];
-                      $barMeter = $org["barMeter"];
-                      $isAnon = $org["isAnon"];
-
-                      if ($isAnon) {
-                        echo '<div class="row">
+                    if ($isAnon == 0){
+                            echo '<div class="row">
+                        <div class="meter_container">
+                          <div class="meter" id="'. $organization .'" style="width: ' . $barMeter . '%;"></div>
+                        </div>
+                      </div>';
+                    } else {
+                      echo '<div class="row">
                         <div class="meter_container">
                           <div class="meter" id="anon" style="width: ' . $barMeter . '%;"></div>
                         </div>
                       </div>';
-                      } else {
-                        echo '<div class="row">
-                                <div class="meter_container">
-                                  <div class="meter" id="' . $organization . '" style="width: ' . $barMeter . '%;"></div>
-                                </div>
-                              </div>';
-                      }
-                    }
-                  } else {
-                    echo "No organizations found in the database.";
+                    } 
                   }
+              } else {
+                  echo "No organizations found in the database.";
+              }
                 ?>
               </div>
 
@@ -154,14 +138,9 @@ include './php/admin-signin.php';
                 </div>
               </div>
               <div class="row" id="org-window">
-                <div class="col-4" id="winnings-container">
+                <div class="col" id="winnings-container">
                   <div class="winnings">
                     
-                  </div>
-                </div>
-                <div class="col" id="org-photo-container">
-                  <div class="org-photo">
-                    <img src="" alt="" class="org-photo-image">
                   </div>
                 </div>
               </div>
@@ -171,12 +150,9 @@ include './php/admin-signin.php';
 
       </div>
 
-</script>
-
     </section>
     <!-- Scripts -->
     <script src="./js/HOM-popup.js"></script>
-
     <script src="./js/script.js"></script>
     <script src="./js/change-theme.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>

@@ -30,7 +30,6 @@
 
   <?php
     $activeModule = 'overall-results';
-    $activeSubItem = '';
       
     require './php/admin-sidebar.php';
   ?>
@@ -80,7 +79,7 @@
 
               <div class="col" id="rank_container">
                 <?php
-                  $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
+                  $obg = "SELECT organization_name, bar_meter, isAnon FROM `bar_graph` INNER JOIN organization on bar_graph.organization_id = organization.organization_id ORDER BY bar_meter DESC";
                   $result = $conn->query($obg);
                   
                   if ($result->num_rows > 0) {
@@ -90,7 +89,7 @@
                     }
                 
                     foreach ($organizations as $org) {
-                        $organization = $org["organization"];
+                        $organization = $org["organization_name"];
                         $imagePath = "logos/" . $organization . ".png";
                         $imageAnonPath = "logos/anon.png";
                         $isAnon = $org["isAnon"];
@@ -116,7 +115,7 @@
 
               <div class="col-11">
                 <?php
-                $obg = "SELECT organization, barMeter, isAnon FROM bar_graph ORDER BY barMeter DESC";
+                $obg = "SELECT organization_name, bar_meter, isAnon FROM `bar_graph` INNER JOIN organization on bar_graph.organization_id = organization.organization_id ORDER BY bar_meter DESC";
                 $result = $conn->query($obg);
 
                 if ($result->num_rows > 0) {
@@ -126,8 +125,8 @@
                   }
               
                   foreach ($organizations as $org) {
-                    $organization = $org["organization"];
-                    $barMeter = $org["barMeter"];
+                    $organization = $org["organization_name"];
+                    $barMeter = $org["bar_meter"];
                     $isAnon = $org["isAnon"];
 
                     if ($isAnon == 0){
@@ -168,14 +167,9 @@
                 </div>
               </div>
               <div class="row" id="org-window">
-                <div class="col-4" id="winnings-container">
+                <div class="col" id="winnings-container">
                   <div class="winnings">
                     
-                  </div>
-                </div>
-                <div class="col" id="org-photo-container">
-                  <div class="org-photo">
-                    <img src="" alt="" class="org-photo-image">
                   </div>
                 </div>
               </div>

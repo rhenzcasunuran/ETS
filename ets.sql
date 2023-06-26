@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 22, 2023 at 02:44 PM
+-- Generation Time: Jun 26, 2023 at 03:43 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -34,6 +34,20 @@ CREATE TABLE `bar_graph` (
   `bar_meter` decimal(5,2) NOT NULL,
   `isAnon` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `bar_graph`
+--
+
+INSERT INTO `bar_graph` (`organization_bar_id`, `organization_id`, `event_name_id`, `bar_meter`, `isAnon`) VALUES
+(9, 1, 1, '90.00', 0),
+(10, 2, 1, '80.00', 0),
+(11, 3, 1, '70.00', 0),
+(12, 4, 1, '60.00', 0),
+(13, 5, 1, '50.00', 0),
+(14, 6, 1, '40.00', 0),
+(15, 7, 1, '30.00', 0),
+(16, 8, 1, '20.00', 0);
 
 -- --------------------------------------------------------
 
@@ -161,6 +175,14 @@ CREATE TABLE `logs` (
   `activity_description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `logs`
+--
+
+INSERT INTO `logs` (`log_id`, `log_date`, `log_time`, `admin_id`, `activity_description`) VALUES
+(1, '2023-06-26', '21:42:47', 1, 'Edited in Overall Results'),
+(2, '2023-06-26', '21:42:49', 1, 'Edited in Overall Results');
+
 -- --------------------------------------------------------
 
 --
@@ -197,6 +219,13 @@ CREATE TABLE `ongoing_event_name` (
   `event_name_id` int(11) NOT NULL,
   `event_name` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ongoing_event_name`
+--
+
+INSERT INTO `ongoing_event_name` (`event_name_id`, `event_name`) VALUES
+(1, 'Buwan ng Wika');
 
 -- --------------------------------------------------------
 
@@ -265,10 +294,10 @@ CREATE TABLE `participants` (
 CREATE TABLE `post` (
   `post_id` int(11) NOT NULL,
   `organization_id` int(11) NOT NULL,
-  `post_calendar` varchar(15),
+  `post_calendar` varchar(15) DEFAULT NULL,
   `post_title` varchar(60) NOT NULL,
   `post_description` text NOT NULL,
-  `post_photos` text,
+  `post_photos` text DEFAULT NULL,
   `post_schedule` datetime NOT NULL,
   `post_draft` tinyint(4) NOT NULL DEFAULT 0,
   `post_calendar_type` varchar(8) NOT NULL DEFAULT 'Standard'
@@ -525,7 +554,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `bar_graph`
 --
 ALTER TABLE `bar_graph`
-  MODIFY `organization_bar_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `organization_bar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `category_name`
@@ -573,7 +602,7 @@ ALTER TABLE `judges`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ongoing_category_name`
@@ -591,7 +620,7 @@ ALTER TABLE `ongoing_criterion`
 -- AUTO_INCREMENT for table `ongoing_event_name`
 --
 ALTER TABLE `ongoing_event_name`
-  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ongoing_list_of_event`
@@ -603,7 +632,7 @@ ALTER TABLE `ongoing_list_of_event`
 -- AUTO_INCREMENT for table `organization`
 --
 ALTER TABLE `organization`
-  MODIFY `organization_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `organization_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `participants`
@@ -615,7 +644,7 @@ ALTER TABLE `participants`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tournament`
