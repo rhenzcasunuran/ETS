@@ -14,6 +14,7 @@ function checkFormValidity() {
     save_draft.classList.add('disabled');
     save_draft.removeAttribute("onclick");
     post.classList.add('disabled');
+    postMenu.classList.remove('active');
   }
 }
 
