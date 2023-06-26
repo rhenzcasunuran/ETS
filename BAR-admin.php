@@ -95,7 +95,7 @@
 
                         if ($isAnon == 0){
                           echo '<div class="row" id="logos">
-                          <div class="logo_container"><img src="' . $imagePath . '"></div>
+                          <div class="logo_container" ><img src="' . $imagePath . '" name="' . $organization . '"></div>
                         </div>';
                         } else {
                           echo '<div class="row" id="logos">
