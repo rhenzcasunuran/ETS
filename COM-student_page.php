@@ -40,6 +40,7 @@ if($conn){
       <link rel="stylesheet" href="./css/system-wide.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="./css/COM-pagination.css">
+      <script src="./js/COM-student-theme.js"></script>
   <head>
 
   <body>
@@ -92,7 +93,7 @@ if($conn){
         <div class="container">
         <div class="inputAndDeleteDiv">
           <div class="left search bar" id='search'>
-              <i class="fa fa-search"></i>
+          <i class='bx bx-search'></i>
 	          <input class="searchInput" type="text" placeholder="Search..">
           </div>
         </div>
@@ -113,7 +114,7 @@ if($conn){
     <!--Content End-->
     <!--Side Bar Scripts-->
     <script src="./js/script.js"></script>
-    <script src="./js/COM-student-theme.js"></script>
+    
     <script src="./js/jquery-3.6.4.js"></script>
     <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">

@@ -21,6 +21,7 @@
       <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
       <link rel="stylesheet" type="text/css" media="all" href="./css/COM-daterangepicker.css" />
       <link rel="stylesheet" href="./css/COM-pagination.css">
+      <script src="./js/COM-theme.js"></script>
   <head>
 
   <body>
@@ -58,23 +59,7 @@
         </div>
     </div>
    <!--End of popups-->
-  <div class="archive-wrapper" id="archive-pp-wrap" style="display:none;">
-          <div class="arcc" id="archive-pp">
-            <i class="fa fa-check-circle"></i>
-            <h1 class="arc-head">Successfully Moved!</h1>
-            <p class="arc-p">The result is now moved to archived.<br>You may check it right now.</p>
-            <button class="arc-btn" id="close-btn"><i class="fa fa-long-arrow-right"></i></button>
-          </div>
-        </div>
-        <div class="cau-wrapper" id="caution-pp-wrap" style="display:none;">
-          <div class="bacc" id="caution-pp">
-          <i class='bx bxs-file-archive' style="color: var(--color-text); font-size: 90px"></i>
-            <h1 class="arc-head">Archive Result?</h1>
-            <p class="arc-p">Are you sure you want to archive this result?</p>
-            <button class="gobackbtn" id="backbtn">Cancel</button>
-            <button class="gobtn" id="gobtn">Confirm</button>
-          </div>
-        </div>
+
     <!--Sidebar Start-->
     <?php 
         $activeModule = 'competition';
@@ -96,7 +81,7 @@
         <div class="content">
         <div class="inputAndDeleteDiv">
           <div class="left search bar" id='search'>
-              <i class="fa fa-search"></i>
+          <i class='bx bx-search'></i>
 	          <input class="searchInput" type="text" placeholder="Search..">
           </div>
         </div>
@@ -116,7 +101,7 @@
     <!--Content End-->
     <!--Side Bar Scripts-->
     <script src="./js/script.js"></script>
-    <script src="./js/COM-theme.js"></script>
+    
     <script src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {

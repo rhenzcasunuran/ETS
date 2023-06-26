@@ -129,7 +129,7 @@
         <div class="content">
         <div class="inputAndDeleteDiv">
           <div class="left search bar" id='search'>
-              <i class="fa fa-search"></i>
+          <i class='bx bx-search'></i>
 	          <input class="searchInput" type="text" placeholder="Search..">
           </div>
           <button id="deleteAll" class="deleteAll"><i class='bx bxs-trash' ></i></button>

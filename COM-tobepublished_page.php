@@ -20,7 +20,7 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <link rel="stylesheet" href="./css/COM-pagination.css">
-        
+        <script src="./js/COM-theme.js"></script>
         <link rel="stylesheet" type="text/css" media="all" href="./css/COM-daterangepicker.css" />
   <head>
   <body>
@@ -113,7 +113,7 @@
         <div class="content">
         <div class="inputAndDeleteDiv">
           <div class="lefty search bar" id='search'>
-              <i class="fa fa-search"></i>
+          <i class='bx bx-search'></i>
 	          <input class="searchInput" type="text" placeholder="Search..">
           </div>
         </div>
@@ -133,7 +133,7 @@
     <!--Content End-->
     <!--Side Bar Scripts-->
     <script src="./js/script.js"></script>
-    <script src="./js/COM-theme.js"></script>
+    
     <script src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
