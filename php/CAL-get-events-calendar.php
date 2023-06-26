@@ -49,7 +49,7 @@ $sql = "SELECT
                     combined_table.category_name,
                     combined_table.event_date,
                     combined_table.event_name,
-                    combined_table.event_time,
+                    TIME_FORMAT(combined_table.event_time, '%h:%i %p') AS event_time,
                     combined_table.event_type
                     FROM (
                     SELECT
@@ -69,22 +69,6 @@ $sql = "SELECT
                     UNION ALL
 
                     SELECT
-                        eh.event_id,
-                        eh.category_name_id,
-                        eh.event_description,
-                        ocn.category_name,
-                        eh.event_date,
-                        eh.event_time,
-                        en.event_name,
-                        et.event_type
-                    FROM eventhistorytb AS eh
-                    INNER JOIN ongoing_category_name AS ocn ON eh.category_name_id = ocn.category_name_id
-                    INNER JOIN event_name AS en ON en.event_name_id = ocn.event_name_id
-                    INNER JOIN event_type AS et ON et.event_type_id = ocn.event_type_id
-
-                    UNION ALL
-
-                    SELECT
                         CONCAT('P', post.post_id) AS event_id,
                         post.post_calendar AS category_name_id,
                         post.post_description AS event_description,
@@ -98,7 +82,7 @@ $sql = "SELECT
                 WHERE YEAR(combined_table.event_date) = ?
             AND MONTH(combined_table.event_date) = ?
             AND combined_table.event_type IN ($placeholders)
-        ORDER BY combined_table.event_time ASC;";
+            ORDER BY combined_table.event_time ASC;";
 
 $stmt = mysqli_prepare($conn, $sql);
 

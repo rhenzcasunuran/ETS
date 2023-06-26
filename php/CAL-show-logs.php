@@ -145,7 +145,6 @@ $response = array(
   'totalPages' => $totalPages,
   'currentPage' => $currentPage,
   'pageSize' => $pageSize,
-  'totalPages' => $totalPages,
   'startIndex' => $startIndex,
   'endIndex' => $endIndex
 );
