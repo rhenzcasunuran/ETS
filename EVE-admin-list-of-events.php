@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <div class="popup-background" id="markAsDoneWrapper<?php echo $row[5];?>">
+      <div class="popup-background" id="markAsDoneWrapper<?php echo $row['event_code'];?>">
         <div class="row popup-container">
             <div class="col-4">
                 <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
@@ -65,7 +65,7 @@
             </div>
             <div  class="div">
                 <button class="outline-button" onclick="hideMarkAsDone<?php echo $row[0];?>()"><i class='bx bx-x'></i>Cancel</button>
-                <a href="EVE-admin-list-of-events.php?mad=<?php echo $row[5]?>">
+                <a href="EVE-admin-list-of-events.php?mad=<?php echo $row['event_code']?>">
                   <button class="success-button"><i class='bx bx-check'></i>Confirm</button>
                 </a>
             </div>
@@ -82,7 +82,7 @@
             popupDelete<?php echo $row[0];?>.style.display ='none';
         }
 
-        popupMarkAsDone<?php echo $row[0];?> = document.querySelector('#markAsDoneWrapper<?php echo $row[3];?>');
+        popupMarkAsDone<?php echo $row[0];?> = document.querySelector('#markAsDoneWrapper<?php echo $row['event_code'];?>');
   
         var showMarkAsDone<?php echo $row[0];?> = function() {
             popupMarkAsDone<?php echo $row[0];?>.style.display ='flex';

@@ -42,6 +42,10 @@
     <section class="home-section">
         <div class="header">Criteria Configuration</div>
         <div class="container-fluid d-flex justify-content-center align-items-start m-0" id="criteriaConfigWrapper">
+          <?php
+          $row = mysqli_num_rows($categoryName);
+          if ($row > 0) {
+          ?>
             <div class="element">
                 <div class="upper-element">
                     <h3>Criteria</h3>
@@ -94,6 +98,26 @@
                 </form>
 
             </div>
+            <?php
+            }
+            else {
+            ?>
+              <div class="text-center" id="no-competition-container">
+                <i class='bx bxs-message-alt-x' ></i>
+                <h1>No Competitions</h1>
+                <p>Looks like you have zero competitions. <br> You can create one to configure their criteria here.</p>
+                <div class="row justify-content-center">
+                  <a href="EVE-admin-event-configuration.php">
+                    <button class="primary-button" id="create-new-event-btn">
+                      <i class='bx bx-add-to-queue d-flex justify-content-center align-items-center'></i>
+                      Add Competition
+                    </button>
+                  </a>
+                </div>
+              </div>
+            <?php
+            }
+            ?>
         </div>
     </section>
     <!-- Scripts -->

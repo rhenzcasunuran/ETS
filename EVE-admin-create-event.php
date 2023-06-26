@@ -102,34 +102,19 @@
                 </select>
             </div>
           </div>
+          <div id="createEventContent">
           <div class="row flex-column flex-md-row">
             <div class="form-group col-md-6">
                 <label for="event-description" class="form-label fw-bold">Event Description <span class="req" id="reqDesc">*</span></label>
                 <textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required></textarea>
             </div>
             <div class="form-group col-md-6">
-                <label class="form-label fw-bold">Criteria</label>
+                <div class="groupCriteria">
+                  <label class="form-label fw-bold">Criteria</label>
+                  <div class="text-button icon-button" id="editCriteria"><i class='bx bx-edit-alt'></i></div>
+                </div>
                 <div class="form-control second-layer" id="criteria" name="criteria">
-                  <div id="criteria-container">
-                    <div class="upper-layer row">
-                      <p class="col-6 text-center">Criteria</p>
-                      <p class="col-6 text-center">%</p>
-                    </div>
-                    <div class="middle-layer flex-column">
-                      <div id="criterion-container" class="row">
-                        <p class="col-6">Criterion A</p>
-                        <p class="col-6 text-center">100%</p>
-                      </div>
-                      <div id="criterion-container" class="row">
-                        <p class="col-6">Criterion A</p>
-                        <p class="col-6 text-center">100%</p>
-                      </div>
-                    </div>
-                    <div class="lower-layer row">
-                      <p class="col-6 text-center">Total</p>
-                      <p class="col-6 text-center">100%</p>
-                    </div>
-                  </div>
+                  <div id="criteria-container"></div>
                 </div>
             </div>
           </div>
@@ -157,12 +142,14 @@
                   <div class="tooltipText" id="textType">Event Type<i class='bx bx-check' id="checkType"></i></div>
                   <div class="tooltipText" id="textCategory">Category<i class='bx bx-check' id="checkCategory"></i></div>
                   <div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class='bx bx-check' id="checkDescription"></i></div>
+                  <div class="tooltipText" id="textCriteria">Criteria should be 100%<i class='bx bx-check' id="checkCriteria"></i></div>
                   <div class="tooltipText" id="textDate">Date: <span id="dateText"></span><i class='bx bx-check' id="checkDate"></i></div>
                   <div class="tooltipText" id="textTime">Time<i class='bx bx-check' id="checkTime"></i></div>
               </div>
               Save Changes
           </button>
             <div class="outline-button" onclick="showCancel()">Cancel</div>
+          </div>
           </div>
           </form>
 
@@ -178,6 +165,7 @@
           </script>
         </div>
       </div>
+      
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
@@ -298,6 +286,41 @@
       function saveEvent(){
         windows.location.href = "EVE-admin-list-of-events.php?event successfully saved";
       }
+
+      $('#editCriteria').click(function() {
+        window.location.href = "EVE-admin-criteria-configuration.php";
+    });
+
+      $(document).ready(function() {
+            // Initial data fetch based on categoryPicker value
+            fetchCategoryData($('#select-category-name').val());
+        });
+
+        $('#select-category-name').change(function() {
+            // Fetch data based on changed categoryPicker value
+            var selectedCategory = $(this).val();
+            fetchCategoryData(selectedCategory);
+        });
+
+        var totalPercentage = 0;
+
+        function fetchCategoryData(category) {
+            $.ajax({
+                url: './php/EVE-admin-create-event-criteria.php',
+                method: 'POST',
+                data: { category: category },
+                success: function(response) {
+                  var parsedResponse = JSON.parse(response);
+                  var totalPercent = parsedResponse.totalPercent;
+
+                  totalPercentage = totalPercent;
+                  // Replace the form section with updated data
+                  $('#criteria-container').html(parsedResponse.output);
+
+                  buttonState(totalPercentage);
+                }
+            });
+        }
     </script>
       <script type="text/javascript" src="./js/EVE-admin-disable-button.js"></script>
   </body>
