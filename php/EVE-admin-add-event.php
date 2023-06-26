@@ -40,18 +40,6 @@
                     WHERE category_name_id = '$category_name_id';";
             mysqli_query($conn,$sql);
 
-            $sql = "INSERT INTO ongoing_criterion (criterion_id, category_name_id, criterion_name, criterion_percent)
-                    SELECT criterion_id, category_name_id, criterion_name, criterion_percent
-                    FROM criterion
-                    WHERE category_name_id = '$category_name_id';";
-            mysqli_query($conn,$sql);                    
-
-            $sql = "DELETE FROM criterion WHERE category_name_id = '$category_name_id';";
-            mysqli_query($conn,$sql);
-                    
-            $sql = "DELETE FROM category_name WHERE category_name_id = '$category_name_id';";
-            mysqli_query($conn,$sql);
-
             $sql = "SELECT * FROM ongoing_category_name WHERE category_name_id = '$category_name_id';";
             $query = mysqli_query($conn,$sql);
             $column = mysqli_fetch_array($query);
@@ -81,6 +69,18 @@
 
                 $sql = "UPDATE ongoing_list_of_event SET event_code='$event_code' WHERE event_id='$event_id';";
                 mysqli_query($conn,$sql); 
+
+                $sql = "INSERT IGNORE INTO ongoing_criterion (criterion_id, category_name_id, event_id, criterion_name, criterion_percent)
+                SELECT criterion_id, category_name_id, $event_id, criterion_name, criterion_percent
+                FROM criterion
+                WHERE category_name_id = '$category_name_id';";
+                mysqli_query($conn,$sql);                    
+
+                $sql = "DELETE FROM criterion WHERE category_name_id = '$category_name_id';";
+                mysqli_query($conn,$sql);
+                        
+                $sql = "DELETE FROM category_name WHERE category_name_id = '$category_name_id';";
+                mysqli_query($conn,$sql);
 
                 header('Location: EVE-admin-list-of-events.php?event successfully added');
             

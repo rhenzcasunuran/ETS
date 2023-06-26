@@ -121,7 +121,7 @@
      }
 
         
-    if(isset($_GET['eed'])){
+   /* if(isset($_GET['eed'])){
         $code = $_GET['eed'];
 
         $sql = "SELECT category_name_id FROM ongoing_list_of_event WHERE event_code = '$code';";
@@ -141,16 +141,21 @@
                 WHERE category_name_id = '$category_name_id';";
         mysqli_query($conn,$sql); 
 
-        $sql = "DELETE FROM ongoing_list_of_event WHERE category_name_id = '$category_name_id' AND event_code = '$code';";
+        $sql = "SELECT event_id FROM ongoing_list_of_event WHERE category_name_id = '$category_name_id' AND event_code = '$code';";
+        $query = mysqli_query($conn,$sql); 
+        $result = mysqli_fetch_array($query);
+        $eventID = $result['event_id'];
+
+        $sql = "DELETE t5, t4, t3, t2, t1
+        FROM ongoing_list_of_event AS t1
+        LEFT JOIN ongoing_criterion AS t2 ON t1.event_id = t2.event_id
+        LEFT JOIN highlights AS t3 ON t1.event_id = t3.event_id
+        LEFT JOIN tournament AS t4 ON t1.event_id = t4.event_id
+        LEFT JOIN competition AS t5 ON t1.event_id = t5.event_id
+        WHERE t1.event_id = $eventID;";
         mysqli_query($conn,$sql); 
 
         to_log($conn, $sql);
-
-        $sql = "DELETE FROM ongoing_criterion WHERE category_name_id = '$category_name_id';";
-        mysqli_query($conn,$sql);
-
-        $sql = "DELETE FROM ongoing_category_name WHERE category_name_id = '$category_name_id';";
-        mysqli_query($conn,$sql);
 
         $sql = "DELETE FROM ongoing_event_name
                 WHERE event_name_id NOT IN (
@@ -160,24 +165,29 @@
         $query = mysqli_query($conn,$sql);
 
         header('Location: EVE-admin-list-of-events.php');
-    }
+    } */
 
-    /*if(isset($_GET['mad'])){
+    if(isset($_GET['mad'])){
         $code = $_GET['mad'];
         $select_event = mysqli_query($conn,"SELECT * FROM ongoing_list_of_event WHERE event_code = '$code';");
-        $get_event = mysqli_fetch_assoc($select_event);
-        $category_name = $get_event['category_name_id'];
-        $event_description = $get_event['event_description'];
-        $event_date = $get_event['event_date'];
-        $event_time = $get_event['event_time'];
-        $event_code = $get_event['event_code'];
+        $row = mysqli_num_rows($select_event);
+        $result = mysqli_fetch_array($select_event);
+        $category_name_id = $result['category_name_id'];
+        if($row > 0) {
+            $sql = "UPDATE ongoing_list_of_event SET is_archived = '1';";
 
-        sleep(0.5);
-        if ($category_name_id !== " " && $event_description !== " " && $event_date !== " " && $event_time !== " " && $event_code !== " "){
-            $transfer_event = mysqli_query($conn,"INSERT INTO eventhistorytb (event_name, event_type, category_name, event_description, event_date, event_time, event_code) VALUES ('$event_name', '$event_type', '$category_name', '$event_description', '$event_date', '$event_time', '$event_code');");
+            mysqli_query($conn, $sql);
+            $sql = "INSERT IGNORE INTO category_name (category_name_id, event_name_id, event_type_id, category_name)
+                    SELECT category_name_id, event_name_id, event_type_id, category_name
+                    FROM ongoing_category_name
+                    WHERE category_name_id = $category_name_id;";
+            mysqli_query($conn,$sql); 
 
-            $delete_event = mysqli_query($conn,"DELETE FROM listofeventtb WHERE event_code = '$code';");
-            header('Location: EVE-admin-list-of-events.php');  
+            $sql = "INSERT IGNORE INTO criterion (criterion_id, category_name_id, criterion_name, criterion_percent)
+                    SELECT criterion_id, category_name_id, criterion_name, criterion_percent
+                    FROM ongoing_criterion
+                    WHERE category_name_id = '$category_name_id';";
+            mysqli_query($conn,$sql); 
         }
-    }*/
+    }
 ?>

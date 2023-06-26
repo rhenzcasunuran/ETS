@@ -75,20 +75,36 @@
         
         $sql = "SELECT category_name_id FROM category_name WHERE event_name_id = $id;";
         $query = mysqli_query($conn, $sql);
-        $result = mysqli_fetch_array($query);
-        $cid = $result['category_name_id'];
+        $rowCount = mysqli_num_rows($query);
 
-        $delete_criterion = mysqli_query($conn,"DELETE FROM criterion WHERE category_name_id = $cid");
-        $delete_category_name = mysqli_query($conn,"DELETE FROM category_name WHERE event_name_id = $id");
-        $delete_event_name = mysqli_query($conn,"DELETE FROM event_name WHERE event_name_id = $id");
+        if ($rowCount > 0) {
+            $result = mysqli_fetch_array($query);
+            $cid = $result['category_name_id'];
+            $delete_criterion = mysqli_query($conn,"DELETE FROM criterion WHERE category_name_id = $cid");
+            $delete_category_name = mysqli_query($conn,"DELETE FROM category_name WHERE event_name_id = $id");
+            $delete_event_name = mysqli_query($conn,"DELETE FROM event_name WHERE event_name_id = $id");
+        } else {
+            $delete_event_name = mysqli_query($conn,"DELETE FROM event_name WHERE event_name_id = $id");
+        }
 
         header('Location: EVE-admin-event-configuration.php');
     }
 
     if(isset($_GET['categoryNameId'])){
         $id = $_GET['categoryNameId'];
-        $delete_criterion = mysqli_query($conn,"DELETE FROM criterion WHERE category_name_id = $id");
-        $delete_category_name = mysqli_query($conn,"DELETE FROM category_name WHERE category_name_id = $id");
+
+        $sql = "SELECT category_name_id FROM category_name WHERE category_name_id = $id";
+        $query = mysqli_query($conn, $sql);
+        $rowCount = mysqli_num_rows($query);
+
+        if ($rowCount > 0) {
+            $delete_criterion = mysqli_query($conn,"DELETE FROM criterion WHERE category_name_id = $id");
+            $delete_category_name = mysqli_query($conn,"DELETE FROM category_name WHERE category_name_id = $id");
+        }
+        else{
+            echo "<script>alert('Something went wrong!');</script>";
+        }
+
         header('Location: EVE-admin-event-configuration.php');
     }
 ?>
