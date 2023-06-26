@@ -253,7 +253,7 @@ input {
     min-width: 310px;
     margin-bottom: 10px;
 }
-i.fa-search {
+i.bx-search {
     margin-left: 7px;
     font-size: 20px;
     color: var(--color-content-text);
@@ -300,19 +300,19 @@ i.fa-search {
     top: 12px;
     border-radius: 50%;
     transition: all .5s ease;
-    color: var(--color-content-card);
+    color: grey;
     background-color: var(--color-content-card);
     text-align: center;
     font-size: 28px;
     transition: all .5s ease;
 }
 .selectBtn:hover {
-    background-color: #ea4b45;
+    background-color: var(--color-red);
     color: var(--color-content-text);
 }
 .selected {
-    background-color: var(--color-red) !important;
-    color: var(--alternate-text-color);
+    background-color: #ea4b45 !important;
+    color: var(--color-content-text);
 }
 
 @media screen and (max-width:460px){
