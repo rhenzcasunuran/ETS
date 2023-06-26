@@ -84,6 +84,35 @@ $(document).ready(function() {
         // Display an error message or handle invalid page number
       }
     });
+
+    function jump() {
+      var targetPage = parseInt($('#jump-to-page').val());
+  
+      if (targetPage >= 1 && targetPage <= totalPages) {
+        currentPage = targetPage;
+        showItems(currentPage);
+        var paginationButtons = generatePaginationButtons(currentPage);
+        $('.pagination-center').html(paginationButtons);
+      } else {
+        // Display an error message or handle invalid page number
+      }
+    }
+
+    var inputElement = document.getElementById('jump-to-page');
+    inputElement.addEventListener("keypress", function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        jump();
+      }
+    })
+
+    inputElement.oninput = function () {
+      var max = parseInt(this.max);
+
+      if (parseInt(this.value) > max) {
+          this.value = max; 
+      }
+    }
   
     function generatePaginationButtons(currentPage) {
         var paginationButtons = '';
@@ -150,6 +179,8 @@ $(document).ready(function() {
     var paginationButtons = generatePaginationButtons(currentPage);
     $('.pagination-center').html(paginationButtons);
   });
+
+  
 
   var empty = document.getElementById('empty');
   var searchbar = document.querySelector('.inputAndDeleteDiv');
