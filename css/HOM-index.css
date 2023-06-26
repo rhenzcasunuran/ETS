@@ -24,7 +24,7 @@
     color: var(--color-content-text);
     font-weight: 300;
     transform: scale(115%);
-    transition: transform 0.2s;
+    transition: 0.2s;
 }
 
 .active-filter{
@@ -45,7 +45,7 @@
     color: whitesmoke;
 }
 
-.SC{
+.Student Council{
     background-color: gray;
 }
 

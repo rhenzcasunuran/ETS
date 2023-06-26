@@ -60,38 +60,38 @@
     vertical-align: middle;
 }
 
-.sc{
-    background-color: gray;
+.SC{
+    background-color: #5D2BA0;
 }
 
-.acap{
+.ACAP{
     background-color: var(--color-acap);
 }
 
-.aeces{
+.AECES{
     background-color: var(--color-aeces);
 }
 
-.elite{
+.ELITE{
     background-color: var(--color-elite);
 }
 
-.give{
+.GIVE{
     background-color: var(--color-give);
 }
 
-.jehra{
+.JEHRA{
     background-color: var(--color-jehra);
 }
 
-.jmap{
+.JMAP{
     background-color: var(--color-jmap);
 }
 
-.jpia{
+.JPIA{
     background-color: var(--color-jpia);
 }
 
-.piie{
+.PIIE{
     background-color: var(--color-piie);
 }

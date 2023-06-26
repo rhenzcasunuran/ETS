@@ -113,6 +113,11 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus
     align-items: center;
 }
 
+.disabled{
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
 .post-menu{
     position: relative;
     display: inline-block;
@@ -123,7 +128,7 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus
     border-radius: 30px;
     display: none;
     position: absolute;
-    background-color: #743EBA;
+    background-color: #5D2BA0;
     width: 100%;
     right:0%;
     bottom: 0%;
@@ -143,7 +148,8 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus
   
 .post-menu-content a:hover{
     color: #f2f2f2;
-    transform: scale(110%);
+    transform: scale(115%);
+    transition: 0.2s;
 }
 
 .post-menu:hover .post-menu-content{
@@ -152,6 +158,8 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus
 
 .post-menu-content .no-hover{
     pointer-events: none;
+    background-color: #50208F;
+    border-radius: 26px;
 }
 
 .outline-button, .secondary-button, .primary-button{

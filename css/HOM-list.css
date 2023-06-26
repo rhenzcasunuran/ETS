@@ -69,4 +69,16 @@ button:hover{
 
 .delete{
     background-color: var(--color-sidebar-sublist-1);
+    border: none;
+    color: whitesmoke;
+    height: 45px;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 300;
+    padding: 0;
+    box-shadow: var(--color-element-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
