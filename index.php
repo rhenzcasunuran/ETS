@@ -1,7 +1,6 @@
 <?php
   include './php/database_connect.php';
-  include './php/HOM-get-posts.php';
-
+  include './php/HOM-get-post.php';
   include './php/admin-signin.php';
 ?>
 
@@ -99,19 +98,19 @@
           <?php
             $row = mysqli_num_rows($get_posts);
             if($row > 0){
-              while($count = mysqli_fetch_array($get_posts)){
-                $date = date("F d, Y", strtotime($count[6]));
+              while($row = mysqli_fetch_array($get_posts)){
+                $date = date("F d, Y", strtotime($row[6]));
           ?>
-            <a href="HOM-post.php?eec=<?php echo $count[0]?>" class="post-click ALL <?php echo $count[2];?>">
+            <a href="HOM-post.php?eec=<?php echo $row['post_id']?>" class="post-click ALL <?php echo $row['organization_name'];?>">
               <div class="post-card">
-                <img class="post-cover" src="photos/cover-<?php echo $count[2];?>.png">
+                <img class="post-cover" src="photos/cover-<?php echo $row['organization_name'];?>.png">
                 <div class="post-detail">
                   <p class="post-date">
                     Posted on <?php echo $date;?>
                   </p>
                   <div class="post-title-container">
                     <p class="post-title-text">
-                      <?php echo $count[3];?>
+                      <?php echo $row[3];?>
                     </p>
                   </div>
                 </div>

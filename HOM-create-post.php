@@ -1,6 +1,7 @@
 <?php
   include './php/sign-in.php';
   include './php/database_connect.php';
+  include './php/HOM-tags.php';
   include './php/CAL-datetime-fill.php'; // CAL datetime autofill php
 ?>
 
@@ -19,14 +20,13 @@
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
-    <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/HOM-style.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/HOM-config.css">
   </head>
 
   <body>
-    <form id="post-form" action="./php/HOM-create-post.php" method="post">
+    <form id="post-form" action="./php/HOM-insert-post.php" method="post">
     <div class="popup-background" id="cancelPost-popup">
       <div class="row popup-container">
         <div class="col-4">
@@ -39,7 +39,7 @@
         <div class="div">
           <div class="outline-button" onclick="hide_cancelPost()"><i class='bx bx-chevron-left'></i>Return</div>
           <a href="HOM-manage-post.php" class="text-decoration-none">
-            <div id="clear" class="primary-button"><i class='bx bx-x'></i>Continue</div>
+            <div id="clear" class="primary-button">Continue<i class='bx bx-chevron-right'></i></div>
           </a>
         </div>
       </div>
@@ -55,9 +55,7 @@
         </div>
         <div class="div">
           <div class="outline-button" onclick="hide_saveDraft()"><i class='bx bx-chevron-left'></i>Return</div>
-          <a href="HOM-draft-post.php" class="text-decoration-none">
-            <button class="primary-button" type="submit" name="save"><i class='bx bx-save'></i>Continue</button>
-          </a>
+          <button class="primary-button" type="submit" name="save"><i class='bx bx-save'></i>Continue</button>
         </div>
       </div>
     </div>
@@ -72,9 +70,7 @@
         </div>
         <div class="div">
           <div class="outline-button" onclick="hide_postNow()"><i class='bx bx-chevron-left'></i>Return</div>
-          <a href="HOM-manage-post.php" class="text-decoration-none">
-            <button class="primary-button" type="submit" name="post"><i class='bx bx-upload'></i>Continue</button>
-          </a>
+          <button class="primary-button" type="submit" name="post"><i class='bx bx-upload'></i>Continue</button>
         </div>
       </div>
     </div>
@@ -104,18 +100,10 @@
                 </div>
                 <div class="col textbox">
                   <h2>
-                    Tag
+                    Tags
                   </h2>
-                  <select id="tag" name="post_tag">
-                    <option value="SC">Student Council</option>
-                    <option value="ACAP">ACAP</option>
-                    <option value="AECES">AECES</option>
-                    <option value="ELITE">ELITE</option>
-                    <option value="GIVE">GIVE</option>
-                    <option value="JEHRA">JEHRA</option>
-                    <option value="JMAP">JMAP</option>
-                    <option value="JPIA">JPIA</option>
-                    <option value="PIIE">PIIE</option>
+                  <select id="tags" name="organization_id">
+                    <?php echo $options;?>
                   </select>
                 </div>
               </div>
@@ -154,11 +142,11 @@
                   <i class='bx bx-x'></i>
                   &nbsp;Cancel
                 </div>
-                <div class="col secondary-button" onclick="show_saveDraft()">
+                <div class="col secondary-button disabled allowed-hover" id="save_draft">
                   <i class='bx bx-save'></i>
-                  &nbsp;Save
+                  &nbsp;Draft
                 </div>    
-                <div class="col post-menu primary-button">
+                <div class="col post-menu primary-button disabled allowed-hover" id="post">
                   <i class='bx bx-upload'></i>
                   &nbsp;Post
                   <div class="post-menu-content">
@@ -181,6 +169,7 @@
     <script src="./js/jquery-3.6.4.js"></script>
     <script src="./js/HOM-create-post.js"></script>
     <script src="./js/HOM-popup.js"></script>
+    <script src="./js/HOM-disabled.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();

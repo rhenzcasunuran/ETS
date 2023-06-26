@@ -1,7 +1,7 @@
 <?php
   include './php/sign-in.php';
   include './php/database_connect.php';
-  include './php/HOM-get-posts.php';
+  include './php/HOM-get-post.php';
   include './php/HOM-delete-post.php';
 ?>
 
@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/HOM-style.css">
     <link rel="stylesheet" href="./css/HOM-list.css">
   </head>
 
@@ -44,7 +43,7 @@
         <?php
           $row = mysqli_num_rows($get_posts);
           if($row > 0){
-            while($count = mysqli_fetch_array($get_posts)){
+            while($row = mysqli_fetch_array($get_posts)){
         ?>
               <div class="container-fluid" id="popup">
                 <div class="row popup-card">
@@ -57,7 +56,7 @@
                   </h6>
                   <div class="row">
                     <div class="col">
-                      <a href="HOM-manage-post.php?eed=<?php echo $count[0]?>" class="text-decoration-none" onclick="hide()">
+                      <a href="HOM-manage-post.php?eed=<?php echo $row['post_id']?>" class="text-decoration-none" onclick="hide()">
                         <div id="clear" class="button-clone continue" onclick="hide()">
                           &nbsp;Continue
                         </div>
@@ -80,7 +79,7 @@
                   </div>
                   <div class="row">
                     <p class="data-value">
-                      <?php echo $count[3];?>
+                      <?php echo $row['post_title'];?>
                     </p>
                   </div>
                 </div>
@@ -92,20 +91,20 @@
                   </div>
                   <div class="row">
                     <p class="data-value">
-                      <?php echo $count[2];?>
+                      <?php echo $row['organization_name'];?>
                     </p>
                   </div>
                 </div>
                 <div class="col-2">
-                  <a href="HOM-edit-post.php?eec=<?php echo $count[0]?>" class="text-decoration-none">
-                    <button class="button-clone edit-post">
+                  <a href="HOM-edit-post.php?eec=<?php echo $row['post_id']?>" class="text-decoration-none">
+                    <button class="primary-button edit">
                       <i class='bx bx-edit'></i>
                       &nbsp;Edit Post
                     </button>
                   </a>
                 </div>
                 <div class="col-1">
-                  <div class="button-clone delete" onclick="show()">
+                  <div class="delete" onclick="show()">
                     <i class='bx bx-trash'></i>
                   </div>
                 </div>

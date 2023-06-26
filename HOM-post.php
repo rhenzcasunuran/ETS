@@ -88,23 +88,23 @@
         <div class="container post">
           <div class="row">
             <p class="post-date">
-              Posted on <?php echo $post_row[6];?>
+              Posted on <?php echo $post_row['post_schedule'];?>
             </p>
           </div>
           <div class="row">
             <p class="post-title">
-              <?php echo $post_row[3];?>
+              <?php echo $post_row['post_title'];?>
             </p>
           </div>
           <div class="row">
-            <p class="post-tag <?php echo $post_row[2];?>">
-              <?php echo $post_row[2];?>
+            <p class="post-tag <?php echo $post_row['organization_name'];?>">
+              <?php echo $post_row['organization_name'];?>
             </p>
           </div>
           <div class="row">
             <p class="post-description">
               <?php 
-                $text = $post_row[4];
+                $text = $post_row['post_description'];
                 $formattedText = nl2br($text);
                 echo $formattedText;
               ?>
