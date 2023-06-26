@@ -226,6 +226,21 @@ CREATE TABLE `organization` (
   `organization_name` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `organization`
+--
+
+INSERT INTO `organization` (`organization_id`, `organization_name`) VALUES
+(0, 'SC'),
+(1, 'ACAP'),
+(2, 'AECES'),
+(3, 'ELITE'),
+(4, 'GIVE'),
+(5, 'JEHRA'),
+(6, 'JMAP'),
+(7, 'JPIA'),
+(8, 'PIIE');
+
 -- --------------------------------------------------------
 
 --
