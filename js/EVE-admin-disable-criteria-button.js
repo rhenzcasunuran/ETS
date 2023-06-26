@@ -10,8 +10,6 @@ const checkCriterionNameChar = document.querySelector("#checkCriterionNameChar")
 const checkPercentage = document.querySelector("#checkPercentage");
 const checkTotalPercentage = document.querySelector("#checkTotalPercentage");
 
-
-
 function updateTotalPercentage() {
     var total = 0;
     var nmbrCriterion = 0;
@@ -88,7 +86,6 @@ function updateTotalPercentage() {
     else{
       allPercentValuesEntered = false;
     }
-
 
     $('#totalPercentage p').text(total + '%');
     

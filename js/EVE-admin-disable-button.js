@@ -10,6 +10,7 @@ const textEvent = document.querySelector("#textEvent");
 const textType = document.querySelector("#textType");
 const textCategory = document.querySelector("#textCategory");
 const textDesc = document.querySelector("#textDescription");
+const textCriteria = document.querySelector("#textCriteria");
 const textDate = document.querySelector("#textDate");
 const textTime = document.querySelector("#textTime");
 
@@ -17,6 +18,7 @@ const checkEvent = document.querySelector("#checkEvent");
 const checkType = document.querySelector("#checkType");
 const checkCategory = document.querySelector("#checkCategory");
 const checkDesc = document.querySelector("#checkDescription");
+const checkCriteria = document.querySelector("#checkCriteria");
 const checkDate = document.querySelector("#checkDate");
 const checkTime = document.querySelector("#checkTime");
 
@@ -51,20 +53,22 @@ dateText.textContent = "(" + currentDate1 + ") to (" + nextYearDate1 + ")";
 formButton.disabled = true; 
 
 // alternative is to use "change" - explained below
-formEvent.addEventListener("change", buttonState);
-formType.addEventListener("change", buttonState);
-formCategory.addEventListener("change", buttonState);
-formDesc.addEventListener("keyup", buttonState);
-formDate.addEventListener("keyup", buttonState);
-formDate.addEventListener("change", buttonState);
-formTime.addEventListener("keyup", buttonState);
-formTime.addEventListener("change", buttonState);
+formEvent.addEventListener("change", () => buttonState(totalPercentage));
+formType.addEventListener("change", () => buttonState(totalPercentage));
+formCategory.addEventListener("change", () => buttonState(totalPercentage));
+formDesc.addEventListener("keyup", () => buttonState(totalPercentage));
+formDate.addEventListener("keyup", () => buttonState(totalPercentage));
+formDate.addEventListener("change", () => buttonState(totalPercentage));
+formTime.addEventListener("keyup", () => buttonState(totalPercentage));
+formTime.addEventListener("change", () => buttonState(totalPercentage));
 
-function buttonState() {
+function buttonState(totalPercentage) {
     const descValue = formDesc.value.trim().replace(/\s\s+/g, ""); // Remove multiple consecutive spaces
+    var total = totalPercentage;
+    console.log(total);
 
 
-    if (formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value < nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "" && formCategory.value !== "") {
+    if (total === 100 && formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value < nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "" && formCategory.value !== "") {
         formButton.disabled = false; // enable the button once the input field has content
         tooltip.style.display = 'none';
     } else {
@@ -105,6 +109,15 @@ function buttonState() {
         else {
             checkDesc.style.visibility = "visible";
             textDesc.style.color = "var(--default-success-color)";
+        }
+        //Criteria
+        if (total === 100) {
+            checkCriteria.style.visibility = "visible";
+            textCriteria.style.color = "var(--default-success-color)";
+        }
+        else {
+            checkCriteria.style.visibility = "hidden";
+            textCriteria.style.color = "var(--not-active-text-color)";
         }
         //Date
         if(formDate.value !== "" && (formDate.value < nextYearDateString && formDate.value >= currentDateString)) {
