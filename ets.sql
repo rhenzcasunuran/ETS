@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2023 at 03:43 PM
+-- Generation Time: Jun 26, 2023 at 05:59 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -113,6 +113,13 @@ CREATE TABLE `event_name` (
   `event_name` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `event_name`
+--
+
+INSERT INTO `event_name` (`event_name_id`, `event_name`) VALUES
+(1, 'Buwan ng Wika');
+
 -- --------------------------------------------------------
 
 --
@@ -203,8 +210,10 @@ CREATE TABLE `ongoing_category_name` (
 --
 
 CREATE TABLE `ongoing_criterion` (
+  `ongoing_criterion_id` int(11) NOT NULL,
   `criterion_id` int(11) NOT NULL,
   `category_name_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
   `criterion_name` varchar(50) NOT NULL,
   `criterion_percent` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -472,8 +481,9 @@ ALTER TABLE `ongoing_category_name`
 -- Indexes for table `ongoing_criterion`
 --
 ALTER TABLE `ongoing_criterion`
-  ADD PRIMARY KEY (`criterion_id`),
-  ADD KEY `category_name_id` (`category_name_id`);
+  ADD PRIMARY KEY (`ongoing_criterion_id`),
+  ADD KEY `category_name_id` (`category_name_id`),
+  ADD KEY `event_id` (`event_id`);
 
 --
 -- Indexes for table `ongoing_event_name`
@@ -578,7 +588,7 @@ ALTER TABLE `criterion`
 -- AUTO_INCREMENT for table `event_name`
 --
 ALTER TABLE `event_name`
-  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `event_type`
@@ -614,7 +624,7 @@ ALTER TABLE `ongoing_category_name`
 -- AUTO_INCREMENT for table `ongoing_criterion`
 --
 ALTER TABLE `ongoing_criterion`
-  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ongoing_criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `ongoing_event_name`
@@ -735,7 +745,8 @@ ALTER TABLE `ongoing_category_name`
 -- Constraints for table `ongoing_criterion`
 --
 ALTER TABLE `ongoing_criterion`
-  ADD CONSTRAINT `ongoing_criterion_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `ongoing_category_name` (`category_name_id`);
+  ADD CONSTRAINT `ongoing_criterion_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `ongoing_category_name` (`category_name_id`),
+  ADD CONSTRAINT `ongoing_criterion_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
 
 --
 -- Constraints for table `ongoing_list_of_event`
