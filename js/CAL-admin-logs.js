@@ -48,7 +48,16 @@ $(document).ready(function() {
       if ($(this).attr('id') === 'check-admin-all') {
         // Check/uncheck all checkboxes
         const isChecked = $(this).prop('checked');
-        $('.form-check-input.admin-checkbox').prop('checked', isChecked);
+        $('.form-check-input.admin-checkbox').not(this).prop('checked', isChecked);
+      } else {
+        // Uncheck "All" checkbox if any individual checkbox is unchecked
+        if (!$(this).prop('checked')) {
+          $('#check-admin-all').prop('checked', false);
+        } else {
+          // Check "All" checkbox if all individual checkboxes (except "All") are checked
+          const allCheckboxChecked = $('.form-check-input.admin-checkbox:not(#check-admin-all)').length === $('.form-check-input.admin-checkbox:not(#check-admin-all):checked').length;
+          $('#check-admin-all').prop('checked', allCheckboxChecked);
+        }
       }
 
       checkboxValues = $('.form-check-input.admin-checkbox:checked').map(function() {
