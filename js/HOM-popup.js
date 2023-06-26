@@ -45,3 +45,11 @@ var show_discardChanges = function(){
 var hide_discardChanges = function(){
     discardChangesPopup.style.display = 'none';
 }
+
+savePostPopup = document.getElementById('savePost-popup');
+var show_savePost = function(){
+    savePostPopup.style.display = 'flex';
+}
+var hide_savePost = function(){
+    savePostPopup.style.display = 'none';
+}
