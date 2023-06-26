@@ -314,10 +314,6 @@ border-radius: 20px;
   transition: .3s ease-in-out;
 }
 
-.option:hover,
-.option.selected{
-  color: #66007a;
-}
 
 .options-list::-webkit-scrollbar{
   width: 4px;
