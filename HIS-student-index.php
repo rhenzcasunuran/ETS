@@ -1,26 +1,6 @@
 <?php 
 include('./php/database_connect.php');
-
-session_start();
-
-if($conn){
-  if(isset($_POST['sign-in-button'])){
-    $username=mysqli_real_escape_string($conn,$_POST['user_username']);
-    $password=mysqli_real_escape_string($conn,$_POST['user_password']);
-    $sql="SELECT * FROM user WHERE user_username='$username' AND user_password='$password'";
-    $result=mysqli_query($conn,$sql);
-    if($result){
-      if(mysqli_num_rows($result)>0){
-        $_SESSION['message']="You are now Loggged In";
-        $_SESSION['user_username']=$username;
-        header("location:HOM-create-post.php");
-      }
-      else{
-        echo '<script>alert("Username or Password combination are incorrect")</script>';
-      }
-    }
-  }
-}
+include './php/admin-signin.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +9,7 @@ if($conn){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuration</title>
+    <title>Event History</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
     <script src="./js/default-theme.js"></script>
@@ -46,8 +26,8 @@ if($conn){
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
 
 
-
-          <link rel="stylesheet" href="./css/HIS-student.css">  </head>
+<link rel="stylesheet" type="text/css" href="./css/HIS-student.css">
+          </head>
 
 
   <body>
@@ -77,136 +57,33 @@ if($conn){
         </form>
       </div>
     </div>
-    <!--SIDEBAR-->
-    <div class="sidebar open box-shadow">
-      <div class="bottom-design">
-        <div class="design1"></div>
-        <div class="design2"></div>
-      </div>
-      <div class="logo_details">
-        <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
-        <div class="logo_name">Events Tabulation System</div>
-        <i class="bx bx-arrow-to-right" id="btn"></i>
-        <script src="./js/sidebar-state.js"></script>
-      </div>
-      <div class="wrapper">
-        <div class="sidebar-content-container">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="index.php">
-                <i class="bx bx-home-alt"></i>
-                <span class="link_name">Home</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="CAL-student-overall.php">
-                <i class="bx bx-calendar"></i>
-                <span class="link_name">Calendar</span>
-              </a>
-            </li>
-            <li class="nav-item">
-            <a href="#posts" class="menu_btn">
-                <i class="bx bx-line-chart"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-                <span class="link_name">Results
-                  <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-                </span>
-              </a>
-              <ul class="sub_list">
-                <li class="sub-item">
-                  <a href="BAR-student.php">
-                    <i class="bx bxs-circle sub-icon color-red"></i>
-                    <span class="sub_link_name">Overall Champion</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="#tournament">
-                    <i class="bx bxs-circle sub-icon color-green"></i>
-                    <span class="sub_link_name">Tournament</span>
-                  </a>
-                </li>
-                <li class="sub-item">
-                  <a href="COM-student_page.php">
-                    <i class="bx bxs-circle sub-icon color-yellow"></i>
-                    <span class="sub_link_name">Competition</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            
-            <li class="nav-item">
-              <a href="HIS-student-index.php" class="active">
-                <i class="bx bx-history"></i>
-                <span class="link_name">Event History</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="about.php">
-                <i class="bx bx-info-circle"></i>
-                <span class="link_name">About</span>
-              </a>
-            </li>
-            <?php
-              if(isset($_SESSION['user_username'])){
-            ?>
-            <li class="nav-item">
-              <a href="HOM-create-post.php">
-                <i class="bx bx-cog"></i>
-                <span class="link_name">Configuration</span>
-              </a>
-            </li>
-            <?php
-              }
-            ?>
-          </ul>
-        </div>
-        <div class="bottom-container">
-          <div class="mode-btn" id="theme-toggle">
-            <i class='lightmode bx bx-sun'></i>
-            <i class='darkmode bx bx-moon'></i>
-          </div>
-          <?php
-            if(isset($_SESSION['user_username'])){
-          ?>
-            <li class="nav-item bottom">
-              <a href="./php/sign-out.php">
-                <i class="bx bx-log-out"></i>
-                <span class="link_name">Sign Out</span>
-              </a>
-            </li>
-          <?php
-            }
-            else{
-          ?>
-              <li class="nav-item bottom">
-                <a onclick="show()">
-                  <i class="bx bx-log-in"></i>
-                  <span class="link_name">Sign In</span>
-                </a>
-              </li>
-          <?php
-            }
-          ?>
-        </div>
-      </div>
-    </div>
+   <!--SIDEBAR-->
+    <?php
+      // Set the active module and sub-active sub-item variables
+      $activeModule = 'event-history';
+
+      // Include the sidebar template
+      require './php/student-sidebar.php';
+    ?>
     <!--Page Content-->
     <section class="home-section">
     <div class="header">
   Event History
   <input type="text" id="search" placeholder="Search" maxlength="30">
   <div class="dropdown">
-    <i class="bx bx-filter-alt dropbtn bx-sm" onclick="myFunction()"></i>
-    <div id="myDropdown" class="dropdown-content">
-      <a href="#">GIVE</a>
-      <a href="#">JMAP</a>
-      <a href="#">AECES</a>
-      <a href="#">JPIA</a>
-      <a href="#">PIIE</a>
-      <a href="#">JEHRA</a>
-      <a href="#">ACAP</a>
-      <a href="#">ELITE</a>
-      <a href="#">STUDENT COUNCIL</a>
-    </div>
+      <i class="bx bx-filter-alt dropbtn bx-sm" onclick="myFunction()"></i>
+      <div id="myDropdown" class="dropdown-content">
+      <a href="#" onclick="filterByEventName('GIVE')">GIVE</a>
+<a href="#" onclick="filterByEventName('JMAP')">JMAP</a>
+<a href="#" onclick="filterByEventName('AECES')">AECES</a>
+<a href="#" onclick="filterByEventName('JPIA')">JPIA</a>
+<a href="#" onclick="filterByEventName('PIIE')">PIIE</a>
+<a href="#" onclick="filterByEventName('JEHRA')">JEHRA</a>
+<a href="#" onclick="filterByEventName('ACAP')">ACAP</a>
+<a href="#" onclick="filterByEventName('ELITE')">ELITE</a>
+<a href="#" onclick="filterByEventName('STUDENT COUNCIL')">STUDENT COUNCIL</a>
+
+      </div>
   </div>
 </div>
 
@@ -216,27 +93,28 @@ if($conn){
       <div class="col-md-12">
         <div class="row">
           <div id="carousel" class="col-md-12 text-white carousel-container"> <!-- Added carousel-container class -->
-            <?php
-            require('./php/database_connect.php');
+          <?php
+require('./php/database_connect.php');
 
-            $query = "SELECT * FROM image";
-            $result = mysqli_query($conn, $query);
+$query = "SELECT * FROM highlights";
+$result = mysqli_query($conn, $query);
 
-            $slides = '';
-            $active = 'active';
-            while ($row = mysqli_fetch_assoc($result)) {
-                $imagePath = "./images/" . $row['filename'];
-                $imageInfo = $row['image_Info'];
-                $imageDesc = $row['image_Description'];
-                $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '"></div>';
-                $active = '';
-            }
+$slides = '';
+$active = 'active';
+while ($row = mysqli_fetch_assoc($result)) {
+    $imagePath = "./images/" . $row['filename'];
+    $imageInfo = $row['image_info'];
+    $imageDesc = $row['image_description'];
+    $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '"></div>';
+    $active = '';
+}
 
-            mysqli_data_seek($result, 0);
-            $active = 'active';
+mysqli_data_seek($result, 0);
+$active = 'active';
 
-            mysqli_close($conn);
-            ?>
+mysqli_close($conn);
+?>
+
 
             <div id="eventsImages" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">
@@ -258,63 +136,190 @@ if($conn){
             <!-- Additional content here -->
           </div>
         </div>
+     
+
+
+
+        <div class="row justify-content-center">
+  <div class="col-md-12 left-container custom-left-container">
+    <div class="container-fluid left-part">
+      <div class="row">
+        <div class="col-md-12 event">
+          <div id="card-container">
+          <?php
+include('./php/database_connect.php');
+
+$searchQuery = $_GET['search'] ?? '';
+$query = "SELECT en.event_name, cn.category_name, YEAR(e.event_date) AS event_year, e.suggested_status, e.event_description
+          FROM ongoing_list_of_event e
+          JOIN ongoing_category_name cn ON e.category_name_id = cn.category_name_id
+          JOIN ongoing_event_name en ON cn.event_name_id = en.event_name_id
+          WHERE en.event_name LIKE '%$searchQuery%' 
+          AND e.is_archived = 1
+          ORDER BY e.suggested_status";
+
+$result = mysqli_query($conn, $query);
+
+if ($result === false) {
+    die('Query Error: ' . mysqli_error($conn));
+}
+
+if (mysqli_num_rows($result) > 0) {
+    $suggestedEvents = [];
+    $otherEvents = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $eventName = $row['event_name'];
+        $categoryName = $row['category_name'];
+        $eventYear = $row['event_year'];
+        $eventDescription = $row['event_description'];
+        $suggestedStatus = $row['suggested_status'];
+
+        // Check if the event is suggested
+        if ($suggestedStatus == 1) {
+            $suggestedEvents[] = [
+                'eventName' => $eventName,
+                'categoryName' => $categoryName,
+                'eventYear' => $eventYear,
+                'eventDescription' => $eventDescription,
+            ];
+        } else {
+            $otherEvents[] = [
+                'eventName' => $eventName,
+                'categoryName' => $categoryName,
+                'eventYear' => $eventYear,
+                'eventDescription' => $eventDescription,
+            ];
+        }
+    }
+
+    echo '<div class="event-container">';
+    echo '  <div class="suggested-events">';
+    echo '    <h2 class="section-heading">Suggested Events</h2>';
+    echo '    <div class="event-cards">';
+
+    // Display suggested events
+    foreach ($suggestedEvents as $index => $event) {
+        $eventName = $event['eventName'];
+        $categoryName = $event['categoryName'];
+        $eventYear = $event['eventYear'];
+        $eventDescription = $event['eventDescription'];
+
+        echo '     <div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
+
+        // Retrieve the images from the highlights table
+        $highlightQuery = "SELECT filename FROM highlights WHERE event_id = '$eventName'";
+        $highlightResult = mysqli_query($conn, $highlightQuery);
+        $highlightImages = [];
+
+        if ($highlightResult) {
+            while ($highlightRow = mysqli_fetch_assoc($highlightResult)) {
+                $highlightImages[] = $highlightRow['filename'];
+            }
+        }
+
+        // Display event images
+        foreach ($highlightImages as $image) {
+            $imagePath = 'images/' . $image;
+            echo '<img src="' . $imagePath . '" alt="Event Image">';
+        }
+
+        echo '        <div class="event-info">';
+        echo '          <h3 class="event-name">' . $eventName . '</h3>';
+        echo '          <p class="category">' . $categoryName . '</p>';
+        echo '          <p class="year">' . $eventYear . '</p>';
+        echo '        </div>';
+        echo '      </div>';
+    }
+
+    echo '    </div>'; // Close event-cards
+    echo '  </div>'; // Close suggested-events
+
+    // Display other events if available
+    if (!empty($otherEvents)) {
+        echo '  <div class="other-events">';
+        echo '    <h2 class="section-heading">Other Events</h2>';
+        echo '    <div class="event-cards">';
+
+        foreach ($otherEvents as $index => $event) {
+            $eventName = $event['eventName'];
+            $categoryName = $event['categoryName'];
+            $eventYear = $event['eventYear'];
+            $eventDescription = $event['eventDescription'];
+
+            echo '     <div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
+
+            // Retrieve the images from the highlights table
+            $highlightQuery = "SELECT filename FROM highlights WHERE event_id = '$eventName'";
+            $highlightResult = mysqli_query($conn, $highlightQuery);
+            $highlightImages = [];
+
+            if ($highlightResult) {
+                while ($highlightRow = mysqli_fetch_assoc($highlightResult)) {
+                    $highlightImages[] = $highlightRow['filename'];
+                }
+            }
+
+            // Display event images
+            foreach ($highlightImages as $image) {
+                $imagePath = 'images/' . $image;
+                echo '<img src="' . $imagePath . '" alt="Event Image">';
+            }
+
+            echo '        <div class="event-info">';
+            echo '          <h3 class="event-name">' . $eventName . '</h3>';
+            echo '          <p class="category">' . $categoryName . '</p>';
+            echo '          <p class="year">' . $eventYear . '</p>';
+            echo '        </div>';
+            echo '      </div>';
+        }
+
+        echo '    </div>'; // Close event-cards
+        echo '  </div>'; // Close other-events
+    }
+
+    echo '</div>'; // Close event-container
+} else {
+    echo "No events found.";
+}
+
+mysqli_close($conn);
+?>
+
+         <!-- Bootstrap 5 Modal -->
+<div class="modal fade" id="event-modal" tabindex="-1" aria-labelledby="event-modal-label" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="event-modal-label">Event Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h3 id="modal-event-name"></h3>
+        <p>Category: <span id="modal-category"></span></p>
+        <p>Year: <span id="modal-year"></span></p>
+        <p>Description: <span id="modal-description"></span></p>
+
       </div>
     </div>
   </div>
 </div>
 
-
-
-      <div class="row">
-  <div class="col-md-12 left-container">
-    <div class="container-fluid left-part">
-      <div class="row">
-        <div class="col-md-12 event">
-          <div id="card-container">
-            <?php
-            require('./php/database_connect.php');
-
-            $query = "SELECT event_name, category_name, YEAR(event_date) AS event_year FROM eventhistorytb ";
-            $result = mysqli_query($conn, $query);
-
-            if ($result === false) {
-                die('Query Error: ' . mysqli_error($conn));
-            }
-
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $eventName = $row['event_name'];
-                    $categoryName = $row['category_name'];
-                    $eventYear = $row['event_year'];
-
-                    echo '<div class="event-card" id="event_' . $eventName . '">';
-                    echo '  <div class="event-info">';
-                    echo '    <h3 class="event-name">' . $eventName . '</h3>';
-                    echo '    <p class="category">' . $categoryName . '</p>';
-                    echo '    <p class="year">' . $eventYear . '</p>';
-                    echo '  </div>';
-                    echo '</div>';
-                }
-            } else {
-                echo "No events found.";
-            }
-            ?>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
- 
-
-      </div>
+</div>
+</div>
     </div>
+  </div>
+    </section>
   
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-</script>
-
-    </section>
     <!-- Scripts -->
     <script src="./js/HOM-popup.js"></script>
 
@@ -337,9 +342,8 @@ if($conn){
       });
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-  
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>    
     <script>
     function updateTextContainer(slide) {
         var imageInfo = slide.getAttribute('data-bs-info');
@@ -382,6 +386,95 @@ function myFunction() {
 
 
 </script>
+
+<script>
+  document.getElementById('search').addEventListener('keyup', function () {
+    var searchQuery = this.value.toLowerCase();
+    var eventCards = document.getElementsByClassName('event-card');
+    var suggestedEvents = document.querySelector('.suggested-events');
+    var hasMatchingResults = false;
+
+    for (var i = 0; i < eventCards.length; i++) {
+      var eventName = eventCards[i].querySelector('.event-name').textContent.toLowerCase();
+      var category = eventCards[i].querySelector('.category').textContent.toLowerCase();
+      var year = eventCards[i].querySelector('.year').textContent.toLowerCase();
+      var eventInfo = eventName + " " + category + " " + year;
+
+      if (eventInfo.includes(searchQuery)) {
+        eventCards[i].style.display = 'block'; // Show the event card
+        if (eventCards[i].parentNode.parentNode === suggestedEvents) {
+          hasMatchingResults = true; // At least one suggested event has matching results
+        }
+      } else {
+        eventCards[i].style.display = 'none'; // Hide the event card
+      }
+    }
+
+    if (searchQuery !== '' && !hasMatchingResults) {
+      suggestedEvents.style.display = 'none'; // Hide the suggested events container when there are no matching results
+    } else {
+      suggestedEvents.style.display = 'block'; // Show the suggested events container in all other cases
+    }
+  });
+</script>
+<script>
+  var previousEvent = ""; // Variable to store the previous event name
+
+  function filterByEventName(eventName) {
+    // Check if the selected event name is the same as the previous one
+    if (eventName === previousEvent) {
+      window.location.reload(); // Reload the page to display all events without filter
+    } else {
+      // Make an AJAX request to fetch the filtered events based on the selected event name
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "./php/HIS-filter_event.php?eventName=" + encodeURIComponent(eventName), true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          // Update the event container with the filtered results
+          document.getElementById("card-container").innerHTML = xhr.responseText;
+        }
+      };
+      xhr.send();
+    }
+
+    // Update the previous event name
+    previousEvent = eventName;
+  }
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var eventCards = document.querySelectorAll(".event-card");
+  var modal = new bootstrap.Modal(document.getElementById("event-modal"));
+  var modalEventName = document.getElementById("modal-event-name");
+  var modalCategory = document.getElementById("modal-category");
+  var modalYear = document.getElementById("modal-year");
+  var modalDescription = document.getElementById("modal-description");
+
+  eventCards.forEach(function(card) {
+    card.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      // Get the event information from the card
+      var eventName = card.querySelector(".event-name").innerText;
+      var category = card.querySelector(".category").innerText;
+      var year = card.querySelector(".year").innerText;
+      var description = card.dataset.bsDesc; // Access the event description directly from the card's dataset
+
+      // Set the modal content dynamically
+      modalEventName.innerText = eventName;
+      modalCategory.innerText = category;
+      modalYear.innerText = year;
+      modalDescription.innerText = description;
+
+      // Show the modal
+      modal.show();
+    });
+  });
+});
+
+</script>
+
+
 
 
 

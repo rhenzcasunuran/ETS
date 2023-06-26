@@ -39,7 +39,7 @@
       require './php/admin-sidebar.php';
     ?>
     <!--Page Content-->
-    <section class="home-section">
+ <section class="home-section">
     <div class="header">Manage Event</div>
     <div class="flex-container">
         <div class="main-containers">
@@ -49,83 +49,97 @@
                     <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event" onkeyup="filterButtons()">
                 </div>
                 <div id="button-container">
-    <?php
-    $query = "SELECT event_history_id, event_name, category_name FROM eventhistorytb GROUP BY event_name";
-    $result = mysqli_query($conn, $query);
+                    <?php
+                    $query = "SELECT o.event_id, e.event_name, c.category_name
+                              FROM ongoing_list_of_event o
+                              JOIN ongoing_event_name e ON o.event_id = e.event_name_id
+                              JOIN ongoing_category_name c ON o.category_name_id = c.category_name_id
+                              WHERE o.is_archived = 1
+                              GROUP BY e.event_name";
+                    $result = mysqli_query($conn, $query);
 
-    if ($result === false) {
-        die('Query Error: ' . mysqli_error($conn));
-    }
+                    if ($result === false) {
+                        die('Query Error: ' . mysqli_error($conn));
+                    }
 
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $eventHistoryId = $row['event_history_id'];
-            $eventName = $row['event_name'];
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $eventHistoryId = $row['event_id'];
+                            $eventName = $row['event_name'];
 
-            echo "<button id='event_" . $eventName . "' class='event_button' data-event-history-id='$eventHistoryId' onclick='handleEventClick(\"$eventName\")'>$eventName</button>";
-        }
-    } else {
-        echo "No events found.";
-    }
-    ?>
-</div>
-
+                            echo "<button id='event_" . $eventName . "' class='event_button' data-event-history-id='$eventHistoryId' onclick='handleEventClick(\"$eventName\")'>$eventName</button>";
+                        }
+                    } else {
+                        echo "No events found.";
+                    }
+                    ?>
+                </div>
             </div>
             <div class="container-header-1">Activities</div>
             <div class="flex-box">
-            <div id="select_event_text">Select an event first</div>
-<div class="radio-holder">
-    <?php
-    if ($result->num_rows > 0) {
-        $result->data_seek(0);
-        while ($row = $result->fetch_assoc()) {
-            $eventName = $row['event_name'];
+                <div id="select_event_text">Select an event first</div>
+                <div class="radio-holder">
+                   <?php
+if ($result->num_rows > 0) {
+    $result->data_seek(0);
+    while ($row = $result->fetch_assoc()) {
+        $eventName = $row['event_name'];
 
-            echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
+        echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
 
-            $query = "SELECT category_name, suggested_status FROM eventhistorytb WHERE event_name = '" . $eventName . "'";
-            $categoryResult = mysqli_query($conn, $query);
+        $query = "SELECT DISTINCT c.category_name, o.suggested_status, o.is_archived
+        FROM ongoing_event_name e
+        JOIN ongoing_category_name c ON e.event_name_id = c.event_name_id
+        JOIN ongoing_list_of_event o ON o.category_name_id = c.category_name_id
+        WHERE e.event_name = '" . $eventName . "' AND o.is_archived = 1";
+        $categoryResult = mysqli_query($conn, $query);
 
-            if ($categoryResult === false) {
-                die('Query Error: ' . mysqli_error($conn));
-            }
-
-            if (mysqli_num_rows($categoryResult) > 0) {
-                $categories = array();
-                while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
-                    $categoryName = $categoryRow['category_name'];
-                    $suggestedStatus = $categoryRow['suggested_status'];
-                    $categories[] = array(
-                        'name' => $categoryName,
-                        'status' => $suggestedStatus
-                    );
-                }
-                $maxLength = max(array_map('strlen', array_column($categories, 'name')));
-
-                foreach ($categories as $category) {
-                    $categoryName = $category['name'];
-                    $suggestedStatus = $category['status'];
-                    $isChecked = $suggestedStatus == 1 ? 'checked' : '';
-
-                    echo "<label class='form-check'>";
-                    echo "<input class='form-check-input' type='checkbox' name='activity_" . $eventName . "[]' value='" . $categoryName . "' " . $isChecked . ">";
-                    echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
-                    echo "</label>";
-                }
-            }
-
-            echo "</div>";
+        if ($categoryResult === false) {
+            die('Query Error: ' . mysqli_error($conn));
         }
-    }
-    ?>
-</div>
 
+        $categories = array(); // Initialize an array to store category names
+
+        // Retrieve all category names for the event
+        while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
+          $categoryName = $categoryRow['category_name'];
+          $suggestedStatus = $categoryRow['suggested_status'];
+          $categories[] = array(
+              'name' => $categoryName,
+              'status' => $suggestedStatus
+          );
+      }
+
+      if (!empty($categories)) {
+          $maxLength = max(array_map('strlen', array_column($categories, 'name')));
+
+          foreach ($categories as $category) {
+              $categoryName = $category['name'];
+              $isChecked = $category['status'] == 1 ? 'checked' : '';
+
+              echo "<label class='form-check'>";
+              echo "<input class='form-check-input' type='checkbox' name='activity_" . $eventName . "[]' value='" . $categoryName . "' " . $isChecked . ">";
+              echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
+              echo "</label>";
+          }
+      } else {
+          echo "No categories found for this event.";
+      }
+
+      echo "</div>";
+  }
+}
+?>
+
+                </div>
             </div>
-<div class="btn-group" id="diffbutton">
-    <button type="button" id="add_button"> Update </button>
-</div>
-</div>
+            <div class="btn-group" id="diffbutton">
+                <button type="button" id="add_button">Update</button>
+            </div>
+        </div>
+    </div>
 </section>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> <!-- Include SweetAlert2 library -->
 

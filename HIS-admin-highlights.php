@@ -47,9 +47,26 @@
       <div class="bg-white p-3" id="container-1">
         <div class="file-type-container">Image Selection</div>
         <form method="POST" action="" enctype="multipart/form-data">
-          <div class="form-group">
-            <input class="form-control" type="file" name="uploadfile" id="uploadfile" value="" required />
+        <div class="form-group">
+            <select class="form-control" name="event_name" id="event_name" required>
+              <option value="" selected disabled>Select Event</option>
+              <?php
+              include('./php/database_connect.php');
+              $query = "SELECT `event_name_id`, `event_name` FROM `ongoing_event_name`";
+              $result = mysqli_query($conn, $query);
+              while ($row = mysqli_fetch_assoc($result)) {
+                $eventID = $row['event_name_id'];
+                $eventName = $row['event_name'];
+                echo '<option value="' . $eventID . '">' . $eventName . '</option>';
+              }
+              mysqli_close($conn);
+              ?>
+            </select>
           </div>
+          <div class="form-group">
+          <input class="form-control" type="file" name="uploadfile[]" id="uploadfile" multiple required />
+          </div>
+          
         </form>
       </div>
       <div class="bg-white p-3" id="container-2">
@@ -57,22 +74,25 @@
           Gallery
         </div>
         <div class="container" id="img-container">
-          <?php
-            require('./php/database_connect.php');
-            $query = "SELECT * FROM image ORDER BY id DESC";
-            $result = mysqli_query($conn, $query);
-            while ($row = mysqli_fetch_assoc($result)) {
-              $image = $row['filename'];
-              $id = $row['id'];
-              echo "<div class='image'>";
-              echo "<img src='./images/$image' onclick='expandImage(this)'>";
-              echo "<div class='delete'><a href='#' onclick='confirmDelete($id)'><i class='bx bxs-trash bx-xs bx-tada-hover bx-border-circle '></i></a></div>";
-              echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='./images/$image'></div>";
-              echo "</div>";
-            }
-            mysqli_free_result($result);
-            mysqli_close($conn);
-          ?>
+        <?php
+require('./php/database_connect.php');
+$query = "SELECT * FROM highlights ORDER BY highlight_id DESC";
+$result = mysqli_query($conn, $query);
+
+while ($row = mysqli_fetch_assoc($result)) {
+  $image = $row['filename'];
+  $id = $row['highlight_id'];
+
+  echo '<div class="image">';
+  echo '<img src="./images/' . $image . '" onclick="expandImage(this)" class="gallery-image">';
+  echo '<div class="delete"><a href="#" onclick="confirmDelete(' . $id . ')"><i class="bx bxs-trash bx-xs bx-tada-hover bx-border-circle"></i></a></div>';
+  echo '<div class="expanded-image" onclick="collapseImage(this)"><img src="./images/' . $image . '" class="expanded-image-inner"></div>';
+  echo '</div>';
+}
+
+mysqli_free_result($result);
+mysqli_close($conn);
+?>
         </div>
       </div>
       <div class="bg-white p-3" id="container-3">
@@ -181,60 +201,32 @@ for (var i = 0; i < event_buttons.length; i++) {
 <!--
 Event History Scripts
 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
   $(document).ready(function() {
-    $('#upload-btn').click(function() {
-      var file_data = $('#uploadfile').prop('files')[0];
-      var allowedTypes = ['image/jpeg', 'image/png', 'image/heic']; // Include 'image/heic' for iOS images
-      var form_data = new FormData();
-      
-      if ($('#image_Info').val() == "" || $('#image_Description').val() == "" || $('#image_Info').val() == "" || !file_data) {
-  var requiredFields = [];
-  if (!file_data) {
-    requiredFields.push("Image");
-  }
-  
-  if ($('#image_Info').val() == "") {
-    requiredFields.push("Title");
-  }
-  
-  if ($('#image_Description').val() == "") {
-    requiredFields.push("Description");
-  }
-  
- 
-  
-  var errorMessage = 'Please fill in the following required fields: ' + requiredFields.join(', ');
-  
-  Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: errorMessage,
-  });
-  
-  return false;
-}
+    $('form').submit(function(event) {
+      event.preventDefault(); // Prevent the default form submission
 
-      
-      if (allowedTypes.indexOf(file_data.type) == -1) {
+      // Validate the form inputs
+      var event_name = $('#event_name').val();
+      var uploadfile = $('#uploadfile').val();
+      var image_Info = $('#image_Info').val();
+      var image_Description = $('#image_Description').val();
+
+      if (event_name === '' || uploadfile === '' || image_Info === '' || image_Description === '') {
         Swal.fire({
           icon: 'error',
-          title: 'Upload Failed',
-          text: 'File must be an image (JPG, JPEG, PNG, HEIC)!',
+          title: 'Validation Error',
+          text: 'Please fill in all the required fields.',
         });
-        return false;
+        return;
       }
-    
-      
-      form_data.append('file', file_data);
-      form_data.append('image_Info', $('#image_Info').val());
-      form_data.append('image_Description', $('#image_Description').val());
 
+      // Create a new FormData object
+      var formData = new FormData($(this)[0]);
+
+      // Display confirmation dialog
       Swal.fire({
         title: 'Are you sure?',
         text: 'Proceed with image upload?',
@@ -245,15 +237,15 @@ Event History Scripts
         confirmButtonText: 'Yes, upload it!'
       }).then((result) => {
         if (result.isConfirmed) {
+          // Perform the AJAX form submission
           $.ajax({
             url: './php/HIS-upload.php',
-            dataType: 'text',
-            cache: false,
-            contentType: false,
+            type: 'POST',
+            data: formData,
             processData: false,
-            data: form_data,
-            type: 'post',
+            contentType: false,
             success: function(response) {
+              // Handle the success response
               Swal.fire(
                 'Success!',
                 'Image uploaded successfully',
@@ -262,8 +254,9 @@ Event History Scripts
                 location.reload();
               });
             },
-            error: function(response) {
-              console.log(response); // Check the error response in the browser console
+            error: function(xhr, status, error) {
+              // Handle the error response
+              console.log(error);
               Swal.fire(
                 'Error!',
                 'Image upload error',
@@ -273,11 +266,10 @@ Event History Scripts
           });
         }
       });
-
-      return false;
     });
   });
 </script>
+
 
 
 
