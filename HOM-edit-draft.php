@@ -144,7 +144,7 @@
                 </div>
                 <div class="col secondary-button" id="save_draft">
                   <i class='bx bx-save'></i>
-                  &nbsp;Draft
+                  &nbsp;Save
                 </div>    
                 <div class="col post-menu primary-button" id="post">
                   <i class='bx bx-upload'></i>
