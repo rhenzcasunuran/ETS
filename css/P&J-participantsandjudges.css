@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+.title{
+    color: var(--color-content-text);
+    font-size: 40px;
+    font-weight: bold;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
 .form1{
   position:absolute;
   margin-bottom: 50px;
@@ -130,6 +138,13 @@
   height: 40px;
   margin-top: 25px;
   margin-left: 4px;
+  border-radius: 10px; 
+  background: #FFB546;
+}
+
+.buttonsubx{
+  width: 40px;
+  height: 40px;
   border-radius: 10px; 
   background: #FFB546;
 }
@@ -299,10 +314,6 @@ border-radius: 20px;
   transition: .3s ease-in-out;
 }
 
-.option:hover,
-.option.selected{
-  color: #66007a;
-}
 
 .options-list::-webkit-scrollbar{
   width: 4px;
@@ -328,10 +339,14 @@ border-radius: 20px;
 }
 
 .card-body1{
+  width: 100% auto;
+  max-width:100% auto;
+  background: var(--color-content-card);
+  box-shadow: 4px 5px 10px;
   flex:1 1 auto;
   padding:1rem 1rem;
   margin-top: 2px;
-  width: 100% auto;
+  border-radius: 20px; 
   height: 100% auto;
   display: table;
 }
@@ -358,16 +373,16 @@ th{
 }
 
 .inputjname{
-  margin-left: 5px;
-  margin-right: 10px;
-  width: 200px;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 225px;
   border-radius: 20px;
   height: 38px; 
   text-align:center;
 }
 
 .inputjnick{
-  margin-right: 10px;
+  margin-right: 5%;
   width: 160px;
   border-radius: 20px;
   height: 38px; 
@@ -375,26 +390,46 @@ th{
 }
 
 .inputjnickd{
-  margin-right: 10px;
-  margin-left: 5px;
+  margin-right: 5%;
+  margin-left: 5%;
   width: 160px;
   border-radius: 20px;
   height: 38px; 
   text-align:center;
 }
 
+input[readonly] {
+  background-color: #4149b8;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.bordertable{
+  border-bottom: 2px solid; 
+  color:var(--color-content-text);
+}
+
 .judgeheader{
-  color: white; 
+  color:var(--color-content-text);
+  padding-right: 1%;
+  padding-left: 1%;
+  font-weight:1000;
+  text-align:center;
+}
+
+.parheader{
+  font-weight:1000; 
+  color:var(--color-content-text);
   margin-left:50px; 
   margin-right:20px;
-  font-weight:1000;
 }
 
 .inputpname{
-  margin-right: 5px;width: 200px;border-radius: 20px;height: 38px; text-align: center;
+  margin-right: 5px;width: 225px;border-radius: 20px;height: 38px; text-align: center;
 }
 .inputpcs{
-  margin-right: 5px;width: 100px;border-radius: 20px;height: 38px; text-align: center;
+  margin-right: 5px;width: 110px;border-radius: 20px;height: 38px; text-align: center;
 }
 
 .inputpcsd{
@@ -407,4 +442,106 @@ th{
 
 .btndel{
   border-radius:15px;width: 40px; height: 40px; color: white;background: #ff3636;
+}
+
+#popuplink{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#clear-popupl{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#discardChanges-popupl{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+.scorelink-container {
+  position: relative;
+}
+
+#popupPar{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#clear-popupp{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#discardChanges-popupp{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#popupparg{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#clear-popuppg{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+}
+
+#discardChanges-popuppg{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
 }
