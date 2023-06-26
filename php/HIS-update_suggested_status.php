@@ -6,35 +6,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Get the selected activities from the AJAX request
     $selectedActivities = json_decode($_POST["activities"], true);
 
-    // Update the suggested_status column in the database for each selected activity
-    $updateQuery = "UPDATE eventhistorytb SET suggested_status = 0 WHERE suggested_status = 1";
+    // Update the suggested_status column for all activities to 0
+    $updateQuery = "UPDATE ongoing_list_of_event SET suggested_status = 0";
     if (!mysqli_query($conn, $updateQuery)) {
         // Error in update
         echo "Error updating activity status: " . mysqli_error($conn);
         exit;
     }
 
+    // Update the suggested_status for the selected activities to 1
     foreach ($selectedActivities as $activity) {
-        // Get the event_history_id for the selected activity
-        $query = "SELECT event_history_id FROM eventhistorytb WHERE category_name = '$activity'";
-        $result = mysqli_query($conn, $query);
-        if ($result === false) {
-            // Error in query
-            echo "Error fetching event history ID: " . mysqli_error($conn);
+        $updateQuery = "UPDATE ongoing_list_of_event 
+                        SET suggested_status = 1 
+                        WHERE event_id IN (
+                            SELECT e.event_id 
+                            FROM ongoing_list_of_event e
+                            JOIN ongoing_category_name c ON e.category_name_id = c.category_name_id
+                            WHERE c.category_name = '$activity'
+                        )";
+        if (!mysqli_query($conn, $updateQuery)) {
+            // Error in update
+            echo "Error updating activity status: " . mysqli_error($conn);
             exit;
-        }
-
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $eventHistoryId = $row['event_history_id'];
-
-            // Update the suggested_status for the specific event_history_id
-            $updateQuery = "UPDATE eventhistorytb SET suggested_status = 1 WHERE event_history_id = $eventHistoryId";
-            if (!mysqli_query($conn, $updateQuery)) {
-                // Error in update
-                echo "Error updating activity status: " . mysqli_error($conn);
-                exit;
-            }
         }
     }
 
