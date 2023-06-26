@@ -1,11 +1,15 @@
-*{
+* {
     margin: 0;
     padding: 0px;
     box-sizing: border-box;
-}
+  }
 
-.container{
-    margin:33px auto;
+  body {
+    background-color: var(--color-body);
+  }
+  
+  .container {
+    margin: 33px auto;
     background-color: var(--color-body);
     color: var(--color-content-text);
     display: flex;
@@ -14,37 +18,37 @@
     text-align: center;
     align-items: center;
     justify-content: center;
-}
-
-h1{
+  }
+  
+  h1 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 45px;
-}
-
-h2{
+  }
+  
+  h2 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
     margin-top: 12px;
     justify-content: center;
-}
-
-.settings-icon {
+  }
+  
+  .settings-icon {
     font-size: 40px;
-}
-
-.guest , .home {
+  }
+  
+  .guest,
+  .home {
     margin: 0px;
-}
-
-
-.dropdown-tournament{
+  }
+  
+  .dropdown-tournament {
     font-size: 10px;
-}
-
-.button-tournament {
+  }
+  
+  .button-tournament {
     font-family: 'Poppins', sans-serif;
-    background-color: #A84444;
-    color: #FFFFFF;
+    background-color: #a84444;
+    color: #ffffff;
     border-style: none;
     border-radius: 15px;
     width: fit-content;
@@ -52,14 +56,14 @@ h2{
     font-size: 20px;
     margin-bottom: 30px;
     text-align: center;
-}
-
-.button-tournament:hover {
+  }
+  
+  .button-tournament:hover {
     background-color: #5c1f1f;
-
-}
-
-#home--btn, #guest--btn{
+  }
+  
+  #home--btn,
+  #guest--btn {
     width: 350px;
     height: 350px;
     margin: 15px;
@@ -69,50 +73,46 @@ h2{
     font-family: 'Poppins', sans-serif;
     border-style: none;
     cursor: default;
-}
-
-.button-end-match {
-    
+  }
+  
+  .button-end-match {
     font-family: 'Poppins', sans-serif;
-    background-color: #A84444;
-    color: #FFFFFF;
+    background-color: #a84444;
+    color: #ffffff;
     width: 150px;
     height: 60px;
     border-radius: 15px;
     border-style: none;
     font-size: 20px;
     margin-top: 30px;
-}
-
-/* .button-end-match:hover {
-    background-color: #5c1f1f;
-} */
-
-.button-end-match:disabled {
+  }
+  
+  .button-end-match:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-}
-
-.quarter {
+  }
+  
+  .quarter {
     width: 150px;
     height: 60px;
     background-color: var(--color-content-card);
     color: var(--color-content-text);
     font-size: 30px;
     font-weight: bold;
-    font-family: 'Poppins', sans-serif ;
+    font-family: 'Poppins', sans-serif;
     border-radius: 7px;
     margin-top: 50px;
-    margin-bottom: 50px
-}
-.operate{
+    margin-bottom: 50px;
+  }
+  
+  .operate {
     width: 450px;
     height: 110px;
     margin-right: 0px;
     padding-left: 7px;
-    /* border: 1px solid white; */
-}
-.operate > button{
+  }
+  
+  .operate > button {
     width: 60px;
     height: 60px;
     margin: 3px;
@@ -121,20 +121,19 @@ h2{
     font-size: 18px;
     color: var(--color-content-text);
     border-radius: 5px;
-    font-family: 'Poppins', sans-serif;  
-}
-
-.operate > button:disabled {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .operate > button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
-
-.operate > button:active{
+  
+  .operate > button:active {
     background-color: rgba(255, 255, 255, 0.275);
-}
-
-
-.container-two{
+  }
+  
+  .container-two {
     margin: auto;
     background-color: var(--color-content-card);
     color: var(--color-content-text);
@@ -150,8 +149,9 @@ h2{
     padding: 20px;
     overflow-x: auto;
     overflow-y: auto;
-}
-.save--btn{
+  }
+  
+  .save--btn {
     margin-top: 10px;
     width: 150px;
     height: 80px;
@@ -162,34 +162,352 @@ h2{
     font-weight: bold;
     color: rgb(255, 255, 255);
     font-family: 'Poppins', sans-serif;
-    background-color: #A84444;
+    background-color: #a84444;
     border: none;
-}
-
-
-.save--btn:active{
+  }
+  
+  .save--btn:active {
     background-color: #000000;
-}
-
-.save--btn:disabled{
+  }
+  
+  .save--btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-}
-
-.container-two >p{
+  }
+  
+  .container-two > p {
     color: var(--color-content-text);
-    font-size: 18px;    
-}
-
-#home--count{
+    font-size: 18px;
+  }
+  
+  #home--count {
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
-
-}
-#guest--count{
+  }
+  
+  #guest--count {
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
-}
+  }
+  
+  @media (max-width: 1600px) {
+    .container {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
+  @media (max-width: 1550px) {
 
+    .container {
+        margin: 20px auto;
+        background-color: var(--color-body);
+        color: var(--color-content-text);
+        display: flex;
+        width: 100px;
+        height: 350px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 30px;
+      }
+      
+      h2 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        margin-top: 4px;
+        justify-content: center;
+      }
+      
+      
+      .guest,
+      .home {
+        margin: 0px;
+      }
+      
+      .dropdown-tournament {
+        font-size: 10px;
+      }
+      
+      .button-tournament {
+        font-family: 'Poppins', sans-serif;
+        background-color: #a84444;
+        color: #ffffff;
+        border-style: none;
+        border-radius: 15px;
+        width: fit-content;
+        height: 30px;
+        font-size: 15px;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      
+      .button-tournament:hover {
+        background-color: #5c1f1f;
+      }
+      
+      #home--btn,
+      #guest--btn {
+        width: 200px;
+        height: 200px;
+        margin: 15px;
+        background-color: var(--color-content-card);
+        color: var(--color-content-text);
+        font-size: 100px;
+        font-family: 'Poppins', sans-serif;
+        border-style: none;
+        cursor: default;
+      }
+      
+      .button-end-match {
+        font-family: 'Poppins', sans-serif;
+        background-color: #a84444;
+        color: #ffffff;
+        width: 100px;
+        height: 30px;
+        border-radius: 15px;
+        border-style: none;
+        font-size: 15px;
+        margin-top: 30px;
+      }
+      
+      .button-end-match:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      
+      .quarter {
+        width: 125px;
+        height: 40px;
+        background-color: var(--color-content-card);
+        color: var(--color-content-text);
+        font-size: 5px;
+        font-weight: bold;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 7px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      
+      .operate {
+        width: 250px;
+        height: 110px;
+        margin-right: 0px;
+        padding-left: 7px;
+      }
+      
+      .operate > button {
+        width: 30px;
+        height: 30px;
+        margin: 1px;
+        background-color: var(--color-content-button);
+        border: 2px solid var(--color-content-text);
+        font-size: 12px;
+        color: var(--color-content-text);
+        border-radius: 5px;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .operate > button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      
+      .operate > button:active {
+        background-color: rgba(255, 255, 255, 0.275);
+      }
+      
+      .container-two {
+        position: fixed;
+        left: 50%;
+        right: 50%;
+        margin-top: 10px;
+        background-color: var(--color-content-card);
+        color: var(--color-content-text);
+        display: flex;
+        flex-direction: column;
+        width: 250px;
+        height: 100px;
+        padding: 30px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        padding: 10px;
+        overflow-x: auto;
+        overflow-y: auto;
+      }
+      
+      .save--btn {
+        margin-top: .1px;
+        width: 75px;
+        height: 40px;
+        border-radius: 3px;
+        position: sticky;
+        top: 0;
+        font-size: 12px;
+        font-weight: bold;
+        color: rgb(255, 255, 255);
+        font-family: 'Poppins', sans-serif;
+        background-color: #a84444;
+        border: none;
+      }
+      
+      .save--btn:active {
+        background-color: #000000;
+      }
+      
+      .save--btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      
+      .container-two > p {
+        color: var(--color-content-text);
+        font-size: 12px;
+      }
+      
+      #home--count {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+      }
+      
+      #guest--count {
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+      }
+    }
+  
+  @media (max-width: 600px) {
+    .container {
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 30px;
+    }
+  
+    h2 {
+      font-size: 16px;
+      margin-top: 8px;
+    }
+  
+    .button-tournament {
+      width: 200px;
+      height: 50px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  
+    #home--btn,
+    #guest--btn {
+      width: 150px;
+      height: 150px;
+      font-size: 80px;
+      margin: 5px;
+    }
+  
+    .button-end-match {
+      width: 100px;
+      height: 40px;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+  
+    .quarter {
+      width: 100px;
+      height: 40px;
+      font-size: 20px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  
+    .operate {
+      width: 200px;
+      height: 60px;
+      margin-right: 0px;
+      padding-left: 7px;
+    }
+  
+    .operate > button {
+      width: 40px;
+      height: 40px;
+      margin: 2px;
+      font-size: 14px;
+    }
+  
+    .container-two {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .container {
+      padding: 5px;
+    }
+  
+    h1 {
+      font-size: 15px;
+    }
+  
+    h2 {
+      font-size: 14px;
+      margin-top: 6px;
+    }
+  
+    .button-tournament {
+      width: 80px;
+      height: 40px;
+      font-size: 12px;
+      margin-top: 15px;
+    }
+  
+    #home--btn,
+    #guest--btn {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      margin: 3px;
+    }
+  
+    .button-end-match {
+      width: 80px;
+      height: 30px;
+      font-size: 12px;
+      margin-top: 15px;
+    }
+  
+    .quarter {
+      width: 80px;
+      height: 50px;
+      font-size: 10px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+  
+    .operate {
+      width: 100px;
+      height: 50px;
+      margin-right: 0px;
+      padding-left: 7px;
+    }
+  
+    .operate > button {
+      width: 20px;
+      height: 20px;
+      margin: 1px;
+      font-size: 8px;
+    }
+  
+    .container-two {
+      width: 100%;
+    }
+  }
