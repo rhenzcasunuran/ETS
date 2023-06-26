@@ -2,17 +2,11 @@
 if (isset($_POST['competitionName'])) {
     $competitionName = $_POST['competitionName'];
 
-    // Connect to the MySQL database
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "pupets";
+    
 
+    require 'database_connect.php';
+    include 'CAL-logger.php';
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
 
     // Escape the competitionName to prevent SQL injection
     $competitionName = $conn->real_escape_string($competitionName);

@@ -1,16 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "pupets";
+require 'database_connect.php';
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+
 
 // Query the competitions table
 $sql = "SELECT * FROM competitions_table WHERE archived='0'";

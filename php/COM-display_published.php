@@ -1,16 +1,9 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "pupets";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+require 'database_connect.php';
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+
+
 
 // Get the current date and time
 $currentDateTime = date("Y-m-d H:i:s");

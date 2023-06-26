@@ -3,12 +3,10 @@
 $competitionName = $_GET['competitionName'];
 
 // Connect to the PHPMyAdmin database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "pupets";
+require 'database_connect.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+
+
 
 $stmt = $conn->prepare("SELECT schedule, schedule_end FROM competitions_table WHERE competition_name = ?");
 $stmt->bind_param("s", $competitionName);

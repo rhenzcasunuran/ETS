@@ -1,16 +1,7 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "pupets";
+require 'database_connect.php';
+include 'CAL-logger.php';
 date_default_timezone_set('Asia/Manila');
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 
 if (isset($_POST['competition_name']) && isset($_POST['schedule']) && isset($_POST['schedule_end'])) {
   // Get the values from the POST request

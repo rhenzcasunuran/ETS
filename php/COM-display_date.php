@@ -3,17 +3,10 @@
 $competitionName = $_GET['competitionName'];
 
 // Connect to the database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "pupets";
+require 'database_connect.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+
 
 // Prepare and execute the query to retrieve the schedule
 $sql = "SELECT schedule FROM competitions_table WHERE competition_name = '$competitionName'";
