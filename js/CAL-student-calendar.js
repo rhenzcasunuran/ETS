@@ -94,7 +94,7 @@ var studentCalendarComputer = {
                           '<p>' + events[eventsCounting].event_time + '</p>' +
                           '<div class="d-flex justify-content-between align-items-center">' +
                           '<div class="icon-container">' +
-                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
+                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                           '</div>' +
                           '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
@@ -120,10 +120,10 @@ var studentCalendarComputer = {
                           "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
                           "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                           '</div><div class="modal-footer border-0">' +
-                          (events[eventsCounting].event_type !== 'Standard' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
+                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
                           '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
-
+                      
                       // Append modal to body
                       $('body').append(modal);
 
@@ -134,7 +134,7 @@ var studentCalendarComputer = {
                         $(this).closest('.popover').popover('hide');
                       });
 
-                      if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type === "Tournament") {
+                      if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type !== "Competition" && events[eventsCounting].event_type === "Tournament") {
 
                         // Create the tournament modal
                         var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
@@ -187,7 +187,7 @@ var studentCalendarComputer = {
                           '<p>' + events[eventsCounting].event_time + '</p>' +
                           '<div class="d-flex justify-content-between align-items-center">' +
                           '<div class="icon-container">' +
-                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
+                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                           '</div>' +
                           '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
@@ -213,10 +213,10 @@ var studentCalendarComputer = {
                           "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
                           "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                           '</div><div class="modal-footer border-0">' +
-                          (events[eventsCounting].event_type !== 'Standard' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
+                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
                           '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
-
+                      
                       // Append modal to body
                       $('body').append(modal);
 
@@ -227,7 +227,7 @@ var studentCalendarComputer = {
                         $(this).closest('.popover').popover('hide');
                       });
 
-                      if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type === "Tournament") {
+                      if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type !== "Competition" && events[eventsCounting].event_type === "Tournament") {
 
                         // Create the tournament modal
                         var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
@@ -295,7 +295,7 @@ var studentCalendarComputer = {
                       '<p>' + events[eventsCounting].event_time + '</p>' +
                       '<div class="d-flex justify-content-between align-items-center">' +
                       '<div class="icon-container">' +
-                      (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
+                      (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                       '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                       '</div>' +
                       '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
@@ -321,10 +321,10 @@ var studentCalendarComputer = {
                       "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
                       "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                       '</div><div class="modal-footer border-0">' +
-                      (events[eventsCounting].event_type !== 'Standard' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
+                      (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
                       '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
                       '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
-
+                  
                   // Append modal to body
                   $('body').append(modal);
 
@@ -335,7 +335,7 @@ var studentCalendarComputer = {
                     $(this).closest('.popover').popover('hide');
                   });
 
-                  if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type === "Tournament") {
+                  if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type !== "Competition" && events[eventsCounting].event_type === "Tournament") {
                     // Create the tournament modal
                     var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                     tournamentModal.attr('id', 'tournament-modal-' + events[eventsCounting].event_id);
@@ -393,7 +393,7 @@ var studentCalendarComputer = {
                           '<p>' + events[eventsCounting].event_time + '</p>' +
                           '<div class="d-flex justify-content-between align-items-center">' +
                           '<div class="icon-container">' +
-                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
+                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                           '</div>' +
                           '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
@@ -419,7 +419,7 @@ var studentCalendarComputer = {
                           "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
                           "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                           '</div><div class="modal-footer border-0">' +
-                          (events[eventsCounting].event_type !== 'Standard' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
+                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
                           '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
                       
@@ -433,7 +433,7 @@ var studentCalendarComputer = {
                         $(this).closest('.popover').popover('hide');
                       });
 
-                      if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type === "Tournament") {
+                      if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type !== "Competition" && events[eventsCounting].event_type === "Tournament") {
                         // Create the tournament modal
                         var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                         tournamentModal.attr('id', 'tournament-modal-' + events[eventsCounting].event_id);
@@ -484,7 +484,7 @@ var studentCalendarComputer = {
                           '<p>' + events[eventsCounting].event_time + '</p>' +
                           '<div class="d-flex justify-content-between align-items-center">' +
                           '<div class="icon-container">' +
-                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
+                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                           '</div>' +
                           '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
@@ -510,7 +510,7 @@ var studentCalendarComputer = {
                           "<b>" + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + "</b>" + '</h3></div><div class="modal-body text-center">' +
                           "<br><b>" + events[eventsCounting].category_name + "</b><br>" + "<b>When: </b>" + events[eventsCounting].event_time + "<br>" + "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                           '</div><div class="modal-footer border-0">' +
-                          (events[eventsCounting].event_type !== 'Standard' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
+                          (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
                           '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
                       
@@ -524,7 +524,7 @@ var studentCalendarComputer = {
                       $(this).closest('.popover').popover('hide');
                       });
 
-                      if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type === "Tournament") {
+                      if (events[eventsCounting].event_type !== "Standard" && events[eventsCounting].event_type !== "Competition" && events[eventsCounting].event_type === "Tournament") {
                         // Create the tournament modal
                         var tournamentModal = $('<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog">');
                         tournamentModal.attr('id', 'tournament-modal-' + events[eventsCounting].event_id);
