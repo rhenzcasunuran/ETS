@@ -83,7 +83,7 @@ input[readonly] {
             </div>
             <div  class="div">
                 <button class="outline-button" onclick="hideSubmit()"><i class='bx bx-x'></i>Cancel</button>
-                <button class="success-button" id="submitPopup" name="save_btnS"><i class='bx bx-check'></i>Confirm</button>
+                <button class="success-button" id="submitPopup"><i class='bx bx-check'></i>Confirm</button>
             </div>
         </div>
     </div>
@@ -144,7 +144,7 @@ input[readonly] {
     <span class="close" onclick="closePopup()" style="color:var(--color-content-text);">&times;</span>
     <h2 style="color:var(--color-content-text)">Copy the link to score</h2>
     <p style="color:var(--color-content-text)">Copy the scoring link below:</p>
-    <input type="text" value="Https//:SampleLink" readonly><a href='P&J-admin-scoretab.php' target="_blank" style="position:relative;top:0; right:0;">
+    <input type="text" style="color:var(--color-content-text" value="Https//:SampleLink" readonly><a href='P&J-admin-scoretab.php' target="_blank" style="position:relative;top:0; right:0;">
                 <button class="buttonadd"id="clearlink"style="width:100%;">
                  <i class='bx bxs-copy' ></i>
                 </button>
@@ -165,7 +165,6 @@ input[readonly] {
                 </div>
                 <div class="row">
                     <div class="col-xxl-12"><label class="form-label fw-bold" style="margin-left: 25px; color:var(--color-content-text);">Event</label><label for="Participant Category" class="form-label fw-bold" style="margin-left: 190px; color:var(--color-content-text);">Participant Category</label>
-                    <form action="#" method="POST" id="add_form2">
                         <div class="dropdown"><input type='text' class='inputpname cformj' style='border-radius:20px; margin-left:20px;' placeholder='Event Code' name='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" pattern="[a-zA-Z0-9 ]*" Required/>
                         
                         <select name ="Participant Category"class='btn dropdown-toggle div-toggle' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);' data-target=".participantsform">
@@ -186,6 +185,8 @@ input[readonly] {
                             </div>
                           </div>
                         </div>
+
+
     <div class="div">
         <div class="element">
             <div class="row">
@@ -207,30 +208,35 @@ input[readonly] {
                                   <th class="bordertable"><h6 class='judgeheader'>Scoring Link</h6></th>
                                   </tr>
                                   </thread>      
-                                     <tbody id="Jbox">
-                                      <?php
-                                      $sql = "SELECT * FROM pjjudgestemp";
-                                      $result = $conn -> query($sql);
-
-                                      if (!$conn) {
-                                        die("Connection Failed: " . mysqli_connect_error());
-                                    }
-
-                                    while($row = $result -> fetch_assoc()) {
-
-                                      echo"
-                                      <tr>
-                                      <td>
-                                          <input type='checkbox' class='checkbox'>
-                                      </td>
-                                      <td><span class='editable' onclick='editEntry(this)'>" . $row["judge_name_temp"] . "</span></td>
-                                      <td><span class='editable' onclick='editEntry(this)'>" . $row["judge_nick_temp"] . "</span></td>
-                                      <td>https://sample.link</td>
-                                      </tr>";
-                                    }
-                                    
+                                     <tbody>
                                       
-                                      ?>
+                                     <?php
+                  $sql = "SELECT * FROM judges";
+                  
+                  $result = $conn->query($sql);
+
+                  if (!$conn) {
+                    die("Connection Failed: " . mysqli_connect_error());
+                  }
+
+                  while ($row = $result->fetch_assoc()) {
+                    $judgeId = $row['judge_id'];
+                    $judgeName = $row['judge_name'];
+                    $judgeNick = $row['judge_nick'];
+                    $scoringLink = "https://sample.link";
+
+                    
+                    echo "<tr class='editable-row' data-id='" . $row['judge_id'] . "'>
+                      <td>
+                        <input type='checkbox' class='checkbox'>
+                      </td>
+                      <td><input type='text' style='border-radius:20px;' class='inputjname editable cformj' value='$judgeName' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+                      <td><input type='text' style='border-radius:20px;' class='inputjnick editable cformj' value='$judgeNick' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+                      <td>https://sample.link</td>
+                    </tr>";
+                  }
+                  ?>
+                                      
                                     <ul>
 <!-- Judge Form -->
                                       
@@ -243,8 +249,6 @@ input[readonly] {
                                     </div>
                                     </div>
                                 </div>
-                                
-                                </form>
                 </div>
             </div>
         </div>
@@ -271,8 +275,10 @@ input[readonly] {
                                             <div class="group hide">
                       <div class="row">
                           <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Participants</label></div>
-                          <div class="col text-end" style="margin-right: 18px;">
-                            <button onClick="add_parg();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddg"><i class='bx bxs-group'></i></button>
+                          <div class="col text-end" style="display:flex;">
+                            <button onclick="createPG()" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddg"><i class='bx bxs-group'></i></button>
+                            <button onclick="deleteCheckedPG()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button">
+                                <i class='bx bxs-trash-alt'></i></button>
                           </div>
                       </div> 
                                             
@@ -299,14 +305,13 @@ input[readonly] {
                                       <input type="checkbox" id="select-allP" onchange="toggleAllCheckboxesP()">
                                   </th>
                                   <th class="bordertable"><h6 class='judgeheader'>Participant Name</h6></th>
-                                  <th class="bordertable"><h6  class='judgeheader'>Course</h6></th>
                                   <th class="bordertable"><h6  class='judgeheader'>Section</h6></th>
                                   <th class="bordertable"><h6  class='judgeheader'>Organization</h6></th>
                                   </tr>
                                   </thread>
                                   <tbody id="Pbox">
                                       <?php
-                                      $sql = "SELECT * FROM pjparticipantstemp";
+                                      $sql = "SELECT * FROM participants";
                                       $result = $conn -> query($sql);
 
                                       if (!$conn) {
@@ -314,21 +319,24 @@ input[readonly] {
                                     }
 
                                     while($row = $result -> fetch_assoc()) {
+                                      $prtId = $row['participants_id'];
+                                      $prtName = $row['participant_name'];
+                                      $prtSection = $row['participant_section'];
+                                      $prtOrganization = $row['organization_id'];
 
-                                      echo"
-                                      <tr>
-                                      <td>
-                                          <input type='checkbox' class='checkboxP'>
-                                      </td>
-                                      <td>" . $row["participants_name_temp"] . "</td>
-                                      <td>" . $row["participants_course_temp"] . "</td>
-                                      <td>" . $row["participants_section_temp"] . "</td>
-                                      <td>" . $row["participants_organization_temp"] . "</td>
-                                      </tr>";
+                                      echo "<tr class='editable-row' data-id='" . $row['participants_id'] . "'>
+                      <td>
+                        <input type='checkbox' class='checkbox'>
+                      </td>
+                      <td><input type='text' class='editable cformpi' value='$prtName' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+                      <td><input type='text' class='editable cformpi' value='$prtSection' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+                      <td><input type='text' class='editable cformpi' value='$prtOrganization' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+                    </tr>";
                                     }
                                     
                                       
                                       ?>
+                                      
                                       
                                   <form action="#" method="POST" id="add_form3">
                                     <ul >
@@ -345,105 +353,15 @@ input[readonly] {
  <table class="table" style=" color:var(--color-content-text);">
     <thead>
       <tr>
-        <?php
-                                      $sql = "SELECT * FROM pjparticipantsgrouptemp";
-                                      $result = $conn -> query($sql);
-
-                                      if (!$conn) {
-                                        die("Connection Failed: " . mysqli_connect_error());
-                                    }
-
-                                    while($row = $result -> fetch_assoc()) {
-       echo" <th style='color:var(--color-content-text);'>Group Name</th>
-       <th style='color:var(--color-content-text);'>" . $row["participants_organization_group_temp"] . " <a class='btn btn-primary btn-sm' style='margin-left:30px;'>Edit</a></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>" . $row["participants_name_group_temp"] . "</td>
-        <td>
-          <table>
-            <thead>
-              <tr>
-                <th style='color:var(--color-content-text);'>Member Name</th>
-                <th style='color:var(--color-content-text);'>Course</th>
-                <th style='color:var(--color-content-text);'>Section</th>
-              </tr>
-            </thead>";
-            $sql = "SELECT * FROM pjparticipantsgroupmemberstemp";
-                                      $result = $conn -> query($sql);
-
-                                      if (!$conn) {
-                                        die("Connection Failed: " . mysqli_connect_error());
-                                    }
-
-                                    while($row = $result -> fetch_assoc()) {
-            echo"<tbody>
-              <tr>
-                <td>" . $row["participants_name_g_temp"] . "</td>
-                <td>" . $row["participants_course_group_temp"] . "</td>
-                <td>" . $row["participants_section_group_temp"] . "</td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>";
-    }
-  }
-                                    
-                                      
-    ?>
+        
     </tbody>
   </table>
-                                  <form action="#" method="POST" id="add_form4">
-                                    <ul id="Pboxg">
-                                      <div class="Pargdel">
-                                      <button class='delete-button icon-button delPGD btndel' id='deleteP' type="button" style="float:right;"><i class='bx bxs-trash-alt' ></i></button>
-                                    <li style='list-style-type: none;'>
-                                    <table  style="margin-left:30px;">
-                                  <th><h6 style="margin-left:20px; font-weight:1000; color:var(--color-content-text);">Group Name</h6></th>
-                                  <th><h6 style="color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
-                                  </table>
-<!-- Participants Form Group -->
-                                    <input type='text' class='inputpname cformpg' style='border-radius:20px;' name="participants_name_group_temp[]" placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                    <div class="dropdown" style="display:inline;">
-                                    <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
-                                            <option disabled selected>Organization</option>
-                                            <option>ELITE</option>
-                                            <option>JPIA</option>
-                                          </select>
-                                          
-                                  </div>
-                                  <div class="col" style="margin-top: 21px;">
-                                  <div class="col">
-                                    <table>
-                                  <th><h6 style="color: white; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
-                                  </table>
-                                  </div>
-                                  </li>
-                                      <li style='list-style-type: none;'>
-                                      <input type='text' class='inputpname subform cformpg' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs cformpg' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
-                                          <input type='text' class='inputpcs cformpg' name="participants_section_group_temp[]" style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3"  Required pattern="[\d-]*"/>
-                                          <label class="orgChanged" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
-                                          <button class='delete-button icon-button delPG btndel' id='deleteP' type="button" style="float:right;"><i class='bx bxs-trash-alt' ></i></button>
-                                          <br/>
-                                      </li>
-                                      <div class="subformContainer">
-
-                                    </div>
-                                    <button onclick="addSubform(this)" class="buttonadd success-button icon-button" style="float:right; margin-top:0px;" type="button"><i class='bx bxs-user-plus'></i></button>
-                                    <br>
-                                    <hr>
-                                    </div>
+  <!-- Participants grouped -->
+                                  <form action="#" method="POST">
+                                      <div id="Pboxg">
+                                      
                                     </div>
 
-                                    
-                                    </ul>
-                                    <div class="col text-end" style="margin-top:30px;">
-                                    <button class="primary-button" type="submit" value="Add" id="save_btnPG" style="display:inline;" disabled>Save</button>
-                                  <button onClick="showpg()" class="secondary-button" type="button" id="can_btnPG"  style="display:inline;" disabled>Cancel</button>
-                                    </div>
                                     </form>
                                   </div>
                                     <br>
@@ -456,13 +374,13 @@ input[readonly] {
             </div>
         </div>
     </div>
-                        <div class="row">
-                          <form action="php/P&J-admin-action.php" method="POST" id="submitAll">
-                            <div class="col text-end" style="margin-top: 10px;margin-bottom: 10px;margin-right: 16px;">
-                            <button class="success-button buttonsubmit" type="submit" style="float:right; margin-bottom:10px;"  value="Add" name="save_btnS" id="save_btnS"onclick="showSubmit()" disabled>Submit</button>
-                            </div>
-                            </form>
-                        </div>
+    <div class="row">
+  <form action="php/P&J-admin-action.php" method="POST" id="submitAll">
+    <div class="col text-end" style="margin-top: 10px;margin-bottom: 10px;margin-right: 16px;">
+      <button class="success-button buttonsubmit" type="submit" style="float:right; margin-bottom:10px;" value="Add" id="save_btnS" onclick="showSubmit()" disabled>Submit</button>
+    </div>
+  </form>
+</div>
                     </div>
                     
                 </div>
@@ -493,6 +411,20 @@ input[readonly] {
 
     </script>
 <script  type="text/javascript">
+  function makeEditable(input) {
+  input.readOnly = false;
+  input.classList.add("active");
+  input.focus();
+}
+
+// Add an event listener to handle blur (focus lost) on editable cells
+document.getElementById("Jtable").addEventListener("blur", function(event) {
+  var target = event.target;
+  if (target.classList.contains("editable")) {
+    target.readOnly = true;
+    target.classList.remove("active");
+  }
+});
 
 function toggleAllCheckboxes() {
             var checkboxes = document.getElementsByClassName('checkbox');
@@ -501,6 +433,7 @@ function toggleAllCheckboxes() {
             for (var i = 0; i < checkboxes.length; i++) {
                 checkboxes[i].checked = selectAllCheckbox.checked;
             }
+            enableSubmitButton();
         }
 
         function deleteSelected() {
@@ -514,6 +447,7 @@ function toggleAllCheckboxes() {
             }
 
             selectAllCheckbox.checked = false;
+            enableSubmitButton();
         }
 
 function toggleAllCheckboxesP() {
@@ -523,6 +457,7 @@ function toggleAllCheckboxesP() {
             for (var i = 0; i < checkboxesP.length; i++) {
                 checkboxesP[i].checked = selectAllCheckbox.checked;
             }
+            enableSubmitButton();
         }
 
         function deleteSelectedP() {
@@ -536,31 +471,8 @@ function toggleAllCheckboxesP() {
             }
 
             selectAllCheckboxP.checked = false;
+            enableSubmitButton();
         }
-
-// Confirm
-const formSubmit = document.getElementById('submitAll');
-const popupSubmit = document.getElementById('submitWrapper');
-const okButton = document.getElementById('submitPopup');
-
-formSubmit.addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the form from submitting directly
-  
-});
-
-var showSubmit = function() {
-      popupSubmit.style.display ='flex';
-  }
-  var hideSubmit = function() {
-      popupSubmit.style.display ='none';
-  }
-
-// Add event listener to handle form submission on OK button click
-okButton.addEventListener('click', function() {
-  //formSubmit.submit(); // Submit the form
-});
-  
-
 
 function updateLabel(dropdown) {
       var dropdownId = dropdown.id;
@@ -666,243 +578,135 @@ var hide_discardChangespg = function(){
 </script>
 
 <script defer>
-// Get the form and submit button element
-const form = document.getElementById('add_form2');
-const submitButton = document.getElementById('save_btnJ');
-const cancelButton = document.getElementById('can_btnJ');
+  function enableEditing() {
+    var editableRows = document.getElementsByClassName('editable-row');
 
-// Add event listener to the form for input change
-form.addEventListener('input', validateForm);
+    for (var i = 0; i < editableRows.length; i++) {
+      var row = editableRows[i];
+      var cells = row.getElementsByTagName('td');
 
-// Add event listener to the "Add Input" button
-document.getElementById('judgeadd').addEventListener('click', judgeadd);
-
-// Validate the form inputs
-function validateForm() {
-  // Get all dynamic input elements
-  const dynamicInputs = document.getElementsByClassName('cformj');
-  let hasInvalidInput = false;
-
-  // Loop through each dynamic input
-  for (let i = 0; i < dynamicInputs.length; i++) {
-    const input = dynamicInputs[i];
-    if (input.value.trim() === '') {
-      hasInvalidInput = true;
-      break;
     }
-    // Add your specific input validation logic here
-    // For example, check if the input follows a certain pattern or meets specific criteria
-    // If the input is invalid, set hasInvalidInput to true and break the loop
+    
   }
 
+  function handleKeyDown(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    event.target.readOnly = true;
+    event.target.classList.remove("active");
+  }
 }
-function toggleEdit(element) {
-      element.readOnly = !element.readOnly;
-      element.classList.toggle("editable");
-    }
 
-var intParTextBox = 0;
-var intJudgeTextBox = 0;
-var activeInput = null;
+  enableEditing();
+    
+    function addRow() {
+    var table = document.getElementById("Jtable");
 
-function editEntry(span) {
-      if (activeInput) {
-        activeInput.parentNode.innerHTML = activeInput.value;
-        activeInput = null;
-      }
-      
-      var input = document.createElement("input");
-      input.type = "text";
-      input.value = span.innerText;
-      
-      activeInput = input;
-      
-      span.innerHTML = "";
-      span.appendChild(input);
-      
-      input.focus();
-      input.addEventListener("keypress", function(event) {
-        if (event.keyCode === 13) {
-          event.preventDefault();
-          span.innerHTML = input.value;
-          activeInput = null;
-        }
-      });
-      
-      input.addEventListener("blur", function() {
-        span.innerHTML = input.value;
-        activeInput = null;
-      });
-    }
+    var row = table.insertRow(-1);
 
-function addRow() {
-      var table = document.getElementById("Jtable");
-      var row = table.insertRow(-1);
+    var checkBoxCell = row.insertCell(0);
+    var checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    checkBox.className = "checkbox";
+    checkBoxCell.appendChild(checkBox);
 
-      // Create checkbox
-      var checkCell = row.insertCell(0);
-      var checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.className = "checkbox";
-      checkCell.appendChild(checkbox);
-      
-      // Create judge name input
-      var nameCell = row.insertCell(1);
-      var judgeNameInput = document.createElement("input");
-      judgeNameInput.type = "text";
-      judgeNameInput.className = "inputjname cformj";
-      judgeNameInput.name = "judge_name_temp[]";
-      judgeNameInput.style = "border-radius:20px;";
-      judgeNameInput.pattern = "[A-Za-z0-9 -]{4,20}";
-      judgeNameInput.placeholder = "Judge Name";
-      judgeNameInput.title = "Enter a valid name (4-20 characters)";
-      judgeNameInput.addEventListener("dblclick", function() {
-        toggleEdit(this);
-      });
-      nameCell.appendChild(judgeNameInput);
-      
-      // Create judge nickname input
-      var nicknameCell = row.insertCell(2);
-      var judgeNickInput = document.createElement("input");
-      judgeNickInput.type = "text";
-      judgeNickInput.className = "inputjnick cformj";
-      judgeNickInput.name = "judge_nick_temp[]";
-      judgeNickInput.style = "border-radius:20px;";
-      judgeNickInput.pattern = "[A-Za-z0-9 -]{4,20}";
-      judgeNickInput.placeholder = "Nickname";
-      judgeNickInput.title = "Enter a valid nickname (4-20 characters)";
-      judgeNickInput.addEventListener("dblclick", function() {
-        toggleEdit(this);
-      });
-      nicknameCell.appendChild(judgeNickInput);
+    var nameCell = row.insertCell(1);
+    var nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.className = "inputjname cformj";
+    nameInput.name = "judge_name[]";
+    nameInput.style = "border-radius:20px;";
+    nameInput.pattern = "[A-Za-z0-9 -]{4,20}";
+    nameInput.minLength = 4;
+    nameInput.maxLength = 20;
+    nameInput.placeholder = "Judge Name";
+    nameInput.title = "Enter a valid name (4-20 characters)";
+    nameInput.addEventListener("dblclick", function () {
+      this.readOnly = false;
+    });
+    nameCell.appendChild(nameInput);
 
-      // Create generate link button
-      var buttonCell = row.insertCell(3);
+    var nicknameCell = row.insertCell(2);
+    var nicknameInput = document.createElement("input");
+    nicknameInput.type = "text";
+    nicknameInput.className = "inputjnick cformj";
+    nicknameInput.name = "judge_nickname[]";
+    nicknameInput.style = "border-radius:20px;";
+    nicknameInput.pattern = "[A-Za-z0-9 -]{4,10}";
+    nicknameInput.minLength = 4;
+    nicknameInput.maxLength = 10;
+    nicknameInput.placeholder = "Nickname";
+    nicknameInput.addEventListener("dblclick", function () {
+      this.readOnly = false;
+    });
+    nicknameCell.appendChild(nicknameInput);
+
+    var buttonCell = row.insertCell(3);
       var generateLinkButton = document.createElement("button");
       generateLinkButton.type = "button";
       generateLinkButton.className = "buttonlink1";
       generateLinkButton.onclick = showl;
       generateLinkButton.style = "border-radius:15px;min-width: 160px; height: 40px; color: white;background: #73A9CC;";
       generateLinkButton.innerHTML = "<i class='bx bx-link'></i> Generate Link";
-      buttonCell.appendChild(generateLinkButton);
+    buttonCell.appendChild(generateLinkButton);
 
-    }
-/*
-function addRow() {
-      var table = document.getElementById("userTable");
-      var row = table.insertRow(-1);
-      
-      var nameCell = row.insertCell(0);
-      var nameInput = document.createElement("input");
-      nameInput.type = "text";
-      nameInput.name = "judge_name_temp[]";
-      nameInput.addEventListener("dblclick", function() {
-        toggleEdit(this);
-      });
-      nameCell.appendChild(nameInput);
-      
-      var nicknameCell = row.insertCell(1);
-      var nicknameInput = document.createElement("input");
-      nicknameInput.type = "text";
-      nicknameInput.className = "inputjnick cformj";
-      nicknameInput.name = "judge_nick_temp[]";
-      nicknameInput.addEventListener("dblclick", function() {
-        toggleEdit(this);
-      });
-      nicknameCell.appendChild(nicknameInput);
-    }
+    checkBox.onclick = function () {
+      enableSubmitButton();
+    };
 
-  function add_judge(){
-    intJudgeTextBox++;
-    var objNewJDiv = document.createElement('tr');
-    var judgeInput = document.getElementsByClassName("cformj");
-    objNewJDiv.setAttribute('id', 'tr_' + intJudgeTextBox);
-    objNewJDiv.innerHTML = `
-                                        <td>
-                                          <input type="checkbox" class="checkbox">
-                                        </td>
-                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
-                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
-                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
-                                          </tr>`;
-    judgeInput.addEventListener("dblclick", function() {
-        toggleEdit(this);
-      });
-    document.getElementById('Jbox').appendChild(objNewJDiv);  
-    var submitButton = document.getElementById("save_btnJ");
-    submitButton.disabled = true;
-    var cancelButton = document.getElementById("can_btnJ");
-    cancelButton.disabled = true;
+    nameInput.onkeydown = function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.readOnly = true;
+        enableSubmitButton();
+      }
+    };
+
+    nicknameInput.onkeydown = function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.readOnly = true;
+        enableSubmitButton();
+      }
+    };
+
+    enableSubmitButton();
   }
 
-  $("ul").on("click", ".delJ", function(e) {
-    e.preventDefault();
-    $(this).parent().remove();
-    intJudgeTextBox--;
-});
-
-$("ul").on("click", "#judgedel", function(e) {
-    e.preventDefault();
-    $(".Jbox").parent().remove();
-    intJudgeTextBox--;
-});
-
-function deleteListJ() {
-  var list = document.getElementById("Jbox");
-  while (list.firstChild) {
-    list.firstChild.remove();
-} 
-intJudgeTextBox++;
-    var objNewJDiv = document.createElement('ul');
-    objNewJDiv.setAttribute('id', 'ul_' + intJudgeTextBox);
-    objNewJDiv.innerHTML = `
-    <li style='list-style-type: none;'>
-                                        <br><tr>
-                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
-                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
-                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
-                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJB' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
-                                          </tr>
-                                          <br>
-                                        </li>`;
-    document.getElementById('Jbox').appendChild(objNewJDiv);  
-    validateForm()
-}
-*/
-
-
-// Get the form and submit button element
-const formpi = document.getElementById('add_form3');
-const submitButtonpi = document.getElementById('save_btnPI');
-const cancelButtonpi = document.getElementById('can_btnPI');
-
-// Add event listener to the form for input change
-formpi.addEventListener('input', validateFormpi);
-
-// Add event listener to the "Add Input" button
-document.getElementById('paraddi').addEventListener('click', paraddi);
-
-// Validate the form inputs
-function validateFormpi() {
-  // Get all dynamic input elements
-  const dynamicInputspi = document.getElementsByClassName('cformpi');
-  let hasInvalidInputpi = false;
-
-  // Loop through each dynamic input
-  for (let i = 0; i < dynamicInputspi.length; i++) {
-    const input = dynamicInputspi[i];
-    if (input.value.trim() === '') {
-      hasInvalidInputpi = true;
-      break;
+  function enableSubmitButton() {
+    var submitButton = document.getElementById("save_btnS");
+    var inputs = document.getElementsByClassName("cformj");
+    var allFilled = true;
+    for (var i = 0; i < inputs.length; i++) {
+      if (inputs[i].type === "text" && inputs[i].value === "") {
+        allFilled = false;
+        break;
+      }
     }
-    // Add your specific input validation logic here
-    // For example, check if the input follows a certain pattern or meets specific criteria
-    // If the input is invalid, set hasInvalidInput to true and break the loop
+    submitButton.disabled = !allFilled;
   }
 
-}
+    function submitData() {
+      var table = document.getElementById("");
+      var rows = table.rows;
+      var data = [];
+      
+      for (var i = 1; i < rows.length; i++) {
+        var cells = rows[i].cells;
+        var rowData = {
+          name: cells[1].querySelector("input[type='text']").value,
+          nickname: cells[2].querySelector("input[type='text']").value
+        };
+        data.push(rowData);
+      }
+      
+      // Send data to the server or perform desired actions
+      console.log(data);
+    }
+
 
 function addRowP() {
+  
       var table = document.getElementById("Ptable");
       var row = table.insertRow(-1);
 
@@ -917,10 +721,12 @@ function addRowP() {
       var nameCellP = row.insertCell(1);
       var parNameInput = document.createElement("input");
       parNameInput.type = "text";
-      parNameInput.className = "inputpname cformpi";
-      parNameInput.name = "participants_name_temp[]";
+      parNameInput.className = "inputpname cformj";
+      parNameInput.name = "participant_name[]";
       parNameInput.style = "border-radius:20px;";
       parNameInput.pattern = "[A-Za-z0-9 -]{4,20}";
+      parNameInput.minLength = 4;
+      parNameInput.maxLength = 20;
       parNameInput.placeholder = "Participant Name";
       parNameInput.title = "Enter a valid name (4-20 characters)";
       parNameInput.addEventListener("dblclick", function() {
@@ -928,26 +734,11 @@ function addRowP() {
       });
       nameCellP.appendChild(parNameInput);
 
-      var courseCellP = row.insertCell(2);
-      var courseInputP = document.createElement("input");
-      courseInputP.type = "text";
-      courseInputP.className = "inputpcs cformpi";
-      courseInputP.name = "participants_course_temp[]";
-      courseInputP.style = "border-radius:20px;";
-      courseInputP.minLength = 4;
-      courseInputP.maxLength = 5;
-      courseInputP.pattern = "[A-Za-z]+";
-      courseInputP.placeholder = "Course";
-      courseInputP.addEventListener("dblclick", function() {
-        toggleEdit(this);
-      });
-      courseCellP.appendChild(courseInputP);
-
-      var sectionCellP = row.insertCell(3);
+      var sectionCellP = row.insertCell(2);
       var sectionInputP = document.createElement("input");
       sectionInputP.type = "text";
-      sectionInputP.className = "inputpcs cformpi";
-      sectionInputP.name = "participants_section_temp[]";
+      sectionInputP.className = "inputpcs cformj";
+      sectionInputP.name = "participant_section[]";
       sectionInputP.style = "border-radius:20px;";
       sectionInputP.minLength = 3;
       sectionInputP.maxLength = 3;
@@ -959,14 +750,11 @@ function addRowP() {
       sectionCellP.appendChild(sectionInputP);
 
       // Organization dropdown
-      var orgCellP = row.insertCell(4);
+      var orgCellP = row.insertCell(3);
       var orgSelectP = document.createElement("select");
-      orgSelectP.name = "participants_organization_temp[]";
-      orgSelectP.style = "border-radius:20px;";
+      orgSelectP.name = "organization_id[]";
+      orgSelectP.style = "border-radius:20px; background-color:white;";
       orgSelectP.className = "btn dropdown-toggle";
-      sectionInputP.addEventListener("keypress", function() {
-        toggleEdit(this);
-      });
       orgCellP.appendChild(orgSelectP);
 
       var defaultOptionP = document.createElement("option");
@@ -984,6 +772,28 @@ function addRowP() {
       jpiOptionP.value = "JPIA";
       jpiOptionP.innerHTML = "JPIA";
       orgSelectP.appendChild(jpiOptionP);
+
+      checkboxP.onclick = function () {
+      enableSubmitButton();
+    };
+
+    parNameInput.onkeydown = function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.readOnly = true;
+        enableSubmitButton();
+      }
+    };
+
+    sectionInputP.onkeydown = function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.readOnly = true;
+        enableSubmitButton();
+      }
+    };
+
+    enableSubmitButton();
 
     }
 
@@ -1007,149 +817,123 @@ function addRowP() {
     submitButtonpi.disabled = true;
     var cancelButtonpi = document.getElementById("can_btnPI");
     cancelButtonpi.disabled = true;
-    validateFormpi()
   }
 
-  $(document).ready(function() {
-  // Add event listener to the parent element for delete buttons
-  $('#Pboxg').on('click', '.delPGD', function() {
-    // Find the parent textbox and remove it
-    $(this).closest('.Pargdel').remove();
-    intJudgeTextBox--;
-    validateFormpg();
-  });
-});
 
 // Get the form and submit button element
 const formpg = document.getElementById('add_form4');
 const submitButtonpg = document.getElementById('save_btnPG');
 const cancelButtonpg = document.getElementById('can_btnPG');
 
-// Add event listener to the form for input change
-formpg.addEventListener('input', validateFormpg);
 
 // Add event listener to the "Add Input" button
 document.getElementById('paraddg').addEventListener('click', paraddg);
 
-// Validate the form inputs
-function validateFormpg() {
-  const dynamicInputspg = document.getElementsByClassName('cformpg');
-  const textBoxes = document.getElementsByClassName('subform');
-  let hasInvalidInputpg = false;
+let dropdownCount = 0;
 
-  for (let i = 0; i < dynamicInputspg.length; i++) {
-    const input = dynamicInputspg[i];
-    if (input.value.trim() === '' || textBoxes.length === 0) {
-      hasInvalidInputpg = true;
-      break;
+    function createPG() {
+      dropdownCount++;
+
+      const container = document.getElementById('Pboxg');
+
+      // Create dropdown menu
+      const dropdown = document.createElement('select');
+      dropdown.className = "btn dropdown-toggle div-toggle";
+      dropdown.style = "border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);";
+      dropdown.innerHTML = `
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+        <option value="option4">Option 4</option>
+        <option value="option5">Option 5</option>
+      `;
+
+      // Create checkbox to select all in the row
+      const selectAllCheckbox = document.createElement('input');
+      selectAllCheckbox.type = 'checkbox';
+      selectAllCheckbox.addEventListener('change', function () {
+        const rowCheckboxes = container.querySelectorAll('.row input[type="checkbox"]');
+        rowCheckboxes.forEach(function (checkbox) {
+          checkbox.checked = this.checked;
+        }, this);
+      });
+
+      // Create button to toggle row visibility
+      const toggleButton = document.createElement('button');
+      toggleButton.type = 'button';
+      toggleButton.className = "buttonadd success-button icon-button";
+      toggleButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
+      toggleButton.style = "display:inline-block";
+      toggleButton.addEventListener('click', () => {
+        const rows = container.querySelectorAll('.row');
+        rows.forEach((row) => {
+          row.classList.toggle('hide');
+        });
+      });
+
+      container.appendChild(dropdown);
+      container.appendChild(selectAllCheckbox);
+      container.appendChild(toggleButton);
+
+      // Create button to add new row
+      const addRowButton = document.createElement('button');
+      addRowButton.type = 'button';
+      addRowButton.className = "buttonadd success-button icon-button";
+      addRowButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
+      addRowButton.style = "display:inline-block";
+      addRowButton.addEventListener('click', () => {
+        const row = createMembers();
+        container.appendChild(row);
+      });
+
+      const row = createMembers();
+      container.appendChild(addRowButton);
     }
-    // Add your specific input validation logic here
-    // For example, check if the input follows a certain pattern or meets specific criteria
-    // If the input is invalid, set hasInvalidInputpg to true and break the loop
-  }
 
-  // Disable or enable the submit and cancel buttons based on the input validity
-  submitButtonpg.disabled = hasInvalidInputpg || dynamicInputspg.length === 0;
-  cancelButtonpg.disabled = hasInvalidInputpg || dynamicInputspg.length === 0;
+    function createMembers() {
+  // Create container element for the row
+  const container = document.createElement('div');
+
+  // Create checkbox
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+
+  // Create text inputs for name and section
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.className = "inputpcs";
+  nameInput.placeholder = 'Name';
+
+  const sectionInputPG = document.createElement('input');
+  sectionInputPG.type = "text";
+  sectionInputPG.className = "inputpcs cformj";
+  sectionInputPG.name = "participant_section[]";
+  sectionInputPG.style = "border-radius:20px;";
+  sectionInputPG.minLength = 3;
+  sectionInputPG.maxLength = 3;
+  sectionInputPG.pattern = "[1-9\\-]+";
+  sectionInputPG.placeholder = "Section";
+  sectionInputPG.addEventListener("dblclick", function() {
+        toggleEdit(this);
+      });
+
+  // Append checkbox, name input, and section input to the container
+  container.appendChild(checkbox);
+  container.appendChild(nameInput);
+  container.appendChild(sectionInputPG);
+
+  return container;
 }
 
-// Function to add a new group textbox
-function add_parg() {
-  intParTextBox++;
-  var objNewPDivg = document.createElement('div');
-  objNewPDivg.setAttribute('id', 'div_' + intParTextBox);
-  objNewPDivg.innerHTML = `
-  <div class="Pargdel">
-  <button class='delete-button icon-button delPGD btndel' id='deleteP' type="button" style="float:right;"><i class='bx bxs-trash-alt' ></i></button>
-                                    <li style='list-style-type: none;'>
-                                    <table  style="margin-left:30px;">
-                                  <th><h6 style="margin-left:20px; font-weight:1000; color:var(--color-content-text);">Group Name</h6></th>
-                                  <th><h6 style="color: white; margin-left:120px; font-weight:1000; color:var(--color-content-text);">Organization</h6></th>
-                                  </table>
-<!-- Participants Form Group -->
-                                    <input type='text' class='inputpname cformpg' style='border-radius:20px;' name="participants_name_group_temp[]" placeholder='Group Name' style="margin-left:30px;width: 180px; height: 40px;" minlength="4" maxlength="10" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                    <div class="dropdown" style="display:inline;">
-                                    <select class='btn dropdown-toggle' name='participants_organization_group_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
-                                            <option disabled selected>Organization</option>
-                                            <option>ELITE</option>
-                                            <option>JPIA</option>
-                                          </select>
-                                          
-                                  </div>
-                                  <div class="col" style="margin-top: 21px;">
-                                  <div class="col">
-                                    <table>
-                                  <th><h6 style="color: white; font-weight:1000; color:var(--color-content-text);">Members</h6></th>
-                                  </table>
-                                  </div>
-                                  </li>
-                                      <li style='list-style-type: none;'>
-                                      <input type='text' class='inputpname subform cformpg' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs cformpg' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
-                                          <input type='text' class='inputpcs cformpg' name="participants_section_group_temp[]" style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3"  Required pattern="[\d-]*" />
-                                          <label class="orgChanged" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
-                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
-                                      </li>
-                                      <div class="subformContainer">
+    function deleteCheckedPG() {
+      const checkboxes = document.querySelectorAll('.row input[type="checkbox"]:checked');
+      checkboxes.forEach(function (checkbox) {
+        const row = checkbox.parentNode;
+        row.parentNode.removeChild(row);
+      });
+    }
 
-                                    </div>
-                                    <button onclick="addSubform(this)" class="buttonadd success-button icon-button" style="float:right; margin-top:0px;" type="button"><i class='bx bxs-user-plus'></i></button><br>
-                                    <hr>
-                                    </div>
-                                    </div>`;
 
-  document.getElementById('Pboxg').appendChild(objNewPDivg);
-
-  // Add event listener to the new group textbox for input change
-  objNewPDivg.querySelector('.cformpg').addEventListener('input', validateFormpg);
-
-  // Disable the submit and cancel buttons for the new textbox
-  submitButtonpg.disabled = true;
-  cancelButtonpg.disabled = true;
-}
-
-  function addSubform(button) {
-  var subgroup = button.parentNode;
-  var subformContainer = subgroup.querySelector(".subformContainer");
-
-  var objNewPDivg = document.createElement('ul');
-    objNewPDivg.setAttribute('id', 'ul_' + intParTextBox);
-    objNewPDivg.innerHTML = `<li style='list-style-type: none;'>
-                                      <input type='text' class='inputpname subform cformpg' name="participants_name_g_temp[]" style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs cformpg' name="participants_course_group_temp[]" style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
-                                          <input type='text' class='inputpcs cformpg' name="participants_section_group_temp[]" style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
-                                          <label class="orgChanged" style="margin-left:40px; margin-right: 70px;color:white;font-weight:1000; color:var(--color-content-text);"></label>
-                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
-                                      </li>`;
-
-  subformContainer.appendChild(objNewPDivg);
-  var submitButtonpg = document.getElementById("save_btnPG");
-    submitButtonpg.disabled = true;
-    var cancelButtonpg = document.getElementById("can_btnPG");
-    cancelButtonpg.disabled = true;
-}
-
-$("ul").on("click", ".delP" , function(a) {
-    a.preventDefault();
-    $(this).parent().remove();
-    intParTextBox--;
-    var submitButtonpi = document.getElementById("save_btnPI");
-    submitButtonpi.disabled = true;
-    var cancelButtonpi = document.getElementById("can_btnPI");
-    cancelButtonpi.disabled = true;
-    validateFormpi()
-});
-
-  $("ul").on("click", ".delPG" , function(a) {
-    a.preventDefault();
-    $(this).parent().remove();
-    intParTextBox--;
-    var submitButtonpg = document.getElementById("save_btnPG");
-    submitButtonpg.disabled = true;
-    var cancelButtonpg = document.getElementById("can_btnPG");
-    cancelButtonpg.disabled = true;
-    validateFormpg()
-});
 
 $(document).on('change', '.div-toggle', function() {
   var target = $(this).data('target');
@@ -1187,41 +971,6 @@ $(document).ready(function(){
                                           <br>
                                         </li>`;
     document.getElementById('Jbox').appendChild(objNewJDiv); 
-    validateForm()
-                    }
-                })
-            });
-
-            // ajax request
-            $("#add_form3").submit(function(e){
-                e.preventDefault();
-                $("#save_btnPI").val('Adding...');
-                $.ajax({
-                    url:'php/P&J-admin-action-temp-PI.php',
-                    method:'POST',
-                    data: $(this).serialize(),
-                    success:function(response){
-                        console.log(response);
-                        $("#save_btnPI").val('Add');
-                        $("#add_form3")[0].reset();
-                        $(".append_par").remove();
-                        validateFormpi()
-                    }
-                })
-            });
-            // ajax request
-            $("#add_form4").submit(function(e){
-                e.preventDefault();
-                $("#save_btnPG").val('Adding...');
-                $.ajax({
-                    url:'php/P&J-admin-action-temp-PG.php',
-                    method:'POST',
-                    data: $(this).serialize(),
-                    success:function(response){
-                        console.log(response);
-                        $("#save_btnPG").val('Add');
-                        $("#add_form4")[0].reset();
-                        $(".append_parg").remove();
                     }
                 })
             });
