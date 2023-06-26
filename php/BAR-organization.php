@@ -11,6 +11,7 @@ if (!$conn) {
 }
 
 $sql = "SELECT * FROM `bar_graph` INNER JOIN organization on bar_graph.organization_id = organization.organization_id ORDER BY bar_meter DESC";
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

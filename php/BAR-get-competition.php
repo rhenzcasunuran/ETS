@@ -11,7 +11,7 @@ if (!$conn) {
 }
 
 // Write and execute the query
-$query = "SELECT competition_name FROM competitions_table";
+$query = "SELECT * FROM `bar_graph` INNER JOIN organization on bar_graph.organization_id = organization.organization_id INNER JOIN ongoing_event_name on bar_graph.event_name_id = ongoing_event_name.event_name_id;";
 $result = mysqli_query($conn, $query);
 
 // Fetch the data
