@@ -102,7 +102,7 @@
                   <h2>
                     Tags
                   </h2>
-                  <select id="tags" name="organization_id">
+                  <select id="tags" name="organization_id" required>
                     <?php echo $options;?>
                   </select>
                 </div>
@@ -117,7 +117,7 @@
                 <h2>
                   Description
                 </h2>
-                <textarea id="description" name="post_description" placeholder="Enter Description" rows="4" cols="50" required></textarea>
+                <textarea id="description" name="post_description" placeholder="Enter Description" maxlength="2000" rows="4" cols="50" required></textarea>
               </div>
             </div>
             <div class="col-5 column2">
@@ -142,15 +142,15 @@
                   <i class='bx bx-x'></i>
                   &nbsp;Cancel
                 </div>
-                <div class="col secondary-button disabled" id="save_draft">
+                <div class="col secondary-button" id="save_draft" onclick="show_saveDraft()">
                   <i class='bx bx-save'></i>
                   &nbsp;Draft
                 </div>    
-                <div class="col post-menu primary-button disabled" id="post">
+                <div class="col post-menu primary-button" id="post">
                   <i class='bx bx-upload'></i>
                   &nbsp;Post
                   <div class="post-menu-content">
-                    <a href="#" class="post-now" onclick="show_postNow()">Now</a>
+                    <a href="#" class="post-now" id="post_now" onclick="show_postNow()">Now</a>
                     <a href="#" class="post-later">Later</a>
                     <a href="#" class="no-hover">
                       <i class='bx bx-upload'></i>
@@ -169,7 +169,6 @@
     <script src="./js/jquery-3.6.4.js"></script>
     <script src="./js/HOM-create-post.js"></script>
     <script src="./js/HOM-popup.js"></script>
-    <script src="./js/HOM-disabled.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -191,22 +190,6 @@
         var date = "<?php echo isset($sanitizedDate) ? $sanitizedDate : null; ?>";
 
         $("#calendar").val(date);
-      });
-    </script>
-    <script>
-      const postMenu = document.querySelector('.post-menu');
-      const postMenuContent = document.querySelector('.post-menu-content');
-
-      postMenu.addEventListener('click', function() {
-        if (!postMenu.classList.contains('disabled')) {
-          postMenu.classList.toggle('active');
-        }
-      });
-
-      document.addEventListener('click', function(e) {
-        if (!postMenu.contains(e.target) && !postMenuContent.contains(e.target)) {
-          postMenu.classList.remove('active');
-        }
       });
     </script>
   </body>

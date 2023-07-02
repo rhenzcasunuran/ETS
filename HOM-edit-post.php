@@ -102,7 +102,7 @@
                 <h2>
                   Description
                 </h2>
-                <textarea id="description" name="post_description" placeholder="Enter Description" rows="4" cols="50" required><?php echo $post_row['post_description'];?></textarea>
+                <textarea id="description" name="post_description" placeholder="Enter Description" maxlength="2000" rows="4" cols="50" required><?php echo $post_row['post_description'];?></textarea>
               </div>
             </div>
             <div class="col-5 column2">
@@ -127,7 +127,7 @@
                   <i class='bx bx-x'></i>
                   &nbsp;Discard Changes
                 </div>
-                <div class="col primary-button" onclick="show_savePost()">
+                <div class="col primary-button" id="save_post">
                   <i class='bx bx-upload'></i>
                   &nbsp;Save Changes
                 </div>
@@ -140,23 +140,6 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
-    <script src="./js/HOM-create-post.js"></script>
-    <script src="./js/HOM-popup.js"></script>
-    <script type="text/javascript">
-      $('.menu_btn').click(function (e) {
-        e.preventDefault();
-        var $this = $(this).parent().find('.sub_list');
-        $('.sub_list').not($this).slideUp(function () {
-          var $icon = $(this).parent().find('.change-icon');
-          $icon.removeClass('bx-chevron-down').addClass('bx-chevron-right');
-        });
-
-        $this.slideToggle(function () {
-          var $icon = $(this).parent().find('.change-icon');
-          $icon.toggleClass('bx-chevron-right bx-chevron-down')
-        });
-      });
-    </script>
     <script>
       //get calendar
       var existingCalendar = "<?php echo $post_row['post_calendar'];?>";
@@ -176,6 +159,23 @@
           break;
         }
       }
+    </script>
+    <script src="./js/HOM-edit-post.js"></script>
+    <script src="./js/HOM-popup.js"></script>
+    <script type="text/javascript">
+      $('.menu_btn').click(function (e) {
+        e.preventDefault();
+        var $this = $(this).parent().find('.sub_list');
+        $('.sub_list').not($this).slideUp(function () {
+          var $icon = $(this).parent().find('.change-icon');
+          $icon.removeClass('bx-chevron-down').addClass('bx-chevron-right');
+        });
+
+        $this.slideToggle(function () {
+          var $icon = $(this).parent().find('.change-icon');
+          $icon.toggleClass('bx-chevron-right bx-chevron-down')
+        });
+      });
     </script>
   </body>
 </html>

@@ -102,7 +102,7 @@
                   <h2>
                     Tags
                   </h2>
-                  <select id="tags" name="organization_id" >
+                  <select id="tags" name="organization_id" required>
                     <?php echo $options;?>
                   </select>
                 </div>
@@ -117,7 +117,7 @@
                 <h2>
                   Description
                 </h2>
-                <textarea id="description" name="post_description" placeholder="Enter Description" rows="4" cols="50" required><?php echo $post_row['post_description'];?></textarea>
+                <textarea id="description" name="post_description" placeholder="Enter Description" maxlength="2000" rows="4" cols="50" required><?php echo $post_row['post_description'];?></textarea>
               </div>
             </div>
             <div class="col-5 column2">
@@ -167,24 +167,6 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
-    <script src="./js/HOM-create-post.js"></script>
-    <script src="./js/HOM-popup.js"></script>
-    <script src="./js/HOM-disabled.js"></script>
-    <script type="text/javascript">
-      $('.menu_btn').click(function (e) {
-        e.preventDefault();
-        var $this = $(this).parent().find('.sub_list');
-        $('.sub_list').not($this).slideUp(function () {
-          var $icon = $(this).parent().find('.change-icon');
-          $icon.removeClass('bx-chevron-down').addClass('bx-chevron-right');
-        });
-
-        $this.slideToggle(function () {
-          var $icon = $(this).parent().find('.change-icon');
-          $icon.toggleClass('bx-chevron-right bx-chevron-down')
-        });
-      });
-    </script>
     <script>
       //get calendar
       var existingCalendar = "<?php echo $post_row['post_calendar'];?>";
@@ -205,20 +187,21 @@
         }
       }
     </script>
-    <script>
-      const postMenu = document.querySelector('.post-menu');
-      const postMenuContent = document.querySelector('.post-menu-content');
+    <script src="./js/HOM-edit-draft.js"></script>
+    <script src="./js/HOM-popup.js"></script>
+    <script type="text/javascript">
+      $('.menu_btn').click(function (e) {
+        e.preventDefault();
+        var $this = $(this).parent().find('.sub_list');
+        $('.sub_list').not($this).slideUp(function () {
+          var $icon = $(this).parent().find('.change-icon');
+          $icon.removeClass('bx-chevron-down').addClass('bx-chevron-right');
+        });
 
-      postMenu.addEventListener('click', function() {
-        if (!postMenu.classList.contains('disabled')) {
-          postMenu.classList.toggle('active');
-        }
-      });
-
-      document.addEventListener('click', function(e) {
-        if (!postMenu.contains(e.target) && !postMenuContent.contains(e.target)) {
-          postMenu.classList.remove('active');
-        }
+        $this.slideToggle(function () {
+          var $icon = $(this).parent().find('.change-icon');
+          $icon.toggleClass('bx-chevron-right bx-chevron-down')
+        });
       });
     </script>
   </body>
