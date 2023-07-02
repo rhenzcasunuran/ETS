@@ -6,7 +6,7 @@
     $title =  mysqli_real_escape_string($conn,$_POST['post_title']);
     $description =  mysqli_real_escape_string($conn,$_POST['post_description']);
     date_default_timezone_set('Asia/Manila');
-    $current_date = date("y-m-d h:i:s");
+    $current_date = date("Y-m-d H:i:s");
 
     if(isset($_POST['post'])){
         $sql = "INSERT INTO post (post_calendar, organization_id, post_title, post_description, post_schedule) 

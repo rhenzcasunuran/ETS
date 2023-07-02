@@ -35,7 +35,7 @@
         $title =  mysqli_real_escape_string($conn,$_POST['post_title']);
         $description =  mysqli_real_escape_string($conn,$_POST['post_description']);
         date_default_timezone_set('Asia/Manila');
-        $current_date = date("y-m-d h:i:s");
+        $current_date = date("Y-m-d H:i:s");
 
         $sql = "UPDATE post 
                 SET post_calendar = '$calendar', organization_id = '$tag', post_title = '$title', post_description = '$description', post_schedule = '$current_date', post_draft = '0'
