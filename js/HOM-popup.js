@@ -1,9 +1,11 @@
 popup = document.getElementById('popup');
 var show = function(){
     popup.style.display = 'flex';
+    $('[data-bs-toggle="popover"]').popover('hide');
 }
 var hide = function(){
     popup.style.display = 'none';
+    $('[data-bs-toggle="popover"]').popover('hide');
 }
 
 cancelPostPopup = document.getElementById('cancelPost-popup');
