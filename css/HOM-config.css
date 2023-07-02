@@ -116,6 +116,7 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus
 .disabled{
     opacity: 0.75;
     cursor: not-allowed;
+    transform: scale(98%);
 }
 
 .post-menu{
