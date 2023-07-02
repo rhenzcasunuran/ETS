@@ -10,6 +10,8 @@ var adminCalendarComputer = {
   initialize: function() {
     var filters = ["Tournament", "Competition", "Standard"];
     var filtersOrg = ["SC", "ACAP", "AECES", "ELITE", "GIVE", "JEHRA", "JMAP", "JPIA", "PIIE"];
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
     function generateCalendar(month, year, filters, filtersOrg) {
       // Get number of days in the month and the first day of the month
@@ -85,7 +87,7 @@ var adminCalendarComputer = {
                       button.attr('data-bs-toggle', 'popover');
                       button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
                           '<div class="p4">' +
-                          '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
+                          '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover no-underline-link" aria-label="Close">X</a>' +
                           '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
                           '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
                           '<p>' + events[eventsCounting].event_time + '</p>' +
@@ -94,7 +96,7 @@ var adminCalendarComputer = {
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                           '</div>' +
-                          '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
+                          '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                           '</div>' +
                           '</div>');
                       button.attr('data-bs-html', 'true');
@@ -180,7 +182,7 @@ var adminCalendarComputer = {
                       button.attr('data-bs-toggle', 'popover');
                       button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
                           '<div class="p4">' +
-                          '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
+                          '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover no-underline-link" aria-label="Close">X</a>' +
                           '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
                           '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
                           '<p>' + events[eventsCounting].event_time + '</p>' +
@@ -189,7 +191,7 @@ var adminCalendarComputer = {
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                           '</div>' +
-                          '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
+                          '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                           '</div>' +
                           '</div>');
                       button.attr('data-bs-html', 'true');
@@ -291,7 +293,7 @@ var adminCalendarComputer = {
                   button.attr('data-bs-toggle', 'popover');
                   button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
                       '<div class="p4">' +
-                      '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
+                      '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover no-underline-link" aria-label="Close">X</a>' +
                       '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
                       '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
                       '<p>' + events[eventsCounting].event_time + '</p>' +
@@ -300,7 +302,7 @@ var adminCalendarComputer = {
                       (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                       '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                       '</div>' +
-                      '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
+                      '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                       '</div>' +
                       '</div>');
                   button.attr('data-bs-html', 'true');
@@ -391,7 +393,7 @@ var adminCalendarComputer = {
                       button.attr('data-bs-toggle', 'popover');
                       button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
                           '<div class="p4">' +
-                          '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
+                          '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover no-underline-link" aria-label="Close">X</a>' +
                           '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
                           '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
                           '<p>' + events[eventsCounting].event_time + '</p>' +
@@ -400,7 +402,7 @@ var adminCalendarComputer = {
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                           '</div>' +
-                          '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
+                          '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                           '</div>' +
                           '</div>');
                       button.attr('data-bs-html', 'true');
@@ -484,7 +486,7 @@ var adminCalendarComputer = {
                       button.attr('data-bs-toggle', 'popover');
                       button.attr('data-bs-content', '<div class="sec-paragraph shown-event-popover">' +
                           '<div class="p4">' +
-                          '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover" aria-label="Close">X</a>' +
+                          '<a href="javascript:void(0)" class="d-flex justify-content-end close-popover no-underline-link" aria-label="Close">X</a>' +
                           '<h4 class="mb-0"><b>' + events[eventsCounting].category_name + '</b></h4>' +
                           '<p class="mb-0">' + new Date(events[eventsCounting].event_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</p>' +
                           '<p>' + events[eventsCounting].event_time + '</p>' +
@@ -493,7 +495,7 @@ var adminCalendarComputer = {
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
                           '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
                           '</div>' +
-                          '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover" aria-label="showMoreDetails">Show more details</a>' +
+                          '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                           '</div>' +
                           '</div>');
                       button.attr('data-bs-html', 'true');
