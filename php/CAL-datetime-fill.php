@@ -6,24 +6,51 @@ if (!$conn) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['time']) && isset($_POST['date'])) {
-        $time = sanitizeInput($_POST['time']);
-        $date = sanitizeInput($_POST['date']);
+    if ((isset($_POST['time']) || isset($_POST['time_mobile'])) && (isset($_POST['date']) || isset($_POST['date_mobile']))) {
+        if (isset($_POST['time'])) {
+            $time = sanitizeInput($_POST['time']);
+        } else {
+            $time = sanitizeInput($_POST['time_mobile']);
+        }
+    
+        if (isset($_POST['date'])) {
+            $date = sanitizeInput($_POST['date']);
+        } else {
+            $date = sanitizeInput($_POST['date_mobile']);
+        }
 
         if (isValidTime($time) && isValidDate($date)) {
-            // Time and date inputs are valid, proceed with further actions
+            // Time and date formats are valid, check if it's the current time or a future time
+            date_default_timezone_set('Asia/Manila'); // Replace 'Your_Local_Timezone' with your desired timezone
 
-            // Sanitize and use the validated time and date values as needed
-            $sanitizedTime = sanitizeInput($time);
-            $sanitizedDate = sanitizeInput($date);
-            
+            // Create DateTime objects for current date and time
+            $currentDateTime = new DateTime('now');
+
+            // Create DateTime object for the provided date and time
+            $inputDateTime = DateTime::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
+
+            // Compare the DateTime objects
+            if ($inputDateTime >= $currentDateTime) {
+                // Time and date are either the current time or a future time
+                // Proceed with further actions
+
+                // Sanitize and use the validated time and date values as needed
+                $sanitizedTime = sanitizeInput($time);
+                $sanitizedDate = sanitizeInput($date);
+            } else {
+                // Time and date are in the past
+                header("Location: ./CAL-admin-overall.php");
+                exit(); // Terminate script execution
+            }
         } else {
             // Invalid time or date format
             header("Location: ./CAL-admin-overall.php");
+            exit(); // Terminate script execution
         }
     } else {
         // Time or date inputs are missing
         header("Location: ./CAL-admin-overall.php");
+        exit(); // Terminate script execution
     }
 }
 
@@ -56,5 +83,3 @@ function sanitizeInput($input) {
 // Close the connection
 mysqli_close($conn);
 ?>
-
-

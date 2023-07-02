@@ -10,6 +10,7 @@ $year = isset($_GET['year']) ? $_GET['year'] : null;
 $month = isset($_GET['month']) ? $_GET['month'] : null;
 $filters = isset($_GET['filters']) ? $_GET['filters'] : null;
 $filtersOrg = isset($_GET['filtersOrg']) ? $_GET['filtersOrg'] : null;
+$selectedDate = isset($_GET['selectedDate']) ? $_GET['selectedDate'] : null;
 
 // Validate and sanitize input
 $year = filter_var($year, FILTER_VALIDATE_INT);
@@ -93,6 +94,7 @@ $sql = "SELECT
         ) AS combined_table
         WHERE YEAR(combined_table.event_date) = ?
         AND MONTH(combined_table.event_date) = ?
+        AND DAY(combined_table.event_date) = ?
         AND (combined_table.event_type IN ($event_type_filters) 
         AND combined_table.event_org IN ($event_org_filters)
         OR combined_table.event_org IS NULL)
@@ -100,7 +102,7 @@ $sql = "SELECT
 
 $stmt = mysqli_prepare($conn, $sql);
 
-$params = array_merge([$year, $month], $filteredFilters, $filteredOrgFilters);
+$params = array_merge([$year, $month, $selectedDate], $filteredFilters, $filteredOrgFilters);
 $types = str_repeat('s', count($params));
 
 mysqli_stmt_bind_param($stmt, $types, ...$params);

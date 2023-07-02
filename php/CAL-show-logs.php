@@ -150,7 +150,7 @@ $response = array(
 );
 
 // Encode the response array as JSON and echo it
-echo json_encode($response);
+echo json_encode($response, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
 mysqli_stmt_close($log_stmt);
 mysqli_close($conn);
 ?>
