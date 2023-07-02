@@ -487,7 +487,7 @@
   .bottom-sheet .content {
     width: 100%;
     position: relative;
-    background: #fff;
+    background: var(--color-content-element);
     max-height: 100vh;
     height: 50vh;
     max-width: 100%;
@@ -542,14 +542,6 @@
   }
   .sidebar {
     z-index: 0 !important;
-  }
-   /* Temporary Measure for Dark Mode */
-  #searchDateLabel, #addEveAnnLabel {
-    color: black !important;
-  }
-  #createEventButtonMobile, #createAnnouncementButtonMobile {
-    color: black !important;
-    background-color: var(--color-content-text) !important;
   }
 }
 
