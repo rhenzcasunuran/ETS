@@ -52,6 +52,17 @@
   vertical-align: middle;
 }
 
+.pill-sc {
+  display: inline-block;
+  border-radius: 50px;
+  padding: 0px 15px;
+  background-color: var(--color-sc);
+  margin-right: 5px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
 .pill-acap {
   display: inline-block;
   border-radius: 50px;
@@ -272,6 +283,10 @@
 .mini-current-day.mini-active {
   background-color: lightgray;
   color: lightcoral;
+}
+
+#pagination-info {
+  color: var(--color-content-text); /* Change the color to your desired color */
 }
 
 @media (max-width: 575.98px) {
