@@ -1674,8 +1674,7 @@ var studentCalendarPhone = {
       if (selectedDate === undefined) {
         currentEventsTitle.innerHTML = "Events on " + months[month] + " " + year;
       } else {
-        var formattedDate = selectedDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-        currentEventsTitle.innerHTML = "Events on " + formattedDate;
+        currentEventsTitle.innerHTML = "Events on " + months[month] + " " + selectedDate + ", " + year;
       }
       
       $.ajax({
@@ -1875,9 +1874,10 @@ var studentCalendarPhone = {
     $(document).ready(function() {
       $('#date_mobile_search').on('change', function() {
         let dateValue = $(this).val();
-        let selectedDate = new Date(dateValue);
+        selectedDate = new Date(dateValue);
         currentYear = selectedDate.getFullYear();
         currentMonth = selectedDate.getMonth();
+        selectedDate = selectedDate.getDate();
         generateCalendar(currentMonth, currentYear, filters, filtersOrg);
         generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
       });
