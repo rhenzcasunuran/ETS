@@ -199,6 +199,55 @@
         </div>
       </div>
       <br>
+      <br>
+      <br>
+      <br>
+      <div class="floating">
+        <div class="floating-main">
+          <i class='bx bx-menu'></i>          
+        </div>
+        <div class="float-opt opt-text show-modal">
+          <i class='bx bx-calendar'></i>
+        </div>
+        <div class="float-opt opt-media show-modal-2">
+          <i class='bx bx-plus'></i>
+        </div>
+      </div> 
+
+      <div class="bottom-sheet">
+        <div class="sheet-overlay"></div>
+        <div class="content">
+          <div class="header">
+            <div class="drag-icon"><span></span></div>
+          </div>
+          <div class="body text-center">
+            <div id="search-date-content" class="content-item">
+              <h2>Search Date</h2>
+              <br>
+              <div class="container text-center">
+                <div class="row justify-content-md-center">
+                  <br>
+                  <input type="date" id="date_mobile_search" name="date_mobile_search">
+                </div>
+              </div>
+            </div>
+            <div id="add-item-content" class="content-item">
+              <h2>Add Event/Announcement</h2>
+              <form id="dateTimeSubmitFormMobile" method="POST">
+                <br>
+                <div>
+                  <input class="w-100 p-3" type="date" id="date_mobile" name="date_mobile" oninput="validateYear(this)" max="" min="" required>
+                  <input class="w-100 p-3" type="time" id="time_mobile" name="time_mobile" required>
+                </div>
+                <div class="d-flex justify-content-evenly">
+                  <button type="submit" id="createEventButtonMobile" class="outline-button" value="createEventMobile">Create Event</button>
+                  <button type="submit" id="createAnnouncementButtonMobile" class="outline-button" value="createAnnouncementMobile">Create Announcement</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
     <!-- Calendar Computer-->
     <section class="home-section computer-size">
@@ -212,11 +261,17 @@
           <div class="div" id="miniCalendarContainer" style="display: none;">
             <div class="element" id="calendarElement">
               <div class="row">
-                <div id="miniCalendar">
-                  <h5 id="miniCalendarHeader"></h5>
-                  <div id="miniButtonContainer">
-                    <i id="miniPreviousButton" class='bx bxs-chevron-left'></i>
-                    <i id="miniNextButton" class='bx bxs-chevron-right'></i>
+                <div id="miniCalendarMain">
+                  <div class="d-flex justify-content-between">
+                    <h5 id="miniCalendarHeader"></h5>
+                    <div id="miniButtonContainer">
+                      <i id="miniPreviousButton" class='bx bxs-chevron-left'></i>
+                      <i id="miniNextButton" class='bx bxs-chevron-right'></i>
+                    </div>
+                    <div id="miniButtonYearsContainer">
+                      <i id="miniPreviousYearsButton" class='bx bxs-chevron-left'></i>
+                      <i id="miniNextYearsButton" class='bx bxs-chevron-right'></i>
+                    </div>
                   </div>
                   <br>
                   <table id="miniCalendar">
@@ -232,6 +287,8 @@
                       </tr>
                     </thead>
                     <tbody id="miniCalendarTable">
+                    </tbody>
+                    <tbody id="miniCalendarYearsTable">
                     </tbody>
                   </table>
                   <br>
@@ -343,19 +400,19 @@
                         <div class="form-check event-type">
                           <input class="form-check-input" type="checkbox" value="Tournament" id="check-tournament">
                           <label class="form-check-label" for="check-tournament">
-                            <i class='bx bxs-square'></i> Tournament
+                            Tournament
                           </label>
                         </div>
                         <div class="form-check event-type">
                           <input class="form-check-input" type="checkbox" value="Competition" id="check-competition">
                           <label class="form-check-label" for="check-competition">
-                            <i class='bx bxs-circle' ></i> Competition
+                            Competition
                           </label>
                         </div>
                         <div class="form-check event-type">
                           <input class="form-check-input" type="checkbox" value="Standard" id="check-standard">
                           <label class="form-check-label" for="check-standard">
-                            <i class='bx bxs-up-arrow' ></i> Standard
+                            Standard
                           </label>
                         </div>
                       </div>
@@ -415,6 +472,16 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
+    </script>
+    <script type="text/javascript">
+      function validateYear(input) {
+        const year = input.value.substr(0, 4);
+        if (year.length === 4 && !isNaN(year)) {
+          input.setCustomValidity('');
+        } else {
+          input.setCustomValidity('Please enter a 4-digit year.');
+        }
+      }
     </script>
     <!--Calendar JS-->
     <script defer src="./js/CAL-admin-calendar.js"></script>
@@ -523,15 +590,12 @@
           'resource': event
         });
 
-        function appendPre(message) {
-          var content = document.getElementById('content');
-          var pre = document.createElement('pre');
-          pre.textContent = message;
-          content.appendChild(pre);
+        function closeModal() {
+          $('.modal').modal('hide');
         }
 
         request.execute(function(event) {
-          appendPre('Event added successfully!');
+          closeModal();
         });
       }
     </script>

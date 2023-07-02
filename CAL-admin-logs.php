@@ -126,7 +126,7 @@
             </tbody>
           </table>
           <div class="d-flex justify-content-end">
-            <div class="text-muted p-1 me-2" id="pagination-info"></div>
+            <div class="p-1 me-2" id="pagination-info"></div>
             <div>
               <button type="button" class="btn btn-secondary btn-sm" id="btn-prev" disabled>
                 &lt; 
