@@ -1,4 +1,5 @@
 //validate input and disable buttons
+const calendar = document.getElementById('calendar');
 const tags = document.getElementById('tags');
 const title = document.getElementById('title');
 const description = document.getElementById('description');
@@ -10,31 +11,44 @@ save_draft.addEventListener('click', function() {
   description.required = false;
 });
 
+let oldCalendar = calendar.value;
+let oldTags = tags.value;
+let oldTitle = title.value;
+let oldDescription = description.value;
+
 document.addEventListener('DOMContentLoaded', function() {
   checkFormValidity();
 });
 
 function checkFormValidity() {
+  const validCalendar = calendar.validity.valid;
   const validTags = tags.validity.valid;
   const validTitle = title.validity.valid && title.value.length >= 5;
   const validDescription = description.validity.valid && description.value.length >= 50;
+  const newCalendar = calendar.value == oldCalendar;
+  const newTags = tags.value == oldTags;
+  const newTitle = title.value == oldTitle;
+  const newDescription = description.value == oldDescription;
 
-  if (validTags && validTitle && validDescription) {
+  if (validCalendar && validTags && validTitle && validDescription) {
     post.classList.remove('disabled');
-  } else {
+  }
+  else{
     post.classList.add('disabled');
     postMenu.classList.remove('active');
   }
 
-  if (title.validity.valid) {
-    save_draft.classList.remove('disabled');
-    save_draft.setAttribute('onclick', 'show_saveDraft()');
-  } else {
+  if((newCalendar && newTags && newTitle && newDescription) || !title.validity.valid){
     save_draft.classList.add('disabled');
     save_draft.removeAttribute('onclick');
   }
+  else{
+    save_draft.classList.remove('disabled');
+    save_draft.setAttribute('onclick', 'show_saveDraft()');
+  }
 }
 
+calendar.addEventListener('input', checkFormValidity);
 tags.addEventListener('change', checkFormValidity);
 title.addEventListener('input', checkFormValidity);
 description.addEventListener('input', checkFormValidity);
