@@ -71,20 +71,56 @@ include './php/admin-signin.php';
   Event History
   <input type="text" id="search" placeholder="Search" maxlength="30">
   <div class="dropdown">
-      <i class="bx bx-filter-alt dropbtn bx-sm" onclick="myFunction()"></i>
-      <div id="myDropdown" class="dropdown-content">
-      <a href="#" onclick="filterByEventName('GIVE')">GIVE</a>
-<a href="#" onclick="filterByEventName('JMAP')">JMAP</a>
-<a href="#" onclick="filterByEventName('AECES')">AECES</a>
-<a href="#" onclick="filterByEventName('JPIA')">JPIA</a>
-<a href="#" onclick="filterByEventName('PIIE')">PIIE</a>
-<a href="#" onclick="filterByEventName('JEHRA')">JEHRA</a>
-<a href="#" onclick="filterByEventName('ACAP')">ACAP</a>
-<a href="#" onclick="filterByEventName('ELITE')">ELITE</a>
-<a href="#" onclick="filterByEventName('STUDENT COUNCIL')">STUDENT COUNCIL</a>
+  <i class="bx bx-filter-alt dropbtn bx-sm" onclick="myFunction()"></i>
+  <style>
+.org-img {
+  width: 100%;
+  height: 50px;
+}
 
-      </div>
-  </div>
+.dropdown-content {
+  left: 0;
+  right: auto;
+  display: none; /* Hide the dropdown content by default */
+}
+
+.dropdown-content.show {
+  display: block; /* Show the dropdown content when the "show" class is added */
+}
+</style>
+
+<div id="myDropdown" class="dropdown-content">
+  <a href="#" onclick="filterByEventName('GIVE')">
+    <img src="./photos/cover-GIVE.png" alt="GIVE" class="org-img">
+  </a>
+  <a href="#" onclick="filterByEventName('JMAP')">
+    <img src="./photos/cover-JMAP.png" alt="JMAP" class="org-img">
+  </a>
+  <a href="#" onclick="filterByEventName('AECES')">
+    <img src="./photos/cover-AECES.png" alt="AECES" class="org-img">
+  </a>
+  <a href="#" onclick="filterByEventName('JPIA')">
+    <img src="./photos/cover-JPIA.png" alt="JPIA" class="org-img">
+  </a>
+  <a href="#" onclick="filterByEventName('PIIE')">
+    <img src="./photos/cover-PIIE.png" alt="PIIE" class="org-img">
+  </a>
+  <a href="#" onclick="filterByEventName('JEHRA')">
+    <img src="./photos/cover-JEHRA.png" alt="JEHRA" class="org-img">
+  </a>
+  <a href="#" onclick="filterByEventName('ACAP')">
+    <img src="./photos/cover-ACAP.png" alt="ACAP" class="org-img">
+  </a>
+  <a href="#" onclick="filterByEventName('ELITE')">
+    <img src="./photos/cover-ELITE.png" alt="ELITE" class="org-img">
+  </a>
+  <a href="#" onclick="filterByEventName('STUDENT COUNCIL')">
+    <img src="./photos/cover-SC.png" alt="STUDENT COUNCIL" class="org-img">
+  </a>
+</div>
+
+
+
 </div>
 
 <div class="flex-container">

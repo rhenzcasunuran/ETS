@@ -45,29 +45,36 @@
   <div class="flex-container">
     <div class="container" id="main-containers">
       <div class="bg-white p-3" id="container-1">
-        <div class="file-type-container">Image Selection</div>
         <form method="POST" action="" enctype="multipart/form-data">
-        <div class="form-group">
-            <select class="form-control" name="event_name" id="event_name" required>
-              <option value="" selected disabled>Select Event</option>
-              <?php
-              include('./php/database_connect.php');
-              $query = "SELECT `event_name_id`, `event_name` FROM `ongoing_event_name`";
-              $result = mysqli_query($conn, $query);
-              while ($row = mysqli_fetch_assoc($result)) {
-                $eventID = $row['event_name_id'];
-                $eventName = $row['event_name'];
-                echo '<option value="' . $eventID . '">' . $eventName . '</option>';
-              }
-              mysqli_close($conn);
-              ?>
-            </select>
-          </div>
-          <div class="form-group">
-          <input class="form-control" type="file" name="uploadfile[]" id="uploadfile" multiple required />
-          </div>
-          
-        </form>
+  <div class="form-group">
+    <select class="form-control" name="event_name" id="event_name" required>
+      <option value="" selected disabled>Select Event</option>
+      <?php
+      include('./php/database_connect.php');
+      $query = "SELECT `event_name_id`, `event_name` FROM `ongoing_event_name`";
+      $result = mysqli_query($conn, $query);
+      while ($row = mysqli_fetch_assoc($result)) {
+        $eventID = $row['event_name_id'];
+        $eventName = $row['event_name'];
+        echo '<option value="' . $eventID . '">' . $eventName . '</option>';
+      }
+      mysqli_close($conn);
+      ?>
+    </select>
+  </div>
+ <div class="form-group">
+  <div class="drop-zone text-center">
+    <label for="uploadfile" class="drop-zone__prompt">
+    <i class='bx bxs-file-image bx-lg'></i>      <br>
+      Drag and drop images here or click to upload
+    </label>
+    <input class="drop-zone__input" type="file" name="uploadfile[]" id="uploadfile" multiple required />
+    <div class="drop-zone__files" id="preview"></div>
+  </div>
+</div>
+
+</form>
+
       </div>
       <div class="bg-white p-3" id="container-2">
         <div class="file-type-container">
@@ -378,6 +385,112 @@ textarea.addEventListener('input', function() {
 
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const dropZone = document.querySelector(".drop-zone");
+  const previewContainer = document.querySelector("#preview");
+  const fileInput = document.querySelector("#uploadfile");
+
+  dropZone.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener("change", () => {
+    previewContainer.innerHTML = "";
+    const files = fileInput.files;
+    if (files && files.length > 0) {
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+
+        reader.addEventListener("load", () => {
+          const preview = document.createElement("div");
+          preview.className = "drop-zone__thumb";
+          preview.innerHTML = `<img src="${reader.result}" alt="${file.name}" />`;
+          previewContainer.appendChild(preview);
+        });
+
+        reader.readAsDataURL(file);
+      });
+    }
+  });
+
+  dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropZone.classList.add("drop-zone--over");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("drop-zone--over");
+  });
+
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("drop-zone--over");
+    const files = e.dataTransfer.files;
+    fileInput.files = files;
+
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+
+      reader.addEventListener("load", () => {
+        const preview = document.createElement("div");
+        preview.className = "drop-zone__thumb";
+        preview.innerHTML = `<img src="${reader.result}" alt="${file.name}" />`;
+        previewContainer.appendChild(preview);
+      });
+
+      reader.readAsDataURL(file);
+    });
+  });
+});
+</script>
+<script>
+  // Get the file input element
+  const fileInput = document.getElementById('uploadfile');
+
+  // Get the preview container element
+  const previewContainer = document.getElementById('preview');
+
+  // Listen for file selection
+  fileInput.addEventListener('change', function () {
+    // Clear the previous preview
+    previewContainer.innerHTML = '';
+
+    // Loop through the selected files
+    for (const file of fileInput.files) {
+      // Create a preview item for each file
+      const previewItem = document.createElement('div');
+      previewItem.className = 'drop-zone__preview-item';
+
+      // Create an image element for the file preview
+      const image = document.createElement('img');
+      image.src = URL.createObjectURL(file);
+      image.alt = file.name;
+
+      // Create an "Unselect" button for the file
+      const unselectButton = document.createElement('button');
+      unselectButton.className = 'drop-zone__unselect-button';
+      unselectButton.textContent = 'Unselect';
+      unselectButton.addEventListener('click', function () {
+        // Remove the file from the file input selection
+        const index = Array.from(fileInput.files).indexOf(file);
+        if (index > -1) {
+          fileInput.files.splice(index, 1);
+        }
+
+        // Remove the preview item from the preview container
+        previewContainer.removeChild(previewItem);
+      });
+
+      // Append the image and unselect button to the preview item
+      previewItem.appendChild(image);
+      previewItem.appendChild(unselectButton);
+
+      // Append the preview item to the preview container
+      previewContainer.appendChild(previewItem);
+    }
+  });
+</script>
 
 
   </body>
