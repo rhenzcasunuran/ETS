@@ -2206,7 +2206,7 @@ var adminCalendarPhone = {
       } else {
         currentEventsTitle.innerHTML = "Events on " + months[month] + " " + selectedDate + ", " + year;
       }
-
+      
       $.ajax({
         url: './php/CAL-mobile-retrieve-events.php',
         type: 'GET',
@@ -2225,178 +2225,190 @@ var adminCalendarPhone = {
             const dateB = new Date(b.event_date);
             return dateA - dateB;
           });
-      
-          // Iterate over events data and populate details
-          for (var i = 0; i < events.length; i++) {
-            const event = events[i];
 
-            // Create the necessary elements
-            const div = document.createElement("div");
-            div.className = "div";
-            const element = document.createElement("div");
-            element.className = "element";
-            const row = document.createElement("div");
-            row.className = "row";
-            const seeMoreLink = document.createElement("div");
-            seeMoreLink.textContent = "See more";
-            const elementGroup = document.createElement("div");
-            elementGroup.className = "element-group";
-            const elementLabel = document.createElement("div");
-            elementLabel.className = "element-label";
-            // Create a new Date object from the event date string
-            const eventDate = new Date(event.event_date);
-            const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'long' });
-            const formattedDate = eventDate.toLocaleDateString('en-US', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric'
-            });
-            // Get the day of the week as a string
-            elementLabel.textContent = formattedDate;
-            const elementContent = document.createElement("div");
-            elementContent.className = "element-content";
-            if (event.event_org) {
-              elementContent.innerHTML = "<b>" + event.category_name + "</b>" + "<br>" + "<span class='pill-" +
-                event.event_org.toLowerCase() + "'" + ">" + event.event_org + "</span>" + "<br>" + "<div class='d-flex justify-content-between'>" + "<div>" + dayOfWeek + "</div>" + "<div>" + "<a href='javascript:void(0)' class='no-underline-link'>" + "See more" + "</a>" + "</div>" + "</div>";
-            } else {
-              elementContent.innerHTML = "<b>" + event.category_name + "</b>" + "<br>" + "<div class='d-flex justify-content-between'>" + "<div>" + dayOfWeek + "</div>" + "<div>" + "<a href='javascript:void(0)' class='no-underline-link'>" + "See more" + "</a>" + "</div>" + "</div>";
+          // Get a reference to the <div> element
+          const divElement = document.getElementById("noShowSelectedEvents");
+
+          if (events.length === 0) {
+            // Set the display property to "block" to make it visible
+            divElement.style.display = "flex";
+          } else {
+            // Set the display property to "none" to make it invisible
+            divElement.style.display = "none";
+            // Iterate over events data and populate details
+            for (var i = 0; i < events.length; i++) {
+              const event = events[i];
+
+              const div = document.createElement("div");
+              div.className = "div";
+              const element = document.createElement("div");
+              element.className = "element";
+              const row = document.createElement("div");
+              row.className = "row";
+              const seeMoreLink = document.createElement("div");
+              seeMoreLink.textContent = "See more";
+              const elementGroup = document.createElement("div");
+              elementGroup.className = "element-group";
+              const elementLabel = document.createElement("div");
+              elementLabel.className = "element-label";
+              // Create a new Date object from the event date string
+              const eventDate = new Date(event.event_date);
+              const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'long' });
+              const formattedDate = eventDate.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+              });
+              // Get the day of the week as a string
+              elementLabel.textContent = formattedDate;
+              const elementContent = document.createElement("div");
+              elementContent.className = "element-content";
+              if (event.event_org) {
+                elementContent.innerHTML = "<b>" + event.category_name + "</b>" + "<br>" + "<span class='pill-" +
+                  event.event_org.toLowerCase() + "'" + ">" + event.event_org + "</span>" + "<br>" + "<div class='d-flex justify-content-between'>" + "<div>" + dayOfWeek + "</div>" + "<div>" + "<a href='javascript:void(0)' class='no-underline-link'>" + "See more" + "</a>" + "</div>" + "</div>";
+              } else {
+                elementContent.innerHTML = "<b>" + event.category_name + "</b>" + "<br>" + "<div class='d-flex justify-content-between'>" + "<div>" + dayOfWeek + "</div>" + "<div>" + "<a href='javascript:void(0)' class='no-underline-link'>" + "See more" + "</a>" + "</div>" + "</div>";
+              }
+
+              const eventLink = elementContent.querySelector("a");
+              eventLink.addEventListener("click", createModalSelected(event.event_id, formattedDate, event.category_name, event.event_time, event.event_org, event.event_description, event.event_type));
+
+              // Append elements to the container
+              elementGroup.appendChild(elementLabel);
+              elementGroup.appendChild(elementContent);
+              row.appendChild(elementGroup);
+              element.appendChild(row);
+              div.appendChild(element);
+              showSelectedEventsContainer.appendChild(div);
             }
 
-            const eventLink = elementContent.querySelector("a");
-            eventLink.addEventListener("click", createModalSelected(event.event_id, formattedDate, event.category_name, event.event_time, event.event_org, event.event_description, event.event_type));
+            function createModalSelected(eventId, eventDate, categoryName, eventTime, eventOrg, eventDesc, eventType) {
+              return function() {
+                var modalTitleText = "<b>" + eventDate + "</b>";
+                if (eventOrg) {
+                  var modalContentText = "<b>" + categoryName + "</b>" + "<br>" + "<b>Who: </b>" + "<span class='pill-" + eventOrg.toLowerCase() +"'>" + eventOrg + "</span>" + "<br>" + "<b>Description: </b>" + eventDesc;
+                } else {
+                  var modalContentText = "<b>" + categoryName + "</b>" + "<br>" + "<b>When: </b>" + eventTime + "<br>" + "<b>Description: </b>" + eventDesc;
+                }
 
-            // Append elements to the container
-            elementGroup.appendChild(elementLabel);
-            elementGroup.appendChild(elementContent);
-            row.appendChild(elementGroup);
-            element.appendChild(row);
-            div.appendChild(element);
-            showSelectedEventsContainer.appendChild(div);
-          }
+                if (eventType === "Tournament") {
+                  var modalButtons = '<i id="mobile-tournament-' + eventId + '" class="bx bx-group bx-lg mobile-icons"></i>' + '<i id="mobile-add-calendar-' + eventId + '" class="bx bx-calendar-plus bx-lg mobile-icons"></i>';
+                } else {
+                  var modalButtons = '<i id="mobile-add-calendar-' + eventId + '" class="bx bx-calendar-plus bx-lg mobile-icons"></i>';
+                }
 
-          function createModalSelected(eventId, eventDate, categoryName, eventTime, eventOrg, eventDesc, eventType) {
-            return function() {
-              var modalTitleText = "<b>" + eventDate + "</b>";
-              if (eventOrg) {
-                var modalContentText = "<b>" + categoryName + "</b>" + "<br>" + "<b>Who: </b>" + "<span class='pill-" + eventOrg.toLowerCase() +"'>" + eventOrg + "</span>" + "<br>" + "<b>Description: </b>" + eventDesc;
-              } else {
-                var modalContentText = "<b>" + categoryName + "</b>" + "<br>" + "<b>When: </b>" + eventTime + "<br>" + "<b>Description: </b>" + eventDesc;
-              }
-
-              if (eventType === "Tournament") {
-                var modalButtons = '<i id="mobile-tournament-' + eventId + '" class="bx bx-group bx-lg mobile-icons"></i>' + '<i id="mobile-add-calendar-' + eventId + '" class="bx bx-calendar-plus bx-lg mobile-icons"></i>';
-              } else {
-                var modalButtons = '<i id="mobile-add-calendar-' + eventId + '" class="bx bx-calendar-plus bx-lg mobile-icons"></i>';
-              }
-
-              const modalHTML = `
-                <div class="modal fade" id="dynamicModal-${eventId}" tabindex="-1" data-bs-backdrop="static" aria-labelledby="dynamicModalLabel-${eventId}" aria-hidden="true">
-                  <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5 w-100 text-center" id="dynamicModalLabel-${eventId}">${modalTitleText}</h1>
+                const modalHTML = `
+                  <div class="modal fade" id="dynamicModal-${eventId}" tabindex="-1" data-bs-backdrop="static" aria-labelledby="dynamicModalLabel-${eventId}" aria-hidden="true">
+                    <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5 w-100 text-center" id="dynamicModalLabel-${eventId}">${modalTitleText}</h1>
+                        </div>
+                        <div class="modal-body text-center">${modalContentText}</div>
+                        <div class="modal-footer invisible-footer d-flex justify-content-between">
+                          <div>${modalButtons}</div>
+                          <button type="button" class="outline-button" data-bs-dismiss="modal">Back</button>
+                        </div>
                       </div>
-                      <div class="modal-body text-center">${modalContentText}</div>
-                      <div class="modal-footer invisible-footer d-flex justify-content-between">
-                        <div>${modalButtons}</div>
-                        <button type="button" class="outline-button" data-bs-dismiss="modal">Back</button>
+                    </div>
+                  </div>
+                `;
+
+                const modal = document.createElement("div");
+                modal.innerHTML = modalHTML.trim();
+                document.body.appendChild(modal);
+
+                const calendarIcon = modal.querySelector("#mobile-add-calendar-" + eventId);
+                calendarIcon.addEventListener("click", function(event) {
+                  const buttonId = event.target.id;
+                  addToCalendarSelected(buttonId, eventDate, categoryName, eventTime, eventDesc)
+                });
+
+                if (eventType === "Tournament") {
+                  const tournementIcon = modal.querySelector("#mobile-tournament-" + eventId);
+                  tournementIcon.addEventListener("click", function(event) {
+                    const buttonId = event.target.id;
+                    tournamentSelected(buttonId)
+                  });
+                }
+
+                const bootstrapModal = new bootstrap.Modal(modal.querySelector(".modal"));
+                bootstrapModal.show();
+              }
+            }
+
+            function addToCalendarSelected(eventId, eventDate, categoryName, eventTime, eventDesc) {
+
+              // Create a new Date object using the eventDate string
+              var date = new Date(eventDate);
+
+              // Extract the year, month, and day components from the Date object
+              var year = date.getFullYear();
+              var month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
+              var day = String(date.getDate()).padStart(2, '0');
+
+              // Concatenate the components in the desired format (yyyy-mm-dd)
+              var convertedDate = year + '-' + month + '-' + day;
+
+              const addToCalendarModal = `
+                <div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog" id="${eventId}" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header invisible-header">
+                        <h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3>
+                      </div>
+                      <div class="modal-body text-center">
+                        <p>Do you wish to add the event to your calendar</p>
+                        <br>
+                        <div class="d-flex justify-content-evenly">
+                          <button class="outline-button" id="authorize_button" onclick="handleAuthClick('${convertedDate}', '${categoryName.replace(/'/g, "\\'")}', '${eventDesc.replace(/'/g, "\\'")}', '${eventTime}')">Yes</button>
+                          <button type="button" class="outline-button" id="no-button" data-bs-dismiss="modal">No</button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               `;
-
+            
               const modal = document.createElement("div");
-              modal.innerHTML = modalHTML.trim();
+              modal.innerHTML = addToCalendarModal.trim();
               document.body.appendChild(modal);
-
-              const calendarIcon = modal.querySelector("#mobile-add-calendar-" + eventId);
-              calendarIcon.addEventListener("click", function(event) {
-                const buttonId = event.target.id;
-                addToCalendarSelected(buttonId, eventDate, categoryName, eventTime, eventDesc)
-              });
-
-              if (eventType === "Tournament") {
-                const tournementIcon = modal.querySelector("#mobile-tournament-" + eventId);
-                tournementIcon.addEventListener("click", function(event) {
-                  const buttonId = event.target.id;
-                  tournamentSelected(buttonId)
-                });
-              }
-
+            
               const bootstrapModal = new bootstrap.Modal(modal.querySelector(".modal"));
               bootstrapModal.show();
             }
-          }
 
-          function addToCalendarSelected(eventId, eventDate, categoryName, eventTime, eventDesc) {
+            function tournamentSelected(eventId) {
 
-            // Create a new Date object using the eventDate string
-            var date = new Date(eventDate);
-
-            // Extract the year, month, and day components from the Date object
-            var year = date.getFullYear();
-            var month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
-            var day = String(date.getDate()).padStart(2, '0');
-
-            // Concatenate the components in the desired format (yyyy-mm-dd)
-            var convertedDate = year + '-' + month + '-' + day;
-
-            const addToCalendarModal = `
-              <div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog" id="${eventId}" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header invisible-header">
-                      <h3 class="modal-title w-100 text-center" style="font-size: 24px;">Add Event To Date</h3>
-                    </div>
-                    <div class="modal-body text-center">
-                      <p>Do you wish to add the event to your calendar</p>
-                      <br>
-                      <div class="d-flex justify-content-evenly">
-                        <button class="outline-button" id="authorize_button" onclick="handleAuthClick('${convertedDate}', '${categoryName.replace(/'/g, "\\'")}', '${eventDesc.replace(/'/g, "\\'")}', '${eventTime}')">Yes</button>
-                        <button type="button" class="outline-button" id="no-button" data-bs-dismiss="modal">No</button>
+              const tournamentSelectedModal = `
+                <div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog" id="tournament-modal-${eventId}" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header invisible-header">
+                        <h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3>
+                      </div>
+                      <div class="modal-body text-center">
+                        <img src="./pictures/sampleTournamentBraket.png" alt="TournamentBracket">
+                      </div>
+                      <div class="modal-footer border-0">
+                        <button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            `;
-          
-            const modal = document.createElement("div");
-            modal.innerHTML = addToCalendarModal.trim();
-            document.body.appendChild(modal);
-          
-            const bootstrapModal = new bootstrap.Modal(modal.querySelector(".modal"));
-            bootstrapModal.show();
+              `;
+            
+              const modal = document.createElement("div");
+              modal.innerHTML = tournamentSelectedModal.trim();
+              document.body.appendChild(modal);
+            
+              const bootstrapModal = new bootstrap.Modal(modal.querySelector(".modal"));
+              bootstrapModal.show();
+            }
           }
-
-          function tournamentSelected(eventId) {
-
-            const tournamentSelectedModal = `
-              <div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog" id="tournament-modal-${eventId}" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header invisible-header">
-                      <h3 class="modal-title w-100 text-center" style="font-size: 24px;">Tournament Modal Title</h3>
-                    </div>
-                    <div class="modal-body text-center">
-                      <img src="./pictures/sampleTournamentBraket.png" alt="TournamentBracket">
-                    </div>
-                    <div class="modal-footer border-0">
-                      <button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            `;
-          
-            const modal = document.createElement("div");
-            modal.innerHTML = tournamentSelectedModal.trim();
-            document.body.appendChild(modal);
-          
-            const bootstrapModal = new bootstrap.Modal(modal.querySelector(".modal"));
-            bootstrapModal.show();
-          }
+        },
+        error: function(error) {
+          console.error('Error: ' + error.message);
         }
       });
     }
