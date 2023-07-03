@@ -1,17 +1,24 @@
-<?php
+<?php 
 include('database_connect.php');
 
 // Retrieve the event name from the URL parameters
 $eventName = $_GET['eventName'] ?? '';
 
-// Modify the query to include the event name filter
-$query = "SELECT event_name, category_name, YEAR(event_date) AS event_year, suggested_status 
-          FROM eventhistorytb 
-          WHERE event_name LIKE '%$eventName%' 
-          ORDER BY suggested_status";
+// Modify the query to include the event name filter and join your tables
+$query = "SELECT en.event_name, cn.category_name, YEAR(e.event_date) AS event_year, e.suggested_status 
+          FROM ongoing_list_of_event e
+          JOIN ongoing_category_name cn ON e.category_name_id = cn.category_name_id
+          JOIN ongoing_event_name en ON cn.event_name_id = en.event_name_id
+          WHERE en.event_name LIKE '%$eventName%' 
+          ORDER BY e.suggested_status";
 
 // Execute the query and fetch the results
 $result = mysqli_query($conn, $query);
+
+// Check if the query executed successfully
+if ($result === false) {
+    die('Query Error: ' . mysqli_error($conn));
+}
 
 // Format the results as HTML code for event cards
 $html = '';
@@ -88,4 +95,5 @@ echo '<div id="card-container">' . $html . '</div>';
 
 // Close the database connection and any other necessary cleanup
 mysqli_close($conn);
+
 ?>
