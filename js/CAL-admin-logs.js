@@ -306,28 +306,33 @@ $(document).ready(function() {
       miniCalendarContainer.style.display = 'none';
     }
   });
-
+  
   // Add click event listener to the miniCalendarToggle element
   miniCalendarToggle.addEventListener('click', (event) => {
-      event.stopPropagation(); // Prevent the click event from bubbling up to the document
-      toggleMiniCalendar();
+    event.stopPropagation(); // Prevent the click event from bubbling up to the document
+    toggleMiniCalendar();
   });
 
   function toggleMiniCalendar() {
-    if (miniCalendarContainer.style.display === 'none') {
+    if (miniCalendarContainer.style.display === 'none' || miniCalendarContainer.style.display === '') {
       miniCalendarContainer.style.display = 'block';
   
       // Position the container below the input field
       const inputRect = dateInput.getBoundingClientRect();
-      miniCalendarContainer.style.top = inputRect.bottom + 'px';
-      miniCalendarContainer.style.left = inputRect.left + 'px'; // Change 'right' to 'left'
+      miniCalendarContainer.style.bottom = inputRect.bottom - 'px'; // Adjust the vertical position as needed
+      miniCalendarContainer.style.left = inputRect.left - 85 + 'px'; // Adjust the horizontal position as needed
     } else {
       miniCalendarContainer.style.display = 'none';
     }
   }  
-    
-  const dateInput = document.getElementById('dateInput');
 
+  // Close the calendar if the user clicks outside the input field or calendar container
+  document.addEventListener('click', (event) => {
+    if (!dateInput.contains(event.target) && !miniCalendarContainer.contains(event.target)) {
+      miniCalendarContainer.style.display = 'none';
+    }
+  });
+  
   dateInput.addEventListener('input', formatAndValidateDate);
   dateInput.addEventListener('keypress', restrictNonNumericInput);
 
