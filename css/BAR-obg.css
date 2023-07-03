@@ -68,6 +68,8 @@
   animation-fill-mode: forwards;
   transition: 0.5s;
   align-self: center;
+  display: flex;
+  align-items: center;
 }
 
 @keyframes grow {
@@ -112,6 +114,11 @@
 
 #anon{
   background-color: grey;
+}
+
+#percentage{
+  font-weight: bold;
+  margin-left: 5px;
 }
 
 .anon {
@@ -291,4 +298,8 @@ input[type="checkbox"]:checked + .slider:before {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+#anon-admin-popup{
+  display: flex;
 }
