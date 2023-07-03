@@ -1,14 +1,23 @@
 <?php
 include 'database_connect.php';
 
-// Assuming you have a database connection already established
-$query = "SELECT organization_name FROM organization";
-$result = mysqli_query($connection, $query);
+// Query the database to get the options
+$sql = "SELECT organization_id, organization_name FROM organization WHERE organization_id >= 1 AND organization_id <= 8"; // Modify 'your_table' with your actual table name
+$result = $conn->query($sql);
 
 $options = array();
-while ($row = mysqli_fetch_assoc($result)) {
-    $options[] = $row['organization_name'];
+
+// Fetch the options and store them in an array
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $options[] = $row;
+    }
 }
 
+$conn->close();
+
+// Return the options as JSON
+header('Content-Type: application/json');
 echo json_encode($options);
+
 ?>
