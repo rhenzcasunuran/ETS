@@ -440,9 +440,9 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 80%;
+    width: calc(100% - 79px);
     height: 100%;
-    margin-left: calc(5vw * 2);
+    margin-left: 79px;
     display: flex;
     opacity: 0;
     pointer-events: none;
@@ -457,9 +457,9 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
+      width: calc(100% - 79px);
+      margin-left: 79px;
       height: 100%;
-      margin-left: 0;
       display: flex;
       opacity: 0;
       pointer-events: none;
@@ -478,7 +478,6 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: -1;
     width: 100%;
     height: 100%;
     opacity: 0.2;
@@ -539,9 +538,6 @@
   .bottom-sheet .body p {
     margin-top: 20px;
     font-size: 1.05rem;
-  }
-  .sidebar {
-    z-index: 0 !important;
   }
   #noShowSelectedEvents {
     display: flex;
