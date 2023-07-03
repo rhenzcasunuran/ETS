@@ -33,7 +33,52 @@
     require './php/admin-sidebar.php';
   ?>
 
-  <div class="popup-background" id="cancelWrapper">
+  <?php
+
+    $query = "SELECT isAnon FROM bar_graph";
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+      $rows = array();
+
+      while ($row = $result->fetch_assoc()) {
+        $rows[] = $row;
+      }
+
+      $showDiv = true;
+      foreach ($rows as $row) {
+        $isAnon = $row['isAnon'];
+
+        if ($isAnon != 1) {
+          $showDiv = false;
+          break;
+        }
+      }
+
+      if ($showDiv) {
+        echo '<div class="popup-background" id="anon-admin-popup">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class="bx bxs-hide prompt-icon" style="cursor: default;"></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Anonymity is turned on</h3>   <!--header-->
+                <p>Toggle it off to publicly display the ranking.</p> <!--text-->
+            </div>
+            <div  class="div">
+              <button class="success-button" onclick="hideMarkAsDone()"><i class="bx bx-check"></i>Confirm</button>
+            </div>
+        </div>
+      </div>';
+      }
+    } else {
+      echo "No rows found in the database.";
+    }
+  ?>
+
+
+
+  <div class="popup-background" id="anon-confirm">
           <div class="row popup-container" id="anon_prompt">
             <div class="col-4">
                 <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
@@ -44,10 +89,10 @@
             </div>
             <div  class="div">
                 <button class="outline-button"><i class='bx bx-chevron-left'></i>Return</button>
-                <button class="primary-button" id="anon_button_confirm"><i class='bx bx-x'></i>Confirm</button>
+                <button class="primary-button" id="anon_button_confirm"><i class='bx bx-x' ></i>Confirm</button>
             </div>
           </div>
-        </div>
+    </div>
     <!--Page Content-->
     <section class="home-section">
 
@@ -127,17 +172,25 @@
                     $organization = $org["organization_name"];
                     $barMeter = $org["bar_meter"];
                     $isAnon = $org["isAnon"];
+                    $percentage = number_format($barMeter, 0, '.', '');
 
                     if ($isAnon == 0){
-                            echo '<div class="row">
-                        <div class="meter_container">
-                          <div class="meter" id="'. $organization .'" style="width: ' . $barMeter . '%;"></div>
-                        </div>
-                      </div>';
+                            echo '
+                            <div class="row">
+                              <div class="meter_container">
+                                <div class="meter" id="'. $organization .'" style="width: ' . $barMeter . '%;">
+                                  <div id="percentage">
+                                    '. $percentage .'%
+                                  </div>
+                                </div>
+                              </div>
+                            </div>';
                     } else {
                       echo '<div class="row">
                         <div class="meter_container">
-                          <div class="meter" id="anon" style="width: ' . $barMeter . '%;"></div>
+                          <div class="meter" id="anon" style="width: ' . $barMeter . '%;"><div id="percentage">
+                          '. $percentage .'%
+                        </div></div>
                         </div>
                       </div>';
                     } 
@@ -194,6 +247,12 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
+
+      adminPopup = document.getElementById('anon-admin-popup');
+
+      var hideMarkAsDone = function() {
+            adminPopup.style.display ='none';
+        }
     </script>
   </body>
 </html>

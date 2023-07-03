@@ -99,17 +99,25 @@
                     $organization = $org["organization_name"];
                     $barMeter = $org["bar_meter"];
                     $isAnon = $org["isAnon"];
+                    $percentage = number_format($barMeter, 0, '.', '');
 
                     if ($isAnon == 0){
-                            echo '<div class="row">
+                      echo '
+                      <div class="row">
                         <div class="meter_container">
-                          <div class="meter" id="'. $organization .'" style="width: ' . $barMeter . '%;"></div>
+                          <div class="meter" id="'. $organization .'" style="width: ' . $barMeter . '%;">
+                            <div id="percentage">
+                              '. $percentage .'%
+                            </div>
+                          </div>
                         </div>
                       </div>';
                     } else {
                       echo '<div class="row">
                         <div class="meter_container">
-                          <div class="meter" id="anon" style="width: ' . $barMeter . '%;"></div>
+                          <div class="meter" id="anon" style="width: ' . $barMeter . '%;"><div id="percentage">
+                          '. $percentage .'%
+                        </div></div>
                         </div>
                       </div>';
                     } 
