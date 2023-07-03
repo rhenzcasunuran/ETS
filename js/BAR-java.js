@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const anonButton = document.getElementById("anon_button");
 const slider = document.querySelector(".slider");
-const cancelWrapper = document.getElementById("cancelWrapper");
+const cancelWrapper = document.getElementById("anon-confirm");
 
 anonButton.addEventListener("click", function(event) {
   event.stopPropagation();
