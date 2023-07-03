@@ -552,4 +552,8 @@ text-align: center;
     height: 50px;
   }
 }
+.event-image {
+  width: 50px;
+  height: 70px;
+}
 
