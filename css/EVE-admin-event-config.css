@@ -170,3 +170,7 @@ form{
 .config-button {
     justify-content: center!important;
 }
+
+label {
+    font-weight: bold;
+}

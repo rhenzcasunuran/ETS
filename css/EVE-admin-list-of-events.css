@@ -30,6 +30,7 @@ html{
 #event-wrapper{
     height: 100%;
     padding: 0;
+    padding-bottom: 100px;
 }
 
 #event-create-wrapper, #event-edit-wrapper{
@@ -268,4 +269,8 @@ button {
 .groupCriteria .icon-button {
     padding: 4px!important;
     box-shadow: none!important;
+}
+
+#add-event-form label {
+    font-weight: bold;
 }
