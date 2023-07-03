@@ -214,6 +214,11 @@ include './php/CAL-gapi-retrieve-values.php';
             <br>
             <div class="scrollable-container" id="showSelectedEvents">
             </div>
+            <div class="vstack gap-3" id="noShowSelectedEvents">
+              <h2 class="p-2 no-events-shown-text">Oops!</h2>
+              <h4 class="p-2 no-events-shown-text">There's no events</h4>
+              <img class="p-2 img-fluid" src="./pictures/no-upcoming-events.svg" alt="No Events">
+            </div>
           </div>
           <br>
           <div class="container-fluid" id="upcoming-events">

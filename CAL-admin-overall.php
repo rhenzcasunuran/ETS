@@ -188,6 +188,11 @@
             <br>
             <div class="scrollable-container" id="showSelectedEvents">
             </div>
+            <div class="vstack gap-3" id="noShowSelectedEvents">
+              <h2 class="p-2 no-events-shown-text">Oops!</h2>
+              <h4 class="p-2 no-events-shown-text">There's no events</h4>
+              <img class="p-2 img-fluid" src="./pictures/no-upcoming-events.svg" alt="No Events">
+            </div>
           </div>
           <br>
           <div class="container-fluid" id="upcoming-events">
@@ -239,6 +244,7 @@
                   <input class="w-100 p-3" type="date" id="date_mobile" name="date_mobile" oninput="validateYear(this)" max="" min="" required>
                   <input class="w-100 p-3" type="time" id="time_mobile" name="time_mobile" required>
                 </div>
+                <br>
                 <div class="d-flex justify-content-evenly">
                   <button type="submit" id="createEventButtonMobile" class="outline-button" value="createEventMobile">Create Event</button>
                   <button type="submit" id="createAnnouncementButtonMobile" class="outline-button" value="createAnnouncementMobile">Create Announcement</button>
