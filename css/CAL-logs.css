@@ -1,28 +1,3 @@
-:root {
-    --color-default: #282135;
-    --color-second: #191424;
-    --color-light: #e0e0e0;
-    --color-white: #fff;
-    --color-black: #000;
-    --color-third: #635B81CC;
-    --color-subthird: #635B8180;
-    --color-body: #D7D1BC;
-    --color-text: #000;
-    --color-red: #FF605C;
-    --color-green: #00CA4E;
-    --color-yellow: #FFB546;
-  }
-  
-.container {
-    margin-left: 120px;
-    width: 80%; /* Adjust the maximum width as per your preference */
-  }
-
-.custom-search-bar {
-  width: 200px;
-  height: 45px;
-}
-
 .small-button{ 
   position: relative;
   margin-top: -50px;
@@ -30,13 +5,25 @@
 }
 
 .table {
-  margin-top: -10px;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-.container {
-  margin-top: -50px;
-  margin-left: 130px;
-  margin-right: 100px;
+thead {
+  color: var(--color-body);
+}
+
+td  {
+  padding: 50px;
+  color: var(--color-content-text);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: var(--color-content-element); /* Set the background color for odd rows */
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: var(--color-content-outline); /* Set the background color for even rows */
 }
 
 /* Filter Customization  */
@@ -201,28 +188,25 @@
 
 .calendar-input-container {
   position: relative;
-  display: inline-block;
 }
 
 #miniCalendarContainer {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   top: 0;
   left: 0;
+  max-width: 375px;
   z-index: 999;
-  max-width: 400px;
-}
-
-#miniButtonContainer {
-  position: relative;
-  display: inline-flex;
-  top: -35px;
-  left: 170px;
+  height: auto;
 }
 
 #calendar-icon {
   display: flex;
   position: absolute;
-  top: 40%;
+  top: 50%;
   right: 20px; 
   transform: translateY(-50%);
   font-size: 1.5em;
@@ -233,18 +217,35 @@
   color: var(--color-content-text) !important;
 }
 
-#miniCalendar {
-  width: 300px;
-  margin-right: 20px;
+#search-icon {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  right: 20px; 
+  transform: translateY(-45%);
+  font-size: 1.5em;
+  cursor: pointer;
 }
 
-#dateInput {
-  min-width: 320px;
-  width: 320px;
+#search-icon i {
+  color: var(--color-content-text) !important;
+}
+
+.search-input-container {
+  position: relative;
+  display: inline-block;
+}
+
+#miniCalendar {
+  width: 300px;
 }
 
 #miniCalendar .td, #miniCalendar .th, #miniCalendar .tr {
   padding-bottom: 100px;
+}
+
+#miniCalendarThead {
+  color: var(--color-content-text);
 }
 
 #miniCalendarTable, #miniCalendarThead {
@@ -252,11 +253,11 @@
 }
 
 #calendarElement {
-  height: 430px;
+  height: 450px;
 }
 
 #miniNextButton {
-  margin-left: 70px;
+  margin-left: 40px;
   font-size: 25px;
   cursor: pointer;
 }
@@ -264,11 +265,7 @@
 #miniPreviousButton {
   font-size: 25px;
   cursor: pointer;
-}
-
-#miniCalendarHeader {
-  text-align: left;
-}  
+} 
 
 #miniCalendar td, #miniCalendar th {
   border-radius: 50px;
@@ -289,6 +286,10 @@
   color: var(--color-content-text); /* Change the color to your desired color */
 }
 
+input:not(.form-check-input) {
+  margin-bottom: 0px!important;
+}
+
 @media (max-width: 575.98px) {
   .below {
     left: 0 !important;
@@ -296,16 +297,13 @@
   }
 
   #calendarElement {
-    height: 350px;
+    height: 420px;
   }
 
-  #miniCalendar {
-    width: 230px;
-    margin-right: 50px !important;
-  }
-
-  #dateInput {
-    min-width: 320px;
+  @media (max-width: 474px) {
+    #miniCalendar {
+      width: 250px;
+    }
   }
 
   #miniNextButton {
