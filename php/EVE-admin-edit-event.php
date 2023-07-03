@@ -20,7 +20,7 @@
     }
 
     if(isset($_POST['save-btn'])){
-        $code = $_POST['id'];
+        $event_code = $_POST['id'];
         $event_name_id =  mysqli_real_escape_string($conn,$_POST['select-event-name']);
         $event_type_id =  mysqli_real_escape_string($conn,$_POST['select-event-type']);
         $category_name_id =  mysqli_real_escape_string($conn,$_POST['select-category-name']);
@@ -28,97 +28,161 @@
         $event_date =  mysqli_real_escape_string($conn,$_POST['date']);
         $event_time =  mysqli_real_escape_string($conn,$_POST['time']);
 
-        $sql = "SELECT category_name_id FROM ongoing_list_of_event WHERE event_id = $code;";
+        $sql = "SELECT event_id FROM ongoing_list_of_event WHERE event_code = '$event_code';";
         $query = mysqli_query($conn,$sql);
         $result = mysqli_fetch_array($query);
-        $currentCategoryID = $result[0];
-
-         /* $event_name = "";
- 
-         $sql_event_name = "SELECT * FROM event_name WHERE event_name_id = $event_name_id";
-         $result_event_name = mysqli_query($conn,$sql_event_name);
-         if(mysqli_num_rows($result_event_name) > 0){
-             $get_event_name = mysqli_fetch_assoc($result_event_name);
-             $event_name = $get_event_name['event_name'];
-         }
- 
-         $sql_event_type = "SELECT * FROM eventtypetb WHERE event_type_id = $event_type_id";
-         $result_event_type = mysqli_query($conn,$sql_event_type);
-         $get_event_type = mysqli_fetch_assoc($result_event_type);
-         $event_type = $get_event_type['event_type']; */
+        $event_id = $result[0];
 
          $event_description = preg_replace('/\s+/', ' ', $event_description);
 
-         if ($category_name_id !== $currentCategoryID) {
-            $sql = "INSERT IGNORE INTO ongoing_event_name (event_name_id, event_name)
-                    SELECT event_name_id, event_name
-                    FROM event_name
-                    WHERE event_name_id = '$event_name_id';";
-            mysqli_query($conn,$sql);
+         if ($event_type_id == 2) {
+                //Transfer Category
+                $sql = "INSERT INTO category_name (category_name_id, event_name_id, event_type_id, category_name)
+                        SELECT category_name_id, event_name_id, event_type_id, category_name
+                        FROM ongoing_category_name
+                        WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
 
-            $sql = "INSERT IGNORE INTO category_name (category_name_id, event_name_id, event_type_id, category_name)
-                    SELECT category_name_id, event_name_id, event_type_id, category_name
-                    FROM ongoing_category_name
-                    WHERE category_name_id = '$currentCategoryID';";
-            mysqli_query($conn,$sql);
+                $sql = "SELECT * FROM category_name WHERE category_name_id = '$category_name_id';";
+                $query = mysqli_query($conn,$sql);
+                $result = mysqli_fetch_array($query);
+                $category_name = $result['category_name'];
 
-            $sql = "INSERT IGNORE INTO criterion (criterion_id, category_name_id, criterion_name, criterion_percent)
-                    SELECT criterion_id, category_name_id, criterion_name, criterion_percent
-                    FROM ongoing_criterion
-                    WHERE category_name_id = '$currentCategoryID';";
-             mysqli_query($conn,$sql); 
+                //Transfer Criterion
+                $sql = "INSERT INTO criterion (criterion_id, category_name_id, criterion_name, criterion_percent)
+                        SELECT criterion_id, category_name_id, criterion_name, criterion_percent
+                        FROM ongoing_criterion
+                        WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
 
-            $sql = "INSERT IGNORE INTO ongoing_category_name (category_name_id, event_name_id, event_type_id, category_name)
-                    SELECT category_name_id, event_name_id, event_type_id, category_name
-                    FROM category_name
-                    WHERE category_name_id = '$category_name_id';";
-            mysqli_query($conn,$sql);
+                $sql = "DELETE FROM ongoing_criterion WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
 
-            $sql = "INSERT IGNORE INTO ongoing_criterion (criterion_id, category_name_id, criterion_name, criterion_percent)
-                    SELECT criterion_id, category_name_id, criterion_name, criterion_percent
-                    FROM criterion
-                    WHERE category_name_id = '$category_name_id';";
-                    mysqli_query($conn,$sql); 
-         }
+                //Update Category
+                $sql = "UPDATE ongoing_category_name SET category_name_id = '$category_name_id', event_name_id = '$event_name_id', event_type_id = '$event_type_id', category_name = '$category_name' WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
 
+                //Update Event
+                $sql = "UPDATE ongoing_list_of_event SET category_name_id = '$category_name_id', event_description = '$event_description', event_date =' $event_date', event_time = '$event_time' WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
 
-             $sql = "UPDATE ongoing_list_of_event SET category_name_id = '$category_name_id', event_description = '$event_description', event_date =' $event_date', event_time = '$event_time' WHERE event_id = '$code';";
-             mysqli_query($conn,$sql);
+                to_log($conn, $sql);
 
-             to_log($conn, $sql);
+                //Insert New Criterion
+                $sql = "INSERT INTO ongoing_criterion (criterion_id, category_name_id, event_id, criterion_name, criterion_percent)
+                        SELECT criterion_id, category_name_id, $event_id, criterion_name, criterion_percent
+                        FROM criterion
+                        WHERE category_name_id = '$category_name_id';";
+                mysqli_query($conn,$sql);
 
-             if ($category_name_id !== $currentCategoryID) {
+                //Not Available to Edit
+                $sql = "DELETE FROM criterion WHERE category_name_id = '$category_name_id';";
+                mysqli_query($conn,$sql);
 
-            $sql = "DELETE FROM ongoing_criterion WHERE category_name_id = '$currentCategoryID';";
-            mysqli_query($conn,$sql);
+                // Create a unique constraint on the event_id column
+                $sql = "ALTER TABLE competition ADD UNIQUE (event_id);";
+                mysqli_query($conn, $sql);
 
-            $sql = "DELETE FROM ongoing_category_name WHERE category_name_id = '$currentCategoryID';";
-            mysqli_query($conn,$sql);
+                // Insert query
+                $sql = "INSERT IGNORE INTO competition (event_id) VALUES ('$event_id');";
+                mysqli_query($conn, $sql);
 
-            $sql = "DELETE FROM ongoing_category_name
-                    WHERE event_name_id NOT IN (
-                        SELECT event_name_id
-                        FROM event_name
-                    )";
-            mysqli_query($conn, $sql);
+                $sql = "DELETE FROM category_name WHERE category_name_id = '$category_name_id';";
+                mysqli_query($conn,$sql);
 
-            $sql = "DELETE FROM ongoing_event_name
-                    WHERE event_name_id NOT IN (
+                $sql = "DELETE FROM tournament WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
+                
+                $sql = "DELETE FROM ongoing_event_name
+                        WHERE event_name_id NOT IN (
                         SELECT event_name_id
                         FROM ongoing_category_name
-                    );";
-            $query = mysqli_query($conn,$sql);
+                        );";
+                mysqli_query($conn,$sql);
+         }
+        header('Location: EVE-admin-list-of-events.php?event successfully updated');
+     }
 
-            $sql = "DELETE FROM criterion WHERE category_name_id = '$category_name_id';";
-            mysqli_query($conn,$sql);
+     if(isset($_POST['save-btn-tournament'])){
+        $event_code = $_POST['id'];
+        $event_name_id =  mysqli_real_escape_string($conn,$_POST['select-event-name']);
+        $event_type_id =  mysqli_real_escape_string($conn,$_POST['select-event-type']);
+        $category_name_id =  mysqli_real_escape_string($conn,$_POST['select-category-name']);
+        $event_description =  mysqli_real_escape_string($conn,$_POST['event-description']);
+        $event_date =  mysqli_real_escape_string($conn,$_POST['date']);
+        $event_time =  mysqli_real_escape_string($conn,$_POST['time']);
+        $event_wins = mysqli_real_escape_string($conn,$_POST['event-match-style']);
 
-            $sql = "DELETE FROM category_name WHERE category_name_id = '$category_name_id';";
-            mysqli_query($conn,$sql);
+        $sql = "SELECT event_id FROM ongoing_list_of_event WHERE event_code = '$event_code';";
+        $query = mysqli_query($conn,$sql);
+        $result = mysqli_fetch_array($query);
+        $event_id = $result[0];
 
+         $event_description = preg_replace('/\s+/', ' ', $event_description);
+
+         if ($event_type_id == 1) {
+                //Transfer Category
+                $sql = "INSERT INTO category_name (category_name_id, event_name_id, event_type_id, category_name)
+                        SELECT category_name_id, event_name_id, event_type_id, category_name
+                        FROM ongoing_category_name
+                        WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
+
+                $sql = "SELECT * FROM category_name WHERE category_name_id = '$category_name_id';";
+                $query = mysqli_query($conn,$sql);
+                $result = mysqli_fetch_array($query);
+                $category_name = $result['category_name'];
+
+                //Transfer Criterion
+                $sql = "INSERT INTO criterion (criterion_id, category_name_id, criterion_name, criterion_percent)
+                        SELECT criterion_id, category_name_id, criterion_name, criterion_percent
+                        FROM ongoing_criterion
+                        WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
+
+                $sql = "DELETE FROM ongoing_criterion WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
+                
+                $sql = "DELETE FROM competition WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
+
+                //Update Category
+                $sql = "UPDATE ongoing_category_name SET category_name_id = '$category_name_id', event_name_id = '$event_name_id', event_type_id = '$event_type_id', category_name = '$category_name' WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
+
+
+                //Update Event
+                $sql = "UPDATE ongoing_list_of_event SET category_name_id = '$category_name_id', event_description = '$event_description', event_date =' $event_date', event_time = '$event_time' WHERE event_id = '$event_id';";
+                mysqli_query($conn,$sql);
+
+                to_log($conn, $sql);
+
+                // Check if the current value of event_wins is different from the new value
+                $sql = "SELECT number_of_wins_id FROM tournament WHERE event_id = '$event_id';";
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_assoc($result);
+                $current_wins = $row['number_of_wins_id'];
+
+                if ($current_wins != $event_wins) {
+                        // Update query
+                        $sql = "UPDATE tournament SET number_of_wins_id = '$event_wins' WHERE event_id = '$event_id';";
+                        mysqli_query($conn, $sql);
+
+                        // Check if any rows were affected by the update query
+                        if (mysqli_affected_rows($conn) == 0) {
+                        // No rows were updated, so perform the insert query
+                        $sql = "INSERT INTO tournament (event_id, number_of_wins_id) VALUES ('$event_id', '$event_wins');";
+                        mysqli_query($conn, $sql);
+                        }
                 }
 
-            header('Location: EVE-admin-list-of-events.php?event successfully updated');
+                $sql = "DELETE FROM category_name WHERE category_name_id = '$category_name_id';";
+                mysqli_query($conn,$sql);
+         }
+        header('Location: EVE-admin-list-of-events.php?event successfully updated');
      }
+
+     
 
         
    /* if(isset($_GET['eed'])){
@@ -174,7 +238,7 @@
         $result = mysqli_fetch_array($select_event);
         $category_name_id = $result['category_name_id'];
         if($row > 0) {
-            $sql = "UPDATE ongoing_list_of_event SET is_archived = '1';";
+            $sql = "UPDATE ongoing_list_of_event SET is_archived = '1' WHERE event_code = '$code';";
 
             mysqli_query($conn, $sql);
             $sql = "INSERT IGNORE INTO category_name (category_name_id, event_name_id, event_type_id, category_name)

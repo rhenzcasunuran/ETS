@@ -12,4 +12,7 @@
     $categoryName_query = "SELECT * FROM `category_name`";
     $categoryName = mysqli_query($conn, $categoryName_query);
     $categoryName2 = mysqli_query($conn, $categoryName_query);
+
+    $sql = "SELECT * FROM number_of_wins;";
+    $NoW = mysqli_query($conn, $sql);
 ?>
