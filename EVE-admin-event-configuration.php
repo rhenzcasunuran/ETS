@@ -175,6 +175,31 @@
                 <form autocomplete="off" class="d-flex flex-column" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                   <div class="element-group">
                   <div class="form-group">
+                    <label for="selectEventType" class="fs-6">Event Type <span class="req">*</span></label>
+                    <select name="selectEventType" id="selectEventType" title="Select Event Type" class="form-control selectpicker" required>
+                      <option value="" selected>Select Event Type</option>
+                      <?php 
+                      $row = mysqli_num_rows($eventType);
+                      if ($row > 0) {
+                      while($row = mysqli_fetch_array($eventType)):;
+                        if($row['event_type'] != 'Standard'){
+                      ?>
+                      <option value="<?php echo $row[0]; ?>">
+                        <?php echo $row[1]; ?>
+                      </option>
+                      <?php } endwhile; 
+                      }
+                      else{
+                    ?>
+                      <option disabled class="noEventTypeData">
+                        No event type found...
+                      </option>
+                    <?php
+                      }
+                    ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
                     <label for="selectEventName" class="fs-6">Event <span class="req">*</span></label>
                     <select name="selectEventName" id="selectEventName" title="Select Event Name" class="form-control selectpicker" data-live-search="true" required>
                       <option value="" selected>Select Event Name</option>
@@ -198,29 +223,6 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="selectEventType" class="fs-6">Event Type <span class="req">*</span></label>
-                    <select name="selectEventType" id="selectEventType" title="Select Event Type" class="form-control selectpicker" required>
-                      <option value="" selected>Select Event Type</option>
-                      <?php 
-                      $row = mysqli_num_rows($eventType);
-                      if ($row > 0) {
-                      while($row = mysqli_fetch_array($eventType)):;?>
-                      <option value="<?php echo $row[0]; ?>">
-                        <?php echo $row[1]; ?>
-                      </option>
-                      <?php endwhile; 
-                      }
-                      else{
-                    ?>
-                      <option disabled class="noEventTypeData">
-                        No event type found...
-                      </option>
-                    <?php
-                      }
-                    ?>
-                    </select>
-                  </div>
-                  <div class="form-group">
                     <label for="inputCategoryName" class="fs-6">Category <span class="req">*</span></label>
                     <input type="text" class="form-control" id="inputCategoryName" placeholder="Enter Category Name" name="inputCategoryName" minlength="5" maxlength="25" required>
                     <div class="text-danger d-flex w-100 justify-content-center" id="checkCategoryName"><?php if(isset($error['categoryName'])) echo $error['categoryName']?></div>
@@ -229,9 +231,9 @@
                   <div class="button-container config-button row">
                     <button type="submit" class="primary-button col-6" id="categorySaveBtn" name="categorySaveBtn" disabled>
                       <div class="tooltip-popup flex-column" id="tooltipCategory">
-                        <div class="tooltipText" id="selectEvent">Event<i class='bx bx-check' id="checkSelectEvent"></i></div>
                         <div class="tooltipText" id="selectType">Event Type<i class='bx bx-check' id="checkSelectType"></i></div>
-                        <div class="tooltipText" id="textCategory">Category Name<i class='bx bx-check' id="checkCategory"></i></div>
+                        <div class="tooltipText" id="selectEvent">Event<i class='bx bx-check' id="checkSelectEvent"></i></div>
+                        <div class="tooltipText" id="textCategory">Category Name (5 or more char)<i class='bx bx-check' id="checkCategory"></i></div>
                       </div>
                     Save
                     </button>

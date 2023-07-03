@@ -63,6 +63,31 @@
         <div class="element">
           <form id="add-event-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" role="form">
             <div class="row flex-column flex-md-row">
+            <div class="form-group col-md-4">
+                  <label for="select-event-type" class="form-label fw-bold">Event Type <span class="req" id="reqType">*</span></label>
+                  <select id="select-event-type" name="select-event-type" title="<?php echo $edit_event_row['event_type']?>" class="form-control selectpicker" required>
+                  <option value="">Select Event Type</option>
+                  <?php 
+                      $row = mysqli_num_rows($eventType);
+                      if ($row > 0) {
+                      while($row = mysqli_fetch_array($eventType)):;
+                        if($edit_event_row['event_type'] !== $row[1]){
+                      ?>
+                      <option value="<?php echo $row[0]; ?>">
+                        <?php echo $row[1]; ?>
+                      </option>
+                      <?php } 
+                        else{
+                          ?>
+                            <option value="<?php echo $row[0]?>" selected><?php echo $row[1]?></option>
+                          <?php
+                        }  
+                    
+                    endwhile; 
+                      }
+                    ?>
+                  </select>
+              </div>
               <div class="form-group col-md-4">
                   <label for="select-event-name" class="form-label fw-bold">Event <span class="req" id="reqName">*</span></label>
                   <select id="select-event-name" name="select-event-name" title="<?php echo $edit_event_row['event_name']?>" class="form-control selectpicker" data-live-search="true" required>
@@ -93,77 +118,13 @@
                   </select>
               </div>
               <div class="form-group col-md-4">
-                  <label for="select-event-type" class="form-label fw-bold">Event Type <span class="req" id="reqType">*</span></label>
-                  <select id="select-event-type" name="select-event-type" title="<?php echo $edit_event_row['event_type']?>" class="form-control selectpicker" required>
-                  <option value="">Select Event Type</option>
-                  <?php 
-                      $row = mysqli_num_rows($eventType);
-                      if ($row > 0) {
-                      while($row = mysqli_fetch_array($eventType)):;
-                        if($edit_event_row['event_type'] !== $row[1]){
-                      ?>
-                      <option value="<?php echo $row[0]; ?>">
-                        <?php echo $row[1]; ?>
-                      </option>
-                      <?php } 
-                        else{
-                          ?>
-                            <option value="<?php echo $row[0]?>" selected><?php echo $row[1]?></option>
-                          <?php
-                        }  
-                    
-                    endwhile; 
-                      }
-                    ?>
-                  </select>
-              </div>
-              <div class="form-group col-md-4">
                 <label for="select-category-name" class="form-label fw-bold">Category <span class="req" id="reqCategory">*</span></label>
                 <select id="select-category-name" name="select-category-name" title="<?php echo $edit_event_row['category_name']?>" class="form-control selectpicker" data-live-search="true" required>
                   <option value="<?php echo $edit_event_row['category_name_id']?>" id="selectedCategory" selected><?php echo $edit_event_row['category_name']?></option>
                 </select>
             </div>
           </div>
-          <div class="row flex-column flex-md-row">
-            <div class="form-group col-md-6">
-                <label for="event-description" class="form-label fw-bold">Event Description <span class="req" id="reqDesc">*</span></label>
-                <textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required><?php echo $edit_event_row['event_description'] ?></textarea>
-            </div>
-            <div class="form-group col-md-6">
-                <label class="form-label fw-bold">Criteria</label>
-                <div class="form-control second-layer" id="criteria"></div>
-            </div>
-          </div>
-          <div class="row flex-column flex-md-row">
-            <div class="form-group col-md-5">
-                <label class="form-label fw-bold">Judges</label>
-                <div id="event-judges" class="form-control judges-container"></div>
-            </div>
-            <div class="form-group col-md-4">
-                <label class="form-label fw-bold">Date and Time <span class="req" id="reqDateTime">*</span></label>
-                <input type="date" class="form-control date" id="date" max="" min="" name="date" value="<?php echo $edit_event_row['event_date'] ?>">
-                <input type="time" class="form-control mt-2" id="time" name="time" value="<?php echo $edit_event_row['event_time'] ?>">
-            </div>
-            <div class="form-group col-md-3">
-              <label class="form-label fw-bold">Code <i class='bx bx-copy' onclick="copyCode(this)" data-placement="bottom" title="Copied"></i> <i class='bx bx-hide' id="revealCode"></i></label>
-              <div class="form-control" id="display-code"><?php echo $edit_event_row['event_code']?></div>
-              <input type="hidden" name="id" value="<?php echo isset($_GET['eec']) ? htmlspecialchars($_GET['eec']) : ''; ?>">
-            </div>
-          </div>
-          <div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">
-            <button type="submit" class="primary-button" id="save-btn" name="save-btn" disabled>
-              <div class="tooltip-popup flex-column" id="tooltip">
-                <div class="tooltipText" id="textEvent">Event<i class='bx bx-check' id="checkEvent"></i></div>
-                <div class="tooltipText" id="textType">Event Type<i class='bx bx-check' id="checkType"></i></div>
-                <div class="tooltipText" id="textCategory">Category<i class='bx bx-check' id="checkCategory"></i></div>
-                <div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class='bx bx-check' id="checkDescription"></i></div>
-                <div class="tooltipText" id="textDate">Date: <span id="dateText"></span><i class='bx bx-check' id="checkDate"></i></div>
-                <div class="tooltipText" id="textTime">Time<i class='bx bx-check' id="checkTime"></i></div>
-              </div>
-                Save Changes
-          </button>
-            <div class="outline-button" onclick="showCancel()">Cancel</div>
-          </div>
+          <div id="createEventContent"></div>
           </form>
 
           <script>
@@ -175,36 +136,6 @@
             var hideCancel = function() {
                 popupDiscard.style.display ='none';
             }
-
-            const eventCode = document.querySelector("#display-code");
-            const eye = document.querySelector("#revealCode");
-            const eventCodeCode = eventCode.textContent;
-
-            function copyCode(element) {
-              // Show tooltip
-              $(element).tooltip('show');
-
-              // Hide tooltip after a delay
-              setTimeout(function() {
-                $(element).tooltip('hide');
-              }, 1500); // Adjust the delay as needed
-              var range = document.createRange();
-              navigator.clipboard.writeText(eventCodeCode);
-              $(element).removeAttr('data-toggle').removeAttr('title').off('mouseenter mouseleave');
-            }
-
-            eye.addEventListener("click", function(){
-              if(eye.classList.toggle("reveal")){
-                eye.classList.remove("bx-hide");
-                eye.classList.add("bx-show");
-                eventCode.style.webkitTextSecurity = "none";
-              }
-              else{
-                eye.classList.remove("bx-show");
-                eye.classList.add("bx-hide");
-                eventCode.style.webkitTextSecurity = "disc";
-               }
-            });
           </script>
         </div>
       </div>
@@ -232,96 +163,191 @@
     <script type="text/javascript" src="./js/EVE-admin-bootstrap4.bundle.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select-picker.js"></script>
-    <script type="text/javascript" src="./js/EVE-admin-edit-disable-button.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-popup.js"></script>
     <script>
 
-      $(document).ready(function(){
-        var todaysDate = new Date();
-        
-        var year = todaysDate.getFullYear();		
-        var maxYear = year+1;
-        var month = ("0" + (todaysDate.getMonth() + 1)).slice(-2); 
-        var day = ("0" + todaysDate.getDate()).slice(-2);
+      $(document).ready(function() {
+        var description = "<?php echo $edit_event_row['event_description'] ?>";
+        var code = "<?php echo $edit_event_row['event_code'] ?>";
+        var date = "<?php echo $edit_event_row['event_date'] ?>";
+        var time = "<?php echo $edit_event_row['event_time'] ?>";
+        var eventID = "<?php echo $edit_event_row['event_id'] ?>";
 
-        var dtToday = (year + "-" + month + "-" + day);
-        var dtMax = (maxYear + "-" + month + "-" + day);
-        
-        $("#date").attr('max', dtMax);
-        $("#date").attr('min', dtToday);
+
+          // Initial data fetch based on typePicker value
+        fetchTypeData($('#select-event-type').val(), description, date, time, code, eventID);
+
+        $('#select-event-type').change(function() {
+          // Fetch data based on changed typePicker value
+          var selectedType = $(this).val();
+          description = $('#event-description').val(); // Capture the updated description value
+          date = $('#date').val(); // Capture the updated date value
+          time = $('#time').val(); // Capture the updated time value
+          fetchTypeData(selectedType, description, date, time, code, eventID);
+        });
+
+        function fetchTypeData(type, description, date, time, code, eventID) {
+          $.ajax({
+              url: './php/EVE-admin-edit-event-type.php',
+              method: 'POST',
+              data: { eventID: eventID, type: type, desc: description, e_date: date, e_time: time, e_code: code },
+              success: function(response) {
+                  $('#createEventContent').html(response);
+
+                  if ($("#select-event-type").val() !== "") {
+                      checkType.style.visibility = "visible";
+                      textType.style.color = "var(--default-success-color)";
+                  }
+                  if (description !== "") {
+                      checkDesc.style.visibility = "visible";
+                      textDesc.style.color = "var(--default-success-color)";
+                  }
+                  if (date !== "") {
+                      checkDate.style.visibility = "visible";
+                      textDate.style.color = "var(--default-success-color)";
+                  }
+                  if (time !== "") {
+                      checkTime.style.visibility = "visible";
+                      textTime.style.color = "var(--default-success-color)";
+                  }
+                  // Update description variable on input
+                  $('#event-description').on('input', function() {
+                      description = $(this).val();
+                      // Use the updated description variable as needed
+                      console.log(description);
+                  });
+
+                  $('#date').change(function() {
+                    date = $(this).val();
+                  });
+
+                  $('#time').change(function() {
+                    time = $(this).val();
+                  });
+
+                  $('#date').on('input', function() {
+                    date = $(this).val();
+                  });
+
+                  $('#time').on('input', function() {
+                    time = $(this).val();
+                  });
+              }
+          });
+        }
       });
 
       $(document).ready(function(){
-        var default_event_name_id = $("#select-event-name").val();
-        var default_event_type_id = $("#select-event-type").val();
-        var default_category_name = "<?php echo $edit_event_row['category_name_id']?>";
+        var selectedEventNameID = $("#select-event-name").val();
+        var selectedEventTypeID = $("#select-event-type").val();
+        var selectedCategoryNameID = "<?php echo $edit_event_row['category_name_id']?>";
 
-        $.ajax({
-            url:"./php/EVE-admin-edit-action.php",
-            method: "POST",
-            data:{s_eventNameID:default_event_name_id, eventTypeID:default_event_type_id, categoryName:default_category_name},
-            success: function(data){
-              $("#select-category-name").html(data);
-              $('#select-category-name').selectpicker('refresh');
-            }
+        fetchData();
+
+        $('#select-event-name').change(function() {
+            // Fetch data based on changed categoryPicker value
+            selectedEventNameID = $(this).val();
+            fetchData();
         });
-        $("#select-event-name").change(function(){
-          var event_name_id = $(this).val();
-          if($('#select-event-type').prop('disabled', false)){
-            $('#select-event-type').prop('disabled', false);
+
+        $('#select-event-type').change(function() {
+            // Fetch data based on changed categoryPicker value
+            selectedEventTypeID = $(this).val();
+            fetchData();
+        });
+        
+        function fetchData(){
+          $.ajax({
+              url:"./php/EVE-admin-edit-action.php",
+              method: "POST",
+              data:{s_eventNameID: selectedEventNameID, eventTypeID: selectedEventTypeID, categoryName: selectedCategoryNameID},
+              success: function(data){
+                $("#select-category-name").html(data);
+                $('#select-category-name').selectpicker('refresh');
+              }
+          });
+        }
+
+        $(document).ready(function(){
+
+        $('#select-event-type').change(function() {
+          var event_type_id = $(this).val();
+          if($('#select-event-name').prop('disabled', false)){
+            $('#select-event-name').prop('disabled', false);
           }
-          $('#select-event-type option:selected').prop('selected', false);
-          $('#select-event-type').selectpicker('refresh');
+          $('#select-event-name option:selected').prop('selected', false);
+          $('#select-event-name').selectpicker('refresh');
           $('#select-category-name').prop('disabled', true);
           $('#select-category-name option:selected').prop('selected', false);
           $('#select-category-name').selectpicker('refresh');
           document.querySelector("#save-btn").disabled = true;
+          tooltip.style.display = 'flex';
           tooltip.style.visibility = 'visible';
-          checkType.style.visibility = "hidden";
-          textType.style.color = "var(--not-active-text-color)";
+          checkEvent.style.visibility = "hidden";
+          textEvent.style.color = "var(--not-active-text-color)";
           checkCategory.style.visibility = "hidden";
           textCategory.style.color = "var(--not-active-text-color)";
           if($(this).val() === ""){
-            $('#select-event-type').prop('disabled', true);
-            $('#select-event-type').selectpicker('refresh');
+            $('#select-event-name').prop('disabled', true);
+            $('#select-event-name').selectpicker('refresh');
           }
         });
-        $("#select-event-type").change(function(){
-          var s_event_name_id = $("#select-event-name").val();
-          var event_type_id = $(this).val();
+        $("#select-event-name").change(function(){
+          var s_event_name_id = $(this).val();
+          var event_type_id = $("#select-event-type").val();
           if($('#select-category-name').prop('disabled', false)){
             $('#select-category-name').prop('disabled', false);
           }
           $('#select-category-name').selectpicker('refresh');
-          $('#selectedCategory').removeAttr("selected");
           document.querySelector("#save-btn").disabled = true;
+          tooltip.style.display = 'flex';
           tooltip.style.visibility = 'visible';
           checkCategory.style.visibility = "hidden";
           textCategory.style.color = "var(--not-active-text-color)";
-          $('#select-category-name').attr('title', 'Select Category');
           if($(this).val() === ""){
             $('#select-category-name').prop('disabled', true);
             $('#select-category-name').selectpicker('refresh');
           }
-          $.ajax({
-            url:"./php/EVE-admin-edit-action.php",
-            method: "POST",
-            data:{s_eventNameID:s_event_name_id, eventTypeID:event_type_id, categoryName:default_category_name},
-            success: function(data){
-              $("#select-category-name").html(data);
-              $('#select-category-name').selectpicker('refresh');
-            }
-          });
         });
+      }); 
         
       }); 
 
       $(document).ready(function() {
-        $('.selectpicker').selectpicker();
-        $('.bs-searchbox input').attr('maxlength', '25');
-      });
+            var eventID = "<?php echo $edit_event_row['event_id']?>";
+            var default_category_name = "<?php echo $edit_event_row['category_name_id']?>";
+            $('#select-category-name').val(default_category_name);
+            // Initial data fetch based on categoryPicker value
+            fetchCategoryData($('#select-category-name').val(), eventID);
+        });
 
+        $('#select-category-name').change(function() {
+            // Fetch data based on changed categoryPicker value
+            var selectedCategory = $(this).val();
+            eventID = "<?php echo $edit_event_row['event_id']?>";
+            fetchCategoryData(selectedCategory, eventID);
+        });
+
+        var totalPercentage = 0;
+
+        function fetchCategoryData(category, event) {
+            $.ajax({
+                url: './php/EVE-admin-edit-event-criteria.php',
+                method: 'POST',
+                data: { category: category, event: event },
+                success: function(response) {
+                  var parsedResponse = JSON.parse(response);
+                  var totalPercent = parsedResponse.totalPercent;
+
+                  totalPercentage = totalPercent;
+                  // Replace the form section with updated data
+                  $('#criteria-container').html(parsedResponse.output);
+                  buttonState(totalPercentage);
+                }
+            });
+        }
     </script>
+        <script type="text/javascript" src="./js/EVE-admin-edit-disable-button.js"></script>
   </body>
 
 </html>

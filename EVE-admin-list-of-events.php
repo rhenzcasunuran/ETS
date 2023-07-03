@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="./css/EVE-admin-bootstrap4.min.css">
     <link rel="stylesheet" href="./css/EVE-admin-list-of-events.css">
     <link rel="stylesheet" href="./css/EVE-admin-confirmation.css">
+
+    <script src="./js/jquery-3.6.4.js"></script>
   </head>
 
   <body>
@@ -106,6 +108,26 @@
     <!--Page Content-->
     <section class="home-section">
       <div class="container-fluid d-flex row justify-content-center m-0" id="event-wrapper">
+
+    <!--Pagination-->
+    <?php
+      $list_table_query = "SELECT * FROM ongoing_list_of_event WHERE is_archived = '0';";
+      $your_php_location = "EVE-admin-list-of-events.php";
+      require './php/pagination.php';
+      $list_table_query_with_limit = "SELECT ole.event_id, ole.category_name_id AS ole_category_name_id, ole.event_description, ole.event_code, ole.event_date, ole.event_time,
+                                      oen.event_name_id, oen.event_name,
+                                      ocn.category_name_id, ocn.event_name_id AS ocn_event_name_id, ocn.event_type_id, ocn.category_name,
+                                      et.event_type_id AS et_event_type_id, et.event_type
+                                      FROM ongoing_event_name AS oen
+                                      JOIN ongoing_category_name AS ocn ON oen.event_name_id = ocn.event_name_id
+                                      JOIN event_type AS et ON ocn.event_type_id = et.event_type_id
+                                      JOIN ongoing_list_of_event AS ole ON ocn.category_name_id = ole.category_name_id
+                                      WHERE is_archived = '0'
+                                      ORDER BY event_date ASC
+                                      LIMIT $start_from, $numberOfItems;";
+      $listedItems = mysqli_query($conn, $list_table_query_with_limit);
+    ?>
+  
         <?php
           $row = mysqli_num_rows($event_result2);
           if ($row > 0){
@@ -120,16 +142,16 @@
                 </div>
               </div>
             <?php
-            while ($row = mysqli_fetch_array($query)):;?>
+            while ($row = mysqli_fetch_array($listedItems)):;?>
             <div class="element">
               <div class="row">
+              <div class="element-group col-sm-6 col-lg-3">
+                  <p class="element-label">Event Type</p>
+                  <p class="element-content"><?php echo $row['event_type'];?></p>
+                </div>
                 <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Event</p>
                   <p class="element-content"><?php echo $row['event_name'];?></p>
-                </div>
-                <div class="element-group col-sm-6 col-lg-3">
-                  <p class="element-label">Event Type</p>
-                  <p class="element-content"><?php echo $row['event_type'];?></p>
                 </div>
                 <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Category</p>
@@ -162,17 +184,35 @@
                     </i> 
                     <i class='bx bx-hide' id="revealCode<?php echo $row[0];?>"></i>
                   </p>
-                  <p class="element-content-secured" id="eventCode<?php echo $row['event_id'];?>"><?php echo $row[3];?></p>
+                  <p class="element-content-secured" id="eventCode<?php echo $row['event_id'];?>"><?php echo $row['event_code'];?></p>
                 </div>
                 <div class="element-group col-sm-12 col-lg-4" id="eventBtn">
                   <button class="success-button justify-self-end event-done-btn<?php echo $row['event_id'];?>" onclick="showMarkAsDone<?php echo $row[0];?>()">Mark as Done</button>
                   <div class="button-container more-btn<?php echo $row[0];?>" id="more-btn">
                     <a href="EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>">
-                      <button class="primary-button justify-self-end" id="event-edit-btn"><i class='bx bx-edit-alt'></i>Edit Event</button>
+                      <button class="primary-button justify-self-end" id="event-edit-btn<?php echo $row['event_id'];?>"><i class='bx bx-edit-alt'></i>Edit Event</button>
                     </a>
                     <button class="danger-button icon-button" id="event-delete-btn" onclick="showDelete<?php echo $row[0];?>()"><i class='bx bx-trash'></i></button>
                   </div>
                   <script>
+                    //Enable Button on Date
+                    var markAsDoneButton = document.querySelector('button.event-done-btn<?php echo $row['event_id'];?>');
+                    var editEventButton = document.querySelector('button#event-edit-btn<?php echo $row['event_id'];?>');
+
+                    var targetDateTime = new Date('<?php echo $row['event_date'] . ' ' . $row['event_time']; ?>');
+
+                    var currentDateTime = new Date();
+
+                    if (currentDateTime > targetDateTime) {
+                      markAsDoneButton.disabled = false;
+                      editEventButton.disabled = true;
+                    }
+                    else {
+                      markAsDoneButton.disabled = true;
+                      editEventButton.disabled = false;
+                    }
+
+
                     const moreBtn<?php echo $row[0];?> = document.querySelector(".more-btn<?php echo $row[0];?>");
                     const doneBtn<?php echo $row[0];?> = document.querySelector(".event-done-btn<?php echo $row[0];?>");
 
@@ -233,7 +273,6 @@
                           eventCode<?php echo $row[0];?>.style.webkitTextSecurity = "disc";
                         }
                     });
-
                   </script>
                 </div>
               </div>
@@ -264,7 +303,6 @@
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
-    <script src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -280,10 +318,7 @@
         });
       });
 
-      $(document).ready(function() {
-        // Initialize tooltips
 
-      });
     </script>
 
     <!-- Event Config Scripts -->
