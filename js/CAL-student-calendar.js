@@ -648,20 +648,6 @@ var studentCalendarComputer = {
       }
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
       generateMiniCalendar(currentMonth, currentYear, filters, filtersOrg);
-
-      prevMonthInterval = setInterval(function() {
-        currentMonth--;
-        if (currentMonth < 0) {
-          currentMonth = 11;
-          currentYear--;
-        }
-        generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-        generateMiniCalendar(currentMonth, currentYear, filters, filtersOrg);
-      }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
-    }).mouseup(function() {
-      clearInterval(prevMonthInterval);
-    }).mouseleave(function() {
-      clearInterval(prevMonthInterval);
     });
 
     $("#next-month").mousedown(function() {
@@ -673,20 +659,6 @@ var studentCalendarComputer = {
       }
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
       generateMiniCalendar(currentMonth, currentYear, filters, filtersOrg);
-
-      nextMonthInterval = setInterval(function() {
-        currentMonth++;
-        if (currentMonth > 11) {
-          currentMonth = 0;
-          currentYear++;
-        }
-        generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-        generateMiniCalendar(currentMonth, currentYear, filters, filtersOrg);
-      }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
-    }).mouseup(function() {
-      clearInterval(nextMonthInterval);
-    }).mouseleave(function() {
-      clearInterval(nextMonthInterval);
     });
 
         // Mini Calendar
@@ -837,32 +809,51 @@ var studentCalendarComputer = {
 
       // Function to generate the years table
       function generateYearsTable() {
-        // Clear the years table
-        yearsTableBody.innerHTML = "";
+         // Clear the years table
+         yearsTableBody.innerHTML = "";
 
-        // Loop to generate the rows and columns for the years table
-        for (let i = 0; i < numRows; i++) {
-          // Create a new table row
-          let row = document.createElement("tr");
-
-          for (let j = 0; j < numCols; j++) {
-            // Create a new table cell (td) element
-            let cell = document.createElement("td");
-
-            // Calculate the year for the current cell
-            let year = startYear + i * numCols + j;
-
-            // Set the year as the cell content
-            cell.textContent = year;
-
+         // Loop to generate the rows and columns for the years table
+         for (let i = 0; i < numRows; i++) {
+           // Create a new table row
+           let row = document.createElement("tr");
+ 
+           for (let j = 0; j < numCols; j++) {
+             // Create a new table cell (td) element
+             let cell = document.createElement("td");
+ 
+             // Calculate the year for the current cell
+             let year = startYear + i * numCols + j;
+ 
+             // Set the year as the cell content
+             cell.textContent = year;
+ 
+             // Highlight the current year
+             if (year === currentYear) {
+               cell.classList.add("mini-active-year");
+             }
+ 
             // Add a click event listener to the cell
             cell.addEventListener("click", function() {
+              // Remove the "mini-selected-year" class from the previously selected cell
+              let previouslySelectedCell = document.querySelector(".mini-selected-year");
+              if (previouslySelectedCell) {
+                previouslySelectedCell.classList.remove("mini-selected-year");
+              }
+
+              // Set the currentYear to the clicked year
               currentYear = year;
+
+              // Hide/show necessary elements
               miniCalendarYearsTable.style.display = "none";
               miniCalendarTable.style.display = "";
               miniCalendarThead.style.display = "";
               miniButtonYearsContainer.style.display = "none"; // Hide the miniButtonYearsContainer
               miniButtonContainer.style.display = ""; // Show the miniButtonContainer
+
+              // Add the "mini-selected-year" class to the clicked cell
+              cell.classList.add("mini-selected-year");
+
+              // Generate the calendar based on the selected month and year
               generateCalendar(month, year, filters, filtersOrg);
               generateMiniCalendar(month, year, filters, filtersOrg);
             });
@@ -959,21 +950,6 @@ var studentCalendarComputer = {
       }
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
       generateMiniCalendar(currentMonth, currentYear, filters, filtersOrg);
-
-      prevMonthInterval = setInterval(function() {
-        currentMonth--;
-        if (currentMonth < 0) {
-          currentMonth = 11;
-          currentYear--;
-        }
-        generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-        generateMiniCalendar(currentMonth, currentYear, filters, filtersOrg);
-
-      }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
-    }).mouseup(function() {
-      clearInterval(prevMonthInterval);
-    }).mouseleave(function() {
-      clearInterval(prevMonthInterval);
     });
 
     $("#miniNextButton").mousedown(function() {
@@ -985,21 +961,6 @@ var studentCalendarComputer = {
       }
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
       generateMiniCalendar(currentMonth, currentYear, filters, filtersOrg);
-
-      nextMonthInterval = setInterval(function() {
-        currentMonth++;
-        if (currentMonth > 11) {
-          currentMonth = 0;
-          currentYear++;
-        }
-        generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-        generateMiniCalendar(currentMonth, currentYear, filters, filtersOrg);
-
-      }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
-    }).mouseup(function() {
-      clearInterval(nextMonthInterval);
-    }).mouseleave(function() {
-      clearInterval(nextMonthInterval);
     });
 
     // Event handler for the remaining-event button click
