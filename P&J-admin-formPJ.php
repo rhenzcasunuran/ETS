@@ -59,6 +59,8 @@ input[readonly] {
 .editable {
       cursor: pointer;
     }
+
+    
     </style>
     
     
@@ -138,23 +140,10 @@ input[readonly] {
         </div>
     </div>
   
-              <div class="popup container-fluid" id="popuplink">
-                <div class="popup-card">
-  <div class="popup-content">
-    <span class="close" onclick="closePopup()" style="color:var(--color-content-text);">&times;</span>
-    <h2 style="color:var(--color-content-text)">Copy the link to score</h2>
-    <p style="color:var(--color-content-text)">Copy the scoring link below:</p>
-    <input type="text" style="color:var(--color-content-text" value="Https//:SampleLink" readonly><a href='P&J-admin-scoretab.php' target="_blank" style="position:relative;top:0; right:0;">
-                <button class="buttonadd"id="clearlink"style="width:100%;">
-                 <i class='bx bxs-copy' ></i>
-                </button>
-                </a></input>
-                <h6 style="color:var(--color-content-text)">*Only authorized persons can access the link.*</h6>
-  </div>
-</div>
-</div>
+              
 
     <section class="home-section">
+    <form action="php/P&J-admin-action.php" method="POST" id="submitAll">
       <div class="container">
         <div class="row" style="min-width: 100%;">
             <div class="col-md-10" style="max-width: 100%;min-width: 100% auto;">
@@ -165,7 +154,7 @@ input[readonly] {
                 </div>
                 <div class="row">
                     <div class="col-xxl-12"><label class="form-label fw-bold" style="margin-left: 25px; color:var(--color-content-text);">Event</label><label for="Participant Category" class="form-label fw-bold" style="margin-left: 190px; color:var(--color-content-text);">Participant Category</label>
-                        <div class="dropdown"><input type='text' class='inputpname cformj' style='border-radius:20px; margin-left:20px;' placeholder='Event Code' name='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" pattern="[a-zA-Z0-9 ]*" Required/>
+                        <div class="dropdown"><input type='text' class='inputpname' style='border-radius:20px; margin-left:20px;width:200px' placeholder='Event Code' name='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" pattern="[a-zA-Z0-9 ]*" Required/>
                         
                         <select name ="Participant Category"class='btn dropdown-toggle div-toggle' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);' data-target=".participantsform">
                         <option data-show=".individual">Individual</option>
@@ -197,7 +186,7 @@ input[readonly] {
                                     
                                   </div>
                                   <div>
-                                  <table class="#" style="text-align:center; margin-left:40px; margin-top:1px; color:var(--color-content-text);" id="Jtable">
+                                  <table class="#" style="text-align:center; margin-left:40px; margin-top:1px; color:var(--color-content-text); min-width:90%;" id="Jtable">
                                   <thread>
                                     <tr>
                                     <th class="bordertable">
@@ -222,7 +211,7 @@ input[readonly] {
                   while ($row = $result->fetch_assoc()) {
                     $judgeId = $row['judge_id'];
                     $judgeName = $row['judge_name'];
-                    $judgeNick = $row['judge_nick'];
+                    $judgeNick = $row['judge_nickname'];
                     $scoringLink = "https://sample.link";
 
                     
@@ -232,7 +221,7 @@ input[readonly] {
                       </td>
                       <td><input type='text' style='border-radius:20px;' class='inputjname editable cformj' value='$judgeName' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
                       <td><input type='text' style='border-radius:20px;' class='inputjnick editable cformj' value='$judgeNick' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
-                      <td>https://sample.link</td>
+                      <td><a href='P&J-admin-scoretab.php' target='_blank'><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Score Tabulation</button></a></td>
                     </tr>";
                   }
                   ?>
@@ -276,8 +265,8 @@ input[readonly] {
                       <div class="row">
                           <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Participants</label></div>
                           <div class="col text-end" style="display:flex;">
-                            <button onclick="createPG()" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddg"><i class='bx bxs-group'></i></button>
-                            <button onclick="deleteCheckedPG()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button">
+                            <button onclick="generateDiv()" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddg"><i class='bx bxs-group'></i></button>
+                            <button onclick="deleteChecked()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button">
                                 <i class='bx bxs-trash-alt'></i></button>
                           </div>
                       </div> 
@@ -298,7 +287,7 @@ input[readonly] {
                                   <div class="col">
 <!-- Participants Form Individual -->
                                   </div>
-                                  <table class="#" style="text-align:center; margin-left:40px; margin-top:1px; color:var(--color-content-text);" id="Ptable">
+                                  <table class="#" style="text-align:center; margin-left:40px; margin-top:1px; color:var(--color-content-text); min-width:90%;" id="Ptable">
                                   <thread>
                                     <tr>
                                     <th class="bordertable">
@@ -311,8 +300,8 @@ input[readonly] {
                                   </thread>
                                   <tbody id="Pbox">
                                       <?php
-                                      $sql = "SELECT * FROM participants";
-                                      $result = $conn -> query($sql);
+                                      $query = "SELECT participants.participants_id, participants.participant_name, participants.participant_section, organization.organization_name FROM participants JOIN organization ON participants.organization_id = organization.organization_id";
+                                      $result = mysqli_query($conn, $query);
 
                                       if (!$conn) {
                                         die("Connection Failed: " . mysqli_connect_error());
@@ -322,15 +311,15 @@ input[readonly] {
                                       $prtId = $row['participants_id'];
                                       $prtName = $row['participant_name'];
                                       $prtSection = $row['participant_section'];
-                                      $prtOrganization = $row['organization_id'];
+                                      $prtOrganization = $row['organization_name'];
 
                                       echo "<tr class='editable-row' data-id='" . $row['participants_id'] . "'>
                       <td>
-                        <input type='checkbox' class='checkbox'>
+                        <input type='checkbox' class='checkboxP'>
                       </td>
-                      <td><input type='text' class='editable cformpi' value='$prtName' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
-                      <td><input type='text' class='editable cformpi' value='$prtSection' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
-                      <td><input type='text' class='editable cformpi' value='$prtOrganization' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+                      <td><input type='text' style='border-radius:20px;' class='inputjname editable cformpi' value='$prtName' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+                      <td><input type='text' style='border-radius:20px;' class='inputpcs editable cformpi' value='$prtSection' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+                      <td><input type='text' style='border-radius:20px;' class='inputpcsd editable cformpi' value='$prtOrganization' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
                     </tr>";
                                     }
                                     
@@ -338,31 +327,22 @@ input[readonly] {
                                       ?>
                                       
                                       
-                                  <form action="#" method="POST" id="add_form3">
-                                    <ul >
-                                      
-                                    </ul>
+                                  
+                                   
                                     </tbody>
                                     </table>
                                   </div>
                                   
-                                  </form>
                                   </div>
                                   <div class="col group hide" style="width:auto;">
                                   <div>
- <table class="table" style=" color:var(--color-content-text);">
-    <thead>
-      <tr>
-        
-    </tbody>
-  </table>
+ 
   <!-- Participants grouped -->
-                                  <form action="#" method="POST">
-                                      <div id="Pboxg">
-                                      
-                                    </div>
+                                  
+                                      <div id="mainDiv">
+                                      <input type="checkbox" id="mainCheckbox" onclick="toggleAllCheckboxes()">
 
-                                    </form>
+                                    </div>
                                   </div>
                                     <br>
 
@@ -375,7 +355,7 @@ input[readonly] {
         </div>
     </div>
     <div class="row">
-  <form action="php/P&J-admin-action.php" method="POST" id="submitAll">
+  
     <div class="col text-end" style="margin-top: 10px;margin-bottom: 10px;margin-right: 16px;">
       <button class="success-button buttonsubmit" type="submit" style="float:right; margin-bottom:10px;" value="Add" id="save_btnS" onclick="showSubmit()" disabled>Submit</button>
     </div>
@@ -504,29 +484,6 @@ var hide_discardChanges = function(){
     discardChangesPopup.style.display = 'none';
 }
 
-popupl = document.getElementById('popuplink');
-var showl = function(){
-    popupl.style.display = 'flex';
-}
-var hidel = function(){
-    popupl.style.display = 'none';
-}
-
-clearPopupl = document.getElementById('clear-popup');
-var show_clearl = function(){
-    clearPopupl.style.display = 'flex';
-}
-var hide_clearl = function(){
-    clearPopupl.style.display = 'none';
-}
-
-discardChangesPopupl = document.getElementById('discardChanges-popup');
-var show_discardChangesl = function(){
-    discardChangesPopupl.style.display = 'flex';
-}
-var hide_discardChangesl = function(){
-    discardChangesPopupl.style.display = 'none';
-}
 
 popupp = document.getElementById('popupPar');
 var showp = function(){
@@ -645,9 +602,12 @@ var hide_discardChangespg = function(){
       var generateLinkButton = document.createElement("button");
       generateLinkButton.type = "button";
       generateLinkButton.className = "buttonlink1";
-      generateLinkButton.onclick = showl;
-      generateLinkButton.style = "border-radius:15px;min-width: 160px; height: 40px; color: white;background: #73A9CC;";
-      generateLinkButton.innerHTML = "<i class='bx bx-link'></i> Generate Link";
+      
+      generateLinkButton.style = "border-radius:15px;min-width: 160px; height: 40px; color: white;background: #73A9CC; margin-bottom: 20px;";
+      generateLinkButton.innerHTML = "<i class='bx bx-link'></i> Score Tabulation";
+      generateLinkButton.onclick = function() {
+        window.location.href = "P&J-admin-scoretab.php" , "_blank";
+      };
     buttonCell.appendChild(generateLinkButton);
 
     checkBox.onclick = function () {
@@ -730,7 +690,7 @@ function addRowP() {
       parNameInput.placeholder = "Participant Name";
       parNameInput.title = "Enter a valid name (4-20 characters)";
       parNameInput.addEventListener("dblclick", function() {
-        toggleEdit(this);
+        this.readOnly = false;
       });
       nameCellP.appendChild(parNameInput);
 
@@ -745,34 +705,44 @@ function addRowP() {
       sectionInputP.pattern = "[1-9\\-]+";
       sectionInputP.placeholder = "Section";
       sectionInputP.addEventListener("dblclick", function() {
-        toggleEdit(this);
+        this.readOnly = false;
       });
       sectionCellP.appendChild(sectionInputP);
 
       // Organization dropdown
-      var orgCellP = row.insertCell(3);
+      
       var orgSelectP = document.createElement("select");
+      
+      
+ // Create dropdown
+ fetch('php/P&J-fetch-options.php')
+    .then(response => response.json())
+    .then(data => {
+      var orgCellP = row.insertCell(3);
+      const orgSelectP = document.createElement('select');
       orgSelectP.name = "organization_id[]";
-      orgSelectP.style = "border-radius:20px; background-color:white;";
-      orgSelectP.className = "btn dropdown-toggle";
+      orgSelectP.className = "inputpcs dropdown-toggle div-toggle";
+      orgSelectP.style = "border-radius:20px; background-color:white; width: auto; margin-bottom: 20px;";
+
+      // Add a default option (optional)
+      const orgOption = document.createElement('option');
+      orgOption.text = 'Organization';
+      orgOption.disabled = true;
+      orgOption.selected = true;
+      orgSelectP.appendChild(orgOption);
+
+      // Populate the dropdown with options from the fetched data
+      data.forEach(option => {
+        const orgElement = document.createElement('option');
+        orgElement.text = option.organization_name;  
+        orgElement.value = option.organization_id;  
+        orgSelectP.appendChild(orgElement);
+      });
+
+      // Append the dropdown to the container
       orgCellP.appendChild(orgSelectP);
-
-      var defaultOptionP = document.createElement("option");
-      defaultOptionP.disabled = true;
-      defaultOptionP.selected = true;
-      defaultOptionP.innerHTML = "Organization";
-      orgSelectP.appendChild(defaultOptionP);
-
-      var eliteOptionP = document.createElement("option");
-      eliteOptionP.value = "ELITE";
-      eliteOptionP.innerHTML = "ELITE";
-      orgSelectP.appendChild(eliteOptionP);
-
-      var jpiOptionP = document.createElement("option");
-      jpiOptionP.value = "JPIA";
-      jpiOptionP.innerHTML = "JPIA";
-      orgSelectP.appendChild(jpiOptionP);
-
+    })
+    .catch(error => console.error('Error fetching options:', error));
       checkboxP.onclick = function () {
       enableSubmitButton();
     };
@@ -797,98 +767,396 @@ function addRowP() {
 
     }
 
-  function add_par(){
-    intParTextBox++;
-    var objNewPDiv = document.createElement('div');
-    objNewPDiv.setAttribute('id', 'div_' + intParTextBox);
-    objNewPDiv.innerHTML = `<div class='row'><li style='list-style-type: none;'><br>
-                                          <input type='text' class='inputpname cformpi' name='participants_name_temp[]' style='border-radius:20px;' placeholder='Participants Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/>
-                                          <input type='text' class='inputpcs cformpi' name='participants_course_temp[]' style='border-radius:20px;' placeholder='Course' minlength="4" maxlength="5" Required pattern="[a-zA-Z ]*"/>
-                                          <input type='text' class='inputpcs cformpi' name='participants_section_temp[]' style='border-radius:20px;width:110px;' placeholder='Section' minlength="3" maxlength="3" Required pattern="[\d-]*"/>
-                                          <select class='btn dropdown-toggle' name='participants_organization_temp[]' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 8px;background: var(--bs-light);color: var(--bs-body-color);'>
-                                            <option disabled selected>Organization</option>
-                                            <option>ELITE</option>
-                                            <option>JPIA</option>
-                                          </select>
-                                          <button class='delete-button icon-button delP btndel' id='deleteP' style="float:right;"><i class='bx bxs-trash-alt' ></i></button><br/>
-                                      </li></div>`;
-    document.getElementById('Pbox').appendChild(objNewPDiv);  
-    var submitButtonpi = document.getElementById("save_btnPI");
-    submitButtonpi.disabled = true;
-    var cancelButtonpi = document.getElementById("can_btnPI");
-    cancelButtonpi.disabled = true;
-  }
+    let divCount = 0;
 
 
-// Get the form and submit button element
-const formpg = document.getElementById('add_form4');
-const submitButtonpg = document.getElementById('save_btnPG');
-const cancelButtonpg = document.getElementById('can_btnPG');
+    function generateDiv() {
+  divCount++;
+  const divId = `div${divCount}`;
+  let organizationId;
+
+  // Create the main div element
+  const div = document.createElement('div');
+  div.id = divId;
+
+  // Create the container for the organization dropdown
+  const dropdownContainer = document.createElement('div');
+  dropdownContainer.style.marginBottom = '10px';
+  div.appendChild(dropdownContainer);
+
+  // Create dropdown
+  fetch('php/P&J-fetch-options.php')
+    .then(response => response.json())
+    .then(data => {
+      const organizationId = data[0].organization_id;
+      const dropdown = document.createElement('select');
+      dropdown.className = "btn dropdown-toggle div-toggle";
+      dropdown.style = "border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);";
+      dropdown.name = "organization_id[]";
+
+      // Create the first row with the organization_id value
+      const firstRow = createRow(divId, organizationId);
+      tbody.appendChild(firstRow);
+
+      // Add a default option (optional)
+      const defaultOption = document.createElement('option');
+      defaultOption.text = 'Organization';
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      dropdown.appendChild(defaultOption);
+
+      // Populate the dropdown with options from the fetched data
+      data.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.text = option.organization_name;
+        optionElement.value = option.organization_id;
+        dropdown.appendChild(optionElement);
+      });
+
+      // Append the dropdown to the dropdown container
+      dropdownContainer.appendChild(dropdown);
+    })
+    .catch(error => console.error('Error fetching options:', error));
+
+  // Create a container for the table
+  const tableContainer = document.createElement('div');
+  div.appendChild(tableContainer);
+
+  // Create the table
+  const table = document.createElement('table');
+  table.className = 'row-table';
+  tableContainer.appendChild(table);
+
+  // Create the table body
+  const tbody = document.createElement('tbody');
+  table.appendChild(tbody);
+
+  // Create the button to toggle visibility of rows
+  const toggleButton = document.createElement('button');
+  toggleButton.type = 'button';
+  toggleButton.innerHTML = "<i class='bx bx-hide'></i>";
+  toggleButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-success-color)!important; color: var(--white-text-color)!important; background-color: var(--default-success-color)!important; border: 2px transparent solid!important; width:40px; height:40px; margin-right: 10px; margin-left: 10px;";
+  toggleButton.onclick = function () {
+    const rows = document.querySelectorAll(`#${divId} .row`);
+    rows.forEach(row => {
+      row.style.display = row.style.display === 'none' ? 'block' : 'none';
+    });
+  };
+  const toggleButtonCell = document.createElement('td');
+  toggleButtonCell.appendChild(toggleButton);
+
+  // Create the button to add more rows
+  const addRowButton = document.createElement('button');
+  addRowButton.type = 'button';
+  addRowButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
+  addRowButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-success-color)!important; color: var(--white-text-color)!important; background-color: var(--default-success-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
+  addRowButton.onclick = function () {
+    const newRow = createRow(divId, organizationId);
+    tbody.appendChild(newRow);
+    enableSubmitButton();
+  };
+  const addRowButtonCell = document.createElement('td');
+  addRowButtonCell.appendChild(addRowButton);
+
+  // Create the table row for buttons
+  const buttonsRow = document.createElement('tr');
+  buttonsRow.appendChild(toggleButtonCell);
+  buttonsRow.appendChild(addRowButtonCell);
+  tbody.appendChild(buttonsRow);
+
+  // Create the container for rows
+  const rowsContainer = document.createElement('div');
+  rowsContainer.id = `${divId}-rows`;
+  div.appendChild(rowsContainer);
+
+  document.getElementById('mainDiv').appendChild(div);
+
+}
+
+function createRow(divId, organizationId) {
+  const row = document.createElement('tr');
+  row.className = 'row';
+
+  // Create the checkbox for the row
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.onclick = function () {
+    toggleCheckbox(divId);
+  };
+  const checkboxCell = document.createElement('td');
+  checkboxCell.appendChild(checkbox);
+  row.appendChild(checkboxCell);
+
+  // Create a hidden input field for organization_id
+  const organizationIdInput = document.createElement('input');
+  organizationIdInput.type = 'hidden';
+  organizationIdInput.name = 'organization_id[]';
+  organizationIdInput.value = organizationId; // Set the organization_id value for this row
+  row.appendChild(organizationIdInput);
+
+  // Create the textbox for the name
+  const nameInputCell = document.createElement('td');
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.placeholder = 'Name';
+  nameInput.className = "inputpname cformj";
+  nameInput.name = "participant_name[]";
+  nameInput.style = "border-radius:20px;";
+  nameInput.pattern = "[A-Za-z0-9 -]{4,20}";
+  nameInput.minLength = 4;
+  nameInput.maxLength = 20;
+  nameInput.placeholder = "Participant Name";
+  nameInput.title = "Enter a valid name (4-20 characters)";
+  nameInput.addEventListener("dblclick", function() {
+        this.readOnly = false;
+      });
+  nameInputCell.appendChild(nameInput);
+  row.appendChild(nameInputCell);
+
+  // Create the textbox for the section
+  const sectionInputCell = document.createElement('td');
+  const sectionInput = document.createElement('input');
+  sectionInput.type = 'text';
+  sectionInput.placeholder = 'Section';
+  sectionInput.className = "inputpcs cformj";
+  sectionInput.name = "participant_section[]";
+  sectionInput.style = "border-radius:20px;";
+  sectionInput.minLength = 3;
+  sectionInput.maxLength = 3;
+  sectionInput.pattern = "[1-9\\-]+";
+  sectionInput.placeholder = "Section";
+  sectionInput.addEventListener("dblclick", function() {
+        this.readOnly = false;
+      });
+  sectionInputCell.appendChild(sectionInput);
+  row.appendChild(sectionInputCell);
+
+  nameInput.onkeydown = function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.readOnly = true;
+        enableSubmitButton();
+      }
+    };
+
+    sectionInput.onkeydown = function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.readOnly = true;
+        enableSubmitButton();
+      }
+    };
+
+  return row;
+
+    enableSubmitButton();
+}
+
+function createRow(divId, organizationId) {
+  const row = document.createElement('tr');
+  row.className = 'row';
+
+  // Create the checkbox for the row
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.onclick = function () {
+    toggleCheckbox(divId);
+  };
+  const checkboxCell = document.createElement('td');
+  checkboxCell.appendChild(checkbox);
+  row.appendChild(checkboxCell);
+
+  // Create a hidden input field for organization_id
+  const organizationIdInput = document.createElement('input');
+  organizationIdInput.type = 'hidden';
+  organizationIdInput.name = 'organization_id[]';
+  organizationIdInput.value = organizationId; // Set the organization_id value for this row
+  row.appendChild(organizationIdInput);
+
+  // Create the textbox for the name
+  const nameInputCell = document.createElement('td');
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.placeholder = 'Name';
+  nameInput.className = 'inputpname cformj';
+  nameInput.name = 'participant_name[]';
+  nameInput.style = 'border-radius:20px;';
+  nameInput.pattern = '[A-Za-z0-9 -]{4,20}';
+  nameInput.minLength = 4;
+  nameInput.maxLength = 20;
+  nameInput.placeholder = 'Participant Name';
+  nameInput.title = 'Enter a valid name (4-20 characters)';
+  nameInput.addEventListener('dblclick', function () {
+    this.readOnly = false;
+  });
+  nameInputCell.appendChild(nameInput);
+  row.appendChild(nameInputCell);
+
+  // Create the textbox for the section
+  const sectionInputCell = document.createElement('td');
+  const sectionInput = document.createElement('input');
+  sectionInput.type = 'text';
+  sectionInput.placeholder = 'Section';
+  sectionInput.className = 'inputpcs cformj';
+  sectionInput.name = 'participant_section[]';
+  sectionInput.style = 'border-radius:20px;';
+  sectionInput.minLength = 3;
+  sectionInput.maxLength = 3;
+  sectionInput.pattern = '[1-9\\-]+';
+  sectionInput.placeholder = 'Section';
+  sectionInput.addEventListener('dblclick', function () {
+    this.readOnly = false;
+  });
+  sectionInputCell.appendChild(sectionInput);
+  row.appendChild(sectionInputCell);
+
+  nameInput.onkeydown = function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.readOnly = true;
+      enableSubmitButton();
+    }
+  };
+
+  sectionInput.onkeydown = function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.readOnly = true;
+      enableSubmitButton();
+    }
+  };
+
+  return row;
+}
 
 
-// Add event listener to the "Add Input" button
-document.getElementById('paraddg').addEventListener('click', paraddg);
+
+function toggleAllCheckboxes() {
+  const checkboxes = document.querySelectorAll('#mainDiv input[type="checkbox"]');
+  const mainCheckbox = document.getElementById('mainCheckbox');
+
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = mainCheckbox.checked;
+  });
+}
+
+function toggleCheckboxes(divId) {
+  const checkboxes = document.querySelectorAll(`#${divId} input[type="checkbox"]`);
+  const mainCheckbox = document.getElementById(divId).querySelector('input[type="checkbox"]');
+
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = mainCheckbox.checked;
+  });
+}
+
+function toggleCheckbox(divId) {
+  const checkboxes = document.querySelectorAll(`#${divId} input[type="checkbox"]`);
+  const mainCheckbox = document.getElementById(divId).querySelector('input[type="checkbox"]');
+  let allChecked = true;
+
+  checkboxes.forEach(checkbox => {
+    if (!checkbox.checked) {
+      allChecked = false;
+    }
+  });
+
+  mainCheckbox.checked = allChecked;
+}
+
+function deleteChecked() {
+  const divs = document.querySelectorAll('#mainDiv > div');
+  divs.forEach(div => {
+    const checkbox = div.querySelector('input[type="checkbox"]');
+    if (checkbox.checked) {
+      div.parentNode.removeChild(div);
+    } else {
+      const rows = div.querySelectorAll('.row');
+      rows.forEach(row => {
+        const rowCheckbox = row.querySelector('input[type="checkbox"]');
+        if (rowCheckbox.checked) {
+          row.parentNode.removeChild(row);
+        }
+      });
+    }
+  });
+}
 
 let dropdownCount = 0;
 
     function createPG() {
-      dropdownCount++;
+  dropdownCount++;
 
-      const container = document.getElementById('Pboxg');
+  const container = document.getElementById('Pboxg');
 
-      // Create dropdown menu
+  // Create checkbox to select all in the row
+  const selectAllCheckbox = document.createElement('input');
+  selectAllCheckbox.type = 'checkbox';
+  selectAllCheckbox.addEventListener('change', function () {
+    const rowCheckboxes = container.querySelectorAll('.row input[type="checkbox"]');
+    rowCheckboxes.forEach(function (checkbox) {
+      checkbox.checked = this.checked;
+    }, this);
+  });
+
+  // Append the checkbox to the container
+  container.appendChild(selectAllCheckbox);
+
+  // Create dropdown
+  fetch('php/P&J-fetch-options.php')
+    .then(response => response.json())
+    .then(data => {
       const dropdown = document.createElement('select');
       dropdown.className = "btn dropdown-toggle div-toggle";
       dropdown.style = "border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);";
-      dropdown.innerHTML = `
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
-        <option value="option4">Option 4</option>
-        <option value="option5">Option 5</option>
-      `;
 
-      // Create checkbox to select all in the row
-      const selectAllCheckbox = document.createElement('input');
-      selectAllCheckbox.type = 'checkbox';
-      selectAllCheckbox.addEventListener('change', function () {
-        const rowCheckboxes = container.querySelectorAll('.row input[type="checkbox"]');
-        rowCheckboxes.forEach(function (checkbox) {
-          checkbox.checked = this.checked;
-        }, this);
+      // Add a default option (optional)
+      const defaultOption = document.createElement('option');
+      defaultOption.text = 'Organization';
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      dropdown.appendChild(defaultOption);
+
+      // Populate the dropdown with options from the fetched data
+      data.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.text = option.organization_name;  
+        optionElement.value = option.organization_id;  
+        dropdown.appendChild(optionElement);
       });
 
-      // Create button to toggle row visibility
-      const toggleButton = document.createElement('button');
-      toggleButton.type = 'button';
-      toggleButton.className = "buttonadd success-button icon-button";
-      toggleButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
-      toggleButton.style = "display:inline-block";
-      toggleButton.addEventListener('click', () => {
-        const rows = container.querySelectorAll('.row');
-        rows.forEach((row) => {
-          row.classList.toggle('hide');
-        });
-      });
-
+      // Append the dropdown to the container
       container.appendChild(dropdown);
-      container.appendChild(selectAllCheckbox);
-      container.appendChild(toggleButton);
+    })
+    .catch(error => console.error('Error fetching options:', error));
 
-      // Create button to add new row
-      const addRowButton = document.createElement('button');
-      addRowButton.type = 'button';
-      addRowButton.className = "buttonadd success-button icon-button";
-      addRowButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
-      addRowButton.style = "display:inline-block";
-      addRowButton.addEventListener('click', () => {
-        const row = createMembers();
-        container.appendChild(row);
-      });
+  // Create button to toggle row visibility
+  const toggleButton = document.createElement('button');
+  toggleButton.type = 'button';
+  toggleButton.className = " icon-button";
+  toggleButton.innerHTML = "<i class='bx bx-hide'></i>";
+  toggleButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-success-color)!important; color: var(--white-text-color)!important; background-color: var(--default-success-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
+  toggleButton.addEventListener('click', () => {
+    const rows = container.querySelectorAll('.row');
+    rows.forEach((row) => {
+      row.classList.toggle('hide');
+    });
+  });
+  container.appendChild(toggleButton);
 
-      const row = createMembers();
-      container.appendChild(addRowButton);
-    }
+  // Create button to add new row
+  const addRowButton = document.createElement('button');
+  addRowButton.type = 'button';
+  addRowButton.className = " icon-button";
+  addRowButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
+  addRowButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-success-color)!important; color: var(--white-text-color)!important; background-color: var(--default-success-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
+  addRowButton.addEventListener('click', () => {
+    const row = createMembers();
+    container.appendChild(row);
+  });
+
+  const row = createMembers();
+  container.appendChild(addRowButton);
+}
 
     function createMembers() {
   // Create container element for the row
@@ -901,7 +1169,7 @@ let dropdownCount = 0;
   // Create text inputs for name and section
   const nameInput = document.createElement('input');
   nameInput.type = 'text';
-  nameInput.className = "inputpcs";
+  nameInput.className = "inputpcs cformj";
   nameInput.placeholder = 'Name';
 
   const sectionInputPG = document.createElement('input');
@@ -914,7 +1182,7 @@ let dropdownCount = 0;
   sectionInputPG.pattern = "[1-9\\-]+";
   sectionInputPG.placeholder = "Section";
   sectionInputPG.addEventListener("dblclick", function() {
-        toggleEdit(this);
+    this.readOnly = false;
       });
 
   // Append checkbox, name input, and section input to the container
@@ -945,35 +1213,7 @@ $(document).ready(function(){
 	$('.div-toggle').trigger('change');
 });
 
-            // ajax request
-            $("#add_form2").submit(function(e){
-                e.preventDefault();
-                $("#save_btnJ").val('Adding...');
-                $.ajax({
-                    url:'php/P&J-admin-action-temp.php',
-                    method:'POST',
-                    data: $(this).serialize(),
-                    success:function(response){
-                        console.log(response);
-                        $("#save_btnJ").val('Add');
-                        $(".append_judges").remove();
-    intJudgeTextBox++;
-    var objNewJDiv = document.createElement('ul');
-    objNewJDiv.setAttribute('id', 'ul_' + intJudgeTextBox);
-    objNewJDiv.innerHTML = `
-    <li style='list-style-type: none;'>
-                                        <br><tr>
-                                          <td><input type='text' class='inputjname cformj' name='judge_name_temp[]' style='border-radius:20px;' placeholder='Judge Name' minlength="4" maxlength="20" Required pattern="[a-zA-Z1-9\- ]*"/></td>
-                                          <td><input type='text' class='inputjnick cformj' name='judge_nick_temp[]' style='border-radius:20px;' placeholder='Nickname' minlength="4" maxlength="10" Required/></td>
-                                          <td><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Generate Link</button></td>
-                                          <td><button class='delete-button icon-button delJ btndel' id='deleteJB' style="float:right;"><i class='bx bxs-trash-alt' ></i></button></td>
-                                          </tr>
-                                          <br>
-                                        </li>`;
-    document.getElementById('Jbox').appendChild(objNewJDiv); 
-                    }
-                })
-            });
+           
 
 </script>
 
@@ -994,17 +1234,6 @@ $(document).ready(function(){
     select.querySelector("bx-chevron-down").classList.toggle("bx-chevron-up");
     });
     });
-</script>
-<script>
-    function openPopup() {
-  var popup = document.getElementById("popuplink");
-  popup.style.display = "block";
-}
-
-function closePopup() {
-  var popup = document.getElementById("popuplink");
-  popup.style.display = "none";
-}
 </script>
   </body>
 
