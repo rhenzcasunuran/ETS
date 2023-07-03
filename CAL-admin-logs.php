@@ -35,21 +35,20 @@
     ?>
     <section class="home-section">
       <div class="header">Activity Logs</div>
-      <br>
-      <br>
       <!-- Search Bar and Filter -->
       <div class="container">
         <div class="row">
-          <div class="d-flex justify-content-start">
-            <div class="input-group input-group-sm custom-search-bar p-2">
-              <input type="text" class="form-control w-100" id="search-input" maxlength="50" style="height:50px;" placeholder="Search">
+          <div class="d-flex flex-wrap input-group justify-content-start p-2">
+            <div class="search-input-container p-2">
+              <input type="text" class="form-control custom-search-bar w-100" id="search-input" maxlength="50" placeholder="Search" style="height:49px;">
+              <i class='bx bx-search' id="search-icon"></i>
             </div>
             <!-- Filter Dropdown -->
             <div class="dropdown p-2">
-              <button class="btn btn-light btn-lg dropdown-toggle" style="width: 200px;" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+              <button class="btn btn-light btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                 Filters
               </button>
-              <ul class="dropdown-menu" style="width: 200px;" aria-labelledby="dropdownMenuButton">
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li>
                   <div class="accordion" id="adminAccordion">
                     <div class="accordion-item">
@@ -73,67 +72,69 @@
               <i class="bx bx-calendar-event" id="calendar-icon"></i>
             </div>
             <div class="div" id="miniCalendarContainer" style="display: none;">
-              <div class="element" id="calendarElement">
-                <div class="row">
-                  <div id="miniCalendar">
+            <div class="element" id="calendarElement">
+              <div class="row">
+                <div id="miniCalendarMain">
+                  <div class="d-flex justify-content-between">
                     <h5 id="miniCalendarHeader"></h5>
                     <div id="miniButtonContainer">
                       <i id="miniPreviousButton" class='bx bxs-chevron-left'></i>
                       <i id="miniNextButton" class='bx bxs-chevron-right'></i>
                     </div>
-                    <br>
-                    <table id="miniCalendar">
-                      <thead id="miniCalendarThead">
-                        <tr>
-                          <th scope="col">SU</th>
-                          <th scope="col">M</th>
-                          <th scope="col">TU</th>
-                          <th scope="col">W</th>
-                          <th scope="col">TH</th>
-                          <th scope="col">F</th>
-                          <th scope="col">SA</th>
-                        </tr>
-                      </thead>
-                      <tbody id="miniCalendarTable">
-                      </tbody>
-                    </table>
-                    <br>
                   </div>
+                  <br>
+                  <table id="miniCalendar">
+                    <thead id="miniCalendarThead">
+                      <tr>
+                        <th scope="col">SU</th>
+                        <th scope="col">M</th>
+                        <th scope="col">TU</th>
+                        <th scope="col">W</th>
+                        <th scope="col">TH</th>
+                        <th scope="col">F</th>
+                        <th scope="col">SA</th>
+                      </tr>
+                    </thead>
+                    <tbody id="miniCalendarTable">
+                    </tbody>
+                  </table>
+                  <br>
                 </div>
-                <div class="div">
-                  <button id="clearButton" class="outline-button p-3">Clear</button>
-                  <button id="todayButton" class="primary-button p-3">Today</button>
-                </div>
+              </div>
+              <div class="div">
+                <button id="clearButton" class="outline-button p-3">Clear</button>
+                <button id="todayButton" class="primary-button p-3">Today</button>
               </div>
             </div>
           </div>
-          <br>
-          <br>
-          <table class="table table-dark table-bordered">
-            <thead>
-              <tr>
-                <th scope="col" class="sortable" data-column="log_id">ID <span id="sort-indicator-log_id"></span></th>
-                <th scope="col" class="sortable" data-column="log_date">Date <span id="sort-indicator-log_date"></span></th>
-                <th scope="col" class="sortable" data-column="log_time">Time <span id="sort-indicator-log_time"></span></th>
-                <th scope="col" class="sortable" data-column="admin">Admin <span id="sort-indicator-admin"></span></th>
-                <th scope="col" class="sortable" data-column="activity_description">Activity Description <span id="sort-indicator-activity_description"></span></th>
-              </tr>
-            </thead>
-            <tbody id="log-table-body">
-              <tr id="no-results-row" style="display: none;">
-                <td colspan="5">No results to display</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="d-flex justify-content-end">
-            <div class="p-1 me-2" id="pagination-info"></div>
-            <div>
-              <button type="button" class="btn btn-secondary btn-sm" id="btn-prev" disabled>
-                &lt; 
-              </button>
-              <button type="button" class="btn btn-secondary btn-sm" id="btn-next">
-                &gt;
-              </button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped table-borderless table-hover text-center">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col" class="sortable" data-column="log_id">ID <span id="sort-indicator-log_id"></span></th>
+                  <th scope="col" class="sortable" data-column="log_date">Date <span id="sort-indicator-log_date"></span></th>
+                  <th scope="col" class="sortable" data-column="log_time">Time <span id="sort-indicator-log_time"></span></th>
+                  <th scope="col" class="sortable" data-column="admin">Admin <span id="sort-indicator-admin"></span></th>
+                  <th scope="col" class="sortable" data-column="activity_description">Activity Description <span id="sort-indicator-activity_description"></span></th>
+                </tr>
+              </thead>
+              <tbody id="log-table-body">
+                <tr id="no-results-row" style="display: none;">
+                  <td colspan="5">No results to display</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end">
+              <div class="p-1 me-2" id="pagination-info"></div>
+              <div>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-prev" disabled>
+                  &lt; 
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-next">
+                  &gt;
+                </button>
+              </div>
             </div>
           </div>
         </div>
