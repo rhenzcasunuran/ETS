@@ -1,6 +1,5 @@
 var formEvent = document.querySelector("#select-event-name");
 var formType = document.querySelector("#select-event-type");
-var formCategory = document.querySelector("#select-category-name");
 var formDesc = document.querySelector("#event-description");
 var formDate = document.querySelector("#date");
 var formTime = document.querySelector("#time");
@@ -8,17 +7,13 @@ var formButton = document.querySelector("#save-btn");
 
 var textEvent = document.querySelector("#textEvent");
 var textType = document.querySelector("#textType");
-var textCategory = document.querySelector("#textCategory");
 var textDesc = document.querySelector("#textDescription");
-var textCriteria = document.querySelector("#textCriteria");
 var textDate = document.querySelector("#textDate");
 var textTime = document.querySelector("#textTime");
 
 var checkEvent = document.querySelector("#checkEvent");
 var checkType = document.querySelector("#checkType");
-var checkCategory = document.querySelector("#checkCategory");
 var checkDesc = document.querySelector("#checkDescription");
-var checkCriteria = document.querySelector("#checkCriteria");
 var checkDate = document.querySelector("#checkDate");
 var checkTime = document.querySelector("#checkTime");
 
@@ -49,21 +44,22 @@ var dateText = document.querySelector("#dateText");
 dateText.textContent = "(" + currentDate1 + ") to (" + nextYearDate1 + ")";
 
 
+// the default state is 'disabled'
+formButton.disabled = true; 
+
 // alternative is to use "change" - explained below
-formEvent.addEventListener("change", () => buttonState(totalPercentage));
-formType.addEventListener("change", () => buttonState(totalPercentage));
-formCategory.addEventListener("change", () => buttonState(totalPercentage));
-formDesc.addEventListener("keyup", () => buttonState(totalPercentage));
-formDate.addEventListener("keyup", () => buttonState(totalPercentage));
-formDate.addEventListener("change", () => buttonState(totalPercentage));
-formTime.addEventListener("keyup", () => buttonState(totalPercentage));
-formTime.addEventListener("change", () => buttonState(totalPercentage));
+formEvent.addEventListener("change", () => buttonState());
+formType.addEventListener("change", () => buttonState());
+formDesc.addEventListener("keyup", () => buttonState());
+formDate.addEventListener("keyup", () => buttonState());
+formDate.addEventListener("change", () => buttonState());
+formTime.addEventListener("keyup", () => buttonState());
+formTime.addEventListener("change", () => buttonState());
 
-function buttonState(totalPercentage) {
+function buttonState() {
     var descValue = formDesc.value.trim().replace(/\s\s+/g, ""); // Remove multiple consecutive spaces
-    var total = totalPercentage;
 
-    if (total === 100 && formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value < nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "" && formCategory.value !== "") {
+    if (formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value < nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "") {
         formButton.disabled = false; // enable the button once the input field has content
         tooltip.style.display = 'none';
     } else {
@@ -87,15 +83,6 @@ function buttonState(totalPercentage) {
             checkType.style.visibility = "visible";
             textType.style.color = "var(--default-success-color)";
         }
-        //Category
-        if(formCategory.value === "") {
-            checkCategory.style.visibility = "hidden";
-            textCategory.style.color = "var(--not-active-text-color)";
-        }
-        else{
-            checkCategory.style.visibility = "visible";
-            textCategory.style.color = "var(--default-success-color)";
-        }
         //Description
         if (descValue.length < 5) {
             checkDesc.style.visibility = "hidden";
@@ -104,15 +91,6 @@ function buttonState(totalPercentage) {
         else {
             checkDesc.style.visibility = "visible";
             textDesc.style.color = "var(--default-success-color)";
-        }
-        //Criteria
-        if (total === 100) {
-            checkCriteria.style.visibility = "visible";
-            textCriteria.style.color = "var(--default-success-color)";
-        }
-        else {
-            checkCriteria.style.visibility = "hidden";
-            textCriteria.style.color = "var(--not-active-text-color)";
         }
         //Date
         if(formDate.value !== "" && (formDate.value < nextYearDateString && formDate.value >= currentDateString)) {

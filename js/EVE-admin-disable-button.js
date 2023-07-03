@@ -1,51 +1,51 @@
-const formEvent = document.querySelector("#select-event-name");
-const formType = document.querySelector("#select-event-type");
-const formCategory = document.querySelector("#select-category-name");
-const formDesc = document.querySelector("#event-description");
-const formDate = document.querySelector("#date");
-const formTime = document.querySelector("#time");
-const formButton = document.querySelector("#save-btn");
+var formEvent = document.querySelector("#select-event-name");
+var formType = document.querySelector("#select-event-type");
+var formCategory = document.querySelector("#select-category-name");
+var formDesc = document.querySelector("#event-description");
+var formDate = document.querySelector("#date");
+var formTime = document.querySelector("#time");
+var formButton = document.querySelector("#save-btn");
 
-const textEvent = document.querySelector("#textEvent");
-const textType = document.querySelector("#textType");
-const textCategory = document.querySelector("#textCategory");
-const textDesc = document.querySelector("#textDescription");
-const textCriteria = document.querySelector("#textCriteria");
-const textDate = document.querySelector("#textDate");
-const textTime = document.querySelector("#textTime");
+var textEvent = document.querySelector("#textEvent");
+var textType = document.querySelector("#textType");
+var textCategory = document.querySelector("#textCategory");
+var textDesc = document.querySelector("#textDescription");
+var textCriteria = document.querySelector("#textCriteria");
+var textDate = document.querySelector("#textDate");
+var textTime = document.querySelector("#textTime");
 
-const checkEvent = document.querySelector("#checkEvent");
-const checkType = document.querySelector("#checkType");
-const checkCategory = document.querySelector("#checkCategory");
-const checkDesc = document.querySelector("#checkDescription");
-const checkCriteria = document.querySelector("#checkCriteria");
-const checkDate = document.querySelector("#checkDate");
-const checkTime = document.querySelector("#checkTime");
+var checkEvent = document.querySelector("#checkEvent");
+var checkType = document.querySelector("#checkType");
+var checkCategory = document.querySelector("#checkCategory");
+var checkDesc = document.querySelector("#checkDescription");
+var checkCriteria = document.querySelector("#checkCriteria");
+var checkDate = document.querySelector("#checkDate");
+var checkTime = document.querySelector("#checkTime");
 
 var tooltip = document.querySelector('#tooltip');
 
-const nextYearDate = new Date(); // Get current date
-const currentDate = new Date(); // Get current date
+var nextYearDate = new Date(); // Get current date
+var currentDate = new Date(); // Get current date
 nextYearDate.setFullYear(currentDate.getFullYear() + 1); // Add a year to the current 
 currentDate.setFullYear(currentDate.getFullYear()); // Current date
 
-const nextYearDateString = nextYearDate.toISOString().split("T")[0];
-const currentDateString = currentDate.toISOString().split("T")[0];
+var nextYearDateString = nextYearDate.toISOString().split("T")[0];
+var currentDateString = currentDate.toISOString().split("T")[0];
 
-const currentDay = currentDate.getDate();
-const currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so add 1
-const currentYear = currentDate.getFullYear();
+var currentDay = currentDate.getDate();
+var currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so add 1
+var currentYear = currentDate.getFullYear();
 
-const currentDate1 = `${currentDay}/${currentMonth}/${currentYear}`;
+var currentDate1 = `${currentDay}/${currentMonth}/${currentYear}`;
 
-const nextYearDay = nextYearDate.getDate();
-const nextYearMonth = nextYearDate.getMonth() + 1; // Month is zero-based, so add 1
-const nextYearYear = nextYearDate.getFullYear();
+var nextYearDay = nextYearDate.getDate();
+var nextYearMonth = nextYearDate.getMonth() + 1; // Month is zero-based, so add 1
+var nextYearYear = nextYearDate.getFullYear();
 
-const nextYearDate1 = `${nextYearDay}/${nextYearMonth}/${nextYearYear}`;
+var nextYearDate1 = `${nextYearDay}/${nextYearMonth}/${nextYearYear}`;
 
 
-const dateText = document.querySelector("#dateText");
+var dateText = document.querySelector("#dateText");
 dateText.textContent = "(" + currentDate1 + ") to (" + nextYearDate1 + ")";
 
 
@@ -63,10 +63,8 @@ formTime.addEventListener("keyup", () => buttonState(totalPercentage));
 formTime.addEventListener("change", () => buttonState(totalPercentage));
 
 function buttonState(totalPercentage) {
-    const descValue = formDesc.value.trim().replace(/\s\s+/g, ""); // Remove multiple consecutive spaces
+    var descValue = formDesc.value.trim().replace(/\s\s+/g, ""); // Remove multiple consecutive spaces
     var total = totalPercentage;
-    console.log(total);
-
 
     if (total === 100 && formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value < nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "" && formCategory.value !== "") {
         formButton.disabled = false; // enable the button once the input field has content
