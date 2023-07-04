@@ -1020,12 +1020,12 @@
     color: lightcoral;
   }
 
-  .mini-active-today {
+  .mini-active-today, .mini-active-year {
     background-color: #F9F9F9;
     color: #FF817C;
   }
 
-  #miniCalendarYearsTable td.mini-selected-year {
+  #miniCalendarYearsTable .mini-selected-year {
     background-color: lightgray;
     color: lightcoral;
   }
