@@ -31,7 +31,7 @@
     $page = 1;
   }
 
-  $numberOfItems = isset($_GET['items']) ? $_GET['items'] : 5;
+  $numberOfItems = isset($_GET['items']) ? $_GET['items'] : 15;
 
   if ($numberOfItems != 5 && $numberOfItems != 10 && $numberOfItems != 15 && $numberOfItems != 20 && $numberOfItems != 25) {
     $numberOfItems = 5;

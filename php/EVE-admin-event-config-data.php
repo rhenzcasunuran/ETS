@@ -70,8 +70,8 @@
         }
     }
 
-    if(isset($_GET['eventNameId'])){
-        $id = $_GET['eventNameId'];
+    if(isset($_GET['eni'])){
+        $id = $_GET['eni'];
         
         $sql = "SELECT category_name_id FROM category_name WHERE event_name_id = $id;";
         $query = mysqli_query($conn, $sql);
@@ -90,8 +90,8 @@
         header('Location: EVE-admin-event-configuration.php');
     }
 
-    if(isset($_GET['categoryNameId'])){
-        $id = $_GET['categoryNameId'];
+    if(isset($_GET['cni'])){
+        $id = $_GET['cni'];
 
         $sql = "SELECT category_name_id FROM category_name WHERE category_name_id = $id";
         $query = mysqli_query($conn, $sql);

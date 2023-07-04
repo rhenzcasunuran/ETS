@@ -7,6 +7,8 @@
     $date = $_POST['e_date'];
     $time = $_POST['e_time'];
     $code = $_POST['e_code'];
+    $popUpID = $_POST['e_popUp'];
+    $showPopUpButtonID = $_POST['e_showPopUp'];
 
     $output = '';
 
@@ -75,8 +77,14 @@
                 '</div>' .
                 'Save Changes' .
             '</button>' .
-            '<div class="outline-button" onclick="showCancel()">Cancel</div>' .
+            '<div class="outline-button" id="cancelBtn">Cancel</div>' .
         '</div>' .
+        '<script>
+            $("#'.$showPopUpButtonID.'").click(function() {
+                $(".popUpDisableBackground#'.$popUpID.'").css("visibility", "visible");
+                $(".popUpContainer").addClass("show");
+            });
+        </script>' .
         '<script>' .
             'var eventCode = document.querySelector("#display-code");
             var eye = document.querySelector("#revealCode");
@@ -158,8 +166,14 @@
           '</div>' .
           'Save Changes' .
       '</button>' .
-        '<div class="outline-button" onclick="showCancel()">Cancel</div>' .
+        '<div class="outline-button" id="cancelBtn">Cancel</div>' .
       '</div>' .
+      '<script>
+            $("#'.$showPopUpButtonID.'").click(function() {
+                $(".popUpDisableBackground#'.$popUpID.'").css("visibility", "visible");
+                $(".popUpContainer").addClass("show");
+            });
+        </script>' .
       '<script>' .
       'var eventCode = document.querySelector("#display-code");
       var eye = document.querySelector("#revealCode");

@@ -232,13 +232,13 @@
     } */
 
     if(isset($_GET['mad'])){
-        $code = $_GET['mad'];
-        $select_event = mysqli_query($conn,"SELECT * FROM ongoing_list_of_event WHERE event_code = '$code';");
+        $id = $_GET['mad'];
+        $select_event = mysqli_query($conn,"SELECT * FROM ongoing_list_of_event WHERE event_id = '$id';");
         $row = mysqli_num_rows($select_event);
         $result = mysqli_fetch_array($select_event);
         $category_name_id = $result['category_name_id'];
         if($row > 0) {
-            $sql = "UPDATE ongoing_list_of_event SET is_archived = '1' WHERE event_code = '$code';";
+            $sql = "UPDATE ongoing_list_of_event SET is_archived = '1' WHERE event_id = '$id';";
 
             mysqli_query($conn, $sql);
             $sql = "INSERT IGNORE INTO category_name (category_name_id, event_name_id, event_type_id, category_name)
@@ -252,6 +252,8 @@
                     FROM ongoing_criterion
                     WHERE category_name_id = '$category_name_id';";
             mysqli_query($conn,$sql); 
+
+            header("Location: EVE-admin-list-of-events.php");
         }
     }
 ?>

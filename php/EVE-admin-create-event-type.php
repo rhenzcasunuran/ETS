@@ -5,6 +5,8 @@
     $desc = $_POST['desc'];
     $date = $_POST['e_date'];
     $time = $_POST['e_time'];
+    $popUpID = $_POST['e_popUp'];
+    $showPopUpButtonID = $_POST['e_showPopUp'];
 
     $output = '';
 
@@ -55,8 +57,14 @@
                 '</div>' .
                 'Save Changes' .
             '</button>' .
-            '<div class="outline-button" onclick="showCancel()">Cancel</div>' .
+            '<div class="outline-button" id="cancelBtn">Cancel</div>' .
         '</div>' .
+        '<script>
+            $("#'.$showPopUpButtonID.'").click(function() {
+                $(".popUpDisableBackground#'.$popUpID.'").css("visibility", "visible");
+                $(".popUpContainer").addClass("show");
+            });
+        </script>' .
         '<script type="text/javascript" src="./js/EVE-admin-generate-codes.js"></script>' . 
         '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .
         '<script type="text/javascript" src="./js/EVE-admin-disable-button-tournament.js"></script>';
@@ -108,8 +116,14 @@
           '</div>' .
           'Save Changes' .
       '</button>' .
-        '<div class="outline-button" onclick="showCancel()">Cancel</div>' .
+        '<div class="outline-button" id="cancelBtn">Cancel</div>' .
       '</div>' .
+      '<script>
+            $("#'.$showPopUpButtonID.'").click(function() {
+                $(".popUpDisableBackground#'.$popUpID.'").css("visibility", "visible");
+                $(".popUpContainer").addClass("show");
+            });
+        </script>' .
       '<script type="text/javascript" src="./js/EVE-admin-generate-codes.js"></script>' .
       '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .
       '<script type="text/javascript" src="./js/EVE-admin-disable-button.js"></script>';
@@ -140,7 +154,7 @@
           '</div>' .
           'Save Changes' .
       '</button>' .
-        '<div class="outline-button" onclick="showCancel()">Cancel</div>' .
+        '<div class="outline-button" id="cancelBtn">Cancel</div>' .
       '</div>' .
       '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>';
     }
