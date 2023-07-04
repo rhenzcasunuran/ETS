@@ -375,3 +375,113 @@ html {
 .popup-container .primary-button, .popup-container .secondary-button, .popup-container .outline-button, .popup-container .text-button, .popup-container .danger-button, .popup-container .success-button {
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16)!important;
 }
+
+/* Popup 2.0*/
+
+.popUpDisableBackground {
+    position: fixed; 
+    height: 100vh;
+    width: 100%;
+    background: #00000091;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    user-select: none;
+    visibility: hidden;
+}
+
+.popUpDisableBackground .popUpContainer {
+    height: fit-content;
+    width: fit-content;
+    background-color: var(--color-content-card);
+    padding: 30px;
+    border-radius: 30px;
+    text-align: center;
+    max-width: 600px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    justify-content: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+}
+
+.popUpContainer.show {
+    animation: showPopup 0.8s ease both;
+}
+
+@keyframes showPopup {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(0.9);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.popUpDisableBackground.hide {
+    animation: fadeOutPopup 0.3s ease both;
+}
+
+@keyframes fadeOutPopup {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+.popUpContainer > :not(button i) {
+    font-size: 130px;
+}
+
+.popUpContainer .popUpHeader {
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 28px;
+    margin: 5px 0 5px 0;
+}
+
+.popUpContainer .popUpMessage {
+    font-size: 16px;
+    margin: 5px 0;
+    max-width: 500px;
+}
+
+.popUpContainer .popUpMessage:first-letter {
+    text-transform: capitalize;
+}
+
+.popUpContainer .popUpMessage::after {
+    content: " ";
+}
+
+
+.popUpContainer .popUpButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0 5px 0;
+    gap: 25px;
+}

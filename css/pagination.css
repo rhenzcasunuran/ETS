@@ -45,19 +45,19 @@
     align-items: center;
     width: fit-content;
     gap: 10px;
-    min-width: 800px;
-    max-width: 800px;
+    min-width: 690px;
+    max-width: 690px;
 }
 
 .page {
     background-color: transparent;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     user-select: none;
-    font-size: 21px;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     clip-path: circle(50% at 50% 50%);
