@@ -17,9 +17,6 @@ $(document).ready(function() {
     // Store the selected value in local storage
     localStorage.setItem('itemsPerPage', selectedValue);
 
-    // Reset the current page and load logs
-    currentPage = 1;
-
     // Reset the go to page input value
     $('#goToPageInput').val('');
   });
