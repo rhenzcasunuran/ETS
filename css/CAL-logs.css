@@ -26,6 +26,10 @@ td  {
   background-color: var(--color-content-outline); /* Set the background color for even rows */
 }
 
+.container {
+  position: relative;
+}
+
 /* Filter Customization  */
 
 .pill-all {
