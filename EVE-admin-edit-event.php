@@ -29,26 +29,23 @@
     <link rel="stylesheet" href="./css/EVE-admin-list-of-events.css">
     <link rel="stylesheet" href="./css/EVE-admin-confirmation.css">
     <link rel="stylesheet" href="./css/EVE-admin-create-add-event.css">
+
+    <script src="./js/jquery-3.6.4.js"></script>
   </head>
 
   <body>
-    <div class="popup-background" id="discardWrapper">
-      <div class="row popup-container">
-          <div class="col-4">
-              <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
-          </div>
-          <div class="col-8 text-start text-container">
-              <h3 class="text-header">Discard Changes?</h3>   <!--header-->
-              <p>Any unsaved progress will be lost.</p> <!--text-->
-           </div>
-          <div  class="div">
-              <button class="outline-button" onclick="hideCancel()"><i class='bx bx-chevron-left'></i>Return</button>
-              <a href="EVE-admin-list-of-events.php">
-                <button class="primary-button"><i class='bx bx-x'></i>Discard</button>
-              </a>
-          </div>
-      </div>
-    </div>
+    <?php 
+      $popUpID = "discardCreateEvent";
+      $showPopUpButtonID = "cancelBtn";
+      $icon = "<i class='bx bxs-error-circle warning-color'></i>";
+      $title = "Discard Changes?";
+      $message = "Any unsaved progress will be lost.";
+      $your_link = "EVE-admin-list-of-events.php";
+      $id_name = "";
+      $id = "";
+
+      include './php/popup.php'; 
+    ?>
 
     <!--Sidebar-->
     <?php
@@ -142,7 +139,6 @@
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
-    <script src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -172,10 +168,12 @@
         var date = "<?php echo $edit_event_row['event_date'] ?>";
         var time = "<?php echo $edit_event_row['event_time'] ?>";
         var eventID = "<?php echo $edit_event_row['event_id'] ?>";
+        var popUp = "<?php echo $popUpID ?>";
+        var showPopUp = "<?php echo $showPopUpButtonID ?>";
 
 
           // Initial data fetch based on typePicker value
-        fetchTypeData($('#select-event-type').val(), description, date, time, code, eventID);
+        fetchTypeData($('#select-event-type').val(), description, date, time, code, eventID, popUp, showPopUp);
 
         $('#select-event-type').change(function() {
           // Fetch data based on changed typePicker value
@@ -183,14 +181,16 @@
           description = $('#event-description').val(); // Capture the updated description value
           date = $('#date').val(); // Capture the updated date value
           time = $('#time').val(); // Capture the updated time value
-          fetchTypeData(selectedType, description, date, time, code, eventID);
+          var popUp = "<?php echo $popUpID ?>";
+          var showPopUp = "<?php echo $showPopUpButtonID ?>";
+          fetchTypeData(selectedType, description, date, time, code, eventID, popUp, showPopUp);
         });
 
-        function fetchTypeData(type, description, date, time, code, eventID) {
+        function fetchTypeData(type, description, date, time, code, eventID, popUp, showPopUp) {
           $.ajax({
               url: './php/EVE-admin-edit-event-type.php',
               method: 'POST',
-              data: { eventID: eventID, type: type, desc: description, e_date: date, e_time: time, e_code: code },
+              data: { eventID: eventID, type: type, desc: description, e_date: date, e_time: time, e_code: code, e_popUp: popUp, e_showPopUp: showPopUp },
               success: function(response) {
                   $('#createEventContent').html(response);
 

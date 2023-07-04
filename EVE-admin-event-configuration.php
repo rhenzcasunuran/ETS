@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="./css/EVE-admin-event-config.css">
     <link rel="stylesheet" href="./css/EVE-admin-confirmation.css">
     <link rel="stylesheet" href="./css/EVE-admin-create-add-event.css">
+
+    <script type="text/javascript" src="./js/jquery-3.6.4.js"></script>
   </head>
 
   <body>
@@ -36,23 +38,20 @@
       if ($row > 0){
         while ($row = mysqli_fetch_array($eventName2)):;
     ?>
-      <div class="popup-background popup-wrapper-delete-name<?php echo $row[0];?>" id="deleteWrapper">
-        <div class="row popup-container">
-            <div class="col-4">
-                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
-            </div>
-            <div class="col-8 text-start text-container">
-                <h3 class="text-header">Delete <?php echo $row[1];?>?</h3>   <!--header-->
-                <p>This action cannot be undone. All related categories will also be deleted</p> <!--text-->
-            </div>
-            <div  class="div">
-                <button class="outline-button" onclick="hide<?php echo $row[0];?>()"><i class='bx bx-x'></i>Cancel</button>
-                <a href="EVE-admin-event-configuration.php?eventNameId=<?php echo $row[0]?>">
-                  <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
-                </a>
-            </div>
-        </div>
-      </div>
+      <?php 
+          $popUpID = "deleteEventName{$row['event_name_id']}";
+          $showPopUpButtonID = "eventNameDelete{$row['event_name_id']}";
+          $icon = "<i class='bx bxs-trash danger-color'></i>";
+          $title = "Delete \"{$row['event_name']}\"?";
+          $message = "This action cannot be undone. All related categories will also be deleted. Ongoing events may still go but won't be able to restore after it is done or deleted.";
+          $your_link = "EVE-admin-event-configuration.php";
+          $id_name = "eni";
+          $id = $row['event_name_id'];
+
+          // Make sure to include your php query to the your page
+
+        include './php/popup.php'; 
+      ?>
     <?php
     endwhile;
       }
@@ -62,23 +61,21 @@
       if ($row > 0){
         while ($row = mysqli_fetch_array($categoryName2)):;
     ?>
-      <div class="popup-background popup-wrapper-delete-category-name<?php echo $row[0];?>" id="deleteWrapper">
-        <div class="row popup-container">
-            <div class="col-4">
-                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
-            </div>
-            <div class="col-8 text-start text-container">
-                <h3 class="text-header">Delete <?php echo $row[3];?>?</h3>   <!--header-->
-                <p>This action cannot be undone.</p> <!--text-->
-            </div>
-            <div  class="div">
-                <button class="outline-button" onclick="hide<?php echo $row[0];?>()"><i class='bx bx-x'></i>Cancel</button>
-                <a href="EVE-admin-event-configuration.php?categoryNameId=<?php echo $row[0]?>">
-                  <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
-                </a>
-            </div>
-        </div>
-      </div>
+      <?php 
+          $popUpID = "deleteCategoryName{$row['category_name_id']}";
+          $showPopUpButtonID = "categoryNameDelete{$row['category_name_id']}";
+          $icon = "<i class='bx bxs-trash danger-color'></i>";
+          $title = "Delete \"{$row['category_name']}\"?";
+          $message = "This action cannot be undone. You won't be able to use it again after deletion.";
+          $your_link = "EVE-admin-event-configuration.php";
+          $id_name = "cni";
+          $id = $row['category_name_id'];
+
+          // 1. Make sure to include your php query to the your page
+          // 2. Make sure to include "<script type="text/javascript" src="./js/jquery-3.6.4.js"></script>" at the head of your page
+
+        include './php/popup.php'; 
+      ?>
     <?php
     endwhile;
       }
@@ -131,7 +128,7 @@
                     <tr id="eventNameDataTable">
                       <td class="d-flex justify-content-between px-4">
                         <?php echo $result[1]; ?> 
-                          <i class='bx bx-x align-self-center color-red' name="eventNameDataDeleteBtn" onclick="show<?php echo $result[0];?>()"></i>
+                          <i class='bx bx-x align-self-center color-red' name="eventNameDataDeleteBtn" id="eventNameDelete<?php echo $result['event_name_id'] ?>"></i>
                       </td>
                     </tr>
                     <script>
@@ -265,7 +262,7 @@
                       <tr id="categoryNameDataTable">
                           <td><?php echo "$result[3] </td><td class='category-details'>($categoryEventName)($categoryEventType)</td>"; ?> 
                           <td class="text-right">
-                            <i class='bx bx-x align-self-end color-red' name="categoryNameDataDeleteBtn" onclick="show<?php echo $result[0];?>()"></i>
+                            <i class='bx bx-x align-self-end color-red' name="categoryNameDataDeleteBtn" id="categoryNameDelete<?php echo $result['category_name_id']?>"></i>
                         </td>
                       </tr>
                       <script>
@@ -305,7 +302,6 @@
     </section>
     <!-- Scripts -->
     <script type="text/javascript" src="./js/script.js"></script>
-    <script type="text/javascript" src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();

@@ -55,45 +55,20 @@
             </div>
         </div>
       </div>
+      <?php 
+          $popUpID = "markAsDone{$row['event_id']}";
+          $showPopUpButtonID = "eventDoneBtn{$row['event_id']}";
+          $icon = "<i class='bx bxs-check-circle success-color'></i>";
+          $title = "Mark as Done?";
+          $message = "Marked events will be removed from events list and will transfer to the history.";
+          $your_link = "EVE-admin-list-of-events.php";
+          $id_name = "mad";
+          $id = $row['event_id'];
 
-      <div class="popup-background" id="markAsDoneWrapper<?php echo $row['event_code'];?>">
-        <div class="row popup-container">
-            <div class="col-4">
-                <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
-            </div>
-            <div class="col-8 text-start text-container">
-                <h3 class="text-header">Mark as Done?</h3>   <!--header-->
-                <p>Marked events will be removed from events list.</p> <!--text-->
-            </div>
-            <div  class="div">
-                <button class="outline-button" onclick="hideMarkAsDone<?php echo $row[0];?>()"><i class='bx bx-x'></i>Cancel</button>
-                <a href="EVE-admin-list-of-events.php?mad=<?php echo $row['event_code']?>">
-                  <button class="success-button"><i class='bx bx-check'></i>Confirm</button>
-                </a>
-            </div>
-        </div>
-    </div>
+          // Make sure to include your php query to the your page
 
-      <script>
-        popupDelete<?php echo $row[0];?> = document.querySelector('#deleteWrapper<?php echo $row[3];?>');
-  
-        var showDelete<?php echo $row[0];?> = function() {
-            popupDelete<?php echo $row[0];?>.style.display ='flex';
-        }
-        var hideDelete<?php echo $row[0];?> = function() {
-            popupDelete<?php echo $row[0];?>.style.display ='none';
-        }
-
-        popupMarkAsDone<?php echo $row[0];?> = document.querySelector('#markAsDoneWrapper<?php echo $row['event_code'];?>');
-  
-        var showMarkAsDone<?php echo $row[0];?> = function() {
-            popupMarkAsDone<?php echo $row[0];?>.style.display ='flex';
-        }
-        var hideMarkAsDone<?php echo $row[0];?> = function() {
-            popupMarkAsDone<?php echo $row[0];?>.style.display ='none';
-        }
-      </script>
-
+        include './php/popup.php'; 
+      ?>
     <?php
     endwhile;
       }
@@ -108,30 +83,28 @@
     <!--Page Content-->
     <section class="home-section">
       <div class="container-fluid d-flex row justify-content-center m-0" id="event-wrapper">
-
-    <!--Pagination-->
-    <?php
-      $list_table_query = "SELECT * FROM ongoing_list_of_event WHERE is_archived = '0';";
-      $your_php_location = "EVE-admin-list-of-events.php";
-      require './php/pagination.php';
-      $list_table_query_with_limit = "SELECT ole.event_id, ole.category_name_id AS ole_category_name_id, ole.event_description, ole.event_code, ole.event_date, ole.event_time,
-                                      oen.event_name_id, oen.event_name,
-                                      ocn.category_name_id, ocn.event_name_id AS ocn_event_name_id, ocn.event_type_id, ocn.category_name,
-                                      et.event_type_id AS et_event_type_id, et.event_type
-                                      FROM ongoing_event_name AS oen
-                                      JOIN ongoing_category_name AS ocn ON oen.event_name_id = ocn.event_name_id
-                                      JOIN event_type AS et ON ocn.event_type_id = et.event_type_id
-                                      JOIN ongoing_list_of_event AS ole ON ocn.category_name_id = ole.category_name_id
-                                      WHERE is_archived = '0'
-                                      ORDER BY event_date ASC
-                                      LIMIT $start_from, $numberOfItems;";
-      $listedItems = mysqli_query($conn, $list_table_query_with_limit);
-    ?>
-  
         <?php
           $row = mysqli_num_rows($event_result2);
           if ($row > 0){
             ?>
+                <!--Pagination-->
+          <?php
+            $list_table_query = "SELECT * FROM ongoing_list_of_event WHERE is_archived = '0';";
+            $your_php_location = "EVE-admin-list-of-events.php";
+            require './php/pagination.php';
+            $list_table_query_with_limit = "SELECT ole.event_id, ole.category_name_id AS ole_category_name_id, ole.event_description, ole.event_code, ole.event_date, ole.event_time,
+                                            oen.event_name_id, oen.event_name,
+                                            ocn.category_name_id, ocn.event_name_id AS ocn_event_name_id, ocn.event_type_id, ocn.category_name,
+                                            et.event_type_id AS et_event_type_id, et.event_type
+                                            FROM ongoing_event_name AS oen
+                                            JOIN ongoing_category_name AS ocn ON oen.event_name_id = ocn.event_name_id
+                                            JOIN event_type AS et ON ocn.event_type_id = et.event_type_id
+                                            JOIN ongoing_list_of_event AS ole ON ocn.category_name_id = ole.category_name_id
+                                            WHERE is_archived = '0'
+                                            ORDER BY event_date ASC
+                                            LIMIT $start_from, $numberOfItems;";
+            $listedItems = mysqli_query($conn, $list_table_query_with_limit);
+          ?>
               <div class="row d-flex justify-content-between align-items-center w-100">
                 <div class="header col-7">List of Events</div>
                 <div class="button-container col-5">
@@ -187,13 +160,14 @@
                   <p class="element-content-secured" id="eventCode<?php echo $row['event_id'];?>"><?php echo $row['event_code'];?></p>
                 </div>
                 <div class="element-group col-sm-12 col-lg-4" id="eventBtn">
-                  <button class="success-button justify-self-end event-done-btn<?php echo $row['event_id'];?>" onclick="showMarkAsDone<?php echo $row[0];?>()">Mark as Done</button>
+                  <button class="success-button justify-self-end event-done-btn<?php echo $row['event_id'];?>" id="eventDoneBtn<?php echo $row['event_id'];?>">Mark as Done</button>
                   <div class="button-container more-btn<?php echo $row[0];?>" id="more-btn">
                     <a href="EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>">
                       <button class="primary-button justify-self-end" id="event-edit-btn<?php echo $row['event_id'];?>"><i class='bx bx-edit-alt'></i>Edit Event</button>
                     </a>
                     <button class="danger-button icon-button" id="event-delete-btn" onclick="showDelete<?php echo $row[0];?>()"><i class='bx bx-trash'></i></button>
                   </div>
+
                   <script>
                     //Enable Button on Date
                     var markAsDoneButton = document.querySelector('button.event-done-btn<?php echo $row['event_id'];?>');
