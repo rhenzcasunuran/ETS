@@ -73,7 +73,7 @@ $sql = "SELECT
                 et.event_type,
                 NULL AS event_org
             FROM ongoing_list_of_event AS olfe
-            INNER JOIN ongoing_category_name AS ocn ON olfe.category_name_id = ocn.category_name_id
+            INNER JOIN ongoing_category_name AS ocn ON olfe.event_id = ocn.event_id
             INNER JOIN event_name AS en ON en.event_name_id = ocn.event_name_id
             INNER JOIN event_type AS et ON et.event_type_id = ocn.event_type_id
 
