@@ -248,6 +248,10 @@ td  {
   color: var(--color-content-text);
 }
 
+#miniCalendarThead .sortable {
+  z-index: 9999;
+}
+
 #miniCalendarTable, #miniCalendarThead {
   text-align: center;
 }
@@ -280,10 +284,6 @@ td  {
 .mini-current-day.mini-active {
   background-color: lightgray;
   color: lightcoral;
-}
-
-#pagination-info {
-  color: var(--color-content-text); /* Change the color to your desired color */
 }
 
 input:not(.form-check-input) {
