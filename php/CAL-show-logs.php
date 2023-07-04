@@ -8,6 +8,7 @@ $searchDate = $_GET['searchDate'];
 $adminFilters = isset($_GET['searchAdmin']) ? $_GET['searchAdmin'] : array();
 $currentPage = isset($_GET['currentPage']) ? $_GET['currentPage'] : 1;
 $startIndex = isset($_GET['startIndex']) ? $_GET['startIndex'] : 0;
+$pageSize = $_GET['itemsPerPage'];
 
 // Check if filters array is empty
 if (empty($adminFilters)) {
@@ -17,6 +18,12 @@ if (empty($adminFilters)) {
 
 $validColumns = ['log_id', 'log_date', 'log_time', 'admin_id', 'activity_description'];
 $validOrders = ['ASC', 'DESC'];
+$validPageSizes = array(5, 10, 15, 20, 25);
+
+// Check if the received page size is valid
+if (!in_array($pageSize, $validPageSizes)) { 
+  $pageSize = 5;
+}
 
 // Validate and sanitize the sort column and sort order
 if (!in_array($sortColumn, $validColumns)) {
@@ -102,7 +109,6 @@ $countResult = mysqli_stmt_get_result($log_count_stmt);
 $totalEntries = mysqli_fetch_assoc($countResult)['count'];
 
 // Calculate pagination values
-$pageSize = 10; // Number of logs per page
 $totalPages = ceil($totalEntries / $pageSize);
 $startIndex = ($currentPage - 1) * $pageSize;
 $endIndex = min($startIndex + $pageSize, $totalEntries);
