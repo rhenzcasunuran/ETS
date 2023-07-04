@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 04, 2023 at 02:47 AM
+-- Generation Time: Jul 04, 2023 at 03:08 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -291,6 +291,13 @@ CREATE TABLE `highlights` (
   `image_info` varchar(255) NOT NULL,
   `image_description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `highlights`
+--
+
+INSERT INTO `highlights` (`highlight_id`, `event_id`, `filename`, `status`, `image_info`, `image_description`) VALUES
+(31, 2, 'Database-Schema.jpg', 0, 'sad', 'sad');
 
 -- --------------------------------------------------------
 
@@ -1141,7 +1148,7 @@ ALTER TABLE `event_type`
 -- AUTO_INCREMENT for table `highlights`
 --
 ALTER TABLE `highlights`
-  MODIFY `highlight_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `highlight_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `judges`
@@ -1281,12 +1288,6 @@ ALTER TABLE `criterion`
 ALTER TABLE `criterion_scoring`
   ADD CONSTRAINT `criterion_scoring_ibfk_1` FOREIGN KEY (`participants_id`) REFERENCES `participants` (`participants_id`),
   ADD CONSTRAINT `criterion_scoring_ibfk_2` FOREIGN KEY (`ongoing_criterion_id`) REFERENCES `ongoing_criterion` (`ongoing_criterion_id`);
-
---
--- Constraints for table `highlights`
---
-ALTER TABLE `highlights`
-  ADD CONSTRAINT `highlights_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
 
 --
 -- Constraints for table `judges`
