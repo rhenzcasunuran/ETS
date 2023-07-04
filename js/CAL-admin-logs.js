@@ -103,6 +103,48 @@ $(document).ready(function() {
     }
   });
 
+  $(document).ready(function() {
+    // Retrieve the stored value from local storage
+    var storedValue = localStorage.getItem('itemsPerPage');
+  
+    // Set the stored value as the selected option
+    if (storedValue) {
+      $('#itemsPerPageSelect').val(storedValue);
+    }
+  
+    // Attach the change event listener
+    $('#itemsPerPageSelect').on('change', function() {
+      // Get the selected value
+      var selectedValue = $(this).val();
+  
+      // Store the selected value in local storage
+      localStorage.setItem('itemsPerPage', selectedValue);
+  
+      // Reset the current page and load logs
+      currentPage = 1;
+      loadLogs();
+  
+      // Reset the go to page input value
+      $('#goToPageInput').val('');
+    });
+  });  
+
+  $('#goToPageInput').on('input', function() {
+    var inputValue = $(this).val().trim();
+    var validPageNumber = parseInt(inputValue);
+  
+    if (isNaN(validPageNumber) || validPageNumber <= 0 || !Number.isInteger(validPageNumber)) {
+      $(this).val(''); // Reset the input value
+    } else {
+      if (validPageNumber > totalPages) {
+        validPageNumber = totalPages; // Set the value to totalPages if it exceeds
+        $(this).val(totalPages); // Update the input field value
+      }
+      currentPage = validPageNumber; // Assign the valid page number to currentPage
+      loadLogs();
+    }
+  });  
+  
   var tbody = $('#log-table-body');
   var currentPage = 1;
   var pageSize;
@@ -110,10 +152,11 @@ $(document).ready(function() {
   var totalPages;
   var sortColumn = 'log_id';
   var sortOrder = 'DESC';
-
+  
   function loadLogs() {
     var searchTerm = $('#search-input').val();
     var searchDate = $('#dateInput').val();
+    var itemsPerPage = $('#itemsPerPageSelect').val();
   
     $.ajax({
       url: './php/CAL-show-logs.php',
@@ -126,6 +169,7 @@ $(document).ready(function() {
         searchDate: searchDate,
         searchAdmin: checkboxValues,
         currentPage: currentPage,
+        itemsPerPage: itemsPerPage
       },
       success: function(response) {
         var logs = response.logs;
@@ -136,8 +180,9 @@ $(document).ready(function() {
         // Calculate startIndex and endIndex
         var startIndex = (currentPage - 1) * pageSize + 1;
         var endIndex = Math.min(startIndex + pageSize - 1, totalEntries);
-
-        if (startIndex === NaN || endIndex === NaN || totalEntries === undefined) {
+        var paginationContainer = $('.pagination');
+  
+        if (isNaN(startIndex) || isNaN(endIndex) || totalEntries === undefined) {
           $('#pagination-info').text('0-0 of 0');
         } else {
           $('#pagination-info').text(startIndex + '-' + endIndex + ' of ' + totalEntries);
@@ -146,15 +191,19 @@ $(document).ready(function() {
         tbody.empty();
   
         if (logs.length === 0) {
+          paginationContainer.empty();
           var noResultsRow = $('<tr></tr>').addClass('no-results-row');
           var noResultsCell = $('<td></td>').attr('colspan', '5').text('No results to display');
           noResultsCell.appendTo(noResultsRow);
           noResultsRow.appendTo(tbody);
   
           // Disable both buttons when there are no results
+          $('#btn-first').prop('disabled', true);
           $('#btn-prev').prop('disabled', true);
           $('#btn-next').prop('disabled', true);
+          $('#btn-last').prop('disabled', true);
         } else {
+          paginationContainer.empty();
           logs.forEach(function(log) {
             var logDate = new Date(log.log_date);
             var formattedDate = formatDate(logDate);
@@ -172,8 +221,30 @@ $(document).ready(function() {
           });
   
           // Enable/disable pagination buttons based on current page
+          $('#btn-first').prop('disabled', currentPage === 1);
           $('#btn-prev').prop('disabled', currentPage === 1);
           $('#btn-next').prop('disabled', currentPage === totalPages);
+          $('#btn-last').prop('disabled', currentPage === totalPages);
+  
+          // Create the page links
+          var pageLinks = $('<div></div>').addClass('pagination');
+  
+          var startPage = Math.max(1, currentPage - 5);
+          var endPage = Math.min(startPage + 9, totalPages);
+  
+          for (var i = startPage; i <= endPage; i++) {
+            var pageAnchor = $('<a></a>').addClass('page').attr('href', 'javascript:void(0)').attr('id', 'page-' + i).on('click', function() {
+              currentPage = parseInt($(this).attr('id').split('-')[1]);
+              loadLogs();
+            }).text(i);
+            if (i === currentPage) {
+              pageAnchor.addClass('selected');
+            }
+            pageLinks.append(pageAnchor);
+          }
+  
+          // Update the pagination container
+          $('#pagination').empty().append(pageLinks);
         }
   
         // Reset sort indicators
@@ -234,6 +305,20 @@ $(document).ready(function() {
   $('#btn-next').on('mousedown', function() {
     if (currentPage < totalPages) {
       currentPage++;
+    }
+    loadLogs();
+  });
+
+  $('#btn-first').on('mousedown', function() {
+    if (currentPage > 1) {
+      currentPage = 1;
+    }
+    loadLogs();
+  });
+  
+  $('#btn-last').on('mousedown', function() {
+    if (currentPage < totalPages) {
+      currentPage = totalPages;
     }
     loadLogs();
   });
