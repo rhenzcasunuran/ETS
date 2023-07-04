@@ -133,10 +133,26 @@ if ($result->num_rows > 0) {
           </div>
     </div>
   </section>
-
+  <script src="./js/script.js"></script>
+    <script src="./js/jquery-3.6.4.js"></script>
   <!--SweetAlert-->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="text/javascript">
+      $('.menu_btn').click(function (e) {
+        e.preventDefault();
+        var $this = $(this).parent().find('.sub_list');
+        $('.sub_list').not($this).slideUp(function () {
+          var $icon = $(this).parent().find('.change-icon');
+          var $icon = $(this).parent().find('.change-icon');
+          $icon.removeClass('bx-chevron-down').addClass('bx-chevron-right');
+        });
 
+        $this.slideToggle(function () {
+          var $icon = $(this).parent().find('.change-icon');
+          $icon.toggleClass('bx-chevron-right bx-chevron-down')
+        });
+      });
+    </script>
   <!-- Event History JS -->
   <script>
     var event_buttons = document.querySelectorAll(".event_button");
