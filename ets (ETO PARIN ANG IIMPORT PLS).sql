@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 04, 2023 at 02:37 AM
+-- Generation Time: Jul 04, 2023 at 02:47 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -40,14 +40,48 @@ CREATE TABLE `bar_graph` (
 --
 
 INSERT INTO `bar_graph` (`organization_bar_id`, `organization_id`, `event_name_id`, `bar_meter`, `isAnon`) VALUES
-(9, 1, 1, 90.00, 0),
-(10, 2, 1, 80.00, 0),
-(11, 3, 1, 70.00, 0),
-(12, 4, 1, 60.00, 0),
-(13, 5, 1, 50.00, 0),
-(14, 6, 1, 40.00, 0),
-(15, 7, 1, 30.00, 0),
-(16, 8, 1, 20.00, 0);
+(9, 1, 1, 90.00, 1),
+(10, 2, 1, 80.00, 1),
+(11, 3, 1, 70.00, 1),
+(12, 4, 1, 60.00, 1),
+(13, 5, 1, 50.00, 1),
+(14, 6, 1, 40.00, 1),
+(15, 7, 1, 30.00, 1),
+(16, 8, 1, 20.00, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bracket`
+--
+
+CREATE TABLE `bracket` (
+  `bracket_id` int(11) NOT NULL,
+  `bracket_sports` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bracket`
+--
+
+INSERT INTO `bracket` (`bracket_id`, `bracket_sports`) VALUES
+(1, 'TOURNAMENT'),
+(2, 'BASKETBALL'),
+(3, 'VOLLEYBALL'),
+(4, 'CHESS'),
+(5, 'BADMINTON');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cache`
+--
+
+CREATE TABLE `cache` (
+  `url` int(11) NOT NULL,
+  `json` longtext NOT NULL,
+  `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -320,7 +354,8 @@ INSERT INTO `logs` (`log_id`, `log_date`, `log_time`, `admin_id`, `activity_desc
 (28, '2023-06-28', '23:59:52', 1, 'Added in Events'),
 (29, '2023-06-29', '00:00:09', 1, 'Edited in Events'),
 (30, '2023-06-29', '00:05:28', 1, 'Added in Events'),
-(31, '2023-06-29', '00:05:44', 1, 'Edited in Events');
+(31, '2023-06-29', '00:05:44', 1, 'Edited in Events'),
+(32, '2023-07-04', '08:40:19', 1, 'Edited in Overall Results');
 
 -- --------------------------------------------------------
 
@@ -612,6 +647,27 @@ INSERT INTO `post` (`post_id`, `organization_id`, `post_calendar`, `post_title`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `scores`
+--
+
+CREATE TABLE `scores` (
+  `score_id` int(11) NOT NULL,
+  `scoring_team_a` int(11) NOT NULL,
+  `scoring_team_b` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `scores`
+--
+
+INSERT INTO `scores` (`score_id`, `scoring_team_a`, `scoring_team_b`) VALUES
+(1, 0, 0),
+(4, 0, 0),
+(5, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `scores_table`
 --
 
@@ -716,6 +772,32 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `teams`
+--
+
+CREATE TABLE `teams` (
+  `team_id` int(11) NOT NULL,
+  `team_name` varchar(20) NOT NULL,
+  `team_score` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `teams`
+--
+
+INSERT INTO `teams` (`team_id`, `team_name`, `team_score`) VALUES
+(1, 'ELITE', 0),
+(2, 'JEHRA', 0),
+(3, 'AECES', 0),
+(4, 'ACAP', 0),
+(5, 'GIVE', 0),
+(6, 'JMAP', 0),
+(7, 'JPIA', 0),
+(8, 'PIIE', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tournament`
 --
 
@@ -801,6 +883,19 @@ ALTER TABLE `bar_graph`
   ADD PRIMARY KEY (`organization_bar_id`),
   ADD KEY `organization_id` (`organization_id`),
   ADD KEY `event_name_id` (`event_name_id`);
+
+--
+-- Indexes for table `bracket`
+--
+ALTER TABLE `bracket`
+  ADD PRIMARY KEY (`bracket_id`);
+
+--
+-- Indexes for table `cache`
+--
+ALTER TABLE `cache`
+  ADD PRIMARY KEY (`url`),
+  ADD UNIQUE KEY `url` (`url`);
 
 --
 -- Indexes for table `category_name`
@@ -942,6 +1037,18 @@ ALTER TABLE `post`
   ADD KEY `organization_id` (`organization_id`);
 
 --
+-- Indexes for table `scores`
+--
+ALTER TABLE `scores`
+  ADD PRIMARY KEY (`score_id`);
+
+--
+-- Indexes for table `teams`
+--
+ALTER TABLE `teams`
+  ADD PRIMARY KEY (`team_id`);
+
+--
 -- Indexes for table `tournament`
 --
 ALTER TABLE `tournament`
@@ -987,6 +1094,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `bar_graph`
   MODIFY `organization_bar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `bracket`
+--
+ALTER TABLE `bracket`
+  MODIFY `bracket_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `category_name`
@@ -1040,7 +1153,7 @@ ALTER TABLE `judges`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `number_of_wins`
@@ -1095,6 +1208,18 @@ ALTER TABLE `participants_score`
 --
 ALTER TABLE `post`
   MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `scores`
+--
+ALTER TABLE `scores`
+  MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `teams`
+--
+ALTER TABLE `teams`
+  MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tournament`
