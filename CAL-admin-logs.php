@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="./css/system-wide.css">
     <!--Logs CSS-->
     <link rel="stylesheet" href="./css/CAL-logs.css">
+    <link rel="stylesheet" href="./css/pagination.css">
   </head>
 
   <body>
@@ -34,6 +35,39 @@
       require './php/admin-sidebar.php';
     ?>
     <section class="home-section">
+      <div id="paginationContainer">
+        <div class="paginationContainerContainer">
+          <div class="d-flex justify-content-between">
+            <div class="items-page">
+              <p>No. of Items:</p>
+              <select name="items" class="page-control" id="itemsPerPageSelect">
+                <option value="5">5</option>
+                <option value="10" selected="">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+              </select>
+            </div>                
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-first" disabled>
+              &lt;&lt;
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev" disabled>
+              &lt;
+            </button>
+            <div class="pagination" id="pagination"></div>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-next">
+              &gt;
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-last" disabled>
+              &gt;&gt;
+            </button>
+            <div class="goto-page">
+              <p>Go to Page:</p>
+              <input type="text" class="page-control" id="goToPageInput" pattern="[1-9]\d*">
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="header">Activity Logs</div>
       <!-- Search Bar and Filter -->
       <div class="container">
@@ -125,24 +159,18 @@
                 </tr>
               </tbody>
             </table>
-            <div class="d-flex justify-content-end">
-              <div class="p-1 me-2" id="pagination-info"></div>
-              <div>
-                <button type="button" class="btn btn-secondary btn-sm" id="btn-prev" disabled>
-                  &lt; 
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm" id="btn-next">
-                  &gt;
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+      <br>
+      <br>
+      <br>
+      <br>
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/noOfEntriesCached.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
