@@ -405,7 +405,7 @@ $(document).ready(function() {
       // Position the container below the input field
       const inputRect = dateInput.getBoundingClientRect();
       miniCalendarContainer.style.bottom = inputRect.bottom - 'px'; // Adjust the vertical position as needed
-      miniCalendarContainer.style.left = inputRect.left / window.innerWidth * 65 + 'vw';
+      miniCalendarContainer.style.left = (inputRect.left - 80) / window.innerWidth * 60 + 'vw';
     } else {
       miniCalendarContainer.style.display = 'none';
     }
