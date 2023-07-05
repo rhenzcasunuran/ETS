@@ -417,6 +417,16 @@ $(document).ready(function() {
       miniCalendarContainer.style.display = 'none';
     }
   });
+
+  // Function to handle window resize event
+  function handleWindowResize() {
+    if (window.innerWidth <= 768) {
+      miniCalendarContainer.style.display = 'none';
+    }
+  }
+
+  // Add window resize event listener
+  window.addEventListener('resize', handleWindowResize);
   
   dateInput.addEventListener('input', formatAndValidateDate);
   dateInput.addEventListener('keypress', restrictNonNumericInput);
@@ -519,133 +529,105 @@ $(document).ready(function() {
   }
 
   function generateMiniCalendar(month, year) {
-      // Get number of days in the month and the first day of the month
-      let numDays = new Date(year, month + 1, 0).getDate();
-      let firstDay = new Date(year, month, 1).getDay();
+    // Get number of days in the month and the first day of the month
+    let numDays = new Date(year, month + 1, 0).getDate();
+    let firstDay = new Date(year, month, 1).getDay();
 
-      // Clear the calendar table
-      let calendarBody = document.getElementById("miniCalendarTable");
-      calendarBody.innerHTML = "";
+    // Clear the calendar table
+    let calendarBody = document.getElementById("miniCalendarTable");
+    calendarBody.innerHTML = "";
 
-      let currentDate = new Date();  // Get the current date
-      let currentDay = currentDate.getDate();  // Get the day of the current date
-      let currentMonth = currentDate.getMonth();  // Get the month of the current date
-      let currentYear = currentDate.getFullYear();  // Get the year of the current date
+    let currentDate = new Date();  // Get the current date
+    let currentDay = currentDate.getDate();  // Get the day of the current date
+    let currentMonth = currentDate.getMonth();  // Get the month of the current date
+    let currentYear = currentDate.getFullYear();  // Get the year of the current date
 
-      // Set the calendar title
-      let currentMonthYear = document.getElementById("miniCalendarHeader");
-      currentMonthYear.innerHTML = "<strong>" + months[month] + "</strong> " + year;
+    // Set the calendar title
+    let currentMonthYear = document.getElementById("miniCalendarHeader");
+    currentMonthYear.innerHTML = "<strong>" + months[month] + "</strong> " + year;
 
-      // Generate calendar days
-      let date = 1;
-      for (let i = 0; i < 6; i++) {
-          let row = document.createElement("tr");
-          for (let j = 0; j < 7; j++) {
-          let cell = document.createElement("td");
-          if (i === 0 && j < firstDay) {
-              // Cell is before the first day of the month
-              cell.classList.add("mini-disabled");
-          } else {
-              // Cell is a valid day of the month or after the last day of the month
-              if (date <= numDays) {
-              let div = document.createElement("div");
-              let dateText = document.createElement("span");
-              dateText.innerHTML = date;
-              div.appendChild(dateText);
-              // Add a light-colored circle for the current date
-              if (year === currentYear && month === currentMonth && date === currentDay) {
-                  cell.classList.add("mini-active");
-              }
-              cell.appendChild(div);
-              date++;
-              } else {
-              // Cell is after the last day of the month
-              cell.classList.add("mini-disabled");
-              }
-          }
-
-          // Add click event listener to each cell
-          cell.addEventListener('click', (event) => {
-              const clickedCell = event.target.closest('td'); // Get the closest ancestor <td> element
-
-              // Check if the clicked cell has the "disabled" class
-              if (!clickedCell.classList.contains('mini-disabled')) {
-                  // Remove the 'active' class from all cells
-                  const allCells = document.querySelectorAll('#miniCalendarTable td');
-                  allCells.forEach((cell) => {
-                      cell.classList.remove('mini-active');
-                  });
-
-                  // Add the 'active' class to the clicked cell
-                  clickedCell.classList.add('mini-active');
-
-                  // Get the clicked date from the cell's text content
-                  const clickedDate = parseInt(clickedCell.textContent);
-
-                  // Set the calendar title
-                  let currentMonthYear = document.getElementById("miniCalendarHeader");
-                  currentMonthYear.innerHTML = "<strong>" + months[month] + "</strong> " + year;
-                  // Set the clicked date in the input field using jQuery
-                  const formattedMonth = (month + 1).toString().padStart(2, '0');
-                  const formattedDate = clickedDate.toString().padStart(2, '0');
-                  const formattedYear = year.toString();
-                  const formattedDateStr = `${formattedMonth}/${formattedDate}/${formattedYear}`;
-                  $('#dateInput').val(formattedDateStr);
-                  // Trigger the input event manually to update the logs
-                  $(dateInput).trigger('input');   
-              }
-          });
-          row.appendChild(cell);
-          }
-          calendarBody.appendChild(row);
+    // Generate calendar days
+    let date = 1;
+    for (let i = 0; i < 6; i++) {
+      let row = document.createElement("tr");
+      for (let j = 0; j < 7; j++) {
+      let cell = document.createElement("td");
+      if (i === 0 && j < firstDay) {
+        // Cell is before the first day of the month
+        cell.classList.add("mini-disabled");
+      } else {
+        // Cell is a valid day of the month or after the last day of the month
+        if (date <= numDays) {
+        let div = document.createElement("div");
+        let dateText = document.createElement("span");
+        dateText.innerHTML = date;
+        div.appendChild(dateText);
+        // Add a light-colored circle for the current date
+        if (year === currentYear && month === currentMonth && date === currentDay) {
+            cell.classList.add("mini-active");
+        }
+        cell.appendChild(div);
+        date++;
+        } else {
+        // Cell is after the last day of the month
+        cell.classList.add("mini-disabled");
+        }
       }
+
+      // Add click event listener to each cell
+      cell.addEventListener('click', (event) => {
+        const clickedCell = event.target.closest('td'); // Get the closest ancestor <td> element
+
+        // Check if the clicked cell has the "disabled" class
+        if (!clickedCell.classList.contains('mini-disabled')) {
+          // Remove the 'active' class from all cells
+          const allCells = document.querySelectorAll('#miniCalendarTable td');
+          allCells.forEach((cell) => {
+              cell.classList.remove('mini-active');
+          });
+
+          // Add the 'active' class to the clicked cell
+          clickedCell.classList.add('mini-active');
+
+          // Get the clicked date from the cell's text content
+          const clickedDate = parseInt(clickedCell.textContent);
+
+          // Set the calendar title
+          let currentMonthYear = document.getElementById("miniCalendarHeader");
+          currentMonthYear.innerHTML = "<strong>" + months[month] + "</strong> " + year;
+          // Set the clicked date in the input field using jQuery
+          const formattedMonth = (month + 1).toString().padStart(2, '0');
+          const formattedDate = clickedDate.toString().padStart(2, '0');
+          const formattedYear = year.toString();
+          const formattedDateStr = `${formattedMonth}/${formattedDate}/${formattedYear}`;
+          $('#dateInput').val(formattedDateStr);
+          // Trigger the input event manually to update the logs
+          $(dateInput).trigger('input');   
+        }
+      });
+      row.appendChild(cell);
+      }
+      calendarBody.appendChild(row);
+    }
   } 
 
   $("#miniPreviousButton").mousedown(function() {
-      $('[data-bs-toggle="popover"]').not(this).popover('hide');   
-          currentMonth--;
-          if (currentMonth < 0) {
-              currentMonth = 11;
-              currentYear--;
-          }
-          generateMiniCalendar(currentMonth, currentYear);
-
-          prevMonthInterval = setInterval(function() {
-              currentMonth--;
-              if (currentMonth < 0) {
-              currentMonth = 11;
-              currentYear--;
-              }
-              generateMiniCalendar(currentMonth, currentYear);
-
-          }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
-      }).mouseup(function() {
-      clearInterval(prevMonthInterval);
-      }).mouseleave(function() {
-      clearInterval(prevMonthInterval);
+    $('[data-bs-toggle="popover"]').not(this).popover('hide');   
+      currentMonth--;
+      if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+      }
+      generateMiniCalendar(currentMonth, currentYear);
   });
 
   $("#miniNextButton").mousedown(function() {
-  $('[data-bs-toggle="popover"]').not(this).popover('hide');
-  currentMonth++;
-  if (currentMonth > 11) {
-      currentMonth = 0;
-      currentYear++;
-  }
-  generateMiniCalendar(currentMonth, currentYear);
-
-  nextMonthInterval = setInterval(function() {
-      currentMonth++;
-      if (currentMonth > 11) {
-      currentMonth = 0;
-      currentYear++;
-      }
-      generateMiniCalendar(currentMonth, currentYear);
-
-  }, 100); // Adjust the interval time (in milliseconds) for the desired scrolling speed
-  }).mouseup(function() {
-  clearInterval(nextMonthInterval);
-  }).mouseleave(function() {
-  clearInterval(nextMonthInterval);
+    $('[data-bs-toggle="popover"]').not(this).popover('hide');
+    currentMonth++;
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+    }
+    generateMiniCalendar(currentMonth, currentYear);
+    });
   });
-});

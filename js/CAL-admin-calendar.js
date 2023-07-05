@@ -8,10 +8,215 @@ var months = [
 
 var adminCalendarComputer = {
   initialize: function() {
-    var filters = ["Tournament", "Competition", "Standard"];
-    var filtersOrg = ["SC", "ACAP", "AECES", "ELITE", "GIVE", "JEHRA", "JMAP", "JPIA", "PIIE"];
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    let filters = [];
+    let filtersOrg = [];
+
+    function generateEventTypeCheckboxes(eventTypes) {
+      const eventTypeCheckboxesContainer = $('#eventTypeCheckboxes');
+      eventTypeCheckboxesContainer.empty(); // Clear previous checkboxes
+    
+      const allCheckbox = $('<div>').addClass('form-check');
+    
+      const allInput = $('<input>').addClass('form-check-input event-type-checkbox')
+        .attr('type', 'checkbox')
+        .attr('id', 'check-event-type-all');
+    
+      const allLabel = $('<label>').addClass('form-check-label')
+        .attr('for', 'check-event-type-all')
+        .text('All');
+    
+      allCheckbox.append(allInput);
+      allCheckbox.append(allLabel);
+    
+      eventTypeCheckboxesContainer.append(allCheckbox);
+    
+      for (const eventType of eventTypes) {
+        const checkbox = $('<div>').addClass('form-check');
+    
+        const input = $('<input>').addClass('form-check-input event-type-checkbox')
+          .attr('type', 'checkbox')
+          .val(eventType.event_type)
+          .attr('id', `${eventType.event_type}`);
+    
+        const label = $('<label>').addClass('form-check-label')
+          .attr('for', `${eventType.event_type}`)
+          .text(eventType.event_type);
+    
+        checkbox.append(input);
+        checkbox.append(label);
+    
+        eventTypeCheckboxesContainer.append(checkbox);
+      }
+    
+      // Check all event type checkboxes initially
+      $('.form-check-input.event-type-checkbox').prop('checked', true);
+    
+      // Update filters array when checkboxes are checked or unchecked
+      $('.form-check-input.event-type-checkbox').change(function() {
+        if ($(this).attr('id') === 'check-event-type-all') {
+          // Check/uncheck all checkboxes
+          const isChecked = $(this).prop('checked');
+          $('.form-check-input.event-type-checkbox').not(this).prop('checked', isChecked);
+        } else {
+          // Uncheck "All" checkbox if any individual checkbox is unchecked
+          if (!$(this).prop('checked')) {
+            $('#check-event-type-all').prop('checked', false);
+          } else {
+            // Check "All" checkbox if all individual checkboxes (except "All") are checked
+            const allCheckboxChecked = $('.form-check-input.event-type-checkbox:not(#check-event-type-all)').length === $('.form-check-input.event-type-checkbox:not(#check-event-type-all):checked').length;
+            $('#check-event-type-all').prop('checked', allCheckboxChecked);
+          }
+        }
+    
+        filters = $('.form-check-input.event-type-checkbox:checked').map(function() {
+          return $(this).val();
+        }).get();
+        updateCalendar();
+      });
+    
+      // "All" checkbox functionality
+      $('#check-event-type-all').change(function() {
+        const isChecked = $(this).prop('checked');
+        $('.form-check-input.event-type-checkbox').prop('checked', isChecked);
+    
+        filters = isChecked ? eventTypes.map(eventType => eventType.event_type) : [];
+      });
+    
+      // Add initial checkbox values to the array
+      filters = $('.form-check-input.event-type-checkbox:checked').map(function() {
+        return $(this).val();
+      }).get();
+      updateCalendar();
+    }
+    
+    // Fetch event type data from the server
+    $.ajax({
+      url: './php/CAL-get-event-types.php',
+      method: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        // Generate the event type checkboxes and check all initially
+        generateEventTypeCheckboxes(response.eventTypes);
+        // Add initial checkbox values to the array
+        filters = response.eventTypes.map(eventType => eventType.event_type);
+      },
+      error: function(xhr, error) {
+        console.error('Error fetching event type data:', error);
+        console.log('Response:', xhr.responseText); // Log the response text for debugging
+      }
+    });   
+    
+    function generateOrgCheckboxes(orgNames) {
+      const orgCheckboxesContainer = $('#orgCheckboxes');
+      orgCheckboxesContainer.empty(); // Clear previous checkboxes
+    
+      const allCheckbox = $('<div>').addClass('form-check');
+    
+      const allInput = $('<input>').addClass('form-check-input org-checkbox')
+        .attr('type', 'checkbox')
+        .attr('id', 'check-org-all');
+    
+      const allLabel = $('<label>').addClass('form-check-label')
+        .attr('for', 'check-org-all');
+      
+      const span = $('<span>').addClass('pill-all')
+        .text('All');
+      
+      allLabel.append(span);
+      allCheckbox.append(allInput);
+      allCheckbox.append(allLabel);
+    
+      orgCheckboxesContainer.append(allCheckbox);
+    
+      for (const orgName of orgNames) {
+        const checkbox = $('<div>').addClass('form-check');
+    
+        const input = $('<input>').addClass('form-check-input org-checkbox')
+          .attr('type', 'checkbox')
+          .val(orgName.organization_name)
+          .attr('id', `check-org-${orgName.organization_name}`);
+    
+        const label = $('<label>').addClass('form-check-label')
+        .attr('for', `check-org-${orgName.organization_name}`);
+        
+        const span = $('<span>').addClass(`pill-${orgName.organization_name.toLowerCase()}`)
+          .text(orgName.organization_name);
+        
+        label.append(span);
+    
+        checkbox.append(input);
+        checkbox.append(label);
+    
+        orgCheckboxesContainer.append(checkbox);
+      }
+    
+      // Check all organization checkboxes initially
+      $('.form-check-input.org-checkbox').prop('checked', true);
+    
+      // Update filtersOrg array when checkboxes are checked or unchecked
+      $('.form-check-input.org-checkbox').change(function() {
+        if ($(this).attr('id') === 'check-org-all') {
+          // Check/uncheck all checkboxes
+          const isChecked = $(this).prop('checked');
+          $('.form-check-input.org-checkbox').not(this).prop('checked', isChecked);
+        } else {
+          // Uncheck "All" checkbox if any individual checkbox is unchecked
+          if (!$(this).prop('checked')) {
+            $('#check-org-all').prop('checked', false);
+          } else {
+            // Check "All" checkbox if all individual checkboxes (except "All") are checked
+            const allCheckboxChecked = $('.form-check-input.org-checkbox:not(#check-org-all)').length === $('.form-check-input.org-checkbox:not(#check-org-all):checked').length;
+            $('#check-org-all').prop('checked', allCheckboxChecked);
+          }
+        }
+    
+        filtersOrg = $('.form-check-input.org-checkbox:checked').map(function() {
+          return $(this).val();
+        }).get();
+        updateCalendarOrg();
+      });
+    
+      // "All" checkbox functionality
+      $('#check-org-all').change(function() {
+        const isChecked = $(this).prop('checked');
+        $('.form-check-input.org-checkbox').prop('checked', isChecked);
+    
+        filtersOrg = isChecked ? orgNames.map(orgName => orgName.organization_name) : [];
+      });
+    
+      // Add initial checkbox values to the array
+      filtersOrg = $('.form-check-input.org-checkbox:checked').map(function() {
+        return $(this).val();
+      }).get();
+      updateCalendarOrg();
+    }
+    
+    // Fetch organization data from the server
+    $.ajax({
+      url: './php/CAL-get-orgs.php',
+      method: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        // Generate the organization checkboxes and check all initially
+        generateOrgCheckboxes(response.orgNames);
+        // Add initial checkbox values to the array
+        filtersOrg = response.orgNames.map(orgName => orgName.organization_name);
+      },
+      error: function(xhr, error) {
+        console.error('Error fetching organization data:', error);
+        console.log('Response:', xhr.responseText); // Log the response text for debugging
+      }
+    }); 
+
+    function updateCalendar() {
+      generateCalendar(currentMonth, currentYear, filters, filtersOrg);
+    }
+
+    function updateCalendarOrg() {
+      generateCalendar(currentMonth, currentYear, filters, filtersOrg);
+    }
 
     function generateCalendar(month, year, filters, filtersOrg) {
       // Get number of days in the month and the first day of the month
@@ -1461,279 +1666,18 @@ var adminCalendarComputer = {
 
     // Add event listener to handle changes in viewport width
     mediaQuery.addEventListener('change', updateTableHeaders);
-
-    const allCheckbox = document.getElementById('check-all-event');
-    const tournamentCheckbox = document.getElementById('check-tournament');
-    const competitionCheckbox = document.getElementById('check-competition');
-    const standardCheckbox = document.getElementById('check-standard');
-
-    function updateAllCheckbox() {
-      if (!tournamentCheckbox.checked && !competitionCheckbox.checked && !standardCheckbox.checked) {
-        allCheckbox.checked = false;
-      } else if (tournamentCheckbox.checked && competitionCheckbox.checked && standardCheckbox.checked) {
-        allCheckbox.checked = true;
-      } else {
-        allCheckbox.checked = false;
-      }
-      // update checkbox array
-      filters.length = 0; // clear previous values
-      if (tournamentCheckbox.checked) {
-        filters.push(tournamentCheckbox.value);
-      }
-      if (competitionCheckbox.checked) {
-        filters.push(competitionCheckbox.value);
-      }
-      if (standardCheckbox.checked) {
-        filters.push(standardCheckbox.value);
-      }
-    }
-
-    // Add event listeners to update "All" checkbox when other checkboxes are clicked
-    tournamentCheckbox.addEventListener('click', updateAllCheckbox);
-    competitionCheckbox.addEventListener('click', updateAllCheckbox);
-    standardCheckbox.addEventListener('click', updateAllCheckbox);
-
-    // Add event listener to check other checkboxes when "All" checkbox is checked
-    allCheckbox.addEventListener('click', function() {
-      filters.length = 0;
-      if (allCheckbox.checked) {
-        tournamentCheckbox.checked = true;
-        competitionCheckbox.checked = true;
-        standardCheckbox.checked = true;
-        filters.push(tournamentCheckbox.value);
-        filters.push(competitionCheckbox.value);
-        filters.push(standardCheckbox.value);
-      } else {
-        tournamentCheckbox.checked = false;
-        competitionCheckbox.checked = false;
-        standardCheckbox.checked = false;
-      }
-      updateCalendar();
-    });
-
-    // Select all checkboxes at startup
-    allCheckbox.checked = true;
-    tournamentCheckbox.checked = true;
-    competitionCheckbox.checked = true;
-    standardCheckbox.checked = true;    
-
-    function updateCalendar() {
-      generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-    }
-
-    tournamentCheckbox.addEventListener('click', updateCalendar);
-    competitionCheckbox.addEventListener('click', updateCalendar);
-    standardCheckbox.addEventListener('click', updateCalendar);
-
-    const allCheckboxOrg = document.getElementById('check-all-organization');
-    const scCheckbox = document.getElementById('check-sc');
-    const acapCheckbox = document.getElementById('check-acap');
-    const aecesCheckbox = document.getElementById('check-aeces');
-    const eliteCheckbox = document.getElementById('check-elite');
-    const giveCheckbox = document.getElementById('check-give');
-    const jehraCheckbox = document.getElementById('check-jehra');
-    const jmapCheckbox = document.getElementById('check-jmap');
-    const jpiaCheckbox = document.getElementById('check-jpia');
-    const piieCheckbox = document.getElementById('check-piie');
-
-    function updateAllCheckboxOrg() {
-      if (
-        !scCheckbox.checked &&
-        !acapCheckbox.checked &&
-        !aecesCheckbox.checked &&
-        !eliteCheckbox.checked &&
-        !giveCheckbox.checked &&
-        !jehraCheckbox.checked &&
-        !jmapCheckbox.checked &&
-        !jpiaCheckbox.checked &&
-        !piieCheckbox.checked
-      ) {
-        allCheckboxOrg.checked = false;
-      } else if (
-        scCheckbox.checked &&
-        acapCheckbox.checked &&
-        aecesCheckbox.checked &&
-        eliteCheckbox.checked &&
-        giveCheckbox.checked &&
-        jehraCheckbox.checked &&
-        jmapCheckbox.checked &&
-        jpiaCheckbox.checked &&
-        piieCheckbox.checked
-      ) {
-        allCheckboxOrg.checked = true;
-      } else {
-        allCheckboxOrg.checked = false;
-      }
-      // update checkbox array
-      filtersOrg.length = 0; // clear previous values
-      if (scCheckbox.checked) {
-        filtersOrg.push(scCheckbox.value);
-      }
-      if (acapCheckbox.checked) {
-        filtersOrg.push(acapCheckbox.value);
-      }
-      if (aecesCheckbox.checked) {
-        filtersOrg.push(aecesCheckbox.value);
-      }
-      if (eliteCheckbox.checked) {
-        filtersOrg.push(eliteCheckbox.value);
-      }
-      if (giveCheckbox.checked) {
-        filtersOrg.push(giveCheckbox.value);
-      }
-      if (jehraCheckbox.checked) {
-        filtersOrg.push(jehraCheckbox.value);
-      }
-      if (jmapCheckbox.checked) {
-        filtersOrg.push(jmapCheckbox.value);
-      }
-      if (jpiaCheckbox.checked) {
-        filtersOrg.push(jpiaCheckbox.value);
-      }
-      if (piieCheckbox.checked) {
-        filtersOrg.push(piieCheckbox.value);
-      }
-    }
-
-    // Add event listeners to update "All" checkbox when other checkboxes are clicked
-    scCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    acapCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    aecesCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    eliteCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    giveCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    jehraCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    jmapCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    jpiaCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    piieCheckbox.addEventListener('click', updateAllCheckboxOrg);
-
-    // Add event listener to check other checkboxes when "All" checkbox is checked
-    allCheckboxOrg.addEventListener('click', function() {
-      filtersOrg.length = 0;
-      if (allCheckboxOrg.checked) {
-        scCheckbox.checked = true;
-        acapCheckbox.checked = true;
-        aecesCheckbox.checked = true;
-        eliteCheckbox.checked = true;
-        giveCheckbox.checked = true;
-        jehraCheckbox.checked = true;
-        jmapCheckbox.checked = true;
-        jpiaCheckbox.checked = true;
-        piieCheckbox.checked = true;
-        filtersOrg.push(scCheckbox.value);
-        filtersOrg.push(acapCheckbox.value);
-        filtersOrg.push(aecesCheckbox.value);
-        filtersOrg.push(eliteCheckbox.value);
-        filtersOrg.push(giveCheckbox.value);
-        filtersOrg.push(jehraCheckbox.value);
-        filtersOrg.push(jmapCheckbox.value);
-        filtersOrg.push(jpiaCheckbox.value);
-        filtersOrg.push(piieCheckbox.value);
-      } else {
-        scCheckbox.checked = false;
-        acapCheckbox.checked = false;
-        aecesCheckbox.checked = false;
-        eliteCheckbox.checked = false;
-        giveCheckbox.checked = false;
-        jehraCheckbox.checked = false;
-        jmapCheckbox.checked = false;
-        jpiaCheckbox.checked = false;
-        piieCheckbox.checked = false;
-      }
-      updateCalendarOrg();
-    });
-
-    // Select all checkboxes at startup
-    allCheckboxOrg.checked = true;
-    scCheckbox.checked = true;
-    acapCheckbox.checked = true;
-    aecesCheckbox.checked = true;
-    eliteCheckbox.checked = true;
-    giveCheckbox.checked = true;
-    jehraCheckbox.checked = true;
-    jmapCheckbox.checked = true;
-    jpiaCheckbox.checked = true;
-    piieCheckbox.checked = true;
-
-    function updateCalendarOrg() {
-      generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-    }
-
-    scCheckbox.addEventListener('click', updateCalendarOrg);
-    acapCheckbox.addEventListener('click', updateCalendarOrg);
-    aecesCheckbox.addEventListener('click', updateCalendarOrg);
-    eliteCheckbox.addEventListener('click', updateCalendarOrg);
-    giveCheckbox.addEventListener('click', updateCalendarOrg);
-    jehraCheckbox.addEventListener('click', updateCalendarOrg);
-    jmapCheckbox.addEventListener('click', updateCalendarOrg);
-    jpiaCheckbox.addEventListener('click', updateCalendarOrg);
-    piieCheckbox.addEventListener('click', updateCalendarOrg);
-
-    function updateAllCheckboxOrg() {
-      if (
-        !scCheckbox.checked &&
-        !acapCheckbox.checked &&
-        !aecesCheckbox.checked &&
-        !eliteCheckbox.checked &&
-        !giveCheckbox.checked &&
-        !jehraCheckbox.checked &&
-        !jmapCheckbox.checked &&
-        !jpiaCheckbox.checked &&
-        !piieCheckbox.checked
-      ) {
-        allCheckboxOrg.checked = false;
-      } else if (
-        scCheckbox.checked &&
-        acapCheckbox.checked &&
-        aecesCheckbox.checked &&
-        eliteCheckbox.checked &&
-        giveCheckbox.checked &&
-        jehraCheckbox.checked &&
-        jmapCheckbox.checked &&
-        jpiaCheckbox.checked &&
-        piieCheckbox.checked
-      ) {
-        allCheckboxOrg.checked = true;
-      } else {
-        allCheckboxOrg.checked = false;
-      }
-      // update checkbox array
-      filtersOrg.length = 0; // clear previous values
-      if (scCheckbox.checked) {
-        filtersOrg.push(scCheckbox.value);
-      }
-      if (acapCheckbox.checked) {
-        filtersOrg.push(acapCheckbox.value);
-      }
-      if (aecesCheckbox.checked) {
-        filtersOrg.push(aecesCheckbox.value);
-      }
-      if (eliteCheckbox.checked) {
-        filtersOrg.push(eliteCheckbox.value);
-      }
-      if (giveCheckbox.checked) {
-        filtersOrg.push(giveCheckbox.value);
-      }
-      if (jehraCheckbox.checked) {
-        filtersOrg.push(jehraCheckbox.value);
-      }
-      if (jmapCheckbox.checked) {
-        filtersOrg.push(jmapCheckbox.value);
-      }
-      if (jpiaCheckbox.checked) {
-        filtersOrg.push(jpiaCheckbox.value);
-      }
-      if (piieCheckbox.checked) {
-        filtersOrg.push(piieCheckbox.value);
-      }
-    }
   }
 };
 
 var adminCalendarPhone = {
   initialize: function() {
-    var filters = ["Tournament", "Competition", "Standard"];
-    var filtersOrg = ["SC", "ACAP", "AECES", "ELITE", "GIVE", "JEHRA", "JMAP", "JPIA", "PIIE"];
+    let filters = [];
+    let filtersOrg = [];
     var selectedDate;
+
+    // Generate calendar for current month and year
+    generateCalendar(currentMonth, currentYear, filters, filtersOrg);
+    generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg);
 
     // Select DOM elements
     const showModalBtn = document.querySelector(".show-modal");
@@ -2153,7 +2097,6 @@ var adminCalendarPhone = {
     }
 
     function generateCalendarSelected(month, year, filters, selectedDate, filtersOrg) {
-
       // Clear previous event details
       var showSelectedEventsContainer = document.getElementById("showSelectedEvents");
       showSelectedEventsContainer.innerHTML = "";
@@ -2422,275 +2365,200 @@ var adminCalendarPhone = {
       generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
     });
 
-    // Generate calendar for current month and year
-    generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-    generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
-
-    const allCheckbox = document.getElementById('mobile-check-all-event');
-    const tournamentCheckbox = document.getElementById('mobile-check-tournament');
-    const competitionCheckbox = document.getElementById('mobile-check-competition');
-    const standardCheckbox = document.getElementById('mobile-check-standard');
-
-    function updateAllCheckbox() {
-      if (!tournamentCheckbox.checked && !competitionCheckbox.checked && !standardCheckbox.checked) {
-        allCheckbox.checked = false;
-      } else if (tournamentCheckbox.checked && competitionCheckbox.checked && standardCheckbox.checked) {
-        allCheckbox.checked = true;
-      } else {
-        allCheckbox.checked = false;
+      
+    function generateEventTypeCheckboxes(eventTypes) {
+      const eventTypeCheckboxesContainer = $('#mobileEventTypeCheckboxes');
+      eventTypeCheckboxesContainer.empty(); // Clear previous checkboxes
+  
+      const allCheckbox = $('<div>').addClass('form-check');
+  
+      const allInput = $('<input>').addClass('form-check-input mobile-event-type-checkbox')
+        .attr('type', 'checkbox')
+        .attr('id', 'mobile-check-event-type-all');
+  
+      const allLabel = $('<label>').addClass('form-check-label')
+        .attr('for', 'mobile-check-event-type-all')
+        .text('All');
+  
+      allCheckbox.append(allInput);
+      allCheckbox.append(allLabel);
+  
+      eventTypeCheckboxesContainer.append(allCheckbox);
+  
+      for (const eventType of eventTypes) {
+        const checkbox = $('<div>').addClass('form-check');
+  
+        const input = $('<input>').addClass('form-check-input mobile-event-type-checkbox')
+          .attr('type', 'checkbox')
+          .val(eventType.event_type)
+          .attr('id', `mobile-check-event-type-${eventType.event_type}`);
+  
+        const label = $('<label>').addClass('form-check-label')
+          .attr('for', `mobile-check-event-type-${eventType.event_type}`)
+          .text(eventType.event_type);
+  
+        checkbox.append(input);
+        checkbox.append(label);
+  
+        eventTypeCheckboxesContainer.append(checkbox);
       }
-      // update checkbox array
-      filters.length = 0; // clear previous values
-      if (tournamentCheckbox.checked) {
-        filters.push(tournamentCheckbox.value);
-      }
-      if (competitionCheckbox.checked) {
-        filters.push(competitionCheckbox.value);
-      }
-      if (standardCheckbox.checked) {
-        filters.push(standardCheckbox.value);
-      }
+  
+      // Check all event type checkboxes initially
+      $('.form-check-input.mobile-event-type-checkbox').prop('checked', true);
+  
+      // Update filters array when checkboxes are checked or unchecked
+      $('.form-check-input.mobile-event-type-checkbox').change(function() {
+        if ($(this).attr('id') === 'mobile-check-event-type-all') {
+          // Check/uncheck all checkboxes
+          const isChecked = $(this).prop('checked');
+          $('.form-check-input.mobile-event-type-checkbox').not(this).prop('checked', isChecked);
+        } else {
+          // Uncheck "All" checkbox if any individual checkbox is unchecked
+          if (!$(this).prop('checked')) {
+            $('#mobile-check-event-type-all').prop('checked', false);
+          } else {
+            // Check "All" checkbox if all individual checkboxes (except "All") are checked
+            const allCheckboxChecked = $('.form-check-input.mobile-event-type-checkbox:not(#mobile-check-event-type-all)').length === $('.form-check-input.mobile-event-type-checkbox:not(#mobile-check-event-type-all):checked').length;
+            $('#mobile-check-event-type-all').prop('checked', allCheckboxChecked);
+          }
+        }
+  
+        filters = $('.form-check-input.mobile-event-type-checkbox:checked').map(function() {
+          return $(this).val();
+        }).get();
+      });
+  
+      // "All" checkbox functionality
+      $('#mobile-check-event-type-all').change(function() {
+        const isChecked = $(this).prop('checked');
+        $('.form-check-input.mobile-event-type-checkbox').prop('checked', isChecked);
+  
+        filters = isChecked ? eventTypes.map(eventType => eventType.event_type) : [];
+        updateCalendar();
+      });
     }
-
-    // Add event listeners to update "All" checkbox when other checkboxes are clicked
-    tournamentCheckbox.addEventListener('click', updateAllCheckbox);
-    competitionCheckbox.addEventListener('click', updateAllCheckbox);
-    standardCheckbox.addEventListener('click', updateAllCheckbox);
-
-    // Add event listener to check other checkboxes when "All" checkbox is checked
-    allCheckbox.addEventListener('click', function() {
-      filters.length = 0;
-      if (allCheckbox.checked) {
-        tournamentCheckbox.checked = true;
-        competitionCheckbox.checked = true;
-        standardCheckbox.checked = true;
-        filters.push(tournamentCheckbox.value);
-        filters.push(competitionCheckbox.value);
-        filters.push(standardCheckbox.value);
-      } else {
-        tournamentCheckbox.checked = false;
-        competitionCheckbox.checked = false;
-        standardCheckbox.checked = false;
+  
+    function generateOrgCheckboxes(orgNames) {
+      const orgCheckboxesContainer = $('#mobileOrgCheckboxes');
+      orgCheckboxesContainer.empty(); // Clear previous checkboxes
+  
+      const allCheckbox = $('<div>').addClass('form-check');
+  
+      const allInput = $('<input>').addClass('form-check-input mobile-org-checkbox')
+        .attr('type', 'checkbox')
+        .attr('id', 'mobile-check-org-all');
+  
+      const allLabel = $('<label>').addClass('form-check-label')
+        .attr('for', 'mobile-check-org-all');
+  
+      const span = $('<span>').addClass('pill-all')
+        .text('All');
+  
+      allLabel.append(span);
+      allCheckbox.append(allInput);
+      allCheckbox.append(allLabel);
+  
+      orgCheckboxesContainer.append(allCheckbox);
+  
+      for (const orgName of orgNames) {
+        const checkbox = $('<div>').addClass('form-check');
+  
+        const input = $('<input>').addClass('form-check-input mobile-org-checkbox')
+          .attr('type', 'checkbox')
+          .val(orgName.organization_name)
+          .attr('id', `mobile-check-org-${orgName.organization_name}`);
+  
+        const label = $('<label>').addClass('form-check-label')
+          .attr('for', `mobile-check-org-${orgName.organization_name}`);
+  
+        const span = $('<span>').addClass(`pill-${orgName.organization_name.toLowerCase()}`)
+          .text(orgName.organization_name);
+  
+        label.append(span);
+  
+        checkbox.append(input);
+        checkbox.append(label);
+  
+        orgCheckboxesContainer.append(checkbox);
       }
-      updateCalendar();
+  
+      // Check all organization checkboxes initially
+      $('.form-check-input.mobile-org-checkbox').prop('checked', true);
+  
+      // Update filtersOrg array when checkboxes are checked or unchecked
+      $('.form-check-input.mobile-org-checkbox').change(function() {
+        if ($(this).attr('id') === 'mobile-check-org-all') {
+          // Check/uncheck all checkboxes
+          const isChecked = $(this).prop('checked');
+          $('.form-check-input.mobile-org-checkbox').not(this).prop('checked', isChecked);
+        } else {
+          // Uncheck "All" checkbox if any individual checkbox is unchecked
+          if (!$(this).prop('checked')) {
+            $('#mobile-check-org-all').prop('checked', false);
+          } else {
+            // Check "All" checkbox if all individual checkboxes (except "All") are checked
+            const allCheckboxChecked = $('.form-check-input.mobile-org-checkbox:not(#mobile-check-org-all)').length === $('.form-check-input.mobile-org-checkbox:not(#mobile-check-org-all):checked').length;
+            $('#mobile-check-org-all').prop('checked', allCheckboxChecked);
+          }
+        }
+  
+        filtersOrg = $('.form-check-input.mobile-org-checkbox:checked').map(function() {
+          return $(this).val();
+        }).get();
+      });
+  
+      // "All" checkbox functionality
+      $('#mobile-check-org-all').change(function() {
+        const isChecked = $(this).prop('checked');
+        $('.form-check-input.mobile-org-checkbox').prop('checked', isChecked);
+  
+        filtersOrg = isChecked ? orgNames.map(orgName => orgName.organization_name) : [];
+        updateCalendarOrg();
+      });
+    }
+  
+    // Fetch event type data from the server
+    $.ajax({
+      url: './php/CAL-get-event-types.php',
+      method: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        // Generate the event type checkboxes and check all initially
+        generateEventTypeCheckboxes(response.eventTypes);
+        // Add initial checkbox values to the array
+        filters = response.eventTypes.map(eventType => eventType.event_type);
+      },
+      error: function(xhr, error) {
+        console.error('Error fetching event type data:', error);
+        console.log('Response:', xhr.responseText); // Log the response text for debugging
+      }
     });
-
-    // Select all checkboxes at startup
-    allCheckbox.checked = true;
-    tournamentCheckbox.checked = true;
-    competitionCheckbox.checked = true;
-    standardCheckbox.checked = true;    
+  
+    // Fetch organization data from the server
+    $.ajax({
+      url: './php/CAL-get-orgs.php',
+      method: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        // Generate the organization checkboxes and check all initially
+        generateOrgCheckboxes(response.orgNames);
+        // Add initial checkbox values to the array
+        filtersOrg = response.orgNames.map(orgName => orgName.organization_name);
+      },
+      error: function(xhr, error) {
+        console.error('Error fetching organization data:', error);
+        console.log('Response:', xhr.responseText); // Log the response text for debugging
+      }
+    });
 
     function updateCalendar() {
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
+      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg);
     }
-
-    tournamentCheckbox.addEventListener('click', updateCalendar);
-    competitionCheckbox.addEventListener('click', updateCalendar);
-    standardCheckbox.addEventListener('click', updateCalendar);
-
-    const allCheckboxOrg = document.getElementById('mobile-check-all-organization');
-    const scCheckbox = document.getElementById('mobile-check-sc');
-    const acapCheckbox = document.getElementById('mobile-check-acap');
-    const aecesCheckbox = document.getElementById('mobile-check-aeces');
-    const eliteCheckbox = document.getElementById('mobile-check-elite');
-    const giveCheckbox = document.getElementById('mobile-check-give');
-    const jehraCheckbox = document.getElementById('mobile-check-jehra');
-    const jmapCheckbox = document.getElementById('mobile-check-jmap');
-    const jpiaCheckbox = document.getElementById('mobile-check-jpia');
-    const piieCheckbox = document.getElementById('mobile-check-piie');
-
-    function updateAllCheckboxOrg() {
-      if (
-        !scCheckbox.checked &&
-        !acapCheckbox.checked &&
-        !aecesCheckbox.checked &&
-        !eliteCheckbox.checked &&
-        !giveCheckbox.checked &&
-        !jehraCheckbox.checked &&
-        !jmapCheckbox.checked &&
-        !jpiaCheckbox.checked &&
-        !piieCheckbox.checked
-      ) {
-        allCheckboxOrg.checked = false;
-      } else if (
-        scCheckbox.checked &&
-        acapCheckbox.checked &&
-        aecesCheckbox.checked &&
-        eliteCheckbox.checked &&
-        giveCheckbox.checked &&
-        jehraCheckbox.checked &&
-        jmapCheckbox.checked &&
-        jpiaCheckbox.checked &&
-        piieCheckbox.checked
-      ) {
-        allCheckboxOrg.checked = true;
-      } else {
-        allCheckboxOrg.checked = false;
-      }
-      // update checkbox array
-      filtersOrg.length = 0; // clear previous values
-      if (scCheckbox.checked) {
-        filtersOrg.push(scCheckbox.value);
-      }
-      if (acapCheckbox.checked) {
-        filtersOrg.push(acapCheckbox.value);
-      }
-      if (aecesCheckbox.checked) {
-        filtersOrg.push(aecesCheckbox.value);
-      }
-      if (eliteCheckbox.checked) {
-        filtersOrg.push(eliteCheckbox.value);
-      }
-      if (giveCheckbox.checked) {
-        filtersOrg.push(giveCheckbox.value);
-      }
-      if (jehraCheckbox.checked) {
-        filtersOrg.push(jehraCheckbox.value);
-      }
-      if (jmapCheckbox.checked) {
-        filtersOrg.push(jmapCheckbox.value);
-      }
-      if (jpiaCheckbox.checked) {
-        filtersOrg.push(jpiaCheckbox.value);
-      }
-      if (piieCheckbox.checked) {
-        filtersOrg.push(piieCheckbox.value);
-      }
-    }
-
-    // Add event listeners to update "All" checkbox when other checkboxes are clicked
-    scCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    acapCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    aecesCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    eliteCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    giveCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    jehraCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    jmapCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    jpiaCheckbox.addEventListener('click', updateAllCheckboxOrg);
-    piieCheckbox.addEventListener('click', updateAllCheckboxOrg);
-
-    // Add event listener to check other checkboxes when "All" checkbox is checked
-    allCheckboxOrg.addEventListener('click', function() {
-      filtersOrg.length = 0;
-      if (allCheckboxOrg.checked) {
-        scCheckbox.checked = true;
-        acapCheckbox.checked = true;
-        aecesCheckbox.checked = true;
-        eliteCheckbox.checked = true;
-        giveCheckbox.checked = true;
-        jehraCheckbox.checked = true;
-        jmapCheckbox.checked = true;
-        jpiaCheckbox.checked = true;
-        piieCheckbox.checked = true;
-        filtersOrg.push(scCheckbox.value);
-        filtersOrg.push(acapCheckbox.value);
-        filtersOrg.push(aecesCheckbox.value);
-        filtersOrg.push(eliteCheckbox.value);
-        filtersOrg.push(giveCheckbox.value);
-        filtersOrg.push(jehraCheckbox.value);
-        filtersOrg.push(jmapCheckbox.value);
-        filtersOrg.push(jpiaCheckbox.value);
-        filtersOrg.push(piieCheckbox.value);
-      } else {
-        scCheckbox.checked = false;
-        acapCheckbox.checked = false;
-        aecesCheckbox.checked = false;
-        eliteCheckbox.checked = false;
-        giveCheckbox.checked = false;
-        jehraCheckbox.checked = false;
-        jmapCheckbox.checked = false;
-        jpiaCheckbox.checked = false;
-        piieCheckbox.checked = false;
-      }
-      updateCalendarOrg();
-    });
-
-    // Select all checkboxes at startup
-    allCheckboxOrg.checked = true;
-    scCheckbox.checked = true;
-    acapCheckbox.checked = true;
-    aecesCheckbox.checked = true;
-    eliteCheckbox.checked = true;
-    giveCheckbox.checked = true;
-    jehraCheckbox.checked = true;
-    jmapCheckbox.checked = true;
-    jpiaCheckbox.checked = true;
-    piieCheckbox.checked = true;
-
+  
     function updateCalendarOrg() {
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
-    }
-
-    scCheckbox.addEventListener('click', updateCalendarOrg);
-    acapCheckbox.addEventListener('click', updateCalendarOrg);
-    aecesCheckbox.addEventListener('click', updateCalendarOrg);
-    eliteCheckbox.addEventListener('click', updateCalendarOrg);
-    giveCheckbox.addEventListener('click', updateCalendarOrg);
-    jehraCheckbox.addEventListener('click', updateCalendarOrg);
-    jmapCheckbox.addEventListener('click', updateCalendarOrg);
-    jpiaCheckbox.addEventListener('click', updateCalendarOrg);
-    piieCheckbox.addEventListener('click', updateCalendarOrg);
-
-    function updateAllCheckboxOrg() {
-      if (
-        !scCheckbox.checked &&
-        !acapCheckbox.checked &&
-        !aecesCheckbox.checked &&
-        !eliteCheckbox.checked &&
-        !giveCheckbox.checked &&
-        !jehraCheckbox.checked &&
-        !jmapCheckbox.checked &&
-        !jpiaCheckbox.checked &&
-        !piieCheckbox.checked
-      ) {
-        allCheckboxOrg.checked = false;
-      } else if (
-        scCheckbox.checked &&
-        acapCheckbox.checked &&
-        aecesCheckbox.checked &&
-        eliteCheckbox.checked &&
-        giveCheckbox.checked &&
-        jehraCheckbox.checked &&
-        jmapCheckbox.checked &&
-        jpiaCheckbox.checked &&
-        piieCheckbox.checked
-      ) {
-        allCheckboxOrg.checked = true;
-      } else {
-        allCheckboxOrg.checked = false;
-      }
-      // update checkbox array
-      filtersOrg.length = 0; // clear previous values
-      if (scCheckbox.checked) {
-        filtersOrg.push(scCheckbox.value);
-      }
-      if (acapCheckbox.checked) {
-        filtersOrg.push(acapCheckbox.value);
-      }
-      if (aecesCheckbox.checked) {
-        filtersOrg.push(aecesCheckbox.value);
-      }
-      if (eliteCheckbox.checked) {
-        filtersOrg.push(eliteCheckbox.value);
-      }
-      if (giveCheckbox.checked) {
-        filtersOrg.push(giveCheckbox.value);
-      }
-      if (jehraCheckbox.checked) {
-        filtersOrg.push(jehraCheckbox.value);
-      }
-      if (jmapCheckbox.checked) {
-        filtersOrg.push(jmapCheckbox.value);
-      }
-      if (jpiaCheckbox.checked) {
-        filtersOrg.push(jpiaCheckbox.value);
-      }
-      if (piieCheckbox.checked) {
-        filtersOrg.push(piieCheckbox.value);
-      }
+      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg);
     }
   }
 };
