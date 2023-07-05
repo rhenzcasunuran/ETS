@@ -28,6 +28,7 @@
   <body>
    
     <?php
+      // THIS IS JUST A SAMPLE FROM GITHUB TRY LNG SA SARIL KONG MODULE
       // Set the active module and sub-active sub-item variables
       $activeModule = 'activity-logs';
 
