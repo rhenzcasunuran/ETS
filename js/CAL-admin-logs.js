@@ -211,11 +211,11 @@ $(document).ready(function() {
   
             var row = $('<tr></tr>');
   
-            $('<td></td>').text(log.log_id).appendTo(row);
-            $('<td></td>').text(formattedDate).appendTo(row);
-            $('<td></td>').text(formattedTime).appendTo(row);
-            $('<td></td>').text(log.user_username).appendTo(row);
-            $('<td></td>').text(log.activity_description).appendTo(row);
+            $('<td class="text-center"></td>').text(log.log_id).appendTo(row);
+            $('<td class="text-center"></td>').text(formattedDate).appendTo(row);
+            $('<td class="text-center"></td>').text(formattedTime).appendTo(row);
+            $('<td class="text-center"></td>').text(log.user_username).appendTo(row);
+            $('<td class="text-start" style="max-width: 200px;"></td>').text(log.activity_description).appendTo(row);
   
             row.appendTo(tbody);
           });
@@ -405,7 +405,7 @@ $(document).ready(function() {
       // Position the container below the input field
       const inputRect = dateInput.getBoundingClientRect();
       miniCalendarContainer.style.bottom = inputRect.bottom - 'px'; // Adjust the vertical position as needed
-      miniCalendarContainer.style.left = inputRect.left - 85 + 'px'; // Adjust the horizontal position as needed
+      miniCalendarContainer.style.left = (inputRect.left - 85) / window.innerWidth * 80 + 'vw';
     } else {
       miniCalendarContainer.style.display = 'none';
     }
@@ -420,9 +420,7 @@ $(document).ready(function() {
 
   // Function to handle window resize event
   function handleWindowResize() {
-    if (window.innerWidth <= 768) {
-      miniCalendarContainer.style.display = 'none';
-    }
+    miniCalendarContainer.style.display = 'none';
   }
 
   // Add window resize event listener
