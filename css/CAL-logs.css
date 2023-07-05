@@ -188,6 +188,17 @@ td  {
   color: gray;
 }
 
+#adminCheckboxes {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#adminCheckboxes::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+  border-radius: 10px;
+}
+
 /* Mini Calendar */
 
 .calendar-input-container {
@@ -262,6 +273,7 @@ td  {
 
 #calendarElement {
   height: 450px;
+  user-select: none;
 }
 
 #miniNextButton {
@@ -302,6 +314,7 @@ input:not(.form-check-input) {
 
   #calendarElement {
     height: 420px;
+    user-select: none;
   }
 
   @media (max-width: 474px) {

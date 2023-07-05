@@ -147,6 +147,35 @@
   user-select: none;
 }
 
+#orgCheckboxes, #eventTypeCheckboxes, #mobileOrgCheckboxes, #mobileEventTypeCheckboxes {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#orgCheckboxes::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+  border-radius: 10px;
+}
+
+#eventTypeCheckboxes::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+  border-radius: 10px;
+}
+
+#mobileOrgCheckboxes::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+  border-radius: 10px;
+}
+
+#mobileEventTypeCheckboxes::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+  border-radius: 10px;
+}
+
 @media (max-width: 1081px) {
   .computer-size {
     display: none;
@@ -548,6 +577,10 @@
     text-align: center;
     color: var(--color-content-text);
   }
+  #noEventsImg {
+    background-color: var(--color-content-card);
+    color: var(--color-content-text);
+  }
 }
 
 @media (min-width: 1081px) {
@@ -626,7 +659,7 @@
     right: 0;
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem calc(2vw + 1rem);
+    padding: 1rem calc(2vw + 1rem);
   }
   
   #prev-month, #next-month {
