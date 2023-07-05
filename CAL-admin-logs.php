@@ -79,7 +79,7 @@
             </div>
             <!-- Filter Dropdown -->
             <div class="dropdown p-2">
-              <button class="btn btn-light btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+              <button class="btn btn-light btn-lg dropdown-toggle" style="width: 160px;" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                 Filters
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">

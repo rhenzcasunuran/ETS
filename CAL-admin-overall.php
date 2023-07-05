@@ -45,114 +45,32 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li>
-                <div class="accordion" id="organizationAccordion">
+                <div class="accordion" id="mobileOrganizationAccordion">
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" data-bs-parent="#organizationAccordion">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" data-bs-parent="#mobileOrganizationAccordion">
                         Organization
                       </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
-                      <div class="accordion-body">
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="" id="mobile-check-all-organization" checked>
-                          <label class="form-check-label" for="check-all-organization">
-                            <span class="pill-all">All</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="sc" id="mobile-check-sc">
-                          <label class="form-check-label" for="check-sc">
-                            <span class="pill-sc">SC</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="ACAP" id="mobile-check-acap">
-                          <label class="form-check-label" for="check-acap">
-                            <span class="pill-acap">ACAP</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="AECES" id="mobile-check-aeces">
-                          <label class="form-check-label" for="check-aeces">
-                            <span class="pill-aeces">AECES</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="ELITE" id="mobile-check-elite">
-                          <label class="form-check-label" for="check-elite">
-                            <span class="pill-elite">ELITE</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="GIVE" id="mobile-check-give">
-                          <label class="form-check-label" for="check-give">
-                            <span class="pill-give">GIVE</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="JEHRA" id="mobile-check-jehra">
-                          <label class="form-check-label" for="check-jehra">
-                            <span class="pill-jehra">JEHRA</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="JMAP" id="mobile-check-jmap">
-                          <label class="form-check-label" for="check-jmap">
-                            <span class="pill-jmap">JMAP</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="JPIA" id="mobile-check-jpia">
-                          <label class="form-check-label" for="check-jpia">
-                            <span class="pill-jpia">JPIA</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="PIIE" id="mobile-check-piie">
-                          <label class="form-check-label" for="check-piie">
-                            <span class="pill-piie">PIIE</span>
-                          </label>
-                        </div>
+                      <div class="accordion-body" id="mobileOrgCheckboxes">
+                        <!-- Organization checkboxes will be dynamically generated here -->
                       </div>
                     </div>
                   </div>
                 </div>
               </li>
               <li>
-                <div class="accordion" id="eventTypeAccordion">
+                <div class="accordion" id="mobileEventTypeAccordion">
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="headingTwo">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" data-bs-parent="#eventTypeAccordion">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" data-bs-parent="#mobileEventTypeAccordion">
                         Event Type
                       </button>
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
-                      <div class="accordion-body">
-                        <div class="form-check event-type">
-                          <input class="form-check-input" type="checkbox" value="" id="mobile-check-all-event" checked>
-                          <label class="form-check-label" for="check-all-event">
-                            All
-                          </label>
-                        </div>
-                        <div class="form-check event-type">
-                          <input class="form-check-input" type="checkbox" value="Tournament" id="mobile-check-tournament">
-                          <label class="form-check-label" for="check-tournament">
-                            Tournament
-                          </label>
-                        </div>
-                        <div class="form-check event-type">
-                          <input class="form-check-input" type="checkbox" value="Competition" id="mobile-check-competition">
-                          <label class="form-check-label" for="check-competition">
-                            Competition
-                          </label>
-                        </div>
-                        <div class="form-check event-type">
-                          <input class="form-check-input" type="checkbox" value="Standard" id="mobile-check-standard">
-                          <label class="form-check-label" for="check-standard">
-                            Standard
-                          </label>
-                        </div>
+                      <div class="accordion-body" id="mobileEventTypeCheckboxes">
+                        <!-- Event Type checkboxes will be dynamically generated here -->
                       </div>
                     </div>
                   </div>
@@ -188,10 +106,20 @@
             <br>
             <div class="scrollable-container" id="showSelectedEvents">
             </div>
-            <div class="vstack gap-3" id="noShowSelectedEvents">
-              <h2 class="p-2 no-events-shown-text">Oops!</h2>
-              <h4 class="p-2 no-events-shown-text">There are no events</h4>
-              <img class="p-2 img-fluid" src="./pictures/no-upcoming-events.svg" alt="No Events">
+            <div class="div" id="noShowSelectedEvents">
+              <div class="element">
+                <div class="row">
+                  <div class="element-group">
+                    <div class="element-content">
+                      <div class="vstack gap-3">
+                        <h2 class="p-2 no-events-shown-text">Oops!</h2>
+                        <h4 class="p-2 no-events-shown-text">There are no events</h4>
+                        <img class="p-2 img-fluid" id="noEventsImg" src="./pictures/no-upcoming-events.svg" alt="No Events">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <br>
@@ -308,80 +236,21 @@
           </div>
           <!-- Filter Dropdown -->
           <div class="dropdown p-2">
-            <button class="btn btn-light btn-lg dropdown-toggle" style="width: 200px;" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+            <button class="btn btn-light btn-lg dropdown-toggle" style="width: 190px;" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
               Filters
             </button>
-            <ul class="dropdown-menu" style="width: 200px;" aria-labelledby="dropdownMenuButton">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li>
                 <div class="accordion" id="organizationAccordion">
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" data-bs-parent="#organizationAccordion">
-                        Organization
+                      Organization
                       </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
-                      <div class="accordion-body">
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="" id="check-all-organization" checked>
-                          <label class="form-check-label" for="check-all-organization">
-                            <span class="pill-all">All</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="SC" id="check-sc">
-                          <label class="form-check-label" for="check-sc">
-                            <span class="pill-sc">SC</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="ACAP" id="check-acap">
-                          <label class="form-check-label" for="check-acap">
-                            <span class="pill-acap">ACAP</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="AECES" id="check-aeces">
-                          <label class="form-check-label" for="check-aeces">
-                            <span class="pill-aeces">AECES</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="ELITE" id="check-elite">
-                          <label class="form-check-label" for="check-elite">
-                            <span class="pill-elite">ELITE</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="GIVE" id="check-give">
-                          <label class="form-check-label" for="check-give">
-                            <span class="pill-give">GIVE</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="JEHRA" id="check-jehra">
-                          <label class="form-check-label" for="check-jehra">
-                            <span class="pill-jehra">JEHRA</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="JMAP" id="check-jmap">
-                          <label class="form-check-label" for="check-jmap">
-                            <span class="pill-jmap">JMAP</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="JPIA" id="check-jpia">
-                          <label class="form-check-label" for="check-jpia">
-                            <span class="pill-jpia">JPIA</span>
-                          </label>
-                        </div>
-                        <div class="form-check org-type">
-                          <input class="form-check-input" type="checkbox" value="PIIE" id="check-piie">
-                          <label class="form-check-label" for="check-piie">
-                            <span class="pill-piie">PIIE</span>
-                          </label>
-                        </div>
+                      <div class="accordion-body" id="orgCheckboxes">
+                        <!-- Organization checkboxes will be dynamically generated here -->
                       </div>
                     </div>
                   </div>
@@ -396,31 +265,8 @@
                       </button>
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
-                      <div class="accordion-body">
-                        <div class="form-check event-type">
-                          <input class="form-check-input" type="checkbox" value="" id="check-all-event" checked>
-                          <label class="form-check-label" for="check-all-event">
-                            All
-                          </label>
-                        </div>
-                        <div class="form-check event-type">
-                          <input class="form-check-input" type="checkbox" value="Tournament" id="check-tournament">
-                          <label class="form-check-label" for="check-tournament">
-                            Tournament
-                          </label>
-                        </div>
-                        <div class="form-check event-type">
-                          <input class="form-check-input" type="checkbox" value="Competition" id="check-competition">
-                          <label class="form-check-label" for="check-competition">
-                            Competition
-                          </label>
-                        </div>
-                        <div class="form-check event-type">
-                          <input class="form-check-input" type="checkbox" value="Standard" id="check-standard">
-                          <label class="form-check-label" for="check-standard">
-                            Standard
-                          </label>
-                        </div>
+                      <div class="accordion-body" id="eventTypeCheckboxes">
+                        <!-- Event Type checkboxes will be dynamically generated here -->
                       </div>
                     </div>
                   </div>
