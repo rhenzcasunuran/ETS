@@ -1,9 +1,4 @@
 <!--Instructions
-    Put this in your head
-
-    <script src="./js/noOfEntriesCached.js"></script>
-
-    
     Put this in your home-section.
 
     <php
@@ -25,6 +20,8 @@
 
 <!--Pagination-->
 <link rel="stylesheet" href="./css/pagination.css">
+<script src="./js/noOfEntriesCached.js"></script>
+
 <script>
     var selectedValue;
 
