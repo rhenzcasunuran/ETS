@@ -1,4 +1,9 @@
 <!--Instructions
+    Put this in your head
+
+    <script src="./js/noOfEntriesCached.js"></script>
+
+    
     Put this in your home-section.
 
     <php
@@ -20,6 +25,22 @@
 
 <!--Pagination-->
 <link rel="stylesheet" href="./css/pagination.css">
+<script>
+    var selectedValue;
+
+    // Retrieve the stored value from local storage
+    var storedValue = localStorage.getItem('itemsPerPage');
+
+    // Set the stored value as the selected option
+    if (storedValue) {
+        selectedValue = storedValue;
+        if (window.location.search === "") {
+            window.location.href = `?items=${selectedValue}`;
+        } 
+    }
+
+</script>
+
 <?php
   $query_mo = mysqli_query($conn, $list_table_query);
   $total_records = mysqli_num_rows($query_mo);
@@ -101,7 +122,7 @@
     const your_page = '<?php echo $your_php_location; ?>';
 
     itemsPerPageSelect.on('change', function() {
-        const selectedValue = itemsPerPageSelect.val();
+        selectedValue = itemsPerPageSelect.val();
         var currentPage = '<?php echo $page; ?>';
         window.location.href = `${your_page}?page=${currentPage}&items=${selectedValue}`;
     });
