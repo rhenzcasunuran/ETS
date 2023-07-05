@@ -22,22 +22,6 @@
 <link rel="stylesheet" href="./css/pagination.css">
 <script src="./js/noOfEntriesCached.js"></script>
 
-<script>
-    var selectedValue;
-
-    // Retrieve the stored value from local storage
-    var storedValue = localStorage.getItem('itemsPerPage');
-
-    // Set the stored value as the selected option
-    if (storedValue) {
-        selectedValue = storedValue;
-        if (window.location.search === "") {
-            window.location.href = `?items=${selectedValue}`;
-        } 
-    }
-
-</script>
-
 <?php
   $query_mo = mysqli_query($conn, $list_table_query);
   $total_records = mysqli_num_rows($query_mo);
