@@ -30,6 +30,10 @@ td  {
   position: relative;
 }
 
+.section, .sortable {
+  user-select: none;
+}
+
 /* Filter Customization  */
 
 .pill-all {
