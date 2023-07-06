@@ -123,3 +123,7 @@
 select.page-control {
     cursor: pointer;
 }
+
+a.page, a.page.selected {
+    text-decoration: none!important;
+}

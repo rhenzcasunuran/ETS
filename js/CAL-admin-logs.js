@@ -226,25 +226,29 @@ $(document).ready(function() {
           $('#btn-next').prop('disabled', currentPage === totalPages);
           $('#btn-last').prop('disabled', currentPage === totalPages);
   
-          // Create the page links
-          var pageLinks = $('<div></div>').addClass('pagination');
-  
           var startPage = Math.max(1, currentPage - 5);
           var endPage = Math.min(startPage + 9, totalPages);
   
+          var paginationContainer = $('#pagination');
+          paginationContainer.empty(); // Clear the container before adding new buttons
+
           for (var i = startPage; i <= endPage; i++) {
-            var pageAnchor = $('<a></a>').addClass('page').attr('href', 'javascript:void(0)').attr('id', 'page-' + i).on('click', function() {
-              currentPage = parseInt($(this).attr('id').split('-')[1]);
-              loadLogs();
-            }).text(i);
+            var pageAnchor = $('<a></a>')
+              .addClass('page')
+              .attr('href', 'javascript:void(0)')
+              .attr('id', 'page-' + i)
+              .on('click', function() {
+                currentPage = parseInt($(this).attr('id').split('-')[1]);
+                loadLogs();
+              })
+              .text(i);
+
             if (i === currentPage) {
               pageAnchor.addClass('selected');
             }
-            pageLinks.append(pageAnchor);
+
+            paginationContainer.append(pageAnchor); // Add each pageAnchor to the container
           }
-  
-          // Update the pagination container
-          $('#pagination').empty().append(pageLinks);
         }
   
         // Reset sort indicators

@@ -37,34 +37,20 @@
     <section class="home-section">
       <div id="paginationContainer">
         <div class="paginationContainerContainer">
-          <div class="d-flex justify-content-between">
-            <div class="items-page">
-              <p>No. of Items:</p>
-              <select name="items" class="page-control" id="itemsPerPageSelect">
-                <option value="5">5</option>
-                <option value="10" selected="">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-              </select>
-            </div>                
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-first" disabled>
-              &lt;&lt;
-            </button>
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-prev" disabled>
-              &lt;
-            </button>
-            <div class="pagination" id="pagination"></div>
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-next">
-              &gt;
-            </button>
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-last" disabled>
-              &gt;&gt;
-            </button>
-            <div class="goto-page">
-              <p>Go to Page:</p>
-              <input type="text" class="page-control" id="goToPageInput" pattern="[1-9]\d*">
-            </div>
+          <div class="items-page">
+            <p>No. of Items:</p>
+            <select name="items" class="page-control" id="itemsPerPageSelect">
+              <option value="5">5</option>
+              <option value="10" selected="">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+              <option value="25">25</option>
+            </select>
+          </div>    
+          <div id="pagination"></div>
+          <div class="goto-page">
+            <p>Go to Page:</p>
+            <input type="text" class="page-control" id="goToPageInput" pattern="[1-9]\d*">
           </div>
         </div>
       </div>
