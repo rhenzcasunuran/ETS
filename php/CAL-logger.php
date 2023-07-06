@@ -34,34 +34,88 @@ if (!function_exists('to_log')) {
         } else {
             $module_name = 'Undefined';
         }
-
+        
         $admin_id = $_SESSION['admin_id'];
         $log_sql = "INSERT INTO logs (log_date, log_time, admin_id, activity_description) VALUES (CURDATE(), CURTIME(), ?, ?)";
         $log_stmt = mysqli_prepare($conn, $log_sql);
-
+        
         // Determine the action based on the SQL query
         if (stripos($sql, 'INSERT') !== false) {
             $action = 'Added';
-            $formattedDesc = $action . ' in ' . $module_name;
+            $table = getTableNameFromInsertQuery($sql); // Function to extract table name from the INSERT query
+            $recordId = getRecordIdFromInsertQuery($sql); // Function to extract the inserted record ID
+            $formattedDesc = $action . ' ' . $recordId . ' in ' . $table . ' (' . $module_name . ')';
             mysqli_stmt_bind_param($log_stmt, "ss", $admin_id, $formattedDesc);
-
         } elseif (stripos($sql, 'UPDATE') !== false) {
-            $action = 'Edited';
-            $formattedDesc = $action . ' in ' . $module_name;
+            $action = 'Updated';
+            $table = getTableNameFromUpdateQuery($sql); // Function to extract table name from the UPDATE query
+            $recordId = getRecordIdFromUpdateQuery($sql); // Function to extract the updated record ID
+            $formattedDesc = $action . ' ' . $recordId . ' in ' . $table . ' (' . $module_name . ')';
             mysqli_stmt_bind_param($log_stmt, "ss", $admin_id, $formattedDesc);
-
         } elseif (stripos($sql, 'DELETE') !== false) {
             $action = 'Removed';
-        
-            // Extract the table name and condition from the DELETE query
-            preg_match("/FROM\s+(\w+)\s+WHERE\s+(.*)/i", $sql, $matches);
-            $table_name = isset($matches[1]) ? $matches[1] : '';
-            $condition = isset($matches[2]) ? $matches[2] : '';
-            $formattedDesc = $action . ' from ' . $table_name . ' where ' . $condition . ' in ' . $module_name;
+            $table = getTableNameFromDeleteQuery($sql); // Function to extract table name from the DELETE query
+            $condition = getConditionFromDeleteQuery($sql); // Function to extract the condition from the DELETE query
+            $formattedDesc = $action . ' ' . $table . ' where ' . $condition . ' (' . $module_name . ')';
             mysqli_stmt_bind_param($log_stmt, "ss", $admin_id, $formattedDesc);
         }
-
+        
         mysqli_stmt_execute($log_stmt);
+    }        
+
+    function getTableNameFromInsertQuery($sql) {
+        preg_match('/INSERT INTO\s+([^\s]+)/i', $sql, $matches);
+        if (isset($matches[1])) {
+            return $matches[1];
+        } else {
+            return 'Unknown Table';
+        }
+    }
+
+    function getRecordIdFromInsertQuery($sql) {
+        preg_match('/\)\s+VALUES\s*\(\s*([^\)]+)/i', $sql, $matches);
+        if (isset($matches[1])) {
+            return $matches[1];
+        } else {
+            return 'Unknown Record ID';
+        }
+    }
+
+    function getTableNameFromUpdateQuery($sql) {
+        preg_match('/UPDATE\s+([^\s]+)/i', $sql, $matches);
+        if (isset($matches[1])) {
+            return $matches[1];
+        } else {
+            return 'Unknown Table';
+        }
+    }
+
+    function getRecordIdFromUpdateQuery($sql) {
+        // Assuming you have a primary key in the table, you can extract the updated record ID using the WHERE clause in the UPDATE query
+        preg_match('/WHERE\s+(.*)/i', $sql, $matches);
+        if (isset($matches[1])) {
+            return $matches[1];
+        } else {
+            return 'Unknown Record ID';
+        }
+    }
+
+    function getTableNameFromDeleteQuery($sql) {
+        preg_match("/FROM\s+(\w+)/i", $sql, $matches);
+        if (isset($matches[1])) {
+            return $matches[1];
+        } else {
+            return 'Unknown Table';
+        }
+    }
+
+    function getConditionFromDeleteQuery($sql) {
+        preg_match("/WHERE\s+(.*)/i", $sql, $matches);
+        if (isset($matches[1])) {
+            return $matches[1];
+        } else {
+            return 'Unknown Condition';
+        }
     }
 }
 ?>
