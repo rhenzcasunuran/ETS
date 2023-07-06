@@ -65,20 +65,6 @@ foreach ($filtersOrg as $filter) {
     }
 }
 
-foreach ($filters as $filter) {
-    $filter = htmlspecialchars($filter);
-    if (in_array($filter, $allowedEventTypes)) {
-        $filteredFilters[] = $filter;
-    }
-}
-
-foreach ($filtersOrg as $filter) {
-    $filter = htmlspecialchars($filter);
-    if (in_array($filter, $allowedOrgTypes)) {
-        $filteredOrgFilters[] = $filter;
-    }
-}
-
 // Check if filters array is empty after filtering
 if (empty($filteredFilters) && empty($filteredOrgFilters)) {
     echo json_encode(array());
