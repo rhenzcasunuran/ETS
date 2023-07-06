@@ -52,7 +52,12 @@ if (!function_exists('to_log')) {
 
         } elseif (stripos($sql, 'DELETE') !== false) {
             $action = 'Removed';
-            $formattedDesc = $action . ' in ' . $module_name;
+        
+            // Extract the table name and condition from the DELETE query
+            preg_match("/FROM\s+(\w+)\s+WHERE\s+(.*)/i", $sql, $matches);
+            $table_name = isset($matches[1]) ? $matches[1] : '';
+            $condition = isset($matches[2]) ? $matches[2] : '';
+            $formattedDesc = $action . ' from ' . $table_name . ' where ' . $condition . ' in ' . $module_name;
             mysqli_stmt_bind_param($log_stmt, "ss", $admin_id, $formattedDesc);
         }
 
