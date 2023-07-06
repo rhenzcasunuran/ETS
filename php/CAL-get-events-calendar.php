@@ -15,11 +15,39 @@ $filtersOrg = isset($_GET['filtersOrg']) ? $_GET['filtersOrg'] : null;
 $year = filter_var($year, FILTER_VALIDATE_INT);
 $month = filter_var($month, FILTER_VALIDATE_INT);
 
+// Fetch organization data from the database
+$queryOrgTypes = "SELECT * FROM organization";
+$resultOrgTypes = $conn->query($queryOrgTypes);
+
+if ($resultOrgTypes) {
+    $orgNames = array();
+
+    while ($rowOrgTypes = $resultOrgTypes->fetch_assoc()) {
+        $orgNames[] = $rowOrgTypes['organization_name'];
+    }
+} else {
+    echo 'Error: ' . $conn->error;
+}
+
+// Fetch event type data from the database
+$queryEventTypes = "SELECT * FROM event_type";
+$resultEventTypes = $conn->query($queryEventTypes);
+
+if ($resultEventTypes) {
+    $eventTypes = array();
+
+    while ($rowEventTypes = $resultEventTypes->fetch_assoc()) {
+        $eventTypes[] = $rowEventTypes['event_type'];
+    }
+} else {
+    echo 'Error: ' . $conn->error;
+}
+
 // Validate and sanitize filters array
-$allowedEventTypes = array('Tournament', 'Competition', 'Standard');
+$allowedEventTypes = $eventTypes;
 $filteredFilters = array();
 
-$allowedOrgTypes = array('SC', 'ACAP', 'AECES', 'ELITE', 'GIVE', 'JEHRA', 'JMAP', 'JPIA', 'PIIE');
+$allowedOrgTypes = $orgNames;
 $filteredOrgFilters = array();
 
 foreach ($filters as $filter) {
@@ -52,7 +80,6 @@ $sql = "SELECT
                 WHEN combined_table.event_id LIKE 'P%' THEN CONCAT('Post_', SUBSTRING(combined_table.event_id, 2))
                 ELSE combined_table.event_id
             END AS event_id,
-            combined_table.category_name_id,
             combined_table.event_description,
             combined_table.category_name,
             combined_table.event_date,
@@ -60,37 +87,35 @@ $sql = "SELECT
             TIME_FORMAT(combined_table.event_time, '%h:%i %p') AS event_time,
             combined_table.event_type,
             combined_table.event_org
-        FROM (
-            SELECT
-                olfe.event_id,
-                olfe.category_name_id,
-                olfe.event_description,
-                ocn.category_name,
-                olfe.event_date,
-                olfe.event_time,
-                en.event_name,
-                et.event_type,
-                NULL AS event_org
-            FROM ongoing_list_of_event AS olfe
-            INNER JOIN ongoing_category_name AS ocn ON olfe.event_id = ocn.event_id
-            INNER JOIN event_name AS en ON en.event_name_id = ocn.event_name_id
-            INNER JOIN event_type AS et ON et.event_type_id = ocn.event_type_id
+            FROM (
+                SELECT
+                    olfe.event_id,
+                    olfe.event_description,
+                    cn.category_name,
+                    olfe.event_date,
+                    olfe.event_time,
+                    oen.event_name,
+                    et.event_type,
+                    NULL AS event_org
+                FROM ongoing_list_of_event AS olfe
+                INNER JOIN ongoing_event_name AS oen ON olfe.event_name_id = oen.event_name_id
+                INNER JOIN event_type AS et ON et.event_type_id = olfe.event_type_id
+                INNER JOIN category_name AS cn ON cn.category_name_id = olfe.category_name_id
 
-            UNION ALL
+                UNION ALL
 
-            SELECT
-                CONCAT('P', post.post_id) AS event_id,
-                NULL AS category_name_id,
-                post.post_description AS event_description,
-                post.post_title AS category_name,
-                post.post_calendar AS event_date,
-                NULL AS event_name,
-                NULL AS event_time,
-                post.post_calendar_type AS event_type,
-                organization.organization_name AS event_org
-            FROM post
-            INNER JOIN organization ON post.organization_id = organization.organization_id
-        ) AS combined_table
+                SELECT
+                    CONCAT('P', post.post_id) AS event_id,
+                    post.post_description AS event_description,
+                    post.post_title AS category_name,
+                    post.post_calendar AS event_date,
+                    NULL AS event_name,
+                    NULL AS event_time,
+                    post.post_calendar_type AS event_type,
+                    organization.organization_name AS event_org
+                FROM post
+                INNER JOIN organization ON post.organization_id = organization.organization_id
+            ) AS combined_table
         WHERE YEAR(combined_table.event_date) = ?
         AND MONTH(combined_table.event_date) = ?
         AND (combined_table.event_type IN ($event_type_filters) 
