@@ -17,7 +17,7 @@ $year = filter_var($year, FILTER_VALIDATE_INT);
 $month = filter_var($month, FILTER_VALIDATE_INT);
 
 // Fetch organization data from the database
-$queryOrgTypes = "SELECT * FROM organization";
+$queryOrgTypes = "SELECT organization_name FROM organization";
 $resultOrgTypes = $conn->query($queryOrgTypes);
 
 if ($resultOrgTypes) {
@@ -31,7 +31,7 @@ if ($resultOrgTypes) {
 }
 
 // Fetch event type data from the database
-$queryEventTypes = "SELECT * FROM event_type";
+$queryEventTypes = "SELECT event_type FROM event_type";
 $resultEventTypes = $conn->query($queryEventTypes);
 
 if ($resultEventTypes) {
