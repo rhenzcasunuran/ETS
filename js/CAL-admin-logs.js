@@ -222,7 +222,7 @@ $(document).ready(function() {
   
           var startPage = Math.max(1, currentPage - 5);
           var endPage = Math.min(startPage + 9, totalPages);
-  
+
           var paginationContainer = $('#pagination');
           paginationContainer.empty(); // Clear the container before adding new buttons
 
@@ -234,7 +234,7 @@ $(document).ready(function() {
               currentPage = 1;
               loadLogs();
             });
-            
+
           if (currentPage !== 1) {
             paginationContainer.append(firstButton);
           }
@@ -250,7 +250,7 @@ $(document).ready(function() {
                 loadLogs();
               }
             });
-            
+
           if (currentPage !== 1) {
             paginationContainer.append(previousButton);
           }
@@ -265,11 +265,11 @@ $(document).ready(function() {
                 loadLogs();
               })
               .text(i);
-
+          
             if (i === currentPage) {
               pageAnchor.addClass('selected');
             }
-
+          
             paginationContainer.append(pageAnchor); // Add each pageAnchor to the container
           }
 
@@ -284,7 +284,7 @@ $(document).ready(function() {
                 loadLogs();
               }
             });
-            
+
           if (currentPage !== totalPages) {
             paginationContainer.append(nextButton);
           }
@@ -297,7 +297,7 @@ $(document).ready(function() {
               currentPage = totalPages;
               loadLogs();
             });
-            
+
           if (currentPage !== totalPages) {
             paginationContainer.append(lastButton);
           }
