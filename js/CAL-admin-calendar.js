@@ -2038,8 +2038,6 @@ var adminCalendarPhone = {
     });
 
     function generateCalendar(month, year, filters, filtersOrg) {
-      console.log(year, month, filters, filtersOrg)
-
       // Get number of days in the month and the first day of the month
       const numDays = new Date(year, month + 1, 0).getDate();
       const firstDay = new Date(year, month, 1).getDay();
@@ -2309,8 +2307,6 @@ var adminCalendarPhone = {
     }
 
     function generateCalendarSelected(month, year, filters, selectedDate, filtersOrg) {
-      console.log(year, month, filters, filtersOrg)
-
       // Clear previous event details
       var showSelectedEventsContainer = document.getElementById("showSelectedEvents");
       showSelectedEventsContainer.innerHTML = "";
