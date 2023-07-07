@@ -487,25 +487,47 @@ html {
 }
 
 input[type="text"]{
-    border: 1px solid var(--color-content-outline);
-    color: var(--color-content-text);
-    background-color: var(--color-content-element);
+    border: 1px solid var(--color-content-outline) !important;
+    color: var(--color-content-text) !important;
+    background-color: var(--color-content-element) !important;
     border-radius: 15px;
   }
   
-  input[type="date"]{
-    border: 1px solid var(--color-content-outline);
-    color: var(--color-content-text);
-    background-color: var(--color-content-element);
+input[type="date"]{
+    border: 1px solid var(--color-content-outline) !important;
+    color: var(--color-content-text) !important;
+    background-color: var(--color-content-element) !important;
     cursor: pointer;
     border-radius: 15px;
-  }
-  
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    color: blue;
-  }
-  
-  input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus{
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: blue !important;
+}
+
+input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus{
     outline: none;
-    border: 1px solid var(--color-content-text);
-  }
+    border: 1px solid var(--color-content-text) !important;
+}
+
+input, select{
+    border-radius: 15px;
+    border: 1px solid var(--color-content-outline) !important;
+    color: var(--color-content-text) !important;
+    background-color: var(--color-content-element) !important;
+    box-shadow: var(--color-element-shadow) !important;
+}
+
+select{
+    cursor: pointer;
+}
+
+textarea{
+    display: inline-block;
+    border-radius: 15px;
+    border: 1px solid var(--color-content-outline) !important;
+    resize: none;
+    color: var(--color-content-text) !important;
+    background-color: var(--color-content-element) !important;
+    box-shadow: var(--color-element-shadow) !important;
+}
