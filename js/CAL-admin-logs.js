@@ -232,6 +232,30 @@ $(document).ready(function() {
           var paginationContainer = $('#pagination');
           paginationContainer.empty(); // Clear the container before adding new buttons
 
+          // First button
+          var firstButton = $('<a></a>')
+            .addClass('page')
+            .attr('href', 'javascript:void(0)')
+            .text('First')
+            .on('click', function() {
+              currentPage = 1;
+              loadLogs();
+            });
+          paginationContainer.append(firstButton);
+
+          // Previous button
+          var previousButton = $('<a></a>')
+            .addClass('page')
+            .attr('href', 'javascript:void(0)')
+            .text('Previous')
+            .on('click', function() {
+              if (currentPage > 1) {
+                currentPage--;
+                loadLogs();
+              }
+            });
+          paginationContainer.append(previousButton);
+
           for (var i = startPage; i <= endPage; i++) {
             var pageAnchor = $('<a></a>')
               .addClass('page')
@@ -249,6 +273,30 @@ $(document).ready(function() {
 
             paginationContainer.append(pageAnchor); // Add each pageAnchor to the container
           }
+
+          // Next button
+          var nextButton = $('<a></a>')
+            .addClass('page')
+            .attr('href', 'javascript:void(0)')
+            .text('Next')
+            .on('click', function() {
+              if (currentPage < totalPages) {
+                currentPage++;
+                loadLogs();
+              }
+            });
+          paginationContainer.append(nextButton);
+
+          // Last button
+          var lastButton = $('<a></a>')
+            .addClass('page')
+            .attr('href', 'javascript:void(0)')
+            .text('Last')
+            .on('click', function() {
+              currentPage = totalPages;
+              loadLogs();
+            });
+          paginationContainer.append(lastButton);
         }
   
         // Reset sort indicators
