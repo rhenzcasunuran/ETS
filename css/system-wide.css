@@ -486,7 +486,7 @@ html {
     gap: 25px;
 }
 
-input[type="text"]{
+input[type="text"], input[type="password"] {
     border: 1px solid var(--color-content-outline) !important;
     color: var(--color-content-text) !important;
     background-color: var(--color-content-element) !important;
@@ -505,7 +505,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: blue !important;
 }
 
-input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus{
+input[type="text"]:focus, input[type="date"]:focus, input[type="password"]:focus, select:focus, textarea:focus{
     outline: none;
     border: 1px solid var(--color-content-text) !important;
 }
