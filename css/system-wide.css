@@ -534,6 +534,8 @@ textarea{
 
 .dropdown > button.btn {
     border-radius: 15px !important;
+    color: var(--color-content-text) !important;
+    background-color: var(--color-content-element) !important;
 }
 
 ::placeholder {
