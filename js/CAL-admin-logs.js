@@ -220,12 +220,6 @@ $(document).ready(function() {
             row.appendTo(tbody);
           });
   
-          // Enable/disable pagination buttons based on current page
-          $('#btn-first').prop('disabled', currentPage === 1);
-          $('#btn-prev').prop('disabled', currentPage === 1);
-          $('#btn-next').prop('disabled', currentPage === totalPages);
-          $('#btn-last').prop('disabled', currentPage === totalPages);
-  
           var startPage = Math.max(1, currentPage - 5);
           var endPage = Math.min(startPage + 9, totalPages);
   
@@ -233,10 +227,9 @@ $(document).ready(function() {
           paginationContainer.empty(); // Clear the container before adding new buttons
 
           // First button
-          var firstButton = $('<a></a>')
+          var firstButton = $('<a><i class="bx bx-chevrons-left"></i></a>')
             .addClass('page')
             .attr('href', 'javascript:void(0)')
-            .text('First')
             .on('click', function() {
               currentPage = 1;
               loadLogs();
@@ -244,10 +237,9 @@ $(document).ready(function() {
           paginationContainer.append(firstButton);
 
           // Previous button
-          var previousButton = $('<a></a>')
+          var previousButton = $('<a><i class="bx bx-chevron-left"></i></a>')
             .addClass('page')
             .attr('href', 'javascript:void(0)')
-            .text('Previous')
             .on('click', function() {
               if (currentPage > 1) {
                 currentPage--;
@@ -275,10 +267,9 @@ $(document).ready(function() {
           }
 
           // Next button
-          var nextButton = $('<a></a>')
+          var nextButton = $('<a><i class="bx bx-chevron-right"></i></a>')
             .addClass('page')
             .attr('href', 'javascript:void(0)')
-            .text('Next')
             .on('click', function() {
               if (currentPage < totalPages) {
                 currentPage++;
@@ -288,10 +279,9 @@ $(document).ready(function() {
           paginationContainer.append(nextButton);
 
           // Last button
-          var lastButton = $('<a></a>')
+          var lastButton = $('<a><i class="bx bx-chevrons-right"></i></a>')
             .addClass('page')
             .attr('href', 'javascript:void(0)')
-            .text('Last')
             .on('click', function() {
               currentPage = totalPages;
               loadLogs();
@@ -346,34 +336,6 @@ $(document).ready(function() {
   
     loadLogs();
   }  
-  
-  $('#btn-prev').on('mousedown', function() {
-    if (currentPage > 1) {
-      currentPage--;
-    }
-    loadLogs();
-  });
-  
-  $('#btn-next').on('mousedown', function() {
-    if (currentPage < totalPages) {
-      currentPage++;
-    }
-    loadLogs();
-  });
-
-  $('#btn-first').on('mousedown', function() {
-    if (currentPage > 1) {
-      currentPage = 1;
-    }
-    loadLogs();
-  });
-  
-  $('#btn-last').on('mousedown', function() {
-    if (currentPage < totalPages) {
-      currentPage = totalPages;
-    }
-    loadLogs();
-  });
   
   $('.sortable').click(function() {
     var column = $(this).data('column');
