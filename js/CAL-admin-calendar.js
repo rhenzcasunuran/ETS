@@ -1671,8 +1671,8 @@ var adminCalendarComputer = {
 
 var adminCalendarPhone = {
   initialize: function() {
-    var filters = ["Tournament", "Competition", "Standard"];
-    var filtersOrg = ["SC", "ACAP", "AECES", "ELITE", "GIVE", "JEHRA", "JMAP", "JPIA", "PIIE"];
+    var filters = [];
+    var filtersOrg = [];
     var selectedDate;
 
     // Select DOM elements
