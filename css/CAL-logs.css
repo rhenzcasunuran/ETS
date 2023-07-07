@@ -230,17 +230,17 @@ td  {
   transform: translateY(-50%);
   font-size: 1.5em;
   cursor: pointer;
-  color: black !important;
+  color: var(--color-content-text) !important;
 }
 
 #search-icon {
   display: flex;
   position: absolute;
   top: 50%;
-  right: 20px; 
+  left: 20px;
   transform: translateY(-45%);
   font-size: 1.5em;
-  color: black !important;
+  color: var(--color-content-text) !important;
 }
 
 .search-input-container {

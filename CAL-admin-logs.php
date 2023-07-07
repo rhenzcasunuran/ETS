@@ -60,8 +60,8 @@
         <div class="row">
           <div class="d-flex flex-wrap input-group p-2 mb-4">
             <div class="search-input-container p-2">
-              <input type="text" class="form-control custom-search-bar w-100" id="search-input" maxlength="50" placeholder="Search" style="height:49px;">
               <i class='bx bx-search' id="search-icon"></i>
+              <input type="text" class="form-control custom-search-bar w-100" id="search-input" maxlength="50" placeholder="Search" style="height:49px; text-indent: 20px;">
             </div>
             <!-- Filter Dropdown -->
             <div class="dropdown p-2">
