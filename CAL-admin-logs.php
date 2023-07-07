@@ -58,7 +58,7 @@
       <!-- Search Bar and Filter -->
       <div class="container">
         <div class="row">
-          <div class="d-flex flex-wrap input-group justify-content-start p-2">
+          <div class="d-flex flex-wrap input-group p-2 mb-4">
             <div class="search-input-container p-2">
               <input type="text" class="form-control custom-search-bar w-100" id="search-input" maxlength="50" placeholder="Search" style="height:49px;">
               <i class='bx bx-search' id="search-icon"></i>
@@ -88,7 +88,7 @@
               </ul>
             </div>
             <div class="calendar-input-container p-2">
-              <input type="text" id="dateInput" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}" placeholder="mm/dd/yyyy" maxlength="10" style="height:49px;">
+              <input class="form-control" type="text" id="dateInput" pattern="(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}" placeholder="mm/dd/yyyy" maxlength="10" style="height:49px;">
               <i class="bx bx-calendar-event" id="calendar-icon"></i>
             </div>
             <div class="div" id="miniCalendarContainer" style="display: none;">
@@ -127,25 +127,24 @@
               </div>
             </div>
           </div>
-          </div>
-          <div class="table-responsive">
-            <table class="table table-striped table-borderless table-hover text-center">
-              <thead class="table-dark">
-                <tr>
-                  <th scope="col" class="sortable" data-column="log_id">ID <span id="sort-indicator-log_id"></span></th>
-                  <th scope="col" class="sortable" data-column="log_date">Date <span id="sort-indicator-log_date"></span></th>
-                  <th scope="col" class="sortable" data-column="log_time">Time <span id="sort-indicator-log_time"></span></th>
-                  <th scope="col" class="sortable" data-column="admin">Admin <span id="sort-indicator-admin"></span></th>
-                  <th scope="col" class="sortable" data-column="activity_description">Activity Description <span id="sort-indicator-activity_description"></span></th>
-                </tr>
-              </thead>
-              <tbody id="log-table-body">
-                <tr id="no-results-row" style="display: none;">
-                  <td colspan="5">No results to display</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped table-borderless table-hover text-center">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col" class="sortable" data-column="log_id">ID <span id="sort-indicator-log_id"></span></th>
+                <th scope="col" class="sortable" data-column="log_date">Date <span id="sort-indicator-log_date"></span></th>
+                <th scope="col" class="sortable" data-column="log_time">Time <span id="sort-indicator-log_time"></span></th>
+                <th scope="col" class="sortable" data-column="admin">Admin <span id="sort-indicator-admin"></span></th>
+                <th scope="col" class="sortable" data-column="activity_description">Activity Description <span id="sort-indicator-activity_description"></span></th>
+              </tr>
+            </thead>
+            <tbody id="log-table-body">
+              <tr id="no-results-row" style="display: none;">
+                <td colspan="5">No results to display</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <br>

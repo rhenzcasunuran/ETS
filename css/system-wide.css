@@ -485,3 +485,27 @@ html {
     padding: 15px 0 5px 0;
     gap: 25px;
 }
+
+input[type="text"]{
+    border: 1px solid var(--color-content-outline);
+    color: var(--color-content-text);
+    background-color: var(--color-content-element);
+    border-radius: 15px;
+  }
+  
+  input[type="date"]{
+    border: 1px solid var(--color-content-outline);
+    color: var(--color-content-text);
+    background-color: var(--color-content-element);
+    cursor: pointer;
+    border-radius: 15px;
+  }
+  
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    color: blue;
+  }
+  
+  input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus{
+    outline: none;
+    border: 1px solid var(--color-content-text);
+  }
