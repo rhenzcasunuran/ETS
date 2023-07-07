@@ -510,7 +510,7 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus
     border: 1px solid var(--color-content-text) !important;
 }
 
-input, select{
+input :not(.form-check-input), select{
     border-radius: 15px;
     border: 1px solid var(--color-content-outline) !important;
     color: var(--color-content-text) !important;
