@@ -515,7 +515,7 @@
   .bottom-sheet .content {
     width: 100%;
     position: relative;
-    background: var(--color-content-element);
+    background: var(--color-body);
     max-height: 100vh;
     height: 50vh;
     max-width: 100%;
