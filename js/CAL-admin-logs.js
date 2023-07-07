@@ -234,19 +234,26 @@ $(document).ready(function() {
               currentPage = 1;
               loadLogs();
             });
-          paginationContainer.append(firstButton);
+            
+          if (currentPage !== 1) {
+            paginationContainer.append(firstButton);
+          }
 
           // Previous button
           var previousButton = $('<a><i class="bx bx-chevron-left"></i></a>')
             .addClass('page')
             .attr('href', 'javascript:void(0)')
             .on('click', function() {
-              if (currentPage > 1) {
-                currentPage--;
+              var prevPage = Math.max(currentPage - 10, 1);
+              if (prevPage !== currentPage) {
+                currentPage = prevPage;
                 loadLogs();
               }
             });
-          paginationContainer.append(previousButton);
+            
+          if (currentPage !== 1) {
+            paginationContainer.append(previousButton);
+          }
 
           for (var i = startPage; i <= endPage; i++) {
             var pageAnchor = $('<a></a>')
@@ -271,12 +278,16 @@ $(document).ready(function() {
             .addClass('page')
             .attr('href', 'javascript:void(0)')
             .on('click', function() {
-              if (currentPage < totalPages) {
-                currentPage++;
+              var nextPage = Math.min(currentPage + 10, totalPages);
+              if (nextPage !== currentPage) {
+                currentPage = nextPage;
                 loadLogs();
               }
             });
-          paginationContainer.append(nextButton);
+            
+          if (currentPage !== totalPages) {
+            paginationContainer.append(nextButton);
+          }
 
           // Last button
           var lastButton = $('<a><i class="bx bx-chevrons-right"></i></a>')
@@ -286,7 +297,10 @@ $(document).ready(function() {
               currentPage = totalPages;
               loadLogs();
             });
-          paginationContainer.append(lastButton);
+            
+          if (currentPage !== totalPages) {
+            paginationContainer.append(lastButton);
+          }
         }
   
         // Reset sort indicators
