@@ -532,7 +532,7 @@ textarea{
     box-shadow: var(--color-element-shadow) !important;
 }
 
-button :not(.accordion-button) {
+button {
     border-radius: 15px !important;
 }
 
