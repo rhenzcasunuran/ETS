@@ -77,7 +77,7 @@ if (!function_exists('to_log')) {
         if (isset($matches[1])) {
             return $matches[1];
         } else {
-            return 'Unknown Record ID';
+            return 'Unknown ID';
         }
     }
 
@@ -96,7 +96,7 @@ if (!function_exists('to_log')) {
         if (isset($matches[1])) {
             return $matches[1];
         } else {
-            return 'Unknown Record ID';
+            return 'Unknown ID';
         }
     }
 
