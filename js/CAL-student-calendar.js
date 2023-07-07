@@ -1329,7 +1329,7 @@ var studentCalendarPhone = {
         },
         success: function (data) {
           const events = JSON.parse(data);
-
+    
           events.sort(function (a, b) {
             const dateA = new Date(a.event_date);
             const dateB = new Date(b.event_date);
@@ -1340,6 +1340,9 @@ var studentCalendarPhone = {
           tomorrow.setDate(tomorrow.getDate() + 1);
           tomorrow.setHours(0, 0, 0, 0);
 
+          // Get a reference to the <div> element
+          const divElement = document.getElementById("noShowUpcomingEvents");
+
           // Iterate over events data and populate details for upcoming events
           for (var i = 0; i < events.length; i++) {
             const event = events[i];
@@ -1349,6 +1352,9 @@ var studentCalendarPhone = {
 
             // Check if the event date is tomorrow or later
             if (eventDate >= tomorrow) {
+              // Set the display property to "block" to make it visible
+              divElement.style.display = "none";
+
               // Create the necessary elements
               const div = document.createElement("div");
               div.className = "div";
@@ -1389,6 +1395,9 @@ var studentCalendarPhone = {
               element.appendChild(row);
               div.appendChild(element);
               showUpcomingEventsContainer.appendChild(div);
+            } else {
+              // Set the display property to "block" to make it visible
+              divElement.style.display = "flex";
             }
           }
 
@@ -1983,7 +1992,7 @@ var studentCalendarPhone = {
         $('.form-check-input.mobile-org-checkbox').prop('checked', isChecked);
   
         filtersOrg = isChecked ? orgNames.map(orgName => orgName.organization_name) : [];
-        updateCalendarOrg();
+        updateCalendar();
       });
     }
   
@@ -2023,12 +2032,7 @@ var studentCalendarPhone = {
 
     function updateCalendar() {
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg);
-    }
-  
-    function updateCalendarOrg() {
-      generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg);
+      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
     }
 
     // Generate calendar for current month and year

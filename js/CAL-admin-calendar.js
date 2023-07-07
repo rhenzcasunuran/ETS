@@ -1671,13 +1671,9 @@ var adminCalendarComputer = {
 
 var adminCalendarPhone = {
   initialize: function() {
-    let filters = [];
-    let filtersOrg = [];
+    var filters = ["Tournament", "Competition", "Standard"];
+    var filtersOrg = ["SC", "ACAP", "AECES", "ELITE", "GIVE", "JEHRA", "JMAP", "JPIA", "PIIE"];
     var selectedDate;
-
-    // Generate calendar for current month and year
-    generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-    generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg);
 
     // Select DOM elements
     const showModalBtn = document.querySelector(".show-modal");
@@ -1871,6 +1867,9 @@ var adminCalendarPhone = {
           tomorrow.setDate(tomorrow.getDate() + 1);
           tomorrow.setHours(0, 0, 0, 0);
 
+          // Get a reference to the <div> element
+          const divElement = document.getElementById("noShowUpcomingEvents");
+
           // Iterate over events data and populate details for upcoming events
           for (var i = 0; i < events.length; i++) {
             const event = events[i];
@@ -1880,6 +1879,9 @@ var adminCalendarPhone = {
 
             // Check if the event date is tomorrow or later
             if (eventDate >= tomorrow) {
+              // Set the display property to "block" to make it visible
+              divElement.style.display = "none";
+
               // Create the necessary elements
               const div = document.createElement("div");
               div.className = "div";
@@ -1920,6 +1922,9 @@ var adminCalendarPhone = {
               element.appendChild(row);
               div.appendChild(element);
               showUpcomingEventsContainer.appendChild(div);
+            } else {
+              // Set the display property to "block" to make it visible
+              divElement.style.display = "flex";
             }
           }
 
@@ -2097,6 +2102,7 @@ var adminCalendarPhone = {
     }
 
     function generateCalendarSelected(month, year, filters, selectedDate, filtersOrg) {
+
       // Clear previous event details
       var showSelectedEventsContainer = document.getElementById("showSelectedEvents");
       showSelectedEventsContainer.innerHTML = "";
@@ -2365,7 +2371,6 @@ var adminCalendarPhone = {
       generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
     });
 
-      
     function generateEventTypeCheckboxes(eventTypes) {
       const eventTypeCheckboxesContainer = $('#mobileEventTypeCheckboxes');
       eventTypeCheckboxesContainer.empty(); // Clear previous checkboxes
@@ -2513,7 +2518,7 @@ var adminCalendarPhone = {
         $('.form-check-input.mobile-org-checkbox').prop('checked', isChecked);
   
         filtersOrg = isChecked ? orgNames.map(orgName => orgName.organization_name) : [];
-        updateCalendarOrg();
+        updateCalendar();
       });
     }
   
@@ -2553,13 +2558,12 @@ var adminCalendarPhone = {
 
     function updateCalendar() {
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg);
+      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
     }
-  
-    function updateCalendarOrg() {
-      generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg);
-    }
+
+    // Generate calendar for current month and year
+    generateCalendar(currentMonth, currentYear, filters, filtersOrg);
+    generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
   }
 };
 

@@ -573,6 +573,11 @@
     flex-direction: column;
     align-items: center;
   }
+  #noShowUpcomingEvents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .no-events-shown-text {
     text-align: center;
     color: var(--color-content-text);
