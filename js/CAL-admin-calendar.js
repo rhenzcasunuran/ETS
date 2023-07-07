@@ -1675,6 +1675,211 @@ var adminCalendarPhone = {
     var filtersOrg = [];
     var selectedDate;
 
+    function generateEventTypeCheckboxes(eventTypes) {
+      const eventTypeCheckboxesContainer = $('#mobileEventTypeCheckboxes');
+      eventTypeCheckboxesContainer.empty(); // Clear previous checkboxes
+  
+      const allCheckbox = $('<div>').addClass('form-check');
+  
+      const allInput = $('<input>').addClass('form-check-input mobile-event-type-checkbox')
+        .attr('type', 'checkbox')
+        .attr('id', 'mobile-check-event-type-all');
+  
+      const allLabel = $('<label>').addClass('form-check-label')
+        .attr('for', 'mobile-check-event-type-all')
+        .text('All');
+  
+      allCheckbox.append(allInput);
+      allCheckbox.append(allLabel);
+  
+      eventTypeCheckboxesContainer.append(allCheckbox);
+  
+      for (const eventType of eventTypes) {
+        const checkbox = $('<div>').addClass('form-check');
+  
+        const input = $('<input>').addClass('form-check-input mobile-event-type-checkbox')
+          .attr('type', 'checkbox')
+          .val(eventType.event_type)
+          .attr('id', `mobile-check-event-type-${eventType.event_type}`);
+  
+        const label = $('<label>').addClass('form-check-label')
+          .attr('for', `mobile-check-event-type-${eventType.event_type}`)
+          .text(eventType.event_type);
+  
+        checkbox.append(input);
+        checkbox.append(label);
+  
+        eventTypeCheckboxesContainer.append(checkbox);
+      }
+  
+      // Check all event type checkboxes initially
+      $('.form-check-input.mobile-event-type-checkbox').prop('checked', true);
+  
+      // Update filters array when checkboxes are checked or unchecked
+      $('.form-check-input.mobile-event-type-checkbox').change(function() {
+        if ($(this).attr('id') === 'mobile-check-event-type-all') {
+          // Check/uncheck all checkboxes
+          const isChecked = $(this).prop('checked');
+          $('.form-check-input.mobile-event-type-checkbox').not(this).prop('checked', isChecked);
+        } else {
+          // Uncheck "All" checkbox if any individual checkbox is unchecked
+          if (!$(this).prop('checked')) {
+            $('#mobile-check-event-type-all').prop('checked', false);
+          } else {
+            // Check "All" checkbox if all individual checkboxes (except "All") are checked
+            const allCheckboxChecked = $('.form-check-input.mobile-event-type-checkbox:not(#mobile-check-event-type-all)').length === $('.form-check-input.mobile-event-type-checkbox:not(#mobile-check-event-type-all):checked').length;
+            $('#mobile-check-event-type-all').prop('checked', allCheckboxChecked);
+          }
+        }
+      
+        filters = $('.form-check-input.mobile-event-type-checkbox:checked').map(function() {
+          return $(this).val();
+        }).get();
+        
+        // Call the function to update the calendar based on the selected filters
+        updateCalendar();
+      });
+
+      // "All" checkbox functionality
+      $('#mobile-check-event-type-all').change(function() {
+        const isChecked = $(this).prop('checked');
+        $('.form-check-input.mobile-event-type-checkbox').prop('checked', isChecked);
+      
+        filters = isChecked ? eventTypes.map(eventType => eventType.event_type) : [];
+        
+        // Call the function to update the calendar based on the selected filters
+        updateCalendar();
+      });
+    }
+  
+    function generateOrgCheckboxes(orgNames) {
+      const orgCheckboxesContainer = $('#mobileOrgCheckboxes');
+      orgCheckboxesContainer.empty(); // Clear previous checkboxes
+  
+      const allCheckbox = $('<div>').addClass('form-check');
+  
+      const allInput = $('<input>').addClass('form-check-input mobile-org-checkbox')
+        .attr('type', 'checkbox')
+        .attr('id', 'mobile-check-org-all');
+  
+      const allLabel = $('<label>').addClass('form-check-label')
+        .attr('for', 'mobile-check-org-all');
+  
+      const span = $('<span>').addClass('pill-all')
+        .text('All');
+  
+      allLabel.append(span);
+      allCheckbox.append(allInput);
+      allCheckbox.append(allLabel);
+  
+      orgCheckboxesContainer.append(allCheckbox);
+  
+      for (const orgName of orgNames) {
+        const checkbox = $('<div>').addClass('form-check');
+  
+        const input = $('<input>').addClass('form-check-input mobile-org-checkbox')
+          .attr('type', 'checkbox')
+          .val(orgName.organization_name)
+          .attr('id', `mobile-check-org-${orgName.organization_name}`);
+  
+        const label = $('<label>').addClass('form-check-label')
+          .attr('for', `mobile-check-org-${orgName.organization_name}`);
+  
+        const span = $('<span>').addClass(`pill-${orgName.organization_name.toLowerCase()}`)
+          .text(orgName.organization_name);
+  
+        label.append(span);
+  
+        checkbox.append(input);
+        checkbox.append(label);
+  
+        orgCheckboxesContainer.append(checkbox);
+      }
+  
+      // Check all organization checkboxes initially
+      $('.form-check-input.mobile-org-checkbox').prop('checked', true);
+  
+      // Update filtersOrg array when checkboxes are checked or unchecked
+      $('.form-check-input.mobile-org-checkbox').change(function() {
+        if ($(this).attr('id') === 'mobile-check-org-all') {
+          // Check/uncheck all checkboxes
+          const isChecked = $(this).prop('checked');
+          $('.form-check-input.mobile-org-checkbox').not(this).prop('checked', isChecked);
+        } else {
+          // Uncheck "All" checkbox if any individual checkbox is unchecked
+          if (!$(this).prop('checked')) {
+            $('#mobile-check-org-all').prop('checked', false);
+          } else {
+            // Check "All" checkbox if all individual checkboxes (except "All") are checked
+            const allCheckboxChecked = $('.form-check-input.mobile-org-checkbox:not(#mobile-check-org-all)').length === $('.form-check-input.mobile-org-checkbox:not(#mobile-check-org-all):checked').length;
+            $('#mobile-check-org-all').prop('checked', allCheckboxChecked);
+          }
+        }
+      
+        filtersOrg = $('.form-check-input.mobile-org-checkbox:checked').map(function() {
+          return $(this).val();
+        }).get();
+        
+        // Call the function to update the calendar based on the selected filters
+        updateCalendar();
+      });
+
+      // "All" checkbox functionality
+      $('#mobile-check-org-all').change(function() {
+        const isChecked = $(this).prop('checked');
+        $('.form-check-input.mobile-org-checkbox').prop('checked', isChecked);
+      
+        filtersOrg = isChecked ? orgNames.map(orgName => orgName.organization_name) : [];
+        
+        // Call the function to update the calendar based on the selected filters
+        updateCalendar();
+      });
+    }
+  
+    // Fetch event type data from the server
+    $.ajax({
+      url: './php/CAL-get-event-types.php',
+      method: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        // Generate the event type checkboxes and check all initially
+        generateEventTypeCheckboxes(response.eventTypes);
+        // Add initial checkbox values to the array
+        filters = response.eventTypes.map(eventType => eventType.event_type);
+        // Call the function to update the calendar based on the selected filters
+        updateCalendar();
+      },
+      error: function(xhr, error) {
+        console.error('Error fetching event type data:', error);
+        console.log('Response:', xhr.responseText); // Log the response text for debugging
+      }
+    });
+
+    // Fetch organization data from the server
+    $.ajax({
+      url: './php/CAL-get-orgs.php',
+      method: 'GET',
+      dataType: 'json',
+      success: function(response) {
+        // Generate the organization checkboxes and check all initially
+        generateOrgCheckboxes(response.orgNames);
+        // Add initial checkbox values to the array
+        filtersOrg = response.orgNames.map(orgName => orgName.organization_name);
+        // Call the function to update the calendar based on the selected filters
+        updateCalendar();
+      },
+      error: function(xhr, error) {
+        console.error('Error fetching organization data:', error);
+        console.log('Response:', xhr.responseText); // Log the response text for debugging
+      }
+    });
+
+    function updateCalendar() {
+      // Code to update the calendar based on the selected filters
+      generateCalendar(currentMonth, currentYear, filters, filtersOrg);
+      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
+    }
+
     // Select DOM elements
     const showModalBtn = document.querySelector(".show-modal");
     const showModalBtn2 = document.querySelector(".show-modal-2");
@@ -1833,6 +2038,8 @@ var adminCalendarPhone = {
     });
 
     function generateCalendar(month, year, filters, filtersOrg) {
+      console.log(year, month, filters, filtersOrg)
+
       // Get number of days in the month and the first day of the month
       const numDays = new Date(year, month + 1, 0).getDate();
       const firstDay = new Date(year, month, 1).getDay();
@@ -2102,6 +2309,7 @@ var adminCalendarPhone = {
     }
 
     function generateCalendarSelected(month, year, filters, selectedDate, filtersOrg) {
+      console.log(year, month, filters, filtersOrg)
 
       // Clear previous event details
       var showSelectedEventsContainer = document.getElementById("showSelectedEvents");
@@ -2370,196 +2578,6 @@ var adminCalendarPhone = {
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
       generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
     });
-
-    function generateEventTypeCheckboxes(eventTypes) {
-      const eventTypeCheckboxesContainer = $('#mobileEventTypeCheckboxes');
-      eventTypeCheckboxesContainer.empty(); // Clear previous checkboxes
-  
-      const allCheckbox = $('<div>').addClass('form-check');
-  
-      const allInput = $('<input>').addClass('form-check-input mobile-event-type-checkbox')
-        .attr('type', 'checkbox')
-        .attr('id', 'mobile-check-event-type-all');
-  
-      const allLabel = $('<label>').addClass('form-check-label')
-        .attr('for', 'mobile-check-event-type-all')
-        .text('All');
-  
-      allCheckbox.append(allInput);
-      allCheckbox.append(allLabel);
-  
-      eventTypeCheckboxesContainer.append(allCheckbox);
-  
-      for (const eventType of eventTypes) {
-        const checkbox = $('<div>').addClass('form-check');
-  
-        const input = $('<input>').addClass('form-check-input mobile-event-type-checkbox')
-          .attr('type', 'checkbox')
-          .val(eventType.event_type)
-          .attr('id', `mobile-check-event-type-${eventType.event_type}`);
-  
-        const label = $('<label>').addClass('form-check-label')
-          .attr('for', `mobile-check-event-type-${eventType.event_type}`)
-          .text(eventType.event_type);
-  
-        checkbox.append(input);
-        checkbox.append(label);
-  
-        eventTypeCheckboxesContainer.append(checkbox);
-      }
-  
-      // Check all event type checkboxes initially
-      $('.form-check-input.mobile-event-type-checkbox').prop('checked', true);
-  
-      // Update filters array when checkboxes are checked or unchecked
-      $('.form-check-input.mobile-event-type-checkbox').change(function() {
-        if ($(this).attr('id') === 'mobile-check-event-type-all') {
-          // Check/uncheck all checkboxes
-          const isChecked = $(this).prop('checked');
-          $('.form-check-input.mobile-event-type-checkbox').not(this).prop('checked', isChecked);
-        } else {
-          // Uncheck "All" checkbox if any individual checkbox is unchecked
-          if (!$(this).prop('checked')) {
-            $('#mobile-check-event-type-all').prop('checked', false);
-          } else {
-            // Check "All" checkbox if all individual checkboxes (except "All") are checked
-            const allCheckboxChecked = $('.form-check-input.mobile-event-type-checkbox:not(#mobile-check-event-type-all)').length === $('.form-check-input.mobile-event-type-checkbox:not(#mobile-check-event-type-all):checked').length;
-            $('#mobile-check-event-type-all').prop('checked', allCheckboxChecked);
-          }
-        }
-  
-        filters = $('.form-check-input.mobile-event-type-checkbox:checked').map(function() {
-          return $(this).val();
-        }).get();
-      });
-  
-      // "All" checkbox functionality
-      $('#mobile-check-event-type-all').change(function() {
-        const isChecked = $(this).prop('checked');
-        $('.form-check-input.mobile-event-type-checkbox').prop('checked', isChecked);
-  
-        filters = isChecked ? eventTypes.map(eventType => eventType.event_type) : [];
-        updateCalendar();
-      });
-    }
-  
-    function generateOrgCheckboxes(orgNames) {
-      const orgCheckboxesContainer = $('#mobileOrgCheckboxes');
-      orgCheckboxesContainer.empty(); // Clear previous checkboxes
-  
-      const allCheckbox = $('<div>').addClass('form-check');
-  
-      const allInput = $('<input>').addClass('form-check-input mobile-org-checkbox')
-        .attr('type', 'checkbox')
-        .attr('id', 'mobile-check-org-all');
-  
-      const allLabel = $('<label>').addClass('form-check-label')
-        .attr('for', 'mobile-check-org-all');
-  
-      const span = $('<span>').addClass('pill-all')
-        .text('All');
-  
-      allLabel.append(span);
-      allCheckbox.append(allInput);
-      allCheckbox.append(allLabel);
-  
-      orgCheckboxesContainer.append(allCheckbox);
-  
-      for (const orgName of orgNames) {
-        const checkbox = $('<div>').addClass('form-check');
-  
-        const input = $('<input>').addClass('form-check-input mobile-org-checkbox')
-          .attr('type', 'checkbox')
-          .val(orgName.organization_name)
-          .attr('id', `mobile-check-org-${orgName.organization_name}`);
-  
-        const label = $('<label>').addClass('form-check-label')
-          .attr('for', `mobile-check-org-${orgName.organization_name}`);
-  
-        const span = $('<span>').addClass(`pill-${orgName.organization_name.toLowerCase()}`)
-          .text(orgName.organization_name);
-  
-        label.append(span);
-  
-        checkbox.append(input);
-        checkbox.append(label);
-  
-        orgCheckboxesContainer.append(checkbox);
-      }
-  
-      // Check all organization checkboxes initially
-      $('.form-check-input.mobile-org-checkbox').prop('checked', true);
-  
-      // Update filtersOrg array when checkboxes are checked or unchecked
-      $('.form-check-input.mobile-org-checkbox').change(function() {
-        if ($(this).attr('id') === 'mobile-check-org-all') {
-          // Check/uncheck all checkboxes
-          const isChecked = $(this).prop('checked');
-          $('.form-check-input.mobile-org-checkbox').not(this).prop('checked', isChecked);
-        } else {
-          // Uncheck "All" checkbox if any individual checkbox is unchecked
-          if (!$(this).prop('checked')) {
-            $('#mobile-check-org-all').prop('checked', false);
-          } else {
-            // Check "All" checkbox if all individual checkboxes (except "All") are checked
-            const allCheckboxChecked = $('.form-check-input.mobile-org-checkbox:not(#mobile-check-org-all)').length === $('.form-check-input.mobile-org-checkbox:not(#mobile-check-org-all):checked').length;
-            $('#mobile-check-org-all').prop('checked', allCheckboxChecked);
-          }
-        }
-  
-        filtersOrg = $('.form-check-input.mobile-org-checkbox:checked').map(function() {
-          return $(this).val();
-        }).get();
-      });
-  
-      // "All" checkbox functionality
-      $('#mobile-check-org-all').change(function() {
-        const isChecked = $(this).prop('checked');
-        $('.form-check-input.mobile-org-checkbox').prop('checked', isChecked);
-  
-        filtersOrg = isChecked ? orgNames.map(orgName => orgName.organization_name) : [];
-        updateCalendar();
-      });
-    }
-  
-    // Fetch event type data from the server
-    $.ajax({
-      url: './php/CAL-get-event-types.php',
-      method: 'GET',
-      dataType: 'json',
-      success: function(response) {
-        // Generate the event type checkboxes and check all initially
-        generateEventTypeCheckboxes(response.eventTypes);
-        // Add initial checkbox values to the array
-        filters = response.eventTypes.map(eventType => eventType.event_type);
-      },
-      error: function(xhr, error) {
-        console.error('Error fetching event type data:', error);
-        console.log('Response:', xhr.responseText); // Log the response text for debugging
-      }
-    });
-  
-    // Fetch organization data from the server
-    $.ajax({
-      url: './php/CAL-get-orgs.php',
-      method: 'GET',
-      dataType: 'json',
-      success: function(response) {
-        // Generate the organization checkboxes and check all initially
-        generateOrgCheckboxes(response.orgNames);
-        // Add initial checkbox values to the array
-        filtersOrg = response.orgNames.map(orgName => orgName.organization_name);
-      },
-      error: function(xhr, error) {
-        console.error('Error fetching organization data:', error);
-        console.log('Response:', xhr.responseText); // Log the response text for debugging
-      }
-    });
-
-    function updateCalendar() {
-      generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-      generateCalendarSelected(currentMonth, currentYear, filters, selectedDate, filtersOrg)
-    }
 
     // Generate calendar for current month and year
     generateCalendar(currentMonth, currentYear, filters, filtersOrg);
