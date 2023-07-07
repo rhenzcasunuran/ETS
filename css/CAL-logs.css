@@ -230,10 +230,7 @@ td  {
   transform: translateY(-50%);
   font-size: 1.5em;
   cursor: pointer;
-}
-
-#calendar-icon i {
-  color: var(--color-content-text) !important;
+  color: black !important;
 }
 
 #search-icon {
@@ -243,11 +240,7 @@ td  {
   right: 20px; 
   transform: translateY(-45%);
   font-size: 1.5em;
-  cursor: pointer;
-}
-
-#search-icon i {
-  color: var(--color-content-text) !important;
+  color: black !important;
 }
 
 .search-input-container {

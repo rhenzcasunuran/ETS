@@ -531,3 +531,11 @@ textarea{
     background-color: var(--color-content-element) !important;
     box-shadow: var(--color-element-shadow) !important;
 }
+
+button :not(.accordion-button) {
+    border-radius: 15px !important;
+}
+
+::placeholder {
+    color: var(--color-content-text) !important;
+}
