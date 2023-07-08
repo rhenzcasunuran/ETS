@@ -1,34 +1,44 @@
 <?php
-    include 'database_connect.php';
-    include 'CAL-logger.php';
+include 'database_connect.php';
 
-    if (isset($_POST['add_btnScore'])) {
+// Start the session
+session_start();
 
-    // Select the data from pjscorestemp
-    $query = "SELECT * FROM pjscorestemp";
-    $result = mysqli_query($conn, $query);
+// Check if the user is authenticated
+if ($_SESSION['authenticated'] === true) {
+    if (isset($_POST['save_scores'])) { 
+  // Get the submitted scores from the form
+  $tempScores = $_POST['criterion_temp_score'];
 
-    // Transfer the data to judges
-    while ($row = mysqli_fetch_assoc($result)) {
-        $groupname = $row['group_name_temp'];
-        $column1Value = $row['criteria_1_temp'];
-        $column2Value = $row['criteria_2_temp'];
-        $column3Value = $row['criteria_3_temp'];
-        $column4Value = $row['criteria_4_temp'];
-        $totalscore = $row['total_score_temp'];
+  // Fetch the ongoing_criterion_ids and participant_ids from the session
+  $ongoingCriterionIds = $_SESSION['ongoing_criterion_ids'];
+  $participantIds = $_SESSION['participant_ids'];
 
-        $insertQuery = "INSERT INTO pjscores (group_name, criteria_1, criteria_2, criteria_3, criteria_4, total_score) VALUES ('$groupname', '$column1Value', '$column2Value', '$column3Value', '$column4Value', '$totalscore')";
-        mysqli_query($conn, $insertQuery);
-        to_log($conn, $insertQuery);
-    }
+  // Insert the scores into the criterion_scoring table
+  $insertQuery = "INSERT INTO criterion_scoring (ongoing_criterion_id, participants_id, criterion_temp_score)
+                  VALUES (?, ?, ?)";
 
-    // Delete the transferred data from pjscorestemp
-    $deleteQuery = "DELETE FROM pjscorestemp";
-    mysqli_query($conn, $deleteQuery);
-    to_log($conn, $deleteQuery);
+  $stmt = $conn->prepare($insertQuery);
 
-    // Close the database conn
-    header("Location: ../P&J-admin-scoretab.php");
-    exit();
+  // Iterate over the scores and execute the insert statement
+  foreach ($tempScores as $index => $score) {
+    // Get the ongoing_criterion_id and participants_id for the current score
+    $ongoingCriterionId = $ongoingCriterionIds[$index];
+    $participantsId = $participantIds[$index];
+
+    // Bind parameters and execute the statement
+    $stmt->bind_param("iii", $ongoingCriterionId, $participantsId, $score);
+    $stmt->execute();
+  }
+} elseif (isset($_POST['submit_scores'])) {
+  // Transfer scores from criterion_temp_score to criterion_final_score
+  $transferQuery = "UPDATE criterion_scoring SET criterion_final_score = criterion_temp_score, criterion_temp_score = NULL";
+  $conn->query($transferQuery);
 }
+  // Redirect back to the form page or display a success message
+  header("Location: ../P&J-admin-scoretab.php");
+  exit();
+}
+
+$conn->close();
 ?>

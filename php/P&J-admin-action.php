@@ -12,6 +12,15 @@ $query = "SELECT competition_id FROM ongoing_list_of_event
 
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
+
+if (!$row) {
+    // Alert or popup message
+    echo "<script>alert('No criteria to judge is found for the specified event.');</script>";
+    // Redirect back to the main page
+    echo "<script>window.location.href = '../P&J-admin-formPJ.php';</script>";
+    exit; // Stop further execution of the script
+}
+
 $competitionID = $row['competition_id'];
 
 // Process judges
