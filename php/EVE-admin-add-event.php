@@ -92,7 +92,7 @@
         }
         else{
             echo "<script>alert('Something went wrong');</script>";
-            header('Refresh:0; url=EVE-admin-create-event.php?something went wrong');
+            header('Refresh:0; url=EVE-admin-create-event.php');
         }
     }
 
@@ -104,7 +104,6 @@
         $event_date =  mysqli_real_escape_string($conn,$_POST['date']);
         $event_time =  mysqli_real_escape_string($conn,$_POST['time']);
         $event_match_style = mysqli_real_escape_string($conn,$_POST['event-match-style']);
-        $event_code_get =  mysqli_real_escape_string($conn,$_POST['code']);
 
         $event_description = preg_replace('/\s+/', ' ', $event_description);
 
@@ -143,27 +142,10 @@
             //Insert to Logs
             to_log($conn, $sql);
 
-            //Set up Event Code
-            $code = "$event_code_get";
-
-            $sql = "SELECT * FROM ongoing_list_of_event WHERE event_code='$code';";
-            $result_code = mysqli_query($conn,$sql);  
-                
-            while(mysqli_num_rows($result_code) > 0){
-                $code = str_shuffle($code);
-                $sql = "SELECT * FROM ongoing_list_of_event WHERE event_code='$code';";
-                $result_code = mysqli_query($conn,$sql);  
-            }
-
-            $event_code = $code;
-
             $sql = "SELECT event_id FROM ongoing_list_of_event WHERE category_name_id='$category_name_id' AND event_description='$event_description' AND event_date='$event_date' AND event_time='$event_time';";
             $result = mysqli_query($conn,$sql);  
             $row = mysqli_fetch_array($result);
             $event_id = $row[0];
-
-            $sql = "UPDATE ongoing_list_of_event SET event_code='$event_code' WHERE event_id='$event_id';";
-            mysqli_query($conn,$sql); 
 
             //Insert Number of Wins
             $sql = "INSERT INTO tournament (event_id, number_of_wins_id) VALUES ('$event_id', '$event_match_style');";
@@ -204,14 +186,30 @@
         $event_description = preg_replace('/\s+/', ' ', $event_description);
 
         if($event_name_id != ""){
-            $sql = "INSERT IGNORE INTO ongoing_event_name (event_name_id, event_name)
-                    SELECT event_name_id, event_name
-                    FROM event_name
-                    WHERE event_name_id = '$event_name_id';";
-            mysqli_query($conn,$sql);
+
+            $sql = "SELECT * FROM ongoing_event_name WHERE event_name_id = $event_name_id AND is_done = '0';";
+            $query = mysqli_query($conn,$sql);
+            $row = mysqli_num_rows($query);
+
+            if ($row > 0) {
+                $row = mysqli_fetch_array($query);
+                $ongoing_event_name_id = $row['ongoing_event_name_id'];
+            }
+            else {
+                $sql = "INSERT INTO ongoing_event_name (event_name_id, event_name)
+                        SELECT event_name_id, event_name
+                        FROM event_name
+                        WHERE event_name_id = '$event_name_id';";
+                mysqli_query($conn, $sql);
+
+                $sql = "SELECT * FROM ongoing_event_name WHERE event_name_id = $event_name_id AND is_done = '0';";
+                $query = mysqli_query($conn,$sql);
+                $row = mysqli_fetch_array($query);
+                $ongoing_event_name_id = $row['ongoing_event_name_id'];
+            }
 
             //Insert on List of Events
-            $sql = "INSERT INTO ongoing_list_of_event (event_name_id, event_type_id, event_description, event_date, event_time) VALUES ('$event_name_id', '$event_type_id', '$event_description', '$event_date', '$event_time');";
+            $sql = "INSERT INTO ongoing_list_of_event (ongoing_event_name_id, event_name_id, event_type_id, event_description, event_date, event_time) VALUES ('$ongoing_event_name_id', '$event_name_id', '$event_type_id', '$event_description', '$event_date', '$event_time');";
             mysqli_query($conn,$sql);  
 
             //Insert to Logs

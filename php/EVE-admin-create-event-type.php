@@ -15,19 +15,15 @@
         $NoW = mysqli_query($conn, $sql);
 
         $output .= '<div class="row flex-column flex-md-row">' .
-            '<div class="form-group col-md-12">' .
+            '<div class="form-group col-md-8">' .
                 '<label for="event-description" class="form-label fw-bold">Event Description <span class="req" id="reqDesc">*</span></label>' .
                 '<textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required>'.$desc.'</textarea>' .
             '</div>' .
-        '</div>' .
-        '<div class="row flex-column flex-md-row">' .
             '<div class="form-group col-md-4">' .
                 '<label class="form-label fw-bold">Date & Time <span class="req" id="reqDateTime">*</span></label>' .
                 '<input type="date" class="form-control date" id="date" max="" min="" name="date" value="'.$date.'" required>' .
                 '<input type="time" class="form-control mt-2" id="time" name="time" value="'.$time.'" required>' .
-            '</div>' .
-            '<div class="form-group col-md-4" id="matchStyle">' .
-                '<label class="form-label fw-bold">Match Style <span class="req" id="reqMatchStyle">*</span></label>' .
+                '<label class="form-label fw-bold mt-1">Match Style <span class="req" id="reqMatchStyle">*</span></label>' .
                 '<select id="event-match-style" class="form-control selectpicker" title="Select Match Style" name="event-match-style" required>' .
                 '<option value="" selected>Select Match Style</option>';
                     $row = mysqli_num_rows($NoW);
@@ -36,12 +32,7 @@
                             $output .= '<option value="' . $row[0] . '">' . $row[1] . '</option>';
                         }
                     }
-        $output .=    '</select>' .
-            '</div>' .
-            '<div class="form-group col-md-4">' .
-                '<label class="form-label fw-bold">Code</label>' .
-                '<div class="form-control" id="no-code">--------------------</div>' .
-                '<input type="hidden" class="form-control" id="code" name="code" readonly required>' .
+                $output .=    '</select>' .
             '</div>' .
         '</div>' .
         '<div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">' .
@@ -65,7 +56,6 @@
                 $(".popUpContainer").addClass("show");
             });
         </script>' .
-        '<script type="text/javascript" src="./js/EVE-admin-generate-codes.js"></script>' . 
         '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .
         '<script type="text/javascript" src="./js/EVE-admin-disable-button-tournament.js"></script>';
     
@@ -156,7 +146,14 @@
       '</button>' .
         '<div class="outline-button" id="cancelBtn">Cancel</div>' .
       '</div>' .
-      '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>';
+      '<script>
+            $("#'.$showPopUpButtonID.'").click(function() {
+                $(".popUpDisableBackground#'.$popUpID.'").css("visibility", "visible");
+                $(".popUpContainer").addClass("show");
+            });
+        </script>' .
+      '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .
+      '<script type="text/javascript" src="./js/EVE-admin-disable-button-standard.js"></script>';
     }
 
 

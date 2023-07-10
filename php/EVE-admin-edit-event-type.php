@@ -25,19 +25,15 @@
 
 
         $output .= '<div class="row flex-column flex-md-row">' .
-            '<div class="form-group col-md-12">' .
+            '<div class="form-group col-md-8">' .
                 '<label for="event-description" class="form-label fw-bold">Event Description <span class="req" id="reqDesc">*</span></label>' .
                 '<textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required>'.$desc.'</textarea>' .
             '</div>' .
-        '</div>' .
-        '<div class="row flex-column flex-md-row">' .
             '<div class="form-group col-md-4">' .
                 '<label class="form-label fw-bold">Date & Time <span class="req" id="reqDateTime">*</span></label>' .
                 '<input type="date" class="form-control date" id="date" max="" min="" name="date" value="'.$date.'" required>' .
                 '<input type="time" class="form-control mt-2" id="time" name="time" value="'.$time.'" required>' .
-            '</div>' .
-            '<div class="form-group col-md-4" id="matchStyle">' .
-                '<label class="form-label fw-bold">Match Style <span class="req" id="reqMatchStyle">*</span></label>' .
+                '<label class="form-label fw-bold mt-1">Match Style <span class="req" id="reqMatchStyle">*</span></label>' .
                 '<select id="event-match-style" class="form-control selectpicker" title="Select Match Style" name="event-match-style" required>' .
                 '<option value="" selected>Select Match Style</option>';
                     $row = mysqli_num_rows($NoW);
@@ -56,12 +52,7 @@
                             }
                         }
                     }
-        $output .=    '</select>' .
-            '</div>' .
-            '<div class="form-group col-md-4">' .
-                '<label class="form-label fw-bold">Code <i class="bx bx-copy" onclick="copyCode(this)" data-placement="bottom" title="Copied"></i> <i class="bx bx-hide" id="revealCode"></i></label>' .
-                '<div class="form-control" id="display-code">'.$code.'</div>' .
-                '<input type="hidden" name="id" value='.$code.'>' .
+                $output .=    '</select>' .
             '</div>' .
         '</div>' .
         '<div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">' .
@@ -85,37 +76,6 @@
                 $(".popUpContainer").addClass("show");
             });
         </script>' .
-        '<script>' .
-            'var eventCode = document.querySelector("#display-code");
-            var eye = document.querySelector("#revealCode");
-            var eventCodeCode = eventCode.textContent;
-        
-            function copyCode(element) {
-                // Show tooltip
-                $(element).tooltip(\'show\');
-        
-                // Hide tooltip after a delay
-                setTimeout(function() {
-                $(element).tooltip(\'hide\');
-                }, 1500); // Adjust the delay as needed
-                var range = document.createRange();
-                navigator.clipboard.writeText(eventCodeCode);
-                $(element).removeAttr(\'data-toggle\').removeAttr(\'title\').off(\'mouseenter mouseleave\');
-            }
-        
-            eye.addEventListener("click", function(){
-                if(eye.classList.toggle("reveal")){
-                eye.classList.remove("bx-hide");
-                eye.classList.add("bx-show");
-                eventCode.style.webkitTextSecurity = "none";
-                }
-                else{
-                eye.classList.remove("bx-show");
-                eye.classList.add("bx-hide");
-                eventCode.style.webkitTextSecurity = "disc";
-                }
-            });' .
-        '</script>' .
         '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .
         '<script type="text/javascript" src="./js/EVE-admin-disable-button-tournament.js"></script>';
     

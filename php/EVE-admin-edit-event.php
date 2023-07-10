@@ -119,7 +119,7 @@
                                 }
                         }
 
-                        if ($event_type_id != $present_event_type_id) {
+                        if ($event_type_id != $present_event_type_id && $event_type_id == 2) {
                                 // Create a unique constraint on the event_id column
                                 $sql = "ALTER TABLE competition ADD UNIQUE (event_id);";
                                 mysqli_query($conn, $sql);
