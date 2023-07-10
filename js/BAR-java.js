@@ -57,12 +57,12 @@ confirmButton.addEventListener("click", function() {
       slider.classList.toggle("slide");
       cancelWrapper.style.display = "none";
       anonButton.checked = isChecked === 1;
+      location.reload();
     },
     error: function(error) {
       console.error("Update failed:", error);
     }
   });
-  location.reload();
 });
 
 cancelWrapper.addEventListener("click", function(event) {
@@ -93,42 +93,42 @@ cancelWrapper.addEventListener("click", function(event) {
           if (response.isAnon === "1") {
             anon.checked = true;
             console.log("true")
-            logos.forEach(function(container) {
-              const imageAnonPath = "logos/anon.png";
-              const img = container.querySelector("img");
-              img.src = imageAnonPath;
-            });
-            meters.forEach(function(meter) {
-              meter.setAttribute("id", "anon");
-            });
-            logo_container.forEach(function(container) {
-              container.setAttribute("name", "anon");
-            });
+            // logos.forEach(function(container) {
+            //   const imageAnonPath = "logos/anon.png";
+            //   const img = container.querySelector("img");
+            //   img.src = imageAnonPath;
+            // });
+            // meters.forEach(function(meter) {
+            //   meter.setAttribute("id", "anon");
+            // });
+            // logo_container.forEach(function(container) {
+            //   container.setAttribute("name", "anon");
+            // });
             
           } else {
             anon.checked = false;
             console.log("false")
-            $.ajax({
-              url: "./php/BAR-organization.php",
-              type: "GET",
-              dataType: "json",
-              success: function (organizations) {
-                logos.forEach(function (container, index) {
-                  const organization = organizations[index];
-                  const imagePath = "logos/" + organization + ".png";
-                  const img = container.querySelector("img");
-                  img.src = imagePath;
-                  img.setAttribute("name", organization)
-                });
-                meters.forEach(function (meter, index) {
-                  const organization = organizations[index];
-                  meter.setAttribute("id", organization);
-                });
-              },
-              error: function (error) {
-                console.error("Failed to fetch organizations:", error);
-              },
-            });
+            // $.ajax({
+            //   url: "./php/BAR-organization.php",
+            //   type: "GET",
+            //   dataType: "json",
+            //   success: function (organizations) {
+            //     logos.forEach(function (container, index) {
+            //       const organization = organizations[index];
+            //       const imagePath = "logos/" + organization + ".png";
+            //       const img = container.querySelector("img");
+            //       img.src = imagePath;
+            //       img.setAttribute("name", organization)
+            //     });
+            //     meters.forEach(function (meter, index) {
+            //       const organization = organizations[index];
+            //       meter.setAttribute("id", organization);
+            //     });
+            //   },
+            //   error: function (error) {
+            //     console.error("Failed to fetch organizations:", error);
+            //   },
+            // });
           }
         },
         error: function(error) {
