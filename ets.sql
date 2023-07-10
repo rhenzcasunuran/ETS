@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2023 at 12:21 PM
+-- Generation Time: Jul 10, 2023 at 07:28 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `bar_graph` (
   `organization_bar_id` int(11) NOT NULL,
   `organization_id` int(11) NOT NULL,
+  `ongoing_event_name_id` int(11) NOT NULL,
   `event_name_id` int(11) NOT NULL,
   `bar_meter` decimal(5,2) NOT NULL,
   `isAnon` tinyint(1) NOT NULL
@@ -39,15 +40,15 @@ CREATE TABLE `bar_graph` (
 -- Dumping data for table `bar_graph`
 --
 
-INSERT INTO `bar_graph` (`organization_bar_id`, `organization_id`, `event_name_id`, `bar_meter`, `isAnon`) VALUES
-(9, 1, 1, '90.00', 0),
-(10, 2, 1, '80.00', 0),
-(11, 3, 1, '70.00', 0),
-(12, 4, 1, '60.00', 0),
-(13, 5, 1, '50.00', 0),
-(14, 6, 1, '40.00', 0),
-(15, 7, 1, '30.00', 0),
-(16, 8, 1, '20.00', 0);
+INSERT INTO `bar_graph` (`organization_bar_id`, `organization_id`, `ongoing_event_name_id`, `event_name_id`, `bar_meter`, `isAnon`) VALUES
+(9, 1, 15, 1, '90.00', 0),
+(10, 2, 15, 1, '80.00', 0),
+(11, 3, 15, 1, '70.00', 0),
+(12, 4, 15, 1, '60.00', 0),
+(13, 5, 15, 1, '50.00', 0),
+(14, 6, 15, 1, '40.00', 0),
+(15, 7, 15, 1, '30.00', 0),
+(16, 8, 15, 1, '20.00', 0);
 
 -- --------------------------------------------------------
 
@@ -418,9 +419,9 @@ CREATE TABLE `ongoing_list_of_event` (
   `category_name_id` int(11) DEFAULT NULL,
   `event_name_id` int(11) NOT NULL,
   `event_type_id` int(11) NOT NULL,
-  `category_name` varchar(25) NOT NULL,
+  `category_name` varchar(25) DEFAULT NULL,
   `event_description` varchar(255) NOT NULL,
-  `event_code` varchar(12) NOT NULL,
+  `event_code` varchar(12) DEFAULT NULL,
   `event_date` date NOT NULL,
   `event_time` time NOT NULL,
   `is_archived` tinyint(1) NOT NULL DEFAULT 0,
@@ -623,7 +624,7 @@ INSERT INTO `user` (`admin_id`, `user_username`, `user_password`) VALUES
 ALTER TABLE `bar_graph`
   ADD PRIMARY KEY (`organization_bar_id`),
   ADD KEY `organization_id` (`organization_id`),
-  ADD KEY `event_name_id` (`event_name_id`);
+  ADD KEY `ongoing_event_name_id` (`ongoing_event_name_id`);
 
 --
 -- Indexes for table `category_name`
@@ -938,8 +939,7 @@ ALTER TABLE `user`
 -- Constraints for table `bar_graph`
 --
 ALTER TABLE `bar_graph`
-  ADD CONSTRAINT `bar_graph_ibfk_1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`),
-  ADD CONSTRAINT `bar_graph_ibfk_2` FOREIGN KEY (`event_name_id`) REFERENCES `ongoing_event_name` (`event_name_id`);
+  ADD CONSTRAINT `bar_graph_ibfk_1` FOREIGN KEY (`ongoing_event_name_id`) REFERENCES `ongoing_event_name` (`ongoing_event_name_id`);
 
 --
 -- Constraints for table `category_name`
@@ -947,96 +947,6 @@ ALTER TABLE `bar_graph`
 ALTER TABLE `category_name`
   ADD CONSTRAINT `category_name_ibfk_1` FOREIGN KEY (`event_name_id`) REFERENCES `event_name` (`event_name_id`),
   ADD CONSTRAINT `category_name_ibfk_2` FOREIGN KEY (`event_type_id`) REFERENCES `event_type` (`event_type_id`);
-
---
--- Constraints for table `competition`
---
-ALTER TABLE `competition`
-  ADD CONSTRAINT `competition_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
-
---
--- Constraints for table `criterion`
---
-ALTER TABLE `criterion`
-  ADD CONSTRAINT `criterion_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `category_name` (`category_name_id`);
-
---
--- Constraints for table `criterion_scoring`
---
-ALTER TABLE `criterion_scoring`
-  ADD CONSTRAINT `criterion_scoring_ibfk_1` FOREIGN KEY (`participants_id`) REFERENCES `participants` (`participants_id`),
-  ADD CONSTRAINT `criterion_scoring_ibfk_2` FOREIGN KEY (`ongoing_criterion_id`) REFERENCES `ongoing_criterion` (`ongoing_criterion_id`);
-
---
--- Constraints for table `judges`
---
-ALTER TABLE `judges`
-  ADD CONSTRAINT `judges_ibfk_1` FOREIGN KEY (`competition_id`) REFERENCES `competition` (`competition_id`);
-
---
--- Constraints for table `logs`
---
-ALTER TABLE `logs`
-  ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `user` (`admin_id`);
-
---
--- Constraints for table `ongoing_criterion`
---
-ALTER TABLE `ongoing_criterion`
-  ADD CONSTRAINT `ongoing_criterion_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
-
---
--- Constraints for table `ongoing_list_of_event`
---
-ALTER TABLE `ongoing_list_of_event`
-  ADD CONSTRAINT `ongoing_list_of_event_ibfk_1` FOREIGN KEY (`event_type_id`) REFERENCES `event_type` (`event_type_id`),
-  ADD CONSTRAINT `ongoing_list_of_event_ibfk_2` FOREIGN KEY (`ongoing_event_name_id`) REFERENCES `ongoing_event_name` (`ongoing_event_name_id`);
-
---
--- Constraints for table `participants`
---
-ALTER TABLE `participants`
-  ADD CONSTRAINT `participants_ibfk_2` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`),
-  ADD CONSTRAINT `participants_ibfk_3` FOREIGN KEY (`competition_id`) REFERENCES `competition` (`competition_id`);
-
---
--- Constraints for table `participants_score`
---
-ALTER TABLE `participants_score`
-  ADD CONSTRAINT `participants_score_ibfk_1` FOREIGN KEY (`criterion_scoring_id`) REFERENCES `criterion_scoring` (`criterion_scoring_id`);
-
---
--- Constraints for table `post`
---
-ALTER TABLE `post`
-  ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`);
-
---
--- Constraints for table `tournament`
---
-ALTER TABLE `tournament`
-  ADD CONSTRAINT `tournament_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
-
---
--- Constraints for table `tou_bracket`
---
-ALTER TABLE `tou_bracket`
-  ADD CONSTRAINT `tou_bracket_ibfk_1` FOREIGN KEY (`team1_id`) REFERENCES `tou_team_stat` (`team_id`),
-  ADD CONSTRAINT `tou_bracket_ibfk_2` FOREIGN KEY (`team2_id`) REFERENCES `tou_team_stat` (`team_id`),
-  ADD CONSTRAINT `tou_bracket_ibfk_3` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`);
-
---
--- Constraints for table `tou_team`
---
-ALTER TABLE `tou_team`
-  ADD CONSTRAINT `tou_team_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `tou_team_stat` (`team_id`);
-
---
--- Constraints for table `tou_team_stat`
---
-ALTER TABLE `tou_team_stat`
-  ADD CONSTRAINT `tou_team_stat_ibfk_1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`),
-  ADD CONSTRAINT `tou_team_stat_ibfk_2` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
