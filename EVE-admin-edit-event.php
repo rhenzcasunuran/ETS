@@ -238,6 +238,7 @@
       });
 
       $(document).ready(function(){
+        var selectedEventID = <?php echo isset($_GET['eec']) ? $_GET['eec'] : 'null'; ?>;
         var selectedEventNameID = $("#select-event-name").val();
         var selectedEventTypeID = $("#select-event-type").val();
         var selectedCategoryNameID = "<?php echo $edit_event_row['category_name_id']?>";
@@ -257,10 +258,12 @@
         });
         
         function fetchData(){
+          console.log(selectedEventID);
+          console.log("Hi");
           $.ajax({
               url:"./php/EVE-admin-edit-action.php",
               method: "POST",
-              data:{s_eventNameID: selectedEventNameID, eventTypeID: selectedEventTypeID, categoryName: selectedCategoryNameID},
+              data:{eventID: selectedEventID, s_eventNameID: selectedEventNameID, eventTypeID: selectedEventTypeID, categoryName: selectedCategoryNameID},
               success: function(data){
                 $("#select-category-name").html(data);
                 $('#select-category-name').selectpicker('refresh');
