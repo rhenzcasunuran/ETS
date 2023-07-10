@@ -95,3 +95,12 @@
 .PIIE{
     background-color: var(--color-piie);
 }
+
+.post-photo{
+    display: block;
+    margin: 10px auto;
+    padding: 0px;
+    width: 60%;
+    border-radius: 10px;
+    object-fit:cover;
+}
