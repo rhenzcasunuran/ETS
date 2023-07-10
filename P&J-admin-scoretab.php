@@ -185,27 +185,17 @@ function hidePopup() {
   popup.classList.remove('active');
 }
 
-        popupSubmit = document.getElementById('submitWrapper');
+window.addEventListener("DOMContentLoaded", function() {
+        var form = document.querySelector('form[action="php/P&J-admin-action-scores.php"]');
+        form.addEventListener("submit", function(event) {
+            submitForm(); // Call your custom function
+        });
+    });
 
-        var showSubmit = function() {
-            event.preventDefault();
-            popupSubmit.style.display ='flex';
+        function submitForm() {
+            var form = document.querySelector('form[action="php/P&J-admin-action-scores.php"]');
+            form.submit();
         }
-        var hideSubmit = function() {
-          popupSubmit.style.display ='none';
-        }
-        var form = document.querySelector("form[action='php/P&J-admin-action-scores.php']");
-        var submitButton = form.querySelector(".success-button");
-        
-        submitButton.addEventListener("click", function(event) {
-  event.preventDefault();
-  submitForm();
-});
-
-        // Define the submitForm function
-function submitForm() {
-  form.submit();
-}
 
         popupCancel = document.getElementById('cancelWrapper');
   

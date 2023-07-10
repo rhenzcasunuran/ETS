@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="css/home-sidebar-style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css'/>
-    <link rel="stylesheet" href="css/HOM-style.css">
     <style>
      .table-container {
   overflow-x: auto;
@@ -48,10 +47,10 @@ th, td {
 }
 
 input[readonly] {
-  background-color: var(--color-content-card);
-  color:var(--color-content-text)
+  background-color: var(--color-content-card)!important; 
+  color: var(--color-content-text)!important;
   border: none;
-  border-color: var(--color-content-card);
+  border-color: var(--color-content-card)!important;
   padding: 0;
   cursor: pointer;
 }
@@ -96,12 +95,12 @@ input[readonly] {
                 <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
             </div>
             <div class="col-8 text-start text-container">
-                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
+                <h3 class="text-header">Delete Judge Row?</h3>   <!--header-->
                 <p>Any unsaved progress will be lost.</p> <!--text-->
             </div>
             <div  class="div">
                 <button class="outline-button" onclick="hide()"><i class='bx bx-chevron-left'></i>Return</button>
-                <button id="clear" class="primary-button continue" onclick="deleteListJ();hide();"><i class='bx bx-x'></i>Discard</button>
+                <button id="clear" class="primary-button continue" onclick="deleteSelected();hide();"><i class='bx bx-x'></i>Discard</button>
             </div>
         </div>
     </div>
@@ -118,7 +117,7 @@ input[readonly] {
             </div>
             <div  class="div">
                 <button class="outline-button" onclick="hidep()"><i class='bx bx-chevron-left'></i>Return</button>
-                <button class="primary-button" onclick="deleteListP();hidep();"><i class='bx bx-x'></i>Discard</button>
+                <button class="primary-button" onclick="deleteSelectedP();hidep();"><i class='bx bx-x'></i>Discard</button>
             </div>
         </div>
     </div>
@@ -135,7 +134,7 @@ input[readonly] {
             </div>
             <div  class="div">
                 <button class="outline-button" onclick="hidepg()"><i class='bx bx-chevron-left'></i>Return</button>
-                <button class="primary-button" onclick="deleteListPG();hidepg();"><i class='bx bx-x'></i>Discard</button>
+                <button class="primary-button" onclick="deleteSelectedPG();hidepg();"><i class='bx bx-x'></i>Discard</button>
             </div>
         </div>
     </div>
@@ -154,7 +153,7 @@ input[readonly] {
                 </div>
                 <div class="row">
                     <div class="col-xxl-12"><label class="form-label fw-bold" style="margin-left: 25px; color:var(--color-content-text);">Event</label><label for="Participant Category" class="form-label fw-bold" style="margin-left: 190px; color:var(--color-content-text);">Participant Category</label>
-                        <div class="dropdown"><input type='text' class='inputpname' style='border-radius:20px; margin-left:20px;width:200px' placeholder='Event Code' name='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" pattern="[a-zA-Z0-9 ]*" Required/>
+                        <div class="dropdown"><input type='text' class='inputpname' style='border-radius:20px; margin-left:20px;width:200px' placeholder='Event Code' name='event_code' id='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" Required/>
                         
                         <select name ="Participant Category"class='btn dropdown-toggle div-toggle' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);' data-target=".participantsform">
                         <option data-show=".individual">Individual</option>
@@ -169,7 +168,7 @@ input[readonly] {
                             <div style="display: flex; justify-content: flex-end;">
                                 <button onClick="addRow();" class="buttonadd success-button icon-button" style="margin-right: 5px;" type="button" id="judgeadd">
                                 <i class='bx bxs-user-plus'></i></button>
-                                <button onclick="deleteSelected()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="judgeadd">
+                                <button onclick="show()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="judgeadd">
                                 <i class='bx bxs-trash-alt'></i></button>
                             </div>
                           </div>
@@ -190,7 +189,7 @@ input[readonly] {
                                   <thread>
                                     <tr>
                                     <th class="bordertable">
-                                      <input type="checkbox" id="select-all" onchange="toggleAllCheckboxes()">
+                                      <input type="checkbox" id="select-all" onchange="toggleAllCheckboxesJ()">
                                   </th>
                                   <th class="bordertable"><h6 class='judgeheader'>Judge Name</h6></th>
                                   <th class="bordertable"><h6 class='judgeheader'>Judge Nickname</h6></th>
@@ -255,7 +254,7 @@ input[readonly] {
                           <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Participants</label></div>
                           <div class="col text-end" style="display:flex;">
                             <button onClick="addRowP();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddi"><i class='bx bxs-user-plus'></i></button>
-                            <button onclick="deleteSelectedP()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="judgeadd">
+                            <button onclick="showp()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="judgeadd">
                                 <i class='bx bxs-trash-alt'></i></button>
                           </div>
                       </div>
@@ -266,7 +265,7 @@ input[readonly] {
                           <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Participants</label></div>
                           <div class="col text-end" style="display:flex;">
                             <button onclick="generateDiv()" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddg"><i class='bx bxs-group'></i></button>
-                            <button onclick="deleteChecked()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button">
+                            <button onclick="showpg()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button">
                                 <i class='bx bxs-trash-alt'></i></button>
                           </div>
                       </div> 
@@ -340,7 +339,7 @@ input[readonly] {
   <!-- Participants grouped -->
                                   
                                       <div id="mainDiv">
-                                      <input type="checkbox" id="mainCheckbox" onclick="toggleAllCheckboxes()">
+                                      <input type="checkbox" id="mainCheckbox" onclick="toggleAllCheckboxesPG()">
 
                                     </div>
                                   </div>
@@ -356,9 +355,18 @@ input[readonly] {
     </div>
     <div class="row">
   
-    <div class="col text-end" style="margin-top: 10px;margin-bottom: 10px;margin-right: 16px;">
-      <button class="success-button buttonsubmit" type="submit" style="float:right; margin-bottom:10px;" value="Add" id="save_btnS" onclick="showSubmit()" disabled>Submit</button>
+    <div class="row d-flex justify-content-end">
+  <button type="submit" class="primary-button mx-2" name="pjFormSaveBtn" id="pjFormSaveBtn" style="float:right; margin-bottom:10px;" onclick="showSubmit(event)" disabled>
+    <div class="tooltip-popup flex-column" id="tooltip">
+      <div class="tooltipText" id="textJName">All Judge Names have a value (5 or more characters)<i class='bx bx-check' id="checkJNameValue"></i></div>
+      <div class="tooltipText" id="textJNick">All Judge Nicknames have a value (5 or more characters)<i class='bx bx-check' id="checkJNickValue"></i></div>
+      <div class="tooltipText" id="textPName">All Participant Names have a value (5 or more characters)<i class='bx bx-check' id="checkPNameValue"></i></div>
+      <div class="tooltipText" id="textPSection">All Participant Sections are valid (e.g., 1-1)<i class='bx bx-check' id="checkPSectionValue"></i></div>
     </div>
+    Save
+  </button>
+</div>
+
   </form>
 </div>
                     </div>
@@ -371,8 +379,8 @@ input[readonly] {
     <!-- Scripts -->
     <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js'></script>
     <script src="./js/script.js"></script>
+    <script src="./js/P&J-admin-disable-formsubmit-button.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
-    <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -406,7 +414,7 @@ document.getElementById("Jtable").addEventListener("blur", function(event) {
   }
 });
 
-function toggleAllCheckboxes() {
+function toggleAllCheckboxesJ() {
             var checkboxes = document.getElementsByClassName('checkbox');
             var selectAllCheckbox = document.getElementById('select-all');
             
@@ -414,6 +422,7 @@ function toggleAllCheckboxes() {
                 checkboxes[i].checked = selectAllCheckbox.checked;
             }
             enableSubmitButton();
+            updateTotalValuesJ();
         }
 
         function deleteSelected() {
@@ -427,7 +436,6 @@ function toggleAllCheckboxes() {
             }
 
             selectAllCheckbox.checked = false;
-            enableSubmitButton();
         }
 
 function toggleAllCheckboxesP() {
@@ -437,7 +445,7 @@ function toggleAllCheckboxesP() {
             for (var i = 0; i < checkboxesP.length; i++) {
                 checkboxesP[i].checked = selectAllCheckbox.checked;
             }
-            enableSubmitButton();
+            updateTotalValuesP();
         }
 
         function deleteSelectedP() {
@@ -451,7 +459,6 @@ function toggleAllCheckboxesP() {
             }
 
             selectAllCheckboxP.checked = false;
-            enableSubmitButton();
         }
 
 function updateLabel(dropdown) {
@@ -459,6 +466,20 @@ function updateLabel(dropdown) {
       var label = document.querySelector('label[for="' + dropdownId + '"]');
       label.textContent = dropdown.value;
     }
+
+    popupSubmit = document.getElementById('submitWrapper');
+  
+    function showSubmit(event) {
+        event.preventDefault(); // Prevent the form from submitting immediately
+        document.getElementById('submitWrapper').style.display = 'flex';
+    }
+  var hideSubmit = function() {
+    popupSubmit.style.display ='none';
+  }
+
+  document.getElementById('submitPopup').addEventListener('click', function() {
+        document.getElementById('submitAll').submit();
+    });
 
   popup = document.getElementById('popup');
 var show = function(){
@@ -589,7 +610,6 @@ var hide_discardChangespg = function(){
     nicknameInput.className = "inputjnick cformj";
     nicknameInput.name = "judge_nickname[]";
     nicknameInput.style = "border-radius:20px;";
-    nicknameInput.pattern = "[A-Za-z0-9 -]{4,10}";
     nicknameInput.minLength = 4;
     nicknameInput.maxLength = 10;
     nicknameInput.placeholder = "Nickname";
@@ -612,6 +632,7 @@ var hide_discardChangespg = function(){
 
     checkBox.onclick = function () {
       enableSubmitButton();
+            updateTotalValuesJ();
     };
 
     nameInput.onkeydown = function (event) {
@@ -619,6 +640,8 @@ var hide_discardChangespg = function(){
         event.preventDefault();
         this.readOnly = true;
         enableSubmitButton();
+            updateTotalValuesJ();
+        
       }
     };
 
@@ -627,23 +650,12 @@ var hide_discardChangespg = function(){
         event.preventDefault();
         this.readOnly = true;
         enableSubmitButton();
+            updateTotalValuesJ();
       }
     };
 
     enableSubmitButton();
-  }
-
-  function enableSubmitButton() {
-    var submitButton = document.getElementById("save_btnS");
-    var inputs = document.getElementsByClassName("cformj");
-    var allFilled = true;
-    for (var i = 0; i < inputs.length; i++) {
-      if (inputs[i].type === "text" && inputs[i].value === "") {
-        allFilled = false;
-        break;
-      }
-    }
-    submitButton.disabled = !allFilled;
+    updateTotalValuesJ();
   }
 
     function submitData() {
@@ -684,7 +696,6 @@ function addRowP() {
       parNameInput.className = "inputpname cformj";
       parNameInput.name = "participant_name[]";
       parNameInput.style = "border-radius:20px;";
-      parNameInput.pattern = "[A-Za-z0-9 -]{4,20}";
       parNameInput.minLength = 4;
       parNameInput.maxLength = 20;
       parNameInput.placeholder = "Participant Name";
@@ -702,7 +713,6 @@ function addRowP() {
       sectionInputP.style = "border-radius:20px;";
       sectionInputP.minLength = 3;
       sectionInputP.maxLength = 3;
-      sectionInputP.pattern = "[1-9\\-]+";
       sectionInputP.placeholder = "Section";
       sectionInputP.addEventListener("dblclick", function() {
         this.readOnly = false;
@@ -745,6 +755,7 @@ function addRowP() {
     .catch(error => console.error('Error fetching options:', error));
       checkboxP.onclick = function () {
       enableSubmitButton();
+            updateTotalValuesP();
     };
 
     parNameInput.onkeydown = function (event) {
@@ -752,6 +763,7 @@ function addRowP() {
         event.preventDefault();
         this.readOnly = true;
         enableSubmitButton();
+            updateTotalValuesP();
       }
     };
 
@@ -760,10 +772,12 @@ function addRowP() {
         event.preventDefault();
         this.readOnly = true;
         enableSubmitButton();
+            updateTotalValuesP();
       }
     };
 
     enableSubmitButton();
+    updateTotalValuesP();
 
     }
 
@@ -853,7 +867,7 @@ function addRowP() {
   addRowButton.onclick = function () {
     const newRow = createRow(divId, organizationId);
     tbody.appendChild(newRow);
-    enableSubmitButton();
+    updateTotalValuesP();
   };
   const addRowButtonCell = document.createElement('td');
   addRowButtonCell.appendChild(addRowButton);
@@ -870,6 +884,9 @@ function addRowP() {
   div.appendChild(rowsContainer);
 
   document.getElementById('mainDiv').appendChild(div);
+  
+  
+  updateTotalValuesP();
 
 }
 
@@ -902,7 +919,6 @@ function createRow(divId, organizationId) {
   nameInput.className = "inputpname cformj";
   nameInput.name = "participant_name[]";
   nameInput.style = "border-radius:20px;";
-  nameInput.pattern = "[A-Za-z0-9 -]{4,20}";
   nameInput.minLength = 4;
   nameInput.maxLength = 20;
   nameInput.placeholder = "Participant Name";
@@ -923,7 +939,6 @@ function createRow(divId, organizationId) {
   sectionInput.style = "border-radius:20px;";
   sectionInput.minLength = 3;
   sectionInput.maxLength = 3;
-  sectionInput.pattern = "[1-9\\-]+";
   sectionInput.placeholder = "Section";
   sectionInput.addEventListener("dblclick", function() {
         this.readOnly = false;
@@ -936,6 +951,7 @@ function createRow(divId, organizationId) {
         event.preventDefault();
         this.readOnly = true;
         enableSubmitButton();
+            updateTotalValuesP();
       }
     };
 
@@ -944,94 +960,21 @@ function createRow(divId, organizationId) {
         event.preventDefault();
         this.readOnly = true;
         enableSubmitButton();
+            updateTotalValuesP();
       }
     };
 
   return row;
 
     enableSubmitButton();
-}
-
-function createRow(divId, organizationId) {
-  const row = document.createElement('tr');
-  row.className = 'row';
-
-  // Create the checkbox for the row
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.onclick = function () {
-    toggleCheckbox(divId);
-  };
-  const checkboxCell = document.createElement('td');
-  checkboxCell.appendChild(checkbox);
-  row.appendChild(checkboxCell);
-
-  // Create a hidden input field for organization_id
-  const organizationIdInput = document.createElement('input');
-  organizationIdInput.type = 'hidden';
-  organizationIdInput.name = 'organization_id[]';
-  organizationIdInput.value = organizationId; // Set the organization_id value for this row
-  row.appendChild(organizationIdInput);
-
-  // Create the textbox for the name
-  const nameInputCell = document.createElement('td');
-  const nameInput = document.createElement('input');
-  nameInput.type = 'text';
-  nameInput.placeholder = 'Name';
-  nameInput.className = 'inputpname cformj';
-  nameInput.name = 'participant_name[]';
-  nameInput.style = 'border-radius:20px;';
-  nameInput.pattern = '[A-Za-z0-9 -]{4,20}';
-  nameInput.minLength = 4;
-  nameInput.maxLength = 20;
-  nameInput.placeholder = 'Participant Name';
-  nameInput.title = 'Enter a valid name (4-20 characters)';
-  nameInput.addEventListener('dblclick', function () {
-    this.readOnly = false;
-  });
-  nameInputCell.appendChild(nameInput);
-  row.appendChild(nameInputCell);
-
-  // Create the textbox for the section
-  const sectionInputCell = document.createElement('td');
-  const sectionInput = document.createElement('input');
-  sectionInput.type = 'text';
-  sectionInput.placeholder = 'Section';
-  sectionInput.className = 'inputpcs cformj';
-  sectionInput.name = 'participant_section[]';
-  sectionInput.style = 'border-radius:20px;';
-  sectionInput.minLength = 3;
-  sectionInput.maxLength = 3;
-  sectionInput.pattern = '[1-9\\-]+';
-  sectionInput.placeholder = 'Section';
-  sectionInput.addEventListener('dblclick', function () {
-    this.readOnly = false;
-  });
-  sectionInputCell.appendChild(sectionInput);
-  row.appendChild(sectionInputCell);
-
-  nameInput.onkeydown = function (event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      this.readOnly = true;
-      enableSubmitButton();
-    }
-  };
-
-  sectionInput.onkeydown = function (event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      this.readOnly = true;
-      enableSubmitButton();
-    }
-  };
-
-  return row;
+    updateTotalValuesP();
+    
 }
 
 
 
-function toggleAllCheckboxes() {
+
+function toggleAllCheckboxesPG() {
   const checkboxes = document.querySelectorAll('#mainDiv input[type="checkbox"]');
   const mainCheckbox = document.getElementById('mainCheckbox');
 
@@ -1080,127 +1023,6 @@ function deleteChecked() {
     }
   });
 }
-
-let dropdownCount = 0;
-
-    function createPG() {
-  dropdownCount++;
-
-  const container = document.getElementById('Pboxg');
-
-  // Create checkbox to select all in the row
-  const selectAllCheckbox = document.createElement('input');
-  selectAllCheckbox.type = 'checkbox';
-  selectAllCheckbox.addEventListener('change', function () {
-    const rowCheckboxes = container.querySelectorAll('.row input[type="checkbox"]');
-    rowCheckboxes.forEach(function (checkbox) {
-      checkbox.checked = this.checked;
-    }, this);
-  });
-
-  // Append the checkbox to the container
-  container.appendChild(selectAllCheckbox);
-
-  // Create dropdown
-  fetch('php/P&J-fetch-options.php')
-    .then(response => response.json())
-    .then(data => {
-      const dropdown = document.createElement('select');
-      dropdown.className = "btn dropdown-toggle div-toggle";
-      dropdown.style = "border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);";
-
-      // Add a default option (optional)
-      const defaultOption = document.createElement('option');
-      defaultOption.text = 'Organization';
-      defaultOption.disabled = true;
-      defaultOption.selected = true;
-      dropdown.appendChild(defaultOption);
-
-      // Populate the dropdown with options from the fetched data
-      data.forEach(option => {
-        const optionElement = document.createElement('option');
-        optionElement.text = option.organization_name;  
-        optionElement.value = option.organization_id;  
-        dropdown.appendChild(optionElement);
-      });
-
-      // Append the dropdown to the container
-      container.appendChild(dropdown);
-    })
-    .catch(error => console.error('Error fetching options:', error));
-
-  // Create button to toggle row visibility
-  const toggleButton = document.createElement('button');
-  toggleButton.type = 'button';
-  toggleButton.className = " icon-button";
-  toggleButton.innerHTML = "<i class='bx bx-hide'></i>";
-  toggleButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-success-color)!important; color: var(--white-text-color)!important; background-color: var(--default-success-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
-  toggleButton.addEventListener('click', () => {
-    const rows = container.querySelectorAll('.row');
-    rows.forEach((row) => {
-      row.classList.toggle('hide');
-    });
-  });
-  container.appendChild(toggleButton);
-
-  // Create button to add new row
-  const addRowButton = document.createElement('button');
-  addRowButton.type = 'button';
-  addRowButton.className = " icon-button";
-  addRowButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
-  addRowButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-success-color)!important; color: var(--white-text-color)!important; background-color: var(--default-success-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
-  addRowButton.addEventListener('click', () => {
-    const row = createMembers();
-    container.appendChild(row);
-  });
-
-  const row = createMembers();
-  container.appendChild(addRowButton);
-}
-
-    function createMembers() {
-  // Create container element for the row
-  const container = document.createElement('div');
-
-  // Create checkbox
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-
-  // Create text inputs for name and section
-  const nameInput = document.createElement('input');
-  nameInput.type = 'text';
-  nameInput.className = "inputpcs cformj";
-  nameInput.placeholder = 'Name';
-
-  const sectionInputPG = document.createElement('input');
-  sectionInputPG.type = "text";
-  sectionInputPG.className = "inputpcs cformj";
-  sectionInputPG.name = "participant_section[]";
-  sectionInputPG.style = "border-radius:20px;";
-  sectionInputPG.minLength = 3;
-  sectionInputPG.maxLength = 3;
-  sectionInputPG.pattern = "[1-9\\-]+";
-  sectionInputPG.placeholder = "Section";
-  sectionInputPG.addEventListener("dblclick", function() {
-    this.readOnly = false;
-      });
-
-  // Append checkbox, name input, and section input to the container
-  container.appendChild(checkbox);
-  container.appendChild(nameInput);
-  container.appendChild(sectionInputPG);
-
-  return container;
-}
-
-    function deleteCheckedPG() {
-      const checkboxes = document.querySelectorAll('.row input[type="checkbox"]:checked');
-      checkboxes.forEach(function (checkbox) {
-        const row = checkbox.parentNode;
-        row.parentNode.removeChild(row);
-      });
-    }
-
 
 
 $(document).on('change', '.div-toggle', function() {
