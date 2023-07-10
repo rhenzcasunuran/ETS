@@ -11,9 +11,8 @@
 
 .graph_container {
   width: 100%;
-  height: 680px;
   background-color: rgb(177, 177, 166);
-  padding: 15px 50px 0px 15px;
+  padding: 15px 50px 15px 15px;
   border-radius: 30px;
   transition: all .5s ease;
   margin-bottom: 14px;
@@ -119,12 +118,13 @@
 #percentage{
   font-weight: bold;
   margin-left: 5px;
+  color: white;
 }
 
 .anon {
   display: flex;
   width: 100%;
-  padding: 21px;
+  padding: 0px 0px 35px 0px;
 }
 
 #anon-label {
@@ -168,8 +168,8 @@
   height: 23px;
   width: 23px;
   left: 3px;
-  bottom: 3px;
-  background-color: white;
+  bottom: 3.5px;
+  background-color: rgb(255, 255, 255);
   transition: 0.4s;
   border-radius: 50%;
 }
@@ -186,6 +186,10 @@ input[type="checkbox"]:checked + .slider:before {
   display: flex;
 }
 
+#body-content.placement_open .anon {
+  display: none;
+}
+
 #graph-section.placement_open {
   width: 100%;
   transition: all .5s ease;
@@ -196,7 +200,7 @@ input[type="checkbox"]:checked + .slider:before {
 }
 
 #graph-section.placement_open .graph_container {
-  padding: 0;
+  padding: 15px;
   width: 10%;
   transition: all .5s ease;
 }
