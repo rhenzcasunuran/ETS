@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/BAR-obg.css">
     <link rel="stylesheet" href="./css/system-wide.css">
-    <script src="./js/BAR-java.js"></script>
+    <script src="./js/BAR-student-java.js"></script>
   </head>
 
 
@@ -38,7 +38,7 @@
     <!--Page Content-->
     <section class="home-section" style="display: flex; justify-content: center; align-items: center;">
       <div class="container-fluid" id="body-content">
-
+      <div class="header">Overall Organization Standing</div>
         <div class="col" id="graph-section">
           <div class="graph_container">
             <div class="row" id="arrow-container">

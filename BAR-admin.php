@@ -110,6 +110,40 @@
               </div>
             </div>
           </div>
+          <div class="col" id="notice">
+            <?php
+              $query = "SELECT isAnon FROM bar_graph";
+              $result = $conn->query($query);
+          
+              if ($result->num_rows > 0) {
+                $rows = array();
+          
+                while ($row = $result->fetch_assoc()) {
+                  $rows[] = $row;
+                }
+          
+                $showDiv = true;
+                foreach ($rows as $row) {
+                  $isAnon = $row['isAnon'];
+          
+                  if ($isAnon != 1) {
+                    $showDiv = false;
+                    break;
+                  }
+                }
+          
+                if ($showDiv) {
+                  echo '<p><i class="bx bxs-error prompt-icon warning-color"></i> Ranking is currently hidden.</p>';
+                }
+              } else {
+                echo "No rows found in the database.";
+              }
+            ?>     
+          </div>
+          <div class="col" id="event-select">
+            <p>Event</p>
+            <select name="" id=""></select>
+          </div>
         </div>
         
         <div class="col" id="graph-section">
@@ -136,18 +170,10 @@
                         $organization = $org["organization_name"];
                         $imagePath = "logos/" . $organization . ".png";
                         $imageAnonPath = "logos/anon.png";
-                        $isAnon = $org["isAnon"];
 
-                        if ($isAnon == 0){
-                          echo '<div class="row" id="logos">
+                        echo '<div class="row" id="logos">
                           <div class="logo_container" ><img src="' . $imagePath . '" name="' . $organization . '"></div>
                         </div>';
-                        } else {
-                          echo '<div class="row" id="logos">
-                          <div class="logo_container"><img src="' . $imageAnonPath . '"></div>
-                        </div>';
-                        }
-                
                         
                     }
                 } else {
@@ -174,8 +200,7 @@
                     $isAnon = $org["isAnon"];
                     $percentage = number_format($barMeter, 0, '.', '');
 
-                    if ($isAnon == 0){
-                            echo '
+                    echo '
                             <div class="row">
                               <div class="meter_container">
                                 <div class="meter" id="'. $organization .'" style="width: ' . $barMeter . '%;">
@@ -185,15 +210,6 @@
                                 </div>
                               </div>
                             </div>';
-                    } else {
-                      echo '<div class="row">
-                        <div class="meter_container">
-                          <div class="meter" id="anon" style="width: ' . $barMeter . '%;"><div id="percentage">
-                          '. $percentage .'%
-                        </div></div>
-                        </div>
-                      </div>';
-                    } 
                   }
               } else {
                   echo "No organizations found in the database.";
