@@ -138,7 +138,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
         </li>
         <?php if(isset($_SESSION['user_username'])) { ?>
         <li class="nav-item">
-          <a href="HOM-create-post.php" class="<?php echo $activeModule === 'configuration' ? 'active' : ''; ?>">
+          <a href="HOM-manage-post.php" class="<?php echo $activeModule === 'configuration' ? 'active' : ''; ?>">
             <i class="bx bx-cog"></i>
             <span class="link_name">Configuration</span>
           </a>

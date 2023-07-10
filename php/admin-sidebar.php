@@ -89,12 +89,6 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
           </a>
           <ul class="sub_list">
             <li class="sub-item">
-              <a href="HOM-create-post.php" class="<?php echo ($activeSubItem === 'create-post') ? 'sub-active' : ''; ?>">
-                <i class="bx bxs-circle sub-icon color-red"></i>
-                <span class="sub_link_name">Create Post</span>
-              </a>
-            </li>
-            <li class="sub-item">
               <a href="HOM-draft-post.php" class="<?php echo ($activeSubItem === 'draft-post') ? 'sub-active' : ''; ?>">
                 <i class="bx bxs-circle sub-icon color-green"></i>
                 <span class="sub_link_name">Drafts</span>
