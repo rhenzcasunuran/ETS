@@ -111,7 +111,25 @@
             </p>
           </div>
           <div class="row">
+            <?php
+              $id = $post_row['post_id'];
 
+              $sql_photo = "SELECT file_name
+              FROM post_photo
+              WHERE post_id = $id;";
+              $photo = mysqli_query($conn, $sql_photo);
+
+              if($photo){
+                while($photo_row = mysqli_fetch_assoc($photo)) {
+                  $file_name = $photo_row['file_name'];
+                  echo "<img class='post-photo' src='post/$file_name'>";
+                  
+                }
+              } 
+              else{
+                  echo "Error retrieving file names: " . mysqli_error($conn);
+              }
+            ?>
           </div>
         </div>
       </div>

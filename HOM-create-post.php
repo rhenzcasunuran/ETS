@@ -26,7 +26,7 @@
   </head>
 
   <body>
-    <form id="post-form" action="./php/HOM-insert-post.php" method="post">
+    <form id="post-form" action="./php/HOM-insert-post.php" method="post" enctype="multipart/form-data">
     <div class="popup-background" id="cancelPost-popup">
       <div class="row popup-container">
         <div class="col-4">
@@ -78,7 +78,7 @@
     <?php
       // Set the active module and sub-active sub-item variables
       $activeModule = 'posts';
-      $activeSubItem = 'create-post';
+      $activeSubItem = 'manage-post';
 
       // Include the sidebar template
       require './php/admin-sidebar.php';
@@ -126,15 +126,15 @@
                   Cover
                 </h2>
                 <div class="temp-cover">
-
+                  <input type="file" name="cover">
                 </div>
               </div>
               <div>
                 <h2>
-                  Photos
+                  Photo
                 </h2>
                 <div class="temp-photos">
-
+                  <input type="file" name="photo[]" multiple>
                 </div>
               </div>
               <div class="row buttons">

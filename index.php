@@ -99,11 +99,11 @@
             $row = mysqli_num_rows($get_posts);
             if($row > 0){
               while($row = mysqli_fetch_array($get_posts)){
-                $date = date("F d, Y", strtotime($row[6]));
+                $date = date("F d, Y", strtotime($row['post_schedule']));
           ?>
             <a href="HOM-post.php?eec=<?php echo $row['post_id']?>" class="post-click ALL <?php echo $row['organization_name'];?>">
               <div class="post-card">
-                <img class="post-cover" src="photos/cover-<?php echo $row['organization_name'];?>.png">
+                <img class="post-cover" src="post/<?php echo $row['post_cover'];?>">
                 <div class="post-detail">
                   <p class="post-date">
                     Posted on <?php echo $date;?>
