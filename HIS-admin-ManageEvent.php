@@ -35,98 +35,99 @@
   <section class="home-section">
     <div class="header">Event Page</div>
     <div class="flex-container">
-      <div class="main-containers">
-        <div class="container-header">Events</div>
-        <div class="flex-box-1">
-          <div class="search-wrapper">
-            <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event" onkeyup="filterButtons()">
-          </div>
-          <div id="button-container">
-            <?php
-            $query = "SELECT o.event_id, e.event_name, c.category_name
-                      FROM ongoing_list_of_event o
-                      JOIN ongoing_event_name e ON o.event_id = e.event_name_id
-                      JOIN ongoing_category_name c ON o.category_name_id = c.category_name_id
-                      WHERE o.is_archived = 1
-                      GROUP BY e.event_name";
-            $result = mysqli_query($conn, $query);
+  <div class="main-containers">
+    <div class="container-header">Events</div>
+    <div class="flex-box-1">
+      <div class="search-wrapper">
+        <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event" onkeyup="filterButtons()">
+      </div>
+      <div id="button-container">
+        <?php
+        $query = "SELECT e.event_name, o.event_id
+                  FROM ongoing_event_name e
+                  JOIN ongoing_list_of_event o ON e.event_name_id = o.event_name_id
+                  WHERE o.is_archived = 1
+                  GROUP BY e.event_name";
 
-            if ($result === false) {
-              die('Query Error: ' . mysqli_error($conn));
-            }
+        $result = mysqli_query($conn, $query);
 
-            if (mysqli_num_rows($result) > 0) {
-              while ($row = mysqli_fetch_assoc($result)) {
+        if ($result === false) {
+            die('Query Error: ' . mysqli_error($conn));
+        }
+
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
                 $eventHistoryId = $row['event_id'];
                 $eventName = $row['event_name'];
 
                 echo "<button id='event_" . $eventName . "' class='event_button' data-event-history-id='$eventHistoryId' onclick='handleEventClick(\"$eventName\")'>$eventName</button>";
-              }
-            } else {
-              echo "No events found.";
             }
-            ?>
-          </div>
-        </div>
-     
-        <div class="container-header-1">Activities</div>
-            <div class="flex-box">
-                <div id="select_event_text">Select an event first</div>
-                <div class="radio-holder">
-                   <?php
-if ($result->num_rows > 0) {
-    $result->data_seek(0);
-    while ($row = $result->fetch_assoc()) {
-        $eventName = $row['event_name'];
-
-        echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
-
-        $query = "SELECT DISTINCT c.category_name, o.suggested_status, o.is_archived
-        FROM ongoing_event_name e
-        JOIN ongoing_category_name c ON e.event_name_id = c.event_name_id
-        JOIN ongoing_list_of_event o ON o.category_name_id = c.category_name_id
-        WHERE e.event_name = '" . $eventName . "' AND o.is_archived = 1";
-        $categoryResult = mysqli_query($conn, $query);
-
-        if ($categoryResult === false) {
-            die('Query Error: ' . mysqli_error($conn));
+        } else {
+            echo "No events found.";
         }
+        ?>
+      </div>
+    </div>
 
-        $categories = array(); // Initialize an array to store category names
+    <div class="container-header-1">Activities</div>
+<div class="flex-box">
+    <div id="select_event_text">Select an event first</div>
+    <div class="radio-holder">
+        <?php
+        if ($result->num_rows > 0) {
+            $result->data_seek(0);
+            while ($row = $result->fetch_assoc()) {
+                $eventName = $row['event_name'];
 
-        // Retrieve all category names for the event
-        while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
-          $categoryName = $categoryRow['category_name'];
-          $suggestedStatus = $categoryRow['suggested_status'];
-          $categories[] = array(
-              'name' => $categoryName,
-              'status' => $suggestedStatus
-          );
-      }
+                echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
 
-      if (!empty($categories)) {
-          $maxLength = max(array_map('strlen', array_column($categories, 'name')));
+                $query = "SELECT DISTINCT o.category_name, o.suggested_status, o.is_archived
+                          FROM ongoing_list_of_event o
+                          JOIN ongoing_event_name e ON o.event_name_id = e.event_name_id
+                          WHERE e.event_name = '" . $eventName . "' AND o.is_archived = 1";
+                $categoryResult = mysqli_query($conn, $query);
 
-          foreach ($categories as $category) {
-              $categoryName = $category['name'];
-              $isChecked = $category['status'] == 1 ? 'checked' : '';
+                if ($categoryResult === false) {
+                    die('Query Error: ' . mysqli_error($conn));
+                }
 
-              echo "<label class='form-check'>";
-              echo "<input class='form-check-input' type='checkbox' name='activity_" . $eventName . "[]' value='" . $categoryName . "' " . $isChecked . ">";
-              echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
-              echo "</label>";
-          }
-      } else {
-          echo "No categories found for this event.";
-      }
+                $categories = array(); // Initialize an array to store category names
 
-      echo "</div>";
-  }
-}
-?>
+                // Retrieve all category names for the event
+                while ($categoryRow = mysqli_fetch_assoc($categoryResult)) {
+                    $categoryName = $categoryRow['category_name'];
+                    $suggestedStatus = $categoryRow['suggested_status'];
+                    $categories[] = array(
+                        'name' => $categoryName,
+                        'status' => $suggestedStatus
+                    );
+                }
 
-          </div>
-        </div>
+                if (!empty($categories)) {
+                    $maxLength = max(array_map('strlen', array_column($categories, 'name')));
+
+                    foreach ($categories as $category) {
+                        $categoryName = $category['name'];
+                        $isChecked = $category['status'] == 1 ? 'checked' : '';
+
+                        echo "<label class='form-check'>";
+                        echo "<input class='form-check-input' type='checkbox' name='activity_" . $eventName . "[]' value='" . $categoryName . "' " . $isChecked . ">";
+                        echo "<span class='form-check-label'>" . str_pad($categoryName, $maxLength, ' ', STR_PAD_RIGHT) . "</span>";
+                        echo "</label>";
+                    }
+                } else {
+                    echo "No categories found for this event.";
+                }
+
+                echo "</div>";
+            }
+        }
+        ?>
+    </div>
+</div>
+
+
+    
     <div class="add-btn-container">
       <button id="add_button" class="add-btn">Update</button>
     </div>
@@ -195,30 +196,6 @@ if ($result->num_rows > 0) {
       }
     }
 
-    document.getElementById("add_button").addEventListener("click", function() {
-      if (selectedEvent) {
-        // Rest of the code for updating activities
-        // ...
-
-        // For testing purpose, display a success message
-        Swal.fire({
-          title: 'Success',
-          text: 'Activities updated successfully.',
-          icon: 'success',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'OK'
-        });
-      } else {
-        Swal.fire({
-          title: 'Error',
-          text: 'Please select an event first.',
-          icon: 'error',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'OK'
-        });
-      }
-    });
-
     function filterButtons() {
       var input, filter, buttons, button, i, txtValue;
       input = document.getElementById("search");
@@ -236,6 +213,80 @@ if ($result->num_rows > 0) {
       }
     }
   </script>
+  <script>
+  document.getElementById("add_button").addEventListener("click", function() {
+    if (!selectedEvent) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Please select an event first.',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Suggest activity/ies?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, suggest activities!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Check for changes in the checkboxes
+        var checkboxes = document.querySelectorAll('.activity_container input[type="checkbox"]');
+        var hasChanges = Array.from(checkboxes).some(function (checkbox) {
+          return checkbox.checked !== checkbox.defaultChecked;
+        });
+
+        if (hasChanges) {
+          // Get the selected activities
+          var selectedActivities = Array.from(document.querySelectorAll('input[name^="activity_"]:checked'))
+            .map(input => input.value);
+
+          // Make an AJAX request to update the suggested_status in the database
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "./php/HIS-update_suggested_status.php", true);
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              // Display a success message
+              Swal.fire({
+                title: 'Suggest Success',
+                text: 'Activities suggested successfully!',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+              }).then((result) => {
+                // Refresh the page
+                if (result.isConfirmed) {
+                  location.reload();
+                }
+              });
+              console.log(xhr.responseText);
+            }
+          };
+          xhr.send("activities=" + encodeURIComponent(JSON.stringify(selectedActivities)));
+        } else {
+          // Display an error message for no changes
+          Swal.fire({
+            title: 'Error',
+            text: 'No changes applied.',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          });
+        }
+      }
+    });
+  });
+</script>
+
+
+
 </body>
 
 </html>

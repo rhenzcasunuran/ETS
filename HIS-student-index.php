@@ -73,20 +73,9 @@ include './php/admin-signin.php';
   <div class="dropdown">
   <i class="bx bx-filter-alt dropbtn bx-sm" onclick="myFunction()"></i>
   <style>
-.org-img {
-  width: 100%;
-  height: 50px;
-}
 
-.dropdown-content {
-  left: 0;
-  right: auto;
-  display: none; /* Hide the dropdown content by default */
-}
 
-.dropdown-content.show {
-  display: block; /* Show the dropdown content when the "show" class is added */
-}
+
 </style>
 
 <div id="myDropdown" class="dropdown-content">
@@ -124,49 +113,54 @@ include './php/admin-signin.php';
 </div>
 
 <div class="flex-container">
-  <div class="container" id="main-containers">
-    <div class="container">
-      <div class="col-md-12">
-        <div class="row">
-          <div id="carousel" class="col-md-12 text-white carousel-container"> <!-- Added carousel-container class -->
+<div class="container" id="main-containers">
+  <div class="container">
+    <div class="col-md-12">
+      <div class="row">
+        <div id="carousel" class="col-md-12 text-white carousel-container">
           <?php
-require('./php/database_connect.php');
+          require('./php/database_connect.php');
 
-$query = "SELECT * FROM highlights";
-$result = mysqli_query($conn, $query);
+          $query = "SELECT * FROM highlights";
+          $result = mysqli_query($conn, $query);
 
-$slides = '';
-$active = 'active';
-while ($row = mysqli_fetch_assoc($result)) {
-    $imagePath = "./images/" . $row['filename'];
-    $imageInfo = $row['image_info'];
-    $imageDesc = $row['image_description'];
-    $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '"></div>';
-    $active = '';
-}
+          $slides = '';
+          $active = 'active';
+          while ($row = mysqli_fetch_assoc($result)) {
+            $imageFilenames = explode(',', $row['filename']);
+            $imageInfo = $row['image_info'];
+            $imageDesc = $row['image_description'];
 
-mysqli_data_seek($result, 0);
-$active = 'active';
+            foreach ($imageFilenames as $filename) {
+              $imagePath = "./images/" . trim($filename);
+              $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '"></div>';
+              $active = '';
+            }
+          }
 
-mysqli_close($conn);
-?>
+          mysqli_data_seek($result, 0);
+          $active = 'active';
 
+          mysqli_close($conn);
+          ?>
 
-            <div id="eventsImages" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-inner">
-                <?php echo $slides; ?>
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#eventsImages" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#eventsImages" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
+          <div id="eventsImages" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <?php echo $slides; ?>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#eventsImages" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#eventsImages" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
         </div>
+      </div>
+    </div>
+  
         <div class="row" id="contain">
           <div class="col-md-12 text-white text-container">
             <!-- Additional content here -->
@@ -185,14 +179,27 @@ mysqli_close($conn);
           <?php
 include('./php/database_connect.php');
 
-$searchQuery = $_GET['search'] ?? '';
-$query = "SELECT en.event_name, cn.category_name, YEAR(e.event_date) AS event_year, e.suggested_status, e.event_description
-          FROM ongoing_list_of_event e
-          JOIN ongoing_category_name cn ON e.category_name_id = cn.category_name_id
-          JOIN ongoing_event_name en ON cn.event_name_id = en.event_name_id
-          WHERE en.event_name LIKE '%$searchQuery%' 
-          AND e.is_archived = 1
-          ORDER BY e.suggested_status";
+            $searchQuery = $_GET['search'] ?? '';
+            $query = "SELECT 
+            en.event_name, 
+            e.category_name, 
+            YEAR(e.event_date) AS event_year, 
+            e.suggested_status, 
+            e.event_description,
+            h.filename
+          FROM 
+            ongoing_list_of_event e
+          JOIN 
+            ongoing_event_name en ON e.event_name_id = en.event_name_id
+          LEFT JOIN 
+            highlights h ON e.event_id = h.event_id
+          WHERE 
+            e.is_archived = 1
+          GROUP BY 
+          e.event_id
+          ORDER BY 
+            e.suggested_status
+            ;";
 
 $result = mysqli_query($conn, $query);
 
@@ -210,6 +217,7 @@ if (mysqli_num_rows($result) > 0) {
         $eventYear = $row['event_year'];
         $eventDescription = $row['event_description'];
         $suggestedStatus = $row['suggested_status'];
+        $imageFilename = $row['filename'];
 
         // Check if the event is suggested
         if ($suggestedStatus == 1) {
@@ -218,6 +226,7 @@ if (mysqli_num_rows($result) > 0) {
                 'categoryName' => $categoryName,
                 'eventYear' => $eventYear,
                 'eventDescription' => $eventDescription,
+                'imageFilename' => $imageFilename,
             ];
         } else {
             $otherEvents[] = [
@@ -225,6 +234,7 @@ if (mysqli_num_rows($result) > 0) {
                 'categoryName' => $categoryName,
                 'eventYear' => $eventYear,
                 'eventDescription' => $eventDescription,
+                'imageFilename' => $imageFilename,
             ];
         }
     }
@@ -240,81 +250,74 @@ if (mysqli_num_rows($result) > 0) {
         $categoryName = $event['categoryName'];
         $eventYear = $event['eventYear'];
         $eventDescription = $event['eventDescription'];
+        $imageFilename = $event['imageFilename'];
 
-        echo '     <div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
+        echo '<div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
 
-        // Retrieve the images from the highlights table
-        $highlightQuery = "SELECT filename FROM highlights WHERE event_id = '$eventName'";
-        $highlightResult = mysqli_query($conn, $highlightQuery);
-        $highlightImages = [];
-
-        if ($highlightResult) {
-            while ($highlightRow = mysqli_fetch_assoc($highlightResult)) {
-                $highlightImages[] = $highlightRow['filename'];
-            }
+        // Display event image if available
+        if (!empty($imageFilename)) {
+          $imageFilenamesArray = explode(',', $imageFilename);
+          foreach ($imageFilenamesArray as $filename) {
+            $imagePath = 'images/' . trim($filename);
+            echo '<div class="modal-image">';
+            echo '<img src="' . $imagePath . '" alt="Event Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+            echo '</div>';
+          }
         }
 
-        // Display event images
-        foreach ($highlightImages as $image) {
-            $imagePath = 'images/' . $image;
-            echo '<img src="' . $imagePath . '" alt="Event Image">';
-        }
-
-        echo '        <div class="event-info">';
-        echo '          <h3 class="event-name">' . $eventName . '</h3>';
-        echo '          <p class="category">' . $categoryName . '</p>';
-        echo '          <p class="year">' . $eventYear . '</p>';
-        echo '        </div>';
-        echo '      </div>';
+        echo '<div class="event-info">';
+        echo '<h3 class="event-name">' . $eventName . '</h3>';
+        echo '<p class="category">' . $categoryName . '</p>';
+        echo '<p class="year">' . $eventYear . '</p>';
+        echo '</div>';
+        echo '</div>';
     }
 
     echo '    </div>'; // Close event-cards
     echo '  </div>'; // Close suggested-events
 
-    // Display other events if available
-    if (!empty($otherEvents)) {
-        echo '  <div class="other-events">';
-        echo '    <h2 class="section-heading">Other Events</h2>';
-        echo '    <div class="event-cards">';
+    //** OTHER EVENTS START ! */
+  //** OTHER EVENTS START ! */
+if (!empty($otherEvents)) {
+  echo '<div class="other-events">';
+  echo '<h2 class="section-heading">Other Events</h2>';
+  echo '<div class="event-cards">';
 
-        foreach ($otherEvents as $index => $event) {
-            $eventName = $event['eventName'];
-            $categoryName = $event['categoryName'];
-            $eventYear = $event['eventYear'];
-            $eventDescription = $event['eventDescription'];
+  foreach ($otherEvents as $index => $event) {
+    $eventName = $event['eventName'];
+    $categoryName = $event['categoryName'];
+    $eventYear = $event['eventYear'];
+    $eventDescription = $event['eventDescription'];
+    $imageFilename = $event['imageFilename'];
 
-            echo '     <div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
+    echo '<div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
 
-            // Retrieve the images from the highlights table
-            $highlightQuery = "SELECT filename FROM highlights WHERE event_id = '$eventName'";
-            $highlightResult = mysqli_query($conn, $highlightQuery);
-            $highlightImages = [];
-
-            if ($highlightResult) {
-                while ($highlightRow = mysqli_fetch_assoc($highlightResult)) {
-                    $highlightImages[] = $highlightRow['filename'];
-                }
-            }
-
-            // Display event images
-            foreach ($highlightImages as $image) {
-                $imagePath = 'images/' . $image;
-                echo '<img src="' . $imagePath . '" alt="Event Image">';
-            }
-
-            echo '        <div class="event-info">';
-            echo '          <h3 class="event-name">' . $eventName . '</h3>';
-            echo '          <p class="category">' . $categoryName . '</p>';
-            echo '          <p class="year">' . $eventYear . '</p>';
-            echo '        </div>';
-            echo '      </div>';
-        }
-
-        echo '    </div>'; // Close event-cards
-        echo '  </div>'; // Close other-events
+    // Display event image if available
+    $imageFilenamesArray = explode(',', $imageFilename);
+    foreach ($imageFilenamesArray as $filename) {
+      $imagePath = 'images/' . trim($filename);
+      echo '<div class="modal-image">';
+      echo '<img src="' . $imagePath . '" alt="Event Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+      echo '</div>';
     }
 
-    echo '</div>'; // Close event-container
+    echo '<div class="event-info">';
+    echo '<h3 class="event-name">' . $eventName . '</h3>';
+    echo '<p class="category">' . $categoryName . '</p>';
+    echo '<p class="year">' . $eventYear . '</p>';
+    echo '</div>';
+    echo '</div>';
+  }
+
+  echo '</div>';
+  echo '</div>';
+
+  // Display modal for event details
+}
+
+  
+
+
 } else {
     echo "No events found.";
 }
@@ -322,9 +325,9 @@ if (mysqli_num_rows($result) > 0) {
 mysqli_close($conn);
 ?>
 
-         <!-- Bootstrap 5 Modal -->
+<!-- Bootstrap 5 Modal -->
 <div class="modal fade" id="event-modal" tabindex="-1" aria-labelledby="event-modal-label" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="event-modal-label">Event Details</h5>
@@ -335,9 +338,13 @@ mysqli_close($conn);
         <p>Category: <span id="modal-category"></span></p>
         <p>Year: <span id="modal-year"></span></p>
         <p>Description: <span id="modal-description"></span></p>
-
+        <div id="modal-event-images"></div>
       </div>
     </div>
+  </div>
+</div>
+
+
   </div>
 </div>
 
@@ -381,25 +388,7 @@ mysqli_close($conn);
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>    
     <script>
-    function updateTextContainer(slide) {
-        var imageInfo = slide.getAttribute('data-bs-info');
-        var imageDesc = slide.getAttribute('data-bs-desc');
-
-        var textContainer = document.querySelector('.text-container');
-        textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
-        textContainer.style.wordWrap = 'break-word'; // Allow words to break
-        textContainer.style.maxWidth = '100%';
-        textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
-    }
-
-    var firstSlide = document.querySelector('#eventsImages .carousel-item:first-child');
-    updateTextContainer(firstSlide);
-
-    var carousel = document.querySelector('#eventsImages');
-    carousel.addEventListener('slide.bs.carousel', function(event) {
-        var currentSlide = event.relatedTarget;
-        updateTextContainer(currentSlide);
-    });
+   
  /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function myFunction() {
@@ -478,32 +467,131 @@ function myFunction() {
   }
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+  //WITHOUT EVENT CLICKED
+   function updateTextContainer(slide) {
+        var imageInfo = slide.getAttribute('data-bs-info');
+        var imageDesc = slide.getAttribute('data-bs-desc');
+
+        var textContainer = document.querySelector('.text-container');
+        textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
+        textContainer.style.wordWrap = 'break-word'; // Allow words to break
+        textContainer.style.maxWidth = '100%';
+        textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
+    }
+
+    var firstSlide = document.querySelector('#eventsImages .carousel-item:first-child');
+    updateTextContainer(firstSlide);
+
+    var carousel = document.querySelector('#eventsImages');
+    carousel.addEventListener('slide.bs.carousel', function(event) {
+        var currentSlide = event.relatedTarget;
+        updateTextContainer(currentSlide);
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
   var eventCards = document.querySelectorAll(".event-card");
-  var modal = new bootstrap.Modal(document.getElementById("event-modal"));
-  var modalEventName = document.getElementById("modal-event-name");
-  var modalCategory = document.getElementById("modal-category");
-  var modalYear = document.getElementById("modal-year");
-  var modalDescription = document.getElementById("modal-description");
+  var carouselInner = document.querySelector("#eventsImages .carousel-inner");
+  var textContainer = document.querySelector(".text-container");
+
+  var selectedCard = null;
+
+  function updateTextContainer() {
+    if (selectedCard) {
+      var categoryName = selectedCard.querySelector(".category").innerText;
+      var imageDesc = selectedCard.getAttribute("data-bs-desc");
+      textContainer.innerHTML = "<h3>" + categoryName + "</h3><p>" + imageDesc + "</p>";
+      textContainer.style.wordWrap = "break-word"; // Allow words to break
+      textContainer.style.maxWidth = "100%";
+      textContainer.style.textAlign = "justify"; // Justify the content in the paragraph
+    }
+  }
+
+  var firstSlide = document.querySelector("#eventsImages .carousel-item:first-child");
+  updateTextContainer();
+
+  var carousel = document.querySelector("#eventsImages");
+  carousel.addEventListener("slide.bs.carousel", function(event) {
+    var currentSlide = event.relatedTarget;
+    updateTextContainer();
+  });
 
   eventCards.forEach(function(card) {
     card.addEventListener("click", function(event) {
       event.preventDefault();
 
-      // Get the event information from the card
-      var eventName = card.querySelector(".event-name").innerText;
-      var category = card.querySelector(".category").innerText;
-      var year = card.querySelector(".year").innerText;
-      var description = card.dataset.bsDesc; // Access the event description directly from the card's dataset
+      if (selectedCard === card) {
+        // Card is already selected, refresh the page
+        location.reload();
+      } else {
+        // Card is not selected, select it
+        if (selectedCard) {
+          // Unselect the previously selected card
+          selectedCard.classList.remove("selected");
+        }
+        selectedCard = card;
+        selectedCard.classList.add("selected");
+        updateTextContainer();
+      }
 
-      // Set the modal content dynamically
-      modalEventName.innerText = eventName;
-      modalCategory.innerText = category;
-      modalYear.innerText = year;
-      modalDescription.innerText = description;
+      // Clear the carousel inner HTML
+      carouselInner.innerHTML = "";
 
-      // Show the modal
-      modal.show();
+      // Get the image elements from the clicked event card
+      var images = card.querySelectorAll(".modal-image img");
+
+      // Add the images to the carousel inner
+      images.forEach(function(image) {
+        var carouselItem = document.createElement("div");
+        carouselItem.classList.add("carousel-item");
+        carouselItem.innerHTML = "<img src='" + image.src + "'>";
+        carouselInner.appendChild(carouselItem);
+      });
+
+      // Activate the first carousel item
+      carouselInner.firstChild.classList.add("active");
+
+      // Show the carousel
+      var eventsImages = new bootstrap.Carousel(document.getElementById("eventsImages"));
+      eventsImages.to(0); // Go to the first slide
+    });
+  });
+});
+
+
+
+
+
+
+
+
+// JavaScript code
+document.addEventListener('DOMContentLoaded', function() {
+  const eventCards = document.querySelectorAll('.event-card');
+  const modalEventName = document.getElementById('modal-event-name');
+  const modalCategory = document.getElementById('modal-category');
+  const modalYear = document.getElementById('modal-year');
+  const modalDescription = document.getElementById('modal-description');
+  const modalEventImages = document.getElementById('modal-event-images');
+
+  eventCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      const eventName = card.getAttribute('data-bs-event');
+      const eventDescription = card.getAttribute('data-bs-desc');
+      const eventImages = card.querySelectorAll('img');
+
+      modalEventName.textContent = eventName;
+      modalCategory.textContent = card.querySelector('.category').textContent;
+      modalYear.textContent = card.querySelector('.year').textContent;
+      modalDescription.textContent = eventDescription;
+
+      // Clear previous images
+      modalEventImages.innerHTML = '';
+
+      // Add event images to the modal
+      eventImages.forEach(function(image) {
+        const clonedImage = image.cloneNode(true);
+        modalEventImages.appendChild(clonedImage);
+      });
     });
   });
 });

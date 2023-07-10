@@ -50,15 +50,23 @@
     <select class="form-control" name="event_name" id="event_name" required>
       <option value="" selected disabled>Select Event</option>
       <?php
-      include('./php/database_connect.php');
-      $query = "SELECT `event_name_id`, `event_name` FROM `ongoing_event_name`";
-      $result = mysqli_query($conn, $query);
-      while ($row = mysqli_fetch_assoc($result)) {
-        $eventID = $row['event_name_id'];
-        $eventName = $row['event_name'];
-        echo '<option value="' . $eventID . '">' . $eventName . '</option>';
-      }
-      mysqli_close($conn);
+     include('./php/database_connect.php');
+
+     $query = "SELECT o.event_id, o.category_name, e.event_name
+               FROM ongoing_list_of_event o
+               JOIN ongoing_event_name e ON o.event_name_id = e.event_name_id";
+     $result = mysqli_query($conn, $query);
+     
+     while ($row = mysqli_fetch_assoc($result)) {
+         $eventID = $row['event_id'];
+         $categoryName = $row['category_name'];
+         $eventName = $row['event_name'];
+         
+         echo '<option value="' . $eventID . '">' . $eventName . ' - ' . $categoryName . '</option>';
+     }
+     
+     mysqli_close($conn);
+     
       ?>
     </select>
   </div>
@@ -81,26 +89,40 @@
           Gallery
         </div>
         <div class="container" id="img-container">
-        <?php
-require('./php/database_connect.php');
-$query = "SELECT * FROM highlights ORDER BY highlight_id DESC";
-$result = mysqli_query($conn, $query);
+            <?php
+    require('./php/database_connect.php');
+    $query = "SELECT * FROM highlights ORDER BY highlight_id DESC";
+    $result = mysqli_query($conn, $query);
 
-while ($row = mysqli_fetch_assoc($result)) {
-  $image = $row['filename'];
-  $id = $row['highlight_id'];
+    while ($row = mysqli_fetch_assoc($result)) {
+      $filenames = explode(',', $row['filename']);
+      $id = $row['highlight_id'];
 
-  echo '<div class="image">';
-  echo '<img src="./images/' . $image . '" onclick="expandImage(this)" class="gallery-image">';
-  echo '<div class="delete"><a href="#" onclick="confirmDelete(' . $id . ')"><i class="bx bxs-trash bx-xs bx-tada-hover bx-border-circle"></i></a></div>';
-  echo '<div class="expanded-image" onclick="collapseImage(this)"><img src="./images/' . $image . '" class="expanded-image-inner"></div>';
-  echo '</div>';
-}
+      foreach ($filenames as $filename) {
+        // Skip empty filenames
+        if (empty(trim($filename))) {
+          continue;
+        }
 
-mysqli_free_result($result);
-mysqli_close($conn);
-?>
-        </div>
+        $imagePath = './images/' . trim($filename);
+        if (!file_exists($imagePath)) {
+          // Skip non-existent images
+          continue;
+        }
+
+        echo '<div class="image">';
+        echo '<img src="' . $imagePath . '" onclick="expandImage(this)" class="gallery-image">';
+        echo '<div class="delete"><a href="#" onclick="confirmDelete(' . $id . ', \'' . trim($filename) . '\')"><i class="bx bxs-trash bx-xs bx-tada-hover bx-border-circle"></i></a></div>';
+        echo '<div class="expanded-image" onclick="collapseImage(this)"><img src="' . $imagePath . '" class="expanded-image-inner"></div>';
+        echo '</div>';
+      }
+    }
+
+    mysqli_free_result($result);
+    mysqli_close($conn);
+    ?>
+</div>
+
       </div>
       <div class="bg-white p-3" id="container-3">
         <div class="form-group">
@@ -281,38 +303,46 @@ Event History Scripts
 
 
 <script>
-function confirmDelete(id) {
-  Swal.fire({
-    title: 'Are you sure you want to delete this image?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      deleteImage(id);
-    }
-  });
-}
+function confirmDelete(id, filename) {
+    Swal.fire({
+      title: 'Are you sure you want to delete this image?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteImage(id, filename);
+      }
+    });
+  }
 
-function deleteImage(id) {
-  $.ajax({
-    url: "./php/HIS-delete.php",
-    type: "POST",
-    data: { id: id },
-    success: function(response) {
-      Swal.fire(
-        'Deleted!',
-        'Your file has been deleted.',
-        'success'
-      ).then(() => {
-        location.reload(); // Refresh the page
-      });
-    }
-  });
-}
+  function deleteImage(id, filename) {
+    $.ajax({
+      url: "./php/HIS-delete.php",
+      type: "POST",
+      data: { id: id, filename: filename },
+      success: function(response) {
+        if (response === "success") {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          ).then(() => {
+            location.reload(); // Refresh the page
+          });
+        } else {
+          Swal.fire(
+            'Error!',
+            'Failed to delete the file.',
+            'error'
+          );
+        }
+      }
+    });
+  }
 
 </script>
 
@@ -444,53 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
-<script>
-  // Get the file input element
-  const fileInput = document.getElementById('uploadfile');
 
-  // Get the preview container element
-  const previewContainer = document.getElementById('preview');
-
-  // Listen for file selection
-  fileInput.addEventListener('change', function () {
-    // Clear the previous preview
-    previewContainer.innerHTML = '';
-
-    // Loop through the selected files
-    for (const file of fileInput.files) {
-      // Create a preview item for each file
-      const previewItem = document.createElement('div');
-      previewItem.className = 'drop-zone__preview-item';
-
-      // Create an image element for the file preview
-      const image = document.createElement('img');
-      image.src = URL.createObjectURL(file);
-      image.alt = file.name;
-
-      // Create an "Unselect" button for the file
-      const unselectButton = document.createElement('button');
-      unselectButton.className = 'drop-zone__unselect-button';
-      unselectButton.textContent = 'Unselect';
-      unselectButton.addEventListener('click', function () {
-        // Remove the file from the file input selection
-        const index = Array.from(fileInput.files).indexOf(file);
-        if (index > -1) {
-          fileInput.files.splice(index, 1);
-        }
-
-        // Remove the preview item from the preview container
-        previewContainer.removeChild(previewItem);
-      });
-
-      // Append the image and unselect button to the preview item
-      previewItem.appendChild(image);
-      previewItem.appendChild(unselectButton);
-
-      // Append the preview item to the preview container
-      previewContainer.appendChild(previewItem);
-    }
-  });
-</script>
 
 
   </body>
