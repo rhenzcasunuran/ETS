@@ -394,7 +394,6 @@ text-align: center;
   
   .modal-content {
     background-color: var(--color-content-text);
-    margin: 15% auto; /* 15% from the top and centered horizontally */
     padding: 20px;
     border: 1px solid #888;
     overflow: auto;
@@ -494,6 +493,50 @@ text-align: center;
   background-color: #743EBA;
 }
 
+.images-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.images-container img {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+  margin: 5px;
+}
+.event-card img {
+  display: none;
+}
+.org-img {
+  width: 100%;
+  height: 50px;
+}
+
+.dropdown-content {
+  left: 0;
+  right: auto;
+  display: none; /* Hide the dropdown content by default */
+}
+
+.dropdown-content.show {
+  display: block; /* Show the dropdown content when the "show" class is added */
+  
+}
+#modal-event-images {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+#modal-event-images img {
+  width: 100%;
+  height: 250px;
+  border-radius: 15px;
+}
+.event-card.selected {
+  background-color: #c01f1f !important;
+}
 
 /* Mobile Styles */
 @media only screen and (max-width: 768px) {
