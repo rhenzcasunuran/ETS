@@ -15,7 +15,7 @@ $categories = array();
 while ($row = mysqli_fetch_assoc($result)) {
   $categoryID = $row['category_name_id'];
   $categoryName = $row['category_name'];
-  $categories[] = array(
+  $categories[] = array(  
     'categoryID' => $categoryID,
     'categoryName' => $categoryName
   );

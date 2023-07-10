@@ -2,25 +2,27 @@
 include('database_connect.php');
 include 'CAL-logger.php';
 
-if (isset($_POST['id'])) {
-  $id = $_POST['id'];
+if (isset($_POST['filename'])) {
+  $filename = $_POST['filename'];
 
-  $query = "SELECT filename FROM highlights WHERE highlight_id='$id'";
+  $query = "SELECT highlight_id, filename FROM highlights WHERE FIND_IN_SET('$filename', filename)";
   $result = mysqli_query($conn, $query);
-  $row = mysqli_fetch_assoc($result);
-  $filename = $row['filename'];
 
-  $filepath = "images/$filename";
-  if (file_exists($filepath)) {
-    unlink($filepath);
-  }
+  while ($row = mysqli_fetch_assoc($result)) {
+    $highlight_id = $row['highlight_id'];
+    $filenames = $row['filename'];
 
-  $query = "DELETE FROM highlights WHERE highlight_id='$id'";
-  if (mysqli_query($conn, $query)) {
-    echo "success";
-    to_log($conn, $query);
-  } else {
-    echo "error";
+    // Remove the specific filename from the list
+    $updatedFilenames = str_replace($filename, '', $filenames);
+    $updatedFilenames = trim($updatedFilenames, ',');
+
+    $updateQuery = "UPDATE highlights SET filename='$updatedFilenames' WHERE highlight_id='$highlight_id'";
+    if (mysqli_query($conn, $updateQuery)) {
+      echo "success";
+      to_log($conn, $updateQuery);
+    } else {
+      echo "error";
+    }
   }
 }
 

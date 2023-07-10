@@ -5,12 +5,12 @@ include('database_connect.php');
 $eventName = $_GET['eventName'] ?? '';
 
 // Modify the query to include the event name filter and join your tables
-$query = "SELECT en.event_name, cn.category_name, YEAR(e.event_date) AS event_year, e.suggested_status 
+$query = "SELECT en.event_name, e.category_name, YEAR(e.event_date) AS event_year, e.suggested_status 
           FROM ongoing_list_of_event e
-          JOIN ongoing_category_name cn ON e.category_name_id = cn.category_name_id
-          JOIN ongoing_event_name en ON cn.event_name_id = en.event_name_id
+          JOIN ongoing_event_name en ON e.event_name_id = en.event_name_id
           WHERE en.event_name LIKE '%$eventName%' 
           ORDER BY e.suggested_status";
+
 
 // Execute the query and fetch the results
 $result = mysqli_query($conn, $query);
