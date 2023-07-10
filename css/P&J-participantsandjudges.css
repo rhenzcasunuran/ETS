@@ -567,3 +567,61 @@ input[readonly] {
 #auth-form input, #auth-form button {
   margin-bottom: 10px;
 }
+
+.tooltip-popup {
+  position: absolute;
+  display: flex;
+  text-align: start;
+  background-color: #FFF;
+  color: var(--not-active-text-color);
+  white-space: nowrap;
+  padding: 20px;
+  border-radius: 15px;
+  transform: translateY(-85%);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s ease;
+  font-weight: 100;
+  pointer-events: none;
+  box-shadow: 0px 0px 10px 0 var(--shadow-color)!important;
+  width: 420px;
+}
+
+.tooltip-popup::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  border: 15px solid;
+  border-color: #fff #0000 #0000 #0000;
+}
+
+.tooltip-popup .tooltipText i {
+  font-size: 24px;
+  margin-top: -5px;
+  padding: 0!important;
+  visibility: hidden;
+}
+
+.tooltip-popup .tooltipText {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+#save-btn:hover .tooltip-popup, #eventSaveBtn:hover .tooltip-popup, #categorySaveBtn:hover .tooltip-popup{
+  visibility: visible;
+  opacity: 1;
+}
+
+#pjFormSaveBtn:hover .tooltip-popup{
+  visibility: visible;
+  opacity: 1;
+}
+
+#eventSaveBtn .tooltip-popup {
+  transform: translateY(-130%);
+  width: 100%;
+}
