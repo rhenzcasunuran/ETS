@@ -95,7 +95,7 @@
     </div>
     <!--Page Content-->
     <section class="home-section">
-
+      <div class="header">Overall Organization Standing</div>
       <div class="container-fluid" id="body-content">
 
         <div class="row" id="switches">
@@ -221,13 +221,15 @@
               <div class="row" id="org-window">
                 <div class="col" id="winnings-container">
                   <div class="winnings">
-                    
+                    Please select an organization
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        
 
       </div>
     <!-- Scripts -->
