@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
 
-    const anonButton = document.getElementById("anon_button");
+const anonButton = document.getElementById("anon_button");
 const slider = document.querySelector(".slider");
 const cancelWrapper = document.getElementById("anon-confirm");
 
@@ -62,6 +62,7 @@ confirmButton.addEventListener("click", function() {
       console.error("Update failed:", error);
     }
   });
+  location.reload();
 });
 
 cancelWrapper.addEventListener("click", function(event) {
