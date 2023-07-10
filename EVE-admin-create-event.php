@@ -60,7 +60,7 @@
       <div class="container-fluid d-flex row justify-content-center align-items-center m-0" id="event-create-wrapper">
         <div class="element">
           <form id="add-event-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" role="form">
-            <div class="row flex-column flex-md-row">
+            <div class="row flex-column flex-md-row" id="eventPicker">
               <div class="form-group col-md-4" id="eventTypeS">
                   <label for="select-event-type" class="form-label fw-bold">Event Type <span class="req" id="reqType">*</span></label>
                   <select id="select-event-type" name="select-event-type" title="Select Event Type" class="form-control selectpicker" required>
@@ -141,15 +141,15 @@
     <script type="text/javascript" src="./js/EVE-admin-popup.js"></script>
     <script>
 
+      var description = "";
+      var date = "";
+      var time = "";
+      var popUp = "<?php echo $popUpID ?>";
+      var showPopUp = "<?php echo $showPopUpButtonID ?>";
+
       $(document).ready(function() {
-        var description = "";
-        var date = "";
-        var time = "";
-        var popUp = "<?php echo $popUpID ?>";
-        var showPopUp = "<?php echo $showPopUpButtonID ?>";
 
-
-          // Initial data fetch based on typePicker value
+        // Initial data fetch based on typePicker value
         fetchTypeData($('#select-event-type').val(), description, date, time, popUp, showPopUp);
 
         $('#select-event-type').change(function() {
@@ -160,6 +160,28 @@
           time = $('#time').val(); // Capture the updated time value
           var popUp = "<?php echo $popUpID ?>";
           var showPopUp = "<?php echo $showPopUpButtonID ?>";
+
+          if (selectedType === "3") {
+            // Remove the div with id "categoryNameS"
+            $('#categoryNameS').remove();
+            $('#eventTypeS').removeClass('col-md-4').addClass('col-md-6');
+            $('#eventNameS').removeClass('col-md-4').addClass('col-md-6');
+          } else {
+            // If the div doesn't exist, recreate it
+            $('#eventTypeS').removeClass('col-md-6').addClass('col-md-4');
+            $('#eventNameS').removeClass('col-md-6').addClass('col-md-4');
+            if ($('#categoryNameS').length === 0) {
+              var div = $('<div class="form-group col-md-4" id="categoryNameS">' +
+                '<label for="select-category-name" class="form-label fw-bold">Category <span class="req" id="reqCategory">*</span></label>' +
+                '<select disabled="disabled" id="select-category-name" name="select-category-name" title="Select Category" class="form-control selectpicker" data-live-search="true" required>' +
+                '<option value="" selected>Select Category</option>' +
+                '</select>' +
+                '</div>');
+              // Append the recreated div to a parent element
+              $('#eventPicker').append(div); // Replace 'parentElement' with the actual parent element ID or selector
+            }
+          }
+
           fetchTypeData(selectedType, description, date, time, popUp, showPopUp);
         });
 
@@ -190,8 +212,6 @@
                   // Update description variable on input
                   $('#event-description').on('input', function() {
                       description = $(this).val();
-                      // Use the updated description variable as needed
-                      console.log(description);
                   });
 
                   $('#date').change(function() {
@@ -213,8 +233,6 @@
           });
         }
       });
-      
-
 
       $(document).ready(function(){
 

@@ -102,7 +102,13 @@
                                             ORDER BY event_date ASC, event_time ASC
                                             LIMIT $start_from, $numberOfItems;";
             $listedItems = mysqli_query($conn, $list_table_query_with_limit);
-          ?>
+          ?>  
+              <style>
+                #event-wrapper {
+                  padding-bottom: 80px;
+                }
+              </style>
+              
               <div class="row d-flex justify-content-between align-items-center w-100">
                 <div class="header col-7">List of Events</div>
                 <div class="button-container col-5">
@@ -113,7 +119,9 @@
                 </div>
               </div>
             <?php
-            while ($row = mysqli_fetch_array($listedItems)):;?>
+            while ($row = mysqli_fetch_array($listedItems)):;
+                if ($row['event_type_id'] == '2') {
+            ?>
             <div class="element">
               <div class="row">
               <div class="element-group col-sm-6 col-lg-3">
@@ -250,6 +258,196 @@
               </div>
             </div>
         <?php
+                }
+                else if ($row['event_type_id'] == '1'){
+        ?>
+        <div class="element">
+              <div class="row">
+              <div class="element-group col-sm-6 col-lg-3">
+                  <p class="element-label">Event Type</p>
+                  <p class="element-content"><?php echo $row['event_type'];?></p>
+                </div>
+                <div class="element-group col-sm-6 col-lg-3">
+                  <p class="element-label">Event</p>
+                  <p class="element-content"><?php echo $row['event_name'];?></p>
+                </div>
+                <div class="element-group col-sm-6 col-lg-3">
+                  <p class="element-label">Category</p>
+                  <p class="element-content"><?php echo $row['category_name'];?></p>
+                </div>
+                <div class="element-group col-sm-6 col-lg-3">
+                  <p class="element-label">Date & Time</p>
+                  <p class="element-content"><?php 
+                  $date_sql = "SELECT DATE_FORMAT('$row[event_date]', '%M %d, %Y') AS formattedDate FROM ongoing_list_of_event;";
+                  $date_result = mysqli_query($conn, $date_sql);
+                  $get_date_result = mysqli_fetch_assoc($date_result);
+                  $date = $get_date_result['formattedDate'];
+
+                  $time_sql = "SELECT TIME_FORMAT('$row[event_time]', '%h:%i %p') AS formattedTime FROM ongoing_list_of_event;";
+                  $time_result = mysqli_query($conn, $time_sql);
+                  $get_time_result = mysqli_fetch_assoc($time_result);
+                  $time = $get_time_result['formattedTime'];
+                  echo $date;?>; <?php echo $time;?></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="element-group col-sm-6 col-lg-6">
+                  <p class="element-label">Event Desciption</p>
+                  <p class="element-content"><?php echo $row['event_description'];?></p>
+                </div>
+                <div class="element-group col-sm-6 col-lg-2">
+                  <p class="element-label">Match Type</p>
+                  <p class="element-content">
+
+                  <?php
+
+                    $sql = "SELECT * 
+                            FROM tournament AS t 
+                            LEFT JOIN number_of_wins AS nows ON nows.number_of_wins_id = t.number_of_wins_id
+                            WHERE t.event_id = $row[event_id]; ";
+                    $query = mysqli_query($conn, $sql);
+                    $result = mysqli_fetch_array($query);
+                    $numberOfWins = $result['number_of_wins'];
+
+                    echo $numberOfWins;
+                  ?>
+
+                  </p>
+                </div>
+                <div class="element-group col-sm-12 col-lg-4" id="eventBtn">
+                  <button class="success-button justify-self-end event-done-btn<?php echo $row['event_id'];?>" id="eventDoneBtn<?php echo $row['event_id'];?>">Mark as Done</button>
+                  <div class="button-container more-btn<?php echo $row[0];?>" id="more-btn">
+                    <a href="EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>">
+                      <button class="primary-button justify-self-end" id="event-edit-btn<?php echo $row['event_id'];?>"><i class='bx bx-edit-alt'></i>Edit Event</button>
+                    </a>
+                    <button class="danger-button icon-button" id="event-delete-btn" onclick="showDelete<?php echo $row[0];?>()"><i class='bx bx-trash'></i></button>
+                  </div>
+
+                  <script>
+                    //Enable Button on Date
+                    var markAsDoneButton = document.querySelector('button.event-done-btn<?php echo $row['event_id'];?>');
+                    var editEventButton = document.querySelector('button#event-edit-btn<?php echo $row['event_id'];?>');
+
+                    var targetDateTime = new Date('<?php echo $row['event_date'] . ' ' . $row['event_time']; ?>');
+
+                    var currentDateTime = new Date();
+
+                    if (currentDateTime > targetDateTime) {
+                      markAsDoneButton.disabled = false;
+                      editEventButton.disabled = true;
+                    }
+                    else {
+                      markAsDoneButton.disabled = true;
+                      editEventButton.disabled = false;
+                    }
+
+
+                    const moreBtn<?php echo $row[0];?> = document.querySelector(".more-btn<?php echo $row[0];?>");
+                    const doneBtn<?php echo $row[0];?> = document.querySelector(".event-done-btn<?php echo $row[0];?>");
+
+                    if (typeof(Storage) !== "undefined") {
+                        // If we need to open the bar
+                        if(localStorage.getItem("editEvent") == "active"){
+                          moreBtn<?php echo $row[0];?>.classList.add("editOpen");
+                          doneBtn<?php echo $row[0];?>.classList.add("doneClose");
+                          document.querySelector("#edit-event-btn").classList.add("editOpen");
+                        }
+                        else if (localStorage.getItem("editEvent") == "notActive"){
+                          moreBtn<?php echo $row[0];?>.classList.remove("editOpen");
+                          doneBtn<?php echo $row[0];?>.classList.remove("doneClose"); 
+                          document.querySelector("#edit-event-btn").classList.remove("editOpen");
+                        }
+                    }
+                  </script>
+                </div>
+              </div>
+            </div>
+        
+
+        <?php
+                }
+                else if ($row['event_type_id'] == 3) {
+        ?>
+        <div class="element">
+              <div class="row">
+              <div class="element-group col-sm-6 col-lg-3">
+                  <p class="element-label">Event Type</p>
+                  <p class="element-content"><?php echo $row['event_type'];?></p>
+                </div>
+                <div class="element-group col-sm-6 col-lg-6">
+                  <p class="element-label">Event</p>
+                  <p class="element-content"><?php echo $row['event_name'];?></p>
+                </div>
+                <div class="element-group col-sm-6 col-lg-3">
+                  <p class="element-label">Date & Time</p>
+                  <p class="element-content"><?php 
+                  $date_sql = "SELECT DATE_FORMAT('$row[event_date]', '%M %d, %Y') AS formattedDate FROM ongoing_list_of_event;";
+                  $date_result = mysqli_query($conn, $date_sql);
+                  $get_date_result = mysqli_fetch_assoc($date_result);
+                  $date = $get_date_result['formattedDate'];
+
+                  $time_sql = "SELECT TIME_FORMAT('$row[event_time]', '%h:%i %p') AS formattedTime FROM ongoing_list_of_event;";
+                  $time_result = mysqli_query($conn, $time_sql);
+                  $get_time_result = mysqli_fetch_assoc($time_result);
+                  $time = $get_time_result['formattedTime'];
+                  echo $date;?>; <?php echo $time;?></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="element-group col-sm-12 col-lg-8">
+                  <p class="element-label">Event Desciption</p>
+                  <p class="element-content"><?php echo $row['event_description'];?></p>
+                </div>
+                <div class="element-group col-sm-12 col-lg-4" id="eventBtn">
+                  <button class="success-button justify-self-end event-done-btn<?php echo $row['event_id'];?>" id="eventDoneBtn<?php echo $row['event_id'];?>">Mark as Done</button>
+                  <div class="button-container more-btn<?php echo $row[0];?>" id="more-btn">
+                    <a href="EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>">
+                      <button class="primary-button justify-self-end" id="event-edit-btn<?php echo $row['event_id'];?>"><i class='bx bx-edit-alt'></i>Edit Event</button>
+                    </a>
+                    <button class="danger-button icon-button" id="event-delete-btn" onclick="showDelete<?php echo $row[0];?>()"><i class='bx bx-trash'></i></button>
+                  </div>
+
+                  <script>
+                    //Enable Button on Date
+                    var markAsDoneButton = document.querySelector('button.event-done-btn<?php echo $row['event_id'];?>');
+                    var editEventButton = document.querySelector('button#event-edit-btn<?php echo $row['event_id'];?>');
+
+                    var targetDateTime = new Date('<?php echo $row['event_date'] . ' ' . $row['event_time']; ?>');
+
+                    var currentDateTime = new Date();
+
+                    if (currentDateTime > targetDateTime) {
+                      markAsDoneButton.disabled = false;
+                      editEventButton.disabled = true;
+                    }
+                    else {
+                      markAsDoneButton.disabled = true;
+                      editEventButton.disabled = false;
+                    }
+
+
+                    const moreBtn<?php echo $row[0];?> = document.querySelector(".more-btn<?php echo $row[0];?>");
+                    const doneBtn<?php echo $row[0];?> = document.querySelector(".event-done-btn<?php echo $row[0];?>");
+
+                    if (typeof(Storage) !== "undefined") {
+                        // If we need to open the bar
+                        if(localStorage.getItem("editEvent") == "active"){
+                          moreBtn<?php echo $row[0];?>.classList.add("editOpen");
+                          doneBtn<?php echo $row[0];?>.classList.add("doneClose");
+                          document.querySelector("#edit-event-btn").classList.add("editOpen");
+                        }
+                        else if (localStorage.getItem("editEvent") == "notActive"){
+                          moreBtn<?php echo $row[0];?>.classList.remove("editOpen");
+                          doneBtn<?php echo $row[0];?>.classList.remove("doneClose"); 
+                          document.querySelector("#edit-event-btn").classList.remove("editOpen");
+                        }
+                    }
+                  </script>
+                </div>
+              </div>
+            </div>        
+        <?php
+          }
           endwhile; 
           }
           else{
