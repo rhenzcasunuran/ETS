@@ -30,7 +30,6 @@ html{
 #event-wrapper{
     height: 100%;
     padding: 0;
-    padding-bottom: 100px;
 }
 
 #event-create-wrapper, #event-edit-wrapper{
