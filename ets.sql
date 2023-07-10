@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 06, 2023 at 06:43 AM
+-- Generation Time: Jul 10, 2023 at 12:21 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -68,8 +68,9 @@ CREATE TABLE `category_name` (
 
 INSERT INTO `category_name` (`category_name_id`, `event_name_id`, `event_type_id`, `category_name`) VALUES
 (4, 1, 1, 'Chess'),
-(6, 1, 2, 'Basta Another'),
-(7, 1, 2, 'AAAAA');
+(12, 1, 2, 'xcvxcvcx'),
+(19, 1, 2, 'asdasdasdsa'),
+(20, 1, 2, 'asdasdasdas');
 
 -- --------------------------------------------------------
 
@@ -90,7 +91,10 @@ CREATE TABLE `competition` (
 --
 
 INSERT INTO `competition` (`competition_id`, `event_id`, `schedule`, `schedule_end`, `is_archived`) VALUES
-(5, 12, NULL, NULL, 0);
+(31, 30, NULL, NULL, 0),
+(32, 33, NULL, NULL, 0),
+(33, 34, NULL, NULL, 0),
+(34, 35, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -110,8 +114,9 @@ CREATE TABLE `criterion` (
 --
 
 INSERT INTO `criterion` (`criterion_id`, `category_name_id`, `criterion_name`, `criterion_percent`) VALUES
-(7, 6, 'Criterion A', 100),
-(8, 7, 'JAJAJAJA', 100);
+(14, 12, 'zxczx', 100),
+(22, 19, 'asdasda', 100),
+(23, 20, 'asdasdas', 100);
 
 -- --------------------------------------------------------
 
@@ -143,7 +148,8 @@ CREATE TABLE `event_name` (
 --
 
 INSERT INTO `event_name` (`event_name_id`, `event_name`) VALUES
-(1, 'Buwan ng Wika');
+(1, 'Buwan ng Wika'),
+(2, 'Sample');
 
 -- --------------------------------------------------------
 
@@ -249,7 +255,83 @@ INSERT INTO `logs` (`log_id`, `log_date`, `log_time`, `admin_id`, `activity_desc
 (28, '2023-06-28', '23:59:52', 1, 'Added in Events'),
 (29, '2023-06-29', '00:00:09', 1, 'Edited in Events'),
 (30, '2023-06-29', '00:05:28', 1, 'Added in Events'),
-(31, '2023-06-29', '00:05:44', 1, 'Edited in Events');
+(31, '2023-06-29', '00:05:44', 1, 'Edited in Events'),
+(32, '2023-07-10', '10:24:28', 1, 'Added in Events'),
+(33, '2023-07-10', '10:27:00', 1, 'Added in Events'),
+(34, '2023-07-10', '11:01:06', 1, 'Added in Events'),
+(35, '2023-07-10', '12:56:02', 1, 'Added in Events'),
+(36, '2023-07-10', '13:18:24', 1, 'Added in Events'),
+(37, '2023-07-10', '13:38:03', 1, 'Edited in Events'),
+(38, '2023-07-10', '13:39:15', 1, 'Edited in Events'),
+(39, '2023-07-10', '13:52:23', 1, 'Edited in Events'),
+(40, '2023-07-10', '13:52:26', 1, 'Edited in Events'),
+(41, '2023-07-10', '13:52:34', 1, 'Edited in Events'),
+(42, '2023-07-10', '13:53:28', 1, 'Edited in Events'),
+(43, '2023-07-10', '13:53:39', 1, 'Edited in Events'),
+(44, '2023-07-10', '13:55:45', 1, 'Edited in Events'),
+(45, '2023-07-10', '14:01:20', 1, 'Edited in Events'),
+(46, '2023-07-10', '14:30:20', 1, 'Edited in Events'),
+(47, '2023-07-10', '14:31:07', 1, 'Edited in Events'),
+(48, '2023-07-10', '14:32:43', 1, 'Edited in Events'),
+(49, '2023-07-10', '14:34:05', 1, 'Edited in Events'),
+(50, '2023-07-10', '14:35:03', 1, 'Edited in Events'),
+(51, '2023-07-10', '14:36:31', 1, 'Edited in Events'),
+(52, '2023-07-10', '14:36:31', 1, 'Edited in Events'),
+(53, '2023-07-10', '14:50:14', 1, 'Edited in Events'),
+(54, '2023-07-10', '14:50:20', 1, 'Edited in Events'),
+(55, '2023-07-10', '14:50:27', 1, 'Edited in Events'),
+(56, '2023-07-10', '14:50:36', 1, 'Edited in Events'),
+(57, '2023-07-10', '14:51:05', 1, 'Edited in Events'),
+(58, '2023-07-10', '14:56:49', 1, 'Edited in Events'),
+(59, '2023-07-10', '14:56:49', 1, 'Edited in Events'),
+(60, '2023-07-10', '14:58:34', 1, 'Edited in Events'),
+(61, '2023-07-10', '15:00:10', 1, 'Edited in Events'),
+(62, '2023-07-10', '15:01:22', 1, 'Edited in Events'),
+(63, '2023-07-10', '15:01:42', 1, 'Edited in Events'),
+(64, '2023-07-10', '15:02:39', 1, 'Edited in Events'),
+(65, '2023-07-10', '15:03:00', 1, 'Edited in Events'),
+(66, '2023-07-10', '15:03:00', 1, 'Edited in Events'),
+(67, '2023-07-10', '15:09:38', 1, 'Edited in Events'),
+(68, '2023-07-10', '15:10:34', 1, 'Edited in Events'),
+(69, '2023-07-10', '15:10:34', 1, 'Edited in Events'),
+(70, '2023-07-10', '15:12:03', 1, 'Edited in Events'),
+(71, '2023-07-10', '15:13:08', 1, 'Edited in Events'),
+(72, '2023-07-10', '15:13:08', 1, 'Edited in Events'),
+(73, '2023-07-10', '15:13:50', 1, 'Edited in Events'),
+(74, '2023-07-10', '15:14:01', 1, 'Edited in Events'),
+(75, '2023-07-10', '16:01:57', 1, 'Added in Events'),
+(76, '2023-07-10', '16:04:58', 1, 'Added in Events'),
+(77, '2023-07-10', '16:05:38', 1, 'Added in Events'),
+(78, '2023-07-10', '16:11:55', 1, 'Added in Events'),
+(79, '2023-07-10', '16:12:42', 1, 'Added in Events'),
+(80, '2023-07-10', '16:13:19', 1, 'Added in Events'),
+(81, '2023-07-10', '16:13:42', 1, 'Added in Events'),
+(82, '2023-07-10', '16:15:45', 1, 'Added in Events'),
+(83, '2023-07-10', '16:16:09', 1, 'Added in Events'),
+(84, '2023-07-10', '16:18:34', 1, 'Added in Events'),
+(85, '2023-07-10', '16:19:19', 1, 'Added in Events'),
+(86, '2023-07-10', '16:22:46', 1, 'Added in Events'),
+(87, '2023-07-10', '16:23:13', 1, 'Added in Events'),
+(88, '2023-07-10', '16:23:55', 1, 'Added in Events'),
+(89, '2023-07-10', '16:24:01', 1, 'Added in Events'),
+(90, '2023-07-10', '16:24:24', 1, 'Added in Events'),
+(91, '2023-07-10', '16:55:26', 1, 'Added in Events'),
+(92, '2023-07-10', '16:55:55', 1, 'Added in Events'),
+(93, '2023-07-10', '16:58:22', 1, 'Edited in Events'),
+(94, '2023-07-10', '16:58:22', 1, 'Edited in Events'),
+(95, '2023-07-10', '16:59:59', 1, 'Edited in Events'),
+(96, '2023-07-10', '16:59:59', 1, 'Edited in Events'),
+(97, '2023-07-10', '17:01:06', 1, 'Edited in Events'),
+(98, '2023-07-10', '17:01:06', 1, 'Edited in Events'),
+(99, '2023-07-10', '17:11:47', 1, 'Added in Events'),
+(100, '2023-07-10', '17:59:49', 1, 'Added in Events'),
+(101, '2023-07-10', '18:01:45', 1, 'Added in Events'),
+(102, '2023-07-10', '18:01:58', 1, 'Edited in Events'),
+(103, '2023-07-10', '18:06:54', 1, 'Added in Events'),
+(104, '2023-07-10', '18:08:09', 1, 'Added in Events'),
+(105, '2023-07-10', '18:08:31', 1, 'Added in Events'),
+(106, '2023-07-10', '18:12:15', 1, 'Added in Events'),
+(107, '2023-07-10', '18:13:55', 1, 'Added in Events');
 
 -- --------------------------------------------------------
 
@@ -259,23 +341,24 @@ INSERT INTO `logs` (`log_id`, `log_date`, `log_time`, `admin_id`, `activity_desc
 
 CREATE TABLE `number_of_wins` (
   `number_of_wins_id` int(11) NOT NULL,
-  `number_of_wins` varchar(20) NOT NULL
+  `number_of_wins` varchar(20) NOT NULL,
+  `number_of_wins_number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `number_of_wins`
 --
 
-INSERT INTO `number_of_wins` (`number_of_wins_id`, `number_of_wins`) VALUES
-(1, 'Best of One (1)'),
-(2, 'Best of Two (2)'),
-(3, 'Best of Three (3)'),
-(4, 'Best of Four (4)'),
-(5, 'Best of Five (5)'),
-(6, 'Best of Six (6)'),
-(7, 'Best of Seven (7)'),
-(8, 'Best of Eight (8)'),
-(9, 'Best of Nine (9)');
+INSERT INTO `number_of_wins` (`number_of_wins_id`, `number_of_wins`, `number_of_wins_number`) VALUES
+(1, 'Best of One (1)', 1),
+(2, 'Best of Two (2)', 2),
+(3, 'Best of Three (3)', 3),
+(4, 'Best of Four (4)', 4),
+(5, 'Best of Five (5)', 5),
+(6, 'Best of Six (6)', 6),
+(7, 'Best of Seven (7)', 7),
+(8, 'Best of Eight (8)', 8),
+(9, 'Best of Nine (9)', 9);
 
 -- --------------------------------------------------------
 
@@ -297,7 +380,10 @@ CREATE TABLE `ongoing_criterion` (
 --
 
 INSERT INTO `ongoing_criterion` (`ongoing_criterion_id`, `criterion_id`, `category_name_id`, `event_id`, `criterion_name`, `criterion_percent`) VALUES
-(32, 8, 7, 12, 'JAJAJAJA', 100);
+(67, 14, 12, 30, 'zxczx', 100),
+(68, 14, 12, 33, 'zxczx', 100),
+(69, 22, 19, 34, 'asdasda', 100),
+(70, 23, 20, 35, 'asdasdas', 100);
 
 -- --------------------------------------------------------
 
@@ -306,6 +392,7 @@ INSERT INTO `ongoing_criterion` (`ongoing_criterion_id`, `criterion_id`, `catego
 --
 
 CREATE TABLE `ongoing_event_name` (
+  `ongoing_event_name_id` int(11) NOT NULL,
   `event_name_id` int(11) NOT NULL,
   `event_name` varchar(25) NOT NULL,
   `is_done` tinyint(1) NOT NULL DEFAULT 0
@@ -315,8 +402,9 @@ CREATE TABLE `ongoing_event_name` (
 -- Dumping data for table `ongoing_event_name`
 --
 
-INSERT INTO `ongoing_event_name` (`event_name_id`, `event_name`, `is_done`) VALUES
-(1, 'Buwan ng Wika', 0);
+INSERT INTO `ongoing_event_name` (`ongoing_event_name_id`, `event_name_id`, `event_name`, `is_done`) VALUES
+(15, 1, 'Buwan ng Wika', 1),
+(16, 1, 'Buwan ng Wika', 1);
 
 -- --------------------------------------------------------
 
@@ -326,6 +414,7 @@ INSERT INTO `ongoing_event_name` (`event_name_id`, `event_name`, `is_done`) VALU
 
 CREATE TABLE `ongoing_list_of_event` (
   `event_id` int(11) NOT NULL,
+  `ongoing_event_name_id` int(11) NOT NULL,
   `category_name_id` int(11) DEFAULT NULL,
   `event_name_id` int(11) NOT NULL,
   `event_type_id` int(11) NOT NULL,
@@ -343,9 +432,12 @@ CREATE TABLE `ongoing_list_of_event` (
 -- Dumping data for table `ongoing_list_of_event`
 --
 
-INSERT INTO `ongoing_list_of_event` (`event_id`, `category_name_id`, `event_name_id`, `event_type_id`, `category_name`, `event_description`, `event_code`, `event_date`, `event_time`, `is_archived`, `suggested_status`, `overall_include`) VALUES
-(6, 4, 1, 1, 'Chess', 'HAHAHAHAHAHA', 'THzhs633C8QS', '2023-06-28', '01:41:00', 1, 0, 0),
-(12, 7, 1, 2, 'AAAAA', 'AAAAAB', 'KYCYEmCN0hck', '2023-06-30', '16:10:00', 1, 0, 0);
+INSERT INTO `ongoing_list_of_event` (`event_id`, `ongoing_event_name_id`, `category_name_id`, `event_name_id`, `event_type_id`, `category_name`, `event_description`, `event_code`, `event_date`, `event_time`, `is_archived`, `suggested_status`, `overall_include`) VALUES
+(30, 15, 12, 1, 2, 'xcvxcvcx', 'ASDDD', 'PY05hjSEqMZV', '2023-07-10', '05:59:00', 1, 0, 0),
+(32, 16, 4, 1, 1, 'Chess', 'asdsadsad', 'sJC3vUIYN0os', '2023-07-10', '09:00:00', 1, 0, 0),
+(33, 16, 12, 1, 2, 'xcvxcvcx', 'asdasdsad', '1B03FqynWsY4', '2023-07-10', '18:06:00', 1, 0, 0),
+(34, 16, 19, 1, 2, 'asdasdasdsa', 'asdasdsa', 'GsQhN7Ym6FgE', '2023-07-10', '18:08:00', 1, 0, 0),
+(35, 16, 20, 1, 2, 'asdasdasdas', 'twetqera', 'uEFvc1NLhdGf', '2023-07-10', '18:12:00', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -447,7 +539,7 @@ CREATE TABLE `tournament` (
 --
 
 INSERT INTO `tournament` (`tournament_id`, `event_id`, `number_of_wins_id`) VALUES
-(2, 6, 1);
+(7, 32, 2);
 
 -- --------------------------------------------------------
 
@@ -487,6 +579,20 @@ CREATE TABLE `tou_team_stat` (
   `winning` tinyint(1) NOT NULL,
   `losing` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tou_team_stat`
+--
+
+INSERT INTO `tou_team_stat` (`team_id`, `tournament_id`, `organization_id`, `winning`, `losing`) VALUES
+(25, 7, 1, 0, 0),
+(26, 7, 2, 0, 0),
+(27, 7, 3, 0, 0),
+(28, 7, 4, 0, 0),
+(29, 7, 5, 0, 0),
+(30, 7, 6, 0, 0),
+(31, 7, 7, 0, 0),
+(32, 7, 8, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -532,6 +638,20 @@ ALTER TABLE `category_name`
 --
 ALTER TABLE `competition`
   ADD PRIMARY KEY (`competition_id`),
+  ADD UNIQUE KEY `event_id_2` (`event_id`),
+  ADD UNIQUE KEY `event_id_3` (`event_id`),
+  ADD UNIQUE KEY `event_id_4` (`event_id`),
+  ADD UNIQUE KEY `event_id_5` (`event_id`),
+  ADD UNIQUE KEY `event_id_6` (`event_id`),
+  ADD UNIQUE KEY `event_id_7` (`event_id`),
+  ADD UNIQUE KEY `event_id_8` (`event_id`),
+  ADD UNIQUE KEY `event_id_9` (`event_id`),
+  ADD UNIQUE KEY `event_id_10` (`event_id`),
+  ADD UNIQUE KEY `event_id_11` (`event_id`),
+  ADD UNIQUE KEY `event_id_12` (`event_id`),
+  ADD UNIQUE KEY `event_id_13` (`event_id`),
+  ADD UNIQUE KEY `event_id_14` (`event_id`),
+  ADD UNIQUE KEY `event_id_15` (`event_id`),
   ADD KEY `event_id` (`event_id`);
 
 --
@@ -599,7 +719,7 @@ ALTER TABLE `ongoing_criterion`
 -- Indexes for table `ongoing_event_name`
 --
 ALTER TABLE `ongoing_event_name`
-  ADD PRIMARY KEY (`event_name_id`);
+  ADD PRIMARY KEY (`ongoing_event_name_id`);
 
 --
 -- Indexes for table `ongoing_list_of_event`
@@ -607,7 +727,7 @@ ALTER TABLE `ongoing_event_name`
 ALTER TABLE `ongoing_list_of_event`
   ADD PRIMARY KEY (`event_id`),
   ADD KEY `event_type_id` (`event_type_id`),
-  ADD KEY `event_name_id` (`event_name_id`);
+  ADD KEY `ongoing_event_name_id` (`ongoing_event_name_id`);
 
 --
 -- Indexes for table `organization`
@@ -688,19 +808,19 @@ ALTER TABLE `bar_graph`
 -- AUTO_INCREMENT for table `category_name`
 --
 ALTER TABLE `category_name`
-  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `competition`
 --
 ALTER TABLE `competition`
-  MODIFY `competition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `competition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `criterion`
 --
 ALTER TABLE `criterion`
-  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `criterion_scoring`
@@ -712,7 +832,7 @@ ALTER TABLE `criterion_scoring`
 -- AUTO_INCREMENT for table `event_name`
 --
 ALTER TABLE `event_name`
-  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `event_type`
@@ -736,7 +856,7 @@ ALTER TABLE `judges`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `number_of_wins`
@@ -748,19 +868,19 @@ ALTER TABLE `number_of_wins`
 -- AUTO_INCREMENT for table `ongoing_criterion`
 --
 ALTER TABLE `ongoing_criterion`
-  MODIFY `ongoing_criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `ongoing_criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `ongoing_event_name`
 --
 ALTER TABLE `ongoing_event_name`
-  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ongoing_event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `ongoing_list_of_event`
 --
 ALTER TABLE `ongoing_list_of_event`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `organization`
@@ -790,7 +910,7 @@ ALTER TABLE `post`
 -- AUTO_INCREMENT for table `tournament`
 --
 ALTER TABLE `tournament`
-  MODIFY `tournament_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `tournament_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tou_team`
@@ -802,7 +922,7 @@ ALTER TABLE `tou_team`
 -- AUTO_INCREMENT for table `tou_team_stat`
 --
 ALTER TABLE `tou_team_stat`
-  MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -870,7 +990,7 @@ ALTER TABLE `ongoing_criterion`
 --
 ALTER TABLE `ongoing_list_of_event`
   ADD CONSTRAINT `ongoing_list_of_event_ibfk_1` FOREIGN KEY (`event_type_id`) REFERENCES `event_type` (`event_type_id`),
-  ADD CONSTRAINT `ongoing_list_of_event_ibfk_2` FOREIGN KEY (`event_name_id`) REFERENCES `ongoing_event_name` (`event_name_id`);
+  ADD CONSTRAINT `ongoing_list_of_event_ibfk_2` FOREIGN KEY (`ongoing_event_name_id`) REFERENCES `ongoing_event_name` (`ongoing_event_name_id`);
 
 --
 -- Constraints for table `participants`
