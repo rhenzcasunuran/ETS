@@ -13,7 +13,7 @@ if ($conn) {
         $_SESSION['message'] = "You are now Logged In";
         $_SESSION['user_username'] = $username;
         $_SESSION['admin_id'] = $row['admin_id']; // Fetches the 'id' column value from the row
-        header("location: HOM-create-post.php");
+        header("location: HOM-manage-post.php");
       } else {
         echo '<script>alert("Username or Password combination are incorrect")</script>';
       }
