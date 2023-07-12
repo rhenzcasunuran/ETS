@@ -8,10 +8,36 @@
 $rowId = 5; // Update this with the actual row identifier column name
 
 // Retrieve the existing value for Team A from the database
-$sql = "SELECT scoring_team_a FROM scores WHERE score_id = '$rowId'"; // Replace "id_column_name" with the actual column name for row identifiers
+$sql = "SELECT team_score FROM tou_team WHERE team_score_id = '$rowId'"; // Replace "id_column_name" with the actual column name for row identifiers
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
-$existingValueA = $row['scoring_team_a'];
+$existingValueA = $row['team_score'];
+
+$sql = "SELECT 
+            tou_bracket.team1_id, 
+            CONCAT(org1.organization_name, ' vs ', org2.organization_name) AS concatenated_organizations,
+            tou_bracket.team2_id
+        FROM 
+            tou_bracket
+        INNER JOIN 
+            tou_team_stat AS ts1 ON tou_bracket.team1_id = ts1.team_id
+        INNER JOIN 
+            organization AS org1 ON ts1.organization_id = org1.organization_id
+        INNER JOIN 
+            tou_team_stat AS ts2 ON tou_bracket.team2_id = ts2.team_id
+        INNER JOIN 
+            organization AS org2 ON ts2.organization_id = org2.organization_id";
+
+$result = $conn->query($sql);
+// Array to store the concatenated results
+$concatenatedResults = array();
+
+if ($result->num_rows > 0) {
+    // Fetch each row and store the concatenated result in the array
+    while ($row = $result->fetch_assoc()) {
+        $concatenatedResults[] = $row["concatenated_organizations"];
+    }
+}
 
 // Process the form submission for Team A
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -25,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update the value in the database
-    $sql = "UPDATE scores SET scoring_team_a = $newValueA WHERE score_id = $rowId";
+    $sql = "UPDATE team_score SET team_id = $newValueA WHERE team_score_id = $rowId";
     if ($conn->query($sql) === TRUE) {
       // Update the existing value for Team A
       $existingValueA = $newValueA;
@@ -36,10 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Retrieve the existing value for Team B from the database
-$sql = "SELECT scoring_team_b FROM scores WHERE score_id = $rowId";
+$sql = "SELECT team_score FROM tou_team WHERE team_score_id = $rowId";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
-$existingValueB = $row['scoring_team_b'];
+$existingValueB = $row['team_score'];
 
 // Process the form submission for Team B
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -53,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update the value in the database
-    $sql = "UPDATE scores SET scoring_team_b = $newValueB WHERE score_id = $rowId";
+    $sql = "UPDATE team_score SET team_id = $newValueA WHERE team_score_id = $rowId";
     if ($conn->query($sql) === TRUE) {
       // Update the existing value for Team B
       $existingValueB = $newValueB;
@@ -63,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
   // Query to retrieve data from the database
-  $sql = "SELECT bracket_id, bracket_sports FROM bracket";
+  $sql = "SELECT category_name FROM dropdown_options";
   $result = $conn->query($sql);
 
 

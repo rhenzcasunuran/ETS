@@ -10,20 +10,18 @@
   @include './php/TOU-scoring.php';
 
   // Fetch option values from MySQL
-  $sql = "SELECT organization.organization_name, tou_team_stat.winning, tou_team_stat.team_id
-  FROM organization
-  INNER JOIN tou_team_stat ON organization.organization_id = tou_team_stat.organization_id WHERE tournament_id = 8";
+  $sql = "SELECT organization_name, organization_id FROM organization";
   $result = $conn->query($sql);
 
   // Store options and default values in arrays
 $options = [];
 $defaultValues = [];
 
-if ($result->num_rows > 0) { // Exclude the first row
- // Move the pointer to the second row
+if ($result->num_rows > 1) { // Exclude the first row
+    $result->data_seek(1); // Move the pointer to the second row
     while ($row = $result->fetch_assoc()) {
         $options[] = $row["organization_name"];
-        $defaultValues[] = $row["winning"];
+        $defaultValues[] = $row["organization_id"];
     }
 }
 
@@ -225,7 +223,7 @@ $sports = [];
             echo '<br>';
         }
     }
-?></form></div>
+?></div>
 <div class = "semi-finals">
     <form id="myForm" method="post" action="./php/update_mysql.php">
     <?php

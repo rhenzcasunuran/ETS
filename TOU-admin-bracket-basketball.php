@@ -15,15 +15,20 @@
   INNER JOIN tou_team_stat ON organization.organization_id = tou_team_stat.organization_id WHERE tournament_id = 8";
   $result = $conn->query($sql);
 
+  
+
   // Store options and default values in arrays
 $options = [];
 $defaultValues = [];
+$idValues = [];
 
-if ($result->num_rows > 0) { // Exclude the first row
+
+if ($result->num_rows) { // Exclude the first row
  // Move the pointer to the second row
     while ($row = $result->fetch_assoc()) {
         $options[] = $row["organization_name"];
         $defaultValues[] = $row["winning"];
+        $idValues[] = $row["team_id"];
     }
 }
 
@@ -35,11 +40,38 @@ $result = $conn->query($sql);
 $sports = [];
 
 
+
+
   // Close the database connection
   $conn->close();
 ?>
 
 <script>
+
+// JavaScript code (using jQuery)
+function updateSelectedValue(dropdown) {
+  var selectedIndex = dropdown.selectedIndex;
+  var selectedOption = dropdown.options[selectedIndex];
+  var selectedValue = selectedOption.value;
+
+  // AJAX request to fetch the ID
+  $.ajax({
+    url: 'get_id.php',
+    type: 'POST',
+    data: { selectedValue: selectedValue },
+    success: function(response) {
+      // Update the hidden input field with the fetched ID
+      var dropdownID = $(dropdown).data('index');
+      $('#dropdownID_' + dropdownID).val(response);
+      
+      // Display the ID in a separate element
+      $('#dropdownID_' + dropdownID + '_display').text(response);
+    },
+    error: function() {
+      // Handle error if needed
+    }
+  });
+}
         function disableOptions() {
             var dropdowns = document.querySelectorAll('select');
 
@@ -83,6 +115,9 @@ $sports = [];
             var lockButton = document.getElementById('lockButton');
             lockButton.setAttribute('disabled', 'disabled');
         }
+
+        // JavaScript code (using jQuery)
+
     </script>
 <!DOCTYPE html>
 <html lang="en">
@@ -191,6 +226,9 @@ $sports = [];
     ?>
   </select>
 </div>
+<div>
+  BASKETBALL
+  </div>
 
         
 
@@ -198,34 +236,39 @@ $sports = [];
 
     <div class="Container"> <!--part 1: Branch 1 going to contain everything 1x of this-->
     <div class="quarter-finals">
-    <form id="myForm" method="post" action="./php/update_mysql.php">
+    <form action="./php/process_form.php" method="POST">
     <?php
     // Display multiple dropdowns
     for ($i = 1; $i <= 8; $i++) {
         echo '<div class="dropdown-container">';
-        echo '<select name="dropdown"' . $i . '" onchange="updateSelectedValue(this)" data-index="' . ($i - 1) . '" class="custom-dropdown">';
-
+        echo '<select name="dropdown' . $i . '" onchange="updateSelectedValue(this)" data-index="' . ($i - 1) . '" class="custom-dropdown">';
+        
         // Add default option
         echo '<option value="">Select team</option>';
-
-        // Add options from the array
-        foreach ($options as $option) {
-            echo '<option value="' . $option . '">' . $option . '</option>';
+        
+        // Add options from the fetched values
+        for ($j = 0; $j < count($options); $j++) {
+            echo '<option value="' . $idValues[$j] . '">' . $options[$j] . '</option>';
         }
-
+        
         echo '</select>';
-
+        
         // Add input field
         echo '<input type="text" class="wins" id="inputField' . $i . '" name="inputField' . $i . '" value="' . $defaultValues[$i - 1] . '">';
-
+        
+        // Add hidden input field for ID
+        echo '<input type="hidden" id="dropdownID_' . ($i - 1) . '" name="dropdown' . $i . '_id" value="">';
+        
         echo '</div>';
-
+        
         if ($i % 2 == 0) {
             // Add a line break or any other separator for even-numbered dropdowns
             echo '<br>';
         }
     }
-?></form></div>
+    ?>
+    <input type="submit" value="Submit">
+</form> </div>
 <div class = "semi-finals">
     <form id="myForm" method="post" action="./php/update_mysql.php">
     <?php
