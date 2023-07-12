@@ -61,17 +61,32 @@ CREATE TABLE `category_name` (
   `event_name_id` int(11) NOT NULL,
   `event_type_id` int(11) NOT NULL,
   `category_name` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `category_name`
 --
 
 INSERT INTO `category_name` (`category_name_id`, `event_name_id`, `event_type_id`, `category_name`) VALUES
-(4, 1, 1, 'Chess'),
-(12, 1, 2, 'xcvxcvcx'),
-(19, 1, 2, 'asdasdasdsa'),
-(20, 1, 2, 'asdasdasdas');
+(1, 1, 1, 'Basketball1'),
+(2, 1, 2, 'Essay Writing'),
+(3, 1, 2, 'Poster Making'),
+(4, 1, 2, 'Spoken Poetry'),
+(22, 2, 2, 'Tug o War');
+
+--
+-- Triggers `category_name`
+--
+DELIMITER $$
+CREATE TRIGGER `add_competition` AFTER INSERT ON `category_name` FOR EACH ROW BEGIN
+    -- Check if the inserted row has event_type_id equal to '2'
+    IF NEW.`event_type_id` = 2 THEN
+        -- Insert a new row into `competitions_table` using the inserted `category_name_id`
+        INSERT INTO `competition` (`category_name_id`) VALUES (NEW.`category_name_id`);
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -81,21 +96,21 @@ INSERT INTO `category_name` (`category_name_id`, `event_name_id`, `event_type_id
 
 CREATE TABLE `competition` (
   `competition_id` int(11) NOT NULL,
-  `event_id` int(11) NOT NULL,
+  `category_name_id` int(11) NOT NULL,
   `schedule` datetime DEFAULT NULL,
   `schedule_end` datetime DEFAULT NULL,
   `is_archived` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `competition`
 --
 
-INSERT INTO `competition` (`competition_id`, `event_id`, `schedule`, `schedule_end`, `is_archived`) VALUES
-(31, 30, NULL, NULL, 0),
-(32, 33, NULL, NULL, 0),
-(33, 34, NULL, NULL, 0),
-(34, 35, NULL, NULL, 0);
+INSERT INTO `competition` (`competition_id`, `category_name_id`, `schedule`, `schedule_end`, `is_archived`) VALUES
+(1, 2, '2023-07-11 17:00:00', '2023-07-13 01:00:00', 0),
+(2, 3, '2023-07-11 17:00:00', '2023-07-13 01:00:00', 0),
+(3, 4, NULL, NULL, 1),
+(38, 22, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -108,16 +123,22 @@ CREATE TABLE `criterion` (
   `category_name_id` int(11) NOT NULL,
   `criterion_name` varchar(50) NOT NULL,
   `criterion_percent` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `criterion`
 --
 
 INSERT INTO `criterion` (`criterion_id`, `category_name_id`, `criterion_name`, `criterion_percent`) VALUES
-(14, 12, 'zxczx', 100),
-(22, 19, 'asdasda', 100),
-(23, 20, 'asdasdas', 100);
+(1, 2, 'Creativity', 50),
+(2, 2, 'Originality', 25),
+(3, 2, 'Insight', 25),
+(4, 3, 'Artistry', 25),
+(5, 3, 'Colors', 25),
+(6, 3, 'Technique', 50),
+(7, 4, 'Delivery', 25),
+(8, 4, 'Emotion', 25),
+(9, 4, 'Content', 50);
 
 -- --------------------------------------------------------
 
@@ -128,10 +149,53 @@ INSERT INTO `criterion` (`criterion_id`, `category_name_id`, `criterion_name`, `
 CREATE TABLE `criterion_scoring` (
   `criterion_scoring_id` int(11) NOT NULL,
   `ongoing_criterion_id` int(11) NOT NULL,
+  `category_name_id` int(11) DEFAULT NULL,
   `participants_id` int(11) NOT NULL,
   `criterion_temp_score` decimal(3,2) DEFAULT NULL,
   `criterion_final_score` decimal(3,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `criterion_scoring`
+--
+
+INSERT INTO `criterion_scoring` (`criterion_scoring_id`, `ongoing_criterion_id`, `category_name_id`, `participants_id`, `criterion_temp_score`, `criterion_final_score`) VALUES
+(1, 1, 2, 1, 9.99, 9.99),
+(2, 2, 2, 1, 9.99, 9.99),
+(3, 3, 2, 1, 9.99, 9.99),
+(4, 1, 2, 2, 9.00, 9.00),
+(5, 2, 2, 2, 9.00, 9.00),
+(6, 3, 2, 2, 9.00, 9.00),
+(7, 1, 2, 3, 8.00, 8.00),
+(8, 2, 2, 3, 8.00, 8.00),
+(9, 3, 2, 3, 8.00, 8.00),
+(10, 1, 2, 4, 7.00, 7.00),
+(11, 2, 2, 4, 7.00, 7.00),
+(12, 3, 2, 4, 7.00, 7.00),
+(13, 4, 3, 5, 9.00, 9.00),
+(14, 5, 3, 5, 9.00, 9.00),
+(15, 6, 3, 5, 9.00, 9.00),
+(16, 4, 3, 6, 9.99, 9.99),
+(17, 5, 3, 6, 9.99, 9.99),
+(18, 6, 3, 6, 9.99, 9.99),
+(19, 4, 3, 7, 8.00, 8.00),
+(20, 5, 3, 7, 8.00, 8.00),
+(21, 6, 3, 7, 8.00, 8.00),
+(22, 4, 3, 8, 7.00, 7.00),
+(23, 5, 3, 8, 7.00, 7.00),
+(24, 6, 3, 8, 7.00, 0.00),
+(25, 7, 4, 9, 5.00, 5.00),
+(26, 8, 4, 9, 5.00, 5.00),
+(27, 9, 4, 9, 5.00, 5.00),
+(28, 7, 4, 10, 6.00, 6.00),
+(29, 8, 4, 10, 6.00, 6.00),
+(30, 9, 4, 10, 6.00, 6.00),
+(31, 7, 4, 11, 7.00, 7.00),
+(32, 8, 4, 11, 7.00, 7.00),
+(33, 9, 4, 11, 7.00, 7.00),
+(34, 7, 4, 12, 8.00, 8.00),
+(35, 8, 4, 12, 8.00, 8.00),
+(36, 9, 4, 12, 8.00, 8.00);
 
 -- --------------------------------------------------------
 
@@ -142,7 +206,7 @@ CREATE TABLE `criterion_scoring` (
 CREATE TABLE `event_name` (
   `event_name_id` int(11) NOT NULL,
   `event_name` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `event_name`
@@ -150,7 +214,8 @@ CREATE TABLE `event_name` (
 
 INSERT INTO `event_name` (`event_name_id`, `event_name`) VALUES
 (1, 'Buwan ng Wika'),
-(2, 'Sample');
+(2, 'Foundation');
+
 
 -- --------------------------------------------------------
 
@@ -374,17 +439,22 @@ CREATE TABLE `ongoing_criterion` (
   `event_id` int(11) NOT NULL,
   `criterion_name` varchar(50) NOT NULL,
   `criterion_percent` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ongoing_criterion`
 --
 
 INSERT INTO `ongoing_criterion` (`ongoing_criterion_id`, `criterion_id`, `category_name_id`, `event_id`, `criterion_name`, `criterion_percent`) VALUES
-(67, 14, 12, 30, 'zxczx', 100),
-(68, 14, 12, 33, 'zxczx', 100),
-(69, 22, 19, 34, 'asdasda', 100),
-(70, 23, 20, 35, 'asdasdas', 100);
+(1, 1, 2, 1, 'Creativity', 100),
+(2, 2, 2, 1, 'Originality', 100),
+(3, 3, 2, 1, 'Insight', 100),
+(4, 4, 3, 1, 'Artistry', 100),
+(5, 5, 3, 1, 'Colors', 100),
+(6, 6, 3, 1, 'Technique', 100),
+(7, 7, 4, 1, 'Delivery', 100),
+(8, 8, 4, 1, 'Emotion', 100),
+(9, 9, 4, 1, 'Content', 100);
 
 -- --------------------------------------------------------
 
@@ -434,6 +504,9 @@ CREATE TABLE `ongoing_list_of_event` (
 --
 
 INSERT INTO `ongoing_list_of_event` (`event_id`, `ongoing_event_name_id`, `category_name_id`, `event_name_id`, `event_type_id`, `category_name`, `event_description`, `event_code`, `event_date`, `event_time`, `is_archived`, `suggested_status`, `overall_include`) VALUES
+(1, 1, 2, 1, 1, 'Essay Writing', 'Nag susulat ng essay tungkol sa langaw na nakadapo sa tae na biglang lumipad papalapit sa sayo ng mabilisan.', NULL, '2023-07-11', '10:56:38', 0, 0, 0),
+(2, 1, 3, 2, 1, 'Poster Making', 'Idrawing ang kababalaghang nakita mo noong may narinig kang ungol sa loob ng stall sa CR ng SM.', NULL, '2023-07-11', '10:56:38', 0, 0, 0),
+(3, 1, 4, 3, 1, 'Spoken Poetry', 'Ikwento ang iyong natatagong pagtingin sa isang tao na pilit mong itinatanggi sa iyong sarili na wala kang nararamdam pero sa tagal mong niloloko ang sarili mo, may dumating na iba sa tabi nya at ang kaya mo nalang gawin ay tumawa.', NULL, '2023-07-11', '10:56:38', 0, 0, 0),
 (30, 15, 12, 1, 2, 'xcvxcvcx', 'ASDDD', 'PY05hjSEqMZV', '2023-07-10', '05:59:00', 1, 0, 0),
 (32, 16, 4, 1, 1, 'Chess', 'asdsadsad', 'sJC3vUIYN0os', '2023-07-10', '09:00:00', 1, 0, 0),
 (33, 16, 12, 1, 2, 'xcvxcvcx', 'asdasdsad', '1B03FqynWsY4', '2023-07-10', '18:06:00', 1, 0, 0),
@@ -478,7 +551,25 @@ CREATE TABLE `participants` (
   `organization_id` int(11) NOT NULL,
   `participant_name` varchar(50) NOT NULL,
   `participant_section` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `participants`
+--
+
+INSERT INTO `participants` (`participants_id`, `competition_id`, `organization_id`, `participant_name`, `participant_section`) VALUES
+(1, 1, 1, 'Robbie 1 Boco', 'BS 1'),
+(2, 1, 2, 'Robbie 2 Boco', 'BS 2'),
+(3, 1, 3, 'Robbie 3 Boco', 'BS 3'),
+(4, 1, 4, 'Robbie 4 Boco', 'BS 4'),
+(5, 2, 5, 'Robbie 5 Boco', 'BS 5'),
+(6, 2, 6, 'Robbie 6 Boco', 'BS 6'),
+(7, 2, 7, 'Robbie 7 Boco', 'BS 7'),
+(8, 2, 8, 'Robbie 8 Boco', 'BS 8'),
+(9, 3, 3, 'Robbie 9 Boco', 'BS 9'),
+(10, 3, 2, 'Robbie 10 Boco', 'BS 10'),
+(11, 3, 7, 'Robbie 11 Boco', 'BS 11'),
+(12, 3, 4, 'Robbie 12 Boco', 'BS 12');
 
 -- --------------------------------------------------------
 
@@ -683,21 +774,7 @@ ALTER TABLE `category_name`
 --
 ALTER TABLE `competition`
   ADD PRIMARY KEY (`competition_id`),
-  ADD UNIQUE KEY `event_id_2` (`event_id`),
-  ADD UNIQUE KEY `event_id_3` (`event_id`),
-  ADD UNIQUE KEY `event_id_4` (`event_id`),
-  ADD UNIQUE KEY `event_id_5` (`event_id`),
-  ADD UNIQUE KEY `event_id_6` (`event_id`),
-  ADD UNIQUE KEY `event_id_7` (`event_id`),
-  ADD UNIQUE KEY `event_id_8` (`event_id`),
-  ADD UNIQUE KEY `event_id_9` (`event_id`),
-  ADD UNIQUE KEY `event_id_10` (`event_id`),
-  ADD UNIQUE KEY `event_id_11` (`event_id`),
-  ADD UNIQUE KEY `event_id_12` (`event_id`),
-  ADD UNIQUE KEY `event_id_13` (`event_id`),
-  ADD UNIQUE KEY `event_id_14` (`event_id`),
-  ADD UNIQUE KEY `event_id_15` (`event_id`),
-  ADD KEY `event_id` (`event_id`);
+  ADD KEY `category_name_id` (`category_name_id`);
 
 --
 -- Indexes for table `criterion`
@@ -712,7 +789,8 @@ ALTER TABLE `criterion`
 ALTER TABLE `criterion_scoring`
   ADD PRIMARY KEY (`criterion_scoring_id`),
   ADD KEY `participants_id` (`participants_id`),
-  ADD KEY `ongoing_criterion_id` (`ongoing_criterion_id`);
+  ADD KEY `ongoing_criterion_id` (`ongoing_criterion_id`),
+  ADD KEY `category_name_id` (`category_name_id`);
 
 --
 -- Indexes for table `event_name`
@@ -758,7 +836,9 @@ ALTER TABLE `number_of_wins`
 --
 ALTER TABLE `ongoing_criterion`
   ADD PRIMARY KEY (`ongoing_criterion_id`),
-  ADD KEY `event_id` (`event_id`);
+  ADD KEY `event_id` (`event_id`),
+  ADD KEY `criterion_id` (`criterion_id`),
+  ADD KEY `category_name_id` (`category_name_id`);
 
 --
 -- Indexes for table `ongoing_event_name`
@@ -991,8 +1071,48 @@ ALTER TABLE `bar_graph`
 ALTER TABLE `category_name`
   ADD CONSTRAINT `category_name_ibfk_1` FOREIGN KEY (`event_name_id`) REFERENCES `event_name` (`event_name_id`),
   ADD CONSTRAINT `category_name_ibfk_2` FOREIGN KEY (`event_type_id`) REFERENCES `event_type` (`event_type_id`);
-COMMIT;
 
+--
+-- Constraints for table `competition`
+--
+ALTER TABLE `competition`
+  ADD CONSTRAINT `competition_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `category_name` (`category_name_id`);
+
+--
+-- Constraints for table `criterion`
+--
+ALTER TABLE `criterion`
+  ADD CONSTRAINT `criterion_ibfk_1` FOREIGN KEY (`category_name_id`) REFERENCES `category_name` (`category_name_id`);
+
+--
+-- Constraints for table `criterion_scoring`
+--
+ALTER TABLE `criterion_scoring`
+  ADD CONSTRAINT `criterion_scoring_ibfk_1` FOREIGN KEY (`participants_id`) REFERENCES `participants` (`participants_id`),
+  ADD CONSTRAINT `criterion_scoring_ibfk_2` FOREIGN KEY (`ongoing_criterion_id`) REFERENCES `ongoing_criterion` (`ongoing_criterion_id`),
+  ADD CONSTRAINT `criterion_scoring_ibfk_3` FOREIGN KEY (`category_name_id`) REFERENCES `category_name` (`category_name_id`);
+
+--
+-- Constraints for table `ongoing_criterion`
+--
+ALTER TABLE `ongoing_criterion`
+  ADD CONSTRAINT `ongoing_criterion_ibfk_1` FOREIGN KEY (`criterion_id`) REFERENCES `criterion` (`criterion_id`),
+  ADD CONSTRAINT `ongoing_criterion_ibfk_2` FOREIGN KEY (`category_name_id`) REFERENCES `category_name` (`category_name_id`),
+  ADD CONSTRAINT `ongoing_criterion_ibfk_3` FOREIGN KEY (`event_id`) REFERENCES `event_name` (`event_name_id`);
+
+--
+-- Constraints for table `participants`
+--
+ALTER TABLE `participants`
+  ADD CONSTRAINT `participants_ibfk_1` FOREIGN KEY (`competition_id`) REFERENCES `competition` (`competition_id`),
+  ADD CONSTRAINT `participants_ibfk_2` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`);
+
+--
+-- Constraints for table `participants_score`
+--
+ALTER TABLE `participants_score`
+  ADD CONSTRAINT `participants_score_ibfk_1` FOREIGN KEY (`criterion_scoring_id`) REFERENCES `criterion_scoring` (`criterion_scoring_id`);
+COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
