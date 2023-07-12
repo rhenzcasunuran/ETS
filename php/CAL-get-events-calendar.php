@@ -80,11 +80,13 @@ $sql = "SELECT
                 WHEN combined_table.event_id LIKE 'P%' THEN CONCAT('Post_', SUBSTRING(combined_table.event_id, 2))
                 ELSE combined_table.event_id
             END AS event_id,
+            CASE
+                WHEN combined_table.category_name IS NULL THEN combined_table.event_name
+                ELSE combined_table.category_name
+            END AS category_name,
             combined_table.event_description,
-            combined_table.category_name,
             combined_table.event_date,
             TIME_FORMAT(combined_table.event_time, '%h:%i %p') AS event_time,
-            combined_table.event_name,
             combined_table.event_type,
             combined_table.event_org
             FROM (
