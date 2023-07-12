@@ -37,23 +37,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Sanitize and use the validated time and date values as needed
                 $sanitizedTime = sanitizeInput($time);
                 $sanitizedDate = sanitizeInput($date);
-            } else {
+           } else {
                 // Time and date are in the past
-                header("Location: ./CAL-admin-overall.php");
+                header("Location: " . $_SERVER['PHP_SELF']);
                 exit(); // Terminate script execution
-            }
+           }
         } else {
             // Invalid time or date format
-            header("Location: ./CAL-admin-overall.php");
+            header("Location: " . $_SERVER['PHP_SELF']);
             exit(); // Terminate script execution
         }
     } else {
         // Time or date inputs are missing
-        header("Location: ./CAL-admin-overall.php");
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit(); // Terminate script execution
     }
 }
-
+        
 // Function to validate the time format
 function isValidTime($time) {
     // Check if the time is in the format HH:MM and falls within the range of 00:00 to 24:00
