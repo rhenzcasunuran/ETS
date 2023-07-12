@@ -11,15 +11,31 @@ if (isset($_POST['competitionName'])) {
     // Escape the competitionName to prevent SQL injection
     $competitionName = $conn->real_escape_string($competitionName);
 
+    // Get the category ID
+    $categoryidQuery = $conn->prepare("SELECT category_name_id FROM category_name WHERE category_name = ?");
+    $categoryidQuery->bind_param("s", $competitionName);
+    $categoryidQuery->execute();
+    $categoryidResult = $categoryidQuery->get_result();
+
+    if ($categoryidResult->num_rows > 0) {
+        $categoryidRow = $categoryidResult->fetch_assoc();
+        $categoryid = $categoryidRow["category_name_id"];
+        echo "$categoryid";
+    } else {
+        $categoryid = "Unknown";
+    }
+
     // Search for the competition_id with the given competition_name
-    $query = "SELECT archived FROM competitions_table WHERE competition_name = '$competitionName'";
+    $query = "SELECT * FROM competition WHERE category_name_id = '$categoryid'";
     $result = $conn->query($query);
 
     if ($result && $result->num_rows > 0) {
         // Update the value inside the archived column to "0"
-        $updateQuery = "UPDATE competitions_table SET archived = '0', schedule = NULL, schedule_end = NULL WHERE competition_name = '$competitionName'";
-        if ($conn->query($updateQuery) === true) {
+        $sql = "UPDATE competition SET is_archived = '0', schedule = NULL, schedule_end = NULL WHERE category_name_id = '$categoryid'";
+        to_log($conn, $sql);
+        if ($conn->query($sql) === true) {
             echo "Update successful";
+            
         } else {
             echo "Error updating record: " . $conn->error;
         }
