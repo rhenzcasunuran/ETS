@@ -1649,6 +1649,8 @@ var studentCalendarPhone = {
 
               if (eventType === "Tournament") {
                 var modalButtons = '<i id="mobile-tournament-' + eventId + '" class="bx bx-group bx-lg mobile-icons"></i>' + '<i id="mobile-add-calendar-' + eventId + '" class="bx bx-calendar-plus bx-lg mobile-icons"></i>';
+              } else if (eventType === 'Standard' && eventId.includes('Post_')) {
+                var modalButtons = '<i id="mobile-post-' + eventId + '" class="bx bx-news bx-lg mobile-icons"></i>';
               } else {
                 var modalButtons = '<i id="mobile-add-calendar-' + eventId + '" class="bx bx-calendar-plus bx-lg mobile-icons"></i>';
               }
@@ -1674,11 +1676,19 @@ var studentCalendarPhone = {
               modal.innerHTML = modalHTML.trim();
               document.body.appendChild(modal);
 
-              const calendarIcon = modal.querySelector("#mobile-add-calendar-" + eventId);
-              calendarIcon.addEventListener("click", function(event) {
-                const buttonId = event.target.id;
-                addToCalendarUpcoming(buttonId, eventDate, categoryName, eventTime, eventDesc)
-              });
+              if (eventType === 'Standard' && eventId.includes('Post_')) {
+                $(document).on('click', '.bx-news', function() {
+                  var eventId = $(this).attr('id');
+                  var postId = eventId.replace('mobile-post-Post_', '');
+                  window.location.href = 'HOM-post.php?eec=' + postId;
+                });  
+              } else {
+                const calendarIcon = modal.querySelector("#mobile-add-calendar-" + eventId);
+                calendarIcon.addEventListener("click", function(event) {
+                  const buttonId = event.target.id;
+                  addToCalendarUpcoming(buttonId, eventDate, categoryName, eventTime, eventDesc)
+                });
+              }
 
               if (eventType === "Tournament") {
                 const tournementIcon = modal.querySelector("#mobile-tournament-" + eventId);
@@ -1910,6 +1920,8 @@ var studentCalendarPhone = {
 
                 if (eventType === "Tournament") {
                   var modalButtons = '<i id="mobile-tournament-' + eventId + '" class="bx bx-group bx-lg mobile-icons"></i>' + '<i id="mobile-add-calendar-' + eventId + '" class="bx bx-calendar-plus bx-lg mobile-icons"></i>';
+                } else if (eventType === 'Standard' && eventId.includes('Post_')) {
+                  var modalButtons = '<i id="mobile-post-' + eventId + '" class="bx bx-news bx-lg mobile-icons"></i>';
                 } else {
                   var modalButtons = '<i id="mobile-add-calendar-' + eventId + '" class="bx bx-calendar-plus bx-lg mobile-icons"></i>';
                 }
@@ -1935,11 +1947,19 @@ var studentCalendarPhone = {
                 modal.innerHTML = modalHTML.trim();
                 document.body.appendChild(modal);
 
-                const calendarIcon = modal.querySelector("#mobile-add-calendar-" + eventId);
-                calendarIcon.addEventListener("click", function(event) {
-                  const buttonId = event.target.id;
-                  addToCalendarSelected(buttonId, eventDate, categoryName, eventTime, eventDesc)
-                });
+                if (eventType === 'Standard' && eventId.includes('Post_')) {
+                  $(document).on('click', '.bx-news', function() {
+                    var eventId = $(this).attr('id');
+                    var postId = eventId.replace('mobile-post-Post_', '');
+                    window.location.href = 'HOM-post.php?eec=' + postId;
+                  });   
+                } else {
+                  const calendarIcon = modal.querySelector("#mobile-add-calendar-" + eventId);
+                  calendarIcon.addEventListener("click", function(event) {
+                    const buttonId = event.target.id;
+                    addToCalendarUpcoming(buttonId, eventDate, categoryName, eventTime, eventDesc)
+                  });
+                }
 
                 if (eventType === "Tournament") {
                   const tournementIcon = modal.querySelector("#mobile-tournament-" + eventId);
