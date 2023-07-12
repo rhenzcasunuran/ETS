@@ -39,17 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $sanitizedDate = sanitizeInput($date);
             } else {
                 // Time and date are in the past
-                header("Location: ./EVE-admin-list-of-events.php");
+                header("Location: " . $_SERVER['PHP_SELF']);
                 exit(); // Terminate script execution
             }
         } else {
             // Invalid time or date format
-            header("Location: ./EVE-admin-list-of-events.php");
+            header("Location: " . $_SERVER['PHP_SELF']);
             exit(); // Terminate script execution
         }
     } else {
         // Time or date inputs are missing
-        header("Location: ./EVE-admin-list-of-events.php");
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit(); // Terminate script execution
     }
 }
