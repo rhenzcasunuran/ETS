@@ -1,25 +1,33 @@
 <?php
 // Create a MySQL connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "pupets";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+session_start();
+  @include './database_connect.php';
+  @include './TOU-scoring.php';
+  @include './TOU-fetch-data.php';
 
 // Unique identifier for the row
-$rowId = 1; // Update this with the actual row identifier column name
+$rowId = 2; // Update this with the actual row identifier column name
 
 // Retrieve the existing value for Team A from the database
-$sql = "SELECT scoring_team_a FROM scores WHERE score_id = '$rowId'"; // Replace "id_column_name" with the actual column name for row identifiers
+$sql = "SELECT score1.team_score AS score_a, score2.team_score AS score_b FROM tou_bracket INNER JOIN tou_team_stat AS ts1 ON tou_bracket.team1_id = ts1.team_id INNER JOIN organization AS org1 ON ts1.organization_id = org1.organization_id INNER JOIN tou_team_stat AS ts2 ON tou_bracket.team2_id = ts2.team_id INNER JOIN organization AS org2 ON ts2.organization_id = org2.organization_id INNER JOIN tou_team AS score1 ON tou_bracket.team1_id = score1.team_id INNER JOIN tou_team AS score2 ON tou_bracket.team2_id = score2.team_id"; // Replace "id_column_name" with the actual column name for row identifiers
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
-$existingValueA = $row['scoring_team_a'];
+$existingValueA = $row['score_a'];
+
+$sql = "SELECT tou_bracket.team1_id, CONCAT(org1.organization_name, ' vs ', org2.organization_name) AS concatenated_organizations, tou_bracket.team2_id, tou_bracket.bracket_id, CONCAT( score1.team_score, ' - ', score2.team_score ) AS concatenated_scores, score1.team_score AS score_a, score2.team_score AS score_b FROM tou_bracket INNER JOIN tou_team_stat AS ts1 ON tou_bracket.team1_id = ts1.team_id INNER JOIN organization AS org1 ON ts1.organization_id = org1.organization_id INNER JOIN tou_team_stat AS ts2 ON tou_bracket.team2_id = ts2.team_id INNER JOIN organization AS org2 ON ts2.organization_id = org2.organization_id INNER JOIN tou_team AS score1 ON tou_bracket.team1_id = score1.team_id INNER JOIN tou_team AS score2 ON tou_bracket.team2_id = score2.team_id";
+
+
+
+$result = $conn->query($sql);
+// Array to store the concatenated results
+$concatenatedResults = array();
+
+if ($result->num_rows > 0) {
+    // Fetch each row and store the concatenated result in the array
+    while ($row = $result->fetch_assoc()) {
+        $concatenatedResults[] = $row["concatenated_organizations"];
+    }
+}
 
 // Process the form submission for Team A
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update the value in the database
-    $sql = "UPDATE scores SET scoring_team_a = $newValueA WHERE score_id = $rowId";
+    $sql = "UPDATE tou_team SET team_score = $newValueA WHERE team_score_id = $rowId";
     if ($conn->query($sql) === TRUE) {
       // Update the existing value for Team A
       $existingValueA = $newValueA;
@@ -44,10 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Retrieve the existing value for Team B from the database
-$sql = "SELECT scoring_team_b FROM scores WHERE score_id = $rowId";
+$sql = "SELECT tou_bracket.team1_id, CONCAT(org1.organization_name, ' vs ', org2.organization_name) AS concatenated_organizations, tou_bracket.team2_id, tou_bracket.bracket_id, CONCAT( score1.team_score, ' - ', score2.team_score ) AS concatenated_scores, score1.team_score AS score_a, score2.team_score AS score_b FROM tou_bracket INNER JOIN tou_team_stat AS ts1 ON tou_bracket.team1_id = ts1.team_id INNER JOIN organization AS org1 ON ts1.organization_id = org1.organization_id INNER JOIN tou_team_stat AS ts2 ON tou_bracket.team2_id = ts2.team_id INNER JOIN organization AS org2 ON ts2.organization_id = org2.organization_id INNER JOIN tou_team AS score1 ON tou_bracket.team1_id = score1.team_id INNER JOIN tou_team AS score2 ON tou_bracket.team2_id = score2.team_id;";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
-$existingValueB = $row['scoring_team_b'];
+$existingValueB = $row['score_b'];
 
 // Process the form submission for Team B
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -61,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update the value in the database
-    $sql = "UPDATE scores SET scoring_team_b = $newValueB WHERE score_id = $rowId";
+    $sql = "UPDATE team_score SET team_id = $newValueA WHERE team_score_id = $rowId";
     if ($conn->query($sql) === TRUE) {
       // Update the existing value for Team B
       $existingValueB = $newValueB;
@@ -71,21 +79,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
   // Query to retrieve data from the database
-  $sql = "SELECT bracket_id, bracket_sports FROM bracket";
+  $sql = "SELECT category_name FROM dropdown_options";
   $result = $conn->query($sql);
+
+
+  $sql = "SELECT 
+            tou_bracket.team1_id, 
+            CONCAT(org1.organization_name, ' vs ', org2.organization_name) AS concatenated_organizations,
+            tou_bracket.team2_id,
+            tou_bracket.bracket_id,
+            tou_team.team_score_id
+        FROM 
+            tou_bracket
+        INNER JOIN 
+            tou_team_stat AS ts1 ON tou_bracket.team1_id = ts1.team_id
+        INNER JOIN 
+            organization AS org1 ON ts1.organization_id = org1.organization_id
+        INNER JOIN 
+            tou_team_stat AS ts2 ON tou_bracket.team2_id = ts2.team_id
+        INNER JOIN 
+            organization AS org2 ON ts2.organization_id = org2.organization_id
+        INNER JOIN 
+            tou_team ON tou_team.team_id = ts1.team_id";
+
+$result = $conn->query($sql);
+$concatenatedResults = array();
+
+
+
+
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+      $concatenatedResults[] = array(
+          'concatenated_organizations' => $row["concatenated_organizations"],
+          'bracket_id' => $row["bracket_id"],
+          'team_score_id' => $row["team_score_id"]
+      );
+  }
+
+  // Log the information to the error log
+  foreach ($concatenatedResults as $result) {
+      error_log("Concatenated Organizations: " . $result['concatenated_organizations']);
+      error_log("Bracket ID: " . $result['bracket_id']);
+      error_log("Team Score ID: " . $result['team_score_id']);
+  }
+}
+if (isset($_POST['teamScoreId'])) {
+  $bracketId = $_POST['teamScoreId'];
+
+  // Prepare the SQL query to fetch the team scores based on the teamScoreId
+  $query = "SELECT score1.team_score AS team_a_score, score2.team_score AS team_b_score
+            FROM tou_bracket
+            INNER JOIN tou_team AS score1 ON tou_bracket.team1_id = score1.team_id
+            INNER JOIN tou_team AS score2 ON tou_bracket.team2_id = score2.team_id
+            WHERE tou_bracket.bracket_id = $bracketId";
+
+  // Execute the query
+  $result = mysqli_query($connection, $query);
+
+  // Check if the query was successful
+  if ($result) {
+      // Fetch the team scores from the result
+      $row = mysqli_fetch_assoc($result);
+      $teamAScore = $row['team_a_score'];
+      $teamBScore = $row['team_b_score'];
+
+      // Create an array to store the team scores
+      $teamScores = array(
+          'teamAScore' => $teamAScore,
+          'teamBScore' => $teamBScore
+      );
+
+      // Convert the array to JSON and return it as the response
+      echo json_encode($teamScores);
+  } else {
+      // Return an error message if the query fails
+      echo 'Error occurred while fetching team scores.';
+  }
+} else {
+  // Return an error message if the teamScoreId parameter is not provided
+  echo 'teamScoreId parameter is missing.';
+}
+
   
   // Close the database connection
   $conn->close();
   @include '/php/TOU-fetch-data.php';
 
-
+  $teamAScore = 0; 
 ?>
 
-<?php
-  session_start();
-  @include '/php/database_connections.php';
-  @include '/php/TOU-scoring.php'
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -372,21 +455,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <header class="header">Basketball Live Scoring</header>
       <div class="container">
         <div class="home">
-            <h1>TEAM A</h1>
-            <button name="score_a" id="home--btn"><?php echo $existingValueA; ?></button>
+            <h1 id="teamAName">TEAM A</h1>
+            <button name="score_a" id="teamAScore" class="teamA"></button>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
     
     <div class="operate">
-      <button type="submit" name="updated_value_a" value="-3" id="btn--three">-3</button>
-      <button type="submit" name="updated_value_a" value="-2" id="btn--two" >-2</button>
-      <button type="submit" name="updated_value_a" value="-1" id="btn--one" >-1</button>
-      <button type="submit" name="updated_value_a" value="1" id="btn--one" >+1</button>
-      <button type="submit" name="updated_value_a" value="2" id="btn--two" >+2</button>
-      <button type="submit" name="updated_value_a" value="3" id="btn--three" >+3</button>
+      
+      <button type="button" id="subScoreButtonThree">-3</button>
+      <button type="button" id="subScoreButtonTwo">-2</button>
+      <button type="button" id="subScoreButtonOne">-1</button>
+      <button type="button" id="addScoreButtonOne">+1</button>
+      <button type="button" id="addScoreButtonTwo">+2</button>
+      <button type="button" id="addScoreButtonThree">+3</button>
     </div>
   </form>
         </div>
         <div class="dropdown-tournament">
+
         <form action="/action_page.php">
     <select id="sport" class="button-tournament">
         <option value="BASKETBALL">BASKETBALL</option>
@@ -396,6 +481,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <option value="TOURNAMENT">TOURNAMENT</option>
     </select>
 </form>
+<p id="team-scores"></p>
+
+<select id="tournament-select" class="button-tournament">
+    <?php foreach ($concatenatedResults as $result): ?>
+        <option value="<?php echo $result['bracket_id']; ?>" data-bracket-id="<?php echo $result['bracket_id']; ?>">
+            <?php echo $result['concatenated_organizations']; ?>
+        </option>
+    <?php endforeach; ?>
+    <option selected disabled>Select Match</option>
+</select>
 
 <script>
         // Get the dropdown element
@@ -434,17 +529,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
         </div>
         <div class="guest">
-            <h1>TEAM B</h1>
-            <button id="guest--btn"><?php echo $existingValueB; ?></button>
+            <h1  id="teamBName">TEAM B</h1>
+            <button name="score_b" id="teamBScore" class = "teamB"></button>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
     
     <div class="operate">
-      <button type="submit" name="updated_value_b" value="-3" id="btn--three" >-3</button>
-      <button type="submit" name="updated_value_b" value="-2" id="btn--two" >-2</button>
-      <button type="submit" name="updated_value_b" value="-1" id="btn--one" >-1</button>
-      <button type="submit" name="updated_value_b" value="1" id="btn--one" >+1</button>
-      <button type="submit" name="updated_value_b" value="2" id="btn--two" >+2</button>
-      <button type="submit" name="updated_value_b" value="3" id="btn--three" >+3</button>
+    <button type="button" id="subScoreButtonThreeB">-3</button>
+      <button type="button" id="subScoreButtonTwoB">-2</button>
+      <button type="button" id="subScoreButtonOneB">-1</button>
+      <button type="button" id="addScoreButtonOneB">+1</button>
+      <button type="button" id="addScoreButtonTwoB">+2</button>
+      <button type="button" id="addScoreButtonThreeB">+3</button>
     </div>
   </form>
         </div>
@@ -457,7 +552,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" id="save--counter" class="save--btn" onclick="showSaveScore()" name="update_score_data">SAVE</button>
     </div>
 
-    <script src="../index.js"></script>
+    <script src="../js/index.js"></script>
     <script src="../js/tournament_type.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -475,6 +570,491 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             alert("Match Ended"); // Display the alert box with a message
         }
     </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.button-tournament').on('change', function() {
+        var selectedOption = $(this).find('option:selected');
+        var teamAName = selectedOption.text().split(' vs ')[0]; // Get the name for Team A
+        var teamBName = selectedOption.text().split(' vs ')[1]; // Get the name for Team B
+
+        $('#teamAName').text(teamAName);
+        $('#teamBName').text(teamBName);
+
+        var bracketId = selectedOption.data('bracket-id');
+
+        // Make an AJAX request to fetch the scores
+        $.ajax({
+            url: '../get_team_score.php', // Replace with the correct path to get_team_score.php
+            method: 'POST',
+            data: { teamScoreId: bracketId },
+            success: function(response) {
+                try {
+                    var scores = JSON.parse(response);
+                    var scoreA = scores.teamAScore;
+                    var scoreB = scores.teamBScore;
+
+                    $('#teamAScore').text(scoreA);
+                    $('#teamBScore').text(scoreB);
+                } catch (error) {
+                    console.error(error);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+
+   
+});
+</script>
+<script>
+  
+$('#addScoreButtonThree').on('click', function() {
+    var scoreA = parseInt($('#teamAScore').text());
+    var fixedValue = 3; // Change this to the desired fixed value
+
+    // Add the fixed value to the scores
+    scoreA += fixedValue;
+
+    // Update the displayed scores
+    $('#teamAScore').text(scoreA);
+
+    var bracketId = parseInt($('#tournament-select option:selected').val());
+
+    // Make an AJAX request to update the scores in the database
+    $.ajax({
+        url: '../update_team_score.php',
+        method: 'POST',
+        data: { teamScoreId: bracketId, teamAScore: scoreA},
+        success: function(response) {
+            console.log('Scores updated in the database.');
+            console.log(bracketId);
+            console.log('Team A Score:', scoreA);
+
+            // Optionally, you can update other elements on the page based on the database response
+            // For example, you can update the total score or display a success message
+
+            // Assuming the response contains the updated total score
+            var totalScore = parseInt(response.totalScore);
+            $('#totalScore').text(totalScore);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+
+    $('#addScoreButtonTwo').on('click', function() {
+    var scoreA = parseInt($('#teamAScore').text());
+    var fixedValue = 2; // Change this to the desired fixed value
+
+    // Add the fixed value to the scores
+    scoreA += fixedValue;
+
+    // Update the displayed scores
+    $('#teamAScore').text(scoreA);
+
+    var bracketId = parseInt($('#tournament-select option:selected').val());
+
+    // Make an AJAX request to update the scores in the database
+    $.ajax({
+        url: '../update_team_score.php',
+        method: 'POST',
+        data: { teamScoreId: bracketId, teamBScore: scoreB},
+        success: function(response) {
+            console.log('Scores updated in the database.');
+            console.log(bracketId);
+            console.log('Team A Score:', scoreA);
+
+            // Optionally, you can update other elements on the page based on the database response
+            // For example, you can update the total score or display a success message
+
+            // Assuming the response contains the updated total score
+            var totalScore = parseInt(response.totalScore);
+            $('#totalScore').text(totalScore);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
+// Replicating for addScoreButtonOne
+$(document).ready(function() {
+    // Function to update the score in the database
+    function updateScore(bracketId, teamScore, score) {
+        $.ajax({
+            url: '../update_team_score.php',
+            method: 'POST',
+            data: { teamScoreId: bracketId, [teamScore]: score },
+            success: function(response) {
+                console.log('Scores updated in the database.');
+                console.log(bracketId);
+                console.log(teamScore, 'Score:', score);
+
+                // Optionally, you can update other elements on the page based on the database response
+                // For example, you can update the total score or display a success message
+
+                // Assuming the response contains the updated total score
+                var totalScore = parseInt(response.totalScore);
+                $('#totalScore').text(totalScore);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // Event handler for +3 button for scoreA
+    $('#addScoreButtonThree').on('click', function() {
+        var scoreA = parseInt($('#teamAScore').text());
+        var fixedValue = 3; // Change this to the desired fixed value
+
+        // Add the fixed value to the scores
+        scoreA += fixedValue;
+
+        // Update the displayed scores
+        $('#teamAScore').text(scoreA);
+
+        var bracketId = parseInt($('#tournament-select option:selected').val());
+
+        // Make an AJAX request to update the scores in the database
+        updateScore(bracketId, 'teamAScore', scoreA);
+    });
+
+    // Event handler for +2 button for scoreA
+    $('#addScoreButtonTwo').on('click', function() {
+        var scoreA = parseInt($('#teamAScore').text());
+        var fixedValue = 2; // Change this to the desired fixed value
+
+        // Add the fixed value to the scores
+        scoreA += fixedValue;
+
+        // Update the displayed scores
+        $('#teamAScore').text(scoreA);
+
+        var bracketId = parseInt($('#tournament-select option:selected').val());
+
+        // Make an AJAX request to update the scores in the database
+        updateScore(bracketId, 'teamAScore', scoreA);
+    });
+
+    // Event handler for +1 button for scoreA
+    $('#addScoreButtonOne').on('click', function() {
+        var scoreA = parseInt($('#teamAScore').text());
+        var fixedValue = 1; // Change this to the desired fixed value
+
+        // Add the fixed value to the scores
+        scoreA += fixedValue;
+
+        // Update the displayed scores
+        $('#teamAScore').text(scoreA);
+
+        var bracketId = parseInt($('#tournament-select option:selected').val());
+
+        // Make an AJAX request to update the scores in the database
+        updateScore(bracketId, 'teamAScore', scoreA);
+    });
+
+    // Event handler for -3 button for scoreA
+    $('#subScoreButtonThree').on('click', function() {
+        var scoreA = parseInt($('#teamAScore').text());
+        var fixedValue = 3; // Change this to the desired fixed value
+
+        // Subtract the fixed value from the scores, but ensure it doesn't go below 0
+        scoreA = Math.max(0, scoreA - fixedValue);
+
+        // Update the displayed scores
+        $('#teamAScore').text(scoreA);
+
+        var bracketId = parseInt($('#tournament-select option:selected').val());
+
+        // Make an AJAX request to update the scores in the database
+        updateScore(bracketId, 'teamAScore', scoreA);
+    });
+
+    // Event handler for -2 button for scoreA
+    $('#subScoreButtonTwo').on('click', function() {
+        var scoreA = parseInt($('#teamAScore').text());
+        var fixedValue = 2; // Change this to the desired fixed value
+
+        // Subtract the fixed value from the scores, but ensure it doesn't go below 0
+        scoreA = Math.max(0, scoreA - fixedValue);
+
+        // Update the displayed scores
+        $('#teamAScore').text(scoreA);
+
+        var bracketId = parseInt($('#tournament-select option:selected').val());
+
+        // Make an AJAX request to update the scores in the database
+        updateScore(bracketId, 'teamAScore', scoreA);
+    });
+
+    // Event handler for -1 button for scoreA
+    $('#subScoreButtonOne').on('click', function() {
+        var scoreA = parseInt($('#teamAScore').text());
+        var fixedValue = 1; // Change this to the desired fixed value
+
+        // Subtract the fixed value from the scores, but ensure it doesn't go below 0
+        scoreA = Math.max(0, scoreA - fixedValue);
+
+        // Update the displayed scores
+        $('#teamAScore').text(scoreA);
+
+        var bracketId = parseInt($('#tournament-select option:selected').val());
+
+        // Make an AJAX request to update the scores in the database
+        updateScore(bracketId, 'teamAScore', scoreA);
+    });
+});
+
+
+$('#addScoreButtonThreeB').on('click', function() {
+    var scoreB = parseInt($('#teamBScore').text());
+    var fixedValue = 3; // Change this to the desired fixed value
+
+    // Add the fixed value to the scores
+    scoreB += fixedValue;
+
+    // Update the displayed scores
+    $('#teamBScore').text(scoreB);
+
+    var bracketId = parseInt($('#tournament-select option:selected').val());
+
+    // Make an AJAX request to update the scores in the database
+    $.ajax({
+        url: '../update_team_score.php',
+        method: 'POST',
+        data: { teamScoreId: bracketId, teamBScore: scoreB },
+        success: function(response) {
+            console.log('Scores updated in the database.');
+            console.log(bracketId);
+            console.log('Team B Score:', scoreB);
+
+            // Optionally, you can update other elements on the page based on the database response
+            // For example, you can update the total score or display a success message
+
+            // Assuming the response contains the updated total score
+            var totalScore = parseInt(response.totalScore);
+            $('#totalScore').text(totalScore);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
+$('#addScoreButtonTwoB').on('click', function() {
+    var scoreB = parseInt($('#teamBScore').text());
+    var fixedValue = 2; // Change this to the desired fixed value
+
+    // Add the fixed value to the scores
+    scoreB += fixedValue;
+
+    // Update the displayed scores
+    $('#teamBScore').text(scoreB);
+
+    var bracketId = parseInt($('#tournament-select option:selected').val());
+
+    // Make an AJAX request to update the scores in the database
+    $.ajax({
+        url: '../update_team_score.php',
+        method: 'POST',
+        data: { teamScoreId: bracketId, teamBScore: scoreB },
+        success: function(response) {
+            console.log('Scores updated in the database.');
+            console.log(bracketId);
+            console.log('Team B Score:', scoreB);
+
+            // Optionally, you can update other elements on the page based on the database response
+            // For example, you can update the total score or display a success message
+
+            // Assuming the response contains the updated total score
+            var totalScore = parseInt(response.totalScore);
+            $('#totalScore').text(totalScore);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
+$('#addScoreButtonOneB').on('click', function() {
+    var scoreB = parseInt($('#teamBScore').text());
+    var fixedValue = 1; // Change this to the desired fixed value
+
+    // Add the fixed value to the scores
+    scoreB += fixedValue;
+
+    // Update the displayed scores
+    $('#teamBScore').text(scoreB);
+
+    var bracketId = parseInt($('#tournament-select option:selected').val());
+
+    // Make an AJAX request to update the scores in the database
+    $.ajax({
+        url: '../update_team_score.php',
+        method: 'POST',
+        data: { teamScoreId: bracketId, teamBScore: scoreB },
+        success: function(response) {
+            console.log('Scores updated in the database.');
+            console.log(bracketId);
+            console.log('Team B Score:', scoreB);
+
+            // Optionally, you can update other elements on the page based on the database response
+            // For example, you can update the total score or display a success message
+
+            // Assuming the response contains the updated total score
+            var totalScore = parseInt(response.totalScore);
+            $('#totalScore').text(totalScore);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
+$('#subScoreButtonThreeB').on('click', function() {
+    var scoreB = parseInt($('#teamBScore').text());
+    var fixedValue = 3; // Change this to the desired fixed value
+
+    // Subtract the fixed value from the scores
+    scoreB = Math.max(0, scoreB - fixedValue);
+
+    // Update the displayed scores
+    $('#teamBScore').text(scoreB);
+
+    var bracketId = parseInt($('#tournament-select option:selected').val());
+
+    // Make an AJAX request to update the scores in the database
+    $.ajax({
+        url: '../update_team_score.php',
+        method: 'POST',
+        data: { teamScoreId: bracketId, teamBScore: scoreB },
+        success: function(response) {
+            console.log('Scores updated in the database.');
+            console.log(bracketId);
+            console.log('Team B Score:', scoreB);
+
+            // Optionally, you can update other elements on the page based on the database response
+            // For example, you can update the total score or display a success message
+
+            // Assuming the response contains the updated total score
+            var totalScore = parseInt(response.totalScore);
+            $('#totalScore').text(totalScore);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
+$('#subScoreButtonTwoB').on('click', function() {
+    var scoreB = parseInt($('#teamBScore').text());
+    var fixedValue = 2; // Change this to the desired fixed value
+
+    // Subtract the fixed value from the scores
+    scoreB = Math.max(0, scoreB - fixedValue);
+
+    // Update the displayed scores
+    $('#teamBScore').text(scoreB);
+
+    var bracketId = parseInt($('#tournament-select option:selected').val());
+
+    // Make an AJAX request to update the scores in the database
+    $.ajax({
+        url: '../update_team_score.php',
+        method: 'POST',
+        data: { teamScoreId: bracketId, teamBScore: scoreB },
+        success: function(response) {
+            console.log('Scores updated in the database.');
+            console.log(bracketId);
+            console.log('Team B Score:', scoreB);
+
+            // Optionally, you can update other elements on the page based on the database response
+            // For example, you can update the total score or display a success message
+
+            // Assuming the response contains the updated total score
+            var totalScore = parseInt(response.totalScore);
+            $('#totalScore').text(totalScore);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
+$('#subScoreButtonOneB').on('click', function() {
+    var scoreB = parseInt($('#teamBScore').text());
+    var fixedValue = 1; // Change this to the desired fixed value
+
+    // Subtract the fixed value from the scores
+    scoreB = Math.max(0, scoreB - fixedValue);
+
+    // Update the displayed scores
+    $('#teamBScore').text(scoreB);
+
+    var bracketId = parseInt($('#tournament-select option:selected').val());
+
+    // Make an AJAX request to update the scores in the database
+    $.ajax({
+        url: '../update_team_score.php',
+        method: 'POST',
+        data: { teamScoreId: bracketId, teamBScore: scoreB },
+        success: function(response) {
+            console.log('Scores updated in the database.');
+            console.log(bracketId);
+            console.log('Team B Score:', scoreB);
+
+            // Optionally, you can update other elements on the page based on the database response
+            // For example, you can update the total score or display a success message
+
+            // Assuming the response contains the updated total score
+            var totalScore = parseInt(response.totalScore);
+            $('#totalScore').text(totalScore);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+});
+  </script>
+
+
+<script>
+  $(document).ready(function() {
+    $('.button-tournament').on('change', function() {
+        var selectedOption = $(this).find('option:selected');
+        var bracketId = selectedOption.data('bracket-id');
+        var teamId = selectedOption.data('team-id');
+        console.log('Bracket ID:', bracketId);
+        console.log('Team ID:', teamId);
+    });
+});
+</script>
+
+<script>
+    // Get the <select> element by its ID
+    var selectElement = document.getElementById('tournament-select');
+
+    // Add an event listener for the 'change' event
+    selectElement.addEventListener('change', function() {
+        // Get the selected option
+        var selectedOption = this.options[this.selectedIndex];
+
+        // Get the team_score_id from the selected option's data attribute
+        var bracketId = selectedOption.getAttribute('data-bracket-id');
+        var teamScoreId = selectedOption.getAttribute('data-team-score-id');
+
+        // Log the team_score_id
+        console.log('Selected bracket_id:', bracketId );
+
+        // You can perform any further actions with the team_score_id here
+    });
+</script>
 
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {

@@ -1,5 +1,5 @@
 <?php 
-    $sql = "SELECT team_id, team_name FROM teams";
+    $sql = "SELECT team1_id, team2_id FROM tou_bracket";
     $result = $conn->query($sql);
     
     if($result->num_rows> 0){
