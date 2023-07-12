@@ -216,7 +216,7 @@ var adminCalendarComputer = {
 
     function updateCalendarOrg() {
       generateCalendar(currentMonth, currentYear, filters, filtersOrg);
-    }
+    }   
 
     function generateCalendar(month, year, filters, filtersOrg) {
       // Get number of days in the month and the first day of the month
@@ -299,12 +299,18 @@ var adminCalendarComputer = {
                           '<div class="d-flex justify-content-between align-items-center">' +
                           '<div class="icon-container">' +
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
-                          '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                          (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-sm"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>') +
                           '</div>' +
                           '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                           '</div>' +
                           '</div>');
                       button.attr('data-bs-html', 'true');
+
+                      $(document).on('click', '.bx-news', function() {
+                        var eventId = $(this).attr('id');
+                        var postId = eventId.replace('Post_', '');
+                        window.location.href = 'HOM-post.php?eec=' + postId;
+                      });                      
 
                       // Initialize popover
                       var popoverOptions = {
@@ -327,7 +333,7 @@ var adminCalendarComputer = {
                           "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                           '</div><div class="modal-footer border-0">' +
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
-                          '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
+                          (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-lg"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>') +
                           '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
                       
                       // Append modal to body
@@ -394,12 +400,18 @@ var adminCalendarComputer = {
                           '<div class="d-flex justify-content-between align-items-center">' +
                           '<div class="icon-container">' +
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
-                          '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                          (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-sm"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>') +
                           '</div>' +
                           '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                           '</div>' +
                           '</div>');
                       button.attr('data-bs-html', 'true');
+
+                      $(document).on('click', '.bx-news', function() {
+                        var eventId = $(this).attr('id');
+                        var postId = eventId.replace('Post_', '');
+                        window.location.href = 'HOM-post.php?eec=' + postId;
+                      });                      
 
                       // Initialize popover
                       var popoverOptions = {
@@ -422,7 +434,7 @@ var adminCalendarComputer = {
                           "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                           '</div><div class="modal-footer border-0">' +
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
-                          '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
+                          (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-lg"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>') +
                           '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
                       
                       // Append modal to body
@@ -505,12 +517,18 @@ var adminCalendarComputer = {
                       '<div class="d-flex justify-content-between align-items-center">' +
                       '<div class="icon-container">' +
                       (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
-                      '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                      (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-sm"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>') +
                       '</div>' +
                       '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                       '</div>' +
                       '</div>');
                   button.attr('data-bs-html', 'true');
+
+                  $(document).on('click', '.bx-news', function() {
+                    var eventId = $(this).attr('id');
+                    var postId = eventId.replace('Post_', '');
+                    window.location.href = 'HOM-post.php?eec=' + postId;
+                  });                  
 
                   // Initialize popover
                   var popoverOptions = {
@@ -533,7 +551,7 @@ var adminCalendarComputer = {
                           "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                           '</div><div class="modal-footer border-0">' +
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
-                          '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
+                          (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-lg"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>') +
                           '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
                       
                   // Append modal to body
@@ -605,12 +623,18 @@ var adminCalendarComputer = {
                           '<div class="d-flex justify-content-between align-items-center">' +
                           '<div class="icon-container">' +
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
-                          '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                          (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-sm"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>') +
                           '</div>' +
                           '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                           '</div>' +
                           '</div>');
                       button.attr('data-bs-html', 'true');
+
+                      $(document).on('click', '.bx-news', function() {
+                        var eventId = $(this).attr('id');
+                        var postId = eventId.replace('Post_', '');
+                        window.location.href = 'HOM-post.php?eec=' + postId;
+                      });                      
 
                       // Initialize popover
                       var popoverOptions = {
@@ -633,7 +657,7 @@ var adminCalendarComputer = {
                           "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                           '</div><div class="modal-footer border-0">' +
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
-                          '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
+                          (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-lg"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>') +
                           '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
                       
                       // Append modal to body
@@ -698,18 +722,24 @@ var adminCalendarComputer = {
                           '<div class="d-flex justify-content-between align-items-center">' +
                           '<div class="icon-container">' +
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-sm"></i>' : '') +
-                          '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>' +
+                          (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-sm"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-sm"></i>') +
                           '</div>' +
                           '<a href="#event-modal-' + events[eventsCounting].event_id + '" class="d-flex justify-content-end show-more-details-popover no-underline-link" aria-label="showMoreDetails">Show more details</a>' +
                           '</div>' +
                           '</div>');
                       button.attr('data-bs-html', 'true');
 
+                      $(document).on('click', '.bx-news', function() {
+                        var eventId = $(this).attr('id');
+                        var postId = eventId.replace('Post_', '');
+                        window.location.href = 'HOM-post.php?eec=' + postId;
+                      });                      
+
                       // Initialize popover
                       var popoverOptions = {
-                      container: 'body',
-                      placement: 'auto',
-                      trigger: 'click'
+                        container: 'body',
+                        placement: 'auto',
+                        trigger: 'click'
                       };
                       button.popover(popoverOptions);
 
@@ -726,7 +756,7 @@ var adminCalendarComputer = {
                           "<b>Description: </b>" + events[eventsCounting].event_description + "<br><br>" +
                           '</div><div class="modal-footer border-0">' +
                           (events[eventsCounting].event_type !== 'Standard' && events[eventsCounting].event_type !== 'Competition' && events[eventsCounting].event_type === 'Tournament' ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-group bx-lg"></i>' : '') +
-                          '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>' +
+                          (events[eventsCounting].event_type === 'Standard' && events[eventsCounting].event_id.includes('Post') ? '<i id="' + events[eventsCounting].event_id + '" class="bx bx-news bx-lg"></i>' : '<i id="' + events[eventsCounting].event_id + '" class="bx bx-calendar-plus bx-lg"></i>') +
                           '<button type="button" class="outline-button ms-auto" id="back-button" data-bs-dismiss="modal">Back</button></div></div></div>');
                       
                       // Append modal to body

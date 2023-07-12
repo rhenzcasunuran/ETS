@@ -719,11 +719,7 @@
     cursor: pointer;
   }
   
-  .bx-group {
-    cursor: pointer;
-  }
-  
-  .bx-calendar-plus {
+  .bx-calendar-plus, .bx-news, .bx-group {
     cursor: pointer;
   }
   
