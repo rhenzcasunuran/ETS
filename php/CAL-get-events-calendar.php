@@ -83,24 +83,22 @@ $sql = "SELECT
             combined_table.event_description,
             combined_table.category_name,
             combined_table.event_date,
-            combined_table.event_name,
             TIME_FORMAT(combined_table.event_time, '%h:%i %p') AS event_time,
+            combined_table.event_name,
             combined_table.event_type,
             combined_table.event_org
             FROM (
-                SELECT
-                    olfe.event_id,
+                SELECT  olfe.event_id,
                     olfe.event_description,
-                    cn.category_name,
+                    olfe.category_name,
                     olfe.event_date,
                     olfe.event_time,
                     oen.event_name,
                     et.event_type,
                     NULL AS event_org
-                FROM ongoing_list_of_event AS olfe
-                INNER JOIN ongoing_event_name AS oen ON olfe.event_name_id = oen.event_name_id
-                INNER JOIN event_type AS et ON et.event_type_id = olfe.event_type_id
-                INNER JOIN category_name AS cn ON cn.category_name_id = olfe.category_name_id
+                FROM `ongoing_list_of_event` AS olfe 
+                INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+                INNER JOIN event_type AS et ON olfe.event_type_id = et.event_type_id
 
                 UNION ALL
 
@@ -109,8 +107,8 @@ $sql = "SELECT
                     post.post_description AS event_description,
                     post.post_title AS category_name,
                     post.post_calendar AS event_date,
-                    NULL AS event_name,
                     NULL AS event_time,
+                    NULL AS event_name,
                     post.post_calendar_type AS event_type,
                     organization.organization_name AS event_org
                 FROM post
