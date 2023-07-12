@@ -149,6 +149,7 @@
     padding: 20px;
     overflow-x: auto;
     overflow-y: auto;
+    
   }
   
   .save--btn {
@@ -225,7 +226,14 @@
         justify-content: center;
       }
       
-      
+      .score-input {
+        /* Your custom styles here */
+        /* For example: */
+        border: none !important;
+        background-color: #f0f0f0 !important;
+        text-align: center !important;
+        font-weight: bold !important;
+      }
       .guest,
       .home {
         margin: 0px;
@@ -251,9 +259,21 @@
       .button-tournament:hover {
         background-color: #5c1f1f;
       }
+
+      button .teamA, .teamB{
+        width: 200px;
+        height: 200px;
+        margin: 15px;
+        background-color: var(--color-content-card);
+        color: var(--color-content-text);
+        font-size: 100px;
+        font-family: 'Poppins', sans-serif;
+        border-style: none;
+        cursor: default;
+      }
       
-      #home--btn,
-      #guest--btn {
+      #teamAScore,
+      #teamBScore {
         width: 200px;
         height: 200px;
         margin: 15px;
@@ -324,7 +344,7 @@
       }
       
       .container-two {
-        position: fixed;
+        position: sticky;
         left: 50%;
         right: 50%;
         margin-top: 10px;

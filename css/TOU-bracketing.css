@@ -9,20 +9,86 @@ body{
     margin: 5px;
 }
 
+.finals {
+    margin-bottom: 0px;
+    width: auto;
+    background-color: var(--color-content-card);
+}
 
-select {
+input .wins {
+    width: 50px !important;
+    height: 50px !important;
+    background-color: var(--color-body) !important;
+    border: transparent !important;
+    color: var(--color-content-text) !important; 
+}
+.semi-finals {
+    margin-bottom: 0px;
+    width: auto;
+    background-color: var(--color-content-card);
+}
+.quarter-finals{
+    margin-bottom: 0px;
+    width: auto;
+    background-color: var(--color-content-card);
+}
+
+.input-field-container {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-content-card);
+  }
+
+  .input-field-container .input-field {
+    margin-left: 10px;
+    width: 100%;
+    background-color: var(--color-content-card);
+  }
+
+.dropdown-container {
+    margin-bottom: 0px;
+    width: auto;
+    background-color: var(--color-content-card);
+}
+
+.custom-dropdown {
+    width: auto;
+    height: 60px;
+}
+form .wins {
+    width: 50px !important;
+    height: 50px !important;
+    background-color: var(--color-body) !important;
+    border: transparent !important;
+    color: var(--color-content-text) !important; 
+}
+.dropdown-uninteractable {
+    background-color: var(--color-body);
+    pointer-events: none;
+}
+
+
+
+
+option {
+    width: 100px;
+}
+
+select .tournament {
     background-color: var(--color-body);
     color: var(--color-content-text);
     border: transparent;
     font-weight: bold;
+    width: auto;
 }
 
 .Container{
+    padding-top: 10px;
     display: flex;
     background-color: var(--color-content-card);
     width: max-content;
-    margin-left: 15%;
-    margin-top: 3%;
+    margin-left: 10%;
+    margin-top: 1%;
     font-weight: bold;
 }
 
@@ -84,18 +150,23 @@ padding-left: 4px;
 }
 
 /* Part 4: Match data sizes*/
-select{
-    width: 40px;
+select {
+    width: auto;
     height: 40px;
     font-size: 20px;
     border-radius: 4px;
+    background-color: var(--color-body);
+    color: var(--color-content-text);
+    border: none;
 }
+
 
 select.Name{
 width: 210px;
 height: 40px;
 font-size: 20px;
 border-radius: 4px;
+background-color: var(--color-body);
 }
 /* */
 .Match{
