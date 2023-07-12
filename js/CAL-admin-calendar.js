@@ -2481,7 +2481,7 @@ var adminCalendarPhone = {
                   const calendarIcon = modal.querySelector("#mobile-add-calendar-" + eventId);
                   calendarIcon.addEventListener("click", function(event) {
                     const buttonId = event.target.id;
-                    addToCalendarUpcoming(buttonId, eventDate, categoryName, eventTime, eventDesc)
+                    addToCalendarSelected(buttonId, eventDate, categoryName, eventTime, eventDesc)
                   });
                 }
 
