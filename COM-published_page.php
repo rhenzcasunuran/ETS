@@ -91,6 +91,7 @@
         } catch (Throwable $e) {
             // Show error message na hindi nag connect sa db
             // Pero sa ngayon wag muna
+            ?><script>console.log("Nag error");</script><?php
         }
         ?>
         </div>
@@ -192,22 +193,7 @@
               console.log("The input field value is "+inputfield.value);
               /*A code to change the color to black by sending compName to php */
             }
-            $.ajax({
-              type: "POST",
-              url: "./php/COM-change_color_black.php",
-              data: { competitionName: competitionName },
-                success: function(response) {
-                  console.log(response);
-                  if (response == 'grey') {
-                    document.getElementById(competitionName +' btn').style.backgroundColor = response + "!important";
-                    element.textContent = "Unavailable";
-                    element.disabled = false;
-                  }
-                  if (response == 'notempty') {
-                    element.disabled = false;
-                  }
-                }
-              });
+            
           }
         };
         const url = "./php/COM-get_compname.php";
