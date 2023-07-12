@@ -88,31 +88,32 @@ $sql = "SELECT
             combined_table.event_type,
             combined_table.event_org
             FROM (
-                SELECT  olfe.event_id,
-                    olfe.event_description,
-                    olfe.category_name,
-                    olfe.event_date,
-                    olfe.event_time,
-                    oen.event_name,
-                    et.event_type,
-                    NULL AS event_org
-                FROM `ongoing_list_of_event` AS olfe 
-                INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-                INNER JOIN event_type AS et ON olfe.event_type_id = et.event_type_id
+            SELECT
+                olfe.event_id,
+                olfe.event_description,
+                olfe.category_name,
+                olfe.event_date,
+                olfe.event_time,
+                oen.event_name,
+                et.event_type,
+                NULL AS event_org
+            FROM `ongoing_list_of_event` AS olfe 
+            INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+            INNER JOIN event_type AS et ON olfe.event_type_id = et.event_type_id
 
-                UNION ALL
+            UNION ALL
 
-                SELECT
-                    CONCAT('P', post.post_id) AS event_id,
-                    post.post_description AS event_description,
-                    post.post_title AS category_name,
-                    post.post_calendar AS event_date,
-                    NULL AS event_time,
-                    NULL AS event_name,
-                    post.post_calendar_type AS event_type,
-                    organization.organization_name AS event_org
-                FROM post
-                INNER JOIN organization ON post.organization_id = organization.organization_id
+            SELECT
+                CONCAT('P', post.post_id) AS event_id,
+                post.post_description AS event_description,
+                post.post_title AS category_name,
+                DATE_FORMAT(post.post_calendar, '%Y-%m-%d') AS event_date,
+                DATE_FORMAT(post.post_calendar, '%H:%i:%s') AS event_time,
+                NULL AS event_name,
+                post.post_calendar_type AS event_type,
+                organization.organization_name AS event_org
+            FROM post
+            INNER JOIN organization ON post.organization_id = organization.organization_id
             ) AS combined_table
         WHERE YEAR(combined_table.event_date) = ?
         AND MONTH(combined_table.event_date) = ?
