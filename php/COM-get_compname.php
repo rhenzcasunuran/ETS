@@ -5,13 +5,23 @@ $competitionName = $_GET['competitionName'];
 // Connect to the PHPMyAdmin database
 require 'database_connect.php';
 
+// Get the category ID
+$categoryidQuery = $conn->prepare("SELECT category_name_id FROM category_name WHERE category_name = ?");
+$categoryidQuery->bind_param("s", $competitionName);
+$categoryidQuery->execute();
+$categoryidResult = $categoryidQuery->get_result();
 
+if ($categoryidResult->num_rows > 0) {
+    $categoryidRow = $categoryidResult->fetch_assoc();
+    $categoryid = $categoryidRow["category_name_id"];
+} else {
+    $categoryid = "Unknown";
+}
 
-
-$stmt = $conn->prepare("SELECT schedule, schedule_end FROM competitions_table WHERE competition_name = ?");
-$stmt->bind_param("s", $competitionName);
+// Get the schedule using the category ID
+$stmt = $conn->prepare("SELECT schedule, schedule_end FROM competition WHERE category_name_id = ?");
+$stmt->bind_param("s", $categoryid);
 $stmt->execute();
-
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {

@@ -1,82 +1,111 @@
 <?php
 require 'database_connect.php';
 
-
-
-
 // Query the competitions table
-$sql = "SELECT * FROM competitions_table WHERE archived='0'";
+$sql = "SELECT * FROM competition WHERE is_archived='0'";
 $result = $conn->query($sql);
 
 // If there are competitions, generate HTML code for each of them
 if ($result->num_rows > 0) {
-    ?> <script type="text/javascript">document.getElementById('empty').style.display = 'none';
-    console.log("display result");</script>
+    ?>
+    <script type="text/javascript">
+        document.getElementById('empty').style.display = 'none';
+        console.log("display result");
+        console.log("Working");
+    </script>
     <?php
-  while($row = $result->fetch_assoc()) {
-    echo "<div class='result_container'>";
-    // Display the name of the competition and a button with the competition ID as the ID
-    echo "<h2 class='parent' id='" . $row["competition_name"] ."'>" . $row["competition_name"] . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='".$row["competition_name"]."-input' class='sched_output' disabled/><button class='sched_btn primary-button' id='" . $row["competition_name"] . " btn'>Schedule</button></h2>";
-    // Generate HTML code for the result div and table
-    echo "<div class='result'>";
-    echo "<table>";
-    echo "<tbody class='responsive-table'>";
-    echo "<tr><th>Name</th><th>Organization</th>";
-    
-    // Query the criteria table for this competition
-    $sql_criteria = "SELECT * FROM criteria_table WHERE competition_id = " . $row["competition_id"];
-    $result_criteria = $conn->query($sql_criteria);
-    
-    // Generate HTML code for the criteria columns
-    while($row_criteria = $result_criteria->fetch_assoc()) {
-      echo "<th>" . $row_criteria["criteria_name"] . "</th>";
-    }
-    
-    echo "<th>Overall Score</th></tr>";
-    
-    // Query the scores table for this competition and participant
-    $sql_scores = "SELECT participants_table.participant_name, participants_table.organization, scores_table.criteria_id, scores_table.score, overall_scores_table.overall_score
-                   FROM scores_table
-                   INNER JOIN participants_table ON scores_table.participant_id = participants_table.participant_id
-                   INNER JOIN overall_scores_table ON scores_table.participant_id = overall_scores_table.participant_id AND scores_table.competition_id = overall_scores_table.competition_id
-                   WHERE scores_table.competition_id = " . $row["competition_id"];
-    $result_scores = $conn->query($sql_scores);
-    
-    // Generate HTML code for the scores rows
-    $scores = array();
-    while($row_scores = $result_scores->fetch_assoc()) {
-      $participant_name = $row_scores["participant_name"];
-      if (!isset($scores[$participant_name])) {
-        $scores[$participant_name] = array(
-          "organization" => $row_scores["organization"],
-          "overall_score" => $row_scores["overall_score"],
-          "criteria_scores" => array()
-        );
+
+    while ($row = $result->fetch_assoc()) {
+      $competitionNameQuery = "SELECT category_name FROM category_name WHERE category_name_id =" . $row["category_name_id"];
+      $competitionNameResult = $conn->query($competitionNameQuery);
+      
+      if ($competitionNameResult->num_rows > 0) {
+          $competitionNameRow = $competitionNameResult->fetch_assoc();
+          $competitionName = $competitionNameRow["category_name"];
+      } else {
+          $competitionName = "Unknown";
       }
-      $scores[$participant_name]["criteria_scores"][$row_scores["criteria_id"]] = $row_scores["score"];
-    }
-    foreach ($scores as $participant_name => $score_data) {
-      echo "<tr><td>" . $participant_name . "</td><td>" . $score_data["organization"] . "</td>";
-      $result_criteria->data_seek(0);
-      while($row_criteria = $result_criteria->fetch_assoc()) {
-        $score = isset($score_data["criteria_scores"][$row_criteria["criteria_id"]]) ? $score_data["criteria_scores"][$row_criteria["criteria_id"]] : "";
-        echo "<td>" . $score . "</td>";
+        echo "<div class='result_container'>";
+        // Display the name of the competition and a button with the competition ID as the ID
+        echo "<h2 class='parent' id='" . $competitionName . "'>" . $competitionName . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='" . $competitionName . "-input' class='sched_output' disabled/><button class='sched_btn primary-button' id='" . $competitionName . " btn'>Schedule</button></h2>";
+        // Generate HTML code for the result div and table
+        echo "<div class='result'>";
+        echo "<table>";
+        echo "<tbody class='responsive-table'>";
+        echo "<tr><th>Name</th><th>Organization</th>";
+
+        // Query the criteria table for this competition
+        $sql_criterion = "SELECT * FROM criterion WHERE category_name_id = " . $row["category_name_id"];
+        $result_criterion = $conn->query($sql_criterion);
+
+        // Generate HTML code for the criteria columns
+        while ($row_criterion = $result_criterion->fetch_assoc()) {
+            echo "<th>" . $row_criterion["criterion_name"] . "</th>";
+        }
+
+        echo "<th>Overall Score</th></tr>";
+
+        // Query the scores table for this competition and participant
+        $sql_scores = "SELECT participants.participant_name, participants.organization_id, criterion_scoring.participants_id, criterion_scoring.ongoing_criterion_id, criterion_scoring.criterion_final_score
+                       FROM criterion_scoring
+                       INNER JOIN participants ON criterion_scoring.participants_id = participants.participants_id
+                       WHERE criterion_scoring.category_name_id = " . $row["category_name_id"] . "
+                       GROUP BY participants.participant_name, participants.organization_id, criterion_scoring.participants_id";
+
+        $result_scores = $conn->query($sql_scores);
+
+        // Generate HTML code for the scores rows
+        while ($row_scores = $result_scores->fetch_assoc()) {
+          $organization_nameQueary = "SELECT organization_name FROM organization WHERE organization_id = ". $row_scores["organization_id"];
+          $orgnameResult = $conn->query($organization_nameQueary);
+      
+          if ($orgnameResult->num_rows > 0) {
+              $orgnameRow = $orgnameResult->fetch_assoc();
+              $organization_name = $orgnameRow["organization_name"];
+          } else {
+              $organization_name = "Unknown";
+          }
+
+          echo "<tr><td>" . $row_scores["participant_name"] . "</td><td>" . $organization_name . "</td>";
+
+          $result_criterion->data_seek(0);
+
+          $total_score = 0;
+
+          while ($row_criterion = $result_criterion->fetch_assoc()) {
+              $criterion_id = $row_criterion["criterion_id"];
+              $participant_id = $row_scores["participants_id"];
+
+              $sql_final_score = "SELECT criterion_final_score FROM criterion_scoring WHERE ongoing_criterion_id = $criterion_id AND participants_id = $participant_id";
+
+              $result_final_score = $conn->query($sql_final_score);
+
+              if ($result_final_score->num_rows > 0) {
+                  $final_score = $result_final_score->fetch_assoc()["criterion_final_score"];
+                  $total_score += $final_score;
+                  echo "<td>" . $final_score . "</td>";
+              } else {
+                  echo "<td></td>";
+              }
+          }
+
+          echo "<td>" . $total_score . "</td></tr>";
       }
-      echo "<td>" . $score_data["overall_score"] . "</td></tr>";
-    }
-    
-    echo "</tbody></table></div>";
-    echo "</div>";
+
+      echo "</tbody></table></div>";
+      echo "</div>";
   }
 } else {
-  ?><script>
-    var empty = document.getElementById('empty');
-    var searchbar = document.querySelector('.inputAndDeleteDiv');
-    var pagini = document.querySelector('.pagination');
-    empty.style.display = 'flex';
-    searchbar.style.display = 'none';
-    pagini.style.display = 'none';
-  </script><?php
+    ?>
+    <script>
+        var empty = document.getElementById('empty');
+        var searchbar = document.querySelector('.inputAndDeleteDiv');
+        var pagini = document.querySelector('.pagination');
+        empty.style.display = 'flex';
+        searchbar.style.display = 'none';
+        pagini.style.display = 'none';
+    </script>
+    <?php
 }
 
 // Close connection

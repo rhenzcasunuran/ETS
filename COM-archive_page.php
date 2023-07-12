@@ -140,6 +140,7 @@
         } catch (Throwable $e) {
             // Show error message na hindi nag connect sa db
             // Pero sa ngayon wag muna
+            ?><script>console.log("Nag error");</script><?php
         }
         ?>
         </div>

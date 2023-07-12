@@ -123,6 +123,7 @@
         } catch (Throwable $e) {
             // Show error message na hindi nag connect sa db
             // Pero sa ngayon wag muna
+            ?><script>console.log("Bruh may error");</script><?php
         }
         ?>
         </div>
@@ -322,6 +323,7 @@
         var parentElement = button.parentElement;
         var id = parentElement.id;
         var competitionName = id;
+        console.log("And competitionName ay "+competitionName);
 
         // Send the competition name to the PHP file using AJAX
         var xhttp = new XMLHttpRequest();
