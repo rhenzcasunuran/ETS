@@ -158,7 +158,7 @@ html{
     color: var(--color-content-text);
 }
 
-#no-event-container a i, #no-event-container a i span, #add-event-btn i, #add-event-btn i span{
+#no-event-container #create-new-event-btn i, #no-event-container a i span, #add-event-btn i, #add-event-btn i span{
     color: white;
 }
 
@@ -204,11 +204,11 @@ button {
     -webkit-text-security: disc;
 }
 
-#edit-event-btn, #create-event-btn {
+.icon-button {
     transition: 0.3s ease;
 }
 
-#edit-event-btn:hover,  #create-event-btn:hover {
+.icon-button:hover {
     transform: scale(120%);
     transition: 0.3s ease;
     margin: 3px;
@@ -216,6 +216,22 @@ button {
 
 #create-new-event-btn {
     max-width: 500px!important;
+}
+
+#create-event-btn {
+    display: flex;
+}
+
+#create-event-btn.createNot {
+    display: none;
+}
+
+#delete-event-btn {
+    display: none;
+}
+
+#delete-event-btn.deleteActive {
+    display: flex;
 }
 
 #criteria-container {
@@ -272,4 +288,12 @@ button {
 
 #add-event-form label {
     font-weight: bold;
+}
+
+#deleteEvent {
+    visibility: visible;
+}
+
+#deleteEvent .popUpContainer {
+    opacity: 1;
 }

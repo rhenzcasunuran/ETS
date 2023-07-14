@@ -334,6 +334,7 @@ html {
     box-shadow: 0px 0px 10px 0 var(--shadow-color)!important;
     background-color: var(--color-content-card);
     color: var(--color-content-text);
+    position: relative;
 }
 
 .element-group {

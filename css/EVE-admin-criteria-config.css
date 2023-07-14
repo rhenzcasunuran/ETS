@@ -37,7 +37,7 @@
     width: 100%;
 }
 
-.form-control {
+input[type="text"] {
     margin-top: 10px!important;
     background: transparent!important;
     border: transparent!important;
