@@ -103,6 +103,7 @@ $sql = "SELECT
             FROM `ongoing_list_of_event` AS olfe 
             INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
             INNER JOIN event_type AS et ON olfe.event_type_id = et.event_type_id
+            WHERE olfe.is_deleted = 0
 
             UNION ALL
 
