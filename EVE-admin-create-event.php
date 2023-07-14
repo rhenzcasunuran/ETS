@@ -142,8 +142,8 @@
     <script>
 
       var description = "";
-      var date = "<?php echo isset($sanitizedDate) ? $sanitizedDate : '' ?>";
-      var time = "<?php echo isset($sanitizedTime) ? $sanitizedTime : '' ?>";
+      var date = "";
+      var time = "";
       var popUp = "<?php echo $popUpID ?>";
       var showPopUp = "<?php echo $showPopUpButtonID ?>";
 

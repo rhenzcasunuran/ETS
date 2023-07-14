@@ -28,33 +28,18 @@
     <link rel="stylesheet" href="./css/EVE-admin-bootstrap4.min.css">
     <link rel="stylesheet" href="./css/EVE-admin-list-of-events.css">
     <link rel="stylesheet" href="./css/EVE-admin-confirmation.css">
+    <link rel="stylesheet" href="./css/multiselection.css">
 
     <script src="./js/jquery-3.6.4.js"></script>
   </head>
 
   <body>
+    <?php echo $popupContent; ?>
     <?php
       $row = mysqli_num_rows($event_result);
       if ($row > 0){
         while ($row = mysqli_fetch_array($event_data)):;
     ?>
-      <div class="popup-background" id="deleteWrapper<?php echo $row[3];?>">
-        <div class="row popup-container">
-            <div class="col-4">
-                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
-            </div>
-            <div class="col-8 text-start text-container">
-                <h3 class="text-header">Delete Event?</h3>   <!--header-->
-                <p>This will delete the event permanently. This action cannot be undone.</p> <!--text-->
-            </div>
-            <div class="div">
-                <button class="outline-button" onclick="hideDelete<?php echo $row[0];?>()"><i class='bx bx-x'></i>Cancel</button>
-                <a href="EVE-admin-list-of-events.php?eed=<?php echo $row[3]?>">
-                  <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
-                </a>
-            </div>
-        </div>
-      </div>
       <?php 
           $popUpID = "markAsDone{$row['event_id']}";
           $showPopUpButtonID = "eventDoneBtn{$row['event_id']}";
@@ -82,6 +67,7 @@
     ?>
     <!--Page Content-->
     <section class="home-section">
+    <form method="POST" id="listFormContainer"> 
       <div class="container-fluid d-flex row justify-content-center m-0" id="event-wrapper">
         <?php
           $row = mysqli_num_rows($event_result2);
@@ -98,7 +84,7 @@
                                             FROM ongoing_event_name AS oen
                                             JOIN event_type AS et
                                             JOIN ongoing_list_of_event AS ole ON ole.ongoing_event_name_id = oen.ongoing_event_name_id AND ole.event_type_id = et.event_type_id
-                                            WHERE is_archived = 0
+                                            WHERE is_archived = 0 AND is_deleted = 0
                                             ORDER BY event_date ASC, event_time ASC
                                             LIMIT $start_from, $numberOfItems;";
             $listedItems = mysqli_query($conn, $list_table_query_with_limit);
@@ -107,14 +93,12 @@
                 #event-wrapper {
                   padding-bottom: 80px;
                 }
-              </style>
-              
+              </style>    
               <div class="row d-flex justify-content-between align-items-center w-100">
                 <div class="header col-7">List of Events</div>
                 <div class="button-container col-5">
-                  <a href="EVE-admin-create-event.php?add new event">
-                    <button class="primary-button icon-button" id="create-event-btn"><i class='bx bx-add-to-queue'></i></button>
-                  </a>
+                  <button class="primary-button icon-button" id="create-event-btn"><i class='bx bx-add-to-queue'></i></button>
+                  <button type="submit" class="danger-button icon-button" name="deb" id="delete-event-btn"><i class='bx bx-trash'></i></button>
                   <button class="secondary-button icon-button" id="edit-event-btn"><i class='bx bx-edit'></i></button>
                 </div>
               </div>
@@ -123,6 +107,9 @@
                 if ($row['event_type_id'] == '2') {
             ?>
             <div class="element">
+              <div class="multi-select" id="multiSelect<?php echo $row['event_id'];?>">
+                <input type="checkbox" name="deleteEvent[]" value="<?php echo $row['event_id'];?>">
+              </div>
               <div class="row">
               <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Event Type</p>
@@ -168,13 +155,22 @@
                 <div class="element-group col-sm-12 col-lg-4" id="eventBtn">
                   <button class="success-button justify-self-end event-done-btn<?php echo $row['event_id'];?>" id="eventDoneBtn<?php echo $row['event_id'];?>">Mark as Done</button>
                   <div class="button-container more-btn<?php echo $row[0];?>" id="more-btn">
-                    <a href="EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>">
                       <button class="primary-button justify-self-end" id="event-edit-btn<?php echo $row['event_id'];?>"><i class='bx bx-edit-alt'></i>Edit Event</button>
-                    </a>
-                    <button class="danger-button icon-button" id="event-delete-btn" onclick="showDelete<?php echo $row[0];?>()"><i class='bx bx-trash'></i></button>
                   </div>
 
                   <script>
+                    $(document).ready(function() {
+                      $("#event-edit-btn<?php echo $row['event_id'];?>").click(function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                      
+                        window.location.href = "EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>";
+                      });
+
+                      $("#eventDoneBtn<?php echo $row['event_id'];?>").click(function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                      });
+                    });
+
                     //Enable Button on Date
                     var markAsDoneButton = document.querySelector('button.event-done-btn<?php echo $row['event_id'];?>');
                     var editEventButton = document.querySelector('button#event-edit-btn<?php echo $row['event_id'];?>');
@@ -192,20 +188,22 @@
                       editEventButton.disabled = false;
                     }
 
-
                     const moreBtn<?php echo $row[0];?> = document.querySelector(".more-btn<?php echo $row[0];?>");
                     const doneBtn<?php echo $row[0];?> = document.querySelector(".event-done-btn<?php echo $row[0];?>");
+                    const multiSelect<?php echo $row[0]?> = document.querySelector("#multiSelect<?php echo $row[0]?>");
 
                     if (typeof(Storage) !== "undefined") {
                         // If we need to open the bar
                         if(localStorage.getItem("editEvent") == "active"){
                           moreBtn<?php echo $row[0];?>.classList.add("editOpen");
                           doneBtn<?php echo $row[0];?>.classList.add("doneClose");
+                          multiSelect<?php echo $row[0]?>.classList.add("deleteOpen");
                           document.querySelector("#edit-event-btn").classList.add("editOpen");
                         }
                         else if (localStorage.getItem("editEvent") == "notActive"){
                           moreBtn<?php echo $row[0];?>.classList.remove("editOpen");
                           doneBtn<?php echo $row[0];?>.classList.remove("doneClose"); 
+                          multiSelect<?php echo $row[0]?>.classList.remove("deleteOpen");
                           document.querySelector("#edit-event-btn").classList.remove("editOpen");
                         }
                     }
@@ -262,6 +260,9 @@
                 else if ($row['event_type_id'] == '1'){
         ?>
         <div class="element">
+              <div class="multi-select" id="multiSelect<?php echo $row['event_id'];?>">
+                <input type="checkbox" name="deleteEvent[]" value="<?php echo $row['event_id'];?>">
+              </div>
               <div class="row">
               <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Event Type</p>
@@ -317,13 +318,23 @@
                 <div class="element-group col-sm-12 col-lg-4" id="eventBtn">
                   <button class="success-button justify-self-end event-done-btn<?php echo $row['event_id'];?>" id="eventDoneBtn<?php echo $row['event_id'];?>">Mark as Done</button>
                   <div class="button-container more-btn<?php echo $row[0];?>" id="more-btn">
-                    <a href="EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>">
                       <button class="primary-button justify-self-end" id="event-edit-btn<?php echo $row['event_id'];?>"><i class='bx bx-edit-alt'></i>Edit Event</button>
-                    </a>
-                    <button class="danger-button icon-button" id="event-delete-btn" onclick="showDelete<?php echo $row[0];?>()"><i class='bx bx-trash'></i></button>
                   </div>
 
                   <script>
+
+                    $(document).ready(function() {
+                      $("#event-edit-btn<?php echo $row['event_id'];?>").click(function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                      
+                        window.location.href = "EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>";
+                      });
+
+                      $("#eventDoneBtn<?php echo $row['event_id'];?>").click(function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                      });
+                    });
+
                     //Enable Button on Date
                     var markAsDoneButton = document.querySelector('button.event-done-btn<?php echo $row['event_id'];?>');
                     var editEventButton = document.querySelector('button#event-edit-btn<?php echo $row['event_id'];?>');
@@ -341,20 +352,22 @@
                       editEventButton.disabled = false;
                     }
 
-
                     const moreBtn<?php echo $row[0];?> = document.querySelector(".more-btn<?php echo $row[0];?>");
                     const doneBtn<?php echo $row[0];?> = document.querySelector(".event-done-btn<?php echo $row[0];?>");
+                    const multiSelect<?php echo $row[0]?> = document.querySelector("#multiSelect<?php echo $row[0]?>");
 
                     if (typeof(Storage) !== "undefined") {
                         // If we need to open the bar
                         if(localStorage.getItem("editEvent") == "active"){
                           moreBtn<?php echo $row[0];?>.classList.add("editOpen");
                           doneBtn<?php echo $row[0];?>.classList.add("doneClose");
+                          multiSelect<?php echo $row[0]?>.classList.add("deleteOpen");
                           document.querySelector("#edit-event-btn").classList.add("editOpen");
                         }
                         else if (localStorage.getItem("editEvent") == "notActive"){
                           moreBtn<?php echo $row[0];?>.classList.remove("editOpen");
                           doneBtn<?php echo $row[0];?>.classList.remove("doneClose"); 
+                          multiSelect<?php echo $row[0]?>.classList.remove("deleteOpen");
                           document.querySelector("#edit-event-btn").classList.remove("editOpen");
                         }
                     }
@@ -369,16 +382,19 @@
                 else if ($row['event_type_id'] == 3) {
         ?>
         <div class="element">
+              <div class="multi-select" id="multiSelect<?php echo $row['event_id'];?>">
+                <input type="checkbox" name="deleteEvent[]" value="<?php echo $row['event_id'];?>">
+              </div>
               <div class="row">
               <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Event Type</p>
                   <p class="element-content"><?php echo $row['event_type'];?></p>
                 </div>
-                <div class="element-group col-sm-6 col-lg-6">
+                <div class="element-group col-sm-6 col-lg-3">
                   <p class="element-label">Event</p>
                   <p class="element-content"><?php echo $row['event_name'];?></p>
                 </div>
-                <div class="element-group col-sm-6 col-lg-3">
+                <div class="element-group col-sm-6 col-lg-6">
                   <p class="element-label">Date & Time</p>
                   <p class="element-content"><?php 
                   $date_sql = "SELECT DATE_FORMAT('$row[event_date]', '%M %d, %Y') AS formattedDate FROM ongoing_list_of_event;";
@@ -401,13 +417,21 @@
                 <div class="element-group col-sm-12 col-lg-4" id="eventBtn">
                   <button class="success-button justify-self-end event-done-btn<?php echo $row['event_id'];?>" id="eventDoneBtn<?php echo $row['event_id'];?>">Mark as Done</button>
                   <div class="button-container more-btn<?php echo $row[0];?>" id="more-btn">
-                    <a href="EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>">
                       <button class="primary-button justify-self-end" id="event-edit-btn<?php echo $row['event_id'];?>"><i class='bx bx-edit-alt'></i>Edit Event</button>
-                    </a>
-                    <button class="danger-button icon-button" id="event-delete-btn" onclick="showDelete<?php echo $row[0];?>()"><i class='bx bx-trash'></i></button>
                   </div>
 
                   <script>
+                    $(document).ready(function() {
+                      $("#event-edit-btn<?php echo $row['event_id'];?>").click(function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                      
+                        window.location.href = "EVE-admin-edit-event.php?eec=<?php echo $row['event_id']?>";
+                      });
+                      $("#eventDoneBtn<?php echo $row['event_id'];?>").click(function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                      });
+                    });
+
                     //Enable Button on Date
                     var markAsDoneButton = document.querySelector('button.event-done-btn<?php echo $row['event_id'];?>');
                     var editEventButton = document.querySelector('button#event-edit-btn<?php echo $row['event_id'];?>');
@@ -428,17 +452,20 @@
 
                     const moreBtn<?php echo $row[0];?> = document.querySelector(".more-btn<?php echo $row[0];?>");
                     const doneBtn<?php echo $row[0];?> = document.querySelector(".event-done-btn<?php echo $row[0];?>");
+                    const multiSelect<?php echo $row[0]?> = document.querySelector("#multiSelect<?php echo $row[0]?>");
 
                     if (typeof(Storage) !== "undefined") {
                         // If we need to open the bar
                         if(localStorage.getItem("editEvent") == "active"){
                           moreBtn<?php echo $row[0];?>.classList.add("editOpen");
                           doneBtn<?php echo $row[0];?>.classList.add("doneClose");
+                          multiSelect<?php echo $row[0]?>.classList.add("deleteOpen");
                           document.querySelector("#edit-event-btn").classList.add("editOpen");
                         }
                         else if (localStorage.getItem("editEvent") == "notActive"){
                           moreBtn<?php echo $row[0];?>.classList.remove("editOpen");
                           doneBtn<?php echo $row[0];?>.classList.remove("doneClose"); 
+                          multiSelect<?php echo $row[0]?>.classList.remove("deleteOpen");
                           document.querySelector("#edit-event-btn").classList.remove("editOpen");
                         }
                     }
@@ -449,6 +476,9 @@
         <?php
           }
           endwhile; 
+        ?>
+          <script type="text/javascript" src="./js/EVE-admin-list-of-events.js"></script>
+        <?php
           }
           else{
             ?>
@@ -458,18 +488,27 @@
                 <h1>No Events</h1>
                 <p>Looks like you have no events created. <br> You can do so by clicking the button below.</p>
                 <div class="row justify-content-center">
-                  <a href="EVE-admin-create-event.php?create new event">
-                    <button class="primary-button" id="create-new-event-btn">
-                      <i class='bx bx-add-to-queue d-flex justify-content-center align-items-center'></i>
+                  <button class="primary-button" id="create-new-event-btn">
+                    <i class='bx bx-add-to-queue d-flex justify-content-center align-items-center'></i>
                       Create an Event
-                    </button>
-                  </a>
+                  </button>
                 </div>
               </div>
+              
+              <script>
+                  $(document).ready(function() {
+                    $("#create-new-event-btn").click(function(event) {
+                      event.preventDefault(); // Prevent default form submission
+                      
+                      window.location.href = "EVE-admin-create-event.php";
+                    });
+                  });
+              </script>
             <?php
           }
         ?>
       </div>
+      </form> 
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
@@ -488,6 +527,27 @@
         });
       });
 
+      $()
+
+      if (typeof(Storage) !== "undefined") {
+          // If we need to open the bar
+          if(localStorage.getItem("editEvent") == "active"){
+            $('#create-event-btn').addClass("createNot");
+            $('#delete-event-btn').addClass("deleteActive");
+          }
+          else if (localStorage.getItem("editEvent") == "notActive"){
+            $('#create-event-btn').removeClass("createNot");
+            $('#delete-event-btn').removeClass("deleteActive");
+          }
+      }      
+
+      $(document).ready(function() {
+        $("#create-event-btn").click(function(event) {
+          event.preventDefault(); // Prevent default form submission
+                      
+          window.location.href = "EVE-admin-create-event.php";
+        });
+      });
 
     </script>
 
@@ -495,7 +555,6 @@
     <script type="text/javascript" src="./js/EVE-admin-bootstrap4.bundle.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select-picker.js"></script>
-    <script type="text/javascript" src="./js/EVE-admin-list-of-events.js"></script>
     <script>
 
     </script>
