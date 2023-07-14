@@ -338,7 +338,45 @@
         header('Location: EVE-admin-list-of-events.php');
      }
 
+     $popupContent = '';
      
+     if (isset($_POST['deb'])) {
+        $all_id = $_POST['deleteEvent'] ?? NULL;
+        
+        if ($all_id != NULL){
+                $extract_id = implode(',', $all_id);
+
+                $sql = "INSERT IGNORE INTO category_name (category_name_id, event_name_id, event_type_id, category_name)
+                        SELECT category_name_id, event_name_id, event_type_id, category_name
+                        FROM ongoing_list_of_event
+                        WHERE event_id IN($extract_id);";
+                mysqli_query($conn,$sql);
+
+                $sql = "INSERT IGNORE INTO criterion (criterion_id, category_name_id, criterion_name, criterion_percent)
+                        SELECT criterion_id, category_name_id, criterion_name, criterion_percent
+                        FROM ongoing_criterion
+                        WHERE event_id IN($extract_id);";
+                mysqli_query($conn,$sql);
+
+                $sql = "UPDATE ongoing_list_of_event SET is_deleted = '1', event_code = NULL WHERE event_id IN($extract_id);";
+                $deleteQuery = mysqli_query($conn, $sql);
+        }
+        else {
+                $popUpID = "deleteEvent";
+                $showPopUpButtonID = "";
+                $icon = "<i class='bx bxs-calendar-exclamation warning-color'></i>";
+                $title = "There are no selected events";
+                $message = "Select an event if you want to delete an event";
+                $your_link = "EVE-admin-list-of-events.php";
+      
+                // Make sure to include your php query to the your page
+      
+                ob_start();
+                include './php/popup-1-btn.php';
+                $popupContent = ob_get_clean();
+        }
+
+     }
 
         
    /* if(isset($_GET['eed'])){

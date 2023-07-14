@@ -28,10 +28,25 @@
             if ($row > 0) {
                 $row = mysqli_fetch_array($query);
                 $ongoing_event_name_id = $row['ongoing_event_name_id'];
+
+                $sql = "SELECT * FROM bar_graph WHERE ongoing_event_name_id = $ongoing_event_name_id;";
+                $query = mysqli_query($conn, $sql);
+                $row = mysqli_num_rows($query);
+
+                if ($row < 1) {
+                    $sql = "SELECT * FROM organization WHERE organization_id != '0';";
+                    $org = mysqli_query($conn, $sql);
+                    while ($row = mysqli_fetch_array($org)) {
+                        $sql = "INSERT INTO bar_graph (organization_id, ongoing_event_name_id, event_name_id) VALUES ('$row[0]', '$ongoing_event_name_id', '$event_name_id');";
+                        mysqli_query($conn, $sql);
+                    }
+                }
+
             }
             else {
-                $sql = "INSERT INTO ongoing_event_name (event_name_id, event_name)
-                        SELECT event_name_id, event_name
+                $currentYear = date('Y');
+                $sql = "INSERT INTO ongoing_event_name (event_name_id, event_name, year_created)
+                        SELECT event_name_id, event_name, '$currentYear'
                         FROM event_name
                         WHERE event_name_id = '$event_name_id';";
                 mysqli_query($conn, $sql);
@@ -40,6 +55,13 @@
                 $query = mysqli_query($conn,$sql);
                 $row = mysqli_fetch_array($query);
                 $ongoing_event_name_id = $row['ongoing_event_name_id'];
+
+                $sql = "SELECT * FROM organization WHERE organization_id != '0';";
+                $org = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_array($org)) {
+                    $sql = "INSERT INTO bar_graph (organization_id, ongoing_event_name_id, event_name_id) VALUES ('$row[0]', '$ongoing_event_name_id', '$event_name_id');";
+                    mysqli_query($conn, $sql);
+                }
             }
         
             //Insert on List of Events
@@ -121,10 +143,24 @@
             if ($row > 0) {
                 $row = mysqli_fetch_array($query);
                 $ongoing_event_name_id = $row['ongoing_event_name_id'];
+
+                $sql = "SELECT * FROM bar_graph WHERE ongoing_event_name_id = $ongoing_event_name_id;";
+                $query = mysqli_query($conn, $sql);
+                $row = mysqli_num_rows($query);
+
+                if ($row < 1) {
+                    $sql = "SELECT * FROM organization WHERE organization_id != '0';";
+                    $org = mysqli_query($conn, $sql);
+                    while ($row = mysqli_fetch_array($org)) {
+                        $sql = "INSERT INTO bar_graph (organization_id, ongoing_event_name_id, event_name_id) VALUES ('$row[0]', '$ongoing_event_name_id', '$event_name_id');";
+                        mysqli_query($conn, $sql);
+                    }
+                }
             }
             else {
-                $sql = "INSERT INTO ongoing_event_name (event_name_id, event_name)
-                        SELECT event_name_id, event_name
+                $currentYear = date('Y');
+                $sql = "INSERT INTO ongoing_event_name (event_name_id, event_name, year_created)
+                        SELECT event_name_id, event_name, '$currentYear'
                         FROM event_name
                         WHERE event_name_id = '$event_name_id';";
                 mysqli_query($conn, $sql);
@@ -133,6 +169,13 @@
                 $query = mysqli_query($conn,$sql);
                 $row = mysqli_fetch_array($query);
                 $ongoing_event_name_id = $row['ongoing_event_name_id'];
+
+                $sql = "SELECT * FROM organization WHERE organization_id != '0';";
+                $org = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_array($org)) {
+                    $sql = "INSERT INTO bar_graph (organization_id, ongoing_event_name_id, event_name_id) VALUES ('$row[0]', '$ongoing_event_name_id', '$event_name_id');";
+                    mysqli_query($conn, $sql);
+                }
             }
 
             //Insert on List of Events
