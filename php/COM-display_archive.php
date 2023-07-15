@@ -1,6 +1,24 @@
 <?php
 require 'database_connect.php';
 
+// Get the current date and time
+$currentDate = date("Y-m-d");
+$currentTime = date("H:i:s");
+
+// Query schedule_end in competition
+$sql = "SELECT * FROM competition WHERE schedule_end < CONCAT('$currentDate', ' ', '$currentTime')";
+$result = $conn->query($sql);
+
+// Set is_archived to 1 for the matching rows
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $id = $row['id'];
+
+        // Update is_archived to 1
+        $update_sql = "UPDATE competition SET is_archived = 1 WHERE id = $id";
+        $conn->query($update_sql);
+    }
+}
 
 
 // Query the competitions table
@@ -18,7 +36,7 @@ if ($result->num_rows > 0) {
   <?php
 
   while ($row = $result->fetch_assoc()) {
-    $competitionNameQuery = "SELECT category_name FROM category_name WHERE category_name_id =" . $row["category_name_id"];
+    $competitionNameQuery = "SELECT category_name FROM ongoing_list_of_event WHERE event_id =" . $row["event_id"];
     $competitionNameResult = $conn->query($competitionNameQuery);
     
     if ($competitionNameResult->num_rows > 0) {
@@ -37,7 +55,7 @@ if ($result->num_rows > 0) {
       echo "<tr><th>Name</th><th>Organization</th>";
 
       // Query the criteria table for this competition
-      $sql_criterion = "SELECT * FROM criterion WHERE category_name_id = " . $row["category_name_id"];
+      $sql_criterion = "SELECT * FROM ongoing_criterion WHERE event_id = " . $row["event_id"];
       $result_criterion = $conn->query($sql_criterion);
 
       // Generate HTML code for the criteria columns
@@ -51,7 +69,7 @@ if ($result->num_rows > 0) {
       $sql_scores = "SELECT participants.participant_name, participants.organization_id, criterion_scoring.participants_id, criterion_scoring.ongoing_criterion_id, criterion_scoring.criterion_final_score
                      FROM criterion_scoring
                      INNER JOIN participants ON criterion_scoring.participants_id = participants.participants_id
-                     WHERE criterion_scoring.category_name_id = " . $row["category_name_id"] . "
+                     WHERE criterion_scoring.event_id = " . $row["event_id"] . "
                      GROUP BY participants.participant_name, participants.organization_id, criterion_scoring.participants_id";
 
       $result_scores = $conn->query($sql_scores);

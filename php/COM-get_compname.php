@@ -5,22 +5,22 @@ $competitionName = $_GET['competitionName'];
 // Connect to the PHPMyAdmin database
 require 'database_connect.php';
 
-// Get the category ID
-$categoryidQuery = $conn->prepare("SELECT category_name_id FROM category_name WHERE category_name = ?");
-$categoryidQuery->bind_param("s", $competitionName);
-$categoryidQuery->execute();
-$categoryidResult = $categoryidQuery->get_result();
+// Get the evrnt ID
+$eventidQuery = $conn->prepare("SELECT event_id FROM ongoing_list_of_event WHERE category_name = ?");
+$eventidQuery->bind_param("s", $competitionName);
+$eventidQuery->execute();
+$eventidResult = $eventidQuery->get_result();
 
-if ($categoryidResult->num_rows > 0) {
-    $categoryidRow = $categoryidResult->fetch_assoc();
-    $categoryid = $categoryidRow["category_name_id"];
+if ($eventidResult->num_rows > 0) {
+    $eventidRow = $eventidResult->fetch_assoc();
+    $eventid = $eventidRow["event_id"];
 } else {
-    $categoryid = "Unknown";
+    $eventid = "Unknown";
 }
 
-// Get the schedule using the category ID
-$stmt = $conn->prepare("SELECT schedule, schedule_end FROM competition WHERE category_name_id = ?");
-$stmt->bind_param("s", $categoryid);
+// Get the schedule using the event ID
+$stmt = $conn->prepare("SELECT schedule, schedule_end FROM competition WHERE event_id = ?");
+$stmt->bind_param("s", $eventid);
 $stmt->execute();
 $result = $stmt->get_result();
 
