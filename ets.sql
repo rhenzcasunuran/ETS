@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2023 at 03:52 PM
+-- Generation Time: Jul 15, 2023 at 03:59 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -853,6 +853,13 @@ ALTER TABLE `post`
   ADD KEY `organization_id` (`organization_id`);
 
 --
+-- Indexes for table `post_photo`
+--
+ALTER TABLE `post_photo`
+  ADD PRIMARY KEY (`photo_id`),
+  ADD KEY `post_id` (`post_id`);
+
+--
 -- Indexes for table `tournament`
 --
 ALTER TABLE `tournament`
@@ -996,6 +1003,12 @@ ALTER TABLE `post`
   MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
+-- AUTO_INCREMENT for table `post_photo`
+--
+ALTER TABLE `post_photo`
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
 -- AUTO_INCREMENT for table `tournament`
 --
 ALTER TABLE `tournament`
@@ -1035,6 +1048,12 @@ ALTER TABLE `bar_graph`
 ALTER TABLE `category_name`
   ADD CONSTRAINT `category_name_ibfk_1` FOREIGN KEY (`event_name_id`) REFERENCES `event_name` (`event_name_id`),
   ADD CONSTRAINT `category_name_ibfk_2` FOREIGN KEY (`event_type_id`) REFERENCES `event_type` (`event_type_id`);
+
+--
+-- Constraints for table `post_photo`
+--
+ALTER TABLE `post_photo`
+  ADD CONSTRAINT `post_photo_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
