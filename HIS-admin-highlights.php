@@ -47,7 +47,7 @@
       <div class="bg-white p-3" id="container-1">
         <form method="POST" action="" enctype="multipart/form-data">
   <div class="form-group">
-    <select class="form-control" name="event_name" id="event_name" required>
+    <select class="form-control" name="event_name" id="event_name" >
       <option value="" selected disabled>Select Event</option>
       <?php
      include('./php/database_connect.php');
@@ -70,16 +70,16 @@
       ?>
     </select>
   </div>
- <div class="form-group">
-  <div class="drop-zone text-center">
-    <label for="uploadfile" class="drop-zone__prompt">
-    <i class='bx bxs-file-image bx-lg'></i>      <br>
-      Drag and drop images here or click to upload
-    </label>
-    <input class="drop-zone__input" type="file" name="uploadfile[]" id="uploadfile" multiple required />
-    <div class="drop-zone__files" id="preview"></div>
-  </div>
-</div>
+  <div class="form-group">
+        <div class="drop-zone text-center">
+          <label for="uploadfile" class="drop-zone__prompt">
+            <i class='bx bxs-file-image bx-lg'></i> <br>
+            Drag and drop images here or click to upload
+          </label>
+          <input class="drop-zone__input" type="file" name="uploadfile[]" id="uploadfile"  multiple />
+          <div class="drop-zone__files" id="preview"></div>
+        </div>
+      </div>
 
 </form>
 
@@ -130,21 +130,53 @@
         </div>
         <div class="form-group">
         <div class="textarea-wrapper">
-  <textarea maxlength="3000" name="image_Description" id="image_Description" placeholder="Input Summary"></textarea>
+  <textarea maxlength="3000" name="image_Description" id="image_Description" placeholder="Input Summary" ></textarea>
   <span id="character-counter">3000 characters remaining</span>
 </div>
+</div>
+      </div>
 
-
-        </div>
         
-       <div class="container" id="button-container">
+      <div class="container" id="button-container" style="display: flex; justify-content: flex-end;">
         <button type="submit" id="upload-btn" class="btn btn-primary">Upload</button>
-      </div>
-      </div>
-   
+      
+  </div>
     </div>
   </div>
-      
+      <div class="popUpDisableBackground" id="confirmPopup">
+  <div class="popUpContainer">
+    <i class="bx bx-question-circle"></i>
+    <div class="popUpHeader">Are you sure?</div>
+    <div class="popUpMessage">Suggest activity/ies?</div>
+    <div class="popUpButtonContainer">
+      <button class="secondary-button" id="cancelButton"><i class="bx bx-x"></i>Cancel</button>
+      <button class="primary-button" id="confirmButton"><i class="bx bx-check"></i>Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="popUpDisableBackground" id="successPopup">
+  <div class="popUpContainer">
+    <i class="bx bx-check-circle success-color"></i>
+    <div class="popUpHeader">Suggest Success</div>
+    <div class="popUpMessage">Activities suggested successfully!</div>
+    <div class="popUpButtonContainer">
+      <button class="primary-button" id="successConfirmButton"><i class="bx bx-check"></i>OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="popUpDisableBackground" id="errorPopup">
+  <div class="popUpContainer">
+    <i class="bx bx-x-circle error-color"></i>
+    <div class="popUpHeader">Error</div>
+    <div class="popUpMessage">Please select an event first.</div>
+    <div class="popUpButtonContainer">
+      <button class="primary-button" id="errorConfirmButton"><i class="bx bx-check"></i>OK</button>
+    </div>
+  </div>
+</div>
+
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
@@ -168,6 +200,7 @@
     <!--
 Event History Scripts
 -->
+
 <script>
 
 const searchInput = document.getElementById('search');
@@ -237,20 +270,42 @@ Event History Scripts
     $('form').submit(function(event) {
       event.preventDefault(); // Prevent the default form submission
 
-      // Validate the form inputs
-      var event_name = $('#event_name').val();
-      var uploadfile = $('#uploadfile').val();
-      var image_Info = $('#image_Info').val();
-      var image_Description = $('#image_Description').val();
+    // Validate the form inputs
+var event_name = $('#event_name').val();
+var uploadfile = $('#uploadfile').prop('files');
+var image_Info = $('#image_Info').val();
+var image_Description = $('#image_Description').val();
 
-      if (event_name === '' || uploadfile === '' || image_Info === '' || image_Description === '') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Validation Error',
-          text: 'Please fill in all the required fields.',
-        });
-        return;
-      }
+// Check if any of the required fields are empty
+if (event_name === '' || uploadfile.length === 0 || image_Info === '' || image_Description === '') {
+  // Generate a list of required fields
+  var requiredFields = [];
+  if (event_name === '') {
+    requiredFields.push('Event Name');
+  }
+  if (uploadfile.length === 0) {
+    requiredFields.push('Insert Image');
+  }
+  if (image_Info === '') {
+    requiredFields.push('Image Info');
+  }
+  if (image_Description === '') {
+    requiredFields.push('Image Description');
+  }
+
+  // Create the validation error message with the list of required fields
+  var errorMessage = 'Please fill in the following required fields: ' + requiredFields.join(', ');
+
+  // Display the validation error message
+  Swal.fire({
+    icon: 'error',
+    title: 'Validation Error',
+    text: errorMessage,
+  });
+
+  return;
+}
+
 
       // Create a new FormData object
       var formData = new FormData($(this)[0]);

@@ -170,7 +170,7 @@ include './php/admin-signin.php';
 
 
 
-        <div class="row justify-content-center">
+        <div class="row">
   <div class="col-md-12 left-container custom-left-container">
     <div class="container-fluid left-part">
       <div class="row">
@@ -413,58 +413,103 @@ function myFunction() {
 </script>
 
 <script>
-  document.getElementById('search').addEventListener('keyup', function () {
-    var searchQuery = this.value.toLowerCase();
-    var eventCards = document.getElementsByClassName('event-card');
-    var suggestedEvents = document.querySelector('.suggested-events');
-    var hasMatchingResults = false;
+document.getElementById('search').addEventListener('keyup', function () {
+  var searchQuery = this.value.toLowerCase();
+  var eventCards = document.getElementsByClassName('event-card');
+  var suggestedEvents = document.querySelector('.suggested-events');
+  var hasMatchingResults = false;
 
-    for (var i = 0; i < eventCards.length; i++) {
-      var eventName = eventCards[i].querySelector('.event-name').textContent.toLowerCase();
-      var category = eventCards[i].querySelector('.category').textContent.toLowerCase();
-      var year = eventCards[i].querySelector('.year').textContent.toLowerCase();
-      var eventInfo = eventName + " " + category + " " + year;
+  for (var i = 0; i < eventCards.length; i++) {
+    var eventName = eventCards[i].querySelector('.event-name').textContent.toLowerCase();
+    var category = eventCards[i].querySelector('.category').textContent.toLowerCase();
+    var year = eventCards[i].querySelector('.year').textContent.toLowerCase();
+    var eventInfo = eventName + " " + category + " " + year;
 
-      if (eventInfo.includes(searchQuery)) {
-        eventCards[i].style.display = 'block'; // Show the event card
-        if (eventCards[i].parentNode.parentNode === suggestedEvents) {
-          hasMatchingResults = true; // At least one suggested event has matching results
-        }
-      } else {
-        eventCards[i].style.display = 'none'; // Hide the event card
+    if (eventInfo.includes(searchQuery)) {
+      eventCards[i].style.display = 'block'; // Show the event card
+      if (eventCards[i].parentNode.parentNode === suggestedEvents) {
+        hasMatchingResults = true; // At least one suggested event has matching results
       }
-    }
-
-    if (searchQuery !== '' && !hasMatchingResults) {
-      suggestedEvents.style.display = 'none'; // Hide the suggested events container when there are no matching results
     } else {
-      suggestedEvents.style.display = 'block'; // Show the suggested events container in all other cases
+      eventCards[i].style.display = 'none'; // Hide the event card
     }
+  }
+
+  // Check if the selected card is visible
+  if (selectedCard && selectedCard.style.display === 'none') {
+    selectedCard = null; // Reset selected card if it is hidden
+  }
+
+  // Update the text container for the selected card
+  updateTextContainer();
+
+  if (searchQuery !== '' && !hasMatchingResults) {
+    suggestedEvents.style.display = 'none'; // Hide the suggested events container when there are no matching results
+  } else {
+    suggestedEvents.style.display = 'block'; // Show the suggested events container in all other cases
+  }
+  
+  // Make event cards clickable
+  eventCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      const eventName = card.getAttribute('data-bs-event');
+      const eventDescription = card.getAttribute('data-bs-desc');
+      const eventImages = card.querySelectorAll('img');
+
+      modalEventName.textContent = eventName;
+      modalCategory.textContent = card.querySelector('.category').textContent;
+      modalYear.textContent = card.querySelector('.year').textContent;
+      modalDescription.textContent = eventDescription;
+
+      // Clear previous images
+      modalEventImages.innerHTML = '';
+
+      // Add event images to the modal
+      eventImages.forEach(function(image) {
+        const clonedImage = image.cloneNode(true);
+        modalEventImages.appendChild(clonedImage);
+      });
+    });
   });
+});
+
 </script>
 <script>
-  var previousEvent = ""; // Variable to store the previous event name
-
   function filterByEventName(eventName) {
-    // Check if the selected event name is the same as the previous one
-    if (eventName === previousEvent) {
-      window.location.reload(); // Reload the page to display all events without filter
-    } else {
-      // Make an AJAX request to fetch the filtered events based on the selected event name
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", "./php/HIS-filter_event.php?eventName=" + encodeURIComponent(eventName), true);
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          // Update the event container with the filtered results
-          document.getElementById("card-container").innerHTML = xhr.responseText;
-        }
-      };
-      xhr.send();
-    }
+  var eventCards = document.getElementsByClassName('event-card');
+  var suggestedEvents = document.querySelector('.suggested-events');
+  var hasMatchingResults = false;
 
-    // Update the previous event name
-    previousEvent = eventName;
+  for (var i = 0; i < eventCards.length; i++) {
+    var currentEventCard = eventCards[i];
+    var eventNameElement = currentEventCard.querySelector('.event-name');
+    var eventNameText = eventNameElement.textContent.toLowerCase();
+
+    if (eventNameText.includes(eventName.toLowerCase())) {
+      currentEventCard.style.display = 'block'; // Show the event card
+      if (currentEventCard.parentNode.parentNode === suggestedEvents) {
+        hasMatchingResults = true; // At least one suggested event has matching results
+      }
+    } else {
+      currentEventCard.style.display = 'none'; // Hide the event card
+    }
   }
+
+  // Check if the selected card is visible
+  if (selectedCard && selectedCard.style.display === 'none') {
+    selectedCard = null; // Reset selected card if it is hidden
+  }
+
+  // Update the text container for the selected card
+  updateTextContainer();
+
+  if (!hasMatchingResults) {
+    suggestedEvents.style.display = 'none'; // Hide the suggested events container when there are no matching results
+  } else {
+    suggestedEvents.style.display = 'block'; // Show the suggested events container in all other cases
+  }
+}
+
 </script>
 <script>
   //WITHOUT EVENT CLICKED
