@@ -459,6 +459,46 @@
 
         function closeModal() {
           $('.modal').modal('hide');
+          // Remove the existing modal backdrop if it exists
+          var modalBackdrop = document.querySelector('.modal-backdrop');
+          if (modalBackdrop) {
+            modalBackdrop.remove();
+          }
+          var modalContent = `
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                  <br>
+                  <i class='bx bx-calendar-check bx-lg' id='calendar-check-icon'></i>
+                  <br>
+                  <br>
+                  <br>
+                  <h1 class="modal-title fs-4" id="exampleModalLabel">Successfully Added</h1>
+                  <h1 class="modal-title fs-4">The event has been successfully added to your Google Calendar</h1>
+                  <br>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+          `;
+          
+          // Append the modal to the document body
+          document.body.insertAdjacentHTML('beforeend', modalContent);
+          
+          // Show the modal
+          $('#exampleModal').modal('show');
+          
+          // Close the modal after 3 seconds
+          setTimeout(function() {
+            $('#exampleModal').modal('hide');
+            // Remove the existing modal backdrop if it exists
+            var modalBackdrop = document.querySelector('.modal-backdrop');
+            if (modalBackdrop) {
+              modalBackdrop.remove();
+            }
+          }, 3000);
         }
 
         request.execute(function(event) {
