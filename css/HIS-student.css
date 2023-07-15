@@ -535,9 +535,8 @@ text-align: center;
   border-radius: 15px;
 }
 .event-card.selected {
-  background-color:var(--color-sidebar-active);
+  background-color: #c01f1f !important;
 }
-
 
 /* Mobile Styles */
 @media only screen and (max-width: 768px) {
