@@ -28,7 +28,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuration</title>
+    <title><?php echo $post_row['post_title'];?></title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="css/theme-mode.css">
     <script src="js/default-theme.js"></script>
@@ -37,9 +37,8 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/home-sidebar-style.css">
-    <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/HOM-index.css">
+    <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/HOM-post.css">
   </head>
 
@@ -79,58 +78,51 @@
     ?>
     <!--Page Content-->
     <section class="home-section">
-      <div class="container">
-        <div class="row">
-        <a href="index.php" class="link-button">
+      <div class="header">
+        <a href="index.php">
           <i class='back bx bx-arrow-back'></i>
         </a>
-        </div>
-        <div class="container post">
-          <div class="row">
-            <p class="post-date">
-              Posted on <?php echo $post_row['post_schedule'];?>
-            </p>
-          </div>
-          <div class="row">
-            <p class="post-title">
-              <?php echo $post_row['post_title'];?>
-            </p>
-          </div>
-          <div class="row">
-            <p class="post-tag <?php echo $post_row['organization_name'];?>">
-              <?php echo $post_row['organization_name'];?>
-            </p>
-          </div>
-          <div class="row">
-            <p class="post-description">
-              <?php 
-                $text = $post_row['post_description'];
-                $formattedText = nl2br($text);
-                echo $formattedText;
-              ?>
-            </p>
-          </div>
-          <div class="row">
+      </div>
+      <div class="container-fluid d-flex row justify-content-center m-0">
+        <div class="element">
+          <p class="post-date">
             <?php
-              $id = $post_row['post_id'];
-
-              $sql_photo = "SELECT file_name
-              FROM post_photo
-              WHERE post_id = $id;";
-              $photo = mysqli_query($conn, $sql_photo);
-
-              if($photo){
-                while($photo_row = mysqli_fetch_assoc($photo)) {
-                  $file_name = $photo_row['file_name'];
-                  echo "<img class='post-photo' src='post/$file_name'>";
-                  
-                }
-              } 
-              else{
-                  echo "Error retrieving file names: " . mysqli_error($conn);
-              }
+              $date = date("F d, Y", strtotime($post_row['post_schedule']));
+              $time = date("h:i A", strtotime($post_row['post_schedule']));
             ?>
-          </div>
+            Posted on <?php echo $date;?> at <?php echo $time;?>
+          </p>
+          <p class="post-title">
+            <?php echo $post_row['post_title'];?>
+          </p>
+          <p class="post-tag <?php echo $post_row['organization_name'];?>">
+            <?php echo $post_row['organization_name'];?>
+          </p>
+          <p class="post-description">
+            <?php 
+              $text = $post_row['post_description'];
+              $formattedText = nl2br($text);
+              echo $formattedText;
+            ?>
+          </p>
+          <?php
+            $id = $post_row['post_id'];
+
+            $sql_photo = "SELECT file_name
+            FROM post_photo
+            WHERE post_id = $id;";
+            $photo = mysqli_query($conn, $sql_photo);
+
+            if($photo){
+              while($photo_row = mysqli_fetch_assoc($photo)) {
+                $file_name = $photo_row['file_name'];
+                echo "<img class='post-photo' src='post/$file_name'>"; 
+              }
+            } 
+            else{
+              echo "Error retrieving file names: " . mysqli_error($conn);
+            }
+          ?>
         </div>
       </div>
     </section>

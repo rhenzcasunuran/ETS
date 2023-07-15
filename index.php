@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuration</title>
+    <title>Events Tabulation System</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
     <script src="./js/default-theme.js"></script>
@@ -100,13 +100,15 @@
             if($row > 0){
               while($row = mysqli_fetch_array($get_posts)){
                 $date = date("F d, Y", strtotime($row['post_schedule']));
+                $time = date("h:i A", strtotime($row['post_schedule']));
+
           ?>
-            <a href="HOM-post.php?eec=<?php echo $row['post_id']?>" class="post-click ALL <?php echo $row['organization_name'];?>">
-              <div class="post-card">
+            <a href="HOM-post.php?eec=<?php echo $row['post_id'];?>" class="post-click ALL <?php echo $row['organization_name'];?>">
+              <div class="post-card <?php echo $row['organization_name'];?>">
                 <img class="post-cover" src="post/<?php echo $row['post_cover'];?>">
                 <div class="post-detail">
                   <p class="post-date">
-                    Posted on <?php echo $date;?>
+                  <?php echo $row['organization_name'];?> · <?php echo $date;?> · <?php echo $time;?>
                   </p>
                   <div class="post-title-container">
                     <p class="post-title-text">
