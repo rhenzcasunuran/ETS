@@ -45,8 +45,8 @@
     color: whitesmoke;
 }
 
-.Student Council{
-    background-color: gray;
+.SC{
+    background-color: var(--color-sc);
 }
 
 .ACAP{
@@ -154,7 +154,6 @@
     width: 375px;
     height: 275px;
     vertical-align: top;
-    background-color: var(--color-sidebar-chevron-icon);
     cursor: pointer;
     padding: 0px;
     margin: 0px 10px;

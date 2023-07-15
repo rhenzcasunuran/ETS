@@ -1,13 +1,3 @@
-.container{
-    width: 95%;
-}
-
-.link-button{
-    color: var(--color-content-text);
-    font-size: 50px;
-    padding-top: 5px;
-}
-
 .back{
     color: var(--color-content-text);
     font-size: 50px;
@@ -17,14 +7,6 @@
 .back:hover{
     font-size: 50px;
     opacity: 50%;
-}
-
-.post{
-    background-color: var(--color-content-card);
-    padding: 30px;
-    border-radius: 30px;
-    box-shadow: var(--color-container-shadow);
-    width: 100%;
 }
 
 .post-date{
@@ -61,7 +43,7 @@
 }
 
 .SC{
-    background-color: #5D2BA0;
+    background-color: var(--color-sc);
 }
 
 .ACAP{
@@ -100,7 +82,7 @@
     display: block;
     margin: 10px auto;
     padding: 0px;
-    width: 60%;
+    width: 55%;
     border-radius: 10px;
     object-fit:cover;
 }
