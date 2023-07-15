@@ -276,8 +276,8 @@ textarea {
 }
 
 #button-container {
-  margin-top: 10px;
-  margin-left: 70%;
+  margin-top: 15px;
+  margin-bottom: 10px;
   justify-content: center;
 }
 
@@ -356,6 +356,9 @@ textarea {
     flex-direction: column;
     align-items: center;
   }
+  .home-section .header{
+    font-size: 25px !important;
+  }
 
   #main-containers {
     height: auto;
@@ -394,9 +397,7 @@ textarea {
     margin-top: 30px;
     margin-bottom : 30px;
   }
-  #upload-btn{
-    margin-right: 20px;
-  }
+ 
 
   #container-2 {
     width: 100%;
@@ -417,15 +418,14 @@ textarea {
   #container-3 {
     width: 100%;
     margin-right: 0;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
   }
 
-  .button-container {
-    margin-top: 0;
-  }
 
-  .button-container button {
-    width: 100%;
-  }
+
 
   .form-control {
     width: 100%;

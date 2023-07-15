@@ -231,7 +231,30 @@ h3 {
     color:var(--color-content-text);
     font-size: 20px;
   }
- 
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .pagination-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    background-color: #ccc;
+    border-radius: 50%;
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .pagination-link.active {
+    background-color: rgb(93,43,160);
+  }
+  
   
   @media only screen and (max-width: 600px) {
     .main-containers {
