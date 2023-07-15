@@ -475,7 +475,9 @@
                   <br>
                   <br>
                   <h1 class="modal-title fs-4" id="exampleModalLabel">Successfully Added</h1>
-                  <h1 class="modal-title fs-4">The event has been successfully added to your Google Calendar</h1>
+                  <br>
+                  <br>
+                  <h1 class="modal-title fs-5">The event has been successfully added to your Google Calendar</h1>
                   <br>
                   <br>
                 </div>
