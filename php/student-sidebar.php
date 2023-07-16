@@ -111,7 +111,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
               </a>
             </li>
             <li class="sub-item">
-              <a href="TOU-student-side.php" class="<?php echo $activeSubItem === 'tournament' ? 'sub-active' : ''; ?>">
+              <a href="TOU-student-live-scoring.php" class="<?php echo $activeSubItem === 'tournament' ? 'sub-active' : ''; ?>">
                 <i class="bx bxs-circle sub-icon color-green"></i>
                 <span class="sub_link_name">Tournament</span>
               </a>
