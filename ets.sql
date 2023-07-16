@@ -907,7 +907,7 @@ ALTER TABLE `ongoing_criterion`
 -- Indexes for table `ongoing_event_name`
 --
 ALTER TABLE `ongoing_event_name`
-  ADD PRIMARY KEY (`ongoing_event_name_id`);
+  ADD PRIMARY KEY (`ongoing_event_name_id`),
   ADD KEY `event_name_id` (`event_name_id`);
 
 --
