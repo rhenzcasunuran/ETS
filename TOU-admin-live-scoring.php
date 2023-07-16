@@ -60,7 +60,7 @@
                 <div class="col">
                   <br>
                   <h1>VS</h1>
-                  <button type="button" class="btn btn-danger">End Match</button>
+                  <button type="button" class="btn btn-danger" id="end-match-btn">End Match</button>
                 </div>
                 <div class="col">
                   <div class="row">
@@ -83,6 +83,7 @@
               var teamOneScore = $('#team-one-score');
               var teamTwoScore = $('#team-two-score');
               var selectedId;
+              var selectedValue;
 
               // AJAX request to populate the <select> options
               $.ajax({
@@ -142,7 +143,7 @@
                 teamTwoScore.text(''); // Empty team two score
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
-                var selectedValue = $(this).val(); // Get the selected value
+                selectedValue = $(this).val(); // Get the selected value
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
@@ -200,7 +201,7 @@
                 $.ajax({
                   url: './php/TOU-team-one-update.php', // Replace with your PHP script URL
                   type: 'POST', // Change the request type to POST
-                  data: { id: idNumber, score: value, bracketFormId: bracketFormId },
+                  data: { id: idNumber, score: value, bracketFormId: bracketFormId, teamOneTwoId: selectedValue },
                   dataType: 'json',
                   success: function(response) {
                     // Update the value in the <h1> element
@@ -223,7 +224,7 @@
                 $.ajax({
                   url: './php/TOU-team-two-update.php', // Replace with your PHP script URL
                   type: 'POST', // Change the request type to POST
-                  data: { id: idNumber, score: value, bracketFormId: bracketFormId },
+                  data: { id: idNumber, score: value, bracketFormId: bracketFormId, teamOneTwoId: selectedValue },
                   dataType: 'json',
                   success: function(response) {
                     // Update the value in the <h1> element
