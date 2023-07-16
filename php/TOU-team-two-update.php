@@ -3,13 +3,14 @@
 include 'database_connect.php';
 
 // Check if the ID and score parameters exist in the request
-if (isset($_POST['id']) && isset($_POST['score'])) {
+if (isset($_POST['id']) && isset($_POST['score']) && isset($_POST['bracketFormId'])) {
   $selectedId = $_POST['id'];
   $selectedScore = $_POST['score'];
+  $selectedBracketFormId = $_POST['bracketFormId'];
 
   // Prepare the statement
   $query = "UPDATE ongoing_teams AS ot
-  INNER JOIN score_rule AS sr ON sr.set_no = ot.current_set_no AND ot.bracket_form_id = 1
+  INNER JOIN score_rule AS sr ON sr.set_no = ot.current_set_no AND ot.bracket_form_id = ?
   SET ot.current_score = 
       CASE
           WHEN ot.current_score + ? <= sr.max_value AND ot.current_score + ? > 0 THEN ot.current_score + ?
@@ -21,7 +22,7 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
   $stmt = mysqli_prepare($conn, $query);
 
   // Bind the parameters
-  mysqli_stmt_bind_param($stmt, "iiiii", $selectedScore, $selectedScore, $selectedScore, $selectedScore, $selectedId);
+  mysqli_stmt_bind_param($stmt, "iiiiii", $selectedBracketFormId, $selectedScore, $selectedScore, $selectedScore, $selectedScore, $selectedId);
 
   // Execute the statement
   mysqli_stmt_execute($stmt);
@@ -64,4 +65,13 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
   $response = ['error' => 'Missing required parameters.'];
   echo json_encode($response);
 }
+
+// Check for any database errors
+if (mysqli_error($conn)) {
+  $response = ['error' => 'Database error: ' . mysqli_error($conn)];
+  echo json_encode($response);
+}
+
+// Close the database connection
+mysqli_close($conn);
 ?>
