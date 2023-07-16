@@ -108,7 +108,7 @@
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
 
-                var selectedId = $(this).val(); // Get the selected ID
+                selectedId = $(this).val(); // Get the selected ID
 
                 // Send the ID to another AJAX request
                 $.ajax({
