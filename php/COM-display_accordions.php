@@ -30,12 +30,13 @@ if ($result->num_rows > 0) {
 
         $event_id = $row["event_id"];
 
-        // Calculate total scores for each participant with event_id = 2
+        // Calculate total scores for each participant with the given competition_id
         $sql_scores = "SELECT participants.participant_name, criterion_scoring.participants_id, SUM(criterion_scoring.criterion_final_score) AS total_score
-                       FROM criterion_scoring
-                       INNER JOIN participants ON criterion_scoring.participants_id = participants.participants_id
-                       WHERE criterion_scoring.event_id = $event_id
-                       GROUP BY criterion_scoring.participants_id
+                       FROM participants
+                       LEFT JOIN criterion_scoring ON criterion_scoring.participants_id = participants.participants_id AND criterion_scoring.ongoing_criterion_id IN (
+                           SELECT ongoing_criterion_id FROM ongoing_criterion WHERE event_id = $event_id
+                       )
+                       GROUP BY participants.participants_id
                        ORDER BY total_score DESC";
 
         $result_scores = $conn->query($sql_scores);
