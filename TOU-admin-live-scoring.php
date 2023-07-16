@@ -50,22 +50,27 @@
               <div class="row">
                 <div class="col">
                   <div class="row">
-                      <h1 id="team-one-name"></h1>
-                    </div>
-                    <div class="row">
-                      <h1 id="team-one-score"></h1>
-                    </div>
-                    <div id="team_one_btn"></div>
+                    <h1 id="team-one-name"></h1>
                   </div>
-                  <div class="col">
-                    <div class="row">
-                      <h1 id="team-two-name"></h1>
-                    </div>
-                    <div class="row">
-                      <h1 id="team-two-score"></h1>
-                    </div>
-                    <div id="team_two_btn"></div>
+                  <div class="row">
+                    <h1 id="team-one-score"></h1>
                   </div>
+                  <div id="team_one_btn"></div>
+                </div>
+                <div class="col">
+                  <br>
+                  <h1>VS</h1>
+                  <button type="button" class="btn btn-danger">End Match</button>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <h1 id="team-two-name"></h1>
+                  </div>
+                  <div class="row">
+                    <h1 id="team-two-score"></h1>
+                  </div>
+                  <div id="team_two_btn"></div>
+                </div>
               </div>
             </div>
           </div>
