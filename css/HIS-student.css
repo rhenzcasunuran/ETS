@@ -534,7 +534,12 @@ text-align: center;
   border-radius: 15px;
 }
 .event-card.selected {
-  background-color: #c01f1f !important;
+  background-color: #5D2BA0 !important;
+}
+
+.no-events-message {
+  font-weight: normal;
+  color: var(--color-content-text);
 }
 
 /* Mobile Styles */

@@ -16,12 +16,23 @@ if (isset($_POST['filename'])) {
     $updatedFilenames = str_replace($filename, '', $filenames);
     $updatedFilenames = trim($updatedFilenames, ',');
 
-    $updateQuery = "UPDATE highlights SET filename='$updatedFilenames' WHERE highlight_id='$highlight_id'";
-    if (mysqli_query($conn, $updateQuery)) {
-      echo "success";
-      to_log($conn, $updateQuery);
+    // Check if there are no more filenames left
+    if (empty($updatedFilenames)) {
+      $deleteQuery = "DELETE FROM highlights WHERE highlight_id='$highlight_id'";
+      if (mysqli_query($conn, $deleteQuery)) {
+        echo "success";
+        to_log($conn, $deleteQuery);
+      } else {
+        echo "error";
+      }
     } else {
-      echo "error";
+      $updateQuery = "UPDATE highlights SET filename='$updatedFilenames' WHERE highlight_id='$highlight_id'";
+      if (mysqli_query($conn, $updateQuery)) {
+        echo "success";
+        to_log($conn, $updateQuery);
+      } else {
+        echo "error";
+      }
     }
   }
 }
