@@ -11,17 +11,16 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
   $query = "UPDATE ongoing_teams AS ot
   INNER JOIN score_rule AS sr ON sr.set_no = ot.current_set_no AND ot.bracket_form_id = 1
   SET ot.current_score = 
-    CASE 
-      WHEN ot.current_score > sr.max_value AND ? < 0 THEN ot.current_score + ?
-      WHEN ot.current_score > sr.max_value THEN sr.max_value
-      ELSE ot.current_score + ?
+    CASE
+      WHEN ot.current_score + ? <= sr.max_value THEN ot.current_score + ?
+      ELSE sr.max_value
     END
   WHERE ot.current_team_status = 'active' AND ot.id = ?;";
 
   $stmt = mysqli_prepare($conn, $query);
 
   // Bind the parameters
-  mysqli_stmt_bind_param($stmt, "iiii", $selectedBracketFormId, $selectedScore, $selectedScore, $selectedId);
+  mysqli_stmt_bind_param($stmt, "iii", $selectedScore, $selectedScore, $selectedId);
 
   // Execute the statement
   mysqli_stmt_execute($stmt);
@@ -40,7 +39,7 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
     mysqli_stmt_bind_param($stmt, "i", $selectedId);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $currentScore);
-    
+
     // Fetch the result
     if (mysqli_stmt_fetch($stmt)) {
       // Return the updated score as JSON
@@ -51,7 +50,7 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
       $response = ['error' => 'Failed to fetch the updated score.'];
       echo json_encode($response);
     }
-    
+
     // Close the statement
     mysqli_stmt_close($stmt);
   } else {
@@ -59,5 +58,9 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
     $response = ['error' => 'Failed to update the score.'];
     echo json_encode($response);
   }
+} else {
+  // Return an error message as JSON if the required parameters are missing
+  $response = ['error' => 'Missing required parameters.'];
+  echo json_encode($response);
 }
 ?>

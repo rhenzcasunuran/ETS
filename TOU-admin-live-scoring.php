@@ -77,6 +77,7 @@
               var teamTwoName = $('#team-two-name');
               var teamOneScore = $('#team-one-score');
               var teamTwoScore = $('#team-two-score');
+              var selectedId;
 
               // AJAX request to populate the <select> options
               $.ajax({
