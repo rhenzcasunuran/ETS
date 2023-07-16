@@ -26,15 +26,15 @@
     --color-content-button: #EDE7DD;
     --color-content-button-line: #635B81;
 
-    --color-sc: #5D2BA0;
-    --color-acap: #9474CF;
-    --color-aeces: #A84444;
-    --color-elite: #DF851B;
-    --color-give: #73A9CC;
-    --color-jehra: #D3B692;
-    --color-jmap: #FFBD44;
-    --color-jpia: #CF1659;
-    --color-piie: #16BA9D;
+    --color-sc: #6056a1;
+    --color-acap: #a188b4;
+    --color-aeces: #c1393b;
+    --color-elite: #e27304;
+    --color-give: #22404f;
+    --color-jehra: #da6993;
+    --color-jmap: #eec21d;
+    --color-jpia: #aa3f4e;
+    --color-piie: #126b31;
 
     --color-red: #A84444;
     --color-yellow: #FFB546;
@@ -59,7 +59,6 @@
     --color-element-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
     --color-element-hover: 0px 1px 4px rgba(0, 0, 0, 0.16);
 
-    --color-sc: #5D2BA0;
     --color-body: #1a1a1a;
     --color-content-card: #272727;
     --color-content-element: #343434;
@@ -70,14 +69,15 @@
     --color-content-button: #635B81;
     --color-content-button-line: #635B81;
 
-    --color-acap: #9474CF;
-    --color-aeces: #A84444;
-    --color-elite: #DF851B;
-    --color-give: #73A9CC;
-    --color-jehra: #D3B692;
-    --color-jmap: #FFBD44;
-    --color-jpia: #CF1659;
-    --color-piie: #16BA9D;
+    --color-sc: #6056a1;
+    --color-acap: #a188b4;
+    --color-aeces: #c1393b;
+    --color-elite: #e27304;
+    --color-give: #22404f;
+    --color-jehra: #da6993;
+    --color-jmap: #eec21d;
+    --color-jpia: #aa3f4e;
+    --color-piie: #126b31;
 
     --color-red: #A84444;
     --color-yellow: #FFB546;

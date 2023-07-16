@@ -1,5 +1,5 @@
 .container{
-    width: 95%;
+    width: 90%;
 }
 
 .config{
@@ -11,7 +11,7 @@
 
 h1{
     color: var(--color-content-text);
-    font-size: 40px;
+    font-size: 36px;
     font-weight: bold;
     padding: 20px 0px 10px 0px;
     margin: 0px;
@@ -70,7 +70,7 @@ input[type="text"]{
     border-radius: 15px;
 }
 
-input[type="date"]{
+input[type="datetime-local"]{
     border: 1px solid var(--color-content-outline);
     color: var(--color-content-text);
     background-color: var(--color-content-element);
@@ -78,32 +78,37 @@ input[type="date"]{
     border-radius: 15px;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type="file"]{
+    border: 1px solid var(--color-content-outline);
+    color: var(--color-content-text);
+    background-color: var(--color-content-element);
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator{
     color: blue;
 }
   
-input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus{
+input[type="text"]:focus, input[type="datetime-local"]:focus, select:focus, textarea:focus{
     outline: none;
     border: 1px solid var(--color-content-text);
 }
   
-
-.temp-cover{
+.cover{
     width: 100%;
-    background-color: whitesmoke;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    height: 138px;
+    background-color: var(--color-content-element);
+    border-radius: 15px;
+    height: 135px;
     margin-bottom: 15px;
     padding: 0;
 }
 
-.temp-photos{
+.photo{
     width: 100%;
-    background-color: whitesmoke;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    height: 305px;
+    background-color: var(--color-content-element);
+    border-radius: 15px;
+    height: 303px;
     margin-bottom: 15px;
     padding: 0;
 }
@@ -112,12 +117,6 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus
     gap: 20px;
     justify-content: space-between;
     align-items: center;
-}
-
-.disabled{
-    opacity: 0.75;
-    cursor: not-allowed;
-    transform: scale(98%);
 }
 
 .post-menu{
@@ -159,6 +158,6 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus
     border-radius: 26px;
 }
 
-.outline-button, .secondary-button, .primary-button{
-    max-width: 100%!important;
+.popUpContainer input[type='datetime-local']{
+    font-size: 16px;
 }

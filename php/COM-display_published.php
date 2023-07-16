@@ -17,13 +17,12 @@ if ($result->num_rows > 0) {
   ?>
   <script type="text/javascript">
       document.getElementById('empty').style.display = 'none';
-      console.log("display result");
-      console.log("Working");
+      console.log("Published Results detected..");
   </script>
   <?php
 
   while ($row = $result->fetch_assoc()) {
-    $competitionNameQuery = "SELECT category_name FROM category_name WHERE category_name_id =" . $row["category_name_id"];
+    $competitionNameQuery = "SELECT category_name FROM ongoing_list_of_event WHERE event_id =" . $row["event_id"];
     $competitionNameResult = $conn->query($competitionNameQuery);
     
     if ($competitionNameResult->num_rows > 0) {
@@ -42,8 +41,8 @@ if ($result->num_rows > 0) {
       echo "<tr><th>Name</th><th>Organization</th>";
 
       // Query the criteria table for this competition
-      $sql_criterion = "SELECT * FROM criterion WHERE category_name_id = " . $row["category_name_id"];
-      $result_criterion = $conn->query($sql_criterion);
+      $sql_criterion = "SELECT * FROM ongoing_criterion WHERE event_id = " . $row["event_id"];
+        $result_criterion = $conn->query($sql_criterion);
 
       // Generate HTML code for the criteria columns
       while ($row_criterion = $result_criterion->fetch_assoc()) {
@@ -53,13 +52,13 @@ if ($result->num_rows > 0) {
       echo "<th>Overall Score</th></tr>";
 
       // Query the scores table for this competition and participant
-      $sql_scores = "SELECT participants.participant_name, participants.organization_id, criterion_scoring.participants_id, criterion_scoring.ongoing_criterion_id, criterion_scoring.criterion_final_score
-                     FROM criterion_scoring
-                     INNER JOIN participants ON criterion_scoring.participants_id = participants.participants_id
-                     WHERE criterion_scoring.category_name_id = " . $row["category_name_id"] . "
-                     GROUP BY participants.participant_name, participants.organization_id, criterion_scoring.participants_id";
+        $sql_scores = "SELECT participants.participant_name, participants.organization_id, criterion_scoring.participants_id, criterion_scoring.ongoing_criterion_id, criterion_scoring.criterion_final_score
+                       FROM criterion_scoring
+                       INNER JOIN participants ON criterion_scoring.participants_id = participants.participants_id
+                       WHERE criterion_scoring.event_id = " . $row["event_id"] . "
+                       GROUP BY participants.participant_name, participants.organization_id, criterion_scoring.participants_id";
 
-      $result_scores = $conn->query($sql_scores);
+        $result_scores = $conn->query($sql_scores);
 
       // Generate HTML code for the scores rows
       while ($row_scores = $result_scores->fetch_assoc()) {

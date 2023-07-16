@@ -7,18 +7,18 @@ require 'database_connect.php';
 
 
 
-$competitionNameQuery = "SELECT category_name FROM category_name WHERE category_name_id =" . $row["category_name_id"];
+$competitionNameQuery = "SELECT event_id FROM ongoing_list_of_event WHERE event_id =" . $row["event_id"];
       $competitionNameResult = $conn->query($competitionNameQuery);
       
       if ($competitionNameResult->num_rows > 0) {
           $competitionNameRow = $competitionNameResult->fetch_assoc();
-          $competitionName = $competitionNameRow["category_name"];
+          $competitionName = $competitionNameRow["event_id"];
       } else {
           $competitionName = "Unknown";
       }
       
 // Prepare and execute the query to retrieve the schedule
-$sql = "SELECT schedule FROM competition WHERE competition_name = '$competitionName'";
+$sql = "SELECT schedule FROM competition WHERE event_id = '$competitionName'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // There's a schedule for the competition, so return the schedule value

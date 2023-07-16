@@ -18,7 +18,7 @@ if ($result->num_rows > 0) {
     document.getElementById('search').style.display = 'block';</script>
     <?php
     while ($row = $result->fetch_assoc()) {
-        $competitionNameQuery = "SELECT category_name FROM category_name WHERE category_name_id =" . $row["category_name_id"];
+        $competitionNameQuery = "SELECT category_name FROM ongoing_list_of_event WHERE event_id =" . $row["event_id"];
         $competitionNameResult = $conn->query($competitionNameQuery);
 
         if ($competitionNameResult->num_rows > 0) {
@@ -28,13 +28,13 @@ if ($result->num_rows > 0) {
             $competition_name = "Unknown";
         }
 
-        $category_name_id = $row["category_name_id"];
+        $event_id = $row["event_id"];
 
-        // Calculate total scores for each participant with category_name_id = 2
+        // Calculate total scores for each participant with event_id = 2
         $sql_scores = "SELECT participants.participant_name, criterion_scoring.participants_id, SUM(criterion_scoring.criterion_final_score) AS total_score
                        FROM criterion_scoring
                        INNER JOIN participants ON criterion_scoring.participants_id = participants.participants_id
-                       WHERE criterion_scoring.category_name_id = $category_name_id
+                       WHERE criterion_scoring.event_id = $event_id
                        GROUP BY criterion_scoring.participants_id
                        ORDER BY total_score DESC";
 
@@ -102,6 +102,8 @@ if ($result->num_rows > 0) {
             $logo1 = './photos/JPIA.png';
         } elseif ($org1 === 'PIIE') {
             $logo1 = './photos/PIIE.png';
+        } elseif ($org1 === 'SC') {
+            $logo1 = './photos/SC.png';
         } else {
             $logo1 = './pictures/org_logos.png';
         }
@@ -122,6 +124,8 @@ if ($result->num_rows > 0) {
             $logo2 = './photos/JPIA.png';
         } elseif ($org2 === 'PIIE') {
             $logo2 = './photos/PIIE.png';
+        } elseif ($org1 === 'SC') {
+            $logo1 = './photos/SC.png';
         } else {
             $logo2 = './pictures/org_logos.png';
         }
@@ -142,6 +146,8 @@ if ($result->num_rows > 0) {
             $logo3 = './photos/JPIA.png';
         } elseif ($org3 === 'PIIE') {
             $logo3 = './photos/PIIE.png';
+        } elseif ($org1 === 'SC') {
+            $logo1 = './photos/SC.png';
         } else {
             $logo3 = './pictures/org_logos.png';
         }

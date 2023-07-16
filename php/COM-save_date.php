@@ -12,22 +12,22 @@ if (isset($_POST['competition_name']) && isset($_POST['schedule']) && isset($_PO
 
   $competitionName = $conn->real_escape_string($competition_name);
 
-    // Get the category ID
-    $categoryidQuery = $conn->prepare("SELECT category_name_id FROM category_name WHERE category_name = ?");
-    $categoryidQuery->bind_param("s", $competitionName);
-    $categoryidQuery->execute();
-    $categoryidResult = $categoryidQuery->get_result();
+    // Get the evrnt ID
+    $eventidQuery = $conn->prepare("SELECT event_id FROM ongoing_list_of_event WHERE category_name = ?");
+    $eventidQuery->bind_param("s", $competitionName);
+    $eventidQuery->execute();
+    $eventidResult = $eventidQuery->get_result();
 
-    if ($categoryidResult->num_rows > 0) {
-        $categoryidRow = $categoryidResult->fetch_assoc();
-        $categoryid = $categoryidRow["category_name_id"];
+    if ($eventidResult->num_rows > 0) {
+        $eventidRow = $eventidResult->fetch_assoc();
+        $eventid = $eventidRow["event_id"];
     } else {
-        $categoryid = "Unknown";
+        $eventid = "Unknown";
     }
 
   // Prepare the SQL statement
-  $stmt = $conn->prepare("UPDATE competition SET schedule = ?, schedule_end = ? WHERE category_name_id = ?");
-  $stmt->bind_param("sss", $schedule, $schedule_end, $categoryid);
+  $stmt = $conn->prepare("UPDATE competition SET schedule = ?, schedule_end = ? WHERE event_id = ?");
+  $stmt->bind_param("sss", $schedule, $schedule_end, $eventid);
   // Execute the SQL statement
   if ($stmt->execute()) {
     // The SQL statement was executed successfully

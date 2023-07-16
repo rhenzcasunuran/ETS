@@ -1,4 +1,5 @@
-<?php include './php/database_connect.php' ?>
+<?php include './php/database_connect.php'
+ ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +34,7 @@
   ?>
   <!--Page Content-->
   <section class="home-section">
+    
     <div class="header">Event Page</div>
     <div class="flex-container">
   <div class="main-containers">
@@ -41,32 +43,60 @@
       <div class="search-wrapper">
         <input type="text" maxlength="50" name="search" id="search" placeholder="Search Event" onkeyup="filterButtons()">
       </div>
-      <div id="button-container">
-        <?php
-        $query = "SELECT e.event_name, o.event_id
-                  FROM ongoing_event_name e
-                  JOIN ongoing_list_of_event o ON e.event_name_id = o.event_name_id
-                  WHERE o.is_archived = 1
-                  GROUP BY e.event_name";
+      
+      <?php
+// Pagination configuration
+$perPage = 1; // Number of buttons per page
+$page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page number
 
-        $result = mysqli_query($conn, $query);
+// Query to fetch events with pagination
+$query = "SELECT e.event_name, o.event_id
+          FROM ongoing_event_name e
+          JOIN ongoing_list_of_event o ON e.event_name_id = o.event_name_id
+          WHERE o.is_archived = 1
+          GROUP BY e.event_name";
 
-        if ($result === false) {
-            die('Query Error: ' . mysqli_error($conn));
-        }
+$result = mysqli_query($conn, $query);
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $eventHistoryId = $row['event_id'];
-                $eventName = $row['event_name'];
+if ($result === false) {
+    die('Query Error: ' . mysqli_error($conn));
+}
 
-                echo "<button id='event_" . $eventName . "' class='event_button' data-event-history-id='$eventHistoryId' onclick='handleEventClick(\"$eventName\")'>$eventName</button>";
-            }
-        } else {
-            echo "No events found.";
-        }
-        ?>
-      </div>
+$totalEvents = mysqli_num_rows($result); // Total number of events
+$totalPages = ceil($totalEvents / $perPage); // Total number of pages
+
+// Calculate the offset for the current page
+$offset = ($page - 1) * $perPage;
+
+// Query to fetch events for the current page
+$query .= " LIMIT $offset, $perPage";
+
+$result = mysqli_query($conn, $query);
+
+if ($result === false) {
+    die('Query Error: ' . mysqli_error($conn));
+}
+
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $eventHistoryId = $row['event_id'];
+        $eventName = $row['event_name'];
+
+        echo "<button id='event_" . $eventName . "' class='event_button' data-event-history-id='$eventHistoryId' onclick='handleEventClick(\"$eventName\")'>$eventName</button>";
+    }
+} else {
+    echo "No events found.";
+}
+
+// Pagination links
+echo "<div class='pagination'>";
+for ($i = 1; $i <= $totalPages; $i++) {
+    $activeClass = $i == $page ? 'active' : '';
+    echo "<a href='?page=$i' class='pagination-link $activeClass'><span>$i</span></a>";
+}
+echo "</div>";
+?>
+
     </div>
 
     <div class="container-header-1">Activities</div>

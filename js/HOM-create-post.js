@@ -20,18 +20,16 @@ function checkFormValidity() {
   const validDescription = description.validity.valid && description.value.length >= 50;
 
   if (validTags && validTitle && validDescription) {
-    post.classList.remove('disabled');
+    post.disabled = false;
   } else {
-    post.classList.add('disabled');
+    post.disabled = true;
     postMenu.classList.remove('active');
   }
 
   if (title.validity.valid) {
-    save_draft.classList.remove('disabled');
-    save_draft.setAttribute('onclick', 'show_saveDraft()');
+    save_draft.disabled = false;
   } else {
-    save_draft.classList.add('disabled');
-    save_draft.removeAttribute('onclick');
+    save_draft.disabled = true;
   }
 }
 

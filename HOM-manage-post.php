@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuration</title>
+    <title>Posts</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
     <script src="./js/default-theme.js"></script>
@@ -88,15 +88,15 @@
               $listedItems = mysqli_query($conn, $list_table_query_with_limit);
             ?>
               <div class="row d-flex justify-content-between align-items-center w-100">
-                <div class="header col-7">Manage Post</div>
+                <div class="header col-7">Posts</div>
                 <div class="button-container col-5">
-                  <a href="HOM-create-post.php">
-                    <button class="primary-button icon-button" id="create-event-btn"><i class='bx bx-edit-alt'></i></button>
+                  <a href="HOM-create-post.php" data-toggle="tooltip" data-placement="bottom" title="Create Post">
+                    <button class="primary-button icon-button" id="create-event-btn" data-tooltip="Button 1"><i class='bx bx-edit-alt'></i></button>
                   </a>
-                  <a href="HOM-draft-post.php">
+                  <a href="HOM-post-draft.php" data-toggle="tooltip" data-placement="bottom" title="Drafts">
                     <button class="primary-button icon-button" id="create-event-btn"><i class='bx bx-notepad'></i></button>
                   </a>
-                  <a href="HOM-scheduled-post.php">
+                  <a href="HOM-post-schedule.php" data-toggle="tooltip" data-placement="bottom" title="Schedules">
                     <button class="primary-button icon-button" id="create-event-btn"><i class='bx bx-alarm'></i></button>
                   </a>
                   <button class="secondary-button icon-button" id="edit-event-btn"><i class='bx bx-edit'></i></button>
@@ -260,10 +260,12 @@
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
       });
-
-
     </script>
-
+    <script>
+      $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();   
+      });
+    </script>
     <!-- Event Config Scripts -->
     <script type="text/javascript" src="./js/EVE-admin-bootstrap4.bundle.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select.min.js"></script>
