@@ -30,12 +30,12 @@
   <body>
     <form id="post-form" action="./php/HOM-insert-post.php" method="post" enctype="multipart/form-data">
     <?php 
-      $popUpID = "cancelPost-popup";
-      $showPopUpButtonID = "cancel_post";
+      $popUpID = "cancel-popup";
+      $showPopUpButtonID = "cancel";
       $icon = "<i class='bx bxs-error prompt-icon warning-color'></i>";
       $title = "Cancel Post?";
       $message = "This will delete your progress.<br>You cannot undo this action.";
-      $your_link = "HOM-manage-post.php";
+      $your_link = "HOM-posts.php";
       $id_name = "";
       $id = "";
 
@@ -44,9 +44,9 @@
     <?php 
       $popUpID = "saveDraft-popup";
       $showPopUpButtonID = "save_draft";
-      $icon = "<i class='bx bx-save prompt-icon warning-color'></i>";
+      $icon = "<i class='bx bx-save prompt-icon'></i>";
       $title = "Save Draft?";
-      $message = "This will save your progress.<br>You can edit this post in Drafts.";
+      $message = "This will save your progress.<br>You can edit this in Drafts.";
       $your_link = "";
       $id_name = "";
       $id = "";
@@ -57,23 +57,23 @@
     <?php 
       $popUpID = "postNow-popup";
       $showPopUpButtonID = "post_now";
-      $icon = "<i class='bx bx-upload prompt-icon warning-color'></i>";
+      $icon = "<i class='bx bx-upload prompt-icon'></i>";
       $title = "Post Now?";
-      $message = "This will publish the post now.<br>You can edit this post in Manage Post.";
+      $message = "This will publish the post now.<br>You can edit this in Posts.";
       $your_link = "";
       $id_name = "";
       $id = "";
-      $submitName = "post";
+      $submitName = "post_now";
 
       include './php/popup-submit-button.php';
     ?>  
     <?php
       $popUpID = "postLater-popup";
       $showPopUpButtonID = "post_later";
-      $icon = "<i class='bx bx-timer prompt-icon warning-color'></i>";
+      $icon = "<i class='bx bx-timer prompt-icon'></i>";
       $title = "Schedule Post";
-      $message = "This will publish the post later.<br>You can edit this post in Schedule Posts.";
-      $submitName = "postlater";
+      $message = "This will publish the post later.<br>You can edit this in Schedules.";
+      $submitName = "post_later";
     
       echo "<div class=\"popUpDisableBackground\" id=\"$popUpID\">
         <div class=\"popUpContainer\">
@@ -125,11 +125,7 @@
     ?>
     <!--Sidebar-->
     <?php
-      // Set the active module and sub-active sub-item variables
       $activeModule = 'posts';
-      $activeSubItem = 'manage-post';
-
-      // Include the sidebar template
       require './php/admin-sidebar.php';
     ?>
     <!--Page Content-->
@@ -140,22 +136,22 @@
           <div class="col-7">
             <div class="row">
               <div class="col textbox">
-                <h2>Add to Calendar (Optional)</h2>
+                <h2>Add to Calendar</h2>
                 <input type="datetime-local" id="calendar" name="post_calendar">
               </div>
               <div class="col textbox">
-                <h2>Tags</h2>
+                <h2>Tags<span>&nbsp;*</span></h2>
                 <select id="tags" name="organization_id" required>
                   <?php echo $options;?>
                 </select>
               </div>
             </div>
             <div class="row textbox">
-              <h2>Title</h2>
+              <h2>Title<span>&nbsp;*</span></h2>
               <input type="text" id="title" name="post_title" placeholder="Enter Title" maxlength="60" required>
             </div>
             <div class="row textbox">
-              <h2>Description</h2>
+              <h2>Description<span>&nbsp;*</span></h2>
               <textarea id="description" name="post_description" placeholder="Enter Description" maxlength="2000" rows="4" cols="50" required></textarea>
             </div>
           </div>
@@ -165,7 +161,7 @@
             <h2>Photo</h2>
             <input class="photo" type="file" name="photo[]" multiple>
             <div class="row buttons">
-              <button type="button" class="col outline-button" id="cancel_post">
+              <button type="button" class="col outline-button" id="cancel">
                 <i class='bx bx-x'></i>
                 &nbsp;Cancel
               </button>
