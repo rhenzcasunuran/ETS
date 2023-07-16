@@ -77,7 +77,6 @@
               var teamTwoName = $('#team-two-name');
               var teamOneScore = $('#team-one-score');
               var teamTwoScore = $('#team-two-score');
-              var selectedValue;
 
               // AJAX request to populate the <select> options
               $.ajax({
@@ -137,7 +136,7 @@
                 teamTwoScore.text(''); // Empty team two score
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
-                selectedValue = $(this).val(); // Get the selected value
+                var selectedValue = $(this).val(); // Get the selected value
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
@@ -183,10 +182,7 @@
                   }
                 });
               });
-            });
-          </script>
-          <script>
-            $(document).ready(function() {
+
               // Event handler for buttons within team_one_btn div
               $('#team_one_btn').on('click', 'button', function() {
                 let value = $(this).val(); // Get the value of the clicked button
@@ -208,10 +204,7 @@
                   }
                 });
               });
-            });
-          </script>
-          <script>
-            $(document).ready(function() {
+
               // Event handler for buttons within team_two_btn div
               $('#team_two_btn').on('click', 'button', function() {
                 let value = $(this).val(); // Get the value of the clicked button
