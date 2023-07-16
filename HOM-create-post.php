@@ -50,7 +50,7 @@
       $your_link = "";
       $id_name = "";
       $id = "";
-      $submitName = "save";
+      $submitName = "save_draft";
 
       include './php/popup-submit-button.php';
     ?>
