@@ -7,19 +7,22 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
   $selectedId = $_POST['id'];
   $selectedScore = $_POST['score'];
 
-  // Perform the query with the provided ID and score
-  $query = "UPDATE ongoing_teams AS ot
-  INNER JOIN bracket_teams AS bt ON bt.team_two_id = ot.id
-  INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
-  SET ot.current_score = ot.current_score + ?
-  WHERE ot.current_team_status = 'active' AND bt.event_id IS NOT NULL AND ot.id = ?;";
-  
   // Prepare the statement
+  $query = "UPDATE ongoing_teams AS ot
+  INNER JOIN score_rule AS sr ON sr.set_no = ot.current_set_no AND ot.bracket_form_id = 1
+  SET ot.current_score = 
+    CASE 
+      WHEN ot.current_score > sr.max_value AND ? < 0 THEN ot.current_score + ?
+      WHEN ot.current_score > sr.max_value THEN sr.max_value
+      ELSE ot.current_score + ?
+    END
+  WHERE ot.current_team_status = 'active' AND ot.id = ?;";
+
   $stmt = mysqli_prepare($conn, $query);
-  
+
   // Bind the parameters
-  mysqli_stmt_bind_param($stmt, "ii", $selectedScore, $selectedId);
-  
+  mysqli_stmt_bind_param($stmt, "iiii", $selectedScore, $selectedScore, $selectedScore, $selectedId);
+
   // Execute the statement
   mysqli_stmt_execute($stmt);
 
