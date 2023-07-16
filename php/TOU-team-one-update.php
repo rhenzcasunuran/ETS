@@ -21,7 +21,7 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
   $stmt = mysqli_prepare($conn, $query);
 
   // Bind the parameters
-  mysqli_stmt_bind_param($stmt, "iiii", $selectedScore, $selectedScore, $selectedScore, $selectedId);
+  mysqli_stmt_bind_param($stmt, "iiii", $selectedBracketFormId, $selectedScore, $selectedScore, $selectedId);
 
   // Execute the statement
   mysqli_stmt_execute($stmt);
@@ -40,25 +40,20 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
     mysqli_stmt_bind_param($stmt, "i", $selectedId);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $currentScore);
-    mysqli_stmt_fetch($stmt);
-    mysqli_stmt_close($stmt);
-
-    // Check if the current_score is 0 or less
-    if ($currentScore <= 0) {
-      // Update the current_score column to 0 for the specific row
-      $query = "UPDATE ongoing_teams SET current_score = 0 WHERE id = ?";
-      $stmt = mysqli_prepare($conn, $query);
-      mysqli_stmt_bind_param($stmt, "i", $selectedId);
-      mysqli_stmt_execute($stmt);
-      mysqli_stmt_close($stmt);
-
-      // Set the current score to 0
-      $currentScore = 0;
+    
+    // Fetch the result
+    if (mysqli_stmt_fetch($stmt)) {
+      // Return the updated score as JSON
+      $response = ['current_score' => $currentScore];
+      echo json_encode($response);
+    } else {
+      // Return an error message as JSON
+      $response = ['error' => 'Failed to fetch the updated score.'];
+      echo json_encode($response);
     }
     
-    // Return the updated score as JSON
-    $response = ['current_score' => $currentScore];
-    echo json_encode($response);
+    // Close the statement
+    mysqli_stmt_close($stmt);
   } else {
     // Return an error message as JSON
     $response = ['error' => 'Failed to update the score.'];
