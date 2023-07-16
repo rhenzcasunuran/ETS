@@ -3,7 +3,7 @@ const calendar = document.getElementById('calendar');
 const tags = document.getElementById('tags');
 const title = document.getElementById('title');
 const description = document.getElementById('description');
-const save_draft = document.getElementById('save_draft');
+const save_schedule = document.getElementById('save_schedule');
 const post = document.getElementById('post');
 
 let oldCalendar = calendar.value;
@@ -33,11 +33,11 @@ function checkFormValidity() {
     postMenu.classList.remove('active');
   }
 
-  if((newCalendar && newTags && newTitle && newDescription) || !title.validity.valid){
-    save_draft.disabled = true;
+  if((newCalendar && newTags && newTitle && newDescription) && (validCalendar && validTags && validTitle && validDescription)){
+    save_schedule.disabled = true;
   }
   else{
-    save_draft.disabled = false;
+    save_schedule.disabled = false;
   }
 }
 
