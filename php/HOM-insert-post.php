@@ -6,29 +6,23 @@
     $title =  mysqli_real_escape_string($conn,$_POST['post_title']);
     $description =  mysqli_real_escape_string($conn,$_POST['post_description']);
     $schedule =  mysqli_real_escape_string($conn,$_POST['post_schedule']);
-
-    /*if(isset($_POST['post'])){
-        $sql = "INSERT INTO post (post_calendar, organization_id, post_title, post_description, post_schedule) 
-                VALUES ('$calendar', '$tags', '$title', '$description', '$current_date');";
-        mysqli_query($conn,$sql);
-        to_log($conn, $sql);
-        header('Location: ../index.php');
-    }*/
     
     if(isset($_POST['save'])){
+        date_default_timezone_set('Asia/Manila');
+        $current_date = date("Y-m-d H:i:s");
         $sql = "INSERT INTO post (post_calendar, organization_id, post_title, post_description, post_schedule, post_draft) 
-                VALUES ('$calendar', '$tags', '$title', '$description', '$schedule', '1');";
+                VALUES ('$calendar', '$tags', '$title', '$description', '$current_date', '1');";
         mysqli_query($conn,$sql);
         to_log($conn, $sql);
-        header('Location: ../HOM-draft-post.php');
+        header('Location: ../HOM-drafts.php');
     }
 
-    if(isset($_POST['post'])){
+    if(isset($_POST['post_now'])){
         date_default_timezone_set('Asia/Manila');
         $current_date = date("Y-m-d H:i:s");
 
         $sql = "INSERT INTO post (post_calendar, organization_id, post_title, post_description, post_schedule) 
-                VALUES ('$calendar', '$tags', '$title', '$description', '$current_date');";
+        VALUES ('$calendar', '$tags', '$title', '$description', '$current_date');";
         mysqli_query($conn,$sql);
 
         $last_post_id = mysqli_insert_id($conn);
@@ -126,10 +120,10 @@
             }
         }
         to_log($conn, $sql);
-        header('Location: ../index.php');
+        header('Location: ../HOM-posts.php');
     }
 
-    if(isset($_POST['postlater'])){
+    if(isset($_POST['post_later'])){
         $sql = "INSERT INTO post (post_calendar, organization_id, post_title, post_description, post_schedule) 
                 VALUES ('$calendar', '$tags', '$title', '$description', '$schedule');";
         mysqli_query($conn,$sql);
@@ -229,6 +223,6 @@
             }
         }
         to_log($conn, $sql);
-        header('Location: ../index.php');
+        header('Location: ../HOM-posts.php');
     }
 ?>
