@@ -75,20 +75,24 @@ include './php/admin-signin.php';
               <div class="row">
                 <div class="col">
                   <div class="row">
-                      <h1 id="team-one-name"></h1>
-                    </div>
-                    <div class="row">
-                      <h1 id="team-one-score"></h1>
-                    </div>
+                    <h1 id="team-one-name"></h1>
                   </div>
-                  <div class="col">
-                    <div class="row">
-                      <h1 id="team-two-name"></h1>
-                    </div>
-                    <div class="row">
-                      <h1 id="team-two-score"></h1>
-                    </div>
+                  <div class="row">
+                    <h1 id="team-one-score"></h1>
                   </div>
+                </div>
+                <div class="col">
+                  <br>
+                  <h1>VS</h1>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <h1 id="team-two-name"></h1>
+                  </div>
+                  <div class="row">
+                    <h1 id="team-two-score"></h1>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
