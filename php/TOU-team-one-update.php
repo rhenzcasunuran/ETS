@@ -11,16 +11,17 @@ if (isset($_POST['id']) && isset($_POST['score'])) {
   $query = "UPDATE ongoing_teams AS ot
   INNER JOIN score_rule AS sr ON sr.set_no = ot.current_set_no AND ot.bracket_form_id = 1
   SET ot.current_score = 
-    CASE
-      WHEN ot.current_score + ? <= sr.max_value THEN ot.current_score + ?
-      ELSE sr.max_value
-    END
-  WHERE ot.current_team_status = 'active' AND ot.id = ?;";
+      CASE
+          WHEN ot.current_score + ? <= sr.max_value AND ot.current_score + ? > 0 THEN ot.current_score + ?
+          WHEN ot.current_score + ? > sr.max_value THEN sr.max_value
+          ELSE 0
+      END
+  WHERE ot.current_team_status = 'active' AND ot.id = ?";
 
   $stmt = mysqli_prepare($conn, $query);
 
   // Bind the parameters
-  mysqli_stmt_bind_param($stmt, "iii", $selectedScore, $selectedScore, $selectedId);
+  mysqli_stmt_bind_param($stmt, "iiiii", $selectedScore, $selectedScore, $selectedScore, $selectedScore, $selectedId);
 
   // Execute the statement
   mysqli_stmt_execute($stmt);
