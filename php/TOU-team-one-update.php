@@ -64,6 +64,12 @@ if (isset($_POST['id']) && isset($_POST['score']) && isset($_POST['bracketFormId
   $gameType = $row['game_type'];
 
   if ($gameType == 'score-based') {
+    if (($teamOneCurrentScore == $maxValue || $teamTwoCurrentScore == $maxValue) && ($selectedScore > 0)) {
+      // Return an error message as JSON
+      $response = ['error' => 'Max score has already been reached.'];
+      echo json_encode($response);
+      exit();
+    }
     // Prepare the statement
     $query = "UPDATE ongoing_teams AS ot
     INNER JOIN score_rule AS sr ON sr.set_no = ot.current_set_no AND ot.bracket_form_id = ?
