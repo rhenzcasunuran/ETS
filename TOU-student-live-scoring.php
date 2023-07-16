@@ -10,15 +10,16 @@ include './php/admin-signin.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tournament</title>
+    <title>Live Scoring</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
     <script src="./js/default-theme.js"></script>
     <!-- Link Styles -->
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/boxicons.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
+    <link rel="stylesheet" href="./css/home-sidebar-style.css">
     <link rel="stylesheet" href="./css/system-wide.css">
     <script src="./js/jquery-3.6.4.js"></script>
   </head>
@@ -219,8 +220,25 @@ include './php/admin-signin.php';
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
-    <script src="./js/theme.js"></script>
+    <script src="./js/change-theme.js"></script>
+    <script src="./js/jquery-3.6.4.js"></script>
+    <script src="./js/HOM-popup.js"></script>
     <script src="./js/orgchart.js"></script>
+    <script type="text/javascript">
+      $('.menu_btn').click(function (e) {
+        e.preventDefault();
+        var $this = $(this).parent().find('.sub_list');
+        $('.sub_list').not($this).slideUp(function () {
+          var $icon = $(this).parent().find('.change-icon');
+          $icon.removeClass('bx-chevron-down').addClass('bx-chevron-right');
+        });
+
+        $this.slideToggle(function () {
+          var $icon = $(this).parent().find('.change-icon');
+          $icon.toggleClass('bx-chevron-right bx-chevron-down')
+        });
+      });
+    </script>
     <script>
       var chart = new OrgChart(document.getElementById("tree"), {
           template: "diva",
@@ -255,32 +273,6 @@ include './php/admin-signin.php';
       chart.on('click', function() {
         return false;
       });
-    </script>
-    <script type="text/javascript">
-      $('.menu_btn').click(function (e) {
-        e.preventDefault();
-        var $this = $(this).parent().find('.sub_list');
-        $('.sub_list').not($this).slideUp(function () {
-          var $icon = $(this).parent().find('.change-icon');
-          $icon.removeClass('bx-chevron-down').addClass('bx-chevron-right');
-        });
-
-        $this.slideToggle(function () {
-          var $icon = $(this).parent().find('.change-icon');
-          $icon.toggleClass('bx-chevron-right bx-chevron-down')
-        });
-      });
-
-      $(window).bind("resize", function () {
-        if ($(this).width() < 500) {
-          $('div').removeClass('open');
-          closeBtn.classList.replace("bx-arrow-to-left", "bx-menu");
-        }
-        else if ($(this).width() > 500) {
-          $('.sidebar').addClass('open');
-          closeBtn.classList.replace("bx-menu", "bx-arrow-to-left");
-        }
-      }).trigger('resize');
     </script>
     <!--Popper JS-->
     <script src="./js/popper.min.js"></script>
