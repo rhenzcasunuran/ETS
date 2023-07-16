@@ -28,7 +28,7 @@ if (isset($_POST['id']) && isset($_POST['score']) && isset($_POST['bracketFormId
             INNER JOIN ongoing_teams AS ot2 
             ON ot2.id = bt.team_two_id
             INNER JOIN score_rule AS sr
-            ON bt.id = sr.bracket_form_id
+            ON bt.bracket_form_id = sr.bracket_form_id
             WHERE bt.id = ? AND event_id IS NOT NULL AND ot.bracket_form_id = ? AND sr.set_no = ot.current_set_no";
   
   // Prepare the statement
@@ -65,10 +65,19 @@ if (isset($_POST['id']) && isset($_POST['score']) && isset($_POST['bracketFormId
 
   if ($gameType == 'score-based') {
     if (($teamOneCurrentScore == $maxValue || $teamTwoCurrentScore == $maxValue) && ($selectedScore > 0)) {
-      // Return an error message as JSON
-      $response = ['error' => 'Max score has already been reached.'];
-      echo json_encode($response);
-      exit();
+      if ($teamOneCurrentScore == $maxValue) {
+        // Return an error message as JSON
+        $response = ['error' => 'Team 1 disable buttons.'];
+        echo json_encode($response);
+        exit();
+      } else {
+        // Return an error message as JSON
+        $response = ['error' => 'Team 2 disable buttons.'];
+        echo json_encode($response);
+        exit();
+      }
+    } else {
+      
     }
     // Prepare the statement
     $query = "UPDATE ongoing_teams AS ot

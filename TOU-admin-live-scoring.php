@@ -47,6 +47,12 @@
               </select>
             </div>
             <div class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
+              <form action="POST" method="">
+                <input type="hidden" id="teamOneScore" name="teamOneScore">
+                <input type="hidden" id="teamOneName" name="teamOneName">
+                <input type="hidden" id="teamTwoScore" name="teamTwoScore">
+                <input type="hidden" id="teamTwoName" name="teamTwoName">
+              </form>
               <div class="row">
                 <div class="col">
                   <div class="row">
@@ -114,7 +120,7 @@
                 teamTwoScore.text(''); // Empty team two name
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
-
+                selectedId = '';
                 selectedId = $(this).val(); // Get the selected ID
 
                 // Send the ID to another AJAX request
@@ -143,6 +149,7 @@
                 teamTwoScore.text(''); // Empty team two score
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
+                selectedValue = '';
                 selectedValue = $(this).val(); // Get the selected value
 
                 // Send the selected value to the PHP script via AJAX
@@ -204,8 +211,31 @@
                   data: { id: idNumber, score: value, bracketFormId: bracketFormId, teamOneTwoId: selectedValue },
                   dataType: 'json',
                   success: function(response) {
-                    // Update the value in the <h1> element
-                    $('#team-one-score').text(response.current_score);
+                    if (response.error === 'Team 1 disable buttons.') {
+                      // Disable the plus one buttons in the team_one_btn element
+                      $('#team_two_btn button[value="1"]').prop('disabled', true);
+                      $('#team_two_btn button[value="2"]').prop('disabled', true);
+                      $('#team_two_btn button[value="3"]').prop('disabled', true);
+                      $('#team_two_btn button[value="-1"]').prop('disabled', true);
+                      $('#team_two_btn button[value="-2"]').prop('disabled', true);
+                      $('#team_two_btn button[value="-3"]').prop('disabled', true);
+                      $('#team_one_btn button[value="1"]').prop('disabled', true);
+                      $('#team_one_btn button[value="2"]').prop('disabled', true);
+                      $('#team_one_btn button[value="3"]').prop('disabled', true);
+                    } else {
+                      // Enable the plus one buttons in the team_one_btn element
+                      $('#team_two_btn button[value="1"]').prop('disabled', false);
+                      $('#team_two_btn button[value="2"]').prop('disabled', false);
+                      $('#team_two_btn button[value="3"]').prop('disabled', false);
+                      $('#team_two_btn button[value="-1"]').prop('disabled', false);
+                      $('#team_two_btn button[value="-2"]').prop('disabled', false);
+                      $('#team_two_btn button[value="-3"]').prop('disabled', false);
+                      $('#team_one_btn button[value="1"]').prop('disabled', false);
+                      $('#team_one_btn button[value="2"]').prop('disabled', false);
+                      $('#team_one_btn button[value="3"]').prop('disabled', false);
+                      // Update the value in the <h1> element
+                      $('#team-one-score').text(response.current_score);
+                    }
                   },
                   error: function(xhr, status, error) {
                     console.log(error);
@@ -227,8 +257,31 @@
                   data: { id: idNumber, score: value, bracketFormId: bracketFormId, teamOneTwoId: selectedValue },
                   dataType: 'json',
                   success: function(response) {
-                    // Update the value in the <h1> element
-                    $('#team-two-score').text(response.current_score);
+                    if (response.error === 'Team 2 disable buttons.') {
+                      // Disable the plus one buttons in the team_two_btn element
+                      $('#team_one_btn button[value="1"]').prop('disabled', true);
+                      $('#team_one_btn button[value="2"]').prop('disabled', true);
+                      $('#team_one_btn button[value="3"]').prop('disabled', true);
+                      $('#team_one_btn button[value="-1"]').prop('disabled', true);
+                      $('#team_one_btn button[value="-2"]').prop('disabled', true);
+                      $('#team_one_btn button[value="-3"]').prop('disabled', true);
+                      $('#team_two_btn button[value="1"]').prop('disabled', true);
+                      $('#team_two_btn button[value="2"]').prop('disabled', true);
+                      $('#team_two_btn button[value="3"]').prop('disabled', true);
+                    } else {
+                      // Enable the plus one buttons in the team_two_btn element
+                      $('#team_one_btn button[value="1"]').prop('disabled', false);
+                      $('#team_one_btn button[value="2"]').prop('disabled', false);
+                      $('#team_one_btn button[value="3"]').prop('disabled', false);
+                      $('#team_one_btn button[value="-1"]').prop('disabled', false);
+                      $('#team_one_btn button[value="-2"]').prop('disabled', false);
+                      $('#team_one_btn button[value="-3"]').prop('disabled', false);
+                      $('#team_two_btn button[value="1"]').prop('disabled', false);
+                      $('#team_two_btn button[value="2"]').prop('disabled', false);
+                      $('#team_two_btn button[value="3"]').prop('disabled', false);
+                      // Update the value in the <h1> element
+                      $('#team-two-score').text(response.current_score);
+                    }
                   },
                   error: function(xhr, status, error) {
                     console.log(error);
