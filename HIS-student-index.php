@@ -115,6 +115,7 @@ include './php/admin-signin.php';
 <div class="flex-container">
 <div class="container" id="main-containers">
   <div class="container">
+    
     <div class="col-md-12">
       <div class="row">
         <div id="carousel" class="col-md-12 text-white carousel-container">
@@ -144,10 +145,20 @@ include './php/admin-signin.php';
           mysqli_close($conn);
           ?>
 
-          <div id="eventsImages" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <?php echo $slides; ?>
-            </div>
+<div id="eventsImages" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <?php
+    if (empty($slides)) {
+      // Display default image
+      echo '<div class="carousel-item active">';
+      echo '<img src="./pictures/norwester.svg" alt="Default Image">';
+      echo '</div>';
+    } else {
+      // Display images from the database
+      echo $slides;
+    }
+    ?>
+  </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#eventsImages" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
@@ -170,7 +181,7 @@ include './php/admin-signin.php';
 
 
 
-        <div class="row">
+        <div class="row justify-content-center">
   <div class="col-md-12 left-container custom-left-container">
     <div class="container-fluid left-part">
       <div class="row">
@@ -243,7 +254,7 @@ if (mysqli_num_rows($result) > 0) {
     echo '  <div class="suggested-events">';
     echo '    <h2 class="section-heading">Suggested Events</h2>';
     echo '    <div class="event-cards">';
-
+    
     // Display suggested events
     foreach ($suggestedEvents as $index => $event) {
         $eventName = $event['eventName'];
@@ -251,20 +262,25 @@ if (mysqli_num_rows($result) > 0) {
         $eventYear = $event['eventYear'];
         $eventDescription = $event['eventDescription'];
         $imageFilename = $event['imageFilename'];
-
+    
         echo '<div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
-
+    
         // Display event image if available
         if (!empty($imageFilename)) {
-          $imageFilenamesArray = explode(',', $imageFilename);
-          foreach ($imageFilenamesArray as $filename) {
-            $imagePath = 'images/' . trim($filename);
+            $imageFilenamesArray = explode(',', $imageFilename);
+            foreach ($imageFilenamesArray as $filename) {
+                $imagePath = 'images/' . trim($filename);
+                echo '<div class="modal-image">';
+                echo '<img src="' . $imagePath . '" alt="Event Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+                echo '</div>';
+            }
+        } else {
+            // Display default image
             echo '<div class="modal-image">';
-            echo '<img src="' . $imagePath . '" alt="Event Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+            echo '<img src="./pictures/norwester.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
             echo '</div>';
-          }
         }
-
+    
         echo '<div class="event-info">';
         echo '<h3 class="event-name">' . $eventName . '</h3>';
         echo '<p class="category">' . $categoryName . '</p>';
@@ -272,9 +288,17 @@ if (mysqli_num_rows($result) > 0) {
         echo '</div>';
         echo '</div>';
     }
-
+    
+    // Check if there are no suggested events
+    if (empty($suggestedEvents)) {
+        // Display text message
+        echo '<p class="no-events-message">No suggested events available</p>';
+      }
+    
     echo '    </div>'; // Close event-cards
     echo '  </div>'; // Close suggested-events
+    echo '</div>'; // Close event-container
+    
 
     //** OTHER EVENTS START ! */
   //** OTHER EVENTS START ! */
@@ -292,14 +316,21 @@ if (!empty($otherEvents)) {
 
     echo '<div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
 
-    // Display event image if available
-    $imageFilenamesArray = explode(',', $imageFilename);
-    foreach ($imageFilenamesArray as $filename) {
-      $imagePath = 'images/' . trim($filename);
+    if (!empty($imageFilename)) {
+      $imageFilenamesArray = explode(',', $imageFilename);
+      foreach ($imageFilenamesArray as $filename) {
+        $imagePath = 'images/' . trim($filename);
+        echo '<div class="modal-image">';
+        echo '<img src="' . $imagePath . '" alt="Event Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+        echo '</div>';
+      }
+    } else {
+      // Display default image
       echo '<div class="modal-image">';
-      echo '<img src="' . $imagePath . '" alt="Event Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+      echo '<img src="./pictures/norwester.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
       echo '</div>';
     }
+    
 
     echo '<div class="event-info">';
     echo '<h3 class="event-name">' . $eventName . '</h3>';
@@ -448,37 +479,17 @@ document.getElementById('search').addEventListener('keyup', function () {
   } else {
     suggestedEvents.style.display = 'block'; // Show the suggested events container in all other cases
   }
-  
-  // Make event cards clickable
-  eventCards.forEach(function(card) {
-    card.addEventListener('click', function() {
-      const eventName = card.getAttribute('data-bs-event');
-      const eventDescription = card.getAttribute('data-bs-desc');
-      const eventImages = card.querySelectorAll('img');
-
-      modalEventName.textContent = eventName;
-      modalCategory.textContent = card.querySelector('.category').textContent;
-      modalYear.textContent = card.querySelector('.year').textContent;
-      modalDescription.textContent = eventDescription;
-
-      // Clear previous images
-      modalEventImages.innerHTML = '';
-
-      // Add event images to the modal
-      eventImages.forEach(function(image) {
-        const clonedImage = image.cloneNode(true);
-        modalEventImages.appendChild(clonedImage);
-      });
-    });
-  });
 });
+var previousEvent = ""; // Variable to store the previous event name
 
-</script>
-<script>
-  function filterByEventName(eventName) {
+function filterByEventName(eventName) {
   var eventCards = document.getElementsByClassName('event-card');
   var suggestedEvents = document.querySelector('.suggested-events');
   var hasMatchingResults = false;
+
+  if (eventName === previousEvent) {
+    window.location.reload(); // Reload the page to display all events without filter
+  }
 
   for (var i = 0; i < eventCards.length; i++) {
     var currentEventCard = eventCards[i];
@@ -495,12 +506,15 @@ document.getElementById('search').addEventListener('keyup', function () {
     }
   }
 
+  previousEvent = eventName;
+
+
+
   // Check if the selected card is visible
   if (selectedCard && selectedCard.style.display === 'none') {
     selectedCard = null; // Reset selected card if it is hidden
   }
 
-  // Update the text container for the selected card
   updateTextContainer();
 
   if (!hasMatchingResults) {
@@ -510,138 +524,134 @@ document.getElementById('search').addEventListener('keyup', function () {
   }
 }
 
-</script>
-<script>
-  //WITHOUT EVENT CLICKED
-   function updateTextContainer(slide) {
-        var imageInfo = slide.getAttribute('data-bs-info');
-        var imageDesc = slide.getAttribute('data-bs-desc');
-
-        var textContainer = document.querySelector('.text-container');
-        textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
-        textContainer.style.wordWrap = 'break-word'; // Allow words to break
-        textContainer.style.maxWidth = '100%';
-        textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
-    }
-
-    var firstSlide = document.querySelector('#eventsImages .carousel-item:first-child');
-    updateTextContainer(firstSlide);
-
-    var carousel = document.querySelector('#eventsImages');
-    carousel.addEventListener('slide.bs.carousel', function(event) {
-        var currentSlide = event.relatedTarget;
-        updateTextContainer(currentSlide);
-    });
-
-    document.addEventListener("DOMContentLoaded", function() {
-  var eventCards = document.querySelectorAll(".event-card");
-  var carouselInner = document.querySelector("#eventsImages .carousel-inner");
-  var textContainer = document.querySelector(".text-container");
-
+document.addEventListener('DOMContentLoaded', function() {
+  var eventCards = document.querySelectorAll('.event-card');
+  var modalEventName = document.getElementById('modal-event-name');
+  var modalCategory = document.getElementById('modal-category');
+  var modalYear = document.getElementById('modal-year');
+  var modalDescription = document.getElementById('modal-description');
+  var modalEventImages = document.getElementById('modal-event-images');
+  var carouselInner = document.querySelector('#eventsImages .carousel-inner');
+  var textContainer = document.querySelector('.text-container');
   var selectedCard = null;
 
   function updateTextContainer() {
     if (selectedCard) {
-      var categoryName = selectedCard.querySelector(".category").innerText;
-      var imageDesc = selectedCard.getAttribute("data-bs-desc");
-      textContainer.innerHTML = "<h3>" + categoryName + "</h3><p>" + imageDesc + "</p>";
-      textContainer.style.wordWrap = "break-word"; // Allow words to break
-      textContainer.style.maxWidth = "100%";
-      textContainer.style.textAlign = "justify"; // Justify the content in the paragraph
+      var categoryName = selectedCard.querySelector('.category').innerText;
+      var imageDesc = selectedCard.getAttribute('data-bs-desc');
+      textContainer.innerHTML = '<h3>' + categoryName + '</h3><p>' + imageDesc + '</p>';
+      textContainer.style.wordWrap = 'break-word'; // Allow words to break
+      textContainer.style.maxWidth = '100%';
+      textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
     }
   }
 
-  var firstSlide = document.querySelector("#eventsImages .carousel-item:first-child");
-  updateTextContainer();
+  function handleCardClick(card) {
+    var eventName = card.getAttribute('data-bs-event');
+    var eventDescription = card.getAttribute('data-bs-desc');
+    var eventImages = card.querySelectorAll('img');
 
-  var carousel = document.querySelector("#eventsImages");
-  carousel.addEventListener("slide.bs.carousel", function(event) {
-    var currentSlide = event.relatedTarget;
-    updateTextContainer();
-  });
+    modalEventName.textContent = eventName;
+    modalCategory.textContent = card.querySelector('.category').textContent;
+    modalYear.textContent = card.querySelector('.year').textContent;
+    modalDescription.textContent = eventDescription;
 
-  eventCards.forEach(function(card) {
-    card.addEventListener("click", function(event) {
-      event.preventDefault();
+    // Clear previous images
+    modalEventImages.innerHTML = '';
 
-      if (selectedCard === card) {
-        // Card is already selected, refresh the page
-        location.reload();
-      } else {
-        // Card is not selected, select it
-        if (selectedCard) {
-          // Unselect the previously selected card
-          selectedCard.classList.remove("selected");
-        }
-        selectedCard = card;
-        selectedCard.classList.add("selected");
-        updateTextContainer();
-      }
-
-      // Clear the carousel inner HTML
-      carouselInner.innerHTML = "";
-
-      // Get the image elements from the clicked event card
-      var images = card.querySelectorAll(".modal-image img");
-
-      // Add the images to the carousel inner
-      images.forEach(function(image) {
-        var carouselItem = document.createElement("div");
-        carouselItem.classList.add("carousel-item");
-        carouselItem.innerHTML = "<img src='" + image.src + "'>";
-        carouselInner.appendChild(carouselItem);
+    if (eventImages.length === 0) {
+      var noImagesMessage = document.createElement('p');
+      noImagesMessage.textContent = 'There are no images from this event.';
+      modalEventImages.appendChild(noImagesMessage);
+    } else {
+      // Add event images to the modal
+      eventImages.forEach(function(image) {
+        var clonedImage = image.cloneNode(true);
+        modalEventImages.appendChild(clonedImage);
       });
+    }
 
-      // Activate the first carousel item
-      carouselInner.firstChild.classList.add("active");
+    if (selectedCard === card) {
+      // Card is already selected, refresh the page
+      location.reload();
+    } else {
+      // Card is not selected, select it
+      if (selectedCard) {
+        // Unselect the previously selected card
+        selectedCard.classList.remove('selected');
+      }
+      selectedCard = card;
+      selectedCard.classList.add('selected');
+      updateTextContainer();
+    }
 
-      // Show the carousel
-      var eventsImages = new bootstrap.Carousel(document.getElementById("eventsImages"));
-      eventsImages.to(0); // Go to the first slide
+    carouselInner.innerHTML = '';
+
+    // Get the image elements from the clicked event card
+    var images = card.querySelectorAll('.modal-image img');
+
+    // Add the images to the carousel inner
+    images.forEach(function(image) {
+      var carouselItem = document.createElement('div');
+      carouselItem.classList.add('carousel-item');
+      carouselItem.innerHTML = '<img src="' + image.src + '">';
+      carouselInner.appendChild(carouselItem);
     });
-  });
-});
 
+    // Activate the first carousel item
+    carouselInner.firstChild.classList.add('active');
 
-
-
-
-
-
-
-// JavaScript code
-document.addEventListener('DOMContentLoaded', function() {
-  const eventCards = document.querySelectorAll('.event-card');
-  const modalEventName = document.getElementById('modal-event-name');
-  const modalCategory = document.getElementById('modal-category');
-  const modalYear = document.getElementById('modal-year');
-  const modalDescription = document.getElementById('modal-description');
-  const modalEventImages = document.getElementById('modal-event-images');
+    // Show the carousel
+    var eventsImages = new bootstrap.Carousel(document.getElementById('eventsImages'));
+    eventsImages.to(0); // Go to the first slide
+  }
 
   eventCards.forEach(function(card) {
     card.addEventListener('click', function() {
-      const eventName = card.getAttribute('data-bs-event');
-      const eventDescription = card.getAttribute('data-bs-desc');
-      const eventImages = card.querySelectorAll('img');
-
-      modalEventName.textContent = eventName;
-      modalCategory.textContent = card.querySelector('.category').textContent;
-      modalYear.textContent = card.querySelector('.year').textContent;
-      modalDescription.textContent = eventDescription;
-
-      // Clear previous images
-      modalEventImages.innerHTML = '';
-
-      // Add event images to the modal
-      eventImages.forEach(function(image) {
-        const clonedImage = image.cloneNode(true);
-        modalEventImages.appendChild(clonedImage);
-      });
+      handleCardClick(card);
     });
+  });
+
+  var searchInput = document.getElementById('search');
+  var suggestedEvents = document.querySelector('.suggested-events');
+
+  searchInput.addEventListener('keyup', function() {
+    var searchQuery = this.value.toLowerCase();
+    var hasMatchingResults = false;
+
+    eventCards.forEach(function(eventCard) {
+      var eventName = eventCard.querySelector('.event-name').textContent.toLowerCase();
+      var category = eventCard.querySelector('.category').textContent.toLowerCase();
+      var year = eventCard.querySelector('.year').textContent.toLowerCase();
+      var eventInfo = eventName + ' ' + category + ' ' + year;
+
+      if (eventInfo.includes(searchQuery)) {
+        eventCard.style.display = 'block'; // Show the event card
+        if (eventCard.parentNode.parentNode === suggestedEvents) {
+          hasMatchingResults = true; // At least one suggested event has matching results
+        }
+      } else {
+        eventCard.style.display = 'none'; // Hide the event card
+      }
+    });
+
+    // Check if the selected card is visible
+    if (selectedCard && selectedCard.style.display === 'none') {
+      selectedCard = null; // Reset selected card if it is hidden
+    }
+
+    updateTextContainer();
+
+    if (searchQuery !== '' && !hasMatchingResults) {
+      suggestedEvents.style.display = 'none'; // Hide the suggested events container when there are no matching results
+    } else {
+      suggestedEvents.style.display = 'block'; // Show the suggested events container in all other cases
+    }
   });
 });
 
 </script>
+
 
 
 

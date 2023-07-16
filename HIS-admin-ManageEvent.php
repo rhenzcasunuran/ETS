@@ -46,7 +46,7 @@
       
       <?php
 // Pagination configuration
-$perPage = 1; // Number of buttons per page
+$perPage = 4; // Number of buttons per page
 $page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page number
 
 // Query to fetch events with pagination
@@ -54,7 +54,7 @@ $query = "SELECT e.event_name, o.event_id
           FROM ongoing_event_name e
           JOIN ongoing_list_of_event o ON e.event_name_id = o.event_name_id
           WHERE o.is_archived = 1
-          GROUP BY e.event_name";
+          GROUP BY e.event_name DESC";
 
 $result = mysqli_query($conn, $query);
 
@@ -90,10 +90,34 @@ if (mysqli_num_rows($result) > 0) {
 
 // Pagination links
 echo "<div class='pagination'>";
-for ($i = 1; $i <= $totalPages; $i++) {
+
+// Limit the number of pagination links displayed
+$visiblePages = 3; // Set the number of visible pages
+
+// Calculate the start and end page numbers based on the visible pages
+$startPage = max($page - floor($visiblePages / 2), 1);
+$endPage = min($startPage + $visiblePages - 1, $totalPages);
+
+if ($endPage - $startPage + 1 < $visiblePages) {
+    $startPage = max($endPage - $visiblePages + 1, 1);
+}
+
+// "Previous" button
+if ($page > 1) {
+    echo "<a href='?page=" . ($page - 1) . "' class='pagination-link'><</a>";
+}
+
+// Pagination links
+for ($i = $startPage; $i <= $endPage; $i++) {
     $activeClass = $i == $page ? 'active' : '';
     echo "<a href='?page=$i' class='pagination-link $activeClass'><span>$i</span></a>";
 }
+
+// "Next" button
+if ($page < $totalPages) {
+    echo "<a href='?page=" . ($page + 1) . "' class='pagination-link'>></a>";
+}
+
 echo "</div>";
 ?>
 
@@ -226,22 +250,31 @@ echo "</div>";
       }
     }
 
-    function filterButtons() {
-      var input, filter, buttons, button, i, txtValue;
-      input = document.getElementById("search");
-      filter = input.value.toUpperCase();
-      buttons = document.getElementById("button-container").getElementsByTagName("button");
+  function filterButtons() {
+    var input, filter, buttons, button, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    buttons = document.querySelectorAll('.event_button'); // Select all event buttons
 
-      for (i = 0; i < buttons.length; i++) {
-        button = buttons[i];
-        txtValue = button.textContent || button.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          button.style.display = "";
-        } else {
-          button.style.display = "none";
-        }
+    for (i = 0; i < buttons.length; i++) {
+      button = buttons[i];
+      txtValue = button.textContent || button.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        button.style.display = ""; // Show the button if it matches the filter
+      } else {
+        button.style.display = "none"; // Hide the button if it doesn't match the filter
       }
     }
+  }
+
+
+
+
+
+
+
+
+
   </script>
   <script>
   document.getElementById("add_button").addEventListener("click", function() {
