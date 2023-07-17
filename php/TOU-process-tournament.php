@@ -78,15 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $stmt->close();
 
-    // Insert data into the ongoing_teams table
-    $stmt = $conn->prepare("INSERT INTO temp_teams_Score_update (team_name, bracket_form_id) VALUES (?, ?)");
-    // Bind parameters and execute the statement for each team
-    foreach ($teams as $team_name) {
-        $stmt->bind_param("si", $team_name, $bracket_form_id);
-        $stmt->execute();
-    }
-    $stmt->close();
-
     // Insert data into the score_rule table
     foreach ($gameOptions as $set_no => $max_value) {
         $stmt = $conn->prepare("INSERT INTO score_rule (bracket_form_id, set_no, max_value, game_type) VALUES (?, ?, ?, ?)");
