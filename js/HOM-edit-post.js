@@ -25,12 +25,10 @@ function checkFormValidity() {
   const newDescription = description.value !== oldDescription;
 
   if (validCalendar && validTags && validTitle && validDescription && (newCalendar || newTags || newTitle || newDescription)) {
-    save_post.classList.remove('disabled');
-    save_post.setAttribute('onclick', 'show_savePost()');
+    save_post.disabled = false;
   }
   else{
-    save_post.classList.add('disabled');
-    save_post.removeAttribute('onclick');
+    save_post.disabled = true;
   }
 }
 

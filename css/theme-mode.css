@@ -35,10 +35,6 @@
     --color-jmap: #eec21d;
     --color-jpia: #aa3f4e;
     --color-piie: #126b31;
-
-    --color-red: #A84444;
-    --color-yellow: #FFB546;
-    --color-green: #7FC76D;
 }
 
 :root[data-theme="dark"] {
@@ -78,10 +74,6 @@
     --color-jmap: #eec21d;
     --color-jpia: #aa3f4e;
     --color-piie: #126b31;
-
-    --color-red: #A84444;
-    --color-yellow: #FFB546;
-    --color-green: #7FC76D;
 }
 
 [data-theme='light'] .lightmode,

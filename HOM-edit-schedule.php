@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Draft</title>
+    <title>Edit Schedule</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
     <script src="./js/default-theme.js"></script>
@@ -30,36 +30,36 @@
   <body>
     <form id="post-form" method="post" enctype="multipart/form-data">
     <?php 
-      $popUpID = "cancelPost-popup";
-      $showPopUpButtonID = "cancel_post";
+      $popUpID = "cancel-popup";
+      $showPopUpButtonID = "cancel";
       $icon = "<i class='bx bxs-error prompt-icon warning-color'></i>";
-      $title = "Cancel Post?";
+      $title = "Discard Changes?";
       $message = "This will delete your progress.<br>You cannot undo this action.";
-      $your_link = "HOM-drafts.php";
+      $your_link = "HOM-posts.php";
       $id_name = "";
       $id = "";
 
       include './php/popup-clone-button.php';
     ?>
     <?php 
-      $popUpID = "saveDraft-popup";
-      $showPopUpButtonID = "save_draft";
+      $popUpID = "saveSchedule-popup";
+      $showPopUpButtonID = "save_schedule";
       $icon = "<i class='bx bx-save prompt-icon'></i>";
       $title = "Save Changes?";
-      $message = "This will save your changes.<br>You can edit this in Drafts.";
+      $message = "This will save your changes.<br>You can edit this in Schedules.";
       $your_link = "";
       $id_name = "";
       $id = "";
-      $submitName = "save_draft";
+      $submitName = "save_schedule";
 
       include './php/popup-submit-button.php';
-    ?> 
+    ?>
     <?php 
       $popUpID = "postNow-popup";
       $showPopUpButtonID = "post_now";
       $icon = "<i class='bx bx-upload prompt-icon'></i>";
       $title = "Post Now?";
-      $message = "This will publish the draft now.<br>You can edit this in Posts.";
+      $message = "This will publish the schedule now.<br>You can edit this in Posts.";
       $your_link = "";
       $id_name = "";
       $id = "";
@@ -72,7 +72,7 @@
       $showPopUpButtonID = "post_later";
       $icon = "<i class='bx bx-timer prompt-icon'></i>";
       $title = "Schedule Post";
-      $message = "This will publish the draft later.<br>You can edit this in Schedules.";
+      $message = "This will change the schedule.<br>You can edit this in Schedules.";
       $submitName = "post_later";
     
       echo "<div class=\"popUpDisableBackground\" id=\"$popUpID\">
@@ -130,7 +130,7 @@
     ?>
     <!--Page Content-->
     <section class="home-section">
-      <div class="header">Edit Draft</div>
+      <div class="header">Edit Schedule</div>
       <div class="container-fluid d-flex row justify-content-center m-0">
         <div class="row element">
           <div class="col-7">
@@ -161,14 +161,14 @@
             <h2>Photo</h2>
             <input class="photo" type="file" name="photo[]" multiple>
             <div class="row buttons">
-              <button type="button" class="col outline-button" id="cancel_post">
+              <button type="button" class="col outline-button" id="cancel">
                 <i class='bx bx-x'></i>
-                &nbsp;Cancel
+                Cancel
               </button>
-              <button type="button" class="col secondary-button" id="save_draft" disabled>
+              <button type="button" class="col secondary-button" id="save_schedule" disabled>
                 <i class='bx bx-save'></i>
-                &nbsp;Save
-              </button>    
+                Save
+              </button>
               <button type="button" class="col post-menu primary-button" id="post" disabled>
                 <i class='bx bx-upload'></i>
                 &nbsp;Post
@@ -180,7 +180,7 @@
                     &nbsp;Post
                   </a>
                 </div>
-              </button>
+              </button>  
             </div>
           </div>
         </div>
@@ -209,7 +209,7 @@
         }
       }
     </script>
-    <script src="./js/HOM-edit-draft.js"></script>
+    <script src="./js/HOM-edit-schedule.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();

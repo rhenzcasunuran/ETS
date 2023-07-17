@@ -30,17 +30,21 @@ if ($result->num_rows > 0) {
 
         $event_id = $row["event_id"];
 
-        // Calculate total scores for each participant with the given competition_id
-        $sql_scores = "SELECT participants.participant_name, criterion_scoring.participants_id, SUM(criterion_scoring.criterion_final_score) AS total_score
-                       FROM participants
-                       LEFT JOIN criterion_scoring ON criterion_scoring.participants_id = participants.participants_id AND criterion_scoring.ongoing_criterion_id IN (
-                           SELECT ongoing_criterion_id FROM ongoing_criterion WHERE event_id = $event_id
-                       )
-                       GROUP BY participants.participants_id
-                       ORDER BY total_score DESC";
+        /// Calculate total scores for each participant with the given competition_id
+// Calculate total scores for each participant with the given competition_id
+$sql_scores = "SELECT participants.participant_name, criterion_scoring.participants_id, SUM(criterion_scoring.criterion_final_score) AS total_score
+FROM participants
+LEFT JOIN criterion_scoring ON criterion_scoring.participants_id = participants.participants_id
+LEFT JOIN ongoing_criterion ON ongoing_criterion.ongoing_criterion_id = criterion_scoring.ongoing_criterion_id
+WHERE ongoing_criterion.event_id = $event_id
+GROUP BY participants.participants_id
+ORDER BY total_score DESC";
+
+
 
         $result_scores = $conn->query($sql_scores);
 
+        // Fetch the top 3 rows separately
         $top1_row = $result_scores->fetch_assoc();
         $top2_row = $result_scores->fetch_assoc();
         $top3_row = $result_scores->fetch_assoc();
@@ -194,13 +198,11 @@ if ($result->num_rows > 0) {
         echo "</button>";
         echo "<div class='content'>";
 
-        // Fetch the remaining rows starting from the 4th row in descending order
-        $counter = 4;
+        // Fetch the organization names for all participants before the loop
+        $organizationNames = array();
+        $result_scores->data_seek(0); // Reset the result set pointer to the beginning
         while ($row_scores = $result_scores->fetch_assoc()) {
             $participant_id = $row_scores["participants_id"];
-            $rowStyle = '';
-
-            // Query the organization table for the organization name
             $organizationQuery = "SELECT organization_name FROM organization WHERE organization_id IN (SELECT organization_id FROM participants WHERE participants_id = $participant_id)";
             $organizationResult = $conn->query($organizationQuery);
 
@@ -208,46 +210,75 @@ if ($result->num_rows > 0) {
                 $organizationRow = $organizationResult->fetch_assoc();
                 $organization_name = $organizationRow["organization_name"];
             } else {
-                $organization_name = "Unknown";
+               $organization_name = "Unknown";
             }
 
-            $rowStyle = '';
+            // Store the organization name in the array
+            $organizationNames[$participant_id] = $organization_name;
+        }
 
-            if ($organization_name === 'ACAP') {
-                $rowStyle = 'background-color: var(--color-acap);';
-            } elseif ($organization_name === 'AECES') {
-                $rowStyle = 'background-color: var(--color-aeces);';
-            } elseif ($organization_name === 'ELITE') {
-                $rowStyle = 'background-color: var(--color-elite);';
-            } elseif ($organization_name === 'GIVE') {
-                $rowStyle = 'background-color: var(--color-give);';
-            } elseif ($organization_name === 'JEHRA') {
-                $rowStyle = 'background-color: var(--color-jehra);';
-            } elseif ($organization_name === 'JMAP') {
-                $rowStyle = 'background-color: var(--color-jmap);';
-            } elseif ($organization_name === 'JPIA') {
-                $rowStyle = 'background-color: var(--color-jpia);';
-            } elseif ($organization_name === 'PIIE') {
-                $rowStyle = 'background-color: var(--color-piie);';
+        // Fetch the remaining rows starting from the 4th row in descending order
+        $counter = 1; // Initialize the counter
+        $result_scores->data_seek(0); // Reset the result set pointer to the beginning
+        while ($row_scores = $result_scores->fetch_assoc()) {
+            if ($counter > 3) {
+                // This condition will skip the first 3 rows
+
+                $participant_id = $row_scores["participants_id"];
+                $rowStyle = '';
+
+                // Access the organization name from the array
+                $organization_name = $organizationNames[$participant_id];
+
+                // Query the organization table for the organization name
+                $organizationQuery = "SELECT organization_name FROM organization WHERE organization_id IN (SELECT organization_id FROM participants WHERE participants_id = $participant_id)";
+                $organizationResult = $conn->query($organizationQuery);
+
+                if ($organizationResult->num_rows > 0) {
+                    $organizationRow = $organizationResult->fetch_assoc();
+                    $organization_name = $organizationRow["organization_name"];
+                } else {
+                    $organization_name = "Unknown";
+                }
+
+                $rowStyle = '';
+
+                if ($organization_name === 'ACAP') {
+                    $rowStyle = 'background-color: var(--color-acap);';
+                } elseif ($organization_name === 'AECES') {
+                    $rowStyle = 'background-color: var(--color-aeces);';
+                } elseif ($organization_name === 'ELITE') {
+                    $rowStyle = 'background-color: var(--color-elite);';
+                } elseif ($organization_name === 'GIVE') {
+                    $rowStyle = 'background-color: var(--color-give);';
+                } elseif ($organization_name === 'JEHRA') {
+                    $rowStyle = 'background-color: var(--color-jehra);';
+                } elseif ($organization_name === 'JMAP') {
+                    $rowStyle = 'background-color: var(--color-jmap);';
+                } elseif ($organization_name === 'JPIA') {
+                    $rowStyle = 'background-color: var(--color-jpia);';
+                } elseif ($organization_name === 'PIIE') {
+                    $rowStyle = 'background-color: var(--color-piie);';
+                }
+
+                echo "<div>";
+                echo "<table>";
+                echo "<tr>";
+                echo "<td class='diamond'><div class='diamondContainer smallDiamond'><div class='place'>" . $counter . "th</div></div></td>";
+                echo "<td class='name' style='$rowStyle'>" . $row_scores["participant_name"] . "</td>";
+                echo "<td class='org' style='$rowStyle'>" . $organization_name . "</td>";
+                echo "<td class='percent' style='$rowStyle'>" . $row_scores["total_score"] . "</td>";
+                echo "</tr>";
+                echo "</table>";
+                echo "</div>";
             }
-
-            echo "<div>";
-            echo "<table>";
-            echo "<tr>";
-            echo "<td class='diamond'><div class='diamondContainer smallDiamond'><div class='place'>" . $counter . "th</div></div></td>";
-            echo "<td class='name' style='$rowStyle'>" . $row_scores["participant_name"] . "</td>";
-            echo "<td class='org' style='$rowStyle'>" . $organization_name . "</td>";
-            echo "<td class='percent' style='$rowStyle'>" . $row_scores["total_score"] . "</td>";
-            echo "</tr>";
-            echo "</table>";
-            echo "</div>";
             $counter++;
         }
         echo "<button class='resultsBtn'>See overall results details</button>";
         echo "</div>";
         echo "</div>";
-    }
-} else {
+        }
+    } else {
     ?><script>
       var empty = document.getElementById('empty');
       var searchbar = document.querySelector('.inputAndDeleteDiv');

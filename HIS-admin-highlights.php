@@ -50,24 +50,25 @@
     <select class="form-control" name="event_name" id="event_name" >
       <option value="" selected disabled>Select Event</option>
       <?php
-     include('./php/database_connect.php');
+include('./php/database_connect.php');
 
-     $query = "SELECT o.event_id, o.category_name, e.event_name
-               FROM ongoing_list_of_event o
-               JOIN ongoing_event_name e ON o.event_name_id = e.event_name_id";
-     $result = mysqli_query($conn, $query);
-     
-     while ($row = mysqli_fetch_assoc($result)) {
-         $eventID = $row['event_id'];
-         $categoryName = $row['category_name'];
-         $eventName = $row['event_name'];
-         
-         echo '<option value="' . $eventID . '">' . $eventName . ' - ' . $categoryName . '</option>';
-     }
-     
-     mysqli_close($conn);
-     
-      ?>
+$query = "SELECT o.event_id, o.category_name, e.event_name
+          FROM ongoing_list_of_event o
+          JOIN ongoing_event_name e ON o.ongoing_event_name_id = e.ongoing_event_name_id
+          WHERE o.is_archived = 1 AND o.is_deleted = 0 AND e.is_done = 1";
+$result = mysqli_query($conn, $query);
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $eventID = $row['event_id'];
+    $categoryName = $row['category_name'];
+    $eventName = $row['event_name'];
+
+    echo '<option value="' . $eventID . '">' . $eventName . ' - ' . $categoryName . '</option>';
+}
+
+mysqli_close($conn);
+?>
+
     </select>
   </div>
   <div class="form-group">

@@ -70,10 +70,7 @@
     </div>
     <!--SIDEBAR-->
     <?php
-      // Set the active module and sub-active sub-item variables
       $activeModule = 'home';
-
-      // Include the sidebar template
       require './php/student-sidebar.php';
     ?>
     <!--Page Content-->

@@ -199,18 +199,18 @@ include('./php/database_connect.php');
             e.event_description,
             h.filename
           FROM 
-            ongoing_list_of_event e
+            ongoing_list_of_event AS e
           JOIN 
-            ongoing_event_name en ON e.event_name_id = en.event_name_id
+            ongoing_event_name AS en ON e.ongoing_event_name_id = en.ongoing_event_name_id
           LEFT JOIN 
-            highlights h ON e.event_id = h.event_id
+            highlights AS h ON e.event_id = h.event_id
           WHERE 
             e.is_archived = 1
-          GROUP BY 
-          e.event_id
+            AND e.is_deleted != 1
+       
           ORDER BY 
-            e.suggested_status
-            ;";
+            e.suggested_status;";
+
 
 $result = mysqli_query($conn, $query);
 
@@ -277,7 +277,7 @@ if (mysqli_num_rows($result) > 0) {
         } else {
             // Display default image
             echo '<div class="modal-image">';
-            echo '<img src="./pictures/norwester.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+            echo '<img src="./pictures/no-img-avail.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
             echo '</div>';
         }
     
@@ -327,7 +327,7 @@ if (!empty($otherEvents)) {
     } else {
       // Display default image
       echo '<div class="modal-image">';
-      echo '<img src="./pictures/norwester.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+      echo '<img src="./pictures/no-img-avail.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
       echo '</div>';
     }
     
@@ -418,7 +418,8 @@ mysqli_close($conn);
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>    
-    <script>
+
+<script>
    
  /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
@@ -479,174 +480,184 @@ document.getElementById('search').addEventListener('keyup', function () {
   } else {
     suggestedEvents.style.display = 'block'; // Show the suggested events container in all other cases
   }
+  
+  // Make event cards clickable
+  eventCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      const eventName = card.getAttribute('data-bs-event');
+      const eventDescription = card.getAttribute('data-bs-desc');
+      const eventImages = card.querySelectorAll('img');
+
+      modalEventName.textContent = eventName;
+      modalCategory.textContent = card.querySelector('.category').textContent;
+      modalYear.textContent = card.querySelector('.year').textContent;
+      modalDescription.textContent = eventDescription;
+
+      // Clear previous images
+      modalEventImages.innerHTML = '';
+
+      // Add event images to the modal
+      eventImages.forEach(function(image) {
+        const clonedImage = image.cloneNode(true);
+        modalEventImages.appendChild(clonedImage);
+      });
+    });
+  });
 });
-var previousEvent = ""; // Variable to store the previous event name
 
-function filterByEventName(eventName) {
-  var eventCards = document.getElementsByClassName('event-card');
-  var suggestedEvents = document.querySelector('.suggested-events');
-  var hasMatchingResults = false;
+</script>
+<script>
+  var previousEvent = ""; // Variable to store the previous event name
 
-  if (eventName === previousEvent) {
-    window.location.reload(); // Reload the page to display all events without filter
-  }
-
-  for (var i = 0; i < eventCards.length; i++) {
-    var currentEventCard = eventCards[i];
-    var eventNameElement = currentEventCard.querySelector('.event-name');
-    var eventNameText = eventNameElement.textContent.toLowerCase();
-
-    if (eventNameText.includes(eventName.toLowerCase())) {
-      currentEventCard.style.display = 'block'; // Show the event card
-      if (currentEventCard.parentNode.parentNode === suggestedEvents) {
-        hasMatchingResults = true; // At least one suggested event has matching results
-      }
+  function filterByEventName(eventName) {
+    // Check if the selected event name is the same as the previous one
+    if (eventName === previousEvent) {
+      window.location.reload(); // Reload the page to display all events without filter
     } else {
-      currentEventCard.style.display = 'none'; // Hide the event card
+      // Make an AJAX request to fetch the filtered events based on the selected event name
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "./php/HIS-filter_event.php?eventName=" + encodeURIComponent(eventName), true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          // Update the event container with the filtered results
+          document.getElementById("card-container").innerHTML = xhr.responseText;
+        }
+      };
+      xhr.send();
     }
+
+    // Update the previous event name
+    previousEvent = eventName;
   }
+</script>
+<script>
+  //WITHOUT EVENT CLICKED
+  function updateTextContainer(slide) {
+  var imageInfo = slide.getAttribute('data-bs-info');
+  var imageDesc = slide.getAttribute('data-bs-desc');
 
-  previousEvent = eventName;
+  var textContainer = document.querySelector('.text-container');
 
-
-
-  // Check if the selected card is visible
-  if (selectedCard && selectedCard.style.display === 'none') {
-    selectedCard = null; // Reset selected card if it is hidden
-  }
-
-  updateTextContainer();
-
-  if (!hasMatchingResults) {
-    suggestedEvents.style.display = 'none'; // Hide the suggested events container when there are no matching results
+  if (imageInfo && imageDesc) {
+    textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
   } else {
-    suggestedEvents.style.display = 'block'; // Show the suggested events container in all other cases
+    textContainer.innerHTML = '<h3>No Details Available</h3>';
   }
+
+  textContainer.style.wordWrap = 'break-word'; // Allow words to break
+  textContainer.style.maxWidth = '100%';
+  textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  var eventCards = document.querySelectorAll('.event-card');
-  var modalEventName = document.getElementById('modal-event-name');
-  var modalCategory = document.getElementById('modal-category');
-  var modalYear = document.getElementById('modal-year');
-  var modalDescription = document.getElementById('modal-description');
-  var modalEventImages = document.getElementById('modal-event-images');
-  var carouselInner = document.querySelector('#eventsImages .carousel-inner');
-  var textContainer = document.querySelector('.text-container');
+
+    var firstSlide = document.querySelector('#eventsImages .carousel-item:first-child');
+    updateTextContainer(firstSlide);
+
+    var carousel = document.querySelector('#eventsImages');
+    carousel.addEventListener('slide.bs.carousel', function(event) {
+        var currentSlide = event.relatedTarget;
+        updateTextContainer(currentSlide);
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+  var eventCards = document.querySelectorAll(".event-card");
+  var carouselInner = document.querySelector("#eventsImages .carousel-inner");
+  var textContainer = document.querySelector(".text-container");
+
   var selectedCard = null;
 
   function updateTextContainer() {
     if (selectedCard) {
-      var categoryName = selectedCard.querySelector('.category').innerText;
-      var imageDesc = selectedCard.getAttribute('data-bs-desc');
-      textContainer.innerHTML = '<h3>' + categoryName + '</h3><p>' + imageDesc + '</p>';
-      textContainer.style.wordWrap = 'break-word'; // Allow words to break
-      textContainer.style.maxWidth = '100%';
-      textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
+      var categoryName = selectedCard.querySelector(".category").innerText;
+      var imageDesc = selectedCard.getAttribute("data-bs-desc");
+      textContainer.innerHTML = "<h3>" + categoryName + "</h3><p>" + imageDesc + "</p>";
+      textContainer.style.wordWrap = "break-word"; // Allow words to break
+      textContainer.style.maxWidth = "100%";
+      textContainer.style.textAlign = "justify"; // Justify the content in the paragraph
     }
   }
 
-  function handleCardClick(card) {
-    var eventName = card.getAttribute('data-bs-event');
-    var eventDescription = card.getAttribute('data-bs-desc');
-    var eventImages = card.querySelectorAll('img');
+  var firstSlide = document.querySelector("#eventsImages .carousel-item:first-child");
+  updateTextContainer();
 
-    modalEventName.textContent = eventName;
-    modalCategory.textContent = card.querySelector('.category').textContent;
-    modalYear.textContent = card.querySelector('.year').textContent;
-    modalDescription.textContent = eventDescription;
+  var carousel = document.querySelector("#eventsImages");
+  carousel.addEventListener("slide.bs.carousel", function(event) {
+    var currentSlide = event.relatedTarget;
+    updateTextContainer();
+  });
 
-    // Clear previous images
-    modalEventImages.innerHTML = '';
+  eventCards.forEach(function(card) {
+    card.addEventListener("click", function(event) {
+      event.preventDefault();
 
-    if (eventImages.length === 0) {
-      var noImagesMessage = document.createElement('p');
-      noImagesMessage.textContent = 'There are no images from this event.';
-      modalEventImages.appendChild(noImagesMessage);
-    } else {
-      // Add event images to the modal
-      eventImages.forEach(function(image) {
-        var clonedImage = image.cloneNode(true);
-        modalEventImages.appendChild(clonedImage);
-      });
-    }
-
-    if (selectedCard === card) {
-      // Card is already selected, refresh the page
-      location.reload();
-    } else {
-      // Card is not selected, select it
-      if (selectedCard) {
-        // Unselect the previously selected card
-        selectedCard.classList.remove('selected');
+      if (selectedCard === card) {
+        // Card is already selected, refresh the page
+        location.reload();
+      } else {
+        // Card is not selected, select it
+        if (selectedCard) {
+          // Unselect the previously selected card
+          selectedCard.classList.remove("selected");
+        }
+        selectedCard = card;
+        selectedCard.classList.add("selected");
+        updateTextContainer();
       }
-      selectedCard = card;
-      selectedCard.classList.add('selected');
-      updateTextContainer();
-    }
 
-    carouselInner.innerHTML = '';
+      // Clear the carousel inner HTML
+      carouselInner.innerHTML = "";
 
-    // Get the image elements from the clicked event card
-    var images = card.querySelectorAll('.modal-image img');
+      // Get the image elements from the clicked event card
+      var images = card.querySelectorAll(".modal-image img");
 
-    // Add the images to the carousel inner
-    images.forEach(function(image) {
-      var carouselItem = document.createElement('div');
-      carouselItem.classList.add('carousel-item');
-      carouselItem.innerHTML = '<img src="' + image.src + '">';
-      carouselInner.appendChild(carouselItem);
+      // Add the images to the carousel inner
+      images.forEach(function(image) {
+        var carouselItem = document.createElement("div");
+        carouselItem.classList.add("carousel-item");
+        carouselItem.innerHTML = "<img src='" + image.src + "'>";
+        carouselInner.appendChild(carouselItem);
+      });
+
+      // Activate the first carousel item
+      carouselInner.firstChild.classList.add("active");
+
+      // Show the carousel
+      var eventsImages = new bootstrap.Carousel(document.getElementById("eventsImages"));
+      eventsImages.to(0); // Go to the first slide
     });
+  });
+});
 
-    // Activate the first carousel item
-    carouselInner.firstChild.classList.add('active');
 
-    // Show the carousel
-    var eventsImages = new bootstrap.Carousel(document.getElementById('eventsImages'));
-    eventsImages.to(0); // Go to the first slide
-  }
+// JavaScript code
+document.addEventListener('DOMContentLoaded', function() {
+  const eventCards = document.querySelectorAll('.event-card');
+  const modalEventName = document.getElementById('modal-event-name');
+  const modalCategory = document.getElementById('modal-category');
+  const modalYear = document.getElementById('modal-year');
+  const modalDescription = document.getElementById('modal-description');
+  const modalEventImages = document.getElementById('modal-event-images');
 
   eventCards.forEach(function(card) {
     card.addEventListener('click', function() {
-      handleCardClick(card);
+      const eventName = card.getAttribute('data-bs-event');
+      const eventDescription = card.getAttribute('data-bs-desc');
+      const eventImages = card.querySelectorAll('img');
+
+      modalEventName.textContent = eventName;
+      modalCategory.textContent = card.querySelector('.category').textContent;
+      modalYear.textContent = card.querySelector('.year').textContent;
+      modalDescription.textContent = eventDescription;
+
+      // Clear previous images
+      modalEventImages.innerHTML = '';
+
+      // Add event images to the modal
+      eventImages.forEach(function(image) {
+        const clonedImage = image.cloneNode(true);
+        modalEventImages.appendChild(clonedImage);
+      });
     });
-  });
-
-  var searchInput = document.getElementById('search');
-  var suggestedEvents = document.querySelector('.suggested-events');
-
-  searchInput.addEventListener('keyup', function() {
-    var searchQuery = this.value.toLowerCase();
-    var hasMatchingResults = false;
-
-    eventCards.forEach(function(eventCard) {
-      var eventName = eventCard.querySelector('.event-name').textContent.toLowerCase();
-      var category = eventCard.querySelector('.category').textContent.toLowerCase();
-      var year = eventCard.querySelector('.year').textContent.toLowerCase();
-      var eventInfo = eventName + ' ' + category + ' ' + year;
-
-      if (eventInfo.includes(searchQuery)) {
-        eventCard.style.display = 'block'; // Show the event card
-        if (eventCard.parentNode.parentNode === suggestedEvents) {
-          hasMatchingResults = true; // At least one suggested event has matching results
-        }
-      } else {
-        eventCard.style.display = 'none'; // Hide the event card
-      }
-    });
-
-    // Check if the selected card is visible
-    if (selectedCard && selectedCard.style.display === 'none') {
-      selectedCard = null; // Reset selected card if it is hidden
-    }
-
-    updateTextContainer();
-
-    if (searchQuery !== '' && !hasMatchingResults) {
-      suggestedEvents.style.display = 'none'; // Hide the suggested events container when there are no matching results
-    } else {
-      suggestedEvents.style.display = 'block'; // Show the suggested events container in all other cases
-    }
   });
 });
 

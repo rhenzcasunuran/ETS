@@ -81,26 +81,10 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
     <div class="sidebar-content-container"  style="border:none !important;">
       <ul class="nav-list">
         <li class="nav-item">
-          <a href="#posts" class="menu_btn <?php echo ($activeModule === 'posts') ? 'active' : ''; ?>">
-            <i class="bx bx-news"><i class="dropdown_icon bx bx-chevron-down"></i></i>
-            <span class="link_name">Posts
-              <i class="change-icon dropdown_icon bx bx-chevron-right"></i>
-            </span>
+          <a href="HOM-posts.php" class="<?php echo ($activeModule === 'posts') ? 'active' : ''; ?>">
+            <i class="bx bx-news"></i>
+            <span class="link_name">Posts</span>
           </a>
-          <ul class="sub_list">
-            <li class="sub-item">
-              <a href="HOM-draft-post.php" class="<?php echo ($activeSubItem === 'draft-post') ? 'sub-active' : ''; ?>">
-                <i class="bx bxs-circle sub-icon color-green"></i>
-                <span class="sub_link_name">Drafts</span>
-              </a>
-            </li>
-            <li class="sub-item">
-              <a href="HOM-manage-post.php" class="<?php echo ($activeSubItem === 'manage-post') ? 'sub-active' : ''; ?>">
-                <i class="bx bxs-circle sub-icon color-yellow"></i>
-                <span class="sub_link_name">Manage Post</span>
-              </a>
-            </li>
-          </ul>
         </li>
         <li class="nav-item">
           <a href="#event_menu" class="menu_btn <?php echo ($activeModule === 'events') ? 'active' : ''; ?>">
@@ -151,21 +135,21 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
           </a>
           <ul class="sub_list">
           <li class="sub-item">
-              <a href="TOU-admin-create-tournament.php" class="<?php echo ($activeSubItem === 'create-tournament') ? 'sub-active' : ''; ?>">
+              <a href="TOU-Create-Tournament.php" class="<?php echo ($activeSubItem === 'create-tournament') ? 'sub-active' : ''; ?>">
                 <i class="bx bxs-circle sub-icon color-red"></i>
                 <span class="sub_link_name">Create Tournament</span>
               </a>
             </li>
             <li class="sub-item">
-              <a href="TOU-admin-manage-tournament.php"  class="<?php echo ($activeSubItem === 'manage-tournament') ? 'sub-active' : ''; ?>">
-                <i class="bx bxs-circle sub-icon color-green"></i>                
-                <span class="sub_link_name">Manage Tournament</span>
+              <a href="TOU-Live-Scoring-Admin.php" class="<?php echo ($activeSubItem === 'live-scoring') ? 'sub-active' : ''; ?>">
+                <i class="bx bxs-circle sub-icon color-green"></i>
+                <span class="sub_link_name">Live Scoring</span>
               </a>
             </li>
             <li class="sub-item">
-              <a href="TOU-admin-live-scoring.php" class="<?php echo ($activeSubItem === 'live-scoring') ? 'sub-active' : ''; ?>">
+              <a href="TOU-bracket-admin.php"  class="<?php echo ($activeSubItem === 'manage-brackets') ? 'sub-active' : ''; ?>">
                 <i class="bx bxs-circle sub-icon color-yellow"></i>
-                <span class="sub_link_name">Live Scoring</span>
+                <span class="sub_link_name">Manage Brackets</span>
               </a>
             </li>
           </ul>

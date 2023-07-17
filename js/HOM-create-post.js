@@ -4,11 +4,6 @@ const title = document.getElementById('title');
 const description = document.getElementById('description');
 const save_draft = document.getElementById('save_draft');
 const post = document.getElementById('post');
-const post_now = document.getElementById('post_now');
-
-save_draft.addEventListener('click', function() {
-  description.required = false;
-});
 
 document.addEventListener('DOMContentLoaded', function() {
   checkFormValidity();
@@ -26,7 +21,7 @@ function checkFormValidity() {
     postMenu.classList.remove('active');
   }
 
-  if (title.validity.valid) {
+  if (title.validity.valid && description.validity.valid) {
     save_draft.disabled = false;
   } else {
     save_draft.disabled = true;

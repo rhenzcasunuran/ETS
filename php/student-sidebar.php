@@ -111,7 +111,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
               </a>
             </li>
             <li class="sub-item">
-              <a href="TOU-student-live-scoring.php" class="<?php echo $activeSubItem === 'tournament' ? 'sub-active' : ''; ?>">
+              <a href="TOU-student-side.php" class="<?php echo $activeSubItem === 'tournament' ? 'sub-active' : ''; ?>">
                 <i class="bx bxs-circle sub-icon color-green"></i>
                 <span class="sub_link_name">Tournament</span>
               </a>
@@ -138,7 +138,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
         </li>
         <?php if(isset($_SESSION['user_username'])) { ?>
         <li class="nav-item">
-          <a href="HOM-manage-post.php" class="<?php echo $activeModule === 'configuration' ? 'active' : ''; ?>">
+          <a href="HOM-posts.php" class="<?php echo $activeModule === 'configuration' ? 'active' : ''; ?>">
             <i class="bx bx-cog"></i>
             <span class="link_name">Configuration</span>
           </a>

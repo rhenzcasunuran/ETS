@@ -25,6 +25,11 @@ h2{
     margin-bottom: 5px;
 }
 
+span{
+    color: #D03A36;
+    font-size: 14px;
+}
+
 .textbox{
     padding: 0px 10px;
 }
