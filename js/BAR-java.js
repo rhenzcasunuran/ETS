@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
   anonymous()
+
+  const eventSelect = document.getElementById('eventSelect');
+  eventSelect.addEventListener('change', function() {
+    document.getElementById('myForm').submit();
+  });
   
   const graphSection = document.querySelector("#graph-section");
   const arrowBtn = document.querySelector("#arrow-btn");
