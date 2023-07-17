@@ -47,10 +47,10 @@
               </select>
             </div>
             <div class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
-              <form action="POST" method="">
-                <input type="hidden" id="teamOneScore" name="teamOneScore">
+              <form id="match-form" action="./php/TOU-process-winner.php" method="POST">
+                <input type="hidden" id="bracketFormId" name="bracketFormId">
+                <input type="hidden" id="scheduledTeamBrackets" name="scheduledTeamBrackets">
                 <input type="hidden" id="teamOneName" name="teamOneName">
-                <input type="hidden" id="teamTwoScore" name="teamTwoScore">
                 <input type="hidden" id="teamTwoName" name="teamTwoName">
               </form>
               <div class="row">
@@ -62,6 +62,8 @@
                     <h1 id="team-one-score"></h1>
                   </div>
                   <div id="team_one_btn"></div>
+                  <br>
+                  <button type="button" class="btn btn-danger" id="disqualify-team-one-btn">Disqualify</button>
                 </div>
                 <div class="col">
                   <br>
@@ -76,6 +78,8 @@
                     <h1 id="team-two-score"></h1>
                   </div>
                   <div id="team_two_btn"></div>
+                  <br>
+                  <button type="button" class="btn btn-danger" id="disqualify-team-two-btn">Disqualify</button>
                 </div>
               </div>
             </div>
@@ -90,6 +94,8 @@
               var teamTwoScore = $('#team-two-score');
               var selectedId;
               var selectedValue;
+              var teamOneNameVar;
+              var teamTwoNameVar;
 
               // AJAX request to populate the <select> options
               $.ajax({
@@ -167,6 +173,9 @@
                       teamTwoName.text(matchup.team_two_name);
                       teamOneScore.text(matchup.team_one_current_score);
                       teamTwoScore.text(matchup.team_two_current_score);
+                      teamOneNameVar = matchup.team_one_name;
+                      teamTwoNameVar = matchup.team_two_name;
+
 
                       // Generate buttons for team one
                       $('#team_one_btn').empty(); // Clear existing buttons
@@ -288,9 +297,26 @@
                   }
                 });
               });
+
+              // Set the values of the hidden input fields when the "End Match" button is clicked
+              $('#end-match-btn').click(function() {
+                  selectedId = selectEvent.val();
+                  selectedValue = selectMatchup.val();
+                  teamOneNameVar = teamOneName.text();
+                  teamTwoNameVar = teamTwoName.text();
+
+                  // Set the values of the hidden input fields
+                  $('#bracketFormId').val(selectedId);
+                  $('#scheduledTeamBrackets').val(selectedValue);
+                  $('#teamOneName').val(teamOneNameVar);
+                  $('#teamTwoName').val(teamTwoNameVar);
+
+                  // Submit the form
+                  $('#match-form').submit();
+                });
             });
           </script>
-          <!--<div style="width:100%; height:700px; color:var(--color-body);" id="tree"></div>-->
+          <div style="width:100%; height:700px; color:var(--color-body);" id="tree"></div>
         </div>
     </section>
     <!-- Scripts -->
@@ -316,14 +342,14 @@
               { id: 5, pid: 2, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
               { id: 6, pid: 3, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
               { id: 7, pid: 3, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 8, pid: 4, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 9, pid: 4, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 10, pid: 5, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 11, pid: 5, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 12, pid: 6, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 13, pid: 6, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 14, pid: 7, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 15, pid: 7, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" }
+              { id: 8, pid: 4, name: "2", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
+              { id: 9, pid: 4, name: "7", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
+              { id: 10, pid: 5, name: "4", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
+              { id: 11, pid: 5, name: "5", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
+              { id: 12, pid: 6, name: "1", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
+              { id: 13, pid: 6, name: "3", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
+              { id: 14, pid: 7, name: "6", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
+              { id: 15, pid: 7, name: "8", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" }
           ]
       });
 

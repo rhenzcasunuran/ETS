@@ -78,12 +78,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $stmt->close();
 
+    // Insert data into the ongoing_teams table
+    $stmt = $conn->prepare("INSERT INTO temp_teams_Score_update (team_name, bracket_form_id) VALUES (?, ?)");
+    // Bind parameters and execute the statement for each team
+    foreach ($teams as $team_name) {
+        $stmt->bind_param("si", $team_name, $bracket_form_id);
+        $stmt->execute();
+    }
+    $stmt->close();
+
     // Insert data into the score_rule table
     foreach ($gameOptions as $set_no => $max_value) {
         $stmt = $conn->prepare("INSERT INTO score_rule (bracket_form_id, set_no, max_value, game_type) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiis", $bracket_form_id, $set_no, $max_value, $gameType);
         $stmt->execute();
     }
+    $stmt->close();
 
     // Prepare the SQL statement
     $query = "INSERT INTO bracket_teams (bracket_form_id, team_one_id, team_two_id) VALUES (?, ?, ?)";
@@ -113,6 +123,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt->close();
 
+    function generateSequence($numItems)
+    {
+        $sequence = [0];
+        $currentNum = 1;
+
+        for ($i = 1; $i < $numItems; $i++) {
+            $sequence[] = $currentNum;
+            $sequence[] = $currentNum;
+            $currentNum++;
+        }
+
+        return $sequence;
+    }
+
+    $result = generateSequence($numTeams);
+
+    // Prepare the SQL statement
+    $query = "INSERT INTO bracket_teams_state (bracket_form_id, node_id, parent_id) VALUES (?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $query);
+
+    for ($i = count($result) - 1; $i >= 0; $i--) {
+        $node_id = $i + 1;
+        $parent_id = $result[$i];
+
+        mysqli_stmt_bind_param($stmt, "iii", $bracket_form_id, $node_id, $parent_id);
+        mysqli_stmt_execute($stmt);
+    }
+
+    $reversedTeamIds = array_reverse($teamIds);
+
+    foreach ($reversedTeamIds as $teamId) {
+        $bracketFormId = 1; // Set the appropriate bracket_form_id value
+    
+        // Prepare the SQL update query with LIMIT 1
+        $sql = "UPDATE bracket_teams_state
+                SET team_id = ?
+                WHERE bracket_form_id = ?
+                  AND team_id IS NULL
+                LIMIT 1";
+    
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ii", $teamId, $bracketFormId);
+        mysqli_stmt_execute($stmt);
+    }    
+    
+    // Close the statement and connection
+    mysqli_stmt_close($stmt);    
+    
     // Close the database connection
     $conn->close();
 
