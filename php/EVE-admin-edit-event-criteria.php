@@ -5,11 +5,9 @@
     $event = $_POST['event'];
 
    // Prepare the SQL statement to fetch the criterion data for the selected category
-    $sql = "SELECT criterion_id, category_name_id, criterion_name, criterion_percent FROM `criterion` WHERE category_name_id = ?
-            UNION
-            SELECT criterion_id, category_name_id, criterion_name, criterion_percent FROM `ongoing_criterion` WHERE category_name_id = ? AND event_id = ?;";
+    $sql = "SELECT criterion_id, category_name_id, criterion_name, criterion_percent FROM `ongoing_criterion` WHERE category_name_id = ? AND event_id = ?;";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('sss', $category, $category, $event);
+    $stmt->bind_param('ss', $category, $event);
     $stmt->execute();
     $categoryData = $stmt->get_result();
 
@@ -31,28 +29,28 @@
     if ($categoryData->num_rows > 0) {
         // Loop through the criteria array and generate the HTML for the input fields
         $output .= '        <div class="upper-layer row">';
-        $output .= '            <p class="col-7 text-start">Name</p>';
-        $output .= '            <p class="col-5 text-center">Percent (%)</p>';
+        $output .= '            <p class="col-7 text-start disable">Name</p>';
+        $output .= '            <p class="col-5 text-center disable">Percent (%)</p>';
         $output .= '        </div>';
         $output .= '        <div class="middle-layer flex-column">';
         foreach ($criteria as $criterion) {
             $output .= '        <div id="criterion-container" class="row">';
-            $output .= '            <p class="col-7" id="criterionName">' . $criterion['criterion_name'] . '</p>';
-            $output .= '            <p class="col-5 text-center">' . $criterion['criterion_percent'] . '%</p>';
+            $output .= '            <p class="col-7 disable" id="criterionName">' . $criterion['criterion_name'] . '</p>';
+            $output .= '            <p class="col-5 text-center disable">' . $criterion['criterion_percent'] . '%</p>';
             $output .= '        </div>';
             $totalPercent += $criterion['criterion_percent'];
         }
         $output .= '        </div>';
         $output .= '        <div class="lower-layer row">';
-        $output .= '            <p class="col-7 text-end">Total</p>';
-        $output .= '            <p class="col-5 text-center" id="criterionPercent">'.$totalPercent.'%</p>';
+        $output .= '            <p class="col-7 text-end disable">Total</p>';
+        $output .= '            <p class="col-5 text-center disable" id="criterionPercent">'.$totalPercent.'%</p>';
         $output .= '        </div>';
         $output .= '<script>';
         $output .= '    $(document).ready(function() {';
         $output .= '        if (' . $totalPercent . ' !== 100) {';
         $output .= '            $("#criterionPercent").css("color", "red");';
         $output .= '        } else {';
-        $output .= '            $("#criterionPercent").css("color", "var(--color-content-text)");';
+        $output .= '            $("#criterionPercent").css("color", "#999");';
         $output .= '        }';
         $output .= '    });';
         $output .= '</script>';

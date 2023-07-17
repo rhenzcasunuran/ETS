@@ -113,6 +113,9 @@
                 $(".popUpDisableBackground#'.$popUpID.'").css("visibility", "visible");
                 $(".popUpContainer").addClass("show");
             });
+            $("#editCriteria").click(function() {
+                window.location.href = "EVE-admin-criteria-configuration.php";
+            });
         </script>' .
       '<script type="text/javascript" src="./js/EVE-admin-generate-codes.js"></script>' .
       '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .

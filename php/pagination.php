@@ -108,7 +108,7 @@
 
         <div class="goto-page">
             <p>Go to Page:</p>
-            <input type="text" class="page-control" id="goToPageInput">
+            <input type="text" class="page-control" id="goToPageInput" maxlength="4" autocomplete="off">
         </div>
     </div>
 </div>
