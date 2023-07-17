@@ -1,234 +1,253 @@
 <?php
-include 'database_connect.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve the form values from the POST request
+    $bracketFormId = $_POST['bracketFormId'];
+    $selectedTeamOneAndTwo = $_POST['selectedTeamOneAndTwo'];
 
-// Retrieve the form values
-$bracketFormId = $_POST['bracketFormId'];
-$scheduledTeamBrackets = $_POST['scheduledTeamBrackets'];
-$teamOneName = $_POST['teamOneName'];
-$teamTwoName = $_POST['teamTwoName'];
+    // Execute the SQL query to fetch data from the database
+    include 'database_connect.php';
+    
+    $query = "SELECT bt.*, 
+              ot.id AS team_one_id,
+              ot.team_name AS team_one_name,
+              ot.current_team_status AS team_one_status,
+              ot.current_set_no AS team_one_set_no,
+              ot.current_overall_score AS team_one_overall_score,
+              ot.current_score AS team_one_score,
+              ot2.id AS team_two_id,
+              ot2.team_name AS team_two_name,
+              ot2.current_team_status AS team_two_status,
+              ot2.current_set_no AS team_two_set_no,
+              ot2.current_overall_score AS team_two_overall_score,
+              ot2.current_score AS team_two_score,
+              MAX(sr.set_no) AS max_set_no,            
+              sr.max_value,
+              sr.game_type,
+              sr.set_no
+              FROM `bracket_teams` AS bt
+              INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
+              INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
+              INNER JOIN score_rule AS sr ON sr.bracket_form_id = bt.bracket_form_id
+              WHERE bt.id = ? AND bt.bracket_form_id = ?";
 
-// Prepare the SQL statement
-$query = "SELECT bf.id, bf.max_column, bf.current_column, bf.current_column_status,
-            ot.id AS team_one_id,
-            ot.team_name AS team_one_name,
-            ot.current_set_no AS current_team_one_set_no,
-            ot.current_overall_score AS current_team_one_overall_score,
-            ot.current_score AS current_team_one_score,
-            ot.current_team_status AS current_team_one_status,
-            ot2.id AS team_two_id,
-            ot2.team_name AS team_two_name,
-            ot2.current_set_no AS current_team_two_set_no,
-            ot2.current_overall_score AS current_team_two_overall_score,
-            ot2.current_score AS current_team_two_score,
-            ot2.current_team_status AS current_team_two_status,
-            MAX(sr.set_no) AS max_set_no,            
-            sr.max_value,
-            sr.game_type
-            FROM `bracket_forms` AS bf
-            INNER JOIN bracket_teams AS bt 
-            ON bf.id = bt.bracket_form_id
-            INNER JOIN ongoing_teams AS ot
-            ON ot.id = bt.team_one_id
-            INNER JOIN ongoing_teams AS ot2
-            ON ot2.id = bt.team_two_id
-            INNER JOIN score_rule AS sr
-            WHERE bt.id = ? 
-                AND bf.id = ? 
-                AND ot.team_name = ? 
-                AND ot2.team_name = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "ii", $selectedTeamOneAndTwo, $bracketFormId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-// Prepare the statement
-$stmt = mysqli_prepare($conn, $query);
-
-// Bind the form data to the prepared statement parameters
-mysqli_stmt_bind_param($stmt, "iiss", $bracketFormId, $scheduledTeamBrackets, $teamOneName, $teamTwoName);
-
-// Execute the statement
-mysqli_stmt_execute($stmt);
-
-// Get the result set
-$result = mysqli_stmt_get_result($stmt);
-
-// Check if the query was successful
-if ($result) {
-    // Fetch the rows from the result set
-    while ($row = mysqli_fetch_assoc($result)) {
-        // Store the values of the columns in variables
-        $bfId = $row['id'];
-        $bfMaxColumn = $row['max_column'];
-        $bfCurrentColumn = $row['current_column'];
-        $bfCurrentColumnStatus = $row['current_column_status'];
-        $otTeamOneId = $row['team_one_id'];
-        $otTeamOneName = $row['team_one_name'];
-        $otCurrentSetNo = $row['current_team_one_set_no'];
-        $otCurrentOverallScore = $row['current_team_one_overall_score'];
-        $otCurrentScore = $row['current_team_one_score'];
-        $otCurrentTeamStatus = $row['current_team_one_status'];
-        $ot2TeamTwoId = $row['team_two_id'];
-        $ot2TeamTwoName = $row['team_two_name'];
-        $ot2CurrentSetNo = $row['current_team_two_set_no'];
-        $ot2CurrentOverallScore = $row['current_team_two_overall_score'];
-        $ot2CurrentScore = $row['current_team_two_score'];
-        $ot2CurrentTeamStatus = $row['current_team_two_status'];
-        $maxSetNo = $row['max_set_no']; // Retrieve the maximum set_no value
+    // Fetch and store each column into variables
+    if ($result && $row = mysqli_fetch_assoc($result)) {
+        $teamOneId = $row['team_one_id'];
+        $teamOneName = $row['team_one_name'];
+        $teamOneStatus = $row['team_one_status'];
+        $teamOneSetNo = $row['team_one_set_no'];
+        $teamOneOverallScore = $row['team_one_overall_score'];
+        $teamOneScore = $row['team_one_score'];
+        
+        $teamTwoId = $row['team_two_id'];
+        $teamTwoName = $row['team_two_name'];
+        $teamTwoStatus = $row['team_two_status'];
+        $teamTwoSetNo = $row['team_two_set_no'];
+        $teamTwoOverallScore = $row['team_two_overall_score'];
+        $teamTwoScore = $row['team_two_score'];
+        
+        $maxSetNo = $row['max_set_no'];
+        $maxValue = $row['max_value'];
+        $gameType = $row['game_type'];
+        $setNo = $row['set_no'];
     }
 
-    // Free the result set
-    mysqli_free_result($result);
-} else {
-    // Handle the case when the query fails
-    echo "Error executing the query: " . mysqli_error($conn);
+    if ($gameType == 'score-based') {
+        if ($teamTwoScore >= $maxValue || $teamOneScore >= $maxValue) {
+            if ($teamTwoScore < $teamOneScore) {
+                // If team won the best of put them as 'champion' instead
+                if ($teamOneSetNo >= $maxSetNo) {
+                    // Team One winning
+                    // Copy to same table
+                    $query = "INSERT INTO ongoing_teams (team_name, bracket_form_id, current_team_status, current_set_no, current_overall_score)
+                    SELECT team_name,
+                    bracket_form_id,
+                    'champion' AS current_team_status,
+                    current_set_no,
+                    current_overall_score + 1
+                    FROM ongoing_teams
+                    WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Team One
+                    $query = "UPDATE ongoing_teams
+                    SET current_team_status = 'won'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+            
+                    // Team Two
+                    $query2 = "UPDATE ongoing_teams
+                    SET current_team_status = 'lost'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt2 = mysqli_prepare($conn, $query2);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt2, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt2);
+                } else {
+                    // Team One winning
+                    // Copy to same table
+                    $query = "INSERT INTO ongoing_teams (team_name, bracket_form_id, current_team_status, current_set_no, current_overall_score)
+                    SELECT team_name,
+                    bracket_form_id,
+                    'active' AS current_team_status,
+                    current_set_no + 1,
+                    current_overall_score + 1
+                    FROM ongoing_teams
+                    WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Team One
+                    $query = "UPDATE ongoing_teams
+                    SET current_team_status = 'won'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+            
+                    // Team Two
+                    $query2 = "UPDATE ongoing_teams
+                    SET current_team_status = 'lost'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt2 = mysqli_prepare($conn, $query2);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt2, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt2);
+                }
+            } else {
+                // If team won the best of put them as 'champion' instead
+                if ($teamTwoSetNo >= $maxSetNo) {
+                    // Team One winning
+                    // Copy to same table
+                    $query = "INSERT INTO ongoing_teams (team_name, bracket_form_id, current_team_status, current_set_no, current_overall_score)
+                    SELECT team_name,
+                    bracket_form_id,
+                    'champion' AS current_team_status,
+                    current_set_no,
+                    current_overall_score + 1
+                    FROM ongoing_teams
+                    WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Team One
+                    $query = "UPDATE ongoing_teams
+                    SET current_team_status = 'won'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+            
+                    // Team Two
+                    $query2 = "UPDATE ongoing_teams
+                    SET current_team_status = 'lost'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt2 = mysqli_prepare($conn, $query2);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt2, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt2);
+                } else {
+                    // Team Two winning
+                    // Copy to same table
+                    $query = "INSERT INTO ongoing_teams (team_name, bracket_form_id, current_team_status, current_set_no, current_overall_score)
+                    SELECT team_name,
+                    bracket_form_id,
+                    'active' AS current_team_status,
+                    current_set_no + 1,
+                    current_overall_score + 1
+                    FROM ongoing_teams
+                    WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    $query = "UPDATE ongoing_teams
+                    SET current_team_status = 'won'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+            
+                    // Team Two
+                    $query2 = "UPDATE ongoing_teams
+                    SET current_team_status = 'lost'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt2 = mysqli_prepare($conn, $query2);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt2, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt2);
+                }
+            }
+        }
+    }
+    
+    // Close the statement and database connection
+    mysqli_stmt_close($stmt);
+    mysqli_close($conn);
+
+    // Prepare the response indicating success
+    $response = array(
+        'success' => true,
+        'message' => 'Request completed successfully'
+    );
+
+    // Send the response as JSON
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
-
-// If team one is winning
-if ($ot2CurrentScore < $otCurrentScore) {
-    // Copy team to proceed, if current_set is bigger than the max_set then just put 'champion' in status
-    if ($otCurrentSetNo > $maxSetNo) {
-        // Team One
-        $query = "INSERT INTO `ongoing_teams` (bracket_form_id, team_name, current_overall_score, current_set_no, current_team_status)
-          SELECT
-              bracket_form_id,
-              team_name,
-              current_overall_score,
-              current_set_no,
-              'champion' AS current_team_status
-          FROM
-              `ongoing_teams`
-          WHERE
-              bracket_form_id = ? AND id = ?";
-
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("ii", $bracketFormId, $otTeamOneId);
-        $stmt->execute();
-        $stmt->close();
-
-        // Team Two
-        $query = "UPDATE ongoing_teams
-        SET current_team_status = 'lost'
-        WHERE bracket_form_id = ? AND id = ?";
-
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("ii", $bracketFormId, $otTeamTwoId);
-        $stmt->execute();
-        $stmt->close();
-
-    } else {
-        // Prepare the insert statement for updating the ongoing_teams table
-        $insertStatement = $conn->prepare("INSERT INTO `ongoing_teams` (bracket_form_id, team_name, current_overall_score, current_set_no, current_team_status)
-        SELECT
-            bracket_form_id,
-            team_name,
-            current_overall_score + 1,
-            current_set_no + 1,
-            'active' AS current_team_status
-        FROM
-            `ongoing_teams`
-        WHERE
-            bracket_form_id = ?
-            AND id = ?");
-        // Bind the parameters
-        $insertStatement->bind_param("ii", $bracketFormId, $otTeamOneId);
-        // Execute the insert statement
-        $insertStatement->execute();
-
-        // Prepare the update statement for team one
-        $updateStatementOne = $conn->prepare("UPDATE ongoing_teams
-        SET current_team_status = 'win'
-        WHERE
-            bracket_form_id = ?
-            AND id = ?");
-        // Bind the parameters
-        $updateStatementOne->bind_param("ii", $bracketFormId, $otTeamOneId);
-        // Execute the update statement for team one
-        $updateStatementOne->execute();
-
-        // Prepare the update statement for team two
-        $updateStatementTwo = $conn->prepare("UPDATE ongoing_teams
-        SET current_team_status = 'lost'
-        WHERE
-            bracket_form_id = ?
-            AND id = ?");
-        // Bind the parameters
-        $updateStatementTwo->bind_param("ii", $bracketFormId, $otTeamTwoId);
-        // Execute the update statement for team two
-        $updateStatementTwo->execute();
-    }
-} else if ($otCurrentScore < $ot2CurrentScore) {
-     // Copy team to proceed, if current_set is bigger than the max_set then just put 'champion' in status
-     if ($ot2CurrentSetNo > $maxSetNo) {
-        // Team One
-        $query = "INSERT INTO `ongoing_teams` (bracket_form_id, team_name, current_overall_score, current_set_no, current_team_status)
-        SELECT
-            bracket_form_id,
-            team_name,
-            current_overall_score,
-            current_set_no,
-            'champion' AS current_team_status
-        FROM
-            `ongoing_teams`
-        WHERE
-            bracket_form_id = ? AND id = ?";
-
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("ii", $bracketFormId, $otTeamTwoId);
-        $stmt->execute();
-        $stmt->close();
-
-        // Team Two
-        $query = "UPDATE ongoing_teams
-        SET current_team_status = 'lost'
-        WHERE bracket_form_id = ? AND id = ?";
-
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("ii", $bracketFormId, $otTeamOneId);
-        $stmt->execute();
-        $stmt->close();
-    } else {
-        // Prepare the insert statement for updating the ongoing_teams table
-        $insertStatement = $conn->prepare("INSERT INTO `ongoing_teams` (bracket_form_id, team_name, current_overall_score, current_set_no, current_team_status)
-        SELECT
-            bracket_form_id,
-            team_name,
-            current_overall_score + 1,
-            current_set_no + 1,
-            'active' AS current_team_status
-        FROM
-            `ongoing_teams`
-        WHERE
-            bracket_form_id = ?
-            AND id = ?");
-        // Bind the parameters
-        $insertStatement->bind_param("ii", $bracketFormId, $otTeamTwoId);
-        // Execute the insert statement
-        $insertStatement->execute();
-
-        // Prepare the update statement for team one
-        $updateStatementOne = $conn->prepare("UPDATE ongoing_teams
-        SET current_team_status = 'win'
-        WHERE
-            bracket_form_id = ?
-            AND id = ?");
-        // Bind the parameters
-        $updateStatementOne->bind_param("ii", $bracketFormId, $otTeamTwoId);
-        // Execute the update statement for team one
-        $updateStatementOne->execute();
-
-        // Prepare the update statement for team two
-        $updateStatementTwo = $conn->prepare("UPDATE ongoing_teams
-        SET current_team_status = 'lost'
-        WHERE
-            bracket_form_id = ?
-            AND id = ?");
-        // Bind the parameters
-        $updateStatementTwo->bind_param("ii", $bracketFormId, $otTeamOneId);
-        // Execute the update statement for team two
-        $updateStatementTwo->execute();
-    }
-}
-
-// Close the prepared statement
-mysqli_stmt_close($stmt);
-
-// Close the database connection
-mysqli_close($conn);
 ?>
