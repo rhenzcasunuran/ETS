@@ -434,15 +434,17 @@ button {
     justify-self: center;
 }
 
+.element {
+    overflow: hidden;
+}
+
 .element .not-included {    
     width: 100%;
     background-color: var(--default-primary-action-color);
-    height: 30px;
+    height: 20px;
     position: absolute;
     top: 0;
     left: 0;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
     display: none;
 }
 
