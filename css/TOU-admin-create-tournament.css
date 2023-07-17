@@ -1,0 +1,26 @@
+#event_name, #category_name{
+    border-radius: 0% !important;
+
+    border-style: none !important;
+    border: none !important;
+    font-weight: bold;
+}
+
+.btn-primary{
+    margin-bottom: 10px;
+}
+
+.btn-danger{
+    background-color: #A84444;
+    margin-left: 10px;
+}
+
+select[name="dynamic_input[]"] {
+    border-radius: 0%;
+    font-weight: bold;
+  }
+
+  input {
+    background-color: #4933A1 !important;
+    color: white;
+  }

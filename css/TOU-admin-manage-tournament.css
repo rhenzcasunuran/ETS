@@ -1,0 +1,18 @@
+a {
+    margin-left: 84% !important;
+    padding: 5px 10px;
+    background-color: #4933A0;
+    color: var(--color-content-card);
+    text-decoration: none;
+}
+
+.element-group {
+    background-color: var(--color-body);
+    margin: 10px;
+    padding: 20px;
+    font-weight: bold;
+}
+
+h3{
+    font-weight: bold;
+}

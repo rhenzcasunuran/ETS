@@ -1,0 +1,20 @@
+.col {
+    font-weight: bolder;
+    background-color: var(--color-body);
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+
+.element-label {
+    font-weight: bolder !important;
+    font-size: larger !important;
+}
+
+.btn-primary.float-end {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 50%;
+    background-color: #4933A1;
+  }
