@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2023 at 06:53 PM
+-- Generation Time: Jul 17, 2023 at 07:23 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -534,7 +534,16 @@ INSERT INTO `logs` (`log_id`, `log_date`, `log_time`, `admin_id`, `activity_desc
 (324, '2023-07-17', '23:58:26', 2, 'Added \'34\', \'25\', \'7\', \'2\', \'Draw the Mayor\', \'Mayor mo? mayor ko din yan! Drawing na natin yan\', \'2023-08-01\', \'11:00\' in ongoing_list_of_event (Events)'),
 (325, '2023-07-17', '23:59:08', 2, 'Added \'32\', \'25\', \'7\', \'1\', \'Basketball Boys\', \'Sheeshable\', \'2023-08-02\', \'08:00\' in ongoing_list_of_event (Events)'),
 (326, '2023-07-18', '00:27:00', 2, 'Updated event_id = \'55\'; in ongoing_list_of_event (Events)'),
-(327, '2023-07-18', '00:49:16', 2, 'Updated event_id = \'54\'; in ongoing_list_of_event (Events)');
+(327, '2023-07-18', '00:49:16', 2, 'Updated event_id = \'54\'; in ongoing_list_of_event (Events)'),
+(328, '2023-07-18', '01:19:02', 2, 'Updated event_id = \'52\'; in ongoing_list_of_event (Events)'),
+(329, '2023-07-18', '01:19:02', 2, 'Updated event_id = \'52\'; in tournament (Events)'),
+(330, '2023-07-18', '01:21:26', 2, 'Updated event_id = \'50\'; in ongoing_list_of_event (Events)'),
+(331, '2023-07-18', '01:21:26', 2, 'Updated event_id = \'50\'; in tournament (Events)'),
+(332, '2023-07-18', '01:21:36', 2, 'Updated event_id = \'51\'; in ongoing_list_of_event (Events)'),
+(333, '2023-07-18', '01:21:36', 2, 'Updated event_id = \'51\'; in tournament (Events)'),
+(334, '2023-07-18', '01:21:57', 2, 'Updated event_id = \'56\'; in ongoing_list_of_event (Events)'),
+(335, '2023-07-18', '01:21:57', 2, 'Updated event_id = \'56\'; in tournament (Events)'),
+(336, '2023-07-18', '01:21:57', 2, 'Updated event_id = \'56\'; in ongoing_list_of_event (Events)');
 
 -- --------------------------------------------------------
 
@@ -553,15 +562,11 @@ CREATE TABLE `number_of_wins` (
 --
 
 INSERT INTO `number_of_wins` (`number_of_wins_id`, `number_of_wins`, `number_of_wins_number`) VALUES
-(1, 'Best of One (1)', 1),
-(2, 'Best of Two (2)', 2),
-(3, 'Best of Three (3)', 3),
-(4, 'Best of Four (4)', 4),
-(5, 'Best of Five (5)', 5),
-(6, 'Best of Six (6)', 6),
-(7, 'Best of Seven (7)', 7),
-(8, 'Best of Eight (8)', 8),
-(9, 'Best of Nine (9)', 9);
+(1, 'Best of One', 1),
+(2, 'Best of Three', 3),
+(3, 'Best of Five', 5),
+(4, 'Best of Seven', 7),
+(5, 'Best of Nine', 9);
 
 -- --------------------------------------------------------
 
@@ -781,10 +786,10 @@ CREATE TABLE `tournament` (
 --
 
 INSERT INTO `tournament` (`tournament_id`, `event_id`, `number_of_wins_id`) VALUES
-(12, 50, 9),
-(13, 51, 9),
-(14, 52, 4),
-(15, 56, 9);
+(12, 50, 5),
+(13, 51, 5),
+(14, 52, 3),
+(15, 56, 5);
 
 -- --------------------------------------------------------
 
@@ -1128,7 +1133,7 @@ ALTER TABLE `judges`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=328;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=337;
 
 --
 -- AUTO_INCREMENT for table `number_of_wins`
