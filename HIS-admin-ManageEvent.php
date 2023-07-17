@@ -53,8 +53,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page number
 $query = "SELECT e.event_name, o.event_id
           FROM ongoing_event_name e
           JOIN ongoing_list_of_event o ON e.event_name_id = o.event_name_id
-          WHERE o.is_archived = 1
-          GROUP BY e.event_name DESC";
+          WHERE o.is_archived = 1 AND o.is_deleted = 0
+          GROUP BY e.ongoing_event_name_id  DESC";
 
 $result = mysqli_query($conn, $query);
 
@@ -135,10 +135,12 @@ echo "</div>";
 
                 echo "<div class='activity_container' id='activity_" . $eventName . "' style='display:none;'>";
 
-                $query = "SELECT DISTINCT o.category_name, o.suggested_status, o.is_archived
-                          FROM ongoing_list_of_event o
-                          JOIN ongoing_event_name e ON o.event_name_id = e.event_name_id
-                          WHERE e.event_name = '" . $eventName . "' AND o.is_archived = 1";
+                $query = "SELECT o.category_name, o.suggested_status, o.is_archived
+                FROM ongoing_list_of_event o
+                JOIN ongoing_event_name e ON o.ongoing_event_name_id = e.ongoing_event_name_id
+                WHERE e.event_name = '" . $eventName . "' AND o.is_archived = 1 AND o.is_deleted = 0";
+      
+      
                 $categoryResult = mysqli_query($conn, $query);
 
                 if ($categoryResult === false) {
