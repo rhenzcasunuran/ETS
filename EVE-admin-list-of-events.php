@@ -117,6 +117,23 @@
 
               $list_table_query .= " AND (ole.category_name LIKE '%$searchValue%' OR oen.event_name LIKE '%$searchValue%' OR et.event_type LIKE '%$searchValue%' OR ole.event_date LIKE '%$searchValue%' OR ole.event_time LIKE '%$searchValue%' OR ole.event_description LIKE '%$searchValue%' OR ole.event_code LIKE '%$searchValue%')";                    
             }
+
+            if (isset($_GET['filterValue'])) {
+              $filterValueArray = $_GET['filterValue'];
+
+              $filteredEventTypes = [];
+          
+              foreach ($filterValueArray as $filterValue) {
+          
+                  $sanitizedFilterValue = mysqli_real_escape_string($conn, $filterValue);
+          
+                  $filteredEventTypes[] = $sanitizedFilterValue;
+              }
+          
+              $filteredEventTypesString = "'" . implode("', '", $filteredEventTypes) . "'";
+          
+              $list_table_query .= " AND et.event_type IN ($filteredEventTypesString)";
+            }
             require './php/pagination w filter.php';
             $list_table_query_with_limit = "SELECT ole.*,
                                             oen.*,
