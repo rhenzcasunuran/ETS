@@ -53,7 +53,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page number
 $query = "SELECT e.event_name, o.event_id
           FROM ongoing_event_name e
           JOIN ongoing_list_of_event o ON e.event_name_id = o.event_name_id
-          WHERE o.is_archived = 1 AND o.is_deleted = 0
+          WHERE o.is_archived = 1 AND o.is_deleted = 0 AND e.is_done = 1
           GROUP BY e.ongoing_event_name_id  DESC";
 
 $result = mysqli_query($conn, $query);

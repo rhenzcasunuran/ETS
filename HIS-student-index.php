@@ -532,16 +532,23 @@ document.getElementById('search').addEventListener('keyup', function () {
 </script>
 <script>
   //WITHOUT EVENT CLICKED
-   function updateTextContainer(slide) {
-        var imageInfo = slide.getAttribute('data-bs-info');
-        var imageDesc = slide.getAttribute('data-bs-desc');
+  function updateTextContainer(slide) {
+  var imageInfo = slide.getAttribute('data-bs-info');
+  var imageDesc = slide.getAttribute('data-bs-desc');
 
-        var textContainer = document.querySelector('.text-container');
-        textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
-        textContainer.style.wordWrap = 'break-word'; // Allow words to break
-        textContainer.style.maxWidth = '100%';
-        textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
-    }
+  var textContainer = document.querySelector('.text-container');
+
+  if (imageInfo && imageDesc) {
+    textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
+  } else {
+    textContainer.innerHTML = '<h3>No Details Available</h3>';
+  }
+
+  textContainer.style.wordWrap = 'break-word'; // Allow words to break
+  textContainer.style.maxWidth = '100%';
+  textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
+}
+
 
     var firstSlide = document.querySelector('#eventsImages .carousel-item:first-child');
     updateTextContainer(firstSlide);
