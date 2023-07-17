@@ -71,26 +71,6 @@ if ($result) {
         $ot2CurrentScore = $row['current_team_two_score'];
         $ot2CurrentTeamStatus = $row['current_team_two_status'];
         $maxSetNo = $row['max_set_no']; // Retrieve the maximum set_no value
-        
-        // Now you can use the variables as needed
-        echo "Bracket Form ID: " . $bfId . "<br>";
-        echo "Max Column: " . $bfMaxColumn . "<br>";
-        echo "Current Column: " . $bfCurrentColumn . "<br>";
-        echo "Current Column Status: " . $bfCurrentColumnStatus . "<br>";
-        echo "Team One ID: " . $otTeamOneId . "<br>";
-        echo "Team One Name: " . $otTeamOneName . "<br>";
-        echo "Current Team One Set No: " . $otCurrentSetNo . "<br>";
-        echo "Current Team One Overall Score: " . $otCurrentOverallScore . "<br>";
-        echo "Current Team One Score: " . $otCurrentScore . "<br>";
-        echo "Current Team One Status: " . $otCurrentTeamStatus . "<br>";
-        echo "Team Two ID: " . $ot2TeamTwoId . "<br>";
-        echo "Team Two Name: " . $ot2TeamTwoName . "<br>";
-        echo "Current Team Two Set No: " . $ot2CurrentSetNo . "<br>";
-        echo "Current Team Two Overall Score: " . $ot2CurrentOverallScore . "<br>";
-        echo "Current Team Two Score: " . $ot2CurrentScore . "<br>";
-        echo "Current Team Two Status: " . $ot2CurrentTeamStatus . "<br>";
-        echo "Max Set No: " . $maxSetNo . "<br>"; // Use the maximum set_no value
-        echo "<br>";
     }
 
     // Free the result set
@@ -134,7 +114,7 @@ if ($ot2CurrentScore < $otCurrentScore) {
 
     } else {
         // Prepare the insert statement for updating the ongoing_teams table
-        $insertStatement = $connection->prepare("INSERT INTO `ongoing_teams` (bracket_form_id, team_name, current_overall_score, current_set_no, current_team_status)
+        $insertStatement = $conn->prepare("INSERT INTO `ongoing_teams` (bracket_form_id, team_name, current_overall_score, current_set_no, current_team_status)
         SELECT
             bracket_form_id,
             team_name,
@@ -152,7 +132,7 @@ if ($ot2CurrentScore < $otCurrentScore) {
         $insertStatement->execute();
 
         // Prepare the update statement for team one
-        $updateStatementOne = $connection->prepare("UPDATE ongoing_teams
+        $updateStatementOne = $conn->prepare("UPDATE ongoing_teams
         SET current_team_status = 'win'
         WHERE
             bracket_form_id = ?
@@ -163,7 +143,7 @@ if ($ot2CurrentScore < $otCurrentScore) {
         $updateStatementOne->execute();
 
         // Prepare the update statement for team two
-        $updateStatementTwo = $connection->prepare("UPDATE ongoing_teams
+        $updateStatementTwo = $conn->prepare("UPDATE ongoing_teams
         SET current_team_status = 'lost'
         WHERE
             bracket_form_id = ?
@@ -205,7 +185,7 @@ if ($ot2CurrentScore < $otCurrentScore) {
         $stmt->close();
     } else {
         // Prepare the insert statement for updating the ongoing_teams table
-        $insertStatement = $connection->prepare("INSERT INTO `ongoing_teams` (bracket_form_id, team_name, current_overall_score, current_set_no, current_team_status)
+        $insertStatement = $conn->prepare("INSERT INTO `ongoing_teams` (bracket_form_id, team_name, current_overall_score, current_set_no, current_team_status)
         SELECT
             bracket_form_id,
             team_name,
@@ -223,7 +203,7 @@ if ($ot2CurrentScore < $otCurrentScore) {
         $insertStatement->execute();
 
         // Prepare the update statement for team one
-        $updateStatementOne = $connection->prepare("UPDATE ongoing_teams
+        $updateStatementOne = $conn->prepare("UPDATE ongoing_teams
         SET current_team_status = 'win'
         WHERE
             bracket_form_id = ?
@@ -234,7 +214,7 @@ if ($ot2CurrentScore < $otCurrentScore) {
         $updateStatementOne->execute();
 
         // Prepare the update statement for team two
-        $updateStatementTwo = $connection->prepare("UPDATE ongoing_teams
+        $updateStatementTwo = $conn->prepare("UPDATE ongoing_teams
         SET current_team_status = 'lost'
         WHERE
             bracket_form_id = ?
