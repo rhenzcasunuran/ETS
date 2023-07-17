@@ -258,8 +258,6 @@ button {
 .middle-layer {
     height: 65%;
     color: var(--color-content-text); 
-    border-top: 2px var(--color-content-text) solid;
-    border-bottom: 2px var(--color-content-text) solid;
     justify-content: start;
     align-items: center;
     overflow-y: overlay;
@@ -296,4 +294,159 @@ button {
 
 #deleteEvent .popUpContainer {
     opacity: 1;
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    padding-left: 3%;
+    margin-bottom: 10px;
+    width: 65%;
+}
+
+.filter-container .element {
+    padding: 15px!important;
+    width: fit-content!important;
+    border: none!important;
+    border-radius: 15px!important;
+    position: relative;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+
+.filter-container .element form {
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+}
+
+.filter-container .form-group {
+    margin: 0;
+    padding: 5px 5px ;
+    display: flex;
+    align-items: center;
+}
+
+.filter-container .order{
+    border-top: 3px var(--color-content-line) solid;
+}
+
+.filter-container .form-group input[type="radio"], .filter-container .form-group input[type="checkbox"], .filter-container .form-group label{
+    margin: 0!important;
+    cursor: pointer;
+}
+
+.filter-container .form-group label{
+    padding: 2px 3px;
+}
+
+.filter-container .sort-container, .filter-container .filtering-container{
+    display: flex;
+    justify-content: center;
+}
+
+#sortDropdown, #filterDropdown {
+    margin-top: 58px!important;
+    position: absolute;
+    z-index: 99;
+    display: none;
+}
+
+.filter-container .form-group input[type="radio"], .filter-container .form-group input[type="checkbox"] {
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: none;
+    height: 20px;
+    border-radius: 50%;
+    margin: 0!important;
+    cursor: pointer;
+  }
+  
+.filter-container .form-group input[type="radio"]::after, .filter-container .form-group input[type="checkbox"]::after {
+    content: "";
+    visibility: hidden;
+    opacity: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--hover-primary-action-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all ease 0.3s;
+}
+  
+.filter-container .form-group:hover{
+    background-color: #cacaca84;
+    border-radius: 8px;
+}
+  
+.filter-container .form-group input[type="radio"]:checked::after, .filter-container .form-group input[type="checkbox"]:checked::after {
+    visibility: visible;
+    opacity: 1;
+    background-color: var(--default-primary-action-color);
+}
+  
+.searchbar-container {
+    display: flex;
+    align-items: center;
+    margin: 0!important;
+    position: relative;
+}
+
+.searchbar-container input[type="text"], #filterBtn, #sortBtn{
+    margin: 0!important;
+}
+
+.searchbar-container {
+    max-width: 450px;
+    width: 60%;
+}
+
+.searchbar-container input[type="text"]{
+    width: 100%;
+    padding: 10px 0px 10px 45px!important;
+}
+
+.searchbar-container #searchIcon {
+    position: absolute;
+    font-size: 25px;
+    margin-left: 13px;
+    color: var(--color-content-text);
+}
+
+#noEvents {
+    width: 400px;
+    justify-self: center;
+}
+
+.element .not-included {    
+    width: 100%;
+    background-color: var(--default-primary-action-color);
+    height: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    display: none;
+}
+
+.element input[name="deleteEvent[]"] {
+    outline: 8px var(--color-content-card) solid;
+    outline-offset: -2px;
 }
