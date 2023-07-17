@@ -55,7 +55,7 @@ include('./php/database_connect.php');
 $query = "SELECT o.event_id, o.category_name, e.event_name
           FROM ongoing_list_of_event o
           JOIN ongoing_event_name e ON o.ongoing_event_name_id = e.ongoing_event_name_id
-          WHERE o.is_archived = 1 AND o.is_deleted = 0";
+          WHERE o.is_archived = 1 AND o.is_deleted = 0 AND e.is_done = 1";
 $result = mysqli_query($conn, $query);
 
 while ($row = mysqli_fetch_assoc($result)) {
