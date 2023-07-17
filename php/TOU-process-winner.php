@@ -60,122 +60,267 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($gameType == 'score-based') {
         if ($teamTwoScore >= $maxValue || $teamOneScore >= $maxValue) {
             if ($teamTwoScore < $teamOneScore) {
-                
-                // Team One wins the set
-                // Archive scores (Team One)
-                $query = "INSERT INTO tournament_score_archive 
-                            (team_name, bracket_form_id, current_team_status,
-                            current_overall_score, current_set_no, current_score)
-                            SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no, current_score
+                // If Max Set has been reached
+                if (($teamOneOverallScore + $teamTwoOverallScore) === ($maxSetNo - 1)) {
+                    // Team One wins the set
+                    // Copy team to give it new ID
+                    $query = "INSERT INTO ongoing_teams (team_name, bracket_form_id)
+                            SELECT team_name, bracket_form_id
                             FROM ongoing_teams
                             WHERE id = ?";
 
-                // Prepare the statement
-                $stmt = mysqli_prepare($conn, $query);
-                // Bind the form data to the prepared statement parameters
-                mysqli_stmt_bind_param($stmt, "i", $teamOneId);
-                // Execute the statement
-                mysqli_stmt_execute($stmt);
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
 
-                // Archive scores (Team Two)
-                $query = "INSERT INTO tournament_score_archive 
-                            (team_name, bracket_form_id, current_team_status,
-                            current_overall_score, current_set_no, current_score)
-                            SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no, current_score
-                            FROM ongoing_teams
-                            WHERE id = ?";
 
-                // Prepare the statement
-                $stmt = mysqli_prepare($conn, $query);
-                // Bind the form data to the prepared statement parameters
-                mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
-                // Execute the statement
-                mysqli_stmt_execute($stmt);
+                    // Team One wins the set
+                    // Archive scores (Team One)
+                    $query = "INSERT INTO tournament_score_archive 
+                                (team_name, bracket_form_id, current_team_status,
+                                current_overall_score, current_set_no, current_score)
+                                SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no - 1, current_score
+                                FROM ongoing_teams
+                                WHERE id = ?";
 
-                // Reset and update scores
-                $query = "UPDATE ongoing_teams
-                SET current_overall_score = current_overall_score + 1,
-                current_set_no = current_set_no + 1,
-                current_score = 0
-                WHERE id = ?";
-        
-                // Prepare the statement
-                $stmt = mysqli_prepare($conn, $query);
-                // Bind the form data to the prepared statement parameters
-                mysqli_stmt_bind_param($stmt, "i", $teamOneId);
-                // Execute the statement
-                mysqli_stmt_execute($stmt);
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
 
-                // Reset score Team Two
-                $query = "UPDATE ongoing_teams
-                SET current_score = 0,
-                current_set_no = current_set_no + 1
-                WHERE id = ?";
-        
-                // Prepare the statement
-                $stmt = mysqli_prepare($conn, $query);
-                // Bind the form data to the prepared statement parameters
-                mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
-                // Execute the statement
-                mysqli_stmt_execute($stmt);
+                    // Archive scores (Team Two)
+                    $query = "INSERT INTO tournament_score_archive 
+                                (team_name, bracket_form_id, current_team_status,
+                                current_overall_score, current_set_no, current_score)
+                                SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no - 1, current_score
+                                FROM ongoing_teams
+                                WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Update team status team 1
+                    $query = "UPDATE ongoing_teams
+                    SET current_team_status = 'won'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Update team status team 2
+                    $query = "UPDATE ongoing_teams
+                    SET current_team_status = 'lost'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+                } else {
+                    // Team One wins the set
+                    // Archive scores (Team One)
+                    $query = "INSERT INTO tournament_score_archive 
+                                (team_name, bracket_form_id, current_team_status,
+                                current_overall_score, current_set_no, current_score)
+                                SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no, current_score
+                                FROM ongoing_teams
+                                WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Archive scores (Team Two)
+                    $query = "INSERT INTO tournament_score_archive 
+                                (team_name, bracket_form_id, current_team_status,
+                                current_overall_score, current_set_no, current_score)
+                                SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no, current_score
+                                FROM ongoing_teams
+                                WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Reset and update scores
+                    $query = "UPDATE ongoing_teams
+                    SET current_overall_score = current_overall_score + 1,
+                    current_set_no = current_set_no + 1,
+                    current_score = 0
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Reset score Team Two
+                    $query = "UPDATE ongoing_teams
+                    SET current_score = 0,
+                    current_set_no = current_set_no + 1
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+                }
+               
             } else {
-                // Team Two wins the set
-                // Archive scores (Team Two)
-                $query = "INSERT INTO tournament_score_archive 
-                            (team_name, bracket_form_id, current_team_status,
-                            current_overall_score, current_set_no, current_score)
-                            SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no, current_score
+                if (($teamOneOverallScore + $teamTwoOverallScore) === ($maxSetNo - 1)) {
+                    // Team One wins the set
+                    // Copy team to give it new ID
+                    $query = "INSERT INTO ongoing_teams (team_name, bracket_form_id)
+                            SELECT team_name, bracket_form_id
                             FROM ongoing_teams
                             WHERE id = ?";
 
-                // Prepare the statement
-                $stmt = mysqli_prepare($conn, $query);
-                // Bind the form data to the prepared statement parameters
-                mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
-                // Execute the statement
-                mysqli_stmt_execute($stmt);
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
 
-                // Archive scores (Team One)
-                $query = "INSERT INTO tournament_score_archive 
-                            (team_name, bracket_form_id, current_team_status,
-                            current_overall_score, current_set_no, current_score)
-                            SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no, current_score
-                            FROM ongoing_teams
-                            WHERE id = ?";
 
-                // Prepare the statement
-                $stmt = mysqli_prepare($conn, $query);
-                // Bind the form data to the prepared statement parameters
-                mysqli_stmt_bind_param($stmt, "i", $teamOneId);
-                // Execute the statement
-                mysqli_stmt_execute($stmt);
+                    // Team One wins the set
+                    // Archive scores (Team One)
+                    $query = "INSERT INTO tournament_score_archive 
+                                (team_name, bracket_form_id, current_team_status,
+                                current_overall_score, current_set_no, current_score)
+                                SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no - 1, current_score
+                                FROM ongoing_teams
+                                WHERE id = ?";
 
-                // Reset and update scores
-                $query = "UPDATE ongoing_teams
-                SET current_overall_score = current_overall_score + 1,
-                current_set_no = current_set_no + 1,
-                current_score = 0
-                WHERE id = ?";
-        
-                // Prepare the statement
-                $stmt = mysqli_prepare($conn, $query);
-                // Bind the form data to the prepared statement parameters
-                mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
-                // Execute the statement
-                mysqli_stmt_execute($stmt);
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
 
-                // Reset score Team Two
-                $query = "UPDATE ongoing_teams
-                SET current_score = 0,
-                current_set_no = current_set_no + 1
-                WHERE id = ?";
-        
-                // Prepare the statement
-                $stmt = mysqli_prepare($conn, $query);
-                // Bind the form data to the prepared statement parameters
-                mysqli_stmt_bind_param($stmt, "i", $teamOneId);
-                // Execute the statement
-                mysqli_stmt_execute($stmt);
+                    // Archive scores (Team Two)
+                    $query = "INSERT INTO tournament_score_archive 
+                                (team_name, bracket_form_id, current_team_status,
+                                current_overall_score, current_set_no, current_score)
+                                SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no - 1, current_score
+                                FROM ongoing_teams
+                                WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Update team status team 2
+                    $query = "UPDATE ongoing_teams
+                    SET current_team_status = 'won'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Update team status team 1
+                    $query = "UPDATE ongoing_teams
+                    SET current_team_status = 'lost'
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+                } else {
+                    // Team Two wins the set
+                    // Archive scores (Team Two)
+                    $query = "INSERT INTO tournament_score_archive 
+                                (team_name, bracket_form_id, current_team_status,
+                                current_overall_score, current_set_no, current_score)
+                                SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no, current_score
+                                FROM ongoing_teams
+                                WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Archive scores (Team One)
+                    $query = "INSERT INTO tournament_score_archive 
+                                (team_name, bracket_form_id, current_team_status,
+                                current_overall_score, current_set_no, current_score)
+                                SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no, current_score
+                                FROM ongoing_teams
+                                WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Reset and update scores
+                    $query = "UPDATE ongoing_teams
+                    SET current_overall_score = current_overall_score + 1,
+                    current_set_no = current_set_no + 1,
+                    current_score = 0
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+
+                    // Reset score Team Two
+                    $query = "UPDATE ongoing_teams
+                    SET current_score = 0,
+                    current_set_no = current_set_no + 1
+                    WHERE id = ?";
+            
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+                }
             }
         }
     }
