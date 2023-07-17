@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuration</title>
+    <title>Overall Results</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
     <script src="./js/default-theme.js"></script>
@@ -21,6 +21,14 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/BAR-obg.css">
     <link rel="stylesheet" href="./css/system-wide.css">
+
+    <!-- Event Config Styles -->
+    <link rel="stylesheet" href="./css/EVE-admin-bootstrap-select.min.css">
+    <link rel="stylesheet" href="./css/EVE-admin-bootstrap4.min.css">
+    <link rel="stylesheet" href="./css/EVE-admin-list-of-events.css">
+    <link rel="stylesheet" href="./css/EVE-admin-confirmation.css">
+    <link rel="stylesheet" href="./css/multiselection.css">
+    
     <script src="./js/BAR-java.js"></script>
     
   </head>
@@ -149,56 +157,70 @@
         <div class="col" id="event-select">
           <p>Event</p>
           <form id="myForm" method="POST">
-            <select name="event_name_id" id="eventSelect">';
+            <select name="ongoing_event_name_id" id="eventSelect" onchange="this.form.submit()">';
 
-        $options = "SELECT * FROM `ongoing_event_name`";
-        $result = $conn->query($options);
-        $selectedEventName = isset($_POST['event_name_id']) ? $_POST['event_name_id'] : '';
+            $options = "SELECT * FROM `ongoing_event_name`";
+            $result = $conn->query($options);
+            
+            if ($result->num_rows > 0) {
+              $selectedEventName = isset($_POST['ongoing_event_name_id']) ? $_POST['ongoing_event_name_id'] : '';
+            
+              if ($selectedEventName === '') {
+                $firstRow = $result->fetch_assoc();
+                $selectedEventName = $firstRow['ongoing_event_name_id'];
+                echo "<option value='{$firstRow['ongoing_event_name_id']}' selected>{$firstRow['event_name']}</option>";
+              }
+            
+              $result->data_seek(0);
+            
+              while ($option = $result->fetch_assoc()) {
+                $eventID = $option['ongoing_event_name_id'];
+                $value = $option['event_name'];
+                $isSelected = ($eventID == $selectedEventName) ? 'selected' : '';
+                if ($eventID != $firstRow['ongoing_event_name_id']) {
+                  echo "<option value='$eventID' $isSelected>$value</option>";
+                }
+              }
+            }
+            
+echo '</select>
+      </form>
+    </div>
+  </div>
 
-        while ($option = $result->fetch_assoc()) {
-          $eventID = $option['event_name_id'];
-          $value = $option['event_name'];
-          $isSelected = ($eventID == $selectedEventName) ? 'selected' : '';
-          echo "<option value='$eventID' $isSelected>$value</option>";
-        }
-        echo '</select>
-              </form>
-            </div>
-          </div>
-          
-          <div class="col" id="graph-section">
-            <div class="graph_container">
-              <div class="row" id="arrow-container">
-                <div class="arrow">
-                  <i class="bx bx-arrow-to-left" id="arrow-btn"></i>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col" id="rank_container">';
+  <div class="col" id="graph-section">
+    <div class="graph_container">
+      <div class="row" id="arrow-container">
+        <div class="arrow">
+          <i class="bx bx-arrow-to-left" id="arrow-btn"></i>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="rank_container">';
 
-        $obg = "SELECT * FROM `bar_graph`
-        INNER JOIN organization on bar_graph.organization_id = organization.organization_id 
-        INNER JOIN ongoing_event_name ON bar_graph.ongoing_event_name_id = ongoing_event_name.ongoing_event_name_id
-        WHERE bar_graph.event_name_id = '$selectedEventName'
-        ORDER BY bar_meter DESC;";
-        $result = $conn->query($obg);
+$obg = "SELECT * FROM `bar_graph`
+INNER JOIN organization ON bar_graph.organization_id = organization.organization_id 
+INNER JOIN ongoing_event_name ON bar_graph.ongoing_event_name_id = ongoing_event_name.ongoing_event_name_id
+WHERE bar_graph.ongoing_event_name_id = '$selectedEventName'
+ORDER BY bar_meter DESC;";
+$result = $conn->query($obg);
 
-        if ($result->num_rows > 0) {
-          $organizations = array();
-          while ($row = $result->fetch_assoc()) {
-            $organizations[] = $row;
-          }
+if ($result->num_rows > 0) {
+  $organizations = array();
+  while ($row = $result->fetch_assoc()) {
+    $organizations[] = $row;
+  }
 
-          foreach ($organizations as $org) {
-            $organization = $org["organization_name"];
-            $imagePath = "logos/" . $organization . ".png";
-            $imageAnonPath = "logos/anon.png";
+  foreach ($organizations as $org) {
+    $organization = $org["organization_name"];
+    $imagePath = "logos/" . $organization . ".png";
+    $imageAnonPath = "logos/anon.png";
 
-            echo '<div class="row" id="logos">
-                      <div class="logo_container" ><img src="' . $imagePath . '" name="' . $organization . '"></div>
-                    </div>';
-          }
-        }
+    echo '<div class="row" id="logos">
+              <div class="logo_container" ><img src="' . $imagePath . '" name="' . $organization . '"></div>
+            </div>';
+  }
+}
 
         echo '</div>
                 <div class="col-11">';
@@ -206,7 +228,7 @@
         $obg = "SELECT * FROM `bar_graph`
         INNER JOIN organization on bar_graph.organization_id = organization.organization_id 
         INNER JOIN ongoing_event_name ON bar_graph.ongoing_event_name_id = ongoing_event_name.ongoing_event_name_id
-        WHERE bar_graph.event_name_id = '$selectedEventName'
+        WHERE bar_graph.ongoing_event_name_id = '$selectedEventName'
         ORDER BY bar_meter DESC;";
         $result = $conn->query($obg);
 
@@ -262,11 +284,34 @@
                 </div>
               </div>
             </div>';
-      } else {
-        echo "<div class='no-events'>
-                <img src='pictures/no-events.png' alt=''>
-                <p>There are no events.</p>
-              </div>";
+      ?>
+        <script type="text/javascript" src="./js/EVE-admin-list-of-events.js"></script>
+      <?php
+      } 
+      else{
+        ?>
+          <div class="text-center" id="no-event-container">
+            <i class='bx bx-calendar-x'></i>
+            <h1>No Events</h1>
+            <p>Looks like you have no events created. <br> You can do so by clicking the button below.</p>
+            <div class="row justify-content-center">
+              <button class="primary-button" id="create-new-event-btn">
+                <i class='bx bx-add-to-queue d-flex justify-content-center align-items-center'></i>
+                  Create an Event
+              </button>
+            </div>
+          </div>
+          
+          <script>
+              $(document).ready(function() {
+                $("#create-new-event-btn").click(function(event) {
+                  event.preventDefault(); // Prevent default form submission
+                  
+                  window.location.href = "EVE-admin-create-event.php";
+                });
+              });
+          </script>
+      <?php
       }
     } else {
       echo "Error executing query: " . mysqli_error($conn);
