@@ -122,13 +122,9 @@
                                   <select id="bestOfDropdown" name="bestOfDropdown" class="form-select w-75 text-center">
                                     <option selected disabled>Select no. of best of</option>
                                     <option value="1">Best of 1</option>
-                                    <option value="2">Best of 2</option>
                                     <option value="3">Best of 3</option>
-                                    <option value="4">Best of 4</option>
                                     <option value="5">Best of 5</option>
-                                    <option value="6">Best of 6</option>
                                     <option value="7">Best of 7</option>
-                                    <option value="8">Best of 8</option>
                                     <option value="9">Best of 9</option>
                                   </select>
                                   <br>
