@@ -320,15 +320,9 @@ input[type="checkbox"]:checked + .slider:before {
   font-size: 20px;
 }
 
-.no-events{
+#myForm{
+  display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 80px;
-  font-weight: bold;
-  font-size: 25px;
 }
 
-.no-events p{
-  padding: 20px;
-}
