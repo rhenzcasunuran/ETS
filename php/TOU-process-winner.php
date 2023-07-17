@@ -75,7 +75,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     mysqli_stmt_bind_param($stmt, "i", $teamOneId);
                     // Execute the statement
                     mysqli_stmt_execute($stmt);
+                    // Get the newly inserted ID
+                    $newTeamOneId = mysqli_insert_id($conn);
 
+                    // Prepare the SQL update query with LIMIT 1
+                    $sql = "UPDATE bracket_teams_state
+                    SET team_id = ?
+                    WHERE bracket_form_id = ?
+                    AND team_id IS NULL
+                    LIMIT 1";
+
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "ii", $newTeamOneId, $bracketFormId);
+                    mysqli_stmt_execute($stmt);
 
                     // Team One wins the set
                     // Archive scores (Team One)
@@ -204,6 +216,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt = mysqli_prepare($conn, $query);
                     // Bind the form data to the prepared statement parameters
                     mysqli_stmt_bind_param($stmt, "i", $teamOneId);
+                    // Execute the statement
+                    mysqli_stmt_execute($stmt);
+                    // Get the newly inserted ID
+                    $newTeamTwoId = mysqli_insert_id($conn);
+
+                    // Prepare the SQL update query with LIMIT 1
+                    $sql = "UPDATE bracket_teams_state
+                    SET team_id = ?
+                    WHERE bracket_form_id = ?
+                    AND team_id IS NULL
+                    LIMIT 1";
+
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "ii", $newTeamTwoId, $bracketFormId);
+                    mysqli_stmt_execute($stmt);
+
+                    $query = "INSERT INTO ongoing_teams (team_name, bracket_form_id)
+                    SELECT team_name, bracket_form_id
+                    FROM ongoing_teams
+                    WHERE id = ?";
+
+                    // Prepare the statement
+                    $stmt = mysqli_prepare($conn, $query);
+                    // Bind the form data to the prepared statement parameters
+                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
                     // Execute the statement
                     mysqli_stmt_execute($stmt);
 

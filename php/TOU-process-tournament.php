@@ -145,7 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reversedTeamIds = array_reverse($teamIds);
 
     foreach ($reversedTeamIds as $teamId) {
-        $bracketFormId = 1; // Set the appropriate bracket_form_id value
     
         // Prepare the SQL update query with LIMIT 1
         $sql = "UPDATE bracket_teams_state
@@ -155,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 LIMIT 1";
     
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ii", $teamId, $bracketFormId);
+        mysqli_stmt_bind_param($stmt, "ii", $teamId, $bracket_form_id);
         mysqli_stmt_execute($stmt);
     }    
     
