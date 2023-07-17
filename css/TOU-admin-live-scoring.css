@@ -1,0 +1,85 @@
+.form-select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Optional: Style the selected option */
+.form-select option:checked {
+    background-color: var(--color-body);
+    color: white;
+  } 
+
+
+ #team-one-name, #team-two-name, #team-one-score, #team-two-score {
+    background-color: var(--color-content-card);
+    color: var(--color-content-text);
+    font-size: 125px;
+    
+} 
+
+.col {
+    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.25);
+    width: fit-content;
+    margin: 2%;
+    padding: 40px;
+    background-color: var(--color-content-card);
+    align-items: center;
+    border-left: 4px;
+}
+
+
+#team-one-score, #team-two-score {
+    font-weight: bold;
+    background-color: var(--color-body);
+    align-items: center;
+    width: auto;
+}
+
+#tournamentEvent option:hover {
+    background-color: var(--color-content-card) !important;
+  }
+
+.btn-primary {
+    background-color: transparent !important;
+    font-size: 30px;
+    color: var(--color-content-text);
+    border: none;
+    width: 60px;
+    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.25);
+    margin-right: 10px !important;
+}
+
+
+
+
+
+
+@media (max-width: 1100px) {
+    .form-select {
+      font-size: 0.8rem;
+    }
+    
+    #tournamentEvent {
+        width:210px !important;
+    }
+
+    #tournamentMatchup{
+        width: 145px !important;
+    }
+  
+    #team-one-name,
+    #team-two-name,
+    #team-one-score,
+    #team-two-score {
+      font-size: 75px;
+    }
+  
+    .btn-primary {
+      font-size: 15px;
+      width: 40px;
+    }
+  }
+
+

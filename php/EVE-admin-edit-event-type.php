@@ -9,6 +9,9 @@
     $code = $_POST['e_code'];
     $popUpID = $_POST['e_popUp'];
     $showPopUpButtonID = $_POST['e_showPopUp'];
+    $overallIncluded = isset($_POST['overallIncluded']) ? $_POST['overallIncluded'] : 0;
+
+    $checkedAttribute = ($overallIncluded == 0) ? 'checked' : '';
 
     $output = '';
 
@@ -27,7 +30,7 @@
         $output .= '<div class="row flex-column flex-md-row">' .
             '<div class="form-group col-md-8">' .
                 '<label for="event-description" class="form-label fw-bold">Event Description <span class="req" id="reqDesc">*</span></label>' .
-                '<textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required>'.$desc.'</textarea>' .
+                '<textarea id="event-description" name="event-description" class="form-control second-layer tou-desc" placeholder="Type Description Here" minlength="5" maxlength="255" required>'.$desc.'</textarea>' .
             '</div>' .
             '<div class="form-group col-md-4">' .
                 '<label class="form-label fw-bold">Date & Time <span class="req" id="reqDateTime">*</span></label>' .
@@ -53,16 +56,32 @@
                         }
                     }
                 $output .=    '</select>' .
+            '<div class="overall-included form-control">' .
+                '<input type="checkbox" id="overallIncluded" name="overall" value="'.$overallIncluded.'" '.$checkedAttribute.'>' .
+                '<label class="form-label fw-bold">Exclude from Overall Statistics</label>' .
+                '<script>
+
+                $(document).ready(function() {
+                    var overallIncluded = '.$overallIncluded.';
+                    var checkedAttribute = "'.$checkedAttribute.'";
+            
+                    $("#overallIncluded").change(function() {
+                        overallIncluded = $(this).is(":checked") ? 0 : 1;
+                        $(this).val(overallIncluded);
+                        console.log(overallIncluded);
+                    }).change();
+                });
+
+                </script>' .
             '</div>' .
+            '</div>' .
+            '<input type="hidden" name="id" value='.$eventID.'>' .
         '</div>' .
         '<div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">' .
             '<button type="submit" class="primary-button" id="save-btn" name="save-btn-tournament" onclick="saveEvent()" disabled>' .
                 '<div class="tooltip-popup flex-column" id="tooltip">' .
-                    '<div class="tooltipText" id="textEvent">Event<i class="bx bx-check" id="checkEvent"></i></div>' .
-                    '<div class="tooltipText" id="textType">Event Type<i class="bx bx-check" id="checkType"></i></div>' .
-                    '<div class="tooltipText" id="textCategory">Category<i class="bx bx-check" id="checkCategory"></i></div>' .
                     '<div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class="bx bx-check" id="checkDescription"></i></div>' .
-                    '<div class="tooltipText" id="textDate">Date: <span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
+                    '<div class="tooltipText" id="textDate"><span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
                     '<div class="tooltipText" id="textTime">Time<i class="bx bx-check" id="checkTime"></i></div>' .
                     '<div class="tooltipText" id="textMatchStyle">Match Style<i class="bx bx-check" id="checkMatchStyle"></i></div>' .
                 '</div>' .
@@ -76,20 +95,19 @@
                 $(".popUpContainer").addClass("show");
             });
         </script>' .
-        '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .
+        '<script type="text/javascript" src="./js/EVE-admin-edit-other-codes.js"></script>' .
         '<script type="text/javascript" src="./js/EVE-admin-disable-button-tournament.js"></script>';
     
     }
-    else if ($type == 2 || $type == "") {
+    else if ($type == 2) {
         $output .= '<div class="row flex-column flex-md-row">' .
         '<div class="form-group col-md-6">' .
             '<label for="event-description" class="form-label fw-bold">Event Description <span class="req" id="reqDesc">*</span></label>' .
             '<textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required>'.$desc.'</textarea>' .
         '</div>' .
-        '<div class="form-group col-md-6">' .
+        '<div class="form-group col-md-6 disable">' .
             '<div class="groupCriteria">' .
               '<label class="form-label fw-bold">Criteria</label>' .
-              '<div class="text-button icon-button" id="editCriteria"><i class="bx bx-edit-alt"></i></div>' .
             '</div>' .
             '<div class="form-control second-layer" id="criteria" name="criteria">' .
               '<div id="criteria-container"></div>' .
@@ -97,31 +115,44 @@
         '</div>' .
       '</div>' .
       '<div class="row flex-column flex-md-row">' .
-        '<div class="form-group col-md-4">' .
+        '<div class="form-group col-md-4 disable">' .
             '<label class="form-label fw-bold">Judges</label>' .
             '<div id="event-judges" class="form-control judges-container" name="event-judges"></div>' .
         '</div>' .
         '<div class="form-group col-md-4">' .
             '<label class="form-label fw-bold">Date & Time <span class="req" id="reqDateTime">*</span></label>' .
-            '<input type="date" class="form-control date" id="date" max="" min="" name="date" value="'.$date.'" required>' .
+            '<input type="date" class="form-control date" id="date" max="" min="'.$date.'" name="date" value="'.$date.'" required>' .
             '<input type="time" class="form-control mt-2" id="time" name="time" value="'.$time.'" required>' .
         '</div>' .
         '<div class="form-group col-md-4">' .
             '<label class="form-label fw-bold">Code <i class="bx bx-copy" onclick="copyCode(this)" data-placement="bottom" title="Copied"></i> <i class="bx bx-hide" id="revealCode"></i></label>' .
             '<div class="form-control" id="display-code">'.$code.'</div>' .
-            '<input type="hidden" name="id" value='.$code.'>' .
+            '<input type="hidden" id="eventId" name="eventId" value="'.$eventID.'">' .
+            '<div class="overall-included form-control">' .
+                '<input type="checkbox" id="overallIncluded" name="overall" value="'.$overallIncluded.'" '.$checkedAttribute.'>' .
+                '<label class="form-label fw-bold">Exclude from Overall Statistics</label>' .
+                '<script>
+
+                $(document).ready(function() {
+                    var overallIncluded = '.$overallIncluded.';
+                    var checkedAttribute = "'.$checkedAttribute.'";
+            
+                    $("#overallIncluded").change(function() {
+                        overallIncluded = $(this).is(":checked") ? 0 : 1;
+                        $(this).val(overallIncluded);
+                    }).change();
+                });
+
+                </script>' .
+            '</div>' .
         '</div>' .
       '</div>' .
       '<div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">' .
 
         '<button type="submit" class="primary-button" id="save-btn" name="save-btn" onclick="saveEvent()" disabled>' .
           '<div class="tooltip-popup flex-column" id="tooltip">' .
-              '<div class="tooltipText" id="textEvent">Event<i class="bx bx-check" id="checkEvent"></i></div>' .
-              '<div class="tooltipText" id="textType">Event Type<i class="bx bx-check" id="checkType"></i></div>' .
-              '<div class="tooltipText" id="textCategory">Category<i class="bx bx-check" id="checkCategory"></i></div>' .
               '<div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class="bx bx-check" id="checkDescription"></i></div>' .
-              '<div class="tooltipText" id="textCriteria">Criteria should be 100%<i class="bx bx-check" id="checkCriteria"></i></div>' .
-              '<div class="tooltipText" id="textDate">Date: <span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
+              '<div class="tooltipText" id="textDate"><span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
               '<div class="tooltipText" id="textTime">Time<i class="bx bx-check" id="checkTime"></i></div>' .
           '</div>' .
           'Save Changes' .
@@ -165,8 +196,46 @@
         }
       });' .
       '</script>' .
-      '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .
+      '<script type="text/javascript" src="./js/EVE-admin-edit-other-codes.js"></script>' .
       '<script type="text/javascript" src="./js/EVE-admin-edit-disable-button.js"></script>';
+    }
+    else if ($type == 3) {
+        $output .= '<div class="row flex-column flex-md-row">' .
+      '</div>' .
+      '<div class="row flex-column flex-md-row">' .
+        '<div class="form-group col-md-8">' .
+            '<label for="event-description" class="form-label fw-bold">Event Description <span class="req" id="reqDesc">*</span></label>' .
+            '<textarea id="event-description" name="event-description" class="form-control second-layer" placeholder="Type Description Here" minlength="5" maxlength="255" required>'.$desc.'</textarea>' .
+        '</div>' .
+        '<div class="form-group col-md-4">' .
+            '<label class="form-label fw-bold">Date & Time <span class="req" id="reqDateTime">*</span></label>' .
+            '<input type="date" class="form-control date" id="date" max="" min="" name="date" value="'.$date.'" required>' .
+            '<input type="time" class="form-control mt-2" id="time" name="time" value="'.$time.'" required>' .
+            '<input type="hidden" name="id" value='.$eventID.'>' .
+        '</div>' .
+      '</div>' .
+      '<div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">' .
+
+        '<button type="submit" class="primary-button" id="save-btn" name="save-btn-standard" onclick="saveEvent()" disabled>' .
+          '<div class="tooltip-popup flex-column" id="tooltip">' .
+              '<div class="tooltipText" id="textType">Event Type<i class="bx bx-check" id="checkType"></i></div>' .
+              '<div class="tooltipText" id="textEvent">Event<i class="bx bx-check" id="checkEvent"></i></div>' .
+              '<div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class="bx bx-check" id="checkDescription"></i></div>' .
+              '<div class="tooltipText" id="textDate">Date: <span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
+              '<div class="tooltipText" id="textTime">Time<i class="bx bx-check" id="checkTime"></i></div>' .
+          '</div>' .
+          'Save Changes' .
+      '</button>' .
+        '<div class="outline-button" id="cancelBtn">Cancel</div>' .
+      '</div>' .
+      '<script>
+            $("#'.$showPopUpButtonID.'").click(function() {
+                $(".popUpDisableBackground#'.$popUpID.'").css("visibility", "visible");
+                $(".popUpContainer").addClass("show");
+            });
+        </script>' .
+      '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .
+      '<script type="text/javascript" src="./js/EVE-admin-disable-button-standard.js"></script>';
     }
 
     echo $output;

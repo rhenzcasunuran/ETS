@@ -1,9 +1,19 @@
-html {
+:root[data-theme="light"] {
     --not-active-text-color: #999;
+    --filter-default: invert(0%);
+}
+
+:root[data-theme="dark"] {
+    --not-active-text-color: #808080;
+    --filter-default: invert(100%);
+}
+
+html {
+
 }
 
 .form-control {
-    background-color: #FFF!important;
+    background-color: var(--color-content-element)!important;
     border: none!important;
     border-radius: 15px!important;
     line-height: 1.88!important;
@@ -124,4 +134,80 @@ input:not(.form-check-input) {
 #eventSaveBtn .tooltip-popup {
     transform: translateY(-130%);
     width: 100%;
+}
+
+.disable {
+    cursor: not-allowed;
+    color: var(--not-active-text-color);
+}
+
+.overall-included {
+    height: 42.08px;
+    display: flex;
+    align-items: center;
+    background-color: red;
+    width: 100%;
+    margin: 10px 0;
+    gap: 10px;
+    background-color: transparent!important;
+    box-shadow: none!important;
+    user-select: none;
+}
+
+.overall-included label, .overall-included input[type="checkbox"]{
+    margin: 0!important;
+}
+
+.overall-included input[type="checkbox"]{
+    cursor: pointer;
+    height: 32px;
+    width: 32px;
+}
+
+.overall-included input[type="checkbox"] {
+    -webkit-appearance: none; /* Remove the default checkbox appearance in webkit-based browsers */
+    -moz-appearance: none; /* Remove the default checkbox appearance in Firefox */
+    appearance: none; /* Remove the default checkbox appearance in other browsers */
+    border-radius: 15px;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+    background-color: var(--color-content-element);
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16)!important;
+}
+
+.overall-included input[type="checkbox"]:checked::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 15.5px;
+    border-radius: 15px;
+    background-color: var(--default-primary-action-color); /* Change the color of the checkmark */
+}
+  
+  /* Additional styles for the unchecked state */
+.overall-included input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+}
+  
+
+input.form-control, #display-code, .overall-included {
+    height: 45px;
+}
+
+.tou-desc {
+    height: 245px;
+}
+
+select.selectpicker {
+    display: block!important;
 }

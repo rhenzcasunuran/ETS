@@ -343,7 +343,7 @@ html {
 
 .element-label {
     font-weight: 700!important;
-    font-size: 16px!important;
+    font-size: 17px!important;
     margin: 0!important;
     user-select: none;
 }
@@ -462,12 +462,14 @@ html {
     text-transform: capitalize;
     font-size: 28px;
     margin: 5px 0 5px 0;
+    color: var(--color-content-text);
 }
 
 .popUpContainer .popUpMessage {
     font-size: 16px;
     margin: 5px 0;
     max-width: 500px;
+    color: var(--color-content-text);
 }
 
 .popUpContainer .popUpMessage:first-letter {
@@ -542,3 +544,35 @@ textarea{
 ::placeholder {
     color: var(--color-content-text) !important;
 }
+
+input {
+    color: var(--color-content-text)!important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator{
+    background-image: url(../images/calendar-solid-24.png);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    background-image: url(../images/time-five-regular-24.png);
+}
+
+input[type="time"] {
+    cursor: pointer;
+}
+
+input[type="time"]:focus {
+    border: 1px var(--color-content-text) solid !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: transparent;
+    opacity: 1;
+    width: 23px;
+    height: 23px;
+    cursor: pointer;
+    filter: var(--filter-default);
+} 
