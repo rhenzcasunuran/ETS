@@ -316,7 +316,7 @@
                 });
             });
           </script>
-          <div style="width:100%; height:700px; color:var(--color-body);" id="tree"></div>
+          <!--<div style="width:100%; height:700px; color:var(--color-body);" id="tree"></div>-->
         </div>
     </section>
     <!-- Scripts -->
@@ -342,7 +342,7 @@
               { id: 5, pid: 2, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
               { id: 6, pid: 3, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
               { id: 7, pid: 3, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 8, pid: 4, name: "2", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
+              { id: 8, pid: 4, name: "", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
               { id: 9, pid: 4, name: "7", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
               { id: 10, pid: 5, name: "4", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
               { id: 11, pid: 5, name: "5", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
