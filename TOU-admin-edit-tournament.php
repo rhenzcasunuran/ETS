@@ -80,31 +80,45 @@
                                   <div class="row align-items-center">
                                       <div class="col">
                                         <?php 
-                                        $query2 = "SELECT ot.id AS team_one_id, ot2.id AS team_two_id, ot.team_name AS team_one_name, ot2.team_name AS team_two_name 
-                                        FROM `bracket_teams` AS bt 
-                                        INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
-                                        INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
-                                        INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
-                                        WHERE bf.id = ?";
-                                        $stmt2 = mysqli_prepare($conn, $query2);
-                                        // Bind the id parameter to the prepared statement
-                                        mysqli_stmt_bind_param($stmt2, "s", $id);
-                                        // Execute the prepared statement
-                                        mysqli_stmt_execute($stmt2);
-                                        // Get the result of the query
-                                        $result2 = mysqli_stmt_get_result($stmt2);
-                                        while ($row2 = mysqli_fetch_assoc($result2)) {
-                                        $team_one_id = $row2['team_one_id'];
-                                        $team_two_id = $row2['team_two_id'];
-                                        $team_name_one = $row2['team_one_name'];
-                                        $team_name_two = $row2['team_two_name'];
+                                          $query2 = "SELECT ot.id AS team_one_id,
+                                          ot2.id AS team_two_id,
+                                          ot.team_name AS team_one_name,
+                                          ot2.team_name AS team_two_name,
+                                          ot.current_team_status AS team_one_status, 
+                                          ot2.current_team_status AS team_two_status 
+                                          FROM bracket_teams AS bt 
+                                          INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
+                                          INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
+                                          INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
+                                          WHERE bf.id = ? AND ot.current_team_status = 'active' OR ot2.current_team_status = 'active';";
 
-                                        echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$team_one_id.'">'.
-                                        '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$team_two_id.'">'.
-                                        '<div class="d-inline-flex p-2 justify-content-between">' . '<div>' . $team_name_one  . '</div>'. 
-                                        '<div>' . ' vs ' . '</div>'.
-                                        '<div>'. $team_name_two . '</div>' . '<select class="form-select w-50" aria-label="Default select example" name="event_id[]">
-                                        </select>' . '</div>' . '<br>';
+                                          $stmt2 = mysqli_prepare($conn, $query2);
+                                          // Bind the id parameter to the prepared statement
+                                          mysqli_stmt_bind_param($stmt2, "s", $id);
+                                          // Execute the prepared statement
+                                          mysqli_stmt_execute($stmt2);
+                                          // Get the result of the query
+                                          $result2 = mysqli_stmt_get_result($stmt2);
+
+                                          if (mysqli_num_rows($result2) === 0) {
+                                          echo "<h1>No Tournament Brackets to Schedule</h1>";
+                                          } else {
+                                          while ($row2 = mysqli_fetch_assoc($result2)) {
+                                          $team_one_id = $row2['team_one_id'];
+                                          $team_two_id = $row2['team_two_id'];
+                                          $team_name_one = $row2['team_one_name'];
+                                          $team_name_two = $row2['team_two_name'];
+
+                                          echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$team_one_id.'">' .
+                                          '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$team_two_id.'">' .
+                                          '<div class="d-inline-flex p-2 justify-content-between">' .
+                                          '<div>' . $team_name_one  . '</div>'.
+                                          '<div>' . ' vs ' . '</div>'.
+                                          '<div>'. $team_name_two . '</div>' .
+                                          '<select class="form-select w-50" aria-label="Default select example" name="event_id[]"></select>' .
+                                          '</div>' . '<br>';
+                                          }
+
                                         }                                      
                                         ?>
                                       </div>
