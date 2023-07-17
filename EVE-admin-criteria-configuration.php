@@ -103,9 +103,9 @@
             else {
             ?>
               <div class="text-center" id="no-competition-container">
-                <i class='bx bxs-message-alt-x' ></i>
+                <img class="p-2 img-fluid" id="noCriteria" src="./pictures/add-criteria.svg" alt="No Criteria">
                 <h1>No Competitions</h1>
-                <p>Looks like you have zero competitions. <br> You can create one to configure their criteria here.</p>
+                <p>Looks like you have zero/ongoing competitions. <br> You can create one to configure their criteria here.</p>
                 <div class="row justify-content-center">
                   <a href="EVE-admin-event-configuration.php">
                     <button class="primary-button" id="create-new-event-btn">
