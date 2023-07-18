@@ -450,7 +450,10 @@
       },
       success: function(response) {
         // Handle the response from the PHP script
-        var eventIds = JSON.parse(response);
+        var data = JSON.parse(response);
+
+        var eventIds = data.eventIds;
+        var eventNames = data.eventNames;
 
         // Iterate through each select element and populate the options
         $('select[name="event_id[]"]').each(function(index) {
@@ -462,9 +465,9 @@
           // Add default option
           select.append('<option selected value="">Select Match Schedule</option>');
 
-          // Add options using eventIds array
+          // Add options using both eventIds and eventNames arrays
           for (var i = 0; i < eventIds.length; i++) {
-            select.append('<option value="' + eventIds[i] + '">' + eventIds[i] + '</option>');
+            select.append('<option value="' + eventIds[i] + '">' + eventNames[i] + '</option>');
           }
         });
 
