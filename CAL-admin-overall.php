@@ -180,7 +180,7 @@
               </div>
             </div>
             <div id="add-item-content" class="content-item">
-              <h2>Add Event/Announcement</h2>
+              <h2>Add Event/Post</h2>
               <form id="dateTimeSubmitFormMobile" method="POST">
                 <br>
                 <div>
@@ -190,7 +190,7 @@
                 <br>
                 <div class="d-flex justify-content-evenly">
                   <button type="submit" id="createEventButtonMobile" class="outline-button" value="createEventMobile">Create Event</button>
-                  <button type="submit" id="createAnnouncementButtonMobile" class="outline-button" value="createAnnouncementMobile">Create Announcement</button>
+                  <button type="submit" id="createAnnouncementButtonMobile" class="outline-button" value="createAnnouncementMobile">Create Post</button>
                 </div>
               </form>
             </div>
