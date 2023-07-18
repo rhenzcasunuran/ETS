@@ -40,6 +40,11 @@ if ($eventResult->num_rows > 0) {
                                 WHERE c.event_id = '$eventId'";
       $ongoingCriterionResult = $conn->query($ongoingCriterionQuery);
 
+      // Fetch the judge_id from the judge table
+    $judgeRow = $judgeResult->fetch_assoc();
+    $judgeId = $judgeRow['judge_id'];
+    $_SESSION['judge_id'] = $judgeId; // Store the judge ID in the session
+
       if ($ongoingCriterionResult->num_rows > 0) {
         $ongoingCriterionIds = array();
         while ($row = $ongoingCriterionResult->fetch_assoc()) {
