@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="./css/EVE-admin-bootstrap4.min.css">
     <link rel="stylesheet" href="./css/EVE-admin-create-add-event.css">
     <link rel="stylesheet" href="./css/EVE-admin-criteria-config.css"> 
+
+    <script type="text/javascript" src="./js/jquery-3.6.4.js"></script>
   </head>
 
   <body>
@@ -46,11 +48,25 @@
           $row = mysqli_num_rows($categoryName);
           if ($row > 0) {
           ?>
+                <?php 
+                    $popUpID = "cancelEditing";
+                    $showPopUpButtonID = "cancelEditingCriteria";
+                    $icon = "<i class='bx bxs-error-circle warning-color'></i>";
+                    $title = "Discard Changes?";
+                    $message = "Any unsaved progress will not be save.";
+                    $your_link = "EVE-admin-criteria-configuration.php";
+                    $id_name = "";
+                    $id = "";
+
+                    // Make sure to include your php query to the your page
+
+                  include './php/popup.php'; 
+                ?>
             <div class="element">
                 <div class="upper-element">
                     <h3>Criteria</h3>
                     <div class="div align-items-center">
-                      <p>Category</p>
+                      <p class="bold">Category: </p>
                       <select name="categoryPicker" class="form-select selectpicker" id="categoryPicker" data-live-search="true">
                         <?php 
                         $row = mysqli_num_rows($categoryName);
@@ -72,7 +88,7 @@
                       <div id="criterionForm" class="flex-column">
                         <div id="criterionField" class="row form-fields"></div>
                       </div>
-                        <div class="outline-button" id="addCriterion"><i class='bx bx-plus'></i></div>
+                        <div id="addCriterion"><i class='bx bx-plus'></i></div>
                     </div>
                     <div class="lower-element">
                         <div class="row my-3">
@@ -86,13 +102,15 @@
                         <div class="row d-flex justify-content-end">
                             <button type="submit" class="primary-button mx-2" name="criteriaSaveBtn" id="criteriaSaveBtn" disabled>
                             <div class="tooltip-popup flex-column" id="tooltip">
+                            <div class="tooltipText" id="textCriterionDuplicate">Criterion Name is not duplicated<i class='bx bx-check' id="checkCriterionDuplicate"></i></div>
                               <div class="tooltipText" id="textCriterionName">All Criterion Name has value (5 or more char)<i class='bx bx-check' id="checkCriterionName"></i></div>
                               <div class="tooltipText" id="textPercentage">All Percentage has value<i class='bx bx-check' id="checkPercentage"></i></div>
                               <div class="tooltipText" id="textTotalPercentage">Total Percentage is equal to 100%<i class='bx bx-check' id="checkTotalPercentage"></i></div>
+                              <div class="tooltipText" id="textHasChanges">Criteria has Changes<i class='bx bx-check' id="checkHasChanges"></i></div>
                             </div>  
-                            Save
+                            Save Changes
                           </button>
-                            <div class="outline-button">Cancel</div>
+                            <div class="outline-button" id="cancelEditingCriteria">Cancel</div>
                         </div>
                     </div>
                 </form>
@@ -122,7 +140,6 @@
     </section>
     <!-- Scripts -->
     <script type="text/javascript" src="./js/script.js"></script>
-    <script type="text/javascript" src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -159,6 +176,9 @@
         });
 
         function fetchCategoryData(category) {
+          initialCriterionValues = [];
+          initialPercentageValues = [];
+
             $.ajax({
                 url: './php/EVE-admin-fetch-criterion.php',
                 method: 'POST',
@@ -187,6 +207,45 @@
             var selectedCategory = $('#categoryPicker').val();
             fetchCategoryData(selectedCategory);
             updateTotalPercentage();
+
+          $('body').append(`<div class=\"popUpDisableBackground\" id=\"updateCriteria\">
+              <div class=\"popUpContainer\">
+                  <i class='bx bxs-check-circle success-color'></i>
+                  <div class=\"popUpHeader\">Updated Sucessfully</div>
+                  <div class=\"popUpMessage\">Criteria was succesfully updated.</div>
+                  <div class=\"popUpButtonContainer\">
+                      <button class=\"primary-button confirmPopUp\"><i class='bx bx-check'></i>Confirm</button>
+                  </div>
+              </div>`);
+
+        $(document).ready(function() {
+
+            $('.popUpDisableBackground#updateCriteria').click(function() {
+                $('.popUpDisableBackground#updateCriteria').addClass('hide');
+                setTimeout(function() {
+                    $('.popUpDisableBackground#updateCriteria').css('visibility', 'hidden');
+                    $('.popUpDisableBackground#updateCriteria').removeClass('hide');
+                }, 300);
+                $('.popUpContainer').removeClass('show');
+                window.location.href = 'EVE-admin-criteria-configuration.php';
+            });
+
+            $('.confirmPopUp').click(function() {
+                $('.popUpDisableBackground#updateCriteria').addClass('hide');
+                setTimeout(function() {
+                    $('.popUpDisableBackground#updateCriteria').css('visibility', 'hidden');
+                    $('.popUpDisableBackground#updateCriteria').removeClass('hide');
+                }, 300);
+                $('.popUpContainer').removeClass('show');
+                window.location.href = 'EVE-admin-criteria-configuration.php';
+            });
+        });
+
+            $(document).ready(function() {
+              $('.popUpDisableBackground#updateCriteria').css('visibility', 'visible');
+              $('.popUpContainer').addClass('show');
+            });
+
           }
         })
       })
@@ -202,17 +261,67 @@
       });
 
       function deleteCriterion(criterionId) {
-        $.ajax({
-          url: './php/EVE-admin-criteria.php',
-          method: 'POST',
-          data: { criterionId: criterionId },
-          success: function(response) {
-            // Refresh the criterion data without reloading the page
-            var selectedCategory = $('#categoryPicker').val();
-            fetchCategoryData(selectedCategory);
-          }
-        });
+        var popUpId = 'deleteCriterion' + criterionId;
+        var popUpExists = $('#' + popUpId).length > 0;
+
+        if (!popUpExists) {
+            var icon = "<i class='bx bxs-trash danger-color'></i>";
+            var popUpHtml = `
+                <div class="popUpDisableBackground" id="${popUpId}">
+                    <div class="popUpContainer">
+                        ${icon}
+                        <div class="popUpHeader">Delete this criterion?</div>
+                        <div class="popUpMessage">This action cannot be undone.</div>
+                        <div class="popUpButtonContainer">
+                            <button class="secondary-button" id="deleteCriterionCancel${criterionId}"><i class='bx bx-x'></i>Cancel</button>
+                            <button class="primary-button confirmPopUp"><i class='bx bx-check'></i>Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            $('body').append(popUpHtml);
+        }
+
+        $(document).ready(function() {
+                $('#deleteCriterionCancel' + criterionId).click(function() {
+                    $('#' + popUpId).addClass('hide');
+                    setTimeout(function() {
+                        $('#' + popUpId).css('visibility', 'hidden').removeClass('hide');
+                    }, 300);
+                    $('.popUpContainer').removeClass('show');
+                    $('#' + popUpId).remove();
+                });
+
+                $('.popUpDisableBackground#' + popUpId).click(function() {
+                    $('#' + popUpId).addClass('hide');
+                    setTimeout(function() {
+                        $('#' + popUpId).css('visibility', 'hidden').removeClass('hide');
+                    }, 300);
+                    $('.popUpContainer').removeClass('show');
+                    $('#' + popUpId).remove();
+                });
+
+                $('.confirmPopUp').click(function() {
+                    $('#' + popUpId).css('visibility', 'hidden');
+                    $('.popUpContainer').removeClass('show');
+                    $.ajax({
+                        url: './php/EVE-admin-criteria.php',
+                        method: 'POST',
+                        data: { criterionId: criterionId },
+                        success: function(response) {
+                            // Refresh the criterion data without reloading the page
+                            var selectedCategory = $('#categoryPicker').val();
+                            fetchCategoryData(selectedCategory);
+                        }
+                    });
+                });
+
+                $('#' + popUpId).css('visibility', 'visible');
+                $('.popUpContainer').addClass('show');
+            });
     }
+
 
     $(document).ready(function(){
         $('.selectpicker').selectpicker();
