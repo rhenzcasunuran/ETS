@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-  anonymous()
 
   const eventSelect = document.getElementById('eventSelect');
   eventSelect.addEventListener('change', function() {
@@ -45,6 +44,7 @@ const slider = document.querySelector(".slider");
 const cancelWrapper = document.getElementById("anon-confirm");
 
 anonButton.addEventListener("click", function(event) {
+  console.log("owow")
   event.stopPropagation();
   cancelWrapper.style.display = "flex";
 });
@@ -52,13 +52,13 @@ anonButton.addEventListener("click", function(event) {
 const confirmButton = document.getElementById("anon_button_confirm");
 confirmButton.addEventListener("click", function() {
   const isChecked = anonButton.checked ? 1 : 0;
+  const selectedEventName = eventSelect.value; 
   $.ajax({
     url: "./php/BAR-update-anon.php",
     type: "POST",
-    data: { isAnon: isChecked },
+    data: { isAnon: isChecked, selectedEventName: selectedEventName },
     success: function() {
       console.log("Anonymity updated successfully");
-      anonymous();
       slider.classList.toggle("slide");
       cancelWrapper.style.display = "none";
       anonButton.checked = isChecked === 1;
@@ -69,6 +69,7 @@ confirmButton.addEventListener("click", function() {
     }
   });
 });
+
 
 cancelWrapper.addEventListener("click", function(event) {
   const target = event.target;
@@ -84,63 +85,30 @@ cancelWrapper.addEventListener("click", function(event) {
 });
 
     
-    function anonymous(){
-      const anon = document.getElementById("anon_button")
-      const logos = document.querySelectorAll("#logos");
-      const meters = document.querySelectorAll(".meter");
-      const logo_container = document.querySelectorAll("img")
+      function anonymous() {
+        const anon = document.getElementById("anon_button");
+        const selectedEventName = eventSelect.value;
 
-      $.ajax({
-        url: "./php/BAR-anon.php",
-        type: "GET",
-        dataType: "json",
-        success: function(response) {
-          if (response.isAnon === "1") {
-            anon.checked = true;
-            console.log("true")
-            // logos.forEach(function(container) {
-            //   const imageAnonPath = "logos/anon.png";
-            //   const img = container.querySelector("img");
-            //   img.src = imageAnonPath;
-            // });
-            // meters.forEach(function(meter) {
-            //   meter.setAttribute("id", "anon");
-            // });
-            // logo_container.forEach(function(container) {
-            //   container.setAttribute("name", "anon");
-            // });
-            
-          } else {
-            anon.checked = false;
-            console.log("false")
-            // $.ajax({
-            //   url: "./php/BAR-organization.php",
-            //   type: "GET",
-            //   dataType: "json",
-            //   success: function (organizations) {
-            //     logos.forEach(function (container, index) {
-            //       const organization = organizations[index];
-            //       const imagePath = "logos/" + organization + ".png";
-            //       const img = container.querySelector("img");
-            //       img.src = imagePath;
-            //       img.setAttribute("name", organization)
-            //     });
-            //     meters.forEach(function (meter, index) {
-            //       const organization = organizations[index];
-            //       meter.setAttribute("id", organization);
-            //     });
-            //   },
-            //   error: function (error) {
-            //     console.error("Failed to fetch organizations:", error);
-            //   },
-            // });
-          }
-        },
-        error: function(error) {
-          console.error("Request failed:", error);
-        }
-      });
-    }
+        $.ajax({
+          url: "./php/BAR-anon.php",
+          type: "GET",
+          dataType: "json",
+          data: { selectedEventName: selectedEventName },
+          success: function (response) {
+            if (response.isAnon === "1") {
+              anon.checked = true;
+              console.log("true");
+            } else {
+              anon.checked = false;
+              console.log("false");
+            }
+          },
+          error: function (error) {
+            console.error("Request failed:", error);
+          },
+        });
+      }
+
 
       function handleLogoClick(logoName) {
         const placementOpen = graphSection.classList.contains("placement_open");
@@ -222,4 +190,5 @@ cancelWrapper.addEventListener("click", function(event) {
           
         }
       }  
+      anonymous()
 });
