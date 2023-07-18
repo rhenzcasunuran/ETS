@@ -454,6 +454,7 @@
 
         var eventIds = data.eventIds;
         var eventNames = data.eventNames;
+        var eventDates = data.eventDates;
 
         // Iterate through each select element and populate the options
         $('select[name="event_id[]"]').each(function(index) {
@@ -465,9 +466,9 @@
           // Add default option
           select.append('<option selected value="">Select Match Schedule</option>');
 
-          // Add options using both eventIds and eventNames arrays
+          // Add options using both eventIds, eventNames, and eventDates arrays
           for (var i = 0; i < eventIds.length; i++) {
-            select.append('<option value="' + eventIds[i] + '">' + eventNames[i] + '</option>');
+            select.append('<option value="' + eventIds[i] + '">' + eventNames[i] + ' - ' + eventDates[i] + '</option>');
           }
         });
 

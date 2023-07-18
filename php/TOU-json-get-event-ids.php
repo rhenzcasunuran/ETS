@@ -6,7 +6,7 @@ $event_name = isset($_POST['event_name']) ? $_POST['event_name'] : '';
 $category_name = isset($_POST['category_name']) ? $_POST['category_name'] : '';
 
 // Prepare the SQL statement
-$query = "SELECT olfe.event_id, oen.event_name FROM ongoing_list_of_event AS olfe 
+$query = "SELECT olfe.event_id, oen.event_name, olfe.event_date FROM ongoing_list_of_event AS olfe 
 INNER JOIN ongoing_event_name AS oen 
   ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
 INNER JOIN tournament AS tou
@@ -30,6 +30,7 @@ $eventNames = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $eventIds[] = $row['event_id'];
     $eventNames[] = $row['event_name'];
+    $eventDates[] = $row['event_date'];
 }
 
 // Close the statement and database connection
@@ -39,7 +40,8 @@ mysqli_close($conn);
 // Create an associative array with event IDs and names
 $response = [
     'eventIds' => $eventIds,
-    'eventNames' => $eventNames
+    'eventNames' => $eventNames,
+    'eventDates' => $eventDates
 ];
 
 // Return the response as JSON
