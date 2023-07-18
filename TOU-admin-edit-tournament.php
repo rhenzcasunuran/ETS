@@ -10,7 +10,18 @@
       // The id is valid, perform actions based on it
       
       // Prepare the SQL statement with a parameter placeholder
-      $query = "SELECT bf.id, bf.current_column, bf.category_name, bf.event_name, ot.team_name, ot.current_team_status, ot.current_overall_score, ot.current_score FROM bracket_forms AS bf INNER JOIN ongoing_teams AS ot ON bf.id = ot.bracket_form_id WHERE bf.id = ? AND bf.is_active = 1";
+      $query = "SELECT bf.id, 
+      bf.current_column, 
+      bf.category_name, 
+      bf.event_name, 
+      ot.team_name, 
+      ot.current_team_status, 
+      ot.current_overall_score, 
+      ot.current_score 
+      FROM bracket_forms AS bf 
+      INNER JOIN ongoing_teams AS ot 
+      ON bf.id = ot.bracket_form_id 
+      WHERE bf.id = ? AND bf.is_active = 1";
       $stmt = mysqli_prepare($conn, $query);
       // Bind the id parameter to the prepared statement
       mysqli_stmt_bind_param($stmt, "i", $id);
@@ -28,6 +39,8 @@
         $event_name = $row['event_name'];    
         $category_name = $row['category_name'];      
         $current_column = $row['current_column'];         
+      } else {
+        header("Location: TOU-admin-manage-tournament.php");
       }
     }
 ?>
@@ -200,32 +213,95 @@
                                             // Increment the current column
                                             $currentColumn++;
 
-                                            // Prepare the SQL query for inserting into the new bracket form
-                                            $insertQuery = "INSERT INTO bracket_teams (bracket_form_id, bracket_position, team_one_id, team_two_id, current_column) 
-                                                  VALUES (?, ?, ?, ?, ?)";
-                                            $stmt = $conn->prepare($insertQuery);
+                                            // Prepare the SQL query with a parameter placeholder
+                                            $sql = "SELECT COUNT(*) AS no_of_teams
+                                                    FROM ongoing_teams
+                                                    WHERE bracket_form_id = ?";
 
-                                            // Counter variable for bracket position
-                                            $bracketPosition = 1;
+                                            // Prepare the statement
+                                            $stmt1 = $conn->prepare($sql);
 
-                                            // Loop through the won teams array
-                                            for ($i = 0; $i < count($wonTeamsIdsArray); $i += 2) {
+                                            // Bind the parameter value to the placeholder
+                                            $stmt1->bind_param('i', $id); // 'i' for integer, use 's' for string, 'd' for double, etc.
+
+                                            // Execute the query
+                                            $stmt1->execute();
+
+                                            // Bind the result to a variable
+                                            $stmt1->bind_result($count);
+
+                                            // Fetch the result
+                                            $stmt1->fetch();
+
+                                            // Close the statement
+                                            $stmt1->close();
+
+                                            // Prepare the SQL query with a parameter placeholder
+                                            $sqlCount = "SELECT node_id_start FROM `bracket_teams_state` WHERE bracket_form_id = ?;";
+
+                                            // Prepare the statement
+                                            $stmt2 = $conn->prepare($sqlCount);
+
+                                            // Bind the parameter value to the placeholder
+                                            $stmt2->bind_param('i', $id); // 'i' for integer, use 's' for string, 'd' for double, etc.
+
+                                            // Execute the query
+                                            $stmt2->execute();
+
+                                            // Bind the result to a variable
+                                            $stmt2->bind_result($countNode);
+
+                                            // Fetch the result
+                                            $stmt2->fetch();
+
+                                            // Close the statement
+                                            $stmt2->close();
+
+                                            if (($countNode - 2) <= $count) {
+                                              // Prepare the SQL query for inserting into the new bracket form
+                                              $insertQuery = "INSERT INTO bracket_teams (bracket_form_id, bracket_position, team_one_id, team_two_id, current_column) 
+                                              VALUES (?, ?, ?, ?, ?)";
+                                              $stmt = $conn->prepare($insertQuery);
+
+                                              // Counter variable for bracket position
+                                              $bracketPosition = 1;
+                                              $teamOneID = $wonTeamsIdsArray[0];
+                                              $teamTwoID = $wonTeamsIdsArray[1];
+
                                               // Bind the parameters to the prepared statement for insertion
-                                              $teamOneID = $wonTeamsIdsArray[$i];
-                                              $teamTwoID = $wonTeamsIdsArray[$i + 1];
-
-                                              // Bind the parameters to the prepared statement
                                               $stmt->bind_param("iiiii", $id, $bracketPosition, $teamOneID, $teamTwoID, $currentColumn);
 
                                               // Execute the prepared statement
                                               $stmt->execute();
+                                            } else {
+                                              // Prepare the SQL query for inserting into the new bracket form
+                                              $insertQuery = "INSERT INTO bracket_teams (bracket_form_id, bracket_position, team_one_id, team_two_id, current_column) 
+                                              VALUES (?, ?, ?, ?, ?)";
+                                              $stmt = $conn->prepare($insertQuery);
 
-                                              // Increment bracket position for the next row
-                                              $bracketPosition++;
+                                              // Counter variable for bracket position
+                                              $bracketPosition = 1;
+
+                                              // Loop through the won teams array
+                                              for ($i = 0; $i < count($wonTeamsIdsArray); $i += 2) {
+                                                // Bind the parameters to the prepared statement for insertion
+                                                $teamOneID = $wonTeamsIdsArray[$i];
+                                                $teamTwoID = $wonTeamsIdsArray[$i + 1];
+
+                                                // Bind the parameters to the prepared statement
+                                                $stmt->bind_param("iiiii", $id, $bracketPosition, $teamOneID, $teamTwoID, $currentColumn);
+
+                                                // Execute the prepared statement
+                                                $stmt->execute();
+
+                                                // Increment bracket position for the next row
+                                                $bracketPosition++;
+                                              }
                                             }
-
+                                            
                                             // Close the statement
                                             $stmt->close();
+
                                             // Prepare the SQL query with a placeholder for the parameter
                                             $query = "UPDATE `bracket_forms` 
                                             SET current_column = current_column + 1 
@@ -258,6 +334,11 @@
                                               $stmt->bind_param("i", $id);
                                               $stmt->execute();
                                               $stmt->close();
+                                              $query = "UPDATE bracket_forms SET is_active = 0 WHERE id = ?";
+                                              $stmt = $conn->prepare($query);
+                                              $stmt->bind_param("i", $id);
+                                              $stmt->execute();
+                                              $stmt->close();
                                             }
 
                                             // Check if there is only one active team left and declare the champion if needed
@@ -265,60 +346,60 @@
                                               declareChampion($conn, $id);
                                             }
 
-                                              // Get the bracket teams based on the bracket_form_id
-                                              $query = "SELECT ot.id AS team_one_id,
-                                                            ot2.id AS team_two_id,
-                                                            ot.team_name AS team_one_name,
-                                                            ot2.team_name AS team_two_name,
-                                                            ot.current_team_status AS team_one_status, 
-                                                            ot2.current_team_status AS team_two_status,
-                                                            bf.current_column
-                                                      FROM bracket_teams AS bt 
-                                                      INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
-                                                      INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
-                                                      INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
-                                                      WHERE bf.id = ? 
-                                                        AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
-                                                        AND bf.current_column = bf.current_column;";
+                                            // Get the bracket teams based on the bracket_form_id
+                                            $query = "SELECT ot.id AS team_one_id,
+                                                          ot2.id AS team_two_id,
+                                                          ot.team_name AS team_one_name,
+                                                          ot2.team_name AS team_two_name,
+                                                          ot.current_team_status AS team_one_status, 
+                                                          ot2.current_team_status AS team_two_status,
+                                                          bf.current_column
+                                                    FROM bracket_teams AS bt 
+                                                    INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
+                                                    INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
+                                                    INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
+                                                    WHERE bf.id = ? 
+                                                      AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
+                                                      AND bf.current_column = bf.current_column;";
 
-                                              $stmt = $conn->prepare($query);
-                                              $stmt->bind_param("i", $id);
-                                              $stmt->execute();
-                                              $result = $stmt->get_result();
+                                            $stmt = $conn->prepare($query);
+                                            $stmt->bind_param("i", $id);
+                                            $stmt->execute();
+                                            $result = $stmt->get_result();
 
-                                              // Check if there are any active teams left in the bracket
-                                              $activeTeamCount = 0;
-                                              $championTeamId = null;
-                                              while ($row = $result->fetch_assoc()) {
-                                                $team_one_status = $row['team_one_status'];
-                                                $team_two_status = $row['team_two_status'];
-                                                
-                                                if ($team_one_status === 'active') {
-                                                    $activeTeamCount++;
-                                                    $championTeamId = $row['team_one_id'];
-                                                }
-
-                                                if ($team_two_status === 'active') {
-                                                    $activeTeamCount++;
-                                                    $championTeamId = $row['team_two_id'];
-                                                }
-
-                                                echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$row['team_one_id'].'">' .
-                                                    '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$row['team_two_id'].'">' .
-                                                    '<div class="d-inline-flex p-2 justify-content-between">' .
-                                                    '<div>' . $row['team_one_name'] . '</div>'.
-                                                    '<div>' . ' vs ' . '</div>'.
-                                                    '<div>'. $row['team_two_name'] . '</div>' .
-                                                    '<select class="form-select w-50" aria-label="Default select example" name="event_id[]"></select>' .
-                                                    '</div>' . '<br>';
+                                            // Check if there are any active teams left in the bracket
+                                            $activeTeamCount = 0;
+                                            $championTeamId = null;
+                                            while ($row = $result->fetch_assoc()) {
+                                              $team_one_status = $row['team_one_status'];
+                                              $team_two_status = $row['team_two_status'];
+                                              
+                                              if ($team_one_status === 'active') {
+                                                  $activeTeamCount++;
+                                                  $championTeamId = $row['team_one_id'];
                                               }
 
-                                              $stmt->close();
-
-                                              // If there is only one active team left, handle the champion case
-                                              if ($activeTeamCount === 1 && $championTeamId) {
-                                                declareChampion($conn, $id);
+                                              if ($team_two_status === 'active') {
+                                                  $activeTeamCount++;
+                                                  $championTeamId = $row['team_two_id'];
                                               }
+
+                                              echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$row['team_one_id'].'">' .
+                                                  '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$row['team_two_id'].'">' .
+                                                  '<div class="d-inline-flex p-2 justify-content-between">' .
+                                                  '<div>' . $row['team_one_name'] . '</div>'.
+                                                  '<div>' . ' vs ' . '</div>'.
+                                                  '<div>'. $row['team_two_name'] . '</div>' .
+                                                  '<select class="form-select w-50" aria-label="Default select example" name="event_id[]"></select>' .
+                                                  '</div>' . '<br>';
+                                            }
+
+                                            $stmt->close();
+
+                                            // If there is only one active team left, handle the champion case
+                                            if ($activeTeamCount === 1 && $championTeamId) {
+                                              declareChampion($conn, $id);
+                                            }
                                           } else {
                                             while ($row2 = mysqli_fetch_assoc($result2)) {
                                               $team_one_id = $row2['team_one_id'];

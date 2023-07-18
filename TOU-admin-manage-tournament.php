@@ -92,7 +92,7 @@
         <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
         <?php
             // Perform the SQL query to retrieve the results
-            $query = "SELECT * FROM bracket_forms";
+            $query = "SELECT * FROM bracket_forms WHERE is_active = 1";
             $result = mysqli_query($conn, $query);
 
             // Check if there are any results
