@@ -62,6 +62,7 @@
                 </div>
                 <div class="col">
                   <br>
+                  <h2>0-0</h2>
                   <h1>VS</h1>
                   <button type="button" class="btn btn-danger" id="end-match-btn">End Match</button>
                 </div>
@@ -89,6 +90,41 @@
               var teamTwoScore = $('#team-two-score');
               var selectedId;
               var selectedValue;
+
+              // Function to set the values in the template using jQuery
+              function setTemplateValues(teamOneName, teamOneScore, teamTwoName, teamTwoScore) {
+                $('#team-one-name').text(teamOneName);
+                $('#team-one-score').text(teamOneScore);
+                $('#team-two-name').text(teamTwoName);
+                $('#team-two-score').text(teamTwoScore);
+              }
+
+              // Example usage:
+              setTemplateValues("Team A", 0, "Team B", 0);
+
+              // Function to update the template if selectedId and selectedValue exist
+              function updateTemplateIfValuesExist() {
+                if (selectedId !== null && selectedId !== undefined) {
+                  // Replace null or undefined with default values or values from the database, if available
+                  var teamOneName = "Team A";
+                  var teamOneScore = 0;
+                  var teamTwoName = "Team B";
+                  var teamTwoScore = 0;
+
+                  // If selectedValue is not null or undefined, use it to update team scores
+                  if (selectedValue !== null && selectedValue !== undefined) {
+                    // Assuming selectedValue contains the scores in the format "score1-score2"
+                    var scores = selectedValue.split('-');
+                    teamOneScore = parseInt(scores[0]);
+                    teamTwoScore = parseInt(scores[1]);
+                  }
+
+                  setTemplateValues(teamOneName, teamOneScore, teamTwoName, teamTwoScore);
+                }
+              }
+
+              // Call the function to initially update the template with default values
+              updateTemplateIfValuesExist();
 
               // AJAX request to populate the <select> options
               $.ajax({
@@ -120,6 +156,7 @@
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
                 selectedId = $(this).val(); // Get the selected ID
+                updateTemplateIfValuesExist();
 
                 // Send the ID to another AJAX request
                 $.ajax({
@@ -148,6 +185,7 @@
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
                 selectedValue = $(this).val(); // Get the selected value
+                updateTemplateIfValuesExist();
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
@@ -200,6 +238,7 @@
                 let buttonId = $(this).attr('id');
                 let idNumber = buttonId.split('-').pop();
                 let bracketFormId = selectedId;
+                updateTemplateIfValuesExist();
 
                 // Send the action to the PHP script via AJAX
                 $.ajax({
@@ -246,6 +285,7 @@
                 let buttonId = $(this).attr('id');
                 let idNumber = buttonId.split('-').pop();
                 let bracketFormId = selectedId;
+                updateTemplateIfValuesExist();
 
                 // Send the action to the PHP script via AJAX
                 $.ajax({
@@ -289,6 +329,7 @@
               // Set the values of the hidden input fields when the "End Match" button is clicked
               $('#end-match-btn').click(function() {
                   selectedId = selectEvent.val();
+                  updateTemplateIfValuesExist();
 
                   // Create an object with the data to be sent
                   var postData = {
