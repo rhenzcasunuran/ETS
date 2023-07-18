@@ -23,7 +23,21 @@
 }
 
 #addCriterion {
-    margin: 20px 0;
+    margin: 10px 0;
+    max-width: none!important;
+    width: 100%;
+    background-color: transparent;
+    font-size: 50px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#addCriterion:hover {
+    background-color: var(--hover-outline-button-color);
 }
 
 .lower-element {
@@ -162,4 +176,8 @@ input[type="search"]{
 #noCriteria {
     width: 300px;
     justify-self: center;
+}
+
+.bold {
+    font-weight: bold;
 }
