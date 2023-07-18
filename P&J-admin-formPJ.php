@@ -461,6 +461,19 @@ function toggleAllCheckboxesP() {
             selectAllCheckboxP.checked = false;
         }
 
+        function deleteSelectedPG() {
+            var checkboxesP = document.getElementsByClassName('checkboxPG');
+            var selectAllCheckboxP = document.getElementById('select-allP');
+
+            for (var i = checkboxesP.length - 1; i >= 0; i--) {
+                if (checkboxesP[i].checked) {
+                    checkboxesP[i].parentNode.parentNode.remove();
+                }
+            }
+
+            selectAllCheckboxP.checked = false;
+        }
+
 function updateLabel(dropdown) {
       var dropdownId = dropdown.id;
       var label = document.querySelector('label[for="' + dropdownId + '"]');
@@ -785,6 +798,7 @@ function addRowP() {
 
 
     function generateDiv() {
+      
   divCount++;
   const divId = `div${divCount}`;
   let organizationId;
@@ -808,9 +822,6 @@ function addRowP() {
       dropdown.style = "border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);";
       dropdown.name = "organization_id[]";
 
-      // Create the first row with the organization_id value
-      const firstRow = createRow(divId, organizationId);
-      tbody.appendChild(firstRow);
 
       // Add a default option (optional)
       const defaultOption = document.createElement('option');
@@ -885,6 +896,22 @@ function addRowP() {
 
   document.getElementById('mainDiv').appendChild(div);
   
+  // Create the delete button
+  const deleteButton = document.createElement('button');
+  deleteButton.type = 'button';
+  deleteButton.innerHTML = "<i class='bx bx-trash'></i>";
+  deleteButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-danger-color)!important; color: var(--white-text-color)!important; background-color: var(--default-danger-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
+  deleteButton.onclick = function () {
+    removeDiv(divId);
+  };
+  const deleteButtonCell = document.createElement('td');
+  deleteButtonCell.appendChild(deleteButton);
+
+  // Create the table row for buttons
+  buttonsRow.appendChild(toggleButtonCell);
+  buttonsRow.appendChild(addRowButtonCell);
+  buttonsRow.appendChild(deleteButtonCell); // Add the delete button cell
+  tbody.appendChild(buttonsRow);
   
   updateTotalValuesP();
 
@@ -897,6 +924,7 @@ function createRow(divId, organizationId) {
   // Create the checkbox for the row
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
+  checkbox.className = "checkboxPG";
   checkbox.onclick = function () {
     toggleCheckbox(divId);
   };
@@ -913,40 +941,41 @@ function createRow(divId, organizationId) {
 
   // Create the textbox for the name
   const nameInputCell = document.createElement('td');
-  const nameInput = document.createElement('input');
-  nameInput.type = 'text';
-  nameInput.placeholder = 'Name';
-  nameInput.className = "inputpname cformj";
-  nameInput.name = "participant_name[]";
-  nameInput.style = "border-radius:20px;";
-  nameInput.minLength = 4;
-  nameInput.maxLength = 20;
-  nameInput.placeholder = "Participant Name";
-  nameInput.title = "Enter a valid name (4-20 characters)";
-  nameInput.addEventListener("dblclick", function() {
+  const nameInputPG = document.createElement('input');
+  nameInputPG.type = 'text';
+  nameInputPG.placeholder = 'Name';
+  nameInputPG.className = "inputpname cformj";
+  nameInputPG.name = "participant_name[]";
+  nameInputPG.style = "border-radius:20px;";
+  nameInputPG.minLength = 4;
+  nameInputPG.maxLength = 20;
+  nameInputPG.placeholder = "Participant Name";
+  nameInputPG.title = "Enter a valid name (4-20 characters)";
+  nameInputPG.addEventListener("dblclick", function() {
         this.readOnly = false;
       });
-  nameInputCell.appendChild(nameInput);
+      nameInputCell.appendChild(nameInputPG);
   row.appendChild(nameInputCell);
+  updateTotalValuesP();
 
   // Create the textbox for the section
   const sectionInputCell = document.createElement('td');
-  const sectionInput = document.createElement('input');
-  sectionInput.type = 'text';
-  sectionInput.placeholder = 'Section';
-  sectionInput.className = "inputpcs cformj";
-  sectionInput.name = "participant_section[]";
-  sectionInput.style = "border-radius:20px;";
-  sectionInput.minLength = 3;
-  sectionInput.maxLength = 3;
-  sectionInput.placeholder = "Section";
-  sectionInput.addEventListener("dblclick", function() {
+  const sectionInputPG = document.createElement('input');
+  sectionInputPG.type = 'text';
+  sectionInputPG.placeholder = 'Section';
+  sectionInputPG.className = "inputpcs cformj";
+  sectionInputPG.name = "participant_section[]";
+  sectionInputPG.style = "border-radius:20px;";
+  sectionInputPG.minLength = 3;
+  sectionInputPG.maxLength = 3;
+  sectionInputPG.placeholder = "Section";
+  sectionInputPG.addEventListener("dblclick", function() {
         this.readOnly = false;
       });
-  sectionInputCell.appendChild(sectionInput);
+  sectionInputCell.appendChild(sectionInputPG);
   row.appendChild(sectionInputCell);
 
-  nameInput.onkeydown = function (event) {
+  nameInputPG.onkeydown = function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
         this.readOnly = true;
@@ -955,7 +984,7 @@ function createRow(divId, organizationId) {
       }
     };
 
-    sectionInput.onkeydown = function (event) {
+    sectionInputPG.onkeydown = function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
         this.readOnly = true;
@@ -964,11 +993,13 @@ function createRow(divId, organizationId) {
       }
     };
 
-  return row;
-
+    
     enableSubmitButton();
     updateTotalValuesP();
     
+
+  return row;
+
 }
 
 
@@ -981,6 +1012,7 @@ function toggleAllCheckboxesPG() {
   checkboxes.forEach(checkbox => {
     checkbox.checked = mainCheckbox.checked;
   });
+  updateTotalValuesP();
 }
 
 function toggleCheckboxes(divId) {
@@ -990,6 +1022,7 @@ function toggleCheckboxes(divId) {
   checkboxes.forEach(checkbox => {
     checkbox.checked = mainCheckbox.checked;
   });
+  updateTotalValuesP();
 }
 
 function toggleCheckbox(divId) {
@@ -1002,7 +1035,7 @@ function toggleCheckbox(divId) {
       allChecked = false;
     }
   });
-
+  updateTotalValuesP();
   mainCheckbox.checked = allChecked;
 }
 
@@ -1024,6 +1057,11 @@ function deleteChecked() {
   });
 }
 
+function removeDiv(divId) {
+  const divToRemove = document.getElementById(divId);
+  divToRemove.remove();
+  updateTotalValuesP(); // Update any totals or calculations, if needed
+}
 
 $(document).on('change', '.div-toggle', function() {
   var target = $(this).data('target');
