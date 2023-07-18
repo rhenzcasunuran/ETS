@@ -56,7 +56,7 @@ if ($result->num_rows > 0) {
         echo "<div class='result_container'>";
         // Display the name of the competition and a button with the competition ID as the ID
         
-        echo "<h2 class='parent' id='" . $competitionName ."'>" . $competitionName . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='".$competitionName."-input' class='sched_output' disabled/><button class='republished_btn' id='" . $competitionName . " btn'><i class='bx bx-repost' style='font-size:20px;'  ></i>Republish</button><button id='".$competitionName."-selected'class='selectBtn'><i class='bx bx-x'></i></button></h2>";
+        echo "<h2 class='parent' id='" . $competitionName ."'>" . $competitionName . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='".$competitionName."-input' class='sched_output' disabled/><button class='republished_btn' id='" . $competitionName . " btn'><i class='bx bx-repost' style='font-size:20px;'  ></i>Republish</button></h2>";
       // Generate HTML code for the result div and table
         echo "<div class='result'>";
         echo "<table>";
