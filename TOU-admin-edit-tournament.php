@@ -90,7 +90,7 @@
                                           INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
                                           INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
                                           INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
-                                          WHERE bf.id = ? AND ot.current_team_status = 'active' OR ot2.current_team_status = 'active';";
+                                          WHERE bf.id = ?";
 
                                           $stmt2 = mysqli_prepare($conn, $query2);
                                           // Bind the id parameter to the prepared statement

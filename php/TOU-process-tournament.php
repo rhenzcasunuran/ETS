@@ -14,6 +14,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Array to store team IDs
     $teamIds = array();
 
+    // Generate the parent_ids and node_ids arrays
+    $parent_ids = [];
+    $node_ids = [];
+
+    for ($i = $numTeams - 1; $i >= 0; $i--) {
+        $parent_ids[] = $i;
+        if ($i > 0) {
+            $parent_ids[] = $i;
+        }
+    }
+
+    $node_id_start = count($parent_ids);
+
     // Prepare the SQL statement with parameter placeholders
     $query = "SELECT id FROM `bracket_forms` WHERE event_name = ? AND category_name = ? AND is_active = 1";
     $stmt = mysqli_prepare($conn, $query);
@@ -114,50 +127,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt->close();
 
-    function generateSequence($numItems)
-    {
-        $sequence = [0];
-        $currentNum = 1;
-
-        for ($i = 1; $i < $numItems; $i++) {
-            $sequence[] = $currentNum;
-            $sequence[] = $currentNum;
-            $currentNum++;
-        }
-
-        return $sequence;
-    }
-
-    $result = generateSequence($numTeams);
-
     // Prepare the SQL statement
-    $query = "INSERT INTO bracket_teams_state (bracket_form_id, node_id, parent_id) VALUES (?, ?, ?)";
+    $query = "INSERT INTO bracket_teams_state (bracket_form_id, node_id_start, parent_id_start) VALUES (?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-
-    for ($i = count($result) - 1; $i >= 0; $i--) {
-        $node_id = $i + 1;
-        $parent_id = $result[$i];
-
-        mysqli_stmt_bind_param($stmt, "iii", $bracket_form_id, $node_id, $parent_id);
-        mysqli_stmt_execute($stmt);
-    }
-
-    $reversedTeamIds = array_reverse($teamIds);
-
-    foreach ($reversedTeamIds as $teamId) {
-    
-        // Prepare the SQL update query with LIMIT 1
-        $sql = "UPDATE bracket_teams_state
-                SET team_id = ?
-                WHERE bracket_form_id = ?
-                  AND team_id IS NULL
-                LIMIT 1";
-    
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ii", $teamId, $bracket_form_id);
-        mysqli_stmt_execute($stmt);
-    }    
-    
+    // Bind the parameters
+    mysqli_stmt_bind_param($stmt, "iii", $bracket_form_id, $node_id_start, $numTeams);
+    // Execute the SQL statement
+    mysqli_stmt_execute($stmt);
     // Close the statement and connection
     mysqli_stmt_close($stmt);    
     
