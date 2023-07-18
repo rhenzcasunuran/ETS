@@ -422,7 +422,8 @@
                                   </div>
                                 </div>
                                 <br>
-                                <button type="submit" class="btn btn-primary float-end">Submit</button>
+                                <div id="error-container" style="color: red;"></div>
+                                <button id="submit" type="submit" class="btn btn-primary float-end">Submit</button>
                               </form>
                           </div>
                         </div>
@@ -468,12 +469,12 @@
 
           // Add options using both eventIds, eventNames, and eventDates arrays
           for (var i = 0; i < eventIds.length; i++) {
-            select.append('<option value="' + eventIds[i] + '">' + eventNames[i] + ' - ' + eventDates[i] + '</option>');
+            select.append('<option value="' + eventIds[i] + '">' + eventDates[i] + ' - ' + eventNames[i] + ' - ' + eventIds[i] + '</option>');
           }
         });
 
-        // Add change event listener to all select elements
-        $('select[name="event_id[]"]').change(function() {
+      // Add change event listener to all select elements
+      $('select[name="event_id[]"]').change(function() {
           var selectedValues = [];
           var errorContainer = $('#error-container');
           errorContainer.empty();
@@ -485,12 +486,20 @@
             // Check if value is not empty and already exists in selectedValues array
             if (value && selectedValues.includes(value)) {
               errorContainer.text('Same event dates are not allowed');
+
+              // Disable the Submit button when an error is detected
+              $('#submit').prop('disabled', true);
               return false; // Stop the iteration
             }
 
             // Add value to selectedValues array
             selectedValues.push(value);
           });
+
+          // Enable the Submit button if no errors are found
+          if (errorContainer.is(':empty')) {
+            $('#submit').prop('disabled', false);
+          }
         });
       },
       error: function(xhr, status, error) {
