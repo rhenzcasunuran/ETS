@@ -934,7 +934,7 @@ var adminCalendarComputer = {
                           </div>
                           <div class="modal-footer d-flex justify-content-evenly invisible-footer">
                             <button type="submit" id="createEventButton" class="outline-button" value="createEvent">Create Event</button>
-                            <button type="submit" id="createAnnouncementButton" class="outline-button" value="createAnnouncement">Create Announcement</button>
+                            <button type="submit" id="createAnnouncementButton" class="outline-button" value="createAnnouncement">Create Post</button>
                           </div>
                         </form>
                         <br>

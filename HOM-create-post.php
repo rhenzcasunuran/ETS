@@ -208,9 +208,11 @@
     <!-- Date and Time Helper from Calendar -->
     <script>
       $(document).ready(function() {
-        var date = "<?php echo isset($sanitizedDate) ? $sanitizedDate : null; ?>";
+        var date = "<?php echo isset($sanitizedDate) ? $sanitizedDate : ''; ?>";
+        var time = "<?php echo isset($sanitizedTime) ? $sanitizedTime : ''; ?>";
+        var datetime = date && time ? date + 'T' + time : ''; // Concatenate date and time with 'T' in the middle
 
-        $("#calendar").val(date);
+        $("#calendar").val(datetime);
       });
     </script>
   </body>
