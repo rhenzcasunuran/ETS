@@ -1,0 +1,616 @@
+.flex-container {
+  width: calc(100% - 78px);
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+h3{
+  color: var(--color-content-text);
+  margin-top: 30px;
+
+}
+
+
+#search{
+  border: 1px solid #ccc;
+  border-radius: 100px;
+  margin-left: 5%;
+  width: 60%;
+  font-size: 18px;
+}
+.bx-filter-alt {
+  font-size: 24px; /* Change this value to adjust the size */
+}
+#main-containers {
+  height: fit-content;
+  border-radius: 20px;
+  background: var(--color-content-card);
+  display: flex;
+  justify-content: space-between;
+  padding: 3%;
+  margin-left: 78px;
+  width: calc(100% - 78px);
+}
+
+.col-md-6 {
+  margin-right: 2%;
+  margin-top: 20px;
+}
+.col-12{
+  margin-top:5%;
+  margin-bottom: 8%;
+  
+
+}
+p{
+  font-size: large;
+  color: var(--color-content-text);
+  margin-top: 2;
+}
+.p, #event-description {
+  font-size: large;
+  color: var(--color-content-text);
+  margin-top: 2rem;
+  word-wrap: break-word;
+}
+
+
+.left-container {
+  height: 170px;
+  background: var(--color-body);
+  display: flex;
+  border: 2px solid ;
+  border-color: var(--color-body);
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.event-image img {
+  width: 100%;
+  height: 150px;
+}
+
+
+.text-container {
+  min-height: 40vh;
+  height: auto;
+  text-align: center;
+  background: var(--color-body);
+  border-radius: 10px;
+  border: 2px solid ;
+  border-color: var(--color-body);
+  margin-bottom: 10px;
+
+}
+#competition-results{
+  width: 100%;
+  text-align: center;
+  background: var(--color-body);
+  border-radius: 10px;
+  border: 2px solid ;
+  border-color: var(--color-body);
+  margin-bottom: 10px;
+}
+
+.carousel-container {
+  max-height: auto;
+  background: var(--color-body);
+  margin-bottom: 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 4px solid var(--color-body);
+  zoom: normal;
+
+}
+ 
+
+.carousel-container .carousel-inner {
+  height: 100%; /* Set the height to 100% to fill the container vertically */
+  display: flex;
+}
+
+.carousel-container .carousel-inner img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain; /* Use "cover" instead of "contain" */
+}
+.carousel-item img {
+  max-width: 100%;
+  max-height: 50%;
+  width: 50%;
+  height: 50%;
+  object-fit:scale-down
+}
+.carousel-item {
+  flex: 0 0 auto; /* Make the carousel items have a fixed width */
+  max-width: 100%; /* Adjust this value to control the number of items displayed side by side */
+  margin-top: 20px;
+  height: 50%; /* Set a fixed pixel value instead of a percentage */
+  overflow: hidden;
+  zoom: normal;
+
+}
+/* Dropdown Button */
+.dropbtn {
+  color: var(--color-content-text);
+  padding: 16px;
+  font-size: 25px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--color-content-card);
+  min-width: 160px;
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color:var(--color-content-text);
+  text-decoration: none;
+  font-size: large;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color:var(--color-body);}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+.dropdown-content a {
+  color: var(--color-acap);
+}
+
+.dropdown-content a:nth-child(2) {
+  color: var(--color-jmap);
+}
+
+.dropdown-content a:nth-child(3) {
+  color: var(--color-aeces);
+}
+
+.dropdown-content a:nth-child(4) {
+  color: var(--color-jpia);
+}
+
+.dropdown-content a:nth-child(5) {
+  color: var(--color-piie);
+}
+
+.dropdown-content a:nth-child(6) {
+  color: var(--color-jehra);
+}
+
+.dropdown-content a:nth-child(7) {
+  color: var(--color-acap);
+}
+
+.dropdown-content a:nth-child(8) {
+  color: var(--color-elite);
+}
+
+.dropdown-content a:nth-child(9) {
+  color: var(--color-give);
+}
+
+.right-container {
+  max-height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--color-body);
+  border: 2px solid ;
+  border-color: var(--color-body);
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.right-container button {
+  color: var(--color-content-text);
+  background: var(--color-sidebar-subactive);
+  width: 110px;
+  height: 50px;
+  cursor: pointer;
+  display: inline;
+  flex: inherit;
+  justify-content: end;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.right-container button:hover {
+  background-color: #cf9fff;
+}
+
+.left-part {
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  display: block;
+  
+}
+
+.left-container .event {
+  height: 100px;
+  justify-content: center;
+}
+.image .expanded-image {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* add a semi-transparent background to the expanded image */
+  z-index: 1000; /* add a higher z-index to make the expanded image overlap the container */
+}
+
+.image .expanded-image img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  max-height: 90%;
+  border: 1px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Styles for card container */
+#card-container {
+  display: flex;
+  justify-content: flex-start;
+  overflow-x: auto;
+  width: 100%; /* Adjust the width to fit the parent container */
+  border-radius: 10px;
+  white-space: nowrap;
+  justify-content: flex-start; /* Adjust the alignment based on your preference */
+  overflow-y: hidden; /* Hide vertical scrollbar */
+  padding:2px;
+}
+
+.suggested-events {
+  margin-bottom: 20px;
+  min-width: 24%;
+}
+
+.event-container {
+  display: flex;
+}
+
+.suggested-events,
+.other-events {
+  margin-right: 20px;
+}
+
+.suggested-events .event-cards,
+.other-events .event-cards {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.suggested-events .event-card,
+.other-events .event-card {
+  flex: 0 0 auto;
+  background-color: var(--color-content-card);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  min-width: 150px;
+}
+
+.suggested-events .event-card.last-event,
+.other-events .event-card.last-event {
+  margin-right: 1px;
+}
+
+.suggested-events .section-heading,
+.other-events .section-heading {
+  margin-bottom: 10px;
+}
+
+
+.section-heading {
+  color: var(--color-content-text);
+  font-size: 18px; /* Customize the font size */
+  font-weight: bold; /* Customize the font weight */
+  margin-bottom: 20px; /* Customize the margin-bottom */
+  margin-right: 100%;
+  
+}
+
+
+.other-events .event-name,
+.other-events .category,
+.other-events .year {
+  color: var(--color-content-text);
+  text-align: center;
+}
+
+.other-events .event-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+
+.event-info {
+text-align: center;
+}
+
+.event-name,
+.category,
+.year {
+  color: var(--color-content-text);
+  text-align: center;
+}
+
+.event-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.category {
+  font-size: 14px;
+  margin: 0;
+}
+
+.year {
+  font-size: 12px;
+  margin: 0;
+}
+
+  /* Modal styles */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Ensure the modal appears above other elements */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scrolling if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black with transparency */
+  }
+
+  
+  .modal-content {
+    background-color: var(--color-content-text);
+    padding: 20px;
+    border: 1px solid #888;
+    overflow: auto;
+    word-wrap: normal;
+    white-space: normal;
+  }
+  .btn-close{
+      background-color: red !important;
+      
+  }
+  
+  .close {
+    color: var(--color-content-text);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  modal-backdrop.show {
+     opacity: 0 !important; 
+}
+
+.modal-content{
+  max-height: 80vh !important;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    color: var(--color-content-text);;
+  }  
+.modal-content {
+  background-color: var(--color-content-card);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.modal-body p {
+  margin-bottom: 0.5rem;
+  word-break: break-all;
+}
+
+
+.modal-header {
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+  color: var(--color-content-text);;
+}
+
+.modal-title {
+  margin-bottom: 0;
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.modal-body h3 {
+  margin-top: 0;
+}
+
+
+
+.modal-footer {
+  padding: 1rem;
+  border-top: 1px solid #dee2e6;
+}
+
+/* width */
+::-webkit-scrollbar{
+  height: 5px;
+  width: 5px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track{
+  background-color: var(--color-content-card);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: #5D2BA0;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background-color: #743EBA;
+}
+
+.images-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.images-container img {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+  margin: 5px;
+}
+.event-card img {
+  display: none;
+}
+.org-img {
+  width: 100%;
+  height: 50px;
+}
+
+.dropdown-content {
+  left: 0;
+  right: auto;
+  display: none; /* Hide the dropdown content by default */
+}
+
+.dropdown-content.show {
+  display: block; /* Show the dropdown content when the "show" class is added */
+  
+}
+#modal-event-images {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+#modal-event-images img {
+  width: 100%;
+  height: 250px;
+  border-radius: 15px;
+}
+.event-card.selected {
+  background-color: #5D2BA0 !important;
+}
+
+.no-events-message {
+  font-weight: normal;
+  color: var(--color-content-text);
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 768px) {
+  .flex-container {
+    flex-direction: column;
+    width: 100%;
+    overflow:hidden;
+  }
+  #main-containers{
+    width: 100%;
+    margin-left: 0;
+    align-items:center;
+    
+  }
+  .container {
+    margin-bottom: 10px;
+  }
+  .left-container{
+    margin-top: 0;
+    width:80%;
+    margin-left:25px;
+    margin-right:25px;
+  }
+
+  .right-container,
+  .carousel-container,
+  .text-container {
+    width: 80%;
+    align-items: center;
+    margin-left: 25px;
+    margin-top: 20px;
+    margin-right: 25px;
+  }
+
+ 
+
+  .left-container,
+  .right-container,
+  .text-container {
+    border: none;
+  }
+
+  .carousel-container {
+    border: none;
+  }
+
+  .carousel-image {
+    max-width: 100%;
+    margin-top: 0;
+    height: 50%;
+  }
+
+  .right-container button {
+    margin-bottom: 10px;
+    width: 110px;
+    height: 50px;
+  }
+}
+  .event-image {
+    width: 50px;
+    height: 70px;
+    
+}
+  
