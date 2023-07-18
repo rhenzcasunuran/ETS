@@ -264,60 +264,60 @@
                                               declareChampion($conn, $id);
                                             }
 
-                                            // Get the bracket teams based on the bracket_form_id
-                                            $query = "SELECT ot.id AS team_one_id,
-                                                          ot2.id AS team_two_id,
-                                                          ot.team_name AS team_one_name,
-                                                          ot2.team_name AS team_two_name,
-                                                          ot.current_team_status AS team_one_status, 
-                                                          ot2.current_team_status AS team_two_status,
-                                                          bf.current_column
-                                                    FROM bracket_teams AS bt 
-                                                    INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
-                                                    INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
-                                                    INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
-                                                    WHERE bf.id = ? 
-                                                      AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
-                                                      AND bf.current_column = bf.current_column;";
+                                              // Get the bracket teams based on the bracket_form_id
+                                              $query = "SELECT ot.id AS team_one_id,
+                                                            ot2.id AS team_two_id,
+                                                            ot.team_name AS team_one_name,
+                                                            ot2.team_name AS team_two_name,
+                                                            ot.current_team_status AS team_one_status, 
+                                                            ot2.current_team_status AS team_two_status,
+                                                            bf.current_column
+                                                      FROM bracket_teams AS bt 
+                                                      INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
+                                                      INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
+                                                      INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
+                                                      WHERE bf.id = ? 
+                                                        AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
+                                                        AND bf.current_column = bf.current_column;";
 
-                                            $stmt = $conn->prepare($query);
-                                            $stmt->bind_param("i", $id);
-                                            $stmt->execute();
-                                            $result = $stmt->get_result();
+                                              $stmt = $conn->prepare($query);
+                                              $stmt->bind_param("i", $id);
+                                              $stmt->execute();
+                                              $result = $stmt->get_result();
 
-                                            // Check if there are any active teams left in the bracket
-                                            $activeTeamCount = 0;
-                                            $championTeamId = null;
-                                            while ($row = $result->fetch_assoc()) {
-                                              $team_one_status = $row['team_one_status'];
-                                              $team_two_status = $row['team_two_status'];
-                                              
-                                              if ($team_one_status === 'active') {
-                                                  $activeTeamCount++;
-                                                  $championTeamId = $row['team_one_id'];
+                                              // Check if there are any active teams left in the bracket
+                                              $activeTeamCount = 0;
+                                              $championTeamId = null;
+                                              while ($row = $result->fetch_assoc()) {
+                                                $team_one_status = $row['team_one_status'];
+                                                $team_two_status = $row['team_two_status'];
+                                                
+                                                if ($team_one_status === 'active') {
+                                                    $activeTeamCount++;
+                                                    $championTeamId = $row['team_one_id'];
+                                                }
+
+                                                if ($team_two_status === 'active') {
+                                                    $activeTeamCount++;
+                                                    $championTeamId = $row['team_two_id'];
+                                                }
+
+                                                echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$row['team_one_id'].'">' .
+                                                    '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$row['team_two_id'].'">' .
+                                                    '<div class="d-inline-flex p-2 justify-content-between">' .
+                                                    '<div>' . $row['team_one_name'] . '</div>'.
+                                                    '<div>' . ' vs ' . '</div>'.
+                                                    '<div>'. $row['team_two_name'] . '</div>' .
+                                                    '<select class="form-select w-50" aria-label="Default select example" name="event_id[]"></select>' .
+                                                    '</div>' . '<br>';
                                               }
 
-                                              if ($team_two_status === 'active') {
-                                                  $activeTeamCount++;
-                                                  $championTeamId = $row['team_two_id'];
+                                              $stmt->close();
+
+                                              // If there is only one active team left, handle the champion case
+                                              if ($activeTeamCount === 1 && $championTeamId) {
+                                                declareChampion($conn, $id);
                                               }
-
-                                              echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$row['team_one_id'].'">' .
-                                                  '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$row['team_two_id'].'">' .
-                                                  '<div class="d-inline-flex p-2 justify-content-between">' .
-                                                  '<div>' . $row['team_one_name'] . '</div>'.
-                                                  '<div>' . ' vs ' . '</div>'.
-                                                  '<div>'. $row['team_two_name'] . '</div>' .
-                                                  '<select class="form-select w-50" aria-label="Default select example" name="event_id[]"></select>' .
-                                                  '</div>' . '<br>';
-                                            }
-
-                                            $stmt->close();
-
-                                            // If there is only one active team left, handle the champion case
-                                            if ($activeTeamCount === 1 && $championTeamId) {
-                                              declareChampion($conn, $id);
-                                            }
                                           } else {
                                             while ($row2 = mysqli_fetch_assoc($result2)) {
                                               $team_one_id = $row2['team_one_id'];
