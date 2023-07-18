@@ -15,7 +15,7 @@
 
 #team-one-name, #team-two-name, #team-one-score, #team-two-score {
   color: var(--color-content-text);
-  font-size: 125px;
+  font-size: 40px;
   
 } 
 
@@ -76,7 +76,7 @@
   #team-two-name,
   #team-one-score,
   #team-two-score {
-    font-size: 60px;
+    font-size: 40px;
   }
 
 }
@@ -92,7 +92,7 @@
   #team-two-name,
   #team-one-score,
   #team-two-score {
-    font-size: 45px;
+    font-size: 40px;
   }
 
 }

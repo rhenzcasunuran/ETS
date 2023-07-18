@@ -35,7 +35,16 @@
       require './php/admin-sidebar.php';
     ?>
     <section class="home-section flex-row">
-      <div class="header">Live Scoring</div>
+      <div id="viewBracket" class="container-fluid text-center position-absolute top-50 start-50 translate-middle" style="display: none;">
+        <div style="width:100%; height:100%;" id="tree"></div>   
+      </div>
+      <div class="d-flex justify-content-between">
+        <div class="header">Live Scoring</div>
+          <select id="viewScoreBracket" class="form-select w-25 h-25 mt-4 me-3 text-center" style="z-index:999;" aria-label="Default select example">
+            <option selected value="1">Live Scoring</option>
+            <option value="2">Bracket Viewing</option>
+          </select>
+        </div>
         <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
           <div class="row justify-content-center">
             <div class="col-auto">
@@ -47,7 +56,7 @@
                 <option selected>Select Matchup</option>
               </select>
             </div>
-            <div class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
+            <div id="viewScore" class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
               <div class="row">
                 <div class="col">
                   <div class="row">
@@ -125,6 +134,33 @@
 
               // Call the function to initially update the template with default values
               updateTemplateIfValuesExist();
+
+              // JavaScript
+              document.getElementById("viewScoreBracket").addEventListener("change", function() {
+                const selectedOption = this.value;
+                const viewScoreDiv = document.getElementById("viewScore");
+                const viewBracketDiv = document.getElementById("viewBracket");
+
+                if (selectedOption === "1") {
+                  // Show the live scoring view
+                  viewScoreDiv.style.display = "block";
+                  viewBracketDiv.style.display = "none";
+                } else if (selectedOption === "2") {
+                  // Show the bracket view
+                  viewScoreDiv.style.display = "none";
+                  viewBracketDiv.style.display = "block";
+                  // You may need to add code here to generate and display the bracket if it's not static
+                }
+              });
+
+              // Set the default view to "Scoring" when the page loads
+              document.addEventListener("DOMContentLoaded", function() {
+                const viewScoreDiv = document.getElementById("viewScore");
+                const viewBracketDiv = document.getElementById("viewBracket");
+
+                viewScoreDiv.style.display = "block";
+                viewBracketDiv.style.display = "none";
+              });
 
               // AJAX request to populate the <select> options
               $.ajax({

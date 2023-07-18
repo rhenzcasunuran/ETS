@@ -61,7 +61,16 @@ include './php/admin-signin.php';
       require './php/student-sidebar.php';
     ?>
     <section class="home-section flex-row">
-      <div class="header">Live Scoring</div>
+      <div id="viewBracket" class="container-fluid text-center position-absolute top-50 start-50 translate-middle" style="display: none;">
+        <div style="width:100%; height:100%;" id="tree"></div>   
+      </div>
+      <div class="d-flex justify-content-between">
+        <div class="header">Live Scoring</div>
+          <select id="viewScoreBracket" class="form-select w-25 h-25 mt-4 me-3 text-center" style="z-index:999;" aria-label="Default select example">
+            <option selected value="1">Live Scoring</option>
+            <option value="2">Bracket Viewing</option>
+          </select>
+        </div>
         <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
           <div class="row justify-content-center">
             <div class="col-auto">
@@ -73,7 +82,7 @@ include './php/admin-signin.php';
                 <option selected>Select Matchup</option>
               </select>
             </div>
-            <div class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
+            <div id="viewScore" class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
               <div class="row">
                 <div class="col">
                   <div class="row">
@@ -82,9 +91,11 @@ include './php/admin-signin.php';
                   <div class="row">
                     <h1 id="team-one-score"></h1>
                   </div>
+                  <br>
                 </div>
                 <div class="col">
                   <br>
+                  <h2>0-0</h2>
                   <h1>VS</h1>
                 </div>
                 <div class="col">
@@ -94,6 +105,7 @@ include './php/admin-signin.php';
                   <div class="row">
                     <h1 id="team-two-score"></h1>
                   </div>
+                  <br>
                 </div>
               </div>
             </div>
@@ -106,6 +118,7 @@ include './php/admin-signin.php';
               var teamTwoName = $('#team-two-name');
               var teamOneScore = $('#team-one-score');
               var teamTwoScore = $('#team-two-score');
+
               var selectedId;
               var selectedValue;
 
@@ -144,6 +157,33 @@ include './php/admin-signin.php';
               // Call the function to initially update the template with default values
               updateTemplateIfValuesExist();
 
+              // JavaScript
+              document.getElementById("viewScoreBracket").addEventListener("change", function() {
+                const selectedOption = this.value;
+                const viewScoreDiv = document.getElementById("viewScore");
+                const viewBracketDiv = document.getElementById("viewBracket");
+
+                if (selectedOption === "1") {
+                  // Show the live scoring view
+                  viewScoreDiv.style.display = "block";
+                  viewBracketDiv.style.display = "none";
+                } else if (selectedOption === "2") {
+                  // Show the bracket view
+                  viewScoreDiv.style.display = "none";
+                  viewBracketDiv.style.display = "block";
+                  // You may need to add code here to generate and display the bracket if it's not static
+                }
+              });
+
+              // Set the default view to "Scoring" when the page loads
+              document.addEventListener("DOMContentLoaded", function() {
+                const viewScoreDiv = document.getElementById("viewScore");
+                const viewBracketDiv = document.getElementById("viewBracket");
+
+                viewScoreDiv.style.display = "block";
+                viewBracketDiv.style.display = "none";
+              });
+
               // AJAX request to populate the <select> options
               $.ajax({
                 url: './php/TOU-get-event-category.php',
@@ -171,8 +211,8 @@ include './php/admin-signin.php';
                 teamTwoName.text(''); // Empty team two name
                 teamOneScore.text(''); // Empty team one name
                 teamTwoScore.text(''); // Empty team two name
-                selectedId = $(this).val(); // Get the selected ID
-                updateTemplateIfValuesExist();
+
+                var selectedId = $(this).val(); // Get the selected ID
 
                 // Send the ID to another AJAX request
                 $.ajax({
@@ -198,9 +238,7 @@ include './php/admin-signin.php';
                 teamTwoName.text(''); // Empty team two name
                 teamOneScore.text(''); // Empty team one score
                 teamTwoScore.text(''); // Empty team two score
-                selectedValue = $(this).val(); // Get the selected value
-                updateTemplateIfValuesExist();
-
+                var selectedValue = $(this).val(); // Get the selected value
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
@@ -227,11 +265,9 @@ include './php/admin-signin.php';
 
               // Function to check and log the selected value
               function checkSelectedValue() {
-                selectedValue = selectMatchup.val(); // Get the selected value
+                var selectedValue = selectMatchup.val(); // Get the selected value
                 teamOneScore.text(''); // Empty team one score
                 teamTwoScore.text(''); // Empty team two score
-                selectedValue = $(this).val(); // Get the selected ID
-                updateTemplateIfValuesExist();
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({

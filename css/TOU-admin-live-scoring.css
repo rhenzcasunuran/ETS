@@ -20,7 +20,7 @@
 
  #team-one-name, #team-two-name, #team-one-score, #team-two-score {
     color: var(--color-content-text);
-    font-size: 70px;
+    font-size: 40px;
     
 } 
 
