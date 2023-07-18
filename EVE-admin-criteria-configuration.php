@@ -33,6 +33,20 @@
   </head>
 
   <body>
+    <?php 
+      $popUpID = "cancelEditing";
+      $showPopUpButtonID = "cancelEditingCriteria";
+      $icon = "<i class='bx bxs-error-circle warning-color'></i>";
+      $title = "Discard Changes?";
+      $message = "Any unsaved progress will not be save.";
+      $your_link = "EVE-admin-criteria-configuration.php";
+      $id_name = "";
+      $id = "";
+
+      // Make sure to include your php query to the your page
+
+      include './php/popup.php'; 
+    ?>
     <!--Sidebar-->
     <?php
       $activeModule = 'events';
@@ -48,20 +62,6 @@
           $row = mysqli_num_rows($categoryName);
           if ($row > 0) {
           ?>
-                <?php 
-                    $popUpID = "cancelEditing";
-                    $showPopUpButtonID = "cancelEditingCriteria";
-                    $icon = "<i class='bx bxs-error-circle warning-color'></i>";
-                    $title = "Discard Changes?";
-                    $message = "Any unsaved progress will not be save.";
-                    $your_link = "EVE-admin-criteria-configuration.php";
-                    $id_name = "";
-                    $id = "";
-
-                    // Make sure to include your php query to the your page
-
-                  include './php/popup.php'; 
-                ?>
             <div class="element">
                 <div class="upper-element">
                     <h3>Criteria</h3>
