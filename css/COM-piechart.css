@@ -1,0 +1,92 @@
+.piemodals {
+    background-color: var(--color-body);
+    width: auto;
+    max-height: 100px;
+    color: var(--color-body);
+    overflow: hidden;
+}
+.modal-content {
+    width:auto;
+    height: 100%;
+    flex-direction: row;
+    background-color: var(--color-content-card) !important;
+    color: var(--color-content-text) !important;
+}
+.modal-body {
+    display: flex;
+    flex-direction: row;
+}
+.pie-chart-container { /*The class name of the pie chart itself*/
+    display: flex;
+    width: auto;
+}
+/* Left side container for criteria buttons and pie chart */
+.criteria-and-chart {
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    flex: 1; /* Take the available space */
+    padding: 20px; /* Add some padding for spacing */
+}
+
+.criteria-buttons {
+    display: flex;
+    flex-direction: column; /* Align buttons vertically */
+    align-items: flex-start; /* Align buttons to the left */
+}
+.criterion-button {
+    min-width: 100px !important;
+    color: var(--color-content-text);
+    background-color: var(--color-content-button);
+}
+
+.criteria-buttons .criterion-button {
+    margin-bottom: 5px; /* Add margin between buttons */
+}
+
+/* Right side container for organization list */
+.organization-list {
+    display: flex;
+    flex-direction: column; /* Align organizations vertically */
+    justify-content: flex-end; /* Align organizations to the bottom */
+    align-items: flex-end; /* Align organizations to the right */
+    padding: 20px; /* Add some padding for spacing */
+    min-height: 400px;
+}
+
+.organization-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; /* Add margin between organizations */
+}
+
+.organization-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+    border: 1px solid black; /* Add black border to the circle */
+}
+
+.organization-name {
+    font-size: 14px;
+}
+
+/* Container for the pie chart */
+.pie-chart-container {
+    flex: 1; /* Take the available space */
+    display: flex;
+    justify-content: center; /* Center the pie chart horizontally */
+    align-items: center; /* Center the pie chart vertically */
+}
+.criteria-organization-container {
+    min-height: 400px;
+}
+.modal-title {
+    text-align: center;
+}
+.btn-secondary {
+    color: var(--color-content-text) !important;
+    background-color: var(--color-content-button) !important;
+}

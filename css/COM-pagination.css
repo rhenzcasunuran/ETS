@@ -1,5 +1,5 @@
 .pagination {
-    display: flex;
+    display: flex !important;
     flex-direction: row;
     justify-content: center;
     width: 90%;
@@ -7,6 +7,9 @@
     margin-right: auto;
     text-align: center;
     color: var(--color-content-text);
+    margin-bottom: auto;
+    bottom: 2px !important;
+
 }
 .pagination-left {
     width: 30%;
