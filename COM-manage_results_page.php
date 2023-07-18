@@ -18,6 +18,16 @@
       <link rel="stylesheet" href="./css/system-wide.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="./css/COM-pagination.css">
+      <link rel="stylesheet" href="./css/COM-piechart.css">
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <!-- Latest compiled and minified CSS for Bootstrap 3 -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+      <!-- Latest compiled JavaScript for Bootstrap 3 -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <!-- Chart.js library -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
       <script src="./js/COM-theme.js"></script>
   <head>
 
@@ -53,7 +63,7 @@
                 } catch (Throwable $e) {
                     // Show error message na hindi nag connect sa db
                     // Pero sa ngayon wag muna
-                    echo 'ERROR';
+                    echo 'Error';
                 }
             ?>
         </div>
@@ -65,7 +75,6 @@
     <!--Side Bar Scripts-->
     <script src="./js/script.js"></script>
     
-    <script src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
@@ -83,5 +92,6 @@
     </script>
     <script src='./js/COM-manage_results_page.js'></script>
     <script type="text/javascript" src="./js/COM-pagination.js"></script>
+    <script src='./js/COM-piechart.js'></script>
     <!--Side Bar Scripts End-->
   </body>
