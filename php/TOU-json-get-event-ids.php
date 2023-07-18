@@ -6,14 +6,18 @@ $event_name = isset($_POST['event_name']) ? $_POST['event_name'] : '';
 $category_name = isset($_POST['category_name']) ? $_POST['category_name'] : '';
 
 // Prepare the SQL statement
-$query = "SELECT olfe.event_id FROM ongoing_list_of_event AS olfe 
-            INNER JOIN ongoing_event_name AS oen 
-            ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-            WHERE oen.event_name = ?
-            AND olfe.category_name = ? 
-            AND olfe.is_archived = 0 
-            AND oen.is_done = 0
-            AND olfe.event_type_id = 1;";
+$query = "SELECT olfe.event_id, oen.event_name FROM ongoing_list_of_event AS olfe 
+INNER JOIN ongoing_event_name AS oen 
+  ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+INNER JOIN tournament AS tou
+  ON tou.event_id = olfe.event_id
+WHERE oen.event_name = 'Buwan ng Wika'
+AND olfe.category_name = 'Chess' 
+AND olfe.event_type_id = 1 
+AND oen.is_done = 0 
+AND olfe.is_archived = 0 
+AND tou.has_set_tournament = 0
+AND olfe.is_deleted = 0;";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "ss", $event_name, $category_name);
 mysqli_stmt_execute($stmt);
