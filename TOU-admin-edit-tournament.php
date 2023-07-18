@@ -259,6 +259,19 @@
                                               $stmt->close();
                                             }
 
+                                            // Function to check if there are only two active teams left
+                                            function areOnlyTwoActiveTeamsLeft($conn, $id) {
+                                              $query = "SELECT COUNT(*) AS active_teams_count FROM ongoing_teams WHERE current_team_status = 'active' AND bracket_form_id = ?";
+                                              $stmt = $conn->prepare($query);
+                                              $stmt->bind_param("i", $id);
+                                              $stmt->execute();
+                                              $result = $stmt->get_result();
+                                              $row = $result->fetch_assoc();
+                                              $activeTeamsCount = $row['active_teams_count'];
+                                              $stmt->close();
+                                              return $activeTeamsCount === 2;
+                                            }
+
                                             // Check if there is only one active team left and declare the champion if needed
                                             if (isOneTeamLeft($conn, $id)) {
                                               declareChampion($conn, $id);
