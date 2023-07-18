@@ -485,7 +485,7 @@
 
             // Check if value is not empty and already exists in selectedValues array
             if (value && selectedValues.includes(value)) {
-              errorContainer.text('Same event dates are not allowed');
+              errorContainer.text('Same event IDs are not allowed');
 
               // Disable the Submit button when an error is detected
               $('#submit').prop('disabled', true);
