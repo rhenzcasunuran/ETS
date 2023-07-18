@@ -625,3 +625,9 @@ input[readonly] {
   transform: translateY(-130%);
   width: 100%;
 }
+
+
+.scoreinp::placeholder{
+  color:rgb(168, 168, 168) !important;
+}
+
