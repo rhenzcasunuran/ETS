@@ -132,7 +132,7 @@
           <i class='bx bx-search'></i>
 	          <input class="searchInput" type="text" placeholder="Search..">
           </div>
-          <button id="deleteAll" class="deleteAll"><i class='bx bxs-trash' ></i></button>
+          <!--<button id="deleteAll" class="deleteAll"><i class='bx bxs-trash' ></i></button>-->
         </div>
         <?php
         try {
