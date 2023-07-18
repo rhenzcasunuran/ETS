@@ -51,27 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    function reverseFibonacci($numTeams) {
-        $fibonacci = array();
-        $divisions = 0;
-    
-        while ($numTeams > 1) {
-            $fibonacci[] = $numTeams;
-            $numTeams = $numTeams / 2;
-            $divisions++;
-        }
-    
-        $fibonacci[] = 1; // Include 1 in the sequence
-        $divisions++; // Increment divisions by 1
-    
-        return $divisions;
-    }
-    
-    $max_column = reverseFibonacci($numTeams);
-
     // Prepare the SQL statement to insert data into the bracket_forms table
-    $stmt = $conn->prepare("INSERT INTO bracket_forms (max_column, category_name, event_name) VALUES (?, ?, ?)");
-    $stmt->bind_param("iss", $max_column, $category_name, $event_name);
+    $stmt = $conn->prepare("INSERT INTO bracket_forms (category_name, event_name) VALUES (?, ?)");
+    $stmt->bind_param("ss", $category_name, $event_name);
     $stmt->execute();
 
     // Get the ID of the inserted row
@@ -100,8 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 
     // Prepare the SQL statement
-    $query = "INSERT INTO bracket_teams (bracket_form_id, team_one_id, team_two_id) VALUES (?, ?, ?)";
+    $query = "INSERT INTO bracket_teams (bracket_form_id, bracket_position, team_one_id, team_two_id) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
+
+    // Initialize bracket_position to 1 before the loop
+    $bracket_position = 1;
 
     // Iterate through the teamIds array
     for ($i = 0; $i < count($teamIds); $i += 2) {
@@ -112,17 +97,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $teamTwoId = $teamIds[$i + 1];
 
             // Bind the parameter values to the prepared statement
-            mysqli_stmt_bind_param($stmt, "iii", $bracket_form_id, $teamOneId, $teamTwoId);
+            mysqli_stmt_bind_param($stmt, "iiii", $bracket_form_id, $bracket_position, $teamOneId, $teamTwoId);
         } else {
             // If there is no second team ID, set it to null
             $teamTwoId = null;
 
             // Bind the parameter values (with a null value for team_two_id)
-            mysqli_stmt_bind_param($stmt, "ii", $bracket_form_id, $teamOneId);
+            mysqli_stmt_bind_param($stmt, "iii", $bracket_form_id, $bracket_position, $teamOneId);
         }
 
         // Execute the prepared statement
         mysqli_stmt_execute($stmt);
+
+        // Increment bracket_position for the next iteration
+        $bracket_position++;
     }
 
     $stmt->close();

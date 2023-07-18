@@ -103,9 +103,6 @@
                 while ($row = mysqli_fetch_assoc($result)) {
                     // Extract the desired values from the row
                     $id = $row['id'];
-                    $maxColumn = $row['max_column'];
-                    $currentColumn = $row['current_column'];
-                    $currentColumnStatus = $row['current_column_status'];
                     $categoryName = $row['category_name'];
                     $eventName = $row['event_name'];
                     $isActive = $row['is_active'];
@@ -116,10 +113,9 @@
                     echo '        <div class="element-group">';
                     echo '            <h3>'.$eventName.'</h3><br>';
                     echo '            <p>Category: '.$categoryName.'</p>';
-                    echo '            <p>Max Column: '.$maxColumn.'</p>';
-                    echo '            <p>Current Column: '.$currentColumn.'</p>';
-                    echo '            <div class="d-flex justify-content-between"><p>Current Column Status: '.$currentColumnStatus.'</p>';
+                    echo '            <div class="d-flex justify-content-between">';
                     echo '            <p><a href="TOU-admin-edit-tournament.php?id='.$id.'">Edit Tournament</a></p></div>';
+                    echo '            ';
                     echo '        </div>';
                     echo '    </div>';
                     echo '</div>';
