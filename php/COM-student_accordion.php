@@ -196,7 +196,7 @@ ORDER BY total_score DESC";
         echo "</div>";
         echo "</div>";
         echo "</button>";
-        echo "<div class='content'>";
+        echo "<div id='".$competition_name."-content' class='content'>";
 
         // Fetch the organization names for all participants before the loop
         $organizationNames = array();
@@ -274,7 +274,7 @@ ORDER BY total_score DESC";
             }
             $counter++;
         }
-        echo "<button class='resultsBtn'>See overall results details</button>";
+        echo "<button id='".$competition_name."-results-details' class='resultsBtn'>See overall results details</button>";
         echo "</div>";
         echo "</div>";
         }

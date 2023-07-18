@@ -1,14 +1,21 @@
 const formButton = document.querySelector("#criteriaSaveBtn");
 var tooltip = document.querySelector('#tooltip');
 
+const textCriterionDuplicate = document.querySelector("#textCriterionDuplicate");
 const textCriterionName = document.querySelector("#textCriterionName");
 const textPercentage = document.querySelector("#textPercentage");
 const textTotalPercentage = document.querySelector("#textTotalPercentage");
+const textHasChanges = document.querySelector("#textHasChanges");
 
+const checkCriterionDuplicate = document.querySelector("#checkCriterionDuplicate");
 const checkCriterionName = document.querySelector("#checkCriterionName");
 const checkCriterionNameChar = document.querySelector("#checkCriterionNameChar");
 const checkPercentage = document.querySelector("#checkPercentage");
 const checkTotalPercentage = document.querySelector("#checkTotalPercentage");
+const checkHasChanges = document.querySelector("#checkHasChanges");
+
+var initialCriterionValues = [];
+var initialPercentageValues = [];
 
 function updateTotalPercentage() {
     var total = 0;
@@ -22,6 +29,9 @@ function updateTotalPercentage() {
 
     var percentage = document.querySelectorAll('input[name="percentage[]"]');
     var percentageCount = percentage.length;
+
+    var criterionValues = [];
+    var percentageValues = [];
 
     $('input[name="criterion[]"]').keypress(function(e) {
       var txt = String.fromCharCode(e.which);
@@ -45,12 +55,18 @@ function updateTotalPercentage() {
 
     $('input[name="criterion[]"]').each(function() {
       var value = $(this).val();
+      criterionValues.push(value);
+      initialCriterionValues.push(value);
       if ($(this).val() === '' || value.replace(/\s/g, '').length < 5 || value.trim() === '')  {
  
       }
       else{
         nmbrCriterion += 1;
       }
+    });
+
+    var hasDuplicateCriterion = criterionValues.some(function(value, index) {
+      return criterionValues.indexOf(value) !== index;
     });
 
     $('input[name="percentage[]"]').on('input', function(e) {
@@ -61,6 +77,8 @@ function updateTotalPercentage() {
 
     $('input[name="percentage[]"]').each(function() {
       var percentage = parseFloat($(this).val());
+      percentageValues.push($(this).val());
+      initialPercentageValues.push($(this).val());
       if (!isNaN(percentage)) {
           total += percentage;
       }
@@ -88,8 +106,20 @@ function updateTotalPercentage() {
     }
 
     $('#totalPercentage p').text(total + '%');
+
+    var hasCriterionChanges = $('input[name="criterion[]"]').toArray().some(function(input, index) {
+      console.log($(input).val());
+      console.log(initialCriterionValues[index]);
+      return $(input).val() !== initialCriterionValues[index];
+    });
+
+    var hasPercentageChanges = $('input[name="percentage[]"]').toArray().some(function(input, index) {
+      console.log($(input).val());
+      console.log(initialPercentageValues[index]);
+        return $(input).val() !== initialPercentageValues[index];
+    });
     
-    if (total !== 100 || allCriterionValuesEntered === false || allPercentValuesEntered === false) {
+    if ((!hasCriterionChanges && !hasPercentageChanges) || total !== 100 || allCriterionValuesEntered === false || allPercentValuesEntered === false || hasDuplicateCriterion === true) {
       formButton.disabled = true;
       tooltip.style.display = 'flex';
       if(allCriterionValuesEntered === false) {
@@ -99,6 +129,22 @@ function updateTotalPercentage() {
       else {
         checkCriterionName.style.visibility = "visible";
         textCriterionName.style.color = "var(--default-success-color)";
+      }
+      if(hasDuplicateCriterion === true) {
+        checkCriterionDuplicate.style.visibility = "hidden";
+        textCriterionDuplicate.style.color = "var(--not-active-text-color)";
+      }
+      else {
+        checkCriterionDuplicate.style.visibility = "visible";
+        textCriterionDuplicate.style.color = "var(--default-success-color)";
+      }
+      if(!hasCriterionChanges && !hasPercentageChanges){
+        checkHasChanges.style.visibility = "hidden";
+        textHasChanges.style.color = "var(--not-active-text-color)";
+      }
+      else{
+        checkHasChanges.style.visibility = "visible";
+        textHasChanges.style.color = "var(--default-success-color)";
       }
       if(total !== 100 || allPercentValuesEntered === false){
         $('#totalPercentage p').css("color", "red");

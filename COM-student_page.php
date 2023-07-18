@@ -40,7 +40,17 @@ if($conn){
       <link rel="stylesheet" href="./css/system-wide.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="./css/COM-pagination.css">
-      <script src="./js/COM-student-theme.js"></script>
+      <link rel="stylesheet" href="./css/COM-piechart.css">
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <!-- Latest compiled and minified CSS for Bootstrap 3 -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+      <!-- Latest compiled JavaScript for Bootstrap 3 -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <!-- Chart.js library -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      <script src="./js/COM-theme.js"></script>
   <head>
 
   <body>
@@ -115,7 +125,7 @@ if($conn){
     <!--Side Bar Scripts-->
     <script src="./js/script.js"></script>
     
-    <script src="./js/jquery-3.6.4.js"></script>
+    
     <script src="./js/HOM-popup.js"></script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
@@ -134,5 +144,6 @@ if($conn){
     </script>
     <script src='./js/COM-student_page.js'></script>
     <script type="text/javascript" src="./js/COM-pagination.js"></script>
+    <script src='./js/COM-piechart.js'></script>
     <!--Side Bar Scripts End-->
   </body>

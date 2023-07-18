@@ -33,7 +33,7 @@ if ($eventResult->num_rows > 0) {
     while ($row = $criteriaResult->fetch_assoc()) {
       echo '<tr>';
       echo '<td> <label class="col-form-label" style="color: rgb(255,255,255);">' . $row['criterion_name'] . '</label></td>';
-      echo '<td> <input type="number" class="cforms" name="criterion_temp_score[]" style="text-align: center;color: rgb(255,255,255);background: rgba(0,0,0,0.22);" min="1" max="10" placeholder="10" oninput="checkInputs()" required>';
+      echo '<td> <input type="number" class="cforms scoreinp" name="criterion_temp_score[]" style="text-align: center;color: white !important;background: rgba(0,0,0,0.22) !important;" min="1" max="10" placeholder="10" oninput="checkInputs()" required>';
       echo '<input type="hidden" name="ongoing_criterion_ids[]" value="' . $row['ongoing_criterion_id'] . '"></td>';
       echo '</tr>';
     }
@@ -41,7 +41,8 @@ if ($eventResult->num_rows > 0) {
     echo '</table>';
     echo '<div class="col offset-xl-2 offset-xxl-1" style="text-align: center;">
       <div class="btn-toolbar" style="text-align: center;">
-          <div class="btn-group" role="group" style="text-align: center;margin-top: 10px;">
+          <div class="btn-group" role="group" style="text-align: center;margin-top: 10px; 
+          align-items: center;">
           <button class="primary-button" type="submit" value="Add" id="save_btnS" name="save_scores">Save</button>
           <button onclick="showSubmit()" class="success-button buttonsubmit" type="submit" style="text-align: center;"  value="Add" id="submit_btnS" name="submit_scores">Submit</button>
           <button onclick="showCancel()" class="secondary-button delJ" id="cancelButton" type="button"  style="display:inline;" disabled>Cancel</button>
@@ -57,3 +58,4 @@ if ($eventResult->num_rows > 0) {
 
 $conn->close();
 ?>
+

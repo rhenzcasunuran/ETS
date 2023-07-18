@@ -162,7 +162,6 @@
             if (e.keyCode === 13) {
               e.preventDefault();
               searchValue = $(this).val().trim();
-              console.log("Hello");
               filterResults();
             }
     });
@@ -197,6 +196,8 @@
 
 
     const your_page = '<?php echo $your_php_location; ?>';
+    $('#searchInput').val('<?php echo isset($_GET["search"]) ? $_GET["search"] : ""; ?>');
+    searchValue = $('#searchInput').val();
 
     itemsPerPageSelect.on('change', function() {
         selectedValue = itemsPerPageSelect.val();
@@ -240,7 +241,6 @@
     const currentPage = '<?php echo $page; ?>';
     const selectedPage = $('#pageNmbr' + currentPage);
     selectedPage.addClass('selected');
-    $('#searchInput').val('<?php echo isset($_GET["search"]) ? $_GET["search"] : ""; ?>');
 
     // Go to page functionality
     const goToPageBtn = $('#goToPageBtn');

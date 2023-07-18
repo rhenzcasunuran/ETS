@@ -8,6 +8,7 @@
 }
 
 .filter-button{
+    font-size: 16px!important;
     border: none;
     color: #808080;
     cursor: pointer;
@@ -81,34 +82,25 @@
     background-color: var(--color-piie);
 }
 
-.post-container{
+.post-container {
     margin-top: 10px;
     display: flex;
-    grid-auto-flow: column;
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     padding: 10px 0;
     gap: 10px;
 }
 
-.post-container::-webkit-scrollbar, .category-container::-webkit-scrollbar{
-    height: 5px;
-    width: 5px;
-    border-radius: 10px;
-}
-  
-.post-container::-webkit-scrollbar-track, .category-container::-webkit-scrollbar-track{
-    background-color: var(--color-content-card);
-    border-radius: 10px;
-}
-  
-.post-container::-webkit-scrollbar-thumb, .category-container::-webkit-scrollbar-thumb{
-    background-color: var(--color-content-outline);
-    border-radius: 10px;
-}
-
-.post-container::-webkit-scrollbar-thumb:hover, .category-container::-webkit-scrollbar-thumb:hover{
-    background-color: var(--color-content-text);
+.element {
+    width: 100%!important;
+    max-width: 78.5vw;
+    border-radius: 0px!important;
+    margin: 5px 0 10px 0!important;
+    padding: 0px!important;
+    box-shadow: none!important;
+    background-color: transparent!important;
+    color: transparent!important;
+    position: relative;
 }
 
 .post-snap{

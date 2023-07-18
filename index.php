@@ -58,8 +58,7 @@
     ?>
     <!--PAGE-->
     <section class="home-section">
-      <div class="container">
-        <div class="row filters">
+        <div class="row header filters">
           <button class="col filter-button active-filter" data-filter="ALL">
             All
           </button>
@@ -91,313 +90,48 @@
             PIIE
           </button>
         </div>
-        <div class="post-container post-snap" id="post-container">
-          <?php
-            $row = mysqli_num_rows($get_posts);
-            if($row > 0){
-              while($row = mysqli_fetch_array($get_posts)){
-                $date = date("F d, Y", strtotime($row['post_schedule']));
-                $time = date("h:i A", strtotime($row['post_schedule']));
+        <div class="container-fluid d-flex row justify-content-center">
+          <div class="post-container element" id="post-container">
+            <?php
+              $row = mysqli_num_rows($get_posts);
+              if($row > 0){
+                while($row = mysqli_fetch_array($get_posts)){
+                  $date = date("F d, Y", strtotime($row['post_schedule']));
+                  $time = date("h:i A", strtotime($row['post_schedule']));
 
-          ?>
-            <a href="HOM-post.php?eec=<?php echo $row['post_id'];?>" class="post-click ALL <?php echo $row['organization_name'];?>">
-              <div class="post-card <?php echo $row['organization_name'];?>">
-                <img class="post-cover" src="post/<?php echo $row['post_cover'];?>">
-                <div class="post-detail">
-                  <p class="post-date">
-                  <?php echo $row['organization_name'];?> · <?php echo $date;?> · <?php echo $time;?>
-                  </p>
-                  <div class="post-title-container">
-                    <p class="post-title-text">
-                      <?php echo $row[3];?>
+            ?>
+              <a href="HOM-post.php?eec=<?php echo $row['post_id'];?>" class="post-click ALL <?php echo $row['organization_name'];?>">
+                <div class="post-card <?php echo $row['organization_name'];?>">
+                  <img class="post-cover" src="post/<?php echo $row['post_cover'];?>">
+                  <div class="post-detail">
+                    <p class="post-date">
+                    <?php echo $row['organization_name'];?> · <?php echo $date;?> · <?php echo $time;?>
                     </p>
+                    <div class="post-title-container">
+                      <p class="post-title-text">
+                        <?php echo $row[3];?>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
-          <?php
-              }
-            }
-            else{
-          ?>
-            <div class="text-center" id="no-post-container">
-              <i class='bx bx-calendar-x'></i>
-              <h1>No Posts</h1>
-              <p>Looks like there are no posts created.</p>
-              <a href="create_event.php?create new event">
               </a>
-            </div>
-          <?php
-            }
-          ?>
-        </div>
-        <div class="row category">
-          <div class="col">
-            <p class="row category-text">
-              Tournaments
-            </p>
-            <div class="row category-container mx-auto">
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
+            <?php
+                }
+              }
+              else{
+            ?>
+              <div class="text-center" id="no-post-container">
+                <i class='bx bx-calendar-x'></i>
+                <h1>No Posts</h1>
+                <p>Looks like there are no posts created.</p>
+                <a href="create_event.php?create new event">
+                </a>
               </div>
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
-              </div>
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
-              </div>
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
-              </div>
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
-              </div>
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
-              </div>
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
-              </div>
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
-              </div>
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
-              </div>
-              <div class="row category-card mx-auto">
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    1
-                  </p>
-                  <p class="row tournament-org ELITE">
-                    ELITE
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <img class="row tournament-sport" src="photos/basketball.png">
-                  <p class="row tournament-vs">
-                    VS
-                  </p>
-                </div>
-                <div class="col category-column">
-                  <p class="row tournament-score">
-                    2
-                  </p>
-                  <p class="row tournament-org AECES">
-                    AECES
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <p class="row category-text">
-              Competitions
-            </p>
-            <div class="row category-container mx-auto">
-              <div class="row category-card mx-auto">
-              </div>
-              <div class="row category-card mx-auto">
-              </div>
-              <div class="row category-card mx-auto">
-              </div>
-              <div class="row category-card mx-auto">
-              </div>
-              <div class="row category-card mx-auto">
-              </div>
-            </div>
+            <?php
+              }
+            ?>
           </div>
         </div>
-      </div>
     </section>
     <!--SCRIPT -->
     <script src="./js/script.js"></script>

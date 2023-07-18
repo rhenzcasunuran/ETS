@@ -9,7 +9,7 @@ $(document).ready(function(){
                                             <input type="text" class="form-control" id="criterionPercentInput" name="percentage[]" placeholder="Percentage" maxlength="3" required >
                                         </div>
                                         <div class="col-1 d-flex align-items-center justify-content-center">
-                                            <div class="x-icon" id="removeBtn"><i class='bx bx-x'></i></div>
+                                            <div class="x-icon" id="removeBtn"><i class='bx bxs-trash danger-color'></i></div>
                                         </div>
                                     </div>`);
         updateTotalPercentage();              

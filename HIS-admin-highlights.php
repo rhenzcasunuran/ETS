@@ -41,6 +41,7 @@
     ?>
     <!--Page Content-->
     <section class="home-section">
+      
     <div class="header">Event Highlights</div>
   <div class="flex-container">
     <div class="container" id="main-containers">
@@ -55,7 +56,7 @@ include('./php/database_connect.php');
 $query = "SELECT o.event_id, o.category_name, e.event_name
           FROM ongoing_list_of_event o
           JOIN ongoing_event_name e ON o.ongoing_event_name_id = e.ongoing_event_name_id
-          WHERE o.is_archived = 1 AND o.is_deleted = 0 AND e.is_done = 1";
+          WHERE o.is_archived = 1 AND o.is_deleted = 0";
 $result = mysqli_query($conn, $query);
 
 while ($row = mysqli_fetch_assoc($result)) {
@@ -144,39 +145,7 @@ mysqli_close($conn);
   </div>
     </div>
   </div>
-      <div class="popUpDisableBackground" id="confirmPopup">
-  <div class="popUpContainer">
-    <i class="bx bx-question-circle"></i>
-    <div class="popUpHeader">Are you sure?</div>
-    <div class="popUpMessage">Suggest activity/ies?</div>
-    <div class="popUpButtonContainer">
-      <button class="secondary-button" id="cancelButton"><i class="bx bx-x"></i>Cancel</button>
-      <button class="primary-button" id="confirmButton"><i class="bx bx-check"></i>Confirm</button>
-    </div>
-  </div>
-</div>
 
-<div class="popUpDisableBackground" id="successPopup">
-  <div class="popUpContainer">
-    <i class="bx bx-check-circle success-color"></i>
-    <div class="popUpHeader">Suggest Success</div>
-    <div class="popUpMessage">Activities suggested successfully!</div>
-    <div class="popUpButtonContainer">
-      <button class="primary-button" id="successConfirmButton"><i class="bx bx-check"></i>OK</button>
-    </div>
-  </div>
-</div>
-
-<div class="popUpDisableBackground" id="errorPopup">
-  <div class="popUpContainer">
-    <i class="bx bx-x-circle error-color"></i>
-    <div class="popUpHeader">Error</div>
-    <div class="popUpMessage">Please select an event first.</div>
-    <div class="popUpButtonContainer">
-      <button class="primary-button" id="errorConfirmButton"><i class="bx bx-check"></i>OK</button>
-    </div>
-  </div>
-</div>
 
     </section>
     <!-- Scripts -->

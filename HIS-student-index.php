@@ -174,10 +174,12 @@ include './php/admin-signin.php';
   
         <div class="row" id="contain">
           <div class="col-md-12 text-white text-container">
-            <!-- Additional content here -->
+                        
+           
           </div>
         </div>
      
+        <div id="competition-results"></div>
 
 
 
@@ -190,10 +192,11 @@ include './php/admin-signin.php';
           <?php
 include('./php/database_connect.php');
 
-            $searchQuery = $_GET['search'] ?? '';
-            $query = "SELECT 
+$searchQuery = $_GET['search'] ?? '';
+$query = "SELECT 
             en.event_name, 
             e.category_name, 
+            e.event_id, 
             YEAR(e.event_date) AS event_year, 
             e.suggested_status, 
             e.event_description,
@@ -225,6 +228,7 @@ if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         $eventName = $row['event_name'];
         $categoryName = $row['category_name'];
+        $eventID = $row['event_id'];
         $eventYear = $row['event_year'];
         $eventDescription = $row['event_description'];
         $suggestedStatus = $row['suggested_status'];
@@ -235,6 +239,7 @@ if (mysqli_num_rows($result) > 0) {
             $suggestedEvents[] = [
                 'eventName' => $eventName,
                 'categoryName' => $categoryName,
+                'eventID' => $eventID,
                 'eventYear' => $eventYear,
                 'eventDescription' => $eventDescription,
                 'imageFilename' => $imageFilename,
@@ -243,6 +248,7 @@ if (mysqli_num_rows($result) > 0) {
             $otherEvents[] = [
                 'eventName' => $eventName,
                 'categoryName' => $categoryName,
+                'eventID' => $eventID,
                 'eventYear' => $eventYear,
                 'eventDescription' => $eventDescription,
                 'imageFilename' => $imageFilename,
@@ -259,11 +265,12 @@ if (mysqli_num_rows($result) > 0) {
     foreach ($suggestedEvents as $index => $event) {
         $eventName = $event['eventName'];
         $categoryName = $event['categoryName'];
+        $eventID = $event['eventID'];
         $eventYear = $event['eventYear'];
         $eventDescription = $event['eventDescription'];
         $imageFilename = $event['imageFilename'];
     
-        echo '<div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
+        echo '<div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '" data-bs-event-id="' . $eventID . '">';
     
         // Display event image if available
         if (!empty($imageFilename)) {
@@ -293,61 +300,54 @@ if (mysqli_num_rows($result) > 0) {
     if (empty($suggestedEvents)) {
         // Display text message
         echo '<p class="no-events-message">No suggested events available</p>';
-      }
+    }
     
     echo '    </div>'; // Close event-cards
     echo '  </div>'; // Close suggested-events
     echo '</div>'; // Close event-container
-    
 
-    //** OTHER EVENTS START ! */
-  //** OTHER EVENTS START ! */
-if (!empty($otherEvents)) {
-  echo '<div class="other-events">';
-  echo '<h2 class="section-heading">Other Events</h2>';
-  echo '<div class="event-cards">';
-
-  foreach ($otherEvents as $index => $event) {
-    $eventName = $event['eventName'];
-    $categoryName = $event['categoryName'];
-    $eventYear = $event['eventYear'];
-    $eventDescription = $event['eventDescription'];
-    $imageFilename = $event['imageFilename'];
-
-    echo '<div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '">';
-
-    if (!empty($imageFilename)) {
-      $imageFilenamesArray = explode(',', $imageFilename);
-      foreach ($imageFilenamesArray as $filename) {
-        $imagePath = 'images/' . trim($filename);
-        echo '<div class="modal-image">';
-        echo '<img src="' . $imagePath . '" alt="Event Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+    // Other Events
+    if (!empty($otherEvents)) {
+        echo '<div class="other-events">';
+        echo '<h2 class="section-heading">Other Events</h2>';
+        echo '<div class="event-cards">';
+      
+        foreach ($otherEvents as $index => $event) {
+          $eventName = $event['eventName'];
+          $categoryName = $event['categoryName'];
+          $eventID = $event['eventID'];
+          $eventYear = $event['eventYear'];
+          $eventDescription = $event['eventDescription'];
+          $imageFilename = $event['imageFilename'];
+      
+          echo '<div class="event-card" id="event_' . $eventName . '" data-bs-desc="' . $eventDescription . '" data-bs-event-id="' . $eventID . '">';
+      
+          if (!empty($imageFilename)) {
+            $imageFilenamesArray = explode(',', $imageFilename);
+            foreach ($imageFilenamesArray as $filename) {
+              $imagePath = 'images/' . trim($filename);
+              echo '<div class="modal-image">';
+              echo '<img src="' . $imagePath . '" alt="Event Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+              echo '</div>';
+            }
+          } else {
+            // Display default image
+            echo '<div class="modal-image">';
+            echo '<img src="./pictures/no-img-avail.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+            echo '</div>';
+          }
+      
+          echo '<div class="event-info">';
+          echo '<h3 class="event-name">' . $eventName . '</h3>';
+          echo '<p class="category">' . $categoryName . '</p>';
+          echo '<p class="year">' . $eventYear . '</p>';
+          echo '</div>';
+          echo '</div>';
+        }
+      
         echo '</div>';
-      }
-    } else {
-      // Display default image
-      echo '<div class="modal-image">';
-      echo '<img src="./pictures/no-img-avail.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
-      echo '</div>';
+        echo '</div>';
     }
-    
-
-    echo '<div class="event-info">';
-    echo '<h3 class="event-name">' . $eventName . '</h3>';
-    echo '<p class="category">' . $categoryName . '</p>';
-    echo '<p class="year">' . $eventYear . '</p>';
-    echo '</div>';
-    echo '</div>';
-  }
-
-  echo '</div>';
-  echo '</div>';
-
-  // Display modal for event details
-}
-
-  
-
 
 } else {
     echo "No events found.";
@@ -355,6 +355,7 @@ if (!empty($otherEvents)) {
 
 mysqli_close($conn);
 ?>
+
 
 <!-- Bootstrap 5 Modal -->
 <div class="modal fade" id="event-modal" tabindex="-1" aria-labelledby="event-modal-label" aria-hidden="true">
@@ -370,6 +371,7 @@ mysqli_close($conn);
         <p>Year: <span id="modal-year"></span></p>
         <p>Description: <span id="modal-description"></span></p>
         <div id="modal-event-images"></div>
+        
       </div>
     </div>
   </div>
@@ -540,9 +542,7 @@ document.getElementById('search').addEventListener('keyup', function () {
 
   if (imageInfo && imageDesc) {
     textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
-  } else {
-    textContainer.innerHTML = '<h3>No Details Available</h3>';
-  }
+  } 
 
   textContainer.style.wordWrap = 'break-word'; // Allow words to break
   textContainer.style.maxWidth = '100%';
@@ -629,7 +629,6 @@ document.getElementById('search').addEventListener('keyup', function () {
 });
 
 
-// JavaScript code
 document.addEventListener('DOMContentLoaded', function() {
   const eventCards = document.querySelectorAll('.event-card');
   const modalEventName = document.getElementById('modal-event-name');
@@ -637,11 +636,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalYear = document.getElementById('modal-year');
   const modalDescription = document.getElementById('modal-description');
   const modalEventImages = document.getElementById('modal-event-images');
+  const resultContainer = document.getElementById('competition-results');
 
   eventCards.forEach(function(card) {
     card.addEventListener('click', function() {
-      const eventName = card.getAttribute('data-bs-event');
-      const eventDescription = card.getAttribute('data-bs-desc');
+      const eventID = card.dataset.bsEventId;
+      const eventName = card.dataset.bsEvent;
+      const eventDescription = card.dataset.bsDesc;
       const eventImages = card.querySelectorAll('img');
 
       modalEventName.textContent = eventName;
@@ -657,10 +658,34 @@ document.addEventListener('DOMContentLoaded', function() {
         const clonedImage = image.cloneNode(true);
         modalEventImages.appendChild(clonedImage);
       });
+
+      // Fetch and display the competition results
+      fetchCompetitionResults(eventID);
     });
   });
-});
 
+  // Function to fetch and display the competition results
+  function fetchCompetitionResults(eventID) {
+    const url = `HIS-Competition_result.php?event_id=${encodeURIComponent(eventID)}`;
+
+    console.log('Fetching competition results...');
+    console.log('URL:', url);
+
+    // Fetch the competition results
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        console.log('Competition results received:');
+        console.log(data);
+
+        // Display the competition results in the result container
+        resultContainer.innerHTML = data;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+});
 </script>
 
 

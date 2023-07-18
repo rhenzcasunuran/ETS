@@ -27,16 +27,17 @@ const checkPSectionValueChar = document.querySelector("#checkPSectionValueChar")
 
 const eventCodeInput = document.querySelector("#event_code");
 
-eventCodeInput.addEventListener("keypress", function (e) {
-  var txt = String.fromCharCode(e.which);
-  if (!txt.match(/[A-Za-z0-9]/)) {
-    e.preventDefault();
-  }
-});
+  eventCodeInput.addEventListener("input", function (e) {
+    e.target.value = e.target.value.replace(/[^A-Za-z0-9]/g, "");
+  });
+
+function isFeatureSupported() {
+  return 'fetch' in window && 'Promise' in window && 'querySelector' in document;
+}
 
 function updateTotalValuesJ() {
-  var allJNameValuesEntered = false;
-  var allJNickValuesEntered = false;
+  var allJNameValuesEntered = true;
+  var allJNickValuesEntered = true;
   var nmbrJName = 0;
   var nmbrJNick = 0;
   var allInputsReadOnly = true;
@@ -47,31 +48,22 @@ function updateTotalValuesJ() {
   var judgeNick = document.querySelectorAll('input[name="judge_nickname[]"]');
   var judgeNickCount = judgeNick.length;
 
-  $('input[name="judge_name[]"]').keypress(function (e) {
-    var txt = String.fromCharCode(e.which);
-    if (!txt.match(/[A-Za-z0-9 \-]/)) {
-      return false;
-    }
-  });
-
-  $('input[name="judge_nickname[]"]').keypress(function (e) {
-    var txt = String.fromCharCode(e.which);
-    if (!txt.match(/[A-Za-z0-9 \-]/)) {
-      return false;
-    }
+  $('input[name="judge_name[]"], input[name="judge_nickname[]"]').on('input', function (e) {
+    e.target.value = e.target.value.replace(/[^A-Za-z0-9 \-]/g, '');
+    
   });
 
   $('input[name="judge_name[]"]').on('input', function (e) {
     $(this).val(function (i, v) {
       return v.replace(/[^\w\s-]/gi, '');
     });
-    updateTotalValuesJ();
+    
   });
 
   $('input[name="judge_name[]"]').each(function () {
     var value = $(this).val();
     if ($(this).val() === '' || value.replace(/\s/g, '').length < 5 || value.trim() === '') {
-
+      
     } else {
       nmbrJName += 1;
     }
@@ -84,7 +76,7 @@ function updateTotalValuesJ() {
     $(this).val(function (i, v) {
       return v.replace(/[^\w\s-]/gi, '');
     });
-    updateTotalValuesJ();
+   
   });
 
   $('input[name="judge_nickname[]"]').each(function () {
@@ -167,32 +159,27 @@ function updateTotalValuesP() {
     var participantSection = document.querySelectorAll('input[name="participant_section[]"]');
     var participantSectionCount = participantSection.length;
   
-    $('input[name="participant_name[]"]').keypress(function (e) {
-      var txt = String.fromCharCode(e.which);
-      if (!txt.match(/[A-Za-z0-9 \-]/)) {
-        return false;
-      }
+    $('input[name="participant_name[]"]').on('input', function (e) {
+      e.target.value = e.target.value.replace(/[^A-Za-z0-9 \-]/g, '');
+     
     });
-  
-    $('input[name="participant_section[]"]').keypress(function (e) {
-      var txt = String.fromCharCode(e.which);
-      if (!txt.match(/[1-9 \-]/)) {
-        return false;
-      }
+    
+    $('input[name="participant_section[]"]').on('input', function (e) {
+      e.target.value = e.target.value.replace(/[^1-9 \-]/g, '');
+      
     });
   
     $('input[name="participant_name[]"]').on('input', function (e) {
       $(this).val(function (i, v) {
         return v.replace(/[^\w\s-]/gi, '');
       });
-      updateTotalValuesP();
-      updateTextPName(); // Update textPName on input change
+      
     });
   
     $('input[name="participant_name[]"]').each(function () {
       var value = $(this).val();
       if ($(this).val() === '' || value.replace(/\s/g, '').length < 5 || value.trim() === '') {
-  
+
       } else {
         nmbrPName += 1;
       }
@@ -205,14 +192,13 @@ function updateTotalValuesP() {
       $(this).val(function (i, v) {
         return v.replace(/[^\w\s-]/gi, '');
       });
-      updateTotalValuesP();
-      updateTextPSection(); // Update textPSection on input change
+  
     });
   
     $('input[name="participant_section[]"]').each(function () {
       var value = $(this).val();
       if ($(this).val() === '' || value.replace(/\s/g, '').length < 3 || value.trim() === '') {
-  
+
       } else {
         nmbrPSection += 1;
       }
@@ -291,3 +277,4 @@ function updateTotalValuesP() {
       textPSection.style.visibility = "hidden";
     }
   }
+  

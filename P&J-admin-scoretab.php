@@ -57,7 +57,7 @@
     <h2>Authentication</h2>
     <input type="text" id="event_code" name="event_code"placeholder="Event Code">
     <input type="text" id="judge_name" name="judge_name" placeholder="Judge Name">
-    <button id="login-btn" onclick="authenticate()">Authenticate</button>
+    <button id="login-btn" onclick="authenticate();">Authenticate</button>
   </div>
   <div class="popup-background" id="submitWrapper">
         <div class="row popup-container">
@@ -252,6 +252,7 @@ function authenticate() {
             
             divElement.style.display = "none";
             criteriaTable.innerHTML = html;
+            hideAuthenticatedText();
             hidePopup();
           })
           .catch(error => {
@@ -277,7 +278,16 @@ if (!isAuthenticated) {
 // Event listener for the Authenticate button
 document.getElementById('login-btn').addEventListener('click', authenticate);
 
-
+function hideAuthenticatedText() {
+  const criteriaTable = document.getElementById('criteria-table');
+  const content = criteriaTable.innerHTML;
+  const authenticatedText = '{"authenticated":true}';
+  
+  if (content.includes(authenticatedText)) {
+    const newContent = content.replace(authenticatedText, '');
+    criteriaTable.innerHTML = newContent;
+  }
+}
 </script>
 
 
