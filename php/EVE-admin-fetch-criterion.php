@@ -47,7 +47,7 @@ if ($categoryData->num_rows > 0) {
         $output .= '            </div>';
         $output .= '            <div class="col-1 d-flex align-items-center justify-content-center">';
         $output .= '                <a href="javascript:void(0);" onclick="deleteCriterion(' . $criterion['criterion_id'] . ');">';
-        $output .= '                    <div class="x-icon"><i class="bx bx-x"></i></div>';
+        $output .= '                    <div class="x-icon"><i class="bx bxs-trash danger-color"></i></div>';
         $output .= '                </a>';
         $output .= '            </div>';
         $output .= '        </div>';

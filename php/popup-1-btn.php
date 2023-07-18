@@ -1,5 +1,5 @@
 <!--Instructions
-    Include this before the sidebar
+    Include before the sidebar
 
     THIS EXAMPLE HAS AN EXAMPLE DATA, MAKE SURE TO CHANGE THEM
 
