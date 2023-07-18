@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $unique_name = uniqid() . '_' . $i . '.' . $file_extension;
     $file_destination = './images/' . $unique_name;
 
-    // Validate file type
+    $file_extension = strtolower($file_extension); // Convert extension to lowercase
     if (!in_array($file_extension, $allowed_types)) {
       echo "File must be an image (JPG, JPEG, PNG)!";
       continue; // Skip current file and move to the next one
