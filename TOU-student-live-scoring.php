@@ -106,6 +106,43 @@ include './php/admin-signin.php';
               var teamTwoName = $('#team-two-name');
               var teamOneScore = $('#team-one-score');
               var teamTwoScore = $('#team-two-score');
+              var selectedId;
+              var selectedValue;
+
+              // Function to set the values in the template using jQuery
+              function setTemplateValues(teamOneName, teamOneScore, teamTwoName, teamTwoScore) {
+                $('#team-one-name').text(teamOneName);
+                $('#team-one-score').text(teamOneScore);
+                $('#team-two-name').text(teamTwoName);
+                $('#team-two-score').text(teamTwoScore);
+              }
+
+              // Example usage:
+              setTemplateValues("Team A", 0, "Team B", 0);
+
+              // Function to update the template if selectedId and selectedValue exist
+              function updateTemplateIfValuesExist() {
+                if (selectedId !== null && selectedId !== undefined) {
+                  // Replace null or undefined with default values or values from the database, if available
+                  var teamOneName = "Team A";
+                  var teamOneScore = 0;
+                  var teamTwoName = "Team B";
+                  var teamTwoScore = 0;
+
+                  // If selectedValue is not null or undefined, use it to update team scores
+                  if (selectedValue !== null && selectedValue !== undefined) {
+                    // Assuming selectedValue contains the scores in the format "score1-score2"
+                    var scores = selectedValue.split('-');
+                    teamOneScore = parseInt(scores[0]);
+                    teamTwoScore = parseInt(scores[1]);
+                  }
+
+                  setTemplateValues(teamOneName, teamOneScore, teamTwoName, teamTwoScore);
+                }
+              }
+
+              // Call the function to initially update the template with default values
+              updateTemplateIfValuesExist();
 
               // AJAX request to populate the <select> options
               $.ajax({
@@ -134,8 +171,8 @@ include './php/admin-signin.php';
                 teamTwoName.text(''); // Empty team two name
                 teamOneScore.text(''); // Empty team one name
                 teamTwoScore.text(''); // Empty team two name
-
-                var selectedId = $(this).val(); // Get the selected ID
+                selectedId = $(this).val(); // Get the selected ID
+                updateTemplateIfValuesExist();
 
                 // Send the ID to another AJAX request
                 $.ajax({
@@ -161,7 +198,9 @@ include './php/admin-signin.php';
                 teamTwoName.text(''); // Empty team two name
                 teamOneScore.text(''); // Empty team one score
                 teamTwoScore.text(''); // Empty team two score
-                var selectedValue = $(this).val(); // Get the selected value
+                selectedValue = $(this).val(); // Get the selected value
+                updateTemplateIfValuesExist();
+
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
@@ -188,9 +227,11 @@ include './php/admin-signin.php';
 
               // Function to check and log the selected value
               function checkSelectedValue() {
-                var selectedValue = selectMatchup.val(); // Get the selected value
+                selectedValue = selectMatchup.val(); // Get the selected value
                 teamOneScore.text(''); // Empty team one score
                 teamTwoScore.text(''); // Empty team two score
+                selectedValue = $(this).val(); // Get the selected ID
+                updateTemplateIfValuesExist();
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
