@@ -51,23 +51,35 @@ function validateInputs() {
     return this.value.trim() !== '';
   }).length > 0;
 
-  // Hide all error messages
-  $('#error-display').hide();
-  $('#error-dynamic-inputs-match-max').hide();
-  $('#error-message-no-team').hide();
-
-  // Enable/Disable the submit button based on validation
-  $('#submitButton').prop('disabled', !hasGameType || !hasDynamicInputsValue || !hasDynamicInputsMatchMaxValue);
+  // Check if the default options are selected for both event and category
+  var hasEventAndCategory = $('#event_name').val() === '' || $('#category_name').val() === '';
 
   // Show specific error messages based on validation results
   if (!hasGameType) {
     $('#error-display').show();
+  } else {
+    $('#error-display').hide();
   }
+
   if (!hasDynamicInputsMatchMaxValue) {
     $('#error-dynamic-inputs-match-max').show();
+  } else {
+    $('#error-dynamic-inputs-match-max').hide();
   }
+
+  // Show the error message for default event and category selection
+  if (hasEventAndCategory) {
+    $('#error-event').show();
+  } else {
+    $('#error-event').hide();
+  }
+
   // If you have other validation checks for 'no teams selected', include them here
+
+  // Enable/Disable the submit button based on validation
+  $('#submitButton').prop('disabled', !hasGameType || !hasDynamicInputsValue || !hasDynamicInputsMatchMaxValue || hasEventAndCategory);
 }
+
 
 // Event change event handler for both select input fields
 $('#event_name, #category_name').on('change', function() {
@@ -86,56 +98,65 @@ $('#dynamic-inputs-match-max input').on('input', function() {
 
 
 
-        function populateEvents() {
-            // Make an AJAX request to retrieve the event data
-            $.ajax({
-                url: './php/TOU-get-json-events.php', // Replace with the correct file path
-                type: 'GET',
-                success: function(response) {
-                    // Parse the JSON response
-                    const data = response;
+function populateEvents() {
+  // Make an AJAX request to retrieve the event data
+  $.ajax({
+    url: './php/TOU-get-json-events.php', // Replace with the correct file path
+    type: 'GET',
+    success: function(response) {
+      // Parse the JSON response
+      const data = response;
 
-                    // Populate the event select element
-                    var eventSelect = $('#event_name');
-                    eventSelect.empty(); // Clear previous options
-                    $.each(data.events, function(index, event) {
-                        eventSelect.append($('<option></option>').val(event).text(event));
-                    });
+      // Populate the event select element
+      var eventSelect = $('#event_name');
+      eventSelect.empty(); // Clear previous options
 
-                    // Trigger change event on initial page load or when events are populated
-                    eventSelect.trigger('change');
-                },
-                error: function() {
-                    console.log('Error occurred while retrieving event data.');
-                }
-            });
-        }
+      // Add the default "Select Event" option
+      eventSelect.append($('<option></option>').val('').text('Select Event'));
 
-        function populateCategories(selectedEvent) {
-            // Make an AJAX request to retrieve the categories for the selected event
-            $.ajax({
-                url: './php/TOU-get-json-category.php', // Replace with the correct file path
-                type: 'GET',
-                data: { event: selectedEvent },
-                success: function(response) {
-                    // Parse the JSON response
-                    const data = response;
+      $.each(data.events, function(index, event) {
+        eventSelect.append($('<option></option>').val(event).text(event));
+      });
 
-                    // Populate the category select element
-                    var categorySelect = $('#category_name');
-                    categorySelect.empty(); // Clear previous options
-                    $.each(data.categories, function(index, category) {
-                        categorySelect.append($('<option></option>').val(category).text(category));
-                    });
+      // Trigger change event on initial page load or when events are populated
+      eventSelect.trigger('change');
+    },
+    error: function() {
+      console.log('Error occurred while retrieving event data.');
+    }
+  });
+}
 
-                    // Trigger change event for the category select element after populating
-                    categorySelect.trigger('change');
-                },
-                error: function() {
-                    console.log('Error occurred while retrieving category data.');
-                }
-            });
-        }
+function populateCategories(selectedEvent) {
+  // Make an AJAX request to retrieve the categories for the selected event
+  $.ajax({
+    url: './php/TOU-get-json-category.php', // Replace with the correct file path
+    type: 'GET',
+    data: { event: selectedEvent },
+    success: function(response) {
+      // Parse the JSON response
+      const data = response;
+
+      // Populate the category select element
+      var categorySelect = $('#category_name');
+      categorySelect.empty(); // Clear previous options
+
+      // Add the default "Select Category" option
+      categorySelect.append($('<option></option>').val('').text('Select Category'));
+
+      $.each(data.categories, function(index, category) {
+        categorySelect.append($('<option></option>').val(category).text(category));
+      });
+
+      // Trigger change event for the category select element after populating
+      categorySelect.trigger('change');
+    },
+    error: function() {
+      console.log('Error occurred while retrieving category data.');
+    }
+  });
+}
+
 
         // Event change event handler
         $('#event_name').on('change', function() {
@@ -349,6 +370,9 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                           </div>
                         </div>                        
                         <br>
+                        <div id="error-event" class="text-danger">
+                          *Please select an Event and Category.
+                        </div>
                         <div id="error-display" class="text-danger">
                           *Please select a game type.
                         </div>
