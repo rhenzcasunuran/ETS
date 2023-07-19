@@ -88,25 +88,9 @@
         $stmt = $conn->prepare($updateQuery);
         $stmt->bind_param("i", $id);
         $stmt->execute();
-        
-        // UPDATE query
-        $updateQuery = "UPDATE ongoing_event_name AS oen
-        INNER JOIN ongoing_list_of_event AS olfe ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-        INNER JOIN tournament AS tou ON tou.event_id = olfe.event_id
-        SET oen.is_done = 1
-        WHERE tou.has_set_tournament = 1 
-        AND olfe.category_name = ?
-        AND oen.event_name = ?
-        AND oen.is_done = 0
-        AND olfe.is_archived = 0
-        AND olfe.is_deleted = 0";
-
-        $updateStmt = $conn->prepare($updateQuery);
-        $updateStmt->bind_param("ss", $category_name, $event_name);
-        $updateStmt->execute();
 
         // Close the UPDATE statement
-        $updateStmt->close();
+        $stmt->close();
 
         // Close the database connection
         $conn->close();
