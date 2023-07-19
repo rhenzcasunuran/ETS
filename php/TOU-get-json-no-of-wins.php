@@ -6,12 +6,13 @@ $selectedEvent = $_GET['event'];
 $selectedCategory = $_GET['category'];
 
 // Query to retrieve categories for the selected event
-$query = "SELECT now.number_of_wins, now.number_of_wins_number FROM number_of_wins AS now
+$query = "SELECT DISTNCT now.number_of_wins, now.number_of_wins_number FROM number_of_wins AS now
             INNER JOIN tournament AS tou
             ON tou.number_of_wins_id = now.number_of_wins_id
             INNER JOIN ongoing_list_of_event AS olfe
             ON tou.event_id = olfe.event_id
             INNER JOIN ongoing_event_name AS oen
+            ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
             WHERE oen.event_name = '$selectedEvent'
             AND olfe.category_name = '$selectedCategory'
             AND olfe.event_type_id = 1 
