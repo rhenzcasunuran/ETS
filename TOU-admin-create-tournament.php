@@ -152,10 +152,46 @@ function generateInputFields(numberOfWinsNumber) {
       maxlength: 3 // Set maximum length to 3 characters
     });
 
+    // Add the keypress event to the input field
+    inputField.on('keypress', function (event) {
+      var charCode = event.which ? event.which : event.keyCode;
+
+      // Only allow digits (0-9) and prevent non-numeric input
+      if (charCode < 48 || charCode > 57) {
+        event.preventDefault();
+      }
+    });
+
+    // Add the input event to the input field
+    inputField.on('input', function (event) {
+      var inputValue = $(this).val();
+
+      // Remove any non-numeric characters (including emojis)
+      var sanitizedValue = inputValue.replace(/\D/g, '');
+      $(this).val(sanitizedValue);
+    });
+
+    // Add the paste event to the input field
+    inputField.on('paste', function (event) {
+      // Access the clipboard data
+      var clipboardData = event.originalEvent.clipboardData || window.clipboardData;
+      var pastedData = clipboardData.getData('text/plain');
+
+      // Remove any non-numeric characters (including emojis)
+      var sanitizedValue = pastedData.replace(/\D/g, '');
+
+      // Manually set the input value after sanitizing
+      $(this).val(sanitizedValue);
+
+      // Prevent the default paste behavior
+      event.preventDefault();
+    });
+
     // Append the input field to the dynamic-inputs-match-max div
     $('#dynamic-inputs-match-max').append(inputField);
   }
 }
+
 
 // Event delegation to check if all input fields have a value
 $('#dynamic-inputs-match-max').on('input', 'input[type="text"]', function() {
