@@ -489,7 +489,7 @@ html {
     gap: 25px;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], input[type="number"] {
     border: 1px solid var(--color-content-outline) !important;
     color: var(--color-content-text) !important;
     background-color: var(--color-content-element) !important;
