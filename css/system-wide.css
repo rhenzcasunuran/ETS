@@ -496,7 +496,7 @@ input[type="text"], input[type="password"], input[type="number"] {
     border-radius: 15px;
   }
   
-input[type="date"]{
+input[type="date"], input[type="datetime-local"], input[type="time"]{
     border: 1px solid var(--color-content-outline) !important;
     color: var(--color-content-text) !important;
     background-color: var(--color-content-element) !important;
@@ -508,7 +508,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: blue !important;
 }
 
-input[type="text"]:focus, input[type="date"]:focus, input[type="password"]:focus, select:focus, textarea:focus{
+input[type="text"]:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="datetime-local"]:focus, input[type="password"]:focus, select:focus, textarea:focus{
     outline: none;
     border: 1px solid var(--color-content-text) !important;
 }
