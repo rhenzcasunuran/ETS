@@ -377,7 +377,7 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                           *Please select a game type.
                         </div>
                         <div id="error-dynamic-inputs-match-max" class="text-danger">
-                          *Please fill in the input.
+                          *Please select and fill in the input fields.
                         </div>
                         <div id="error-message-no-team" class="text-danger">
                           *Please select teams.<br>
