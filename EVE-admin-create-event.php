@@ -262,6 +262,7 @@
           if($('#select-category-name').prop('disabled', false)){
             $('#select-category-name').prop('disabled', false);
           }
+          $('#select-category-name').val('');
           $('#select-category-name').selectpicker('refresh');
           //document.querySelector("#save-btn").disabled = true;
           checkCategory.style.visibility = "hidden";
@@ -295,8 +296,13 @@
             fetchCategoryData($('#select-category-name').val());
         });
 
+        $('#select-event-name').change(function() {
+            $('#select-category-name').val('');
+            var selectedCategory = $('#select-category-name').val();
+            fetchCategoryData(selectedCategory);
+        });
+
         $('#select-category-name').change(function() {
-            // Fetch data based on changed categoryPicker value
             var selectedCategory = $(this).val();
             fetchCategoryData(selectedCategory);
         });

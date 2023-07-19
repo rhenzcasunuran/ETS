@@ -4,6 +4,7 @@
   include './php/EVE-admin-event-config-get-data.php';
   include './php/EVE-admin-get-event-data.php';
   include './php/EVE-admin-edit-event.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +35,7 @@
   </head>
 
   <body>
+    <?php echo $popupContentNotSuccess; ?>
     <?php 
       $popUpID = "discardCreateEvent";
       $showPopUpButtonID = "cancelBtn";
@@ -207,7 +209,24 @@
             $('#categoryNameS').remove();
             $('#eventTypeS').removeClass('col-md-4').addClass('col-md-6');
             $('#eventNameS').removeClass('col-md-4').addClass('col-md-6');
-          }
+          };
+
+      $(document).ready(function() {
+        $('.popUpDisableBackground#noChanges').click(function(e) {
+            e.preventDefault();
+            $('#noChanges').remove();
+            window.location.href = "";
+            });
+
+            $('#noChanges .confirmPopUp').click(function(e) {
+              e.preventDefault();
+              $('#noChanges').remove();
+              window.location.href = "";
+            });
+
+          $('.popUpDisableBackground#noChanges').css('visibility', 'visible');
+          $('#noChanges .popUpContainer').addClass('show');
+      });
     </script>
         <script type="text/javascript" src="./js/EVE-admin-edit-disable-button.js"></script>
   </body>

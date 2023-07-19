@@ -4,6 +4,8 @@
   include './php/EVE-admin-event-config-get-data.php';
   include './php/EVE-admin-edit-event.php';
   include './php/EVE-admin-get-event-data.php';
+  
+  $popupContentSuccess = $_SESSION['popupContentSuccess'];
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +37,7 @@
 
   <body>
     <?php echo $popupContent; ?>
+    <?php echo $popupContentSuccess; ?>
     <?php
       $row = mysqli_num_rows($event_result);
       if ($row > 0){
@@ -273,14 +276,13 @@
                 if ($row['event_type_id'] == '2') {
                   if ($row['overall_include'] == '0') {
                     echo '<style>';
-                    echo '.element#e'.$row['event_id'].' .not-included {';
-                    echo '    display: block;';
+                    echo '.element#e'.$row['event_id'].' {';
+                    echo '    border-top: 5px var(--default-primary-action-color) solid;';
                     echo '}';
                     echo '</style>';
                   }
             ?>
             <div class="element" id="e<?php echo $row['event_id'];?>">
-              <div class="not-included"></div>
               <div class="multi-select" id="multiSelect<?php echo $row['event_id'];?>">
                 <input type="checkbox" name="deleteEvent[]" value="<?php echo $row['event_id'];?>">
               </div>
@@ -432,14 +434,13 @@
                 else if ($row['event_type_id'] == '1'){
                   if ($row['overall_include'] == '0') {
                     echo '<style>';
-                    echo '.element#e'.$row['event_id'].' .not-included {';
-                    echo '    display: block;';
+                    echo '.element#e'.$row['event_id'].' {';
+                    echo '    border-top: 5px var(--default-primary-action-color) solid;';
                     echo '}';
                     echo '</style>';
                   }
         ?>
         <div class="element" id="e<?php echo $row['event_id'];?>">
-          <div class="not-included"></div>
               <div class="multi-select" id="multiSelect<?php echo $row['event_id'];?>">
                 <input type="checkbox" name="deleteEvent[]" value="<?php echo $row['event_id'];?>">
               </div>
@@ -697,7 +698,7 @@
                       $('.popUpContainer').removeClass('show');
                   });
 
-                  $('.confirmPopUp').click(function() {
+                  $('#hasSelected .confirmPopUp').click(function() {
                     $('.popUpDisableBackground#$hasSelected').addClass('hide');
                       setTimeout(function() {
                           $('.popUpDisableBackground#hasSelected').css('visibility', 'hidden');
@@ -711,7 +712,7 @@
                       $('.popUpContainer').addClass('show');
 
                   // Handle the click event for the confirm button
-                  $(document).on('click', '.confirmPopUp', function() {
+                  $(document).on('click', '#hasSelected .confirmPopUp', function() {
                     // Make an AJAX request to handle the deletion
                     $.ajax({
                       type: 'POST',
@@ -884,6 +885,28 @@
               return v.replace(/[^\w\s]|_/gi, '');
             });
           });
+          $('.popUpDisableBackground#sucessEdit').click(function(e) {
+            e.preventDefault();
+              $.ajax({
+                url: './php/EVE-admin-remove-popup.php',
+                success: function() {
+                  $('#sucessEdit').remove();
+                }
+              });
+            });
+
+            $('#sucessEdit .confirmPopUp').click(function(e) {
+              e.preventDefault();
+              $.ajax({
+                url: './php/EVE-admin-remove-popup.php',
+                success: function() {
+                  $('#sucessEdit').remove();
+                }
+              });
+            });
+
+          $('.popUpDisableBackground#sucessEdit').css('visibility', 'visible');
+          $('.popUpContainer').addClass('show');
         });
     </script>
   </body>
