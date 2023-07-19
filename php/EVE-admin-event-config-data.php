@@ -46,14 +46,20 @@
         $event_type = $get_event_type['event_type'];
 
         if($event_name != ""){
-            $sql_category_name = "SELECT * FROM category_name WHERE event_name_id = $event_name_id AND event_type_id = $event_type_id AND category_name = '$category_name'";
+            $sql_category_name = "SELECT event_name_id, event_type_id, category_name
+                                    FROM category_name
+                                    WHERE event_name_id = $event_name_id AND event_type_id = $event_type_id AND category_name = '$category_name'
+                                    UNION
+                                    SELECT event_name_id, event_type_id, category_name
+                                    FROM ongoing_list_of_event
+                                    WHERE event_name_id = $event_name_id AND event_type_id = $event_type_id AND category_name = '$category_name' AND is_archived != '1' AND is_deleted != '1'";
             $result_category_name = mysqli_query($conn,$sql_category_name);  
 
             $category_name = trim($category_name);
             $category_name = preg_replace('/\s+/', ' ', $category_name);
 
             if (mysqli_num_rows($result_category_name) > 0){
-                $error['categoryName'] = "$category_name already exists! [$event_name][$event_type]";
+                $error['categoryName'] = "$category_name already exists/ongoing! [$event_name][$event_type]";
             }
             else{
                 $sql = "INSERT INTO category_name(event_name_id, event_type_id, category_name) VALUES ('$event_name_id', '$event_type_id', '$category_name')";

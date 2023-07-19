@@ -1,7 +1,6 @@
 var formDesc = document.querySelector("#event-description");
 var formDate = document.querySelector("#date");
 var formTime = document.querySelector("#time");
-var formIncluded = document.querySelector("#overallIncluded");
 var formButton = document.querySelector("#save-btn");
 
 var textDesc = document.querySelector("#textDescription");
@@ -22,7 +21,6 @@ nextYearDate.setFullYear(currentDate.getFullYear() + 1); // Add a year to the cu
 currentDate.setFullYear(currentDate.getFullYear()); // Current date
 
 var nextYearDateString = nextYearDate.toISOString().split("T")[0];
-var currentDateString = currentDate.toISOString().split("T")[0];
 
 var nextYearDay = nextYearDate.getDate();
 var nextYearMonth = nextYearDate.getMonth() + 1; // Month is zero-based, so add 1
@@ -37,7 +35,6 @@ dateText.textContent = "Date not later than " + nextYearDate1;
 var initialDescValue = formDesc.value;
 var initialDateValue = formDate.value;
 var initialTimeValue = formTime.value;
-var initialIncludedValue = formIncluded.value;
 
 var hasChanged = false;
 
@@ -45,8 +42,7 @@ function checkFormChanges() {
     if (
       formDesc.value !== initialDescValue ||
       formDate.value !== initialDateValue ||
-      formTime.value !== initialTimeValue ||
-      formIncluded.value !== initialIncludedValue
+      formTime.value !== initialTimeValue 
     ) {
         hasChanged = true; // Changes have been made
     }
@@ -54,8 +50,6 @@ function checkFormChanges() {
         hasChanged = false; // No changes
     }
   }
-  
-
 
 // alternative is to use "change" - explained below
 formDesc.addEventListener("keyup", () => buttonState(checkFormChanges()));
@@ -63,12 +57,6 @@ formDate.addEventListener("keyup", () => buttonState(checkFormChanges()));
 formDate.addEventListener("change", () => buttonState(checkFormChanges()));
 formTime.addEventListener("keyup", () => buttonState(checkFormChanges()));
 formTime.addEventListener("change", () => buttonState(checkFormChanges()));
-formIncluded.addEventListener("click", () => {
-    setTimeout(() => {
-      buttonState(checkFormChanges());
-    }, 50); // Delay of 500 milliseconds (adjust the delay as needed)
-  });
-  
 
 function buttonState() {
     var descValue = formDesc.value.trim().replace(/\s\s+/g, ""); // Remove multiple consecutive spaces
@@ -98,7 +86,7 @@ function buttonState() {
             textDesc.style.color = "var(--default-success-color)";
         }
         //Date
-        if(formDate.value !== "" && formDate.value < nextYearDateString) {
+        if(formDate.value !== "" && (formDate.value < nextYearDateString && formDate.value >= currentDateString)) {
             checkDate.style.visibility = "visible";
             textDate.style.color = "var(--default-success-color)";
         }

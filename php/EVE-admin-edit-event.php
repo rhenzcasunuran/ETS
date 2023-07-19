@@ -3,6 +3,8 @@
     include 'CAL-logger.php';
 
     $code = "";
+    $popupContentSuccess = "";
+    $popupContentNotSuccess = "";
 
     if(isset($_GET['eec'])){
         $id = $_GET['eec'];
@@ -33,30 +35,35 @@
         $present_event_date = $result['event_date'];
         $present_event_time = $result['event_time'];
         $present_include_event = $result['overall_include'];
+        $affectedRows = 0;
 
         $event_description = preg_replace('/\s+/', ' ', $event_description);
 
                 if ($event_description !== $present_event_description) {
                         $sql = "UPDATE ongoing_list_of_event SET event_description = '$event_description' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
 
                 if ($event_date !== $present_event_date) {
                         $sql = "UPDATE ongoing_list_of_event SET event_date = '$event_date' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
 
                 if ($event_time !== $present_event_time) {
                         $sql = "UPDATE ongoing_list_of_event SET event_time = '$event_time' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }       
 
                 if ($include_event !== $present_include_event) {
                         $sql = "UPDATE ongoing_list_of_event SET overall_include = '$include_event' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
         
@@ -67,7 +74,31 @@
                         );";
                 mysqli_query($conn,$sql);
 
-                header("Location: EVE-admin-list-of-events.php");
+                if ($affectedRows > 0) {
+                        $popUpID = "sucessEdit";
+                        $showPopUpButtonID = "";
+                        $icon = "<i class='bx bxs-check-circle success-color'></i>";
+                        $title = "Saved Successfully";
+                        $message = "Changes are successfully saved.";
+                
+                        ob_start();
+                        include './php/popup-2-btn.php';
+                        $popupContentSuccess = ob_get_clean();
+                        $_SESSION['popupContentSuccess'] = $popupContentSuccess;
+
+                        header("Location: EVE-admin-list-of-events.php");
+                }
+                else {
+                        $popUpID = "noChanges";
+                        $showPopUpButtonID = "";
+                        $icon = "<i class='bx bxs-error-circle warning-color'></i>";
+                        $title = "No Changes";
+                        $message = "There we're no changes happened.";
+                
+                        ob_start();
+                        include './php/popup-2-btn.php';
+                        $popupContentNotSuccess = ob_get_clean();
+                }
      }
 
      if(isset($_POST['save-btn-tournament'])){
@@ -86,6 +117,7 @@
         $present_event_date = $result['event_date'];
         $present_event_time = $result['event_time'];
         $present_include_event = $result['overall_include'];
+        $affectedRows = 0;
 
          $event_description = preg_replace('/\s+/', ' ', $event_description);
 
@@ -93,44 +125,43 @@
                         //Update Category
                         $sql = "UPDATE ongoing_list_of_event SET event_description = '$event_description' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
 
                 if ($event_date != $present_event_date) {
                         $sql = "UPDATE ongoing_list_of_event SET event_date = '$event_date' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
 
                 if ($event_time != $present_event_time) {
                         $sql = "UPDATE ongoing_list_of_event SET event_time = '$event_time' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
 
-                if ($include_event !== $present_include_event) {
+                if ($include_event != $present_include_event) {
                         $sql = "UPDATE ongoing_list_of_event SET overall_include = '$include_event' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
 
-                // Check if the current value of event_wins is different from the new value
-                $sql = "SELECT number_of_wins_id FROM tournament WHERE event_id = '$event_id';";
-                $result = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_assoc($result);
-                $current_wins = $row['number_of_wins_id'];
+                if ($event_wins !== ""){
+                        // Check if the current value of event_wins is different from the new value
+                        $sql = "SELECT number_of_wins_id FROM tournament WHERE event_id = '$event_id';";
+                        $result = mysqli_query($conn, $sql);
+                        $row = mysqli_fetch_assoc($result);
+                        $current_wins = $row['number_of_wins_id'];
 
-                if ($current_wins != $event_wins) {
-                        // Update query
-                        $sql = "UPDATE tournament SET number_of_wins_id = '$event_wins' WHERE event_id = '$event_id';";
-                        mysqli_query($conn, $sql);
-                        to_log($conn, $sql);
-
-                        // Check if any rows were affected by the update query
-                        if (mysqli_affected_rows($conn) == 0) {
-                                // No rows were updated, so perform the insert query
-                                $sql = "INSERT INTO tournament (event_id, number_of_wins_id) VALUES ('$event_id', '$event_wins');";
+                        if ($current_wins != $event_wins) {
+                                // Update query
+                                $sql = "UPDATE tournament SET number_of_wins_id = '$event_wins' WHERE event_id = '$event_id';";
                                 mysqli_query($conn, $sql);
+                                $affectedRows += mysqli_affected_rows($conn);
                                 to_log($conn, $sql);
                         }
                 }
@@ -141,8 +172,34 @@
                         FROM ongoing_list_of_event
                         );";
                 mysqli_query($conn,$sql);
-         
-                header("Location: EVE-admin-list-of-events.php");
+
+                    // Code before the popup content
+
+                if ($affectedRows > 0) {
+                        $popUpID = "sucessEdit";
+                        $showPopUpButtonID = "";
+                        $icon = "<i class='bx bxs-check-circle success-color'></i>";
+                        $title = "Saved Successfully";
+                        $message = "Changes are successfully saved.";
+                
+                        ob_start();
+                        include './php/popup-2-btn.php';
+                        $popupContentSuccess = ob_get_clean();
+                        $_SESSION['popupContentSuccess'] = $popupContentSuccess;
+
+                        header("Location: EVE-admin-list-of-events.php");
+                }
+                else {
+                        $popUpID = "noChanges";
+                        $showPopUpButtonID = "";
+                        $icon = "<i class='bx bxs-error-circle warning-color'></i>";
+                        $title = "No Changes";
+                        $message = "There we're no changes are made.";
+                
+                        ob_start();
+                        include './php/popup-2-btn.php';
+                        $popupContentNotSuccess = ob_get_clean();
+                }
      }
 
      if(isset($_POST['save-btn-standard'])){
@@ -158,6 +215,7 @@
         $present_event_description = $result['event_description'];
         $present_event_date = $result['event_date'];
         $present_event_time = $result['event_time'];
+        $affectedRows = 0;
 
          $event_description = preg_replace('/\s+/', ' ', $event_description);
 
@@ -165,18 +223,21 @@
                         //Update Category
                         $sql = "UPDATE ongoing_list_of_event SET event_description = '$event_description' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
 
                 if ($event_date != $present_event_date) {
                         $sql = "UPDATE ongoing_list_of_event SET event_date = '$event_date' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
 
                 if ($event_time != $present_event_time) {
                         $sql = "UPDATE ongoing_list_of_event SET event_time = '$event_time' WHERE event_id = '$event_id';";
                         mysqli_query($conn,$sql);
+                        $affectedRows += mysqli_affected_rows($conn);
                         to_log($conn, $sql);
                 }
         
@@ -187,7 +248,31 @@
                         );";
                 mysqli_query($conn,$sql);
          
-                header("Location: EVE-admin-list-of-events.php");
+                if ($affectedRows > 0) {
+                        $popUpID = "sucessEdit";
+                        $showPopUpButtonID = "";
+                        $icon = "<i class='bx bxs-check-circle success-color'></i>";
+                        $title = "Saved Successfully";
+                        $message = "Changes are successfully saved.";
+                
+                        ob_start();
+                        include './php/popup-2-btn.php';
+                        $popupContentSuccess = ob_get_clean();
+                        $_SESSION['popupContentSuccess'] = $popupContentSuccess;
+
+                        header("Location: EVE-admin-list-of-events.php");
+                }
+                else {
+                        $popUpID = "noChanges";
+                        $showPopUpButtonID = "";
+                        $icon = "<i class='bx bxs-error-circle warning-color'></i>";
+                        $title = "No Changes";
+                        $message = "There we're no changes happened.";
+                
+                        ob_start();
+                        include './php/popup-2-btn.php';
+                        $popupContentNotSuccess = ob_get_clean();
+                }
      }
 
      $popupContent = '';

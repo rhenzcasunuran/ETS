@@ -24,6 +24,11 @@
         if ($row2 = mysqli_num_rows($query) > 0){
             $data = mysqli_fetch_array($query);
             $TNoW = $data[0];
+
+            $sql = "SELECT number_of_wins FROM number_of_wins WHERE number_of_wins_id = '$TNoW'";
+            $query = mysqli_query($conn, $sql);
+            $data = mysqli_fetch_array($query);
+            $TNoWText = $data['number_of_wins'];
         }
 
 
@@ -34,29 +39,37 @@
             '</div>' .
             '<div class="form-group col-md-4">' .
                 '<label class="form-label fw-bold">Date & Time <span class="req" id="reqDateTime">*</span></label>' .
-                '<input type="date" class="form-control date" id="date" max="" min="" name="date" value="'.$date.'" required>' .
+                '<input type="date" class="form-control date" id="date" max="" min="'.$date.'" name="date" value="'.$date.'" required>' .
                 '<input type="time" class="form-control mt-2" id="time" name="time" value="'.$time.'" required>' .
-                '<label class="form-label fw-bold mt-1">Match Style <span class="req" id="reqMatchStyle">*</span></label>' .
-                '<select id="event-match-style" class="form-control selectpicker" title="Select Match Style" name="event-match-style" required>' .
-                '<option value="" selected>Select Match Style</option>';
+                '<label class="form-label fw-bold mt-1">Match Style ';
+
+                if ($date <= date('Y-m-d')) {
+                    $output .=  '</label>' .
+                                '<div id="event-match-style" class="form-control disable" name="event-match-style">'.$TNoWText.'</div>';
+                } else {
+                    $output .= '<span class="req" id="reqMatchStyle">*</span></label>' .
+                            '<select id="event-match-style" class="form-control selectpicker" title="Select Match Style" name="event-match-style" required>' .
+                            '<option value="" selected>Select Match Style</option>';
+                    
                     $row = mysqli_num_rows($NoW);
                     if ($row > 0) {
                         while ($row = mysqli_fetch_array($NoW)) {
-                            if ($row2 = mysqli_num_rows($query) > 0){
-                                if ($TNoW !== $row[0]){
+                            if ($row2 = mysqli_num_rows($query) > 0) {
+                                if ($TNoW !== $row[0]) {
                                     $output .= '<option value="' . $row[0] . '">' . $row[1] . '</option>';
-                                }
-                                else {
+                                } else {
                                     $output .= '<option value="' . $row[0] . '" selected>' . $row[1] . '</option>';
                                 }
-                            }
-                            else {
+                            } else {
                                 $output .= '<option value="' . $row[0] . '">' . $row[1] . '</option>';
                             }
                         }
                     }
-                $output .=    '</select>' .
-            '<div class="overall-included form-control">' .
+                    
+                    $output .= '</select>';
+                }
+
+                $output .= '<div class="overall-included form-control">' .
                 '<input type="checkbox" id="overallIncluded" name="overall" value="'.$overallIncluded.'" '.$checkedAttribute.'>' .
                 '<label class="form-label fw-bold">Exclude from Overall Statistics</label>' .
                 '<script>
@@ -78,12 +91,15 @@
             '<input type="hidden" name="id" value='.$eventID.'>' .
         '</div>' .
         '<div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">' .
-            '<button type="submit" class="primary-button" id="save-btn" name="save-btn-tournament" onclick="saveEvent()" disabled>' .
+            '<button class="primary-button" id="save-btn" name="save-btn-tournament" disabled>' .
                 '<div class="tooltip-popup flex-column" id="tooltip">' .
                     '<div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class="bx bx-check" id="checkDescription"></i></div>' .
                     '<div class="tooltipText" id="textDate"><span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
-                    '<div class="tooltipText" id="textTime">Time<i class="bx bx-check" id="checkTime"></i></div>' .
-                    '<div class="tooltipText" id="textMatchStyle">Match Style<i class="bx bx-check" id="checkMatchStyle"></i></div>' .
+                    '<div class="tooltipText" id="textTime">Time<i class="bx bx-check" id="checkTime"></i></div>';
+                    if ($date > date('Y-m-d')) {
+                        $output .= '<div class="tooltipText" id="textMatchStyle">Match Style<i class="bx bx-check" id="checkMatchStyle"></i></div>' ;
+                    }
+                    $output .= '<div class="tooltipText" id="textHasChanges">Any changes are made<i class="bx bx-check" id="checkHasChanges"></i></div>' .
                 '</div>' .
                 'Save Changes' .
             '</button>' .
@@ -96,10 +112,18 @@
             });
         </script>' .
         '<script type="text/javascript" src="./js/EVE-admin-edit-other-codes.js"></script>' .
-        '<script type="text/javascript" src="./js/EVE-admin-disable-button-tournament.js"></script>';
+        '<script type="text/javascript" src="./js/EVE-admin-edit-disable-button-tournament.js"></script>';
     
     }
     else if ($type == 2) {
+        $sql = "SELECT ole.event_id, c.competition_id, j.* 
+        FROM ongoing_list_of_event AS ole
+        JOIN competition AS c ON c.event_id = ole.event_id
+        JOIN judges AS j ON j.competition_id = c.competition_id
+        WHERE ole.event_id = $eventID";
+
+        $query = mysqli_query($conn, $sql);
+
         $output .= '<div class="row flex-column flex-md-row">' .
         '<div class="form-group col-md-6">' .
             '<label for="event-description" class="form-label fw-bold">Event Description <span class="req" id="reqDesc">*</span></label>' .
@@ -117,7 +141,14 @@
       '<div class="row flex-column flex-md-row">' .
         '<div class="form-group col-md-4 disable">' .
             '<label class="form-label fw-bold">Judges</label>' .
-            '<div id="event-judges" class="form-control judges-container" name="event-judges"></div>' .
+            '<div id="event-judges" class="form-control judges-container" name="event-judges">';
+            $row = mysqli_num_rows($query);
+                if ($row > 0){
+                    while ($row = mysqli_fetch_array($query)) {
+                        $output .= '<div class = "judge-name">' .$row['judge_name'].' ('.$row['judge_nickname'].')</div>';
+                    }
+                }
+            $output .=   '</div>' .
         '</div>' .
         '<div class="form-group col-md-4">' .
             '<label class="form-label fw-bold">Date & Time <span class="req" id="reqDateTime">*</span></label>' .
@@ -149,11 +180,12 @@
       '</div>' .
       '<div class="row flex-column flex-md-row d-flex justify-content-end align-items-center">' .
 
-        '<button type="submit" class="primary-button" id="save-btn" name="save-btn" onclick="saveEvent()" disabled>' .
+        '<button type="submit" class="primary-button" id="save-btn" name="save-btn" disabled>' .
           '<div class="tooltip-popup flex-column" id="tooltip">' .
               '<div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class="bx bx-check" id="checkDescription"></i></div>' .
               '<div class="tooltipText" id="textDate"><span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
               '<div class="tooltipText" id="textTime">Time<i class="bx bx-check" id="checkTime"></i></div>' .
+              '<div class="tooltipText" id="textHasChanges">Any changes are made<i class="bx bx-check" id="checkHasChanges"></i></div>' .
           '</div>' .
           'Save Changes' .
       '</button>' .
@@ -209,7 +241,7 @@
         '</div>' .
         '<div class="form-group col-md-4">' .
             '<label class="form-label fw-bold">Date & Time <span class="req" id="reqDateTime">*</span></label>' .
-            '<input type="date" class="form-control date" id="date" max="" min="" name="date" value="'.$date.'" required>' .
+            '<input type="date" class="form-control date" id="date" max="" min="'.$date.'" name="date" value="'.$date.'" required>' .
             '<input type="time" class="form-control mt-2" id="time" name="time" value="'.$time.'" required>' .
             '<input type="hidden" name="id" value='.$eventID.'>' .
         '</div>' .
@@ -218,11 +250,10 @@
 
         '<button type="submit" class="primary-button" id="save-btn" name="save-btn-standard" onclick="saveEvent()" disabled>' .
           '<div class="tooltip-popup flex-column" id="tooltip">' .
-              '<div class="tooltipText" id="textType">Event Type<i class="bx bx-check" id="checkType"></i></div>' .
-              '<div class="tooltipText" id="textEvent">Event<i class="bx bx-check" id="checkEvent"></i></div>' .
               '<div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class="bx bx-check" id="checkDescription"></i></div>' .
-              '<div class="tooltipText" id="textDate">Date: <span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
+              '<div class="tooltipText" id="textDate"><span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
               '<div class="tooltipText" id="textTime">Time<i class="bx bx-check" id="checkTime"></i></div>' .
+              '<div class="tooltipText" id="textHasChanges">Any changes are made<i class="bx bx-check" id="checkHasChanges"></i></div>' .
           '</div>' .
           'Save Changes' .
       '</button>' .
@@ -235,7 +266,7 @@
             });
         </script>' .
       '<script type="text/javascript" src="./js/EVE-admin-other-codes.js"></script>' .
-      '<script type="text/javascript" src="./js/EVE-admin-disable-button-standard.js"></script>';
+      '<script type="text/javascript" src="./js/EVE-admin-edit-disable-button-standard.js"></script>';
     }
 
     echo $output;

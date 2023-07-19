@@ -106,7 +106,7 @@
                               <div class="tooltipText" id="textCriterionName">All Criterion Name has value (5 or more char)<i class='bx bx-check' id="checkCriterionName"></i></div>
                               <div class="tooltipText" id="textPercentage">All Percentage has value<i class='bx bx-check' id="checkPercentage"></i></div>
                               <div class="tooltipText" id="textTotalPercentage">Total Percentage is equal to 100%<i class='bx bx-check' id="checkTotalPercentage"></i></div>
-                              <div class="tooltipText" id="textHasChanges">Criteria has Changes<i class='bx bx-check' id="checkHasChanges"></i></div>
+                              <div class="tooltipText" id="textHasChanges">Any changes are made<i class='bx bx-check' id="checkHasChanges"></i></div>
                             </div>  
                             Save Changes
                           </button>
@@ -161,7 +161,7 @@
     <script type="text/javascript" src="./js/EVE-admin-bootstrap-select.min.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-add-more.js"></script>
     <script type="text/javascript" src="./js/EVE-admin-disable-criteria-button.js"></script>
-    
+  
     <script>
 
         $(document).ready(function() {
@@ -227,17 +227,24 @@
                     $('.popUpDisableBackground#updateCriteria').removeClass('hide');
                 }, 300);
                 $('.popUpContainer').removeClass('show');
-                window.location.href = 'EVE-admin-criteria-configuration.php';
+                $('#updateCriteria').remove();
+                initialCriterionValues = [];
+                initialPercentageValues = [];
+                updateTotalPercentage();
             });
 
-            $('.confirmPopUp').click(function() {
+            $('.confirmPopUp').click(function(e) {
+                e.preventDefault();
                 $('.popUpDisableBackground#updateCriteria').addClass('hide');
                 setTimeout(function() {
                     $('.popUpDisableBackground#updateCriteria').css('visibility', 'hidden');
                     $('.popUpDisableBackground#updateCriteria').removeClass('hide');
                 }, 300);
                 $('.popUpContainer').removeClass('show');
-                window.location.href = 'EVE-admin-criteria-configuration.php';
+                $('#updateCriteria').remove();
+                initialCriterionValues = [];
+                initialPercentageValues = [];
+                updateTotalPercentage();
             });
         });
 

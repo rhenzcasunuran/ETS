@@ -62,7 +62,7 @@ else {
     $output .= '<input type="text" class="form-control" id="criterionPercentInput" name="percentage[]" placeholder="Percentage" maxlength="3" required >';
     $output .= '</div>';
     $output .= '<div class="col-1 d-flex align-items-center justify-content-center">';
-    $output .= '<div class="x-icon" id="removeBtn"><i class="bx bx-x"></i></div>';
+    $output .= '<div class="x-icon" id="removeBtn"><i class="bx bxs-trash danger-color"></i></i></div>';
     $output .= '</div>';
     $output .= '</div>';
 }
