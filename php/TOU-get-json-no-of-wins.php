@@ -18,7 +18,8 @@ $query = "SELECT now.number_of_wins, now.number_of_wins_number FROM number_of_wi
             AND olfe.event_type_id = 1 
             AND oen.is_done = 0 
             AND olfe.is_archived = 0 
-            AND olfe.is_deleted = 0;";
+            AND olfe.is_deleted = 0
+            AND tou.has_set_tournament = 0;";
 
 $result = mysqli_query($conn, $query);
 

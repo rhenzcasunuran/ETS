@@ -43,6 +43,79 @@
         header("Location: TOU-admin-manage-tournament.php");
       }
     }
+
+    // Prepare the SQL query with a placeholder for the parameter
+    $query = "SELECT COUNT(*) AS active_teams_count FROM ongoing_teams WHERE bracket_form_id = ? AND current_team_status = 'active'";
+
+    // Create a prepared statement
+    $stmt = $conn->prepare($query);
+
+    // Bind the parameter to the prepared statement
+    $stmt->bind_param("i", $id);
+
+    // Execute the query
+    $stmt->execute();
+
+    // Bind the result to a variable
+    $stmt->bind_result($activeTeamsCount);
+
+    // Fetch the result
+    $stmt->fetch();
+
+    // Close the statement
+    $stmt->close();
+
+    // Check if there is only one active team left and declare the champion if needed
+    if ($activeTeamsCount === 1) {
+        // Prepare the SQL query to update the current champion team's status
+        $updateQuery = "UPDATE ongoing_teams SET current_team_status = 'champion' WHERE bracket_form_id = ? AND current_team_status = 'active'";
+        
+        // Create a prepared statement for the update
+        $stmtUpdate = $conn->prepare($updateQuery);
+        
+        // Bind the parameter to the prepared statement
+        $stmtUpdate->bind_param("i", $id);
+        
+        // Execute the update query
+        $stmtUpdate->execute();
+        
+        // Close the update statement
+        $stmtUpdate->close();
+
+        // UPDATE query
+        $updateQuery = "UPDATE bracket_forms SET is_active = 0 WHERE id = ? AND is_active = 1";
+
+        $stmt = $conn->prepare($updateQuery);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        
+        // UPDATE query
+        $updateQuery = "UPDATE ongoing_event_name AS oen
+        INNER JOIN ongoing_list_of_event AS olfe ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+        INNER JOIN tournament AS tou ON tou.event_id = olfe.event_id
+        SET oen.is_done = 1
+        WHERE tou.has_set_tournament = 1 
+        AND olfe.category_name = ?
+        AND oen.event_name = ?
+        AND oen.is_done = 0
+        AND olfe.is_archived = 0
+        AND olfe.is_deleted = 0";
+
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->bind_param("ss", $category_name, $event_name);
+        $updateStmt->execute();
+
+        // Close the UPDATE statement
+        $updateStmt->close();
+
+        // Close the database connection
+        $conn->close();
+        
+        // Reload the current page using JavaScript
+        // Redirect to the desired page using JavaScript after a short delay (replace "TOU-admin-manage-tournament.php" with the actual URL)
+        echo '<script>window.location.href = "TOU-admin-manage-tournament.php";</script>';
+        exit(); // Make sure to exit the script after reloading the page
+    }
 ?>
 
 <!DOCTYPE html>
@@ -118,65 +191,6 @@
                                           $result2 = mysqli_stmt_get_result($stmt2);
 
                                           if (mysqli_num_rows($result2) === 0) {
-                                            // Prepare the SQL query with a placeholder for the parameter
-                                            $query = "SELECT COUNT(*) AS active_teams_count FROM ongoing_teams WHERE bracket_form_id = ? AND current_team_status = 'active'";
-
-                                            // Create a prepared statement
-                                            $stmt = $conn->prepare($query);
-
-                                            // Bind the parameter to the prepared statement
-                                            $stmt->bind_param("i", $id);
-
-                                            // Execute the query
-                                            $stmt->execute();
-
-                                            // Bind the result to a variable
-                                            $stmt->bind_result($activeTeamsCount);
-
-                                            // Fetch the result
-                                            $stmt->fetch();
-
-                                            // Close the statement
-                                            $stmt->close();
-
-                                            // Check if there is only one active team left and declare the champion if needed
-                                            if ($activeTeamsCount === 1) {
-                                                // Prepare the SQL query to update the current champion team's status
-                                                $updateQuery = "UPDATE ongoing_teams SET current_team_status = 'champion' WHERE bracket_form_id = ? AND current_team_status = 'active'";
-                                                
-                                                // Create a prepared statement for the update
-                                                $stmtUpdate = $conn->prepare($updateQuery);
-                                                
-                                                // Bind the parameter to the prepared statement
-                                                $stmtUpdate->bind_param("i", $id);
-                                                
-                                                // Execute the update query
-                                                $stmtUpdate->execute();
-                                                
-                                                // Close the update statement
-                                                $stmtUpdate->close();
-
-                                                // Prepare the SQL query to update the current champion team's status
-                                                $updateQuery = "UPDATE bracket_forms SET is_active = 0 WHERE id = ? AND is_active = 1";
-                                                
-                                                // Create a prepared statement for the update
-                                                $stmtUpdate = $conn->prepare($updateQuery);
-                                                
-                                                // Bind the parameter to the prepared statement
-                                                $stmtUpdate->bind_param("i", $id);
-                                                
-                                                // Execute the update query
-                                                $stmtUpdate->execute();
-                                                
-                                                // Close the update statement
-                                                $stmtUpdate->close();
-                                                
-                                                // Reload the current page using JavaScript
-                                                // Redirect to the desired page using JavaScript after a short delay (replace "TOU-admin-manage-tournament.php" with the actual URL)
-                                                echo '<script>window.location.href = "TOU-admin-manage-tournament.php";</script>';
-                                                exit(); // Make sure to exit the script after reloading the page
-                                            }
-
                                             // Prepare the SQL query with placeholders for parameters
                                             $query = "SELECT bt.bracket_position, 
                                             ot.team_name AS team_one_name, 

@@ -16,6 +16,7 @@ $query = "SELECT DISTINCT olfe.category_name FROM tournament AS tou
             AND oen.is_done = 0 
             AND olfe.is_archived = 0 
             AND olfe.is_deleted = 0
+            AND tou.has_set_tournament = 0
             AND oen.event_name = '$selectedEvent';";
 
 $result = mysqli_query($conn, $query);

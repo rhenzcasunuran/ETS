@@ -124,7 +124,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_execute($stmt);
     // Close the statement and connection
     mysqli_stmt_close($stmt);    
-    
+
+    // UPDATE query
+    $updateQuery = "UPDATE tournament SET has_set_tournament = 1 
+    WHERE event_id IN (
+        SELECT tou.event_id 
+        FROM tournament AS tou 
+        INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
+        INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+        WHERE oen.event_name = ? AND olfe.category_name = ?
+    )";
+
+    $updateStmt = $conn->prepare($updateQuery);
+    $updateStmt->bind_param("ss", $event_name, $category_name);
+    $updateStmt->execute();
+    // Close the UPDATE statement
+    $updateStmt->close();
+
     // Close the database connection
     $conn->close();
 
