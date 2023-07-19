@@ -7,7 +7,7 @@ if (isset($_GET['id'])) {
     $selectedId = $_GET['id'];
     
     // Prepare the query
-    $query = "SELECT ot.id AS team_one_id, 
+    $query = "SELECT bt.id, ot.id AS team_one_id, 
     ot.team_name AS team_one_name, 
     ot.current_score AS team_one_current_score, 
     ot.current_team_status AS team_one_current_team_status,

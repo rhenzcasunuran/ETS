@@ -135,12 +135,11 @@
                   data: { id: selectedId },
                   dataType: 'json',
                   success: function(response) {
-                    console.log(response);
+                    // Clear the options once before populating them with the response data
+                    selectMatchup.empty();
+                    selectMatchup.append('<option selected>Select Matchup</option>');
 
                     $.each(response, function(index, matchup) {
-                      selectMatchup.empty();
-                      selectMatchup.append('<option selected>Select Matchup</option>');
-
                       var optionText = matchup.team_one_name + ' vs ' + matchup.team_two_name;
                       selectMatchup.append('<option value="' + matchup.id  + '">' + optionText + '</option>');
                     });
@@ -168,6 +167,7 @@
                   data: { id: selectedValue },
                   dataType: 'json',
                   success: function(response) {
+                    console.log(response)
                     if (response.length > 0) {
                       var matchup = response[0]; // Assuming only one matchup is returned
 

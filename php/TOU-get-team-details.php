@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
   ON ot.id = bt.team_one_id
   INNER JOIN ongoing_teams AS ot2
   ON ot2.id = bt.team_two_id
-  WHERE (ot.current_team_status = 'active' AND ot2.current_team_status = 'active') AND bt.bracket_form_id = ? AND bt.event_date_time IS NOT NULL;";
+  WHERE (ot.current_team_status = 'active' AND ot2.current_team_status = 'active') AND bt.id = ? AND bt.event_date_time IS NOT NULL;";
   
   // Prepare the statement
   $stmt = mysqli_prepare($conn, $query);
