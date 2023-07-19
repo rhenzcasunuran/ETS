@@ -85,7 +85,7 @@
                             <div class="element-label">Tournament ID #<?php echo $id; ?><br> Event: <?php echo $event_name;?><br> Category: <?php echo $category_name;?></div>
                             <br>
                             <div class="element-content">
-                              <form method="POST" action="./php/TOU-process-scheduling.php">
+                              <form method="POST" action="./php/TOU-process-scheduling.php" id="myForm">
                                 <input type="hidden" id="id" name="id" value="<?php echo $id;?>">
                                 <input type="hidden" id="event_name" name="event_name" value="<?php echo $event_name;?>">
                                 <input type="hidden" id="category_name" name="category_name" value="<?php echo $category_name;?>">
@@ -390,7 +390,7 @@
                                                   '<div>' . $row['team_one_name'] . '</div>'.
                                                   '<div>' . ' vs ' . '</div>'.
                                                   '<div>'. $row['team_two_name'] . '</div>' .
-                                                  '<select class="form-select w-50" aria-label="Default select example" name="event_id[]"></select>' .
+                                                  '<div><input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput"></div>' .
                                                   '</div>' . '<br>';
                                             }
 
@@ -413,7 +413,7 @@
                                               '<div>' . $team_name_one  . '</div>'.
                                               '<div>' . ' vs ' . '</div>'.
                                               '<div>'. $team_name_two . '</div>' .
-                                              '<select class="form-select w-50" aria-label="Default select example" name="event_id[]"></select>' .
+                                              '<div><input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput"></div>' .
                                               '</div>' . '<br>';
                                             }
                                           }                                      
@@ -436,79 +436,22 @@
     <script src="./js/script.js"></script>
     <script src="./js/theme.js"></script>
     <script type="text/javascript">
-  $(document).ready(function() {
-    // Retrieve the values of event_name and category_name
-    var event_name = $('#event_name').val();
-    var category_name = $('#category_name').val();
+        // Get the current date and time in the format YYYY-MM-DDTHH:mm (datetime-local format)
+  function getCurrentDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
 
-    // Create an AJAX request
-    $.ajax({
-      url: './php/TOU-json-get-event-ids.php',
-      type: 'POST',
-      data: {
-        event_name: event_name,
-        category_name: category_name
-      },
-      success: function(response) {
-        // Handle the response from the PHP script
-        var data = JSON.parse(response);
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
 
-        var eventIds = data.eventIds;
-        var eventNames = data.eventNames;
-        var eventDates = data.eventDates;
-
-        // Iterate through each select element and populate the options
-        $('select[name="event_id[]"]').each(function(index) {
-          var select = $(this);
-
-          // Clear existing options
-          select.empty();
-
-          // Add default option
-          select.append('<option selected value="">Select Match Schedule</option>');
-
-          // Add options using both eventIds, eventNames, and eventDates arrays
-          for (var i = 0; i < eventIds.length; i++) {
-            select.append('<option value="' + eventIds[i] + '">' + eventDates[i] + ' - ' + eventNames[i] + ' - ' + eventIds[i] + '</option>');
-          }
-        });
-
-      // Add change event listener to all select elements
-      $('select[name="event_id[]"]').change(function() {
-          var selectedValues = [];
-          var errorContainer = $('#error-container');
-          errorContainer.empty();
-
-          // Iterate through all select elements
-          $('select[name="event_id[]"]').each(function() {
-            var value = $(this).val();
-
-            // Check if value is not empty and already exists in selectedValues array
-            if (value && selectedValues.includes(value)) {
-              errorContainer.text('Same event IDs are not allowed');
-
-              // Disable the Submit button when an error is detected
-              $('#submit').prop('disabled', true);
-              return false; // Stop the iteration
-            }
-
-            // Add value to selectedValues array
-            selectedValues.push(value);
-          });
-
-          // Enable the Submit button if no errors are found
-          if (errorContainer.is(':empty')) {
-            $('#submit').prop('disabled', false);
-          }
-        });
-      },
-      error: function(xhr, status, error) {
-        // Handle any errors that occur during the AJAX request
-        console.log(error);
-      }
-    });
-  });
-</script>
+  // Attach the event listener to the datetime-local input
+  const datetimeInput = document.querySelector('input[type="datetime-local"]');
+  datetimeInput.setAttribute('min', getCurrentDateTime());
+    </script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
