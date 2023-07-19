@@ -293,7 +293,6 @@ include './php/admin-signin.php';
               setInterval(checkSelectedValue, 10000);
             });
           </script>
-          <!--<div style="width:100%; height:700px; color:var(--color-body);" id="tree"></div>-->
         </div>
     </section>
     <!-- Scripts -->

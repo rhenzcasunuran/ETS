@@ -1,0 +1,7 @@
+#tree>svg {
+    background-color: var(--color-body);
+}
+
+body {
+    overflow: hidden;
+}
