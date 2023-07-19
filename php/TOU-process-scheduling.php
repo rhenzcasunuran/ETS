@@ -24,12 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $query = "UPDATE bracket_teams SET event_id = ? WHERE bracket_form_id = ? AND team_one_id = ? AND team_two_id = ?";
         $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "iiss", $event_id, $id, $team_one_id, $team_two_id);
-        mysqli_stmt_execute($stmt);
-
-        $query = "UPDATE tournament SET has_set_tournament = 1 WHERE event_id = ?";
-        $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "i", $event_id);
+        mysqli_stmt_bind_param($stmt, "iiii", $event_id, $id, $team_one_id, $team_two_id);
         mysqli_stmt_execute($stmt);
     }
 

@@ -12,7 +12,6 @@ ON oen.ongoing_event_name_id = olfe.ongoing_event_name_id
 WHERE olfe.event_type_id = 1 
 AND oen.is_done = 0 
 AND olfe.is_archived = 0 
-AND tou.has_set_tournament = 0
 AND olfe.is_deleted = 0";
 
 $result = mysqli_query($conn, $query);

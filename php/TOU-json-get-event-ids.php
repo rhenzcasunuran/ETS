@@ -16,7 +16,6 @@ AND olfe.category_name = ?
 AND olfe.event_type_id = 1 
 AND oen.is_done = 0 
 AND olfe.is_archived = 0 
-AND tou.has_set_tournament = 0
 AND olfe.is_deleted = 0";
 
 $stmt = mysqli_prepare($conn, $query);

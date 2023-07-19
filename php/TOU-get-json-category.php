@@ -5,7 +5,7 @@ include 'database_connect.php';
 $selectedEvent = $_GET['event'];
 
 // Query to retrieve categories for the selected event
-$query = "SELECT DISTINCT category_name FROM tournament AS tou 
+$query = "SELECT DISTINCT olfe.category_name FROM tournament AS tou 
             INNER JOIN ongoing_list_of_event AS olfe
             ON tou.event_id = olfe.event_id
             INNER JOIN event_type AS et
@@ -15,8 +15,7 @@ $query = "SELECT DISTINCT category_name FROM tournament AS tou
             WHERE olfe.event_type_id = 1 
             AND oen.is_done = 0 
             AND olfe.is_archived = 0 
-            AND olfe.is_deleted = 0 
-            AND tou.has_set_tournament = 0
+            AND olfe.is_deleted = 0
             AND oen.event_name = '$selectedEvent';";
 
 $result = mysqli_query($conn, $query);

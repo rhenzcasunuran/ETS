@@ -35,9 +35,7 @@
       require './php/admin-sidebar.php';
     ?>
     <section class="home-section flex-row">
-      <div id="viewBracket" class="container-fluid text-center position-absolute top-50 start-50 translate-middle" style="display: none;">
-        <div style="width:100%; height:100%;" id="tree"></div>   
-      </div>
+      <!--<div style="width:100%; height:100%;" id="tree"></div>-->   
       <div class="d-flex justify-content-between">
         <div class="header">Live Scoring</div>
           <select id="viewScoreBracket" class="form-select w-25 h-25 mt-4 me-3 text-center" style="z-index:999;" aria-label="Default select example">
@@ -53,10 +51,9 @@
             </div>
             <div class="col-auto">
               <select id="tournamentMatchup" class="form-select w-100" aria-label="Default select example">
-                <option selected>Select Matchup</option>
               </select>
             </div>
-            <div id="viewScore" class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
+            <div class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
               <div class="row">
                 <div class="col">
                   <div class="row">
@@ -100,68 +97,6 @@
               var selectedId;
               var selectedValue;
 
-              // Function to set the values in the template using jQuery
-              function setTemplateValues(teamOneName, teamOneScore, teamTwoName, teamTwoScore) {
-                $('#team-one-name').text(teamOneName);
-                $('#team-one-score').text(teamOneScore);
-                $('#team-two-name').text(teamTwoName);
-                $('#team-two-score').text(teamTwoScore);
-              }
-
-              // Example usage:
-              setTemplateValues("Team A", 0, "Team B", 0);
-
-              // Function to update the template if selectedId and selectedValue exist
-              function updateTemplateIfValuesExist() {
-                if (selectedId !== null && selectedId !== undefined) {
-                  // Replace null or undefined with default values or values from the database, if available
-                  var teamOneName = "Team A";
-                  var teamOneScore = 0;
-                  var teamTwoName = "Team B";
-                  var teamTwoScore = 0;
-
-                  // If selectedValue is not null or undefined, use it to update team scores
-                  if (selectedValue !== null && selectedValue !== undefined) {
-                    // Assuming selectedValue contains the scores in the format "score1-score2"
-                    var scores = selectedValue.split('-');
-                    teamOneScore = parseInt(scores[0]);
-                    teamTwoScore = parseInt(scores[1]);
-                  }
-
-                  setTemplateValues(teamOneName, teamOneScore, teamTwoName, teamTwoScore);
-                }
-              }
-
-              // Call the function to initially update the template with default values
-              updateTemplateIfValuesExist();
-
-              // JavaScript
-              document.getElementById("viewScoreBracket").addEventListener("change", function() {
-                const selectedOption = this.value;
-                const viewScoreDiv = document.getElementById("viewScore");
-                const viewBracketDiv = document.getElementById("viewBracket");
-
-                if (selectedOption === "1") {
-                  // Show the live scoring view
-                  viewScoreDiv.style.display = "block";
-                  viewBracketDiv.style.display = "none";
-                } else if (selectedOption === "2") {
-                  // Show the bracket view
-                  viewScoreDiv.style.display = "none";
-                  viewBracketDiv.style.display = "block";
-                  // You may need to add code here to generate and display the bracket if it's not static
-                }
-              });
-
-              // Set the default view to "Scoring" when the page loads
-              document.addEventListener("DOMContentLoaded", function() {
-                const viewScoreDiv = document.getElementById("viewScore");
-                const viewBracketDiv = document.getElementById("viewBracket");
-
-                viewScoreDiv.style.display = "block";
-                viewBracketDiv.style.display = "none";
-              });
-
               // AJAX request to populate the <select> options
               $.ajax({
                 url: './php/TOU-get-event-category.php',
@@ -183,8 +118,6 @@
 
               // Event handler for tournament event change
               selectEvent.on('change', function() {
-                selectMatchup.empty();
-                selectMatchup.append('<option selected>Select Matchup</option>');
                 teamOneName.text(''); // Empty team one name
                 teamTwoName.text(''); // Empty team two name
                 teamOneScore.text(''); // Empty team one name
@@ -192,7 +125,6 @@
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
                 selectedId = $(this).val(); // Get the selected ID
-                updateTemplateIfValuesExist();
 
                 // Send the ID to another AJAX request
                 $.ajax({
@@ -202,6 +134,9 @@
                   dataType: 'json',
                   success: function(response) {
                     $.each(response, function(index, matchup) {
+                      selectMatchup.empty();
+                      selectMatchup.append('<option selected>Select Matchup</option>');
+
                       var optionText = matchup.team_one_name + ' vs ' + matchup.team_two_name;
                       selectMatchup.append('<option value="' + matchup.id  + '">' + optionText + '</option>');
                     });
@@ -221,7 +156,6 @@
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
                 selectedValue = $(this).val(); // Get the selected value
-                updateTemplateIfValuesExist();
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
@@ -274,7 +208,6 @@
                 let buttonId = $(this).attr('id');
                 let idNumber = buttonId.split('-').pop();
                 let bracketFormId = selectedId;
-                updateTemplateIfValuesExist();
 
                 // Send the action to the PHP script via AJAX
                 $.ajax({
@@ -321,7 +254,6 @@
                 let buttonId = $(this).attr('id');
                 let idNumber = buttonId.split('-').pop();
                 let bracketFormId = selectedId;
-                updateTemplateIfValuesExist();
 
                 // Send the action to the PHP script via AJAX
                 $.ajax({
@@ -365,7 +297,6 @@
               // Set the values of the hidden input fields when the "End Match" button is clicked
               $('#end-match-btn').click(function() {
                   selectedId = selectEvent.val();
-                  updateTemplateIfValuesExist();
 
                   // Create an object with the data to be sent
                   var postData = {
@@ -397,7 +328,6 @@
               });
             });
           </script>
-          <!--<div style="width:100%; height:700px; color:var(--color-body);" id="tree"></div>-->
         </div>
     </section>
     <!-- Scripts -->
