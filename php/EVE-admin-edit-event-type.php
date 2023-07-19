@@ -251,7 +251,7 @@
         '<button type="submit" class="primary-button" id="save-btn" name="save-btn-standard" onclick="saveEvent()" disabled>' .
           '<div class="tooltip-popup flex-column" id="tooltip">' .
               '<div class="tooltipText" id="textDescription">Event Description (5 or more char)<i class="bx bx-check" id="checkDescription"></i></div>' .
-              '<div class="tooltipText" id="textDate">Date: <span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
+              '<div class="tooltipText" id="textDate"><span id="dateText"></span><i class="bx bx-check" id="checkDate"></i></div>' .
               '<div class="tooltipText" id="textTime">Time<i class="bx bx-check" id="checkTime"></i></div>' .
               '<div class="tooltipText" id="textHasChanges">Any changes are made<i class="bx bx-check" id="checkHasChanges"></i></div>' .
           '</div>' .
