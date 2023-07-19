@@ -51,6 +51,7 @@
             </div>
             <div class="col-auto">
               <select id="tournamentMatchup" class="form-select w-100" aria-label="Default select example">
+                <option selected>Select Matchup</option>
               </select>
             </div>
             <div class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
@@ -103,6 +104,8 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
+                  console.log(data);
+
                   selectEvent.empty();
                   selectEvent.append('<option selected>Select Tournament Event</option>');
 
@@ -133,6 +136,8 @@
                   data: { id: selectedId },
                   dataType: 'json',
                   success: function(response) {
+                    console.log(response);
+
                     $.each(response, function(index, matchup) {
                       selectMatchup.empty();
                       selectMatchup.append('<option selected>Select Matchup</option>');
@@ -164,6 +169,8 @@
                   data: { id: selectedValue },
                   dataType: 'json',
                   success: function(response) {
+                    console.log(response);
+
                     if (response.length > 0) {
                       var matchup = response[0]; // Assuming only one matchup is returned
 
@@ -216,6 +223,8 @@
                   data: { id: idNumber, score: value, bracketFormId: bracketFormId, teamOneTwoId: selectedValue },
                   dataType: 'json',
                   success: function(response) {
+                    console.log(response);
+
                     if (response.error === 'Team 1 disable buttons.') {
                       // Disable the plus one buttons in the team_one_btn element
                       $('#team_two_btn button[value="1"]').prop('disabled', true);
@@ -262,6 +271,8 @@
                   data: { id: idNumber, score: value, bracketFormId: bracketFormId, teamOneTwoId: selectedValue },
                   dataType: 'json',
                   success: function(response) {
+                    console.log(response);
+
                     if (response.error === 'Team 2 disable buttons.') {
                       // Disable the plus one buttons in the team_two_btn element
                       $('#team_one_btn button[value="1"]').prop('disabled', true);

@@ -29,7 +29,7 @@ if (isset($_POST['id']) && isset($_POST['score']) && isset($_POST['bracketFormId
             ON ot2.id = bt.team_two_id
             INNER JOIN score_rule AS sr
             ON bt.bracket_form_id = sr.bracket_form_id
-            WHERE bt.id = ? AND event_id IS NOT NULL AND ot.bracket_form_id = ? AND sr.set_no = ot.current_set_no";
+            WHERE bt.id = ? AND bt.event_date_time IS NOT NULL AND ot.bracket_form_id = ? AND sr.set_no = ot.current_set_no";
   
   // Prepare the statement
   $stmt = mysqli_prepare($conn, $query);
