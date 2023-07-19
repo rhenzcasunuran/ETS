@@ -37,6 +37,55 @@
     <!-- Event And Category Fetch -->
     <script type="text/javascript">
     $(document).ready(function() {
+// Validate function to check inputs
+function validateInputs() {
+  var gameTypeSelect = $('#gameTypeSelect');
+  var dynamicInputs = $('#dynamic-inputs input');
+  var dynamicInputsMatchMax = $('#dynamic-inputs-match-max input');
+
+  var hasGameType = gameTypeSelect.val();
+  var hasDynamicInputsValue = dynamicInputs.filter(function() {
+    return this.value.trim() !== '';
+  }).length > 0;
+  var hasDynamicInputsMatchMaxValue = dynamicInputsMatchMax.filter(function() {
+    return this.value.trim() !== '';
+  }).length > 0;
+
+  // Hide all error messages
+  $('#error-display').hide();
+  $('#error-dynamic-inputs-match-max').hide();
+  $('#error-message-no-team').hide();
+
+  // Enable/Disable the submit button based on validation
+  $('#submitButton').prop('disabled', !hasGameType || !hasDynamicInputsValue || !hasDynamicInputsMatchMaxValue);
+
+  // Show specific error messages based on validation results
+  if (!hasGameType) {
+    $('#error-display').show();
+  }
+  if (!hasDynamicInputsMatchMaxValue) {
+    $('#error-dynamic-inputs-match-max').show();
+  }
+  // If you have other validation checks for 'no teams selected', include them here
+}
+
+// Event change event handler for both select input fields
+$('#event_name, #category_name').on('change', function() {
+  // Disable the submit button
+  $('#submitButton').prop('disabled', true);
+
+  // Show the error messages
+  validateInputs();
+});
+
+// Event change event handler for the dynamic input fields
+$('#dynamic-inputs-match-max input').on('input', function() {
+  // Show/hide error messages and enable/disable the submit button
+  validateInputs();
+});
+
+
+
         function populateEvents() {
             // Make an AJAX request to retrieve the event data
             $.ajax({
