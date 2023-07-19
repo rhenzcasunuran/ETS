@@ -438,16 +438,6 @@ button {
     overflow: hidden;
 }
 
-.element .not-included {    
-    width: 100%;
-    background-color: var(--default-primary-action-color);
-    height: 20px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
-}
-
 .element input[name="deleteEvent[]"] {
     outline: 8px var(--color-content-card) solid;
     outline-offset: -2px;

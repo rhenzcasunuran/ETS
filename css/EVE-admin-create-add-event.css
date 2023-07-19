@@ -211,3 +211,11 @@ input.form-control, #display-code, .overall-included {
 select.selectpicker {
     display: block!important;
 }
+
+.judges-container {
+    overflow: auto;
+}
+
+.judge-name {
+    color: var(--not-active-text-color)!important;
+}
