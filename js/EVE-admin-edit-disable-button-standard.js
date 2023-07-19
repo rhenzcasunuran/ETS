@@ -21,13 +21,6 @@ nextYearDate.setFullYear(currentDate.getFullYear() + 1); // Add a year to the cu
 currentDate.setFullYear(currentDate.getFullYear()); // Current date
 
 var nextYearDateString = nextYearDate.toISOString().split("T")[0];
-var currentDateString = currentDate.toISOString().split("T")[0];
-
-var currentDay = currentDate.getDate();
-var currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so add 1
-var currentYear = currentDate.getFullYear();
-
-var currentDate1 = `${currentDay}/${currentMonth}/${currentYear}`;
 
 var nextYearDay = nextYearDate.getDate();
 var nextYearMonth = nextYearDate.getMonth() + 1; // Month is zero-based, so add 1
@@ -37,7 +30,7 @@ var nextYearDate1 = `${nextYearDay}/${nextYearMonth}/${nextYearYear}`;
 
 
 var dateText = document.querySelector("#dateText");
-dateText.textContent = "(" + currentDate1 + ") to (" + nextYearDate1 + ")";
+dateText.textContent = "Date not later than " + nextYearDate1;
 
 var initialDescValue = formDesc.value;
 var initialDateValue = formDate.value;
