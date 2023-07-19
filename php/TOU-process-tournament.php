@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $teams = $_POST['dynamic_input'];
     $numTeams = count($teams);
     // Retrieve the game options
-    $gameOptions = $_POST['game_options'];
+    $gameOptions = $_POST['dynamic-inputs-match-max'];
     $gameType = $_POST['gameTypeSelect'];
     // Array to store team IDs
     $teamIds = array();

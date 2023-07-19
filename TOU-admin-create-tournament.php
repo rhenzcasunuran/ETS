@@ -36,7 +36,8 @@
 
     <!-- Event And Category Fetch -->
     <script type="text/javascript">
-        $(document).ready(function() {
+    $(document).ready(function() {
+        function populateEvents() {
             // Make an AJAX request to retrieve the event data
             $.ajax({
                 url: './php/TOU-get-json-events.php', // Replace with the correct file path
@@ -47,61 +48,196 @@
 
                     // Populate the event select element
                     var eventSelect = $('#event_name');
+                    eventSelect.empty(); // Clear previous options
                     $.each(data.events, function(index, event) {
                         eventSelect.append($('<option></option>').val(event).text(event));
                     });
 
-                    // Trigger change event on initial page load
+                    // Trigger change event on initial page load or when events are populated
                     eventSelect.trigger('change');
                 },
                 error: function() {
                     console.log('Error occurred while retrieving event data.');
                 }
             });
+        }
 
-            // Event change event handler
-            $('#event_name').on('change', function() {
-                var selectedEvent = $(this).val();
+        function populateCategories(selectedEvent) {
+            // Make an AJAX request to retrieve the categories for the selected event
+            $.ajax({
+                url: './php/TOU-get-json-category.php', // Replace with the correct file path
+                type: 'GET',
+                data: { event: selectedEvent },
+                success: function(response) {
+                    // Parse the JSON response
+                    const data = response;
 
-                // Make an AJAX request to retrieve the categories for the selected event
-                $.ajax({
-                    url: './php/TOU-get-json-category.php', // Replace with the correct file path
-                    type: 'GET',
-                    data: { event: selectedEvent },
-                    success: function(response) {
-                        // Parse the JSON response
-                        const data = response;
+                    // Populate the category select element
+                    var categorySelect = $('#category_name');
+                    categorySelect.empty(); // Clear previous options
+                    $.each(data.categories, function(index, category) {
+                        categorySelect.append($('<option></option>').val(category).text(category));
+                    });
 
-                        // Populate the category select element
-                        var categorySelect = $('#category_name');
-                        categorySelect.empty(); // Clear previous options
-                        $.each(data.categories, function(index, category) {
-                            categorySelect.append($('<option></option>').val(category).text(category));
-                        });
-                    },
-                    error: function() {
-                        console.log('Error occurred while retrieving category data.');
-                    }
-                });
+                    // Trigger change event for the category select element after populating
+                    categorySelect.trigger('change');
+                },
+                error: function() {
+                    console.log('Error occurred while retrieving category data.');
+                }
             });
-        });
-    </script>
+        }
 
+        // Event change event handler
+        $('#event_name').on('change', function() {
+            var selectedEvent = $(this).val();
+            populateCategories(selectedEvent);
+        });
+
+// Category change event handler
+$('#category_name').on('change', function() {
+  var selectedEvent = $('#event_name').val();
+  var selectedCategory = $(this).val();
+
+  // Make an AJAX request to retrieve the number of wins for the selected event and category
+  $.ajax({
+    url: './php/TOU-get-json-no-of-wins.php', // Replace with the actual path to your PHP script
+    method: 'GET',
+    data: {
+      event: selectedEvent,
+      category: selectedCategory // Send the selected category as well, if needed
+    },
+    dataType: 'json',
+    success: function(response) {
+      // Update the DOM with the received data
+      var $div = $('#best_of_no_display');
+      var $hiddenInput = $('#best_of_no');
+
+      // Display the number_of_wins_number in the div
+      $div.text(response.number_of_wins);
+
+      // Set the number_of_wins_number in the hidden input
+      $hiddenInput.val(response.number_of_wins_number);
+
+      // Generate input fields based on the number of wins
+      generateInputFields(response.number_of_wins_number);
+
+      // Call the validation function to hide/show the error message
+      validateInputs();
+    },
+    error: function(xhr, status, error) {
+      // Handle the error, if any
+      console.error(error);
+    }
+  });
+});
+
+// Populate events on page load
+populateEvents();
+
+function isNonZeroPositiveInteger(inputValue) {
+  return /^\d+$/.test(inputValue) && parseInt(inputValue) > 0;
+}
+
+function generateInputFields(numberOfWinsNumber) {
+  // Clear existing input fields and error message
+  $('#dynamic-inputs-match-max').empty();
+
+  // Create and display input fields based on the number of wins
+  for (var i = 1; i <= numberOfWinsNumber; i++) {
+    var inputField = $('<input>').attr({
+      type: 'text',
+      name: 'dynamic-inputs-match-max[' + i + ']',
+      required: true,
+      maxlength: 3 // Set maximum length to 3 characters
+    });
+
+    // Append the input field to the dynamic-inputs-match-max div
+    $('#dynamic-inputs-match-max').append(inputField);
+  }
+}
+
+// Event delegation to check if all input fields have a value
+$('#dynamic-inputs-match-max').on('input', 'input[type="text"]', function() {
+  var allInputsFilled = true;
+
+  // Check if any input field is empty
+  $('#dynamic-inputs-match-max input[type="text"]').each(function() {
+    if ($(this).val().trim() === '') {
+      allInputsFilled = false;
+      return false; // Exit the loop early since at least one input field is empty
+    }
+  });
+
+  // Display/hide the error message based on the validation result
+  var errorDiv = $('#error-dynamic-inputs-match-max');
+  if (allInputsFilled) {
+    errorDiv.hide();
+  } else {
+    errorDiv.show();
+  }
+});
+
+
+  // Get the necessary elements
+  const gameTypeSelect = document.getElementById('gameTypeSelect');
+  const errorDisplay = document.getElementById('error-display');
+
+  // Add event listener to the select element
+  gameTypeSelect.addEventListener('change', function () {
+    // Check if a valid option is selected
+    const selectedValue = gameTypeSelect.value;
+    if (selectedValue === '') {
+      // Display the error message if no valid value is selected
+      errorDisplay.style.display = 'block';
+      submitButton.disabled = true;
+    } else {
+      // Hide the error message if a valid value is selected
+      errorDisplay.style.display = 'none';
+    }
+  });
+
+  // Attach a click event listener to the form element
+document.getElementById('myForm').addEventListener('click', function(event) {
+  // Check if any of the error messages have "display: block" style
+  var errorMessages = document.querySelectorAll('.text-danger');
+  var isErrorDisplayed = false;
+
+  errorMessages.forEach(function (errorMessage) {
+    if (window.getComputedStyle(errorMessage).display === 'block') {
+      isErrorDisplayed = true;
+      return;
+    }
+  });
+
+  // Enable or disable the submit button based on the error status
+  var submitButton = document.getElementById('submitButton');
+  submitButton.disabled = isErrorDisplayed;
+});
+
+});
+</script>
     <section class="home-section flex-row">
       <div class="header">Create Tournament</div>
         <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
             <div class="element">
                 <div class="row">
                     <div class="element-group">
-                    <form method="POST" action="./php/TOU-process-tournament.php">
+                    <form method="POST" action="./php/TOU-process-tournament.php" id="myForm">
                        <!-- Add the gameTypeSelect and bestOfDropdown values -->
                         <div class="d-flex justify-content-start">
-                            Event:
+                            Event: 
+                            <div style="margin-left: 5px;"></div>
                             <select id="event_name" name="event_name"></select>
-                            <!-- Add spacing using CSS margin -->
                             <div style="margin-left: 10px;"></div>
-                            Category:
+                            Category: 
+                            <div style="margin-left: 5px;"></div>
                             <select id="category_name" name="category_name"></select>
+                            <div style="margin-left: 10px;"></div>
+                            Match Style:
+                            <div style="margin-left: 5px;"></div>
+                            <div id="best_of_no_display"></div>
+                            <input type="hidden" id="best_of_no" name="best_of_no" required>
                         </div>
                         <br>
                         <div class="container text-center">
@@ -113,70 +249,35 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                  <select id="gameTypeSelect" name="gameTypeSelect" class="form-select w-75 text-center">
+                                  <select id="gameTypeSelect" name="gameTypeSelect" class="form-select w-75 text-center" required>
                                     <option selected disabled>Select whether time or score based</option>
                                     <option value="score-based">Score-based</option>
                                     <option value="time-based">Time-based</option>
                                   </select>
                                   <br>
-                                  <select id="bestOfDropdown" name="bestOfDropdown" class="form-select w-75 text-center">
-                                    <option selected disabled>Select no. of best of</option>
-                                    <option value="1">Best of 1</option>
-                                    <option value="3">Best of 3</option>
-                                    <option value="5">Best of 5</option>
-                                    <option value="7">Best of 7</option>
-                                    <option value="9">Best of 9</option>
-                                  </select>
-                                  <br>
-                                  <div class="w-75 text-center" id="gameOptions"></div>
+                                  <div class="w-75 text-center" id="noOfMatches">
+                                    <div id="dynamic-inputs-match-max">
+                                  </div>
                                 </div>
                                 <br>
                               </div>
                           </div>
                         </div>                        
                         <br>
-                        <div class="d-flex justify-content-end">
-                            <input type="submit" value="Submit">
+                        <div id="error-display" class="text-danger">
+                          *Please select a game type.
                         </div>
-                        <div id="error-message" class="invalid-feedback">
-                            Duplicate or odd number of teams are not allowed.
+                        <div id="error-dynamic-inputs-match-max" class="text-danger">
+                          *Please fill in the input.
+                        </div>
+                        <div id="error-message-no-team" class="text-danger">
+                          *Please select teams.<br>
+                          *Note: Duplicate or odd number of teams are not allowed.
+                        </div>
+                        <div class="d-flex justify-content-end">
+                        <button type="submit" id="submitButton" class="btn btn-primary" disabled>Submit</button>
                         </div>
                     </form>
-
-                    <script>
-                      const gameTypeSelect = document.getElementById('gameTypeSelect');
-                      const bestOfDropdown = document.getElementById('bestOfDropdown');
-                      const gameOptionsDiv = document.getElementById('gameOptions');
-
-                      // Hide the second selection field initially
-                      bestOfDropdown.style.display = 'none';
-
-                      gameTypeSelect.addEventListener('change', function() {
-                        bestOfDropdown.style.display = 'block';
-                        const selectedValue = parseInt(bestOfDropdown.value);
-                        generateGameOptions(selectedValue);
-                      });
-
-                      bestOfDropdown.addEventListener('change', function() {
-                        const selectedValue = parseInt(bestOfDropdown.value);
-                        generateGameOptions(selectedValue);
-                      });
-
-                      function generateGameOptions(selectedValue) {
-                        gameOptionsDiv.innerHTML = '';
-
-                        for (let i = 1; i <= selectedValue; i++) {
-                          const containerDiv = document.createElement('div');
-                          const inputField = document.createElement('input');
-                          inputField.type = 'number';
-                          inputField.name = 'game_options[' + i + ']';
-                          inputField.placeholder = 'Enter value ' + i;
-
-                          containerDiv.appendChild(inputField);
-                          gameOptionsDiv.appendChild(containerDiv);
-                        }
-                      }
-                    </script>
 
                     <script>
                         var maxInputs = 8; // Maximum number of input fields allowed
@@ -256,25 +357,33 @@
                         }
 
                         function validateDuplicateTeams() {
-                            var selects = document.querySelectorAll('select[name="dynamic_input[]"]');
-                            var selectedValues = [];
-                            var errorOccurred = false;
+  var selects = document.querySelectorAll('select[name="dynamic_input[]"]');
+  var selectedValues = [];
+  var errorOccurred = false;
 
-                            for (var i = 0; i < selects.length; i++) {
-                                var value = selects[i].value;
-                                if (selectedValues.includes(value)) {
-                                selects[i].classList.add('is-invalid');
-                                errorOccurred = true;
-                                } else {
-                                selects[i].classList.remove('is-invalid');
-                                }
-                                selectedValues.push(value);
-                            }
+  for (var i = 0; i < selects.length; i++) {
+    var value = selects[i].value;
+    if (selectedValues.includes(value)) {
+      selects[i].classList.add('is-invalid');
+      errorOccurred = true;
+    } else {
+      selects[i].classList.remove('is-invalid');
+    }
+    selectedValues.push(value);
+  }
 
-                            var errorMessage = document.getElementById('error-message');
-                            var isOddNumber = selects.length % 2 !== 0; // Check if the number of fields is odd
-                            errorMessage.style.display = errorOccurred || isOddNumber ? 'block' : 'none';
-                            }
+  var errorMessage = document.getElementById('error-message-no-team');
+  var isOddNumber = selects.length % 2 !== 0;
+
+  // Show the error message if there are no input fields or if there's a duplicate team
+  errorMessage.style.display = selects.length === 0 || errorOccurred || isOddNumber ? 'block' : 'none';
+
+  // Disable or enable the submit button based on the error status
+  var submitButton = document.getElementById('submitButton');
+  if (selects.length === 0 || errorOccurred || isOddNumber) {
+    submitButton.disabled = true;
+  }
+}
 
                     </script>
                     </div>
