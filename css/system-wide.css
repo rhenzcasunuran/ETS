@@ -565,7 +565,7 @@ input[type="time"]:focus {
     border: 1px var(--color-content-text) solid !important;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator{
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator, input[type="datetime-local"]::-webkit-calendar-picker-indicator{
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
