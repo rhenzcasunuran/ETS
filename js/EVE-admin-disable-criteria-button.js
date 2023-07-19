@@ -108,14 +108,10 @@ function updateTotalPercentage() {
     $('#totalPercentage p').text(total + '%');
 
     var hasCriterionChanges = $('input[name="criterion[]"]').toArray().some(function(input, index) {
-      console.log($(input).val());
-      console.log(initialCriterionValues[index]);
       return $(input).val() !== initialCriterionValues[index];
     });
 
     var hasPercentageChanges = $('input[name="percentage[]"]').toArray().some(function(input, index) {
-      console.log($(input).val());
-      console.log(initialPercentageValues[index]);
         return $(input).val() !== initialPercentageValues[index];
     });
     
