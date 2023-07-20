@@ -10,7 +10,15 @@ h3{
 
 }
 
-
+#competition-results {
+  width: 100%;
+  text-align: center;
+  background: var(--color-body);
+  border-radius: 10px;
+  border: 2px solid;
+  border-color: var(--color-body);
+  margin-bottom: 10px;
+}
 #search{
   border: 1px solid #ccc;
   border-radius: 100px;
