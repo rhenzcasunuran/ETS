@@ -584,7 +584,7 @@ input[readonly] {
   font-weight: 100;
   pointer-events: none;
   box-shadow: 0px 0px 10px 0 var(--shadow-color)!important;
-  width: 420px;
+  width:500px;
 }
 
 .tooltip-popup::before {
