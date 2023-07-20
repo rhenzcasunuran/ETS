@@ -864,8 +864,16 @@ var adminCalendarComputer = {
                   dateText.addClass('current-date');
                 }
 
-                var plusIcon = $('<span>').addClass('calendar-day-plus').text('+').hide();
-                div.append(plusIcon);
+
+                 // Check if the date is between today and the same date of the next year
+                var nextYear = currentYear + 1;
+                var sameDateNextYear = new Date(nextYear, currentMonth, currentDay).getTime();
+                var currentDate = new Date(year, month - 1, date).getTime();
+
+                if (currentDate >= Date.now() && currentDate <= sameDateNextYear) {
+                  var plusIcon = $('<span>').addClass('calendar-day-plus').text('+').hide();
+                  div.append(plusIcon);
+                }
               }
 
               cell.append(div);
