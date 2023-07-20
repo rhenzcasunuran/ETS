@@ -175,24 +175,26 @@ $count2 = count($data2);
 // Determine the maximum length of the combined array
 $max_length = max($count1, $count2);
 
-// Loop through the arrays and combine them alternately
 for ($i = 0; $i < $max_length; $i++) {
     // Combine the elements into an associative array
     $combined_element = [
         'team_name' => '',
-        'overall_score' => ''
+        'overall_score' => '',
+        'img' => '',
     ];
 
     // Alternate between data2 (team_two) and data1 (team_one)
     if ($i < $count2) {
         $combined_element['team_name'] = $data2[$i]['team_two_name'];
         $combined_element['overall_score'] = $data2[$i]['team_two_overall_score'];
+        $combined_element['img'] = '/ETS/logos/' . $data2[$i]['team_two_name'] . '.png'; // Add .png here
         $combined_data[] = $combined_element;
     }
 
     if ($i < $count1) {
         $combined_element['team_name'] = $data1[$i]['team_one_name'];
         $combined_element['overall_score'] = $data1[$i]['team_one_overall_score'];
+        $combined_element['img'] = '/ETS/logos/' . $data1[$i]['team_one_name'] . '.png'; // Add .png here
         $combined_data[] = $combined_element;
     }
 }
@@ -204,7 +206,8 @@ for ($i = 0; $i < $nodeIdStart; $i++) {
         'id' => isset($nodeValueArray[$i]) ? $nodeValueArray[$i] : null,
         'pid' => isset($parentIdValueArray[$i]) ? $parentIdValueArray[$i] : null,
         'team_name' => $combined_data[$i]['team_name'] ?? null,
-        'overall_score' => $combined_data[$i]['overall_score'] ?? null
+        'overall_score' => $combined_data[$i]['overall_score'] ?? null,
+        'img' => $combined_data[$i]['img'] ?? null
     ];
 
     // Add the combined element to the new array

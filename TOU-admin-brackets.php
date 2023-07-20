@@ -138,6 +138,7 @@
             success: function(data) {
               console.log(data)
                 // Create the OrgChart with the received data
+                OrgChart.templates.diva.link = '<path stroke-linejoin="round" stroke="#aeaeae" stroke-width="1px" fill="none" d="{edge}" />';
                 var chart = new OrgChart(document.getElementById("tree"), {
                     template: "diva",
                     enableSearch: false,
@@ -146,6 +147,7 @@
                     nodeBinding: {
                         field_0: "team_name",
                         field_1: "overall_score",
+                        img_0: "img"
                     },
                     nodes: data // Use the received data to populate the nodes of the OrgChart
                 });
