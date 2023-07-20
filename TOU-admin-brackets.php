@@ -64,13 +64,12 @@
     var selectedEventName;
 
     document.getElementById("viewScoreBracket").addEventListener("change", function() {
-        var selectedValue = this.value;
-        if (selectedValue === "1") {
-          // Redirect to the PHP page
-          window.location.href = "TOU-admin-live-scoring.php";
-        }
-      });
-
+      var selectedValue = this.value;
+      if (selectedValue === "2") {
+        // Redirect to the PHP page
+        window.location.href = "TOU-admin-live-scoring.php";
+      }
+    });
 
     $.ajax({
         url: './php/TOU-get-bracket-events.php',
