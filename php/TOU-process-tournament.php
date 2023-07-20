@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare the SQL statement to insert data into the bracket_forms table
-    $stmt = $conn->prepare("INSERT INTO bracket_forms (category_name, event_name) VALUES (?, ?)");
-    $stmt->bind_param("ss", $category_name, $event_name);
+    $stmt = $conn->prepare("INSERT INTO bracket_forms (category_name, event_name, node_id_start, parent_id_start) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssii", $category_name, $event_name, $node_id_start, $numTeams);
     $stmt->execute();
 
     // Get the ID of the inserted row
@@ -113,30 +113,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $bracket_position++;
     }
 
-    $stmt->close();
-
-    // Prepare the SQL statement
-    $query = "INSERT INTO bracket_teams_state (bracket_form_id, node_id_start, parent_id_start) VALUES (?, ?, ?)";
-    $stmt = mysqli_prepare($conn, $query);
-    // Bind the parameters
-    mysqli_stmt_bind_param($stmt, "iii", $bracket_form_id, $node_id_start, $numTeams);
-    // Execute the SQL statement
-    mysqli_stmt_execute($stmt);
-    // Close the statement and connection
-    mysqli_stmt_close($stmt);    
+    $stmt->close();   
 
     // UPDATE query
-    $updateQuery = "UPDATE tournament SET has_set_tournament = 1 
+    $updateQuery = "UPDATE tournament SET has_set_tournament = 1, bracket_form_id = ? 
     WHERE event_id IN (
         SELECT tou.event_id 
         FROM tournament AS tou 
         INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
         INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-        WHERE oen.event_name = ? AND olfe.category_name = ?
+        WHERE oen.event_name = ? 
+        AND olfe.category_name = ? 
+        AND has_set_tournament = 0
+        AND olfe.is_archived = 0
+        AND olfe.is_deleted = 0
+        AND oen.is_done = 0
     )";
 
     $updateStmt = $conn->prepare($updateQuery);
-    $updateStmt->bind_param("ss", $event_name, $category_name);
+    $updateStmt->bind_param("iss", $bracket_form_id, $event_name, $category_name);
     $updateStmt->execute();
     // Close the UPDATE statement
     $updateStmt->close();

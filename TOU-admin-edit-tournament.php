@@ -294,7 +294,7 @@
                                             $stmt1->close();
 
                                             // Prepare the SQL query with a parameter placeholder
-                                            $sqlCount = "SELECT node_id_start FROM `bracket_teams_state` WHERE bracket_form_id = ?;";
+                                            $sqlCount = "SELECT node_id_start FROM `bracket_forms` WHERE id = ?;";
 
                                             // Prepare the statement
                                             $stmt2 = $conn->prepare($sqlCount);
