@@ -59,7 +59,7 @@ formTime.addEventListener("change", () => buttonState());
 function buttonState() {
     var descValue = formDesc.value.trim().replace(/\s\s+/g, ""); // Remove multiple consecutive spaces
 
-    if (formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value < nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "") {
+    if (formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value <= nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "") {
         formButton.disabled = false; // enable the button once the input field has content
         tooltip.style.display = 'none';
     } else {
@@ -93,7 +93,7 @@ function buttonState() {
             textDesc.style.color = "var(--default-success-color)";
         }
         //Date
-        if(formDate.value !== "" && (formDate.value < nextYearDateString && formDate.value >= currentDateString)) {
+        if(formDate.value !== "" && (formDate.value <= nextYearDateString && formDate.value >= currentDateString)) {
             checkDate.style.visibility = "visible";
             textDate.style.color = "var(--default-success-color)";
         }
