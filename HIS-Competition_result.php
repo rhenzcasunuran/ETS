@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+
 <style>
   /* Styles for the competition result container */
   .result_container {
@@ -20,27 +25,6 @@
     border-radius: 3px;
   }
 
-  /* Styles for the table */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  /* Styles for the table header row */
-  th {
-    padding: 10px;
-    text-align: left;
-    font-size: 20px;
-    color: var(--color-content-text);
-  }
-
-  /* Styles for the table data rows */
-  td {
-    padding: 10px;
-    font-size: 20px;
-    color: var(--color-content-text)
-  }
-
   /* Styles for the empty message */
   #empty {
     display: flex;
@@ -50,7 +34,59 @@
     font-size: 20px;
     color: #888;
   }
+
+  /* Styles for the winner podium */
+  .winner-podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Align items to the bottom */
+    margin-bottom: 20px;
+    height: 250px; /* Adjust the height as needed */
+  }
+
+  .winner-podium__place {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 10px;
+    height: 60%; /* Set the height to a percentage of the podium container */
+  }
+  
+  .winner-podium__place--gold {
+    background-color: gold;
+    width: 150px;
+    height: 100%; /* Adjust the height to be higher than the other podiums */
+  }
+
+  .winner-podium__place--silver {
+    width: 150px;
+    background-color: silver;
+    height: 80%;
+  }
+
+  .winner-podium__place--bronze {
+    background-color: #cd7f32;
+    width: 150px;
+    height: 60%;
+  }
+
+  .winner-podium__place-number {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .winner-podium__place-name {
+    font-size: 18px;
+    text-align: center;
+  }
+  
 </style>
+</head>
+<body>
 
 <?php
 require './php/database_connect.php';
@@ -75,11 +111,7 @@ $result = $conn->query($sql);
 
 // If there are competitions, generate HTML code for each of them
 if ($result->num_rows > 0) {
-  echo "<script type='text/javascript'>";
-  echo "document.getElementById('empty').style.display = 'none';";
-  echo "console.log('display result');";
-  echo "console.log('Working');";
-  echo "</script>";
+  echo "<div id='empty' style='display: none;'></div>";
 
   while ($row = $result->fetch_assoc()) {
     $competitionNameQuery = "SELECT category_name FROM ongoing_list_of_event WHERE event_id =" . $row["event_id"];
@@ -104,22 +136,13 @@ if ($result->num_rows > 0) {
     echo "<h2 class='parent' id='" . $competitionName ."'>" . $competitionName . "<br> </h2>";
     // Generate HTML code for the result div and table
     echo "<div class='result'>";
-    echo "<table>";
-    echo "<tbody class='responsive-table'>";
-    echo "<tr><th>Name</th><th>Organization</th>";
-
-    // Generate HTML code for the criteria columns
-    while ($criterion_row = $criteria_result->fetch_assoc()) {
-      echo "<th>" . $criterion_row["criterion_name"] . "</th>";
-    }
-
-    echo "<th>Overall Score</th></tr>";
-
+   
     // Query the participants table for this competition
     $participants_sql = "SELECT * FROM participants WHERE competition_id = '$competition_id'";
     $participants_result = $conn->query($participants_sql);
 
     // Generate HTML code for the scores rows
+    $participants = array();
     while ($participant_row = $participants_result->fetch_assoc()) {
       $participant_name = $participant_row["participant_name"];
       $organization_id = $participant_row["organization_id"];
@@ -130,12 +153,10 @@ if ($result->num_rows > 0) {
       $org_result = $conn->query($org_sql);
       $organization_name = $org_result->fetch_assoc()["organization_name"];
 
-      echo "<tr><td>" . $participant_name . "</td><td>" . $organization_name . "</td>";
+      $total_score = 0;
 
       // Loop through each criterion to get the scores for this participant
       $criteria_result->data_seek(0);
-      $total_score = 0;
-
       while ($criterion_row = $criteria_result->fetch_assoc()) {
         $criterion_id = $criterion_row["criterion_id"];
 
@@ -146,30 +167,65 @@ if ($result->num_rows > 0) {
 
         if ($final_score !== null) {
           $total_score += $final_score;
-          echo "<td>" . $final_score . "</td>";
-        } else {
-          echo "<td></td>";
         }
       }
 
-      echo "<td>" . $total_score . "</td></tr>";
+      $participants[] = array(
+        'name' => $participant_name,
+        'organization' => $organization_name,
+        'score' => $total_score
+      );
     }
 
-    echo "</tbody></table></div>";
+    // Sort participants based on their scores in descending order
+    usort($participants, function ($a, $b) {
+      return $b['score'] - $a['score'];
+    });
+
+    // Generate HTML code for the winner podium
+    
+    echo "<div class='winner-podium'>";
+
+    echo "<div class='winner-podium__place winner-podium__place--silver'>";
+    if (isset($participants[1])) {
+      $secondPlace = $participants[1];
+      echo "<span class='winner-podium__place-number'>2</span>";
+      echo "<span class='winner-podium__place-name'>" . $secondPlace['name'] . "</span>";
+      echo "<span class='winner-podium__place-name'>" . $secondPlace['organization'] . "</span>";
+    }
+    echo "</div>";
+    
+    echo "<div class='winner-podium__place winner-podium__place--gold'>";
+    if (isset($participants[0])) {
+      $firstPlace = $participants[0];
+      echo "<span class='winner-podium__place-number'>1</span>";
+      echo "<span class='winner-podium__place-name'>" . $firstPlace['name'] . "</span>";
+      echo "<span class='winner-podium__place-name'>" . $firstPlace['organization'] . "</span>";
+    }
+    echo "</div>";
+    
+    echo "<div class='winner-podium__place winner-podium__place--bronze'>";
+    if (isset($participants[2])) {
+      $thirdPlace = $participants[2];
+      echo "<span class='winner-podium__place-number'>3</span>";
+      echo "<span class='winner-podium__place-name'>" . $thirdPlace['name'] . "</span>";
+      echo "<span class='winner-podium__place-name'>" . $thirdPlace['organization'] . "</span>";
+    }
+    echo "</div>";
+    
+    // Add the human figures on top of each podium
+   
+    
+
     echo "</div>";
   }
 } else {
   // If there are no competitions, display a message
-  echo "<script>";
-  echo "var empty = document.getElementById('empty');";
-  echo "var searchbar = document.querySelector('.inputAndDeleteDiv');";
-  echo "var pagini = document.querySelector('.pagination');";
-  echo "empty.style.display = 'flex';";
-  echo "searchbar.style.display = 'none';";
-  echo "pagini.style.display = 'none';";
-  echo "</script>";
+  echo "<div id='empty'>Event Result not found. </div>";
 }
 
 // Close connection
 $conn->close();
 ?>
+</body>
+</html>
