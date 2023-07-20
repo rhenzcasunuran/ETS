@@ -9,73 +9,76 @@ $selectedCategory = $_GET['categoryValue'];
 $combined_data = array();
 
 // Prepare the SQL statement
-$sql = "SELECT ot.team_name AS team_one_name,
-            ot.current_overall_score AS team_one_overall_score,
-            NULL AS team_two_name,
-            NULL AS team_two_overall_score
-            FROM `tournament` AS tou
-            INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
-            INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-            INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bt.id
-            INNER JOIN bracket_forms AS bf ON bf.id = bt.bracket_form_id
-            INNER JOIN ongoing_teams AS ot ON ot.bracket_form_id = bf.id
-            WHERE tou.has_set_tournament = 1
+$sql = "SELECT *
+FROM (
+    SELECT ot.id AS team_one_id, ot.team_name AS team_one_name,
+           'CHAMPION' AS team_one_overall_score,
+           NULL AS team_two_id,
+           NULL AS team_two_name,
+           NULL AS team_two_overall_score
+    FROM `tournament` AS tou
+    INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
+    INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+    INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bt.id
+    INNER JOIN bracket_forms AS bf ON bf.id = bt.bracket_form_id
+    INNER JOIN ongoing_teams AS ot ON ot.bracket_form_id = bf.id
+    WHERE tou.has_set_tournament = 1
+        AND olfe.is_archived = 0
+        AND olfe.is_deleted = 0
+        AND oen.is_done = 0
+        AND bf.event_name = ?
+        AND bf.category_name = ?
+        AND ot.current_team_status = 'champion'
+    
+    UNION
+    
+    SELECT 
+        NULL AS team_one_id,
+        NULL AS team_one_name,
+        NULL AS team_one_overall_score,
+        NULL AS team_two_id,
+        NULL AS team_two_name,
+        NULL AS team_two_overall_score
+    FROM DUAL
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM `tournament` AS tou
+        INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
+        INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+        INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bt.id
+        INNER JOIN bracket_forms AS bf ON bf.id = bt.bracket_form_id
+        INNER JOIN ongoing_teams AS ot ON ot.bracket_form_id = bf.id
+        WHERE tou.has_set_tournament = 1
             AND olfe.is_archived = 0
             AND olfe.is_deleted = 0
             AND oen.is_done = 0
             AND bf.event_name = ?
             AND bf.category_name = ?
             AND ot.current_team_status = 'champion'
-
-            UNION ALL
-
-            SELECT NULL AS team_one_name,
-            NULL AS team_one_overall_score,
-            NULL AS team_two_name,
-            NULL AS team_two_overall_score
-            FROM DUAL
-            WHERE NOT EXISTS (
-            SELECT 1
-            FROM `tournament` AS tou
-            INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
-            INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-            INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bt.id
-            INNER JOIN bracket_forms AS bf ON bf.id = bt.bracket_form_id
-            INNER JOIN ongoing_teams AS ot ON ot.bracket_form_id = bf.id
-            WHERE tou.has_set_tournament = 1
-            AND olfe.is_archived = 0
-            AND olfe.is_deleted = 0
-            AND oen.is_done = 0
-            AND bf.event_name = ?
-            AND bf.category_name = ?
-            AND ot.current_team_status = 'champion'
-        )
-
-        UNION
-
-        SELECT ot.team_name AS team_one_name,
-                ot.current_overall_score AS team_one_overall_score,
-                ot2.team_name AS team_two_name,
-                ot2.current_overall_score AS team_two_overall_score
-                FROM `tournament` AS tou
-                INNER JOIN ongoing_list_of_event AS olfe
-                ON tou.event_id = olfe.event_id
-                INNER JOIN ongoing_event_name AS oen
-                ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-                INNER JOIN bracket_forms AS bf
-                ON bf.id = tou.bracket_form_id
-                INNER JOIN bracket_teams AS bt 
-                ON bt.bracket_form_id = bf.id
-                INNER JOIN ongoing_teams AS ot
-                ON bt.team_one_id = ot.id
-                INNER JOIN ongoing_teams AS ot2
-                ON bt.team_two_id = ot2.id
-                WHERE has_set_tournament = 1
-                AND olfe.is_archived = 0
-                AND olfe.is_deleted = 0
-                AND oen.is_done = 0
-                AND bf.event_name = ?
-                AND bf.category_name = ?;";
+    )
+    
+    UNION ALL
+    
+    SELECT ot.id AS team_one_id, ot.team_name AS team_one_name,
+           ot.current_overall_score AS team_one_overall_score,
+           ot2.id AS team_two_id,
+           ot2.team_name AS team_two_name,
+           ot2.current_overall_score AS team_two_overall_score
+    FROM `tournament` AS tou
+    INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
+    INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+    INNER JOIN bracket_forms AS bf ON bf.id = tou.bracket_form_id
+    INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bf.id
+    INNER JOIN ongoing_teams AS ot ON bt.team_one_id = ot.id
+    INNER JOIN ongoing_teams AS ot2 ON bt.team_two_id = ot2.id
+    WHERE tou.has_set_tournament = 1
+        AND olfe.is_archived = 0
+        AND olfe.is_deleted = 0
+        AND oen.is_done = 0
+        AND bf.event_name = ?
+        AND bf.category_name = ?
+) AS combined_results
+ORDER BY team_one_id DESC;";
 
 // Prepare the statement and bind the bracket_form_id parameter
 $stmt = $conn->prepare($sql);
@@ -85,24 +88,27 @@ $stmt->execute();
 // Get the result set
 $result = $stmt->get_result();
 
+// Initialize the array to hold the organized data
+$data = array();
+
 // Loop through the result set and organize the data
 while ($row = $result->fetch_assoc()) {
-    $combined_data[] = array(
-        'team_name' => $row['team_one_name'], // Use 'team_name' for team one
-        'overall_score' => $row['team_one_overall_score'] // Use 'overall_score' for team one
-    );
-
-    // Check if there is a second team available (team two)
-    if (!is_null($row['team_two_name'])) {
-        $combined_data[] = array(
-            'team_name' => $row['team_two_name'], // Use 'team_name' for team two
-            'overall_score' => $row['team_two_overall_score'] // Use 'overall_score' for team two
+     // Check if team_one_name is not NULL
+     if ($row['team_one_name']) {
+        $data[] = array(
+            'team_name' => $row['team_one_name'],
+            'overall_score' => $row['team_one_overall_score']
         );
-    }
-}
+    }  
 
-// Reverse the combined_data array
-$combined_data = array_reverse($combined_data);
+    // Check if team_two_name is not NULL
+    if ($row['team_two_name']) {
+        $data[] = array(
+            'team_name' => $row['team_two_name'],
+            'overall_score' => $row['team_two_overall_score']
+        );
+    } 
+}
 
 $query = "SELECT bf.node_id_start, bf.parent_id_start
           FROM `tournament` AS tou
@@ -147,15 +153,19 @@ for ($j = $parent_id_start - 1; $j >= 0; $j--) {
     }
 }
 
+// Reversing the arrays
+$reversed_node_ids = array_reverse($node_ids);
+$reversed_parent_ids = array_reverse($parent_ids);
+
 // Combine the three arrays into one array with the specified format
 $combined_array = array();
-$count = count($combined_data);
+$count = count($data);
 for ($i = 0; $i < $count; $i++) {
     $combined_array[] = array(
-        'id' => $node_ids[$i],
-        'pid' => $parent_ids[$i],
-        'team_name' => $combined_data[$i]['team_name'],
-        'overall_score' => $combined_data[$i]['overall_score']
+        'id' => $reversed_node_ids[$i],
+        'pid' => $reversed_parent_ids[$i],
+        'team_name' => $data[$i]['team_name'],
+        'overall_score' => $data[$i]['overall_score']
     );
 }
 
