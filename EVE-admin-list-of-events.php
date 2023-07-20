@@ -5,7 +5,7 @@
   include './php/EVE-admin-edit-event.php';
   include './php/EVE-admin-get-event-data.php';
   
-  $popupContentSuccess = $_SESSION['popupContentSuccess'];
+  $popupContentSuccess = $_SESSION['popupContentSuccess'] ?? "";
 ?>
 
 <!DOCTYPE html>
@@ -875,14 +875,14 @@
 
           $('input').keypress(function (e) {
             var txt = String.fromCharCode(e.which);
-            if (!txt.match(/[A-Za-z0-9 ]/)) {
+            if (!txt.match(/[A-Za-z0-9 \-']/)) {
                 return false;
             }
           });
 
           $('input').on('input', function(e) {
             $(this).val(function(i, v) {
-              return v.replace(/[^\w\s]|_/gi, '');
+              return v.replace(/[^\w\s\-']|_/gi, '');
             });
           });
           $('.popUpDisableBackground#sucessEdit').click(function(e) {
@@ -906,7 +906,7 @@
             });
 
           $('.popUpDisableBackground#sucessEdit').css('visibility', 'visible');
-          $('.popUpContainer').addClass('show');
+          $('#sucessEdit .popUpContainer').addClass('show');
         });
     </script>
   </body>

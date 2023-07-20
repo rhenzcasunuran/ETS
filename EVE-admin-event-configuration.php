@@ -326,14 +326,14 @@
 
         $('input').keypress(function (e) {
           var txt = String.fromCharCode(e.which);
-          if (!txt.match(/[A-Za-z0-9 ]/)) {
+          if (!txt.match(/[A-Za-z0-9 \-']/)) {
               return false;
           }
         });
 
         $('input').on('input', function(e) {
           $(this).val(function(i, v) {
-            return v.replace(/[^\w\s]|_/gi, '');
+            return v.replace(/[^\w\s\-']|_/gi, '');
           });
         });
       });
