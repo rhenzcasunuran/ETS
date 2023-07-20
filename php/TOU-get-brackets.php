@@ -5,111 +5,58 @@ include 'database_connect.php';
 $selectedEvent = $_GET['eventValue'];
 $selectedCategory = $_GET['categoryValue'];
 
-// Initialize the arrays
-$combined_data = array();
-
-// Prepare the SQL statement
-$sql = "SELECT *
-FROM (
-    SELECT ot.id AS team_one_id, ot.team_name AS team_one_name,
-           'CHAMPION' AS team_one_overall_score,
-           NULL AS team_two_id,
-           NULL AS team_two_name,
-           NULL AS team_two_overall_score
-    FROM `tournament` AS tou
-    INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
-    INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-    INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bt.id
-    INNER JOIN bracket_forms AS bf ON bf.id = bt.bracket_form_id
-    INNER JOIN ongoing_teams AS ot ON ot.bracket_form_id = bf.id
-    WHERE tou.has_set_tournament = 1
-        AND olfe.is_archived = 0
-        AND olfe.is_deleted = 0
-        AND oen.is_done = 0
-        AND bf.event_name = ?
+// Prepare the SQL statement with placeholders
+$sql = "SELECT ot.team_name, 'CHAMPION' AS overall_score 
+        FROM `ongoing_teams` AS ot
+        INNER JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
+        WHERE ot.current_team_status = 'champion'
         AND bf.category_name = ?
-        AND ot.current_team_status = 'champion'
-    
-    UNION
-    
-    SELECT 
-        NULL AS team_one_id,
-        NULL AS team_one_name,
-        NULL AS team_one_overall_score,
-        NULL AS team_two_id,
-        NULL AS team_two_name,
-        NULL AS team_two_overall_score
-    FROM DUAL
-    WHERE NOT EXISTS (
-        SELECT 1
-        FROM `tournament` AS tou
-        INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
-        INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-        INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bt.id
-        INNER JOIN bracket_forms AS bf ON bf.id = bt.bracket_form_id
-        INNER JOIN ongoing_teams AS ot ON ot.bracket_form_id = bf.id
-        WHERE tou.has_set_tournament = 1
-            AND olfe.is_archived = 0
-            AND olfe.is_deleted = 0
-            AND oen.is_done = 0
-            AND bf.event_name = ?
-            AND bf.category_name = ?
-            AND ot.current_team_status = 'champion'
-    )
-    
-    UNION ALL
-    
-    SELECT ot.id AS team_one_id, ot.team_name AS team_one_name,
-           ot.current_overall_score AS team_one_overall_score,
-           ot2.id AS team_two_id,
-           ot2.team_name AS team_two_name,
-           ot2.current_overall_score AS team_two_overall_score
-    FROM `tournament` AS tou
-    INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
-    INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-    INNER JOIN bracket_forms AS bf ON bf.id = tou.bracket_form_id
-    INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bf.id
-    INNER JOIN ongoing_teams AS ot ON bt.team_one_id = ot.id
-    INNER JOIN ongoing_teams AS ot2 ON bt.team_two_id = ot2.id
-    WHERE tou.has_set_tournament = 1
-        AND olfe.is_archived = 0
-        AND olfe.is_deleted = 0
-        AND oen.is_done = 0
-        AND bf.event_name = ?
-        AND bf.category_name = ?
-) AS combined_results
-ORDER BY team_one_id DESC;";
+        AND bf.event_name = ?";
 
-// Prepare the statement and bind the bracket_form_id parameter
+// Prepare the statement
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssssss", $selectedEvent, $selectedCategory, $selectedEvent, $selectedCategory, $selectedEvent, $selectedCategory);
+
+// Bind the values to the statement placeholders
+$stmt->bind_param('ss', $selectedCategory, $selectedEvent);
+
 // Execute the statement
 $stmt->execute();
+
 // Get the result set
 $result = $stmt->get_result();
 
-// Initialize the array to hold the organized data
-$data = array();
+// Initialize the response array
+$responseData = array();
 
-// Loop through the result set and organize the data
-while ($row = $result->fetch_assoc()) {
-     // Check if team_one_name is not NULL
-     if ($row['team_one_name']) {
-        $data[] = array(
-            'team_name' => $row['team_one_name'],
-            'overall_score' => $row['team_one_overall_score']
-        );
-    }  
+// Initialize the ID counter
+$idCounter = 1;
 
-    // Check if team_two_name is not NULL
-    if ($row['team_two_name']) {
-        $data[] = array(
-            'team_name' => $row['team_two_name'],
-            'overall_score' => $row['team_two_overall_score']
+// Check if there are any results
+if ($result->num_rows > 0) {
+    // Process the results as needed
+    while ($row = $result->fetch_assoc()) {
+        // Add each row to the response array with 'id', 'pid', 'team_name', and 'overall_score'
+        $responseData[] = array(
+            'id' => $idCounter,
+            'pid' => 0,
+            'team_name' => $row['team_name'],
+            'overall_score' => $row['overall_score']
         );
-    } 
+
+        // Increment the ID counter
+        $idCounter++;
+    }
+} else {
+    // If there are no results, add a default entry with NULL values
+    $responseData[] = array(
+        'id' => $idCounter,
+        'pid' => 0,
+        'team_name' => null,
+        'overall_score' => null
+    );
 }
 
+// Prepare the SQL statement with placeholders
 $query = "SELECT bf.node_id_start, bf.parent_id_start
           FROM `tournament` AS tou
           INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
@@ -123,64 +70,187 @@ $query = "SELECT bf.node_id_start, bf.parent_id_start
           AND oen.event_name = ?";
 
 // Prepare the statement
-$stmt = mysqli_prepare($conn, $query);
+$stmt = $conn->prepare($query);
 
-mysqli_stmt_bind_param($stmt, "ss", $selectedCategory, $selectedEvent);
+// Check if the statement preparation was successful
+if (!$stmt) {
+    die('Error in preparing the statement: ' . $conn->error);
+}
+
+// Bind the values to the statement placeholders
+$stmt->bind_param('ss', $selectedCategory, $selectedEvent);
+
+// Execute the statement
+$stmt->execute();
+
+// Bind the results to variables
+$stmt->bind_result($nodeIdStart, $parentIdStart);
+
+// Fetch the results (assuming there's only one row returned)
+$stmt->fetch();
+
+// Close the statement
+$stmt->close();
+
+// Create an empty array to store the values for nodeIdStart and parentIdStart
+$nodeValueArray = array();
+$parentIdValueArray = array(); // Initialize the parentIdValueArray as an empty array
+
+// Use a for loop to iterate from $nodeIdStart to 1
+for ($i = $nodeIdStart; $i >= 1; $i--) {
+    // Add the value to the array
+    $nodeValueArray[] = $i;
+}
+
+// Check if parentIdStart has a valid value
+if ($parentIdStart !== null) {
+    // Use a separate for loop to generate the parentIdStart pattern
+    for ($j = $parentIdStart - 1; $j > 0; $j--) {
+        // Add the value to the array (pattern: 7, 7, 6, 6, ..., 0)
+        $parentIdValueArray[] = $j;
+        $parentIdValueArray[] = $j;
+    }
+
+    $parentIdValueArray[] = 0;
+}
+
+// Prepare the SQL statement
+$sql = "SELECT
+        ot.team_name AS team_one_name,
+        ot.current_overall_score AS team_one_overall_score
+        FROM `tournament` AS tou
+        INNER JOIN ongoing_list_of_event AS olfe
+        ON tou.event_id = olfe.event_id
+        INNER JOIN ongoing_event_name AS oen
+        ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+        INNER JOIN bracket_forms AS bf
+        ON bf.id = tou.bracket_form_id
+        INNER JOIN bracket_teams AS bt 
+        ON bt.bracket_form_id = bf.id
+        INNER JOIN ongoing_teams AS ot
+        ON bt.team_one_id = ot.id
+        WHERE tou.has_set_tournament = 1
+        AND olfe.is_archived = 0
+        AND olfe.is_deleted = 0
+        AND oen.is_done = 0
+        AND bf.category_name = ?
+        AND bf.event_name = ?
+        AND bt.event_date_time IS NOT NULL;";
+
+// Prepare the statement
+$stmt = $conn->prepare($sql);
+
+// Bind the parameters
+$stmt->bind_param("ss", $selectedCategory, $selectedEvent);
 
 // Execute the query
-mysqli_stmt_execute($stmt);
+$stmt->execute();
 
 // Get the result set
-$result = mysqli_stmt_get_result($stmt);
+$result = $stmt->get_result();
 
-// Fetch the data and store it in an array
-$node_ids = array();
-$parent_ids = array();
-
-while ($row = mysqli_fetch_assoc($result)) {
-    $node_id_start = $row['node_id_start'];
-    $parent_id_start = $row['parent_id_start'];
+// Fetch the data into an array
+$data1 = [];
+while ($row = $result->fetch_assoc()) {
+    $data1[] = $row;
 }
 
-for ($i = $node_id_start; $i >= 1; $i--) {
-    $node_ids[] = $i; // Store the current count in the array
+// Close the statement
+$stmt->close();
+
+// Prepare the SQL statement
+$sql = "SELECT
+            ot.team_name AS team_two_name,
+            ot.current_overall_score AS team_two_overall_score
+        FROM `tournament` AS tou
+        INNER JOIN ongoing_list_of_event AS olfe
+        ON tou.event_id = olfe.event_id
+        INNER JOIN ongoing_event_name AS oen
+        ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+        INNER JOIN bracket_forms AS bf
+        ON bf.id = tou.bracket_form_id
+        INNER JOIN bracket_teams AS bt 
+        ON bt.bracket_form_id = bf.id
+        INNER JOIN ongoing_teams AS ot
+        ON bt.team_two_id = ot.id
+        WHERE tou.has_set_tournament = 1
+        AND olfe.is_archived = 0
+        AND olfe.is_deleted = 0
+        AND oen.is_done = 0
+        AND bf.category_name = ?
+        AND bf.event_name = ?
+        AND bt.event_date_time IS NOT NULL;";
+
+// Prepare the statement
+$stmt = $conn->prepare($sql);
+
+// Bind the parameters
+$stmt->bind_param("ss", $selectedCategory, $selectedEvent);
+
+// Execute the query
+$stmt->execute();
+
+// Get the result set
+$result = $stmt->get_result();
+
+// Fetch the data into an array
+$data2 = [];
+while ($row = $result->fetch_assoc()) {
+    $data2[] = $row;
 }
 
-for ($j = $parent_id_start - 1; $j >= 0; $j--) {
-    $parent_ids[] = $j; // Store the current ID in the array
-    if ($j > 0) {
-        $parent_ids[] = $j; // Store the same ID again (repeated)
+// Close the statement
+$stmt->close();
+
+$combined_data = [];
+
+// Get the lengths of both arrays
+$count1 = count($data1);
+$count2 = count($data2);
+
+// Determine the maximum length of the combined array
+$max_length = max($count1, $count2);
+
+// Loop through the arrays and combine them alternately
+for ($i = 0; $i < $max_length; $i++) {
+    // Combine the elements into an associative array
+    $combined_element = [
+        'team_name' => '',
+        'overall_score' => ''
+    ];
+
+    // Alternate between data2 (team_two) and data1 (team_one)
+    if ($i < $count2) {
+        $combined_element['team_name'] = $data2[$i]['team_two_name'];
+        $combined_element['overall_score'] = $data2[$i]['team_two_overall_score'];
+        $combined_data[] = $combined_element;
+    }
+
+    if ($i < $count1) {
+        $combined_element['team_name'] = $data1[$i]['team_one_name'];
+        $combined_element['overall_score'] = $data1[$i]['team_one_overall_score'];
+        $combined_data[] = $combined_element;
     }
 }
 
-// Reversing the arrays
-$reversed_node_ids = array_reverse($node_ids);
-$reversed_parent_ids = array_reverse($parent_ids);
+// Initialize the response array
+$responseData = array();
 
-// Combine the three arrays into one array with the specified format
-$combined_array = array();
-$count = count($data);
-for ($i = 0; $i < $count; $i++) {
-    $combined_array[] = array(
-        'id' => $reversed_node_ids[$i],
-        'pid' => $reversed_parent_ids[$i],
-        'team_name' => $data[$i]['team_name'],
-        'overall_score' => $data[$i]['overall_score']
-    );
+// Loop through the arrays and combine the elements
+for ($i = 0; $i < $nodeIdStart; $i++) {
+    // Combine the elements into an associative array from $combined_data
+    $combined_element = [
+        'id' => isset($nodeValueArray[$i]) ? $nodeValueArray[$i] : null,
+        'pid' => isset($parentIdValueArray[$i]) ? $parentIdValueArray[$i] : null,
+        'team_name' => $combined_data[$i]['team_name'] ?? null,
+        'overall_score' => $combined_data[$i]['overall_score'] ?? null
+    ];
+
+    // Add the combined element to the new array
+    $responseData[] = $combined_element;
 }
 
-// Convert the combined array to JSON format
-$json_response = json_encode($combined_array);
-
-// Set the appropriate headers to indicate that the response contains JSON data
+// Send the response back as JSON
 header('Content-Type: application/json');
-
-// Output the JSON response
-echo $json_response;
-
-// Close the statement
-mysqli_stmt_close($stmt);
-
-// Close the database connection
-mysqli_close($conn);
+echo json_encode($responseData);
 ?>
