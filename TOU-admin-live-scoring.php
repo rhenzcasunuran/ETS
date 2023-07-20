@@ -98,6 +98,14 @@
               var selectedId;
               var selectedValue;
 
+              document.getElementById("viewScoreBracket").addEventListener("change", function() {
+                var selectedValue = this.value;
+                if (selectedValue === "2") {
+                  // Redirect to the PHP page
+                  window.location.href = "TOU-admin-brackets.php";
+                }
+              });
+
               // AJAX request to populate the <select> options
               $.ajax({
                 url: './php/TOU-get-event-category.php',
