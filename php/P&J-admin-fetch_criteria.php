@@ -26,10 +26,22 @@ if ($eventResult->num_rows > 0) {
 
   if ($criteriaResult->num_rows > 0) {
     // Create and display the criteria table
-    echo '<form action="php/P&J-admin-action-scores.php" method="POST">';
     echo '<table>';
-    echo '<tr><th>Criterion Name</th><th>Criterion Percent</th></tr>';
+    echo '<tr><th>Criterion Name</th><th>Criterion Points</th></tr>';
+    echo '<div class="form-group">
+    <label for="participant_select" style="color: rgb(255,255,255);">Select Participant:</label>
+    <select class="form-control" id="participant_select">';
 
+      session_start(); // Start the session to access the participants data
+      if (isset($_SESSION['participants']) && is_array($_SESSION['participants'])) {
+        foreach ($_SESSION['participants'] as $participant) {
+          echo '<option value="' . $participant['participants_id'] . '">' . $participant['participant_name'] . '</option>';
+        }
+      }
+  
+   echo' </select>
+    <input type="hidden" name="selected_participant_id" id="selected_participant_id" value="">
+  </div>';
     while ($row = $criteriaResult->fetch_assoc()) {
       echo '<tr>';
       echo '<td> <label class="col-form-label" style="color: rgb(255,255,255);">' . $row['criterion_name'] . '</label></td>';
@@ -39,16 +51,6 @@ if ($eventResult->num_rows > 0) {
     }
 
     echo '</table>';
-    echo '<div class="col offset-xl-2 offset-xxl-1" style="text-align: center;">
-      <div class="btn-toolbar" style="text-align: center;">
-          <div class="btn-group" role="group" style="text-align: center;margin-top: 10px; 
-          align-items: center;">
-          <button class="primary-button" type="submit" value="Add" id="save_btnS" name="save_scores">Save</button>
-          <button onclick="showSubmit()" class="success-button buttonsubmit" type="submit" style="text-align: center;"  value="Add" id="submit_btnS" name="submit_scores">Submit</button>
-          <button onclick="showCancel()" class="secondary-button delJ" id="cancelButton" type="button"  style="display:inline;" disabled>Cancel</button>
-          </div>
-      </div>
-  </div>';
   } else {
     echo 'No criteria found.';
   }
@@ -59,3 +61,4 @@ if ($eventResult->num_rows > 0) {
 $conn->close();
 ?>
 
+<script src="../js/P&J-admin-common.js"></script>

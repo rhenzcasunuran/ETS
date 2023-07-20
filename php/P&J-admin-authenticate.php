@@ -1,9 +1,6 @@
 <?php
 include 'database_connect.php';
 
-// Start the session
-session_start();
-
 // Get the authentication data from the request
 $data = json_decode(file_get_contents('php://input'), true);
 $eventCode = $data['event_code'];
@@ -44,6 +41,7 @@ if ($eventResult->num_rows > 0) {
     $judgeRow = $judgeResult->fetch_assoc();
     $judgeId = $judgeRow['judge_id'];
     $_SESSION['judge_id'] = $judgeId; // Store the judge ID in the session
+    $_SESSION['judge_name'] = $judgeName;
 
       if ($ongoingCriterionResult->num_rows > 0) {
         $ongoingCriterionIds = array();
@@ -65,6 +63,18 @@ if ($eventResult->num_rows > 0) {
         }
         $_SESSION['participant_ids'] = $participantIds;
       }
+
+      // Fetch the participant data using the event ID
+$participantQuery = "SELECT participants_id, participant_name FROM participants WHERE competition_id = '$competitionId'";
+$participantResult = $conn->query($participantQuery);
+
+if ($participantResult->num_rows > 0) {
+  $participants = array();
+  while ($row = $participantResult->fetch_assoc()) {
+    $participants[] = $row;
+  }
+  $_SESSION['participants'] = $participants;
+}
 
       echo json_encode(array('authenticated' => true));
     } else {
