@@ -5,56 +5,8 @@ include 'database_connect.php';
 $selectedEvent = $_GET['eventValue'];
 $selectedCategory = $_GET['categoryValue'];
 
-// Prepare the SQL statement with placeholders
-$sql = "SELECT ot.team_name, 'CHAMPION' AS overall_score 
-        FROM `ongoing_teams` AS ot
-        INNER JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
-        WHERE ot.current_team_status = 'champion'
-        AND bf.category_name = ?
-        AND bf.event_name = ?";
-
-// Prepare the statement
-$stmt = $conn->prepare($sql);
-
-// Bind the values to the statement placeholders
-$stmt->bind_param('ss', $selectedCategory, $selectedEvent);
-
-// Execute the statement
-$stmt->execute();
-
-// Get the result set
-$result = $stmt->get_result();
-
 // Initialize the response array
 $responseData = array();
-
-// Initialize the ID counter
-$idCounter = 1;
-
-// Check if there are any results
-if ($result->num_rows > 0) {
-    // Process the results as needed
-    while ($row = $result->fetch_assoc()) {
-        // Add each row to the response array with 'id', 'pid', 'team_name', and 'overall_score'
-        $responseData[] = array(
-            'id' => $idCounter,
-            'pid' => 0,
-            'team_name' => $row['team_name'],
-            'overall_score' => $row['overall_score']
-        );
-
-        // Increment the ID counter
-        $idCounter++;
-    }
-} else {
-    // If there are no results, add a default entry with NULL values
-    $responseData[] = array(
-        'id' => $idCounter,
-        'pid' => 0,
-        'team_name' => null,
-        'overall_score' => null
-    );
-}
 
 // Prepare the SQL statement with placeholders
 $query = "SELECT bf.node_id_start, bf.parent_id_start
@@ -161,29 +113,43 @@ $stmt->close();
 $sql = "SELECT
             ot.team_name AS team_two_name,
             ot.current_overall_score AS team_two_overall_score
-        FROM `tournament` AS tou
-        INNER JOIN ongoing_list_of_event AS olfe
-        ON tou.event_id = olfe.event_id
-        INNER JOIN ongoing_event_name AS oen
-        ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-        INNER JOIN bracket_forms AS bf
-        ON bf.id = tou.bracket_form_id
-        INNER JOIN bracket_teams AS bt 
-        ON bt.bracket_form_id = bf.id
-        INNER JOIN ongoing_teams AS ot
-        ON bt.team_two_id = ot.id
-        WHERE tou.has_set_tournament = 1
-        AND olfe.is_archived = 0
-        AND olfe.is_deleted = 0
-        AND oen.is_done = 0
-        AND bf.category_name = ?
-        AND bf.event_name = ?;";
+            FROM `tournament` AS tou
+            INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
+            INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+            INNER JOIN bracket_forms AS bf ON bf.id = tou.bracket_form_id
+            INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bf.id
+            INNER JOIN ongoing_teams AS ot ON bt.team_two_id = ot.id
+            WHERE tou.has_set_tournament = 1
+            AND olfe.is_archived = 0
+            AND olfe.is_deleted = 0
+            AND oen.is_done = 0
+            AND bf.category_name = ?
+            AND bf.event_name = ?
+
+            UNION
+
+            SELECT
+            ot.team_name,
+            'CHAMPION' AS overall_score
+            FROM `ongoing_teams` AS ot
+            INNER JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
+            WHERE ot.current_team_status = 'champion'
+            AND bf.category_name = ?
+            AND bf.event_name = ?
+            AND EXISTS (
+                SELECT 1
+                FROM `ongoing_teams` AS ot
+                INNER JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
+                WHERE ot.current_team_status = 'champion'
+                AND bf.category_name = ?
+                AND bf.event_name = ?
+            );";
 
 // Prepare the statement
 $stmt = $conn->prepare($sql);
 
 // Bind the parameters
-$stmt->bind_param("ss", $selectedCategory, $selectedEvent);
+$stmt->bind_param("ssssss", $selectedCategory, $selectedEvent, $selectedCategory, $selectedEvent, $selectedCategory, $selectedEvent);
 
 // Execute the query
 $stmt->execute();
@@ -230,9 +196,6 @@ for ($i = 0; $i < $max_length; $i++) {
         $combined_data[] = $combined_element;
     }
 }
-
-// Initialize the response array
-$responseData = array();
 
 // Loop through the arrays and combine the elements
 for ($i = 0; $i < $nodeIdStart; $i++) {
