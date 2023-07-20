@@ -118,70 +118,15 @@ include './php/admin-signin.php';
               var teamTwoName = $('#team-two-name');
               var teamOneScore = $('#team-one-score');
               var teamTwoScore = $('#team-two-score');
-
               var selectedId;
               var selectedValue;
 
-              // Function to set the values in the template using jQuery
-              function setTemplateValues(teamOneName, teamOneScore, teamTwoName, teamTwoScore) {
-                $('#team-one-name').text(teamOneName);
-                $('#team-one-score').text(teamOneScore);
-                $('#team-two-name').text(teamTwoName);
-                $('#team-two-score').text(teamTwoScore);
-              }
-
-              // Example usage:
-              setTemplateValues("Team A", 0, "Team B", 0);
-
-              // Function to update the template if selectedId and selectedValue exist
-              function updateTemplateIfValuesExist() {
-                if (selectedId !== null && selectedId !== undefined) {
-                  // Replace null or undefined with default values or values from the database, if available
-                  var teamOneName = "Team A";
-                  var teamOneScore = 0;
-                  var teamTwoName = "Team B";
-                  var teamTwoScore = 0;
-
-                  // If selectedValue is not null or undefined, use it to update team scores
-                  if (selectedValue !== null && selectedValue !== undefined) {
-                    // Assuming selectedValue contains the scores in the format "score1-score2"
-                    var scores = selectedValue.split('-');
-                    teamOneScore = parseInt(scores[0]);
-                    teamTwoScore = parseInt(scores[1]);
-                  }
-
-                  setTemplateValues(teamOneName, teamOneScore, teamTwoName, teamTwoScore);
+               document.getElementById("viewScoreBracket").addEventListener("change", function() {
+                var selectedValue = this.value;
+                if (selectedValue === "2") {
+                  // Redirect to the PHP page
+                  window.location.href = "TOU-student-brackets.php";
                 }
-              }
-
-              // Call the function to initially update the template with default values
-              updateTemplateIfValuesExist();
-
-              // JavaScript
-              document.getElementById("viewScoreBracket").addEventListener("change", function() {
-                const selectedOption = this.value;
-                const viewScoreDiv = document.getElementById("viewScore");
-                const viewBracketDiv = document.getElementById("viewBracket");
-
-                if (selectedOption === "1") {
-                  // Show the live scoring view
-                  viewScoreDiv.style.display = "block";
-                  viewBracketDiv.style.display = "none";
-                } else if (selectedOption === "2") {
-                  // Show the bracket view
-                  viewScoreDiv.style.display = "none";
-                  viewBracketDiv.style.display = "block";
-                  // You may need to add code here to generate and display the bracket if it's not static
-                }
-              });
-
-              // Set the default view to "Scoring" when the page loads
-              document.addEventListener("DOMContentLoaded", function() {
-                const viewScoreDiv = document.getElementById("viewScore");
-                const viewBracketDiv = document.getElementById("viewBracket");
-
-                viewScoreDiv.style.display = "block";
-                viewBracketDiv.style.display = "none";
               });
 
               // AJAX request to populate the <select> options
@@ -314,41 +259,6 @@ include './php/admin-signin.php';
           var $icon = $(this).parent().find('.change-icon');
           $icon.toggleClass('bx-chevron-right bx-chevron-down')
         });
-      });
-    </script>
-    <script>
-      var chart = new OrgChart(document.getElementById("tree"), {
-          template: "diva",
-          enableSearch: false,
-          mouseScroll: OrgChart.action.none,
-          orientation: OrgChart.orientation.right,
-          nodeBinding: {
-              field_0: "name",
-              field_1: "title",
-              img_0: "img"
-          },
-          nodes: [
-              { id: 1, pid: 0, name: "Amber McKenzie", title: "CEO", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 2, pid: 1, name: null, title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 3, pid: 1, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 4, pid: 2, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 5, pid: 2, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 6, pid: 3, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 7, pid: 3, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 8, pid: 4, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 9, pid: 4, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 10, pid: 5, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 11, pid: 5, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 12, pid: 6, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 13, pid: 6, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 14, pid: 7, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 15, pid: 7, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" }
-          ]
-      });
-
-      // Add a click event handler that returns false
-      chart.on('click', function() {
-        return false;
       });
     </script>
     <!--Popper JS-->
