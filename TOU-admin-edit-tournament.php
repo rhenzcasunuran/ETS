@@ -326,7 +326,7 @@
                                               $teamTwoID = $wonTeamsIdsArray[1];
 
                                               // Bind the parameters to the prepared statement for insertion
-                                              $stmt->bind_param("iiiii", $id, $bracketPosition, $teamOneID, $teamTwoID, $currentColumn);
+                                              $stmt->bind_param("iiiii", $id, $bracketPosition, $teamTwoID, $teamOneID, $currentColumn);
 
                                               // Execute the prepared statement
                                               $stmt->execute();
@@ -346,7 +346,7 @@
                                                 $teamTwoID = $wonTeamsIdsArray[$i + 1];
 
                                                 // Bind the parameters to the prepared statement
-                                                $stmt->bind_param("iiiii", $id, $bracketPosition, $teamOneID, $teamTwoID, $currentColumn);
+                                                $stmt->bind_param("iiiii", $id, $bracketPosition, $teamTwoID, $teamOneID, $currentColumn);
 
                                                 // Execute the prepared statement
                                                 $stmt->execute();

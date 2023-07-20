@@ -134,8 +134,7 @@ $sql = "SELECT
         AND olfe.is_deleted = 0
         AND oen.is_done = 0
         AND bf.category_name = ?
-        AND bf.event_name = ?
-        AND bt.event_date_time IS NOT NULL;";
+        AND bf.event_name = ?;";
 
 // Prepare the statement
 $stmt = $conn->prepare($sql);
@@ -178,8 +177,7 @@ $sql = "SELECT
         AND olfe.is_deleted = 0
         AND oen.is_done = 0
         AND bf.category_name = ?
-        AND bf.event_name = ?
-        AND bt.event_date_time IS NOT NULL;";
+        AND bf.event_name = ?;";
 
 // Prepare the statement
 $stmt = $conn->prepare($sql);
