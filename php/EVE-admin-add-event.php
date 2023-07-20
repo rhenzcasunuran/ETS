@@ -2,6 +2,9 @@
     require 'database_connect.php';
     include 'CAL-logger.php';
 
+    $popupContentSuccess = "";
+    $popupContentNotSuccess = "";
+
     if(isset($_POST['save-btn'])){
         $event_name_id =  mysqli_real_escape_string($conn,$_POST['select-event-name']);
         $event_type_id =  mysqli_real_escape_string($conn,$_POST['select-event-type']);
@@ -11,6 +14,7 @@
         $event_time =  mysqli_real_escape_string($conn,$_POST['time']);
         $event_code_get =  mysqli_real_escape_string($conn,$_POST['code']);
         $ongoing_event_name_id = '';
+        $affectedRows = 0;
 
         $event_description = preg_replace('/\s+/', ' ', $event_description);
 
@@ -103,6 +107,7 @@
             //Insert Competition
             $sql = "INSERT INTO competition (event_id) VALUES ('$event_id');";
             mysqli_query($conn,$sql);
+            $affectedRows += mysqli_affected_rows($conn);
 
             $sql = "DELETE FROM criterion WHERE category_name_id = '$category_name_id';";
             mysqli_query($conn,$sql);
@@ -110,7 +115,31 @@
             $sql = "DELETE FROM category_name WHERE category_name_id = '$category_name_id';";
             mysqli_query($conn,$sql);
 
-            header('Location: EVE-admin-list-of-events.php');
+            if ($affectedRows > 0) {
+                $popUpID = "sucessEdit";
+                $showPopUpButtonID = "";
+                $icon = "<i class='bx bxs-check-circle success-color'></i>";
+                $title = "Saved Successfully";
+                $message = "Competition was saved successfully.";
+        
+                ob_start();
+                include './php/popup-2-btn.php';
+                $popupContentSuccess = ob_get_clean();
+                $_SESSION['popupContentSuccess'] = $popupContentSuccess;
+
+                header("Location: EVE-admin-list-of-events.php");
+            }
+            else {
+                $popUpID = "noChanges";
+                $showPopUpButtonID = "";
+                $icon = "<i class='bx bxs-error-circle warning-color'></i>";
+                $title = "No Changes";
+                $message = "There we're no changes happened.";
+        
+                ob_start();
+                include './php/popup-2-btn.php';
+                $popupContentNotSuccess = ob_get_clean();
+            }
         }
         else{
             echo "<script>alert('Something went wrong');</script>";
@@ -126,6 +155,7 @@
         $event_date =  mysqli_real_escape_string($conn,$_POST['date']);
         $event_time =  mysqli_real_escape_string($conn,$_POST['time']);
         $event_match_style = mysqli_real_escape_string($conn,$_POST['event-match-style']);
+        $affectedRows = 0;
 
         $event_description = preg_replace('/\s+/', ' ', $event_description);
 
@@ -193,25 +223,37 @@
             //Insert Number of Wins
             $sql = "INSERT INTO tournament (event_id, number_of_wins_id) VALUES ('$event_id', '$event_match_style');";
             mysqli_query($conn,$sql); 
-
-            $sql = "SELECT tournament_id FROM tournament WHERE event_id = '$event_id';";
-            $query = mysqli_query($conn, $sql);
-            $result = mysqli_fetch_array($query);
-            $tournament_id = $result['tournament_id'];
-
-            $sql = "SELECT * FROM organization WHERE organization_id != '0';";
-            $org = mysqli_query($conn, $sql);
-            while ($row = mysqli_fetch_array($org)) {
-                $sql = "INSERT INTO tou_team_stat (tournament_id, organization_id) VALUES ('$tournament_id', '$row[0]');";
-                mysqli_query($conn, $sql);
-            }
+            $affectedRows += mysqli_affected_rows($conn);
 
             //Delete Data
             $sql = "DELETE FROM category_name WHERE category_name_id = '$category_name_id';";
             mysqli_query($conn,$sql);
-
-            header('Location: EVE-admin-list-of-events.php');
             
+            if ($affectedRows > 0) {
+                $popUpID = "sucessEdit";
+                $showPopUpButtonID = "";
+                $icon = "<i class='bx bxs-check-circle success-color'></i>";
+                $title = "Saved Successfully";
+                $message = "Tournament was saved successfully.";
+        
+                ob_start();
+                include './php/popup-2-btn.php';
+                $popupContentSuccess = ob_get_clean();
+                $_SESSION['popupContentSuccess'] = $popupContentSuccess;
+
+                header("Location: EVE-admin-list-of-events.php");
+            }
+            else {
+                $popUpID = "noChanges";
+                $showPopUpButtonID = "";
+                $icon = "<i class='bx bxs-error-circle warning-color'></i>";
+                $title = "No Changes";
+                $message = "There we're no changes happened.";
+        
+                ob_start();
+                include './php/popup-2-btn.php';
+                $popupContentNotSuccess = ob_get_clean();
+            }
         }
         else{
             echo "<script>alert('Something went wrong');</script>";
@@ -225,6 +267,7 @@
         $event_description =  mysqli_real_escape_string($conn,$_POST['event-description']);
         $event_date =  mysqli_real_escape_string($conn,$_POST['date']);
         $event_time =  mysqli_real_escape_string($conn,$_POST['time']);
+        $affectedRows = 0;
 
         $event_description = preg_replace('/\s+/', ' ', $event_description);
 
@@ -254,12 +297,36 @@
             //Insert on List of Events
             $sql = "INSERT INTO ongoing_list_of_event (ongoing_event_name_id, event_name_id, event_type_id, event_description, event_date, event_time) VALUES ('$ongoing_event_name_id', '$event_name_id', '$event_type_id', '$event_description', '$event_date', '$event_time');";
             mysqli_query($conn,$sql);  
+            $affectedRows += mysqli_affected_rows($conn);
 
             //Insert to Logs
             to_log($conn, $sql);
 
-            header('Location: EVE-admin-list-of-events.php');
-            
+            if ($affectedRows > 0) {
+                $popUpID = "sucessEdit";
+                $showPopUpButtonID = "";
+                $icon = "<i class='bx bxs-check-circle success-color'></i>";
+                $title = "Saved Successfully";
+                $message = "Standard was saved successfully.";
+        
+                ob_start();
+                include './php/popup-2-btn.php';
+                $popupContentSuccess = ob_get_clean();
+                $_SESSION['popupContentSuccess'] = $popupContentSuccess;
+
+                header("Location: EVE-admin-list-of-events.php");
+            }
+            else {
+                $popUpID = "noChanges";
+                $showPopUpButtonID = "";
+                $icon = "<i class='bx bxs-error-circle warning-color'></i>";
+                $title = "No Changes";
+                $message = "There we're no changes happened.";
+        
+                ob_start();
+                include './php/popup-2-btn.php';
+                $popupContentNotSuccess = ob_get_clean();
+            }
         }
         else{
             echo "<script>alert('Something went wrong');</script>";
