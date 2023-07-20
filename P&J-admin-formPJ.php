@@ -363,7 +363,7 @@ input[readonly] {
       <div class="tooltipText" id="textPName">All Participant Names have a value (5 or more characters)<i class='bx bx-check' id="checkPNameValue"></i></div>
       <div class="tooltipText" id="textPSection">All Participant Sections are valid (e.g., 1-1)<i class='bx bx-check' id="checkPSectionValue"></i></div>
     </div>
-    Save
+    Submit
   </button>
 </div>
 
@@ -690,122 +690,129 @@ var hide_discardChangespg = function(){
     }
 
 
-function addRowP() {
+    function addRowP() {
   
-      var table = document.getElementById("Ptable");
-      var row = table.insertRow(-1);
+  var table = document.getElementById("Ptable");
+  var row = table.insertRow(-1);
 
-      // Create checkbox
-      var checkCellP = row.insertCell(0);
-      var checkboxP = document.createElement("input");
-      checkboxP.type = "checkbox";
-      checkboxP.className = "checkboxP";
-      checkCellP.appendChild(checkboxP);
-      
-      // Create judge name input
-      var nameCellP = row.insertCell(1);
-      var parNameInput = document.createElement("input");
-      parNameInput.type = "text";
-      parNameInput.className = "inputpname cformj";
-      parNameInput.name = "participant_name[]";
-      parNameInput.style = "border-radius:20px;";
-      parNameInput.minLength = 4;
-      parNameInput.maxLength = 20;
-      parNameInput.placeholder = "Participant Name";
-      parNameInput.title = "Enter a valid name (4-20 characters)";
-      parNameInput.addEventListener("dblclick", function() {
-        this.readOnly = false;
-      });
-      nameCellP.appendChild(parNameInput);
+  // Create checkbox
+  var checkCellP = row.insertCell(0);
+  var checkboxP = document.createElement("input");
+  checkboxP.type = "checkbox";
+  checkboxP.className = "checkboxP";
+  checkCellP.appendChild(checkboxP);
+  
+  // Create judge name input
+  var nameCellP = row.insertCell(1);
+  var parNameInput = document.createElement("input");
+  parNameInput.type = "text";
+  parNameInput.className = "inputpname cformj";
+  parNameInput.name = "participant_name[]";
+  parNameInput.style = "border-radius:20px;";
+  parNameInput.minLength = 4;
+  parNameInput.maxLength = 20;
+  parNameInput.placeholder = "Participant Name";
+  parNameInput.title = "Enter a valid name (4-20 characters)";
+  parNameInput.addEventListener("dblclick", function() {
+    this.readOnly = false;
+  });
+  nameCellP.appendChild(parNameInput);
 
-      var sectionCellP = row.insertCell(2);
-      var sectionInputP = document.createElement("input");
-      sectionInputP.type = "text";
-      sectionInputP.className = "inputpcs cformj";
-      sectionInputP.name = "participant_section[]";
-      sectionInputP.style = "border-radius:20px;";
-      sectionInputP.minLength = 3;
-      sectionInputP.maxLength = 3;
-      sectionInputP.placeholder = "Section";
-      sectionInputP.addEventListener("dblclick", function() {
-        this.readOnly = false;
-      });
-      sectionCellP.appendChild(sectionInputP);
+  var sectionCellP = row.insertCell(2);
+  var sectionInputP = document.createElement("input");
+  sectionInputP.type = "text";
+  sectionInputP.className = "inputpcs cformj";
+  sectionInputP.name = "participant_section[]";
+  sectionInputP.style = "border-radius:20px;";
+  sectionInputP.minLength = 3;
+  sectionInputP.maxLength = 3;
+  sectionInputP.placeholder = "Section";
+  sectionInputP.addEventListener("dblclick", function() {
+    this.readOnly = false;
+  });
+  sectionCellP.appendChild(sectionInputP);
 
-      // Organization dropdown
-      
-      var orgSelectP = document.createElement("select");
-      
-      
- // Create dropdown
- fetch('php/P&J-fetch-options.php')
-    .then(response => response.json())
-    .then(data => {
-      var orgCellP = row.insertCell(3);
-      const orgSelectP = document.createElement('select');
-      orgSelectP.name = "organization_id[]";
-      orgSelectP.className = "inputpcs dropdown-toggle div-toggle";
-      orgSelectP.style = "border-radius:20px; background-color:white; width: auto; margin-bottom: 20px;";
+  // Organization dropdown
+  
+  var orgSelectP = document.createElement("select");
+  
+  
+  fetch('php/P&J-fetch-options.php')
+  .then(response => response.json())
+  .then(data => {
+    var orgCellP = row.insertCell(3);
+    const orgSelectP = document.createElement('select');
+    orgSelectP.name = "organization_id[]";
+    orgSelectP.className = "inputpcs dropdown-toggle div-toggle";
+    orgSelectP.style = "border-radius:20px; background-color:white; width: auto; margin-bottom: 20px;";
 
-      // Add a default option (optional)
-      const orgOption = document.createElement('option');
-      orgOption.text = 'Organization';
-      orgOption.disabled = true;
-      orgOption.selected = true;
-      orgSelectP.appendChild(orgOption);
+    // Add a default option (optional)
+    const orgOption = document.createElement('option');
+    orgOption.text = 'Organization';
+    orgOption.disabled = true;
+    orgOption.selected = true;
+    orgSelectP.appendChild(orgOption);
 
-      // Populate the dropdown with options from the fetched data
-      data.forEach(option => {
-        const orgElement = document.createElement('option');
-        orgElement.text = option.organization_name;  
-        orgElement.value = option.organization_id;  
-        orgSelectP.appendChild(orgElement);
-      });
+    // Populate the dropdown with options from the fetched data
+    data.forEach(option => {
+      const orgElement = document.createElement('option');
+      orgElement.text = option.organization_name;
+      orgElement.value = option.organization_id;
+      orgSelectP.appendChild(orgElement);
+    });
 
-      // Append the dropdown to the container
-      orgCellP.appendChild(orgSelectP);
-    })
-    .catch(error => console.error('Error fetching options:', error));
-      checkboxP.onclick = function () {
-      enableSubmitButton();
-            updateTotalValuesP();
-    };
+    // Append the dropdown to the container
+    orgCellP.appendChild(orgSelectP);
 
-    parNameInput.onkeydown = function (event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        this.readOnly = true;
-        enableSubmitButton();
-            updateTotalValuesP();
-      }
-    };
+    // Add event listener to the organization dropdown
+    orgSelectP.addEventListener('change', function () {
+      enableSubmitButton(); // Enable/disable submit button based on dropdown selection
+    });
+  })
+  .catch(error => console.error('Error fetching options:', error));
 
-    sectionInputP.onkeydown = function (event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        this.readOnly = true;
-        enableSubmitButton();
-            updateTotalValuesP();
-      }
-    };
-
+parNameInput.onkeydown = function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    this.readOnly = true;
     enableSubmitButton();
-    updateTotalValuesP();
+        updateTotalValuesP();
+  }
+};
 
-    }
+sectionInputP.onkeydown = function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    this.readOnly = true;
+    enableSubmitButton();
+        updateTotalValuesP();
+  }
+};
+
+enableSubmitButton();
+updateTotalValuesP();
+
+}
 
     let divCount = 0;
 
 
     function generateDiv() {
       
+      
   divCount++;
   const divId = `div${divCount}`;
   let organizationId;
 
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.style.display = 'flex';
+  buttonsContainer.style.justifyContent = 'space-between';
+  buttonsContainer.style.marginTop = '10px';
+
   // Create the main div element
   const div = document.createElement('div');
   div.id = divId;
+  
 
   // Create the container for the organization dropdown
   const dropdownContainer = document.createElement('div');
@@ -837,7 +844,9 @@ function addRowP() {
         optionElement.value = option.organization_id;
         dropdown.appendChild(optionElement);
       });
-
+      dropdown.addEventListener('change', function () {
+      enableSubmitButton(); // Enable/disable submit button based on dropdown selection
+    });
       // Append the dropdown to the dropdown container
       dropdownContainer.appendChild(dropdown);
     })
@@ -880,6 +889,8 @@ function addRowP() {
     tbody.appendChild(newRow);
     updateTotalValuesP();
   };
+
+
   const addRowButtonCell = document.createElement('td');
   addRowButtonCell.appendChild(addRowButton);
 
@@ -907,30 +918,86 @@ function addRowP() {
   const deleteButtonCell = document.createElement('td');
   deleteButtonCell.appendChild(deleteButton);
 
-  // Create the table row for buttons
-  buttonsRow.appendChild(toggleButtonCell);
-  buttonsRow.appendChild(addRowButtonCell);
-  buttonsRow.appendChild(deleteButtonCell); // Add the delete button cell
+   // Append the buttons to the buttons container
+   buttonsContainer.appendChild(toggleButton);
+  buttonsContainer.appendChild(addRowButton);
+  buttonsContainer.appendChild(deleteButton);
+
+  // Append the buttons container to the table body
   tbody.appendChild(buttonsRow);
+  tbody.appendChild(buttonsContainer); // Add the buttons container
+
   
-  updateTotalValuesP();
+
+  
+  enableSubmitButton();
+updateTotalValuesP();
+
+const saveButton = document.getElementById('pjFormSaveBtn');
+  if (saveButton) {
+    saveButton.disabled = true;
+  }
 
 }
 
 function createRow(divId, organizationId) {
   const row = document.createElement('tr');
   row.className = 'row';
+  row.style.marginLeft = '20px';
+
+  // Create a hidden input field for organization_id for the whole group
+  const groupOrganizationIdInput = document.createElement('input');
+  groupOrganizationIdInput.type = 'hidden';
+  groupOrganizationIdInput.name = 'group_organization_id[]'; // Use a different name for the group's organization
+  groupOrganizationIdInput.value = organizationId || ''; // Set the initial organization_id value for the group
+  row.appendChild(groupOrganizationIdInput);
+
+  // Create the container for the checkbox, name input, and section input
+  const inputsContainer = document.createElement('td');
+  inputsContainer.style.display = 'flex';
+  inputsContainer.style.alignItems = 'center';
 
   // Create the checkbox for the row
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
-  checkbox.className = "checkboxPG";
+  checkbox.className = 'checkboxPG';
   checkbox.onclick = function () {
     toggleCheckbox(divId);
   };
-  const checkboxCell = document.createElement('td');
-  checkboxCell.appendChild(checkbox);
-  row.appendChild(checkboxCell);
+  inputsContainer.appendChild(checkbox);
+
+  // Create the textbox for the name
+  const nameInputPG = document.createElement('input');
+  nameInputPG.type = 'text';
+  nameInputPG.placeholder = 'Name';
+  nameInputPG.className = 'inputpname cformj';
+  nameInputPG.name = 'participant_name[]';
+  nameInputPG.style.borderRadius = '20px';
+  nameInputPG.minLength = 4;
+  nameInputPG.maxLength = 20;
+  nameInputPG.title = 'Enter a valid name (4-20 characters)';
+  nameInputPG.addEventListener('dblclick', function () {
+    this.readOnly = false;
+  });
+  inputsContainer.appendChild(nameInputPG);
+
+  // Create the textbox for the section
+  const sectionInputPG = document.createElement('input');
+  sectionInputPG.type = 'text';
+  sectionInputPG.placeholder = 'Section';
+  sectionInputPG.className = 'inputpcs cformj';
+  sectionInputPG.name = 'participant_section[]';
+  sectionInputPG.style.borderRadius = '20px';
+  sectionInputPG.minLength = 3;
+  sectionInputPG.maxLength = 3;
+  sectionInputPG.title = 'Enter a valid section (3 characters)';
+  sectionInputPG.addEventListener('dblclick', function () {
+    this.readOnly = false;
+  });
+  inputsContainer.appendChild(sectionInputPG);
+
+  // Add the inputs container to the row
+  row.appendChild(inputsContainer);
 
   // Create a hidden input field for organization_id
   const organizationIdInput = document.createElement('input');
@@ -939,67 +1006,46 @@ function createRow(divId, organizationId) {
   organizationIdInput.value = organizationId; // Set the organization_id value for this row
   row.appendChild(organizationIdInput);
 
-  // Create the textbox for the name
-  const nameInputCell = document.createElement('td');
-  const nameInputPG = document.createElement('input');
-  nameInputPG.type = 'text';
-  nameInputPG.placeholder = 'Name';
-  nameInputPG.className = "inputpname cformj";
-  nameInputPG.name = "participant_name[]";
-  nameInputPG.style = "border-radius:20px;";
-  nameInputPG.minLength = 4;
-  nameInputPG.maxLength = 20;
-  nameInputPG.placeholder = "Participant Name";
-  nameInputPG.title = "Enter a valid name (4-20 characters)";
-  nameInputPG.addEventListener("dblclick", function() {
-        this.readOnly = false;
-      });
-      nameInputCell.appendChild(nameInputPG);
-  row.appendChild(nameInputCell);
-  updateTotalValuesP();
+  function updateOrganizationId() {
+    const selectedOrganizationId = orgSelectP.value;
+    organizationIdInput.value = selectedOrganizationId;
+  }
+  // Get all organization dropdown elements within the group
+  const orgSelects = Array.from(document.querySelectorAll(`#${divId} .div-toggle`));
 
-  // Create the textbox for the section
-  const sectionInputCell = document.createElement('td');
-  const sectionInputPG = document.createElement('input');
-  sectionInputPG.type = 'text';
-  sectionInputPG.placeholder = 'Section';
-  sectionInputPG.className = "inputpcs cformj";
-  sectionInputPG.name = "participant_section[]";
-  sectionInputPG.style = "border-radius:20px;";
-  sectionInputPG.minLength = 3;
-  sectionInputPG.maxLength = 3;
-  sectionInputPG.placeholder = "Section";
-  sectionInputPG.addEventListener("dblclick", function() {
-        this.readOnly = false;
-      });
-  sectionInputCell.appendChild(sectionInputPG);
-  row.appendChild(sectionInputCell);
+  // Call the updateOrganizationId function when any of the dropdown values change
+  orgSelects.forEach((orgSelect) => {
+    orgSelect.addEventListener('change', updateOrganizationId);
+  });
+
+  // Get the organization dropdown element
+  const orgSelectP = document.querySelector('#' + divId + ' .div-toggle');
+
+  // Call the updateOrganizationId function when the dropdown value changes
+  orgSelectP.addEventListener('change', updateOrganizationId);
 
   nameInputPG.onkeydown = function (event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        this.readOnly = true;
-        enableSubmitButton();
-            updateTotalValuesP();
-      }
-    };
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.readOnly = true;
+      enableSubmitButton();
+      updateTotalValuesP();
+    }
+  };
 
-    sectionInputPG.onkeydown = function (event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        this.readOnly = true;
-        enableSubmitButton();
-            updateTotalValuesP();
-      }
-    };
+  sectionInputPG.onkeydown = function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.readOnly = true;
+      enableSubmitButton();
+      updateTotalValuesP();
+    }
+  };
 
-    
-    enableSubmitButton();
-    updateTotalValuesP();
-    
+  enableSubmitButton();
+  updateTotalValuesP();
 
   return row;
-
 }
 
 
@@ -1061,6 +1107,10 @@ function removeDiv(divId) {
   const divToRemove = document.getElementById(divId);
   divToRemove.remove();
   updateTotalValuesP(); // Update any totals or calculations, if needed
+  const saveButton = document.getElementById('pjFormSaveBtn');
+  if (saveButton) {
+    saveButton.disabled = true;
+  }
 }
 
 $(document).on('change', '.div-toggle', function() {

@@ -146,11 +146,13 @@ function enableSubmitButton() {
   }
   
 
-function updateTotalValuesP() {
+  function updateTotalValuesP() {
     var allPNameValuesEntered = false;
     var allPSectionValuesEntered = false;
+    var allPOrganizationSelected = false;
     var nmbrPName = 0;
     var nmbrPSection = 0;
+    var nmbrPOrganization = 0;
     var allInputsReadOnly = true;
   
     var participantName = document.querySelectorAll('input[name="participant_name[]"]');
@@ -161,25 +163,16 @@ function updateTotalValuesP() {
   
     $('input[name="participant_name[]"]').on('input', function (e) {
       e.target.value = e.target.value.replace(/[^A-Za-z0-9 \-]/g, '');
-     
-    });
-    
-    $('input[name="participant_section[]"]').on('input', function (e) {
-      e.target.value = e.target.value.replace(/[^1-9 \-]/g, '');
-      
     });
   
-    $('input[name="participant_name[]"]').on('input', function (e) {
-      $(this).val(function (i, v) {
-        return v.replace(/[^\w\s-]/gi, '');
-      });
-      
+    $('input[name="participant_section[]"]').on('input', function (e) {
+      e.target.value = e.target.value.replace(/[^1-9 \-]/g, '');
     });
   
     $('input[name="participant_name[]"]').each(function () {
       var value = $(this).val();
       if ($(this).val() === '' || value.replace(/\s/g, '').length < 5 || value.trim() === '') {
-
+  
       } else {
         nmbrPName += 1;
       }
@@ -188,22 +181,24 @@ function updateTotalValuesP() {
       }
     });
   
-    $('input[name="participant_section[]"]').on('input', function (e) {
-      $(this).val(function (i, v) {
-        return v.replace(/[^\w\s-]/gi, '');
-      });
-  
-    });
-  
     $('input[name="participant_section[]"]').each(function () {
       var value = $(this).val();
       if ($(this).val() === '' || value.replace(/\s/g, '').length < 3 || value.trim() === '') {
-
+  
       } else {
         nmbrPSection += 1;
       }
       if (!$(this).is('[readonly]')) {
         allInputsReadOnly = false;
+      }
+    });
+  
+    var orgSelects = document.querySelectorAll('select[name="organization_id[]"]');
+    var orgSelectCount = orgSelects.length;
+  
+    orgSelects.forEach(function (orgSelect) {
+      if (orgSelect.selectedIndex !== 0) {
+        nmbrPOrganization += 1;
       }
     });
   
@@ -219,7 +214,13 @@ function updateTotalValuesP() {
       allPSectionValuesEntered = false;
     }
   
-    if (allPNameValuesEntered === false || allPSectionValuesEntered === false || !allInputsReadOnly) {
+    if (nmbrPOrganization === orgSelectCount) {
+      allPOrganizationSelected = true;
+    } else {
+      allPOrganizationSelected = false;
+    }
+  
+    if (allPNameValuesEntered === false || allPSectionValuesEntered === false || allPOrganizationSelected === false || !allInputsReadOnly) {
       formButton.disabled = true;
       tooltip.style.display = 'flex';
   
@@ -237,6 +238,10 @@ function updateTotalValuesP() {
       } else {
         checkPSectionValue.style.visibility = "visible";
         textPSection.style.color = "var(--default-success-color)";
+      }
+  
+      if (allPOrganizationSelected === false) {
+        // Add your desired styling for the organization dropdown validation
       }
     } else {
       formButton.disabled = false;
@@ -277,4 +282,3 @@ function updateTotalValuesP() {
       textPSection.style.visibility = "hidden";
     }
   }
-  

@@ -66,7 +66,7 @@ function buttonState(totalPercentage) {
     var descValue = formDesc.value.trim().replace(/\s\s+/g, ""); // Remove multiple consecutive spaces
     var total = totalPercentage;
 
-    if (total === 100 && formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value < nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "" && formCategory.value !== "") {
+    if (total === 100 && formDesc.value !== "" && descValue.length >= 5 && formDate.value !== "" && formDate.value <= nextYearDateString && formDate.value >= currentDateString && formTime.value !== "" && formEvent.value !== "" && formType.value !== "" && formCategory.value !== "") {
         formButton.disabled = false; // enable the button once the input field has content
         tooltip.style.display = 'none';
     } else {
@@ -118,7 +118,7 @@ function buttonState(totalPercentage) {
             textCriteria.style.color = "var(--not-active-text-color)";
         }
         //Date
-        if(formDate.value !== "" && (formDate.value < nextYearDateString && formDate.value >= currentDateString)) {
+        if(formDate.value !== "" && (formDate.value <= nextYearDateString && formDate.value >= currentDateString)) {
             checkDate.style.visibility = "visible";
             textDate.style.color = "var(--default-success-color)";
         }
