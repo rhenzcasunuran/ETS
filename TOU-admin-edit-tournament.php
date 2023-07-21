@@ -442,14 +442,20 @@
                                                   $championTeamId = $row['team_two_id'];
                                               }
 
-                                              echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$row['team_one_id'].'">' .
-                                                  '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$row['team_two_id'].'">' .
-                                                  '<div class="d-inline-flex p-2 justify-content-between">' .
-                                                  '<div>' . $row['team_one_name'] . '</div>'.
-                                                  '<div>' . ' vs ' . '</div>'.
-                                                  '<div>'. $row['team_two_name'] . '</div>' .
-                                                  '<div><input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput"></div>' .
-                                                  '</div>' . '<br>';
+                                               echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$row['team_one_id'].'">' .
+                                                '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$row['team_two_id'].'">
+                                                <div class="container mt-5">
+                                                <div class="row">
+                                                  <div class="col text-center">
+                                                    <h2>'.$row['team_one_name'].' vs '.$row['team_two_name'].'</h2>
+                                                  </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                  <div class="col-md-6 offset-md-3">
+                                                    <label for="matchDateTime">Match Date and Time:</label><br>
+                                                    <input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput"></div>
+                                                </div>
+                                              </div>';
                                             }
 
                                             $stmt->close();
@@ -466,20 +472,28 @@
                                               $team_name_two = $row2['team_two_name'];
 
                                               echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$team_one_id.'">' .
-                                              '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$team_two_id.'">' .
-                                              '<div class="d-inline-flex p-2 justify-content-between">' .
-                                              '<div>' . $team_name_one  . '</div>'.
-                                              '<div>' . ' vs ' . '</div>'.
-                                              '<div>'. $team_name_two . '</div>' .
-                                              '<div><input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput"></div>' .
-                                              '</div>' . '<br>';
+                                              '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$team_two_id.'">
+                                              <div class="container mt-5">
+                                              <div class="row">
+                                                <div class="col text-center">
+                                                  <h2>'.$team_name_one.' vs '.$team_name_two.'</h2>
+                                                </div>
+                                              </div>
+                                              <div class="row mt-3">
+                                                <div class="col-md-6 offset-md-3">
+                                                  <label for="matchDateTime">Match Date and Time:</label><br>
+                                                  <input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput"></div>
+                                              </div>
+                                            </div>';                                  
                                             }
                                           }                                      
                                         ?>
                                       </div>
                                   </div>
-                                </div>
                                 <br>
+
+                                <!--<div class="p-3"><input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput" class="w-25"></div>-->
+
                                 <div id="error-container" style="color: red;"></div>
                                 <button id="submit" type="submit" class="primary-button float-end">Submit</button>
                               </form>
