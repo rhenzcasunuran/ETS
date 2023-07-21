@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="css/home-sidebar-style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="Website Icon" type="png" href="./pictures/logo.png">
     <style>
       .centered-container {
       display: flex;
@@ -293,7 +294,7 @@ if ($participantScoresResult->num_rows > 0) {
     echo '</tbody>';
     echo '</table>';
 } else {
-    echo '<p style=" color: rgb(255, 255, 255);">No participant scores found.</p>';
+    echo '<p style=" color: rgb(255, 255, 255); text-align:center; margin-top: 10px; margin-bottom:10px;">No participant scores found.</p>';
 }
 
 $conn->close();
