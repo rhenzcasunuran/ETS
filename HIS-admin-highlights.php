@@ -88,43 +88,85 @@ mysqli_close($conn);
 
       </div>
       <div class="bg-white p-3" id="container-2">
-        <div class="file-type-container">
-          Gallery
-        </div>
-        <div class="container" id="img-container">
-            <?php
-    require('./php/database_connect.php');
-    $query = "SELECT * FROM highlights ORDER BY highlight_id DESC";
-    $result = mysqli_query($conn, $query);
+  <div class="file-type-container">
+    Gallery
+  </div>
+  <div class="container" id="img-container">
+  <?php
+require('./php/database_connect.php');
 
-    while ($row = mysqli_fetch_assoc($result)) {
-      $filenames = explode(',', $row['filename']);
-      $id = $row['highlight_id'];
+// Number of items to display per page
+$itemsPerPage = 4;
 
-      foreach ($filenames as $filename) {
-        // Skip empty filenames
-        if (empty(trim($filename))) {
-          continue;
+// Retrieve all filenames and highlight IDs from the database
+$query = "SELECT highlight_id, filename FROM highlights ORDER BY highlight_id DESC";
+$result = mysqli_query($conn, $query);
+$allImages = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $filenames = explode(',', $row['filename']);
+    $id = $row['highlight_id'];
+
+    foreach ($filenames as $filename) {
+        if (!empty(trim($filename))) {
+            $allImages[] = [
+                'highlight_id' => $id,
+                'filename' => trim($filename)
+            ];
         }
+    }
+}
+mysqli_free_result($result);
 
-        $imagePath = './images/' . trim($filename);
-        if (!file_exists($imagePath)) {
-          // Skip non-existent images
-          continue;
-        }
+// Calculate the total number of items
+$totalItems = count($allImages);
 
+// Calculate the total number of pages
+$totalPages = ceil($totalItems / $itemsPerPage);
+
+// Get the current page number from the URL or set it to 1
+$currentPage = isset($_GET['page']) ? intval($_GET['page']) : 1;
+
+// Ensure the current page is within valid bounds
+$currentPage = max(1, min($totalPages, $currentPage));
+
+// Calculate the starting index for the current page
+$startIndex = ($currentPage - 1) * $itemsPerPage;
+
+// Get the chunk of images for the current page
+$currentImages = array_slice($allImages, $startIndex, $itemsPerPage);
+
+// Display images for the current page
+foreach ($currentImages as $image) {
+    $id = $image['highlight_id'];
+    $filename = $image['filename'];
+
+    $imagePath = './images/' . $filename;
+    if (file_exists($imagePath)) {
         echo '<div class="image">';
         echo '<img src="' . $imagePath . '" onclick="expandImage(this)" class="gallery-image">';
-        echo '<div class="delete"><a href="#" onclick="confirmDelete(' . $id . ', \'' . trim($filename) . '\')"><i class="bx bxs-trash bx-xs bx-tada-hover bx-border-circle"></i></a></div>';
+        echo '<div class="delete"><a href="#" onclick="confirmDelete(' . $id . ', \'' . $filename . '\')"><i class="bx bxs-trash bx-xs bx-tada-hover bx-border-circle"></i></a></div>';
         echo '<div class="expanded-image" onclick="collapseImage(this)"><img src="' . $imagePath . '" class="expanded-image-inner"></div>';
         echo '</div>';
-      }
     }
+}
 
-    mysqli_free_result($result);
-    mysqli_close($conn);
-    ?>
-</div>
+// Display pagination links
+echo '<div class="pagination">';
+for ($i = 1; $i <= $totalPages; $i++) {
+    if ($i === $currentPage) {
+        echo '<span class="pagination-link active">' . $i . '</span>';
+    } else {
+        echo '<a href="?page=' . $i . '" class="pagination-link">' . $i . '</a>';
+    }
+}
+echo '</div>';
+
+mysqli_close($conn);
+?>
+
+
+  </div>
+
 
       </div>
       <div class="bg-white p-3" id="container-3">
