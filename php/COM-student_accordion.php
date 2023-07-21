@@ -261,7 +261,7 @@ ORDER BY total_score DESC";
                     $rowStyle = 'background-color: var(--color-piie);';
                 }
 
-                echo "<div>";
+                echo "<div class='rankRow'>";
                 echo "<table>";
                 echo "<tr>";
                 echo "<td class='diamond'><div class='diamondContainer smallDiamond'><div class='place'>" . $counter . "th</div></div></td>";
