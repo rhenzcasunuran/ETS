@@ -1,5 +1,6 @@
 <?php
 include 'database_connect.php';
+session_start();
 
 // Get the authentication data from the request
 $data = json_decode(file_get_contents('php://input'), true);
@@ -13,6 +14,8 @@ $eventResult = $conn->query($eventQuery);
 if ($eventResult->num_rows > 0) {
   $eventRow = $eventResult->fetch_assoc();
   $eventId = $eventRow['event_id'];
+  
+  $_SESSION['event_id'] = $eventId;
 
   // Query the competition table to get the competition ID based on the event ID
   $competitionQuery = "SELECT competition_id FROM competition WHERE event_id = '$eventId'";
