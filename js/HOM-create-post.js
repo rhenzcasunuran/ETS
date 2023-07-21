@@ -51,17 +51,41 @@ document.addEventListener('click', function(e) {
 //validate calendar
 $(document).ready(function(){
   var todaysDate = new Date();
-  
-  var year = todaysDate.getFullYear();		
-  var maxYear = year+1;
-  var month = ("0" + (todaysDate.getMonth() + 1)).slice(-2); 
-  var day = ("0" + todaysDate.getDate()).slice(-2);
+  var year = todaysDate.getFullYear();
+  var maxYear = year + 1;
 
-  var dtToday = (year + "-" + month + "-" + day);
-  var dtMax = (maxYear + "-" + month + "-" + day);
-  
+  var month = ("0" + (todaysDate.getMonth() + 1)).slice(-2);
+  var day = ("0" + todaysDate.getDate()).slice(-2);
+  var hours = ("0" + todaysDate.getHours()).slice(-2);
+  var minutes = ("0" + todaysDate.getMinutes()).slice(-2);
+
+  var dtToday = year + "-" + month + "-" + day + "T" + hours + ":" + minutes;
+
+  // Adjust the maxYear value to ensure the correct year format
+  var dtMax = maxYear + "-" + month + "-" + day + "T23:59"; // Set time to the end of the day
+
   $("#calendar").attr('max', dtMax);
   $("#calendar").attr('min', dtToday);
+});
+
+//validate schedule
+$(document).ready(function(){
+  var todaysDate = new Date();
+  var year = todaysDate.getFullYear();
+  var maxYear = year + 1;
+
+  var month = ("0" + (todaysDate.getMonth() + 1)).slice(-2);
+  var day = ("0" + todaysDate.getDate()).slice(-2);
+  var hours = ("0" + todaysDate.getHours()).slice(-2);
+  var minutes = ("0" + todaysDate.getMinutes()).slice(-2);
+
+  var dtToday = year + "-" + month + "-" + day + "T" + hours + ":" + minutes;
+
+  // Adjust the maxYear value to ensure the correct year format
+  var dtMax = maxYear + "-" + month + "-" + day + "T23:59"; // Set time to the end of the day
+
+  $("#schedule").attr('max', dtMax);
+  $("#schedule").attr('min', dtToday);
 });
 
 //read description line breaks
