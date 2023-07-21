@@ -230,12 +230,12 @@
     });
 }
  else {
-        activeTournamentsDiv.append('<p>No active tournaments found.</p>');
+        activeTournamentsDiv.append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><br><div id="create-tournament-button"><button class="primary-button">Create Tournament</button></div></div><div class="col"></div></div></div>');
     }
 },
                 error: function(error) {
                   console.error(error)
-                    $('#active-tournaments').append('<p>Error fetching data.</p>');
+                    $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><br><div id="create-tournament-button"><button class="primary-button">Create Tournament</button></div></div><div class="col"></div></div></div>');
                 }
             });
         });
