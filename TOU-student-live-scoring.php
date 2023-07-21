@@ -129,11 +129,16 @@ include './php/admin-signin.php';
                 }
               }
 
+              // Function to format scores as '01' to '09' for single-digit numbers
+              function formatScore(score) {
+                return score.toString().padStart(2, '0');
+              }
+
               // Call the function to set default text for empty elements
               setDefaultText('team-one-name', 'TEAM 1');
               setDefaultText('team-two-name', 'TEAM 2');
-              setDefaultText('team-one-score', '0');
-              setDefaultText('team-two-score', '0');
+              setDefaultText('team-one-score', '00');
+              setDefaultText('team-two-score', '00');
 
                document.getElementById("viewScoreBracket").addEventListener("change", function() {
                 var selectedValue = this.value;
@@ -173,8 +178,8 @@ include './php/admin-signin.php';
                 // Call the function to set default text for empty elements
                 setDefaultText('team-one-name', 'TEAM 1');
                 setDefaultText('team-two-name', 'TEAM 2');
-                setDefaultText('team-one-score', '0');
-                setDefaultText('team-two-score', '0');
+                setDefaultText('team-one-score', '00');
+                setDefaultText('team-two-score', '00');
 
                 var selectedId = $(this).val(); // Get the selected ID
 
@@ -217,8 +222,9 @@ include './php/admin-signin.php';
                       // Populate team names and scores
                       teamOneName.text(matchup.team_one_name);
                       teamTwoName.text(matchup.team_two_name);
-                      teamOneScore.text(matchup.team_one_current_score);
-                      teamTwoScore.text(matchup.team_two_current_score);
+                      $('#team-one-score').text(formatScore(matchup.team_one_current_score));
+                      $('#team-two-score').text(formatScore(matchup.team_two_current_score));
+
                     }
                   },
                   error: function(xhr, status, error) {
@@ -235,8 +241,8 @@ include './php/admin-signin.php';
                 // Call the function to set default text for empty elements
                 setDefaultText('team-one-name', 'TEAM 1');
                 setDefaultText('team-two-name', 'TEAM 2');
-                setDefaultText('team-one-score', '0');
-                setDefaultText('team-two-score', '0');
+                setDefaultText('team-one-score', '00');
+                setDefaultText('team-two-score', '00');
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
@@ -248,8 +254,8 @@ include './php/admin-signin.php';
                     if (response.length > 0) {
                       var matchup = response[0]; // Assuming only one matchup is returned
                       // Populate team names and scores
-                      teamOneScore.text(matchup.team_one_current_score);
-                      teamTwoScore.text(matchup.team_two_current_score);
+                      $('#team-one-score').text(formatScore(matchup.team_one_current_score));
+                      $('#team-two-score').text(formatScore(matchup.team_two_current_score));
                     }
                   },
                   error: function(xhr, status, error) {

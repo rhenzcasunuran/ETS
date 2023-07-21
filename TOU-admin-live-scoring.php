@@ -110,8 +110,13 @@
               // Call the function to set default text for empty elements
               setDefaultText('team-one-name', 'TEAM 1');
               setDefaultText('team-two-name', 'TEAM 2');
-              setDefaultText('team-one-score', '0');
-              setDefaultText('team-two-score', '0');
+              setDefaultText('team-one-score', '00');
+              setDefaultText('team-two-score', '00');
+
+              // Function to format scores as '01' to '09' for single-digit numbers
+              function formatScore(score) {
+                return score.toString().padStart(2, '0');
+              }
 
               document.getElementById("viewScoreBracket").addEventListener("change", function() {
                 var selectedValue = this.value;
@@ -153,8 +158,8 @@
                 // Call the function to set default text for empty elements
                 setDefaultText('team-one-name', 'TEAM 1');
                 setDefaultText('team-two-name', 'TEAM 2');
-                setDefaultText('team-one-score', '0');
-                setDefaultText('team-two-score', '0');
+                setDefaultText('team-one-score', '00');
+                setDefaultText('team-two-score', '00');
 
                 // Send the ID to another AJAX request
                 $.ajax({
@@ -202,8 +207,8 @@
                       // Populate team names and scores
                       teamOneName.text(matchup.team_one_name);
                       teamTwoName.text(matchup.team_two_name);
-                      teamOneScore.text(matchup.team_one_current_score);
-                      teamTwoScore.text(matchup.team_two_current_score);
+                      $('#team-one-score').text(formatScore(matchup.team_one_current_score));
+                      $('#team-two-score').text(formatScore(matchup.team_two_current_score));
 
                       // Generate buttons for team one
                       $('#team_one_btn').empty(); // Clear existing buttons
@@ -270,8 +275,7 @@
                       $('#team_one_btn button[value="1"]').prop('disabled', false);
                       $('#team_one_btn button[value="2"]').prop('disabled', false);
                       $('#team_one_btn button[value="3"]').prop('disabled', false);
-                      // Update the value in the <h1> element
-                      $('#team-one-score').text(response.current_score);
+                      $('#team-one-score').text(formatScore(response.current_score));
                     }
                   },
                   error: function(xhr, status, error) {
@@ -317,7 +321,7 @@
                       $('#team_two_btn button[value="2"]').prop('disabled', false);
                       $('#team_two_btn button[value="3"]').prop('disabled', false);
                       // Update the value in the <h1> element
-                      $('#team-two-score').text(response.current_score);
+                      $('#team-two-score').text(formatScore(response.current_score));
                     }
                   },
                   error: function(xhr, status, error) {
