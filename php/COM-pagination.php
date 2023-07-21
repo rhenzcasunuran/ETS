@@ -1,4 +1,4 @@
-<div class="pagination">
+<div class="paginations">
   <div class="pagination-left">
     <label for="items-per-page">Item(s) shown:</label>
     <select id="items-per-page" class="itemDD">
@@ -40,7 +40,7 @@
     }
     var totalItems = $(item).length;
     if (totalItems <= 0) {
-      var paginations = document.querySelector('.pagination');
+      var paginations = document.querySelector('.paginations');
       paginations.style.display = "none";
     }
 </script>

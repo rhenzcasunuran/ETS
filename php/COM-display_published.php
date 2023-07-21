@@ -84,13 +84,17 @@ if ($result->num_rows > 0) {
                 // Query the criterion_scoring table to get the final score for this participant and criterion
                 $score_sql = "SELECT criterion_final_score FROM criterion_scoring WHERE ongoing_criterion_id = '$criterion_id' AND participants_id = '$participant_id'";
                 $score_result = $conn->query($score_sql);
-                $final_score = $score_result->fetch_assoc()["criterion_final_score"];
+                if ($score_result->num_rows > 0){
+                    $final_score = $score_result->fetch_assoc()["criterion_final_score"];
+                } else {
+                    $final_score = 'no score';
+                }
 
-                if ($final_score !== null) {
+                if ($final_score == 'no score') {
+                    echo "<td>No score</td>";
+                } else {
                     $total_score += $final_score;
                     echo "<td>" . $final_score . "</td>";
-                } else {
-                    echo "<td></td>";
                 }
             }
 
@@ -106,7 +110,7 @@ if ($result->num_rows > 0) {
     <script>
         var empty = document.getElementById('empty');
         var searchbar = document.querySelector('.inputAndDeleteDiv');
-        var pagini = document.querySelector('.pagination');
+        var pagini = document.querySelector('.paginations');
         empty.style.display = 'flex';
         searchbar.style.display = 'none';
         pagini.style.display = 'none';
