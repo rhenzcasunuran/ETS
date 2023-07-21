@@ -109,7 +109,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Tournament</title>
+    <title>Schedule Tournament</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
     <script src="./js/default-theme.js"></script>
@@ -134,7 +134,7 @@
       require './php/admin-sidebar.php';
     ?>
     <section class="home-section flex-row">
-      <div class="header">Edit Tournament</div>
+      <div class="header">Schedule Tournament</div>
         <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
             <div class="div">
                 <div class="element">
@@ -481,7 +481,7 @@
                                 </div>
                                 <br>
                                 <div id="error-container" style="color: red;"></div>
-                                <button id="submit" type="submit" class="btn btn-primary float-end">Submit</button>
+                                <button id="submit" type="submit" class="primary-button float-end">Submit</button>
                               </form>
                           </div>
                         </div>
