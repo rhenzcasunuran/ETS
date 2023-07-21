@@ -71,7 +71,7 @@ if (isset($_POST['competitionName'])) {
                 $total_score = 0;
 
                 while ($criterion_row = $criteria_result->fetch_assoc()) {
-                    $criterion_id = $criterion_row["criterion_id"];
+                    $criterion_id = $criterion_row["ongoing_criterion_id"];
 
                     // Query the criterion_scoring table to get the final score for this participant and criterion
                     $score_sql = "SELECT criterion_final_score FROM criterion_scoring WHERE ongoing_criterion_id = '$criterion_id' AND participants_id = '$participant_id'";

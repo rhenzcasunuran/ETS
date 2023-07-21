@@ -262,7 +262,7 @@ ORDER BY total_score DESC";
                 }
 
                 echo "<div class='rankRow'>";
-                echo "<table>";
+                echo "<table class='rankTable'>";
                 echo "<tr>";
                 echo "<td class='diamond'><div class='diamondContainer smallDiamond'><div class='place'>" . $counter . "th</div></div></td>";
                 echo "<td class='name' style='$rowStyle'>" . $row_scores["participant_name"] . "</td>";
