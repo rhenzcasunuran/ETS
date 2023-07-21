@@ -1,5 +1,5 @@
-.pagination {
-    display: flex !important;
+.paginations {
+    display: flex;
     flex-direction: row;
     justify-content: center;
     width: 90%;
@@ -68,6 +68,7 @@
     border-radius: 5px;
     background-color: var(--color-content-card);
     color: var(--color-content-text);
+    box-shadow: 0 4px 6px 0 var(--shadow-color) !important; 
 }
 .jump-button {
     justify-content: center;
@@ -97,4 +98,6 @@
 .jump-input {
     background-color: var(--color-content-card) !important;
     color: var(--color-content-text);
+    margin-top: 5px;
+    box-shadow: 0 4px 6px 0 var(--shadow-color);
 }

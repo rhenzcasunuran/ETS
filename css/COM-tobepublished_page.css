@@ -477,6 +477,13 @@ input {
 .simplepicker-fade {
     color: var(--color-text) !important;
 }
+.no-result {
+    margin-top: -85px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -200px;
+    aspect-ratio: 1/1;
+}
 .row {
     --bs-gutter-x: 1.5rem;
     --bs-gutter-y: 0;
@@ -498,6 +505,7 @@ input {
 .sched_output {
     background-color: var(--color-content-card) !important;
     color: var(--color-content-text);
+    box-shadow: 0 4px 6px 0 var(--shadow-color);
 }
 .lefty{
     margin-left: 30px;

@@ -358,6 +358,7 @@ input {
 .sched_output {
     background-color: var(--color-content-card) !important;
     color: var(--color-content-text);
+    box-shadow: 0 4px 6px 0 var(--shadow-color);
 }
 .left{
     margin-left: 30px;
