@@ -68,7 +68,7 @@
             <div class="row">
               <div class="col textbox">
                 <h2>Add to Calendar</h2>
-                <input type="datetime-local" id="calendar" name="post_calendar" value="<?php echo $post_row['post_calendar'];?>">
+                <input type="datetime-local" id="calendar" name="post_calendar" value="<?php echo $post_row['post_calendar'];?>" disabled>
               </div>
               <div class="col textbox">
                 <h2>Tags<span>&nbsp;*</span></h2>
