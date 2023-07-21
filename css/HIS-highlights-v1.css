@@ -86,10 +86,9 @@
   font-style: normal;
   font-size: 20px;
   border-style: hidden;
-  line-height: 36px;
   text-align: center;
   color: var(--color-content-text);
-  padding: 25px;
+  padding: 10px;
   border-radius: 15px;
 }
 
@@ -174,7 +173,7 @@
 .image {
   cursor: pointer;
   margin: 10px;
-  width: 120px;
+  width: 100px;
   height: 120px;
   position: relative;
   display: flex;
@@ -348,6 +347,29 @@ textarea {
   height: 100%;
   object-fit: contain;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.pagination-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+  background-color: #ccc;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #fff;
+}
+
+.pagination-link.active {
+  background-color: rgb(93,43,160);
+}
 
 @media (max-width: 767px) {
   .flex-container {
@@ -424,12 +446,16 @@ textarea {
 
   }
 
-
-
-
   .form-control {
     width: 100%;
     margin-top: 0;
     margin-left: 0;
   }
+  .image img {
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: cover;
+    display: block;
+  }
+  
 }
