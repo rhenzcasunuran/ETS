@@ -45,7 +45,7 @@
     </section>
     <section class="home-section actualbody">
         <div id="empty" class="empty">
-        <img src="./pictures/no_result.png" class="no-result" width="500px" height="500px">
+        <img src="./pictures/no_result.svg" class="no-result" width="500px" height="500px">
             <h1 class="empty_header">No Results</h1>
             <p class="empty_p">There are no results published yet.<br>Tap the button to schedule a result.</p>
             <button class="go_to_tobepubBtn" onclick="window.location.href='./COM-tobepublished_page.php';"><i class='bx bxs-plus-square'></i><p class="btnContent">To Publish</p></button>
@@ -54,7 +54,7 @@
         <div class="inputAndDeleteDiv">
           <div class="left search bar" id='search'>
           <i class='bx bx-search'></i>
-	          <input class="searchInput" type="text" placeholder="Search..">
+	          <input id="searchInput" class="searchInput" type="text" placeholder="Search..">
           </div>
         </div>
             <?php
@@ -94,4 +94,52 @@
     <script type="text/javascript" src="./js/COM-pagination.js"></script>
     <script src='./js/COM-piechart.js'></script>
     <!--Side Bar Scripts End-->
+    <script>
+      var resultContainers;
+      $(document).ready(function() {
+        // Get all the draggableDiv elements
+        resultContainers = $(".draggableDiv");
+
+        // Search function
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            resultContainers.filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+            if (value.trim() === '') {
+            clickPageButtonOne();
+            $('.paginations').show();
+            } else {
+              $('.paginations').hide();
+            }
+        });
+      });
+      function clickPageButtonOne() {
+    // Get the button with class 'pageBtn' and content '1'
+    var buttonOne = $('.pagination-center .pageBtn:contains("1")');
+
+    // Trigger a click event on the button
+    if (buttonOne.length > 0) {
+        buttonOne.trigger('click');
+    }
+}
+      // Search function to filter draggableDivs
+      function searchDrags(searchText) {
+      resultContainers.forEach(div => {
+      const content = div.innerText.toLowerCase();
+      if (content.includes(searchText.toLowerCase())) {
+        div.style.display = 'block';
+      } else {
+        div.style.display = 'none';
+      }
+    });
+  }
+  
+  function handleSearchInput() {
+    const searchInput = document.getElementById('searchInput').value;
+    searchDrags(searchInput);
+  }
+  
+  document.getElementById('searchInput').addEventListener('input', handleSearchInput);
+    </script>
   </body>
