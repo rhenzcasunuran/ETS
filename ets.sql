@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2023 at 10:43 AM
+-- Generation Time: Jul 21, 2023 at 10:52 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -352,7 +352,7 @@ CREATE TABLE `ongoing_list_of_event` (
 INSERT INTO `ongoing_list_of_event` (`event_id`, `ongoing_event_name_id`, `category_name_id`, `event_name_id`, `event_type_id`, `category_name`, `event_description`, `event_code`, `event_date`, `event_time`, `is_archived`, `suggested_status`, `overall_include`, `is_deleted`) VALUES
 (1, 1, 1, 1, 2, 'Makatang Pagtutula', 'Bilang pakikiisa sa Buwan ng Wikang Pambansa taong 2023, naghanda ng mga patimpalak ang ating sintang paaralan para sa mga PUPians. ', 'RcVdOdXbFbm2', '2023-08-25', '08:00:00', 0, 0, 1, 0),
 (2, 2, 2, 2, 1, 'Cyber League', 'Embraced the advancement of technology by joining the Cyber league. Registration will be available soon...', NULL, '2023-07-21', '14:00:00', 0, 0, 1, 0),
-(3, 3, NULL, 3, 3, NULL, 'It is the day that we give gratitude to those people who sacrifice their life for the better future of our nation.', NULL, '2023-08-28', '00:00:00', 0, 0, 1, 0);
+(3, 3, NULL, 3, 3, NULL, 'It is the day that we give gratitude to those people who sacrifice their life for the better future of our nation.', NULL, '2023-08-28', '00:00:00', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
