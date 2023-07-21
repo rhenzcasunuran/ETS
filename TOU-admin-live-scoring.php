@@ -187,11 +187,6 @@
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
                 selectedValue = $(this).val(); // Get the selected value
-                // Call the function to set default text for empty elements
-                setDefaultText('team-one-name', 'TEAM 1');
-                setDefaultText('team-two-name', 'TEAM 2');
-                setDefaultText('team-one-score', '0');
-                setDefaultText('team-two-score', '0');
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
@@ -370,42 +365,6 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/theme.js"></script>
-    <script src="./js/orgchart.js"></script>
-    <script>
-      var chart = new OrgChart(document.getElementById("tree"), {
-          template: "diva",
-          enableSearch: false,
-          mouseScroll: OrgChart.action.none,
-          orientation: OrgChart.orientation.right,
-          nodeBinding: {
-              field_0: "name",
-              field_1: "title",
-              img_0: "img"
-          },
-          nodes: [
-              { id: 1, pid: 0, name: "Amber McKenzie", title: "CEO", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 2, pid: 1, name: null, title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 3, pid: 1, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 4, pid: 2, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 5, pid: 2, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 6, pid: 3, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 7, pid: 3, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 8, pid: 4, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 9, pid: 4, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 10, pid: 5, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 11, pid: 5, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 12, pid: 6, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 13, pid: 6, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 14, pid: 7, name: "Ava Field", title: "IT Manager", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" },
-              { id: 15, pid: 7, name: "Rhys Harper", img: "https://cdn.balkan.app/shared/empty-img-blue.svg" }
-          ]
-      });
-
-      // Add a click event handler that returns false
-      chart.on('click', function() {
-        return false;
-      });
-    </script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
