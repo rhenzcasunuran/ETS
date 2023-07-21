@@ -93,6 +93,7 @@
         <div class="container-fluid d-flex row justify-content-center">
           <div class="post-container element" id="post-container">
             <?php
+              $no_post = false;
               $row = mysqli_num_rows($get_posts);
               if($row > 0){
                 while($row = mysqli_fetch_array($get_posts)){
@@ -117,16 +118,19 @@
               </a>
             <?php
                 }
+            ?>
+              <div class="text-center" id="no-post-container">
+                <img class="p-2 img-fluid" id="noEvents" src="./pictures/HOM-student.svg" alt="No Events">
+                <h1>No Posts</h1>
+              </div>
+            <?php
               }
               else{
             ?>
-              <div class="text-center" id="no-post-container">
-                <i class='bx bx-calendar-x'></i>
-                <h1>No Posts</h1>
-                <p>Looks like there are no posts created.</p>
-                <a href="create_event.php?create new event">
-                </a>
-              </div>
+                <div class="text-center" id="no-event-container">
+                  <img class="p-2 img-fluid" id="noEvents" src="./pictures/HOM-student.svg" alt="No Events">
+                  <h1>No Posts</h1>
+                </div>
             <?php
               }
             ?>
@@ -179,14 +183,21 @@
             const filterValue = this.getAttribute("data-filter");
 
             // Show/hide image divs based on the filter value
+            const noPostContainer = document.getElementById("no-post-container");
+            let allCardsValid = false;
             cards.forEach(function(div) {
               if (filterValue === "ALL" || div.classList.contains(filterValue)) {
                 div.style.display = "block"; // Show the image div
+                allCardsValid = true;
               } else {
                 div.style.display = "none"; // Hide the image div
               }
             });
-
+            if (allCardsValid) {
+              noPostContainer.style.display = "none";
+            } else {
+              noPostContainer.style.display = "grid";
+            }
             // Scroll back to the top of the container
             scrollContainer.scrollLeft = 0;
           });

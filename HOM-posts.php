@@ -45,7 +45,7 @@
       <?php 
         $popUpID = "deletePost-popup";
         $showPopUpButtonID = "delete-event-btn";
-        $icon = "<i class='bx bxs-error prompt-icon danger-color'></i>";
+        $icon = "<i class='bx bxs-trash prompt-icon danger-color'></i>";
         $title = "Delete Post?";
         $message = "You cannot undo this action.";
         $your_link = "";
@@ -213,13 +213,13 @@
             ?>
               <div class="header">Posts</div>
               <div class="text-center" id="no-event-container">
-                <i class='bx bx-calendar-x'></i>
-                <h1>No Events</h1>
-                <p>Looks like you have no events created. <br> You can do so by clicking the button below.</p>
+                <img class="p-2 img-fluid" id="noEvents" src="./pictures/HOM-admin.svg" alt="No Events">
+                <h1>No Posts</h1>
+                <p>Looks like you have no post created.<br>You can do so by clicking the button below.</p>
                 <div class="row justify-content-center">
                   <button class="primary-button" id="create-new-event-btn">
-                    <i class='bx bx-add-to-queue d-flex justify-content-center align-items-center'></i>
-                      Create an Event
+                    <i class='bx bx-message-square-dots d-flex justify-content-center align-items-center'></i>
+                      Create Post
                   </button>
                 </div>
               </div>
@@ -229,7 +229,7 @@
                     $("#create-new-event-btn").click(function(event) {
                       event.preventDefault(); // Prevent default form submission
                       
-                      window.location.href = "EVE-admin-create-event.php";
+                      window.location.href = "HOM-create-post.php";
                     });
                   });
               </script>
