@@ -401,6 +401,9 @@ table {
     margin-bottom: -200px;
     aspect-ratio: 1/1;
 }
+.rankRow {
+    margin: 10px;
+}
 @media screen and (max-width:460px){
     .top3Container {
         margin-left: -45px !important;
