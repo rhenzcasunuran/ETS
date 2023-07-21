@@ -313,12 +313,16 @@ table {
 .name {
     border-radius: 10px 0px 0px 10px;
     padding-left: 10px;
+    padding: auto;
+    overflow: hidden;
 }
 .org {
     color:black;
+    padding: auto;
 }
 .percent {
     border-radius: 0px 10px 10px 0px;
+    padding: auto;
 }
 .resultsBtn {
     color: white;
@@ -402,7 +406,11 @@ table {
     aspect-ratio: 1/1;
 }
 .rankRow {
-    margin: 10px;
+    margin-bottom: 20px;
+    color: black;
+}
+.rankTable {
+    table-layout: fixed;
 }
 @media screen and (max-width:460px){
     .top3Container {
@@ -529,7 +537,7 @@ table {
         height: 40px;
         width: 40px;
         transform:rotate(45deg);
-        margin-top: -4px;
+        margin-top: -15px;
     }
     .winnerDetails {
         font-weight: bold;

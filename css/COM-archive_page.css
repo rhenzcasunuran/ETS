@@ -318,7 +318,9 @@ i.bx-search {
 .popup-container .prompt-icon {
     font-size: calc(60px + 2vw)!important;
 }
-
+svg {
+    fill: #282135 !important;
+}
 @media screen and (max-width:460px){
     .removespace {
         width: 100% !important;
