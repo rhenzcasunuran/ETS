@@ -130,12 +130,6 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
             <span class="link_name">Event History</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="about.php" class="<?php echo $activeModule === 'about' ? 'active' : ''; ?>">
-            <i class="bx bx-info-circle"></i>
-            <span class="link_name">About</span>
-          </a>
-        </li>
         <?php if(isset($_SESSION['user_username'])) { ?>
         <li class="nav-item">
           <a href="HOM-posts.php" class="<?php echo $activeModule === 'configuration' ? 'active' : ''; ?>">
