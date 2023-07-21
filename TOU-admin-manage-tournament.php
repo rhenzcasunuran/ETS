@@ -87,8 +87,8 @@
             });
         });
     </script>
-<!--Popup Confirm / Success-->
-<div class="popup-background" id="markAsDoneWrapper">
+    <!--Popup Confirm / Success-->
+    <div class="popup-background" id="markAsDoneWrapper">
         <div class="row popup-container">
             <div class="col-4">
                 <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
@@ -99,7 +99,7 @@
             </div>
             <div  class="div">
                 <button class="outline-button" onclick="hideMarkAsDone()"><i class='bx bx-x'></i>Cancel</button>
-                <button class="success-button"><i class='bx bx-check'></i>Confirm</button>
+                <div id="dynamic-successful"></div>
             </div>
         </div>
     </div>
@@ -149,24 +149,96 @@
     <script src="./js/script.js"></script>
     <script src="./js/theme.js"></script>
     <script type="text/javascript">
-        // Get the reference to the "Create Tournament" button
-        const createTournamentButton = document.getElementById('create-tournament-button');
+    $(document).ready(function() {
+        $.ajax({
+            url: './php/TOU-fetch-active-tournament.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log(data)
+                var activeTournamentsDiv = $('#active-tournaments');
 
-        // Add a click event listener to the button
-        createTournamentButton.addEventListener('click', function () {
-          // Set the URL of the destination page you want to redirect to
-          const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
+                if (data.length > 0) {
+                    data.forEach(function (tournament) {
+                        var buttonHtml;
+                        if (tournament.concluding_tournament_id !== null) {
+                            // Dynamically create the Confirm button with the appropriate ID
+                            buttonHtml = `<button class="success-button" id="confirm-${tournament.concluding_tournament_id}" onclick="showMarkAsDone(${tournament.concluding_tournament_id})">Conclude</button>`;
+                        } else {
+                            buttonHtml = `<button class="primary-button" id="edit-tournament-${tournament.id}">Edit</button>`;
+                        }
 
-          // Redirect to the destination page
-          window.location.href = destinationURL;
+                        var elementHtml = `
+                            <div class="div">
+                                <div class="element">
+                                    <div class="row">
+                                        <div class="element-group">
+                                            <div class="element-label">${tournament.event_name}</div>
+                                            <div class="element-content">${tournament.category_name}</div>
+                                            <div class="d-flex justify-content-end">${buttonHtml}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        activeTournamentsDiv.append(elementHtml);
+
+                        // Attach a click event handler to all buttons with IDs starting with "edit-tournament-"
+                        $("[id^='edit-tournament-']").on("click", function() {
+                            // Get the numerical ID from the clicked button's ID attribute
+                            let numericalId = this.id.split("-").pop();
+
+                            // Redirect to the desired page with the numerical ID
+                            window.location.href = "TOU-admin-edit-tournament.php?id=" + numericalId;
+                        });
+                    });
+                } else {
+                    $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><br><button class="primary-button" id="create-tournament-button">Create Tournament</button></div><div class="col"></div></div></div>');
+                    }
+
+                    // Get the reference to the "Create Tournament" button
+                    const createTournamentButton = document.getElementById('create-tournament-button');
+
+                    // Add a click event listener to the button
+                    createTournamentButton.addEventListener('click', function () {
+                    // Set the URL of the destination page you want to redirect to
+                    const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
+
+                    // Redirect to the destination page
+                    window.location.href = destinationURL;
+                    });
+                },
+                error: function(error) {
+                  console.error(error)
+                    $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><br><button class="primary-button" id="create-tournament-button">Create Tournament</button></div><div class="col"></div></div></div>');
+                    
+                     // Get the reference to the "Create Tournament" button
+                     const createTournamentButton = document.getElementById('create-tournament-button');
+
+                    // Add a click event listener to the button
+                    createTournamentButton.addEventListener('click', function () {
+                    // Set the URL of the destination page you want to redirect to
+                    const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
+
+                    // Redirect to the destination page
+                    window.location.href = destinationURL;
+                    });
+                }
+            });
         });
-    </script>
-    <script>
+
         // Confirm
         popupMarkAsDone = document.getElementById('markAsDoneWrapper');
   
-        var showMarkAsDone = function() {
-            popupMarkAsDone.style.display ='flex';
+        var showMarkAsDone = function(tournamentID) {
+            popupMarkAsDone.style.display = 'flex';
+            
+            // Create the Confirm button dynamically
+            var confirmButton = `<button class="success-button" id="confirm-conclude-${tournamentID}"><i class='bx bx-check'></i>Confirm</button>`;
+            
+            // Append the Confirm button to the container
+            $("#dynamic-successful").html(confirmButton);
         }
         var hideMarkAsDone = function() {
             popupMarkAsDone.style.display ='none';
@@ -191,54 +263,6 @@
         var hideDelete = function() {
             popupDelete.style.display ='none';
         }
-    </script>
-    <script>
-        $(document).ready(function() {
-
-            $.ajax({
-                url: './php/TOU-fetch-active-tournament.php',
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                  console.log(data)
-    var activeTournamentsDiv = $('#active-tournaments');
-
-    if (data.length > 0) {
-    data.forEach(function (tournament) {
-        var buttonHtml;
-        if (tournament.concluding_tournament_id) {
-            buttonHtml = `<button class="success-button" onclick="showMarkAsDone(${tournament.concluding_tournament_id})">Conclude</button>`;
-        } else {
-            buttonHtml = `<button class="primary-button" id="${tournament.id}">Edit</button>`;
-        }
-
-        var elementHtml = `
-            <div class="div">
-                <div class="element">
-                    <div class="row">
-                        <div class="element-group">
-                            <div class="element-label">${tournament.event_name}</div>
-                            <div class="element-content">${tournament.category_name}</div>
-                            <div class="d-flex justify-content-end">${buttonHtml}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        activeTournamentsDiv.append(elementHtml);
-    });
-}
- else {
-        activeTournamentsDiv.append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><br><div id="create-tournament-button"><button class="primary-button">Create Tournament</button></div></div><div class="col"></div></div></div>');
-    }
-},
-                error: function(error) {
-                  console.error(error)
-                    $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><br><div id="create-tournament-button"><button class="primary-button">Create Tournament</button></div></div><div class="col"></div></div></div>');
-                }
-            });
-        });
     </script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {

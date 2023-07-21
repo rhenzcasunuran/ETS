@@ -10,46 +10,45 @@ while ($row = mysqli_fetch_assoc($result)) {
     $id = $row['id']; // Store the 'id' value in the $id variable
 
     // Assuming you have already established a database connection
-    $query2 = "SELECT bf.id, ot.current_set_no, MAX(sr.set_no) AS highest_set_no
-        FROM ongoing_teams AS ot
-        INNER JOIN score_rule AS sr ON sr.id = ot.current_set_no
-        INNER JOIN bracket_forms AS bf ON bf.id = sr.bracket_form_id
-        WHERE ot.bracket_form_id = ? AND ot.current_team_status = 'active'
-        GROUP BY bf.id";
+    $query2 = "SELECT COUNT(*) AS active_teams_count FROM ongoing_teams WHERE bracket_form_id = ? AND current_team_status = 'active'";
 
-        // Create a prepared statement
-        $stmt = $conn->prepare($query2);
+    // Create a prepared statement
+    $stmt = $conn->prepare($query2);
 
-        // Bind the parameter to the prepared statement
-        $stmt->bind_param("i", $id);
+    // Bind the parameter to the prepared statement
+    $stmt->bind_param("i", $id);
 
-        // Execute the query
-        $stmt->execute();
+    // Execute the query
+    $stmt->execute();
 
-        // Bind the result to variables
-        $stmt->bind_result($id, $currentSetNo, $highestSetNo);
+    // Bind the result to a variable
+    $stmt->bind_result($activeTeamsCount);
 
-        while ($stmt->fetch()) {
-            // Check if current_set_no is greater than highest_set_no
-            if (intval($currentSetNo) > intval($highestSetNo)) {
-                // If true, retrieve the id and add it to the variable
-                $concluding_tournament_id = $id;
-            } else {
-                // If false, set the variable to NULL
-                $concluding_tournament_id = NULL;
-            }
+    // Fetch the result
+    $stmt->fetch();
 
-            // Create a new JSON object for the tournament
-            $tournament = array(
-                'id' => $row['id'],
-                'event_name' => $row['event_name'],
-                'category_name' => $row['category_name'],
-                'concluding_tournament_id' => $concluding_tournament_id
-            );
+    // Close the statement
+    $stmt->close();
 
-        // Add the tournament object to the $tournamentData array
-        $tournamentData[] = $tournament;
+    // Check if there is only one active team left and declare the champion if needed
+    if ($activeTeamsCount === 1) {
+        // If true, retrieve the id and add it to the variable
+        $concluding_tournament_id = $id;
+    } else {
+        // If false, set the variable to NULL
+        $concluding_tournament_id = NULL;
     }
+
+    // Create a new JSON object for the tournament
+    $tournament = array(
+        'id' => $row['id'],
+        'event_name' => $row['event_name'],
+        'category_name' => $row['category_name'],
+        'concluding_tournament_id' => $concluding_tournament_id
+    );
+
+    // Add the tournament object to the $tournamentData array
+    $tournamentData[] = $tournament;
 }
 
 
