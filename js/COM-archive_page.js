@@ -105,42 +105,7 @@ buttons.forEach((button) => {
   });
 });
 
-var deleteAll = document.getElementById('deleteAll');
-deleteAll.addEventListener("click", function() {
-    //make an if statement that checks if there is atleast selected button, if not, then do nothing
-    const selecteds = document.querySelectorAll('.selected');
-    const remaining_posts = document.querySelectorAll('.result_container');
-    if (selecteds.length >= 1) {
-        showDelete();
-        var deleted = document.getElementById('deleteBtn');
-        //query all buttons that contains the class 'selected'
-        deleted.addEventListener("click", function() {
-            //delete all parent element of the buttons with the class 'selected'
-            selecteds.forEach((selected) => {
-                var competitionName = selected.parentElement.id;
-                $.ajax({
-                    type: "POST",
-                    url: "./php/COM-delete.php",
-                    data: { competitionName: competitionName },
-                    success: function(response) {
-                        post.remove();
-                        showMarkAsDone();
-                    }
-                });
-                var post = document.getElementById(competitionName).parentElement;
-                post.remove();
-            })
-            showMarkAsDeleted();
-            if (remaining_posts.length <= 0){
-                var empty = document.getElementById('empty');
-                empty.style.display = 'flex';
-            }
-        })
-    } else {
-        shownoselect();
-    }
-    
-})
+
 
 const selecteds = document.querySelectorAll('.selectBtn');
 selecteds.forEach((selected) => {
@@ -158,3 +123,22 @@ selecteds.forEach((selected) => {
         }
     });
 })
+
+// Search function to filter draggableDivs
+function searchDrags(searchText) {
+    resultContainers.forEach(div => {
+      const content = div.innerText.toLowerCase();
+      if (content.includes(searchText.toLowerCase())) {
+        div.style.display = 'block';
+      } else {
+        div.style.display = 'none';
+      }
+    });
+}
+  
+function handleSearchInput() {
+    const searchInput = document.getElementById('searchInput').value;
+    searchDrags(searchInput);
+}
+  
+document.getElementById('searchInput').addEventListener('input', handleSearchInput);

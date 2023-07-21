@@ -118,38 +118,6 @@ function addAccordionListeners(draggableDiv) {
   const logoBronze = draggableDiv.querySelectorAll('.bronze');
   const button = draggableDiv.querySelector('button');
   button.addEventListener('click', (event) => {
-    //if (button.style.height === '120px') {
-    //  button.style.maxHeight = '450px';
-    //  button.style.height = '450px';
-    //  button.style.textAlign = 'center';
-    //  button.style.justifyContent = 'center';
-    //  button.classList.add("activeButton");
-    //  logoGold.forEach((logo) => {
-    //    logo.style.marginTop = '-15px';
-    //  });
-    //  logoSilver.forEach((logo) => {
-    //    logo.style.marginTop = '20px';
-    //  });
-    //  logoBronze.forEach((logo) => {
-    //    logo.style.marginTop = '20px';
-    //  });
-    //} else {
-    //  button.style.maxHeight = '120px';
-    //  button.style.height = '120px';
-    //  button.style.textAlign = 'left';
-    //  button.style.justifyContent = 'left';
-    //  button.style.alignItems = 'left';
-    //  button.classList.remove("activeButton");
-    //  logoGold.forEach((logo) => {
-    //    logo.style.marginTop = '50px';
-    //  });
-    //  logoSilver.forEach((logo) => {
-    //    logo.style.marginTop = '50px';
-    //  });
-    //  logoBronze.forEach((logo) => {
-    //    logo.style.marginTop = '50px';
-    //  });
-   // }
     if (button.style.height === '450px'){
       button.style.maxHeight = '120px';
       button.style.height = '120px';
@@ -198,6 +166,24 @@ draggableDivs.forEach(div => {
   addAccordionListeners(div);
 });
 
+// Search function to filter draggableDivs
+function searchDrags(searchText) {
+  draggableDivs.forEach(div => {
+    const content = div.innerText.toLowerCase();
+    if (content.includes(searchText.toLowerCase())) {
+      div.style.display = 'block';
+    } else {
+      div.style.display = 'none';
+    }
+  });
+}
+
+function handleSearchInput() {
+  const searchInput = document.getElementById('searchInput').value;
+  searchDrags(searchInput);
+}
+
+document.getElementById('searchInput').addEventListener('input', handleSearchInput);
 
 loadDivOrder();
 
