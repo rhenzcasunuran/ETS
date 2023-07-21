@@ -7,36 +7,29 @@ document.addEventListener("DOMContentLoaded", function() {
   
   const graphSection = document.querySelector("#graph-section");
   const arrowBtn = document.querySelector("#arrow-btn");
-  const containerFluid = document.querySelector(".container-fluid");
-  const placementOpen = graphSection.classList.contains("placement_open");
-  updateLogoClickability(placementOpen);
+  const selectOrg = graphSection.classList.contains("select_org");
+  updateLogoClickability(selectOrg);
 
-    function updateLogoClickability(placementOpen) {
-      const logoContainers = document.querySelectorAll(".logo_container");
-      logoContainers.forEach((container) => {
-        const logoName = container.querySelector("img").getAttribute("name");
-        if (placementOpen) {
-          container.addEventListener("click", () => handleLogoClick(logoName));
-          container.style.cursor = "pointer";
-        } else {
-          container.removeEventListener("click", () => handleLogoClick(logoName));
-          container.style.cursor = "default";
-        }
-      });
-    }
+  function updateLogoClickability(selectOrg) {
+    const logoContainers = document.querySelectorAll(".logo_container");
+    logoContainers.forEach((container) => {
+      const logoName = container.querySelector("img").getAttribute("name");
+      if (selectOrg) {
+        container.addEventListener("click", handleLogoClick);
+        container.style.cursor = "pointer";
+      } else {
+        container.removeEventListener("click", handleLogoClick);
+        container.style.cursor = "default";
+      }
+    });
+  }
 
     arrowBtn.addEventListener("click", function() {
-      graphSection.classList.toggle("placement_open");
+      graphSection.classList.toggle("select_org");
+      graphSection.classList.remove("placement_open");
+      const selectOrg = graphSection.classList.contains("select_org");
 
-      const placementOpen = graphSection.classList.contains("placement_open");
-
-      updateLogoClickability(placementOpen);
-
-      containerFluid.classList.toggle("placement_open", placementOpen);
-
-      if (typeof Storage !== "undefined") {
-        localStorage.setItem("graph", placementOpen ? "open" : "closed");
-      }
+      updateLogoClickability(selectOrg);
     });
 
 const anonButton = document.getElementById("anon_button");
@@ -85,32 +78,37 @@ cancelWrapper.addEventListener("click", function(event) {
 });
 
     
-      function anonymous() {
-        const anon = document.getElementById("anon_button");
-        const selectedEventName = eventSelect.value;
+function anonymous() {
+  const anon = document.getElementById("anon_button");
+  const noticeDiv = document.getElementById("notice");
+  const anonDiv = document.getElementById("anon-admin-popup");
+  const selectedEventName = eventSelect.value;
 
-        $.ajax({
-          url: "./php/BAR-anon.php",
-          type: "GET",
-          dataType: "json",
-          data: { selectedEventName: selectedEventName },
-          success: function (response) {
-            if (response.isAnon === "1") {
-              anon.checked = true;
-              console.log("true");
-            } else {
-              anon.checked = false;
-              console.log("false");
-            }
-          },
-          error: function (error) {
-            console.error("Request failed:", error);
-          },
-        });
+  $.ajax({
+    url: "./php/BAR-anon.php",
+    type: "GET",
+    dataType: "json",
+    data: { selectedEventName: selectedEventName },
+    success: function (response) {
+      if (response.isAnon === "1") {
+        anon.checked = true;
+        noticeDiv.classList.remove("hide");
+        anonDiv.classList.remove("hide");
+      } else {
+        anon.checked = false;
+        noticeDiv.classList.add("hide");
+        anonDiv.classList.add("hide");
       }
+    },
+    error: function (error) {
+      console.error("Request failed:", error);
+    },
+  });
+}
 
-
-      function handleLogoClick(logoName) {
+      function handleLogoClick(event) {
+        const logoName = event.target.getAttribute("name");
+        graphSection.classList.add("placement_open");
         const placementOpen = graphSection.classList.contains("placement_open");
         if (placementOpen) {
           let logoSrc;

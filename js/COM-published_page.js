@@ -98,3 +98,22 @@ var showCancel = function() {
 var hideCancel = function() {
     popupCancel.style.display ='none';
 }
+
+// Search function to filter draggableDivs
+function searchDrags(searchText) {
+    resultContainers.forEach(div => {
+      const content = div.innerText.toLowerCase();
+      if (content.includes(searchText.toLowerCase())) {
+        div.style.display = 'block';
+      } else {
+        div.style.display = 'none';
+      }
+    });
+  }
+  
+  function handleSearchInput() {
+    const searchInput = document.getElementById('searchInput').value;
+    searchDrags(searchInput);
+  }
+  
+  document.getElementById('searchInput').addEventListener('input', handleSearchInput);

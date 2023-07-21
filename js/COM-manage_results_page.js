@@ -1,17 +1,3 @@
-// Code to connect to Firebase
-// Initialize Firebase
-//const firebaseConfig = {
-//    // Your Firebase project configuration
-//  };
-//  
-//  firebase.initializeApp(firebaseConfig);
-//  
-//  // Get a reference to the database
-//  const db = firebase.firestore();
-//  
-// // Get a reference to the collection you want to use
-//  const collectionRef = db.collection('your_collection_name');
-
 const draggableDivs = document.querySelectorAll('.draggableDiv');
 let dragSrcEl = null;
 
@@ -51,15 +37,6 @@ function handleDragEnd(e) {
   draggableDivs.forEach(div => div.classList.remove('dragging'));
 }
 
-// Save data to firebase - Change buttons to div
-//function saveButtonOrder() {
-//    const buttonOrder = [];
-//    buttons.forEach(button => buttonOrder.push(button.innerHTML));
-//    // Save the data to Firebase
-//    collectionRef.doc('buttonOrder').set({ order: buttonOrder })
-//      .then(() => console.log('Data saved'))
-//      .catch((error) => console.error('Error saving data:', error));
-//}
 
 function saveDivOrder() {
   const divOrder = [];
@@ -87,20 +64,6 @@ function loadDivOrder() {
   }
 }
 
-// Load from Firebase - Change the buttons to div
-//function loadButtonOrder() {
-//    // Load the data from Firebase
-//    collectionRef.doc('buttonOrder').get()
-//      .then((doc) => {
-//        if (doc.exists) {
-//          const buttonOrder = doc.data().order;
-//          for (let i = 0; i < buttonOrder.length; i++) {
-//            buttons[i].innerHTML = buttonOrder[i];
-//          }
-//        }
-//      })
-//      .catch((error) => console.error('Error loading data:', error));
-//}
 
 function addAccordionListeners(draggableDiv) {
   const accordionBtn = draggableDiv.querySelector('.accordion');
@@ -166,6 +129,24 @@ draggableDivs.forEach(div => {
   addAccordionListeners(div);
 });
 
+// Search function to filter draggableDivs
+function searchDrags(searchText) {
+  draggableDivs.forEach(div => {
+    const content = div.innerText.toLowerCase();
+    if (content.includes(searchText.toLowerCase())) {
+      div.style.display = 'block';
+    } else {
+      div.style.display = 'none';
+    }
+  });
+}
+
+function handleSearchInput() {
+  const searchInput = document.getElementById('searchInput').value;
+  searchDrags(searchInput);
+}
+
+document.getElementById('searchInput').addEventListener('input', handleSearchInput);
 
 loadDivOrder();
 

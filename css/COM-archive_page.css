@@ -169,7 +169,7 @@ input {
 .republished_btn {
     cursor: pointer;
     margin-right: 10px;
-    margin-left: 5%;
+    margin-left: 13%;
     border-radius: 25px;
     padding: 5px 15px 5px 15px;
     transition: all .5s ease;
@@ -230,6 +230,7 @@ input {
 .sched_output {
     background-color: var(--color-content-card) !important;
     color: var(--color-content-text);
+    box-shadow: 0 4px 6px 0 var(--shadow-color);
 }
 .left{
     margin-left: 30px;
@@ -421,7 +422,7 @@ i.bx-search {
 }
 @media screen and (min-width: 1101px) {
     .republished_btn {
-        margin-left: 2%;
+        margin-left: 13%;
         margin-top: 10px;
     }
     .selectBtn {
@@ -432,7 +433,7 @@ i.bx-search {
 }
 @media screen and (min-width: 1235px) {
     .republished_btn {
-        margin-left: 5%;
+        margin-left: 13%;
         margin-top: 10px;
     }
     .selectBtn {

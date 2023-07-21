@@ -1,7 +1,3 @@
-#obg-content {
-  display: flex;
-}
-
 #graph-section {
   display: flex;
   width: 100%;
@@ -182,39 +178,38 @@ input[type="checkbox"]:checked + .slider:before {
   transform: translateX(30px);
 }
 
-#body-content.placement_open .add {
-  display: flex;
-}
-
 #body-content.placement_open .anon {
   display: flex;
 }
 
-#graph-section.placement_open {
-  width: 100%;
+#graph-section.placement_open #select-org{
   transition: all .5s ease;
-}
-
-#graph-section.placement_open .meter_container {
   display: none;
 }
 
-#graph-section.placement_open .graph_container {
+#graph-section.select_org .meter_container {
+  display: none;
+}
+
+#graph-section.select_org .graph_container {
+  transition: all .5s ease;
   padding: 15px;
   width: 10%;
   transition: all .5s ease;
 }
 
-#graph-section.placement_open #rank_container {
+#graph-section.select_org #rank_container {
+  transition: all .5s ease;
   width: 100%;
   border-right: 0;
 }
 
-#graph-section.placement_open .logo_container {
+#graph-section.select_org .logo_container {
   margin-right: 0;
+  transition: all .5s ease;
 }
 
-#graph-section.placement_open #arrow-btn {
+#graph-section.select_org #arrow-btn {
   padding: 10px;
   transform: rotate(180deg);
   transition: all .5s ease;
@@ -224,11 +219,18 @@ input[type="checkbox"]:checked + .slider:before {
   display: none;
 }
 
-#graph-section.placement_open .logos {
+#graph-section.select_org #org-profile {
+  display: flex;
+  transition: all .5s ease;
+}
+
+#graph-section.select_org .logos {
   border-radius: 100%;
+  transition: all .5s ease;
 }
 
 #graph-section.placement_open #org-profile {
+  transition: all .5s ease;
   display: flex;
   padding: 0px 0px 15px 20px;
   justify-content: center;
@@ -237,48 +239,57 @@ input[type="checkbox"]:checked + .slider:before {
 #graph-section.placement_open #org-body {
   background-color: #282135;
   height: 100%;
-  border-radius: 30px;
+  border-radius: 15px;
   padding: 15px 30px 0px 30px;
+  transition: all .5s ease;
 }
 
 #graph-section.placement_open #org-content {
   background-color: #c3c1c6;
-  border-radius: 10px;
+  border-radius: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 20%;
+  padding: 15px 0px 15px 0px;
+  transition: all .5s ease;
 }
 
-#graph-section.placement_open .profile-logo {
+#graph-section #org-content{
+  display: none;
+}
+
+#graph-section.placement_open.select_org .profile-logo {
   width: 80px;
+  transition: all .5s ease;
 }
 
 #graph-section.placement_open .profile-name-container {
   background-color: #ffffff;
   font-size: 30px;
-  border-radius: 10px;
+  border-radius: 15px;
   height: 100px;
   font-size: 150%;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all .5s ease;
 }
 
 #graph-section.placement_open #org-window {
   background-color: #c3c1c6;
-  height: 75%;
-  margin-top: 15px;
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 20px;
+  height: calc(100% - 240px);
+  transition: all .5s ease;
 }
 
 #graph-section.placement_open #winnings-container {
   background-color: #ffffff;
   height: 100%;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 15px;
+  transition: all .5s ease;
 }
 
 #graph-section.placement_open .winnings {
@@ -294,7 +305,8 @@ input[type="checkbox"]:checked + .slider:before {
   height: 100%;
   overflow: auto;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 15px;
+  transition: all .5s ease;
 }
 
 #graph-section.placement_open .org-photo-image {
@@ -305,6 +317,7 @@ input[type="checkbox"]:checked + .slider:before {
 
 #anon-admin-popup{
   display: flex;
+  transition: all .5s ease;
 }
 
 #event-select{
@@ -326,12 +339,14 @@ input[type="checkbox"]:checked + .slider:before {
   align-items: center;
   text-align: center;
   justify-content: center;
+  transition: all .5s ease;
 }
 
 #notice p{
   text-align: center;
   display: contents;
   font-size: 20px;
+  transition: all .5s ease;
 }
 
 #myForm{
@@ -349,4 +364,68 @@ input[type="checkbox"]:checked + .slider:before {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.hide {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hide-arrow {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.1s ease;
+}
+
+#select-org{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  height: 100%;
+}
+
+#select-text{
+  padding-top: 10px;
+}
+
+#select-img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
+
+#participation{
+  display: none;
+}
+
+#graph-section.placement_open #participation{
+  display: flex;
+  color: white;
+  text-align: center;
+  padding: 15px 0px 15px 0px;
+}
+
+.profile-button{
+  background-color: #5D2BA0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.profile-button:hover{
+  background-color: #813ade;
+}
+
+.profile-btn{
+  padding: 20px;
+}
+
+#tournament{
+  margin-right: 15px;
 }

@@ -184,7 +184,7 @@ $(document).ready(function() {
 
   var empty = document.getElementById('empty');
   var searchbar = document.querySelector('.inputAndDeleteDiv');
-  var pagini = document.querySelector('.pagination');
+  var pagini = document.querySelector('.paginations');
   if (empty.style.display != 'none'){
     searchbar.style.display = 'none';
     pagini.style.display = 'none';

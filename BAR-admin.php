@@ -21,6 +21,7 @@ include './php/database_connect.php';
   <link rel="stylesheet" href="./css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/BAR-obg.css">
   <link rel="stylesheet" href="./css/system-wide.css">
+  <link rel="Website Icon" type="png" href="./pictures/logo.png">
 
   <!-- Event Config Styles -->
   <link rel="stylesheet" href="./css/EVE-admin-bootstrap-select.min.css">
@@ -46,6 +47,20 @@ include './php/database_connect.php';
           <button class="outline-button"><i class='bx bx-chevron-left'></i>Return</button>
           <button class="primary-button" id="anon_button_confirm"><i class='bx bx-x' ></i>Confirm</button>
         </div>
+      </div>
+    </div>
+    <div class="popup-background hide" id="anon-admin-popup">
+      <div class="row popup-container">
+          <div class="col-4">
+              <i class="bx bxs-hide prompt-icon" style="cursor: default;"></i> <!--icon-->
+          </div>
+          <div class="col-8 text-start text-container">
+              <h3 class="text-header">Anonymity is turned on</h3>   <!--header-->
+              <p>Toggle it off to publicly display the ranking.</p> <!--text-->
+          </div>
+          <div  class="div">
+            <button class="success-button" onclick="hideMarkAsDone()"><i class="bx bx-check"></i>Confirm</button>
+          </div>
       </div>
     </div>
   <?php
@@ -79,7 +94,7 @@ include './php/database_connect.php';
                 </div>
               </div>
             </div>
-          <div class="col" id="notice">
+          <div class="col hide" id="notice">
             <p><i class="bx bxs-error prompt-icon warning-color"></i> Ranking is currently hidden.</p>
           </div>
           <div class="col" id="event-select">
@@ -110,57 +125,6 @@ include './php/database_connect.php';
                 if ($eventID != $firstRow['ongoing_event_name_id']) {
                   echo "<option value='$eventID' $isSelected>$value $year</option>";
                 }
-              }
-            }
-            ?>
-              
-            <?php
-            $query = "SELECT * FROM `bar_graph`
-            INNER JOIN organization ON bar_graph.organization_id = organization.organization_id 
-            INNER JOIN ongoing_event_name ON bar_graph.ongoing_event_name_id = ongoing_event_name.ongoing_event_name_id
-            WHERE bar_graph.ongoing_event_name_id = '$selectedEventName'
-            ORDER BY bar_meter DESC";
-            $result = $conn->query($query);
-            
-            if ($result->num_rows > 0) 
-            {
-              $rows = array();
-          
-              while ($row = $result->fetch_assoc()) 
-              {
-                $rows[] = $row;
-              }
-          
-              $showDiv = true;
-              foreach ($rows as $row) 
-              {
-                $isAnon = $row['isAnon'];
-          
-                if ($isAnon != 1) {
-                  $showDiv = false;
-                  echo '<script>document.getElementById("notice").style.display = "none";</script>';
-                  break;
-                }
-              }
-          
-              if ($showDiv) 
-              {
-                ?>
-                <div class="popup-background" id="anon-admin-popup">
-                  <div class="row popup-container">
-                      <div class="col-4">
-                          <i class="bx bxs-hide prompt-icon" style="cursor: default;"></i> <!--icon-->
-                      </div>
-                      <div class="col-8 text-start text-container">
-                          <h3 class="text-header">Anonymity is turned on</h3>   <!--header-->
-                          <p>Toggle it off to publicly display the ranking.</p> <!--text-->
-                      </div>
-                      <div  class="div">
-                        <button class="success-button" onclick="hideMarkAsDone()"><i class="bx bx-check"></i>Confirm</button>
-                      </div>
-                  </div>
-                </div>
-                <?php
               }
             }
                 $obg = "SELECT * FROM `bar_graph`
@@ -243,9 +207,14 @@ include './php/database_connect.php';
                       '</div>
                       </div>
                       </div>
-                    
                       <div class="col" id="org-profile">
                         <div class="col" id="org-body">
+                          <div class="col" id="select-org">
+                            <div class="select-group">
+                              <img src="pictures\select.png" alt="" id="select-img">
+                              <p id="select-text">Please select an organization</p>
+                            </div>
+                          </div>
                           <div class="row" id="org-content">
                             <div class="col-2">
                               <div class="profile-logo-container">
@@ -258,10 +227,22 @@ include './php/database_connect.php';
                               </div>
                             </div>
                           </div>
+                          <div class="row" id="participation">
+                            <div class="col profile-button" id="tournament">
+                              <div class="profile-btn" id="tourna-btn">
+                                Tournaments
+                              </div>
+                            </div>
+                            <div class ="col profile-button" id="competition">
+                              <div class="profile-btn"  id="comp-btn">
+                                Competitions
+                              </div>
+                            </div>
+                          </div>
                           <div class="row" id="org-window">
                             <div class="col" id="winnings-container">
                               <div class="winnings">
-                                Please select an organization
+                                
                               </div>
                             </div>
                           </div>
