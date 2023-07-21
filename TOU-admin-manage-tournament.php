@@ -239,6 +239,15 @@
             
             // Append the Confirm button to the container
             $("#dynamic-successful").html(confirmButton);
+
+            // Attach a click event handler to all buttons with IDs starting with "edit-tournament-"
+            $("[id^='confirm-conclude-']").on("click", function() {
+                // Get the numerical ID from the clicked button's ID attribute
+                let numericalId = this.id.split("-").pop();
+
+                // Redirect to the desired page with the numerical ID
+                window.location.href = "TOU-admin-edit-tournament.php?id=" + numericalId;
+            });
         }
         var hideMarkAsDone = function() {
             popupMarkAsDone.style.display ='none';
