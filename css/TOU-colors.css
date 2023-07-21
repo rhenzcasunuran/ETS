@@ -1,0 +1,14 @@
+#tournament-not-found {
+    color: var(--color-context-text) !important;
+    margin-top: 50px;    
+}
+
+.max-width {
+    max-width: 500px;
+    margin-top: 50px;
+}
+
+#create-tournament-button {
+   margin-left: 30%;
+   margin-bottom: 30%;
+}

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/system-wide.css">
+    <link rel="stylesheet" href="./css/TOU-colors.css">
     <script src="./js/jquery-3.6.4.js"></script>
   </head>
 
@@ -119,11 +120,22 @@
                     echo '        </div>';
                     echo '    </div>';
                     echo '</div>';
-                }
-                
-                echo '</div>';
-            } else {
-                echo 'No results found.';
+                } 
+            }  else {
+              echo '<div class="container text-center mt-5">
+                      <div class="row align-items-start">';             
+              echo '
+                <div class="col">
+                </div>
+                <div class="col">
+                  <img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width">
+                  <h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><
+                  <div id="create-tournament-button"><button class="primary-button">Create Tournament</button></div>
+                </div>
+                <div class="col">
+                </div>
+              </div>
+            </div>';
             }
 
             // Close the database connection
@@ -134,6 +146,19 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/theme.js"></script>
+    <script type="text/javascript">
+      // Get the reference to the "Create Tournament" button
+      const createTournamentButton = document.getElementById('create-tournament-button');
+
+      // Add a click event listener to the button
+      createTournamentButton.addEventListener('click', function () {
+        // Set the URL of the destination page you want to redirect to
+        const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
+
+        // Redirect to the destination page
+        window.location.href = destinationURL;
+      });
+    </script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
         e.preventDefault();
