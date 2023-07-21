@@ -296,7 +296,7 @@
             }
 
             //Insert on List of Events
-            $sql = "INSERT INTO ongoing_list_of_event (ongoing_event_name_id, event_name_id, event_type_id, event_description, event_date, event_time) VALUES ('$ongoing_event_name_id', '$event_name_id', '$event_type_id', '$event_description', '$event_date', '$event_time');";
+            $sql = "INSERT INTO ongoing_list_of_event (ongoing_event_name_id, event_name_id, event_type_id, event_description, event_date, event_time, overall_include) VALUES ('$ongoing_event_name_id', '$event_name_id', '$event_type_id', '$event_description', '$event_date', '$event_time', '0');";
             mysqli_query($conn,$sql);  
             $affectedRows += mysqli_affected_rows($conn);
 
