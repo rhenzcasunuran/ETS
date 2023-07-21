@@ -30,6 +30,7 @@ if ($eventResult->num_rows > 0) {
     echo '<tr><th>Criterion Name</th><th>Criterion Points</th></tr>';
     echo '<div class="form-group">
     <label for="participant_select" style="color: rgb(255,255,255);">Select Participant:</label>
+    <div style="display: flex;justify-content: center; align-items: center;">
     <select class="form-control" id="participant_select">';
 
       session_start(); // Start the session to access the participants data
@@ -39,7 +40,8 @@ if ($eventResult->num_rows > 0) {
         }
       }
   
-   echo' </select>
+   echo' </select> 
+   </div>
     <input type="hidden" name="selected_participant_id" id="selected_participant_id" value="">
   </div>';
     while ($row = $criteriaResult->fetch_assoc()) {
