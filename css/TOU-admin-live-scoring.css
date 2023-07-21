@@ -18,11 +18,16 @@
   } 
 
 
- #team-one-name, #team-two-name, #team-one-score, #team-two-score {
-    color: var(--color-content-text);
-    font-size: 40px;
-    
-} 
+ #team-one-name, 
+ #team-two-name {
+  color: var(--color-content-text);
+  font-size: 60px;
+}  
+ #team-one-score, 
+ #team-two-score {
+  color: var(--color-content-text);
+  font-size: 100px;
+}  
 
 .col {
     width: fit-content;
@@ -42,12 +47,8 @@
   color: var(--color-content-text);
 }
 
-#versus{
-  padding-top: 250px;
-}
-
-#versus h1 {
-  font-size: 50px;
+#template-vs, #template-overall-score {
+  font-size: 60px;
   margin-bottom: 10px;
   font-weight: bold;
 }
@@ -93,7 +94,9 @@
   background-color: #A84444;
 }
 
-
+#score-containter {
+  margin-top: 50px;
+}
 
 
 

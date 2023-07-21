@@ -55,8 +55,8 @@
                 <option selected>Select Matchup</option>
               </select>
             </div>
-            <div class="container-fluid text-center position-absolute top-50 start-50 translate-middle">
-              <div class="row">
+            <div class="container-fluid text-center position-absolute top-50 start-50 translate-middle" id="score-containter">
+              <div class="row align-items-center">
                 <div class="col">
                   <div class="row">
                     <h1 id="team-one-name"></h1>
@@ -70,8 +70,8 @@
                 </div>
                 <div class="col">
                   <br>
-                  <h2>0-0</h2>
-                  <h1>VS</h1>
+                  <h2 id="template-overall-score">0-0</h2>
+                  <h1 id="template-vs">VS</h1>
                   <button type="button" class="btn btn-danger" id="end-match-btn">End Match</button>
                 </div>
                 <div class="col">
@@ -110,8 +110,8 @@
               // Call the function to set default text for empty elements
               setDefaultText('team-one-name', 'TEAM 1');
               setDefaultText('team-two-name', 'TEAM 2');
-              setDefaultText('team-one-score', '0');
-              setDefaultText('team-two-score', '0');
+              setDefaultText('team-one-score', '00');
+              setDefaultText('team-two-score', '00');
 
               document.getElementById("viewScoreBracket").addEventListener("change", function() {
                 var selectedValue = this.value;
@@ -153,8 +153,8 @@
                 // Call the function to set default text for empty elements
                 setDefaultText('team-one-name', 'TEAM 1');
                 setDefaultText('team-two-name', 'TEAM 2');
-                setDefaultText('team-one-score', '0');
-                setDefaultText('team-two-score', '0');
+                setDefaultText('team-one-score', '00');
+                setDefaultText('team-two-score', '00');
 
                 // Send the ID to another AJAX request
                 $.ajax({
