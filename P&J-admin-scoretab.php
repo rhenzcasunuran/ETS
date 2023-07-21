@@ -80,33 +80,8 @@
     <h2>Authentication</h2>
     <input type="text" id="event_code" name="event_code"placeholder="Event Code">
     <input type="text" id="judge_name" name="judge_name" placeholder="Judge Name">
-    <button id="login-btn" onclick="authenticate();">Authenticate</button>
+    <button class="primary-button"id="login-btn" onclick="authenticate();">Authenticate</button>
   </div>
-  <div id="auth-form" class="modal">
-      <div class="row popup-card">
-        <form method="post">
-          <div class="row">
-            <div class="col-11 admin-text">
-              <p>
-              Authentication
-              </p>
-            </div>
-            <div class="col-1 close ">
-              <i class='bx bx-x' onclick="hide()"></i>
-            </div>
-          </div>
-          <div class="row">
-            <input type="text" id="event_code" name="event_code"placeholder="Event Code" maxlength="20" required/>
-          </div>
-          <div class="row">
-            <input type="text" id="judge_name" name="judge_name" placeholder="Judge Name" maxlength="20" required/>
-          </div>
-          <div class="row justify-content-center">
-            <button input type="submit" name="sign-in-button" class="sign-in-button">Sign In</button>
-          </div>
-        </form>
-      </div>
-    </div>
     <div class="popup-background" id="submitWrapper">
     <div class="row popup-container">
         <div class="col-4">
@@ -210,7 +185,7 @@
     </div>
     </div>
     
-    <div class="centered-container">
+    
     <div class="popup hidden" id="editPopup">
     <div class="container" style="margin:auto;">
     <div class="row" style="margin-top: 20px; margin-bottom:20px;">
@@ -244,11 +219,10 @@
   <div class="row">
   <div class="col-lg-6 col-xl-6 col-xxl-4 offset-lg-0 offset-xxl-2 inputscore">
   <label class="form-label" style="margin-left: 20px; color: rgb(255, 255, 255);">Participant Scores</label>
-  <div class="d-table" style="background: #423c4e; margin-left: 10px; min-height: auto; padding-top: 33px; padding-left: 31px; padding-right: 39px; padding-bottom: 20px; min-width: auto; width: 100%; border-radius: 10px; box-shadow: 7px 5px 13px;">
+  <div class="d-table" style="background: #423c4e; margin-left: 10px; min-height: auto;min-width: auto; width: 100%; border-radius: 10px; box-shadow: 7px 5px 13px;">
     <!-- PHP code to fetch participant scores -->
     <?php
 // Access $eventId and $ongoingCriterionIds from the session
-
 $eventId = $_SESSION['event_id'];
 $judgeName = $_SESSION['judge_name'];
 $ongoingCriterionIds = $_SESSION['ongoing_criterion_ids'];
@@ -271,11 +245,11 @@ $criteriaNamesResult = $conn->query($fetchCriteriaNamesQuery);
 $participantScoresResult = $conn->query($fetchParticipantScoresQuery);
 
 if ($participantScoresResult->num_rows > 0) {
-    echo '<label style="color: rgb(255, 255, 255);">Scored By: ' . $judgeName . '</label>';
-    echo '<table class="table table-bordered">';
+    echo '<label style="color: rgb(255, 255, 255); margin-left:20px; margin-top:10px;">Scored By: ' . $judgeName . '</label>';
+    echo '<table style="text-align:center; margin-left:40px; margin-top:10px; margin-right:40px; color:var(--color-content-text); min-width:90%; margin-bottom:20px;">';
     echo '<thead>';
     echo '<tr>';
-    echo '<th>Participant Name</th>';
+    echo '<th class="bordertable" style="color:white;">Participant Name</th>';
     
     // Fetch and store criterion names that match the event
     $matchingCriteriaNames = array();
@@ -287,7 +261,7 @@ if ($participantScoresResult->num_rows > 0) {
 
     // Display the criterion names that match the event
     foreach ($matchingCriteriaNames as $criterionName) {
-        echo '<th>' . htmlspecialchars($criterionName) . '</th>';
+        echo '<th class="bordertable" style="color:white;">' . htmlspecialchars($criterionName) . '</th>';
     }
     
     echo '</tr>';
@@ -331,7 +305,6 @@ $conn->close();
 
 </div>
 </div>
-  </div>
     <!-- Scripts -->
     <script src="./js/jquery-3.6.4.js"></script>
     <script src="js/P&J-admin-common.js"></script>
