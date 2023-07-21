@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="css/home-sidebar-style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css'/>
+    <link rel="Website Icon" type="png" href="./pictures/logo.png">
     <style>
      .table-container {
   overflow-x: auto;
