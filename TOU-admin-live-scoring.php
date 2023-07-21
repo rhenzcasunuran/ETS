@@ -66,7 +66,7 @@
                   </div>
                   <div id="team_one_btn"></div>
                   <br>
-                  <button type="button" class="btn btn-danger" id="disqualify-team-one-btn">Disqualify</button>
+                  <!--<button type="button" class="btn btn-danger" id="disqualify-team-one-btn">Disqualify</button>-->
                 </div>
                 <div class="col">
                   <br>
@@ -83,7 +83,7 @@
                   </div>
                   <div id="team_two_btn"></div>
                   <br>
-                  <button type="button" class="btn btn-danger" id="disqualify-team-two-btn">Disqualify</button>
+                  <!--<button type="button" class="btn btn-danger" id="disqualify-team-two-btn">Disqualify</button>-->
                 </div>
               </div>
             </div>
@@ -98,6 +98,20 @@
               var teamTwoScore = $('#team-two-score');
               var selectedId;
               var selectedValue;
+
+              // Function to handle empty values and set default text
+              function setDefaultText(elementId, defaultText) {
+                var element = $('#' + elementId);
+                if (!element.text().trim()) {
+                  element.text(defaultText);
+                }
+              }
+
+              // Call the function to set default text for empty elements
+              setDefaultText('team-one-name', 'TEAM 1');
+              setDefaultText('team-two-name', 'TEAM 2');
+              setDefaultText('team-one-score', '0');
+              setDefaultText('team-two-score', '0');
 
               document.getElementById("viewScoreBracket").addEventListener("change", function() {
                 var selectedValue = this.value;
@@ -136,6 +150,11 @@
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
                 selectedId = $(this).val(); // Get the selected ID
+                // Call the function to set default text for empty elements
+                setDefaultText('team-one-name', 'TEAM 1');
+                setDefaultText('team-two-name', 'TEAM 2');
+                setDefaultText('team-one-score', '0');
+                setDefaultText('team-two-score', '0');
 
                 // Send the ID to another AJAX request
                 $.ajax({
@@ -168,6 +187,11 @@
                 $('#team_one_btn').empty();
                 $('#team_two_btn').empty();
                 selectedValue = $(this).val(); // Get the selected value
+                // Call the function to set default text for empty elements
+                setDefaultText('team-one-name', 'TEAM 1');
+                setDefaultText('team-two-name', 'TEAM 2');
+                setDefaultText('team-one-score', '0');
+                setDefaultText('team-two-score', '0');
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({

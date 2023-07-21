@@ -95,8 +95,8 @@ include './php/admin-signin.php';
                 </div>
                 <div class="col">
                   <br>
-                  <h2>0-0</h2>
-                  <h1>VS</h1>
+                  <h2 id="template-overall-score">0-0</h2>
+                  <h1 id="template-vs">VS</h1>
                 </div>
                 <div class="col">
                   <div class="row">
@@ -120,6 +120,20 @@ include './php/admin-signin.php';
               var teamTwoScore = $('#team-two-score');
               var selectedId;
               var selectedValue;
+
+              // Function to handle empty values and set default text
+              function setDefaultText(elementId, defaultText) {
+                var element = $('#' + elementId);
+                if (!element.text().trim()) {
+                  element.text(defaultText);
+                }
+              }
+
+              // Call the function to set default text for empty elements
+              setDefaultText('team-one-name', 'TEAM 1');
+              setDefaultText('team-two-name', 'TEAM 2');
+              setDefaultText('team-one-score', '0');
+              setDefaultText('team-two-score', '0');
 
                document.getElementById("viewScoreBracket").addEventListener("change", function() {
                 var selectedValue = this.value;
@@ -156,6 +170,11 @@ include './php/admin-signin.php';
                 teamTwoName.text(''); // Empty team two name
                 teamOneScore.text(''); // Empty team one name
                 teamTwoScore.text(''); // Empty team two name
+                // Call the function to set default text for empty elements
+                setDefaultText('team-one-name', 'TEAM 1');
+                setDefaultText('team-two-name', 'TEAM 2');
+                setDefaultText('team-one-score', '0');
+                setDefaultText('team-two-score', '0');
 
                 var selectedId = $(this).val(); // Get the selected ID
 
@@ -184,6 +203,11 @@ include './php/admin-signin.php';
                 teamOneScore.text(''); // Empty team one score
                 teamTwoScore.text(''); // Empty team two score
                 var selectedValue = $(this).val(); // Get the selected value
+                // Call the function to set default text for empty elements
+                setDefaultText('team-one-name', 'TEAM 1');
+                setDefaultText('team-two-name', 'TEAM 2');
+                setDefaultText('team-one-score', '0');
+                setDefaultText('team-two-score', '0');
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
