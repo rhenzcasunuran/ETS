@@ -1,7 +1,6 @@
 .back{
     color: var(--color-content-text);
     font-size: 50px;
-    padding-top: 5px;
 }
 
 .back:hover{
