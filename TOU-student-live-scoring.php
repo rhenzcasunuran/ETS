@@ -173,8 +173,8 @@ include './php/admin-signin.php';
                 // Call the function to set default text for empty elements
                 setDefaultText('team-one-name', 'TEAM 1');
                 setDefaultText('team-two-name', 'TEAM 2');
-                setDefaultText('team-one-score', '00');
-                setDefaultText('team-two-score', '00');
+                setDefaultText('team-one-score', '0');
+                setDefaultText('team-two-score', '0');
 
                 var selectedId = $(this).val(); // Get the selected ID
 
@@ -235,8 +235,8 @@ include './php/admin-signin.php';
                 // Call the function to set default text for empty elements
                 setDefaultText('team-one-name', 'TEAM 1');
                 setDefaultText('team-two-name', 'TEAM 2');
-                setDefaultText('team-one-score', '00');
-                setDefaultText('team-two-score', '00');
+                setDefaultText('team-one-score', '0');
+                setDefaultText('team-two-score', '0');
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
