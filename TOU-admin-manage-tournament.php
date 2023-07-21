@@ -87,77 +87,158 @@
             });
         });
     </script>
+<!--Popup Confirm / Success-->
+<div class="popup-background" id="markAsDoneWrapper">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Conclude Tournament?</h3>   <!--header-->
+                <p>This will end the tournament and declare a champion. Are you sure?</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideMarkAsDone()"><i class='bx bx-x'></i>Cancel</button>
+                <button class="success-button"><i class='bx bx-check'></i>Confirm</button>
+            </div>
+        </div>
+    </div>
 
+    <!--Popup Cancel / Warning-->
+    <div class="popup-background" id="cancelWrapper">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
+                <p>Any unsaved progress will be lost.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideCancel()"><i class='bx bx-chevron-left'></i>Return</button>
+                <button class="primary-button"><i class='bx bx-x'></i>Discard</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Popup Delete / Danger-->
+    <div class="popup-background" id="deleteWrapper">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Delete Event?</h3>   <!--header-->
+                <p>This will delete the event permanently. This action cannot be undone.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideDelete()"><i class='bx bx-x'></i>Cancel</button>
+                <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
+            </div>
+        </div>
+    </div>
     <section class="home-section flex-row">
       <div class="header">Manage Tournament</div>
         <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
-        <?php
-            // Perform the SQL query to retrieve the results
-            $query = "SELECT * FROM bracket_forms WHERE is_active = 1";
-            $result = mysqli_query($conn, $query);
-
-            // Check if there are any results
-            if (mysqli_num_rows($result) > 0) {
-                echo '<div id="registered-tournament">';
-                
-                // Loop through each row of the results
-                while ($row = mysqli_fetch_assoc($result)) {
-                    // Extract the desired values from the row
-                    $id = $row['id'];
-                    $categoryName = $row['category_name'];
-                    $eventName = $row['event_name'];
-                    $isActive = $row['is_active'];
-                    
-                    // Generate the HTML for each result
-                    echo '<div class="element">';
-                    echo '    <div class="row">';
-                    echo '        <div class="element-group">';
-                    echo '            <h3>'.$eventName.'</h3><br>';
-                    echo '            <p>Category: '.$categoryName.'</p>';
-                    echo '            <div class="d-flex justify-content-between">';
-                    echo '            <p><a href="TOU-admin-edit-tournament.php?id='.$id.'">Edit Tournament</a></p></div>';
-                    echo '            ';
-                    echo '        </div>';
-                    echo '    </div>';
-                    echo '</div>';
-                } 
-            }  else {
-              echo '<div class="container text-center mt-5">
-                      <div class="row align-items-start">';             
-              echo '
-                <div class="col">
-                </div>
-                <div class="col">
-                  <img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width">
-                  <h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><
-                  <div id="create-tournament-button"><button class="primary-button">Create Tournament</button></div>
-                </div>
-                <div class="col">
-                </div>
-              </div>
-            </div>';
-            }
-
-            // Close the database connection
-            mysqli_close($conn);
-            ?>
+          <div id="active-tournaments">
+          </div>
         </div>
+      </div>
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/theme.js"></script>
     <script type="text/javascript">
-      // Get the reference to the "Create Tournament" button
-      const createTournamentButton = document.getElementById('create-tournament-button');
+        // Get the reference to the "Create Tournament" button
+        const createTournamentButton = document.getElementById('create-tournament-button');
 
-      // Add a click event listener to the button
-      createTournamentButton.addEventListener('click', function () {
-        // Set the URL of the destination page you want to redirect to
-        const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
+        // Add a click event listener to the button
+        createTournamentButton.addEventListener('click', function () {
+          // Set the URL of the destination page you want to redirect to
+          const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
 
-        // Redirect to the destination page
-        window.location.href = destinationURL;
-      });
+          // Redirect to the destination page
+          window.location.href = destinationURL;
+        });
+    </script>
+    <script>
+        // Confirm
+        popupMarkAsDone = document.getElementById('markAsDoneWrapper');
+  
+        var showMarkAsDone = function() {
+            popupMarkAsDone.style.display ='flex';
+        }
+        var hideMarkAsDone = function() {
+            popupMarkAsDone.style.display ='none';
+        }
+
+        // Cancel
+        popupCancel = document.getElementById('cancelWrapper');
+  
+        var showCancel = function() {
+            popupCancel.style.display ='flex';
+        }
+        var hideCancel = function() {
+            popupCancel.style.display ='none';
+        }
+
+        //Delete
+        popupDelete = document.getElementById('deleteWrapper');
+  
+        var showDelete = function() {
+            popupDelete.style.display ='flex';
+        }
+        var hideDelete = function() {
+            popupDelete.style.display ='none';
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $.ajax({
+                url: './php/TOU-fetch-active-tournament.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                  console.log(data)
+    var activeTournamentsDiv = $('#active-tournaments');
+
+    if (data.length > 0) {
+    data.forEach(function (tournament) {
+        var buttonHtml;
+        if (tournament.concluding_tournament_id) {
+            buttonHtml = `<button class="success-button" onclick="showMarkAsDone(${tournament.concluding_tournament_id})">Conclude</button>`;
+        } else {
+            buttonHtml = `<button class="primary-button" id="${tournament.id}">Edit</button>`;
+        }
+
+        var elementHtml = `
+            <div class="div">
+                <div class="element">
+                    <div class="row">
+                        <div class="element-group">
+                            <div class="element-label">${tournament.event_name}</div>
+                            <div class="element-content">${tournament.category_name}</div>
+                            <div class="d-flex justify-content-end">${buttonHtml}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        activeTournamentsDiv.append(elementHtml);
+    });
+}
+ else {
+        activeTournamentsDiv.append('<p>No active tournaments found.</p>');
+    }
+},
+                error: function(error) {
+                  console.error(error)
+                    $('#active-tournaments').append('<p>Error fetching data.</p>');
+                }
+            });
+        });
     </script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {

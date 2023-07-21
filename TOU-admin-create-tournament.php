@@ -71,6 +71,7 @@ function validateInputs() {
   // Show the error message for default event and category selection
   if (hasEventAndCategory) {
     $('#error-event').show();
+    $('#best_of_no_display').text('N/A'); // Set to 'N/A' if event and/or category are not selected
   } else {
     $('#error-event').hide();
   }
@@ -80,6 +81,7 @@ function validateInputs() {
   // Enable/Disable the submit button based on validation
   $('#submitButton').prop('disabled', !hasGameType || !hasDynamicInputsValue || !hasDynamicInputsMatchMaxValue || hasEventAndCategory);
 }
+
 
 
 // Event change event handler for both select input fields
@@ -184,8 +186,12 @@ $('#category_name').on('change', function() {
       var $div = $('#best_of_no_display');
       var $hiddenInput = $('#best_of_no');
 
-      // Display the number_of_wins_number in the div
-      $div.text(response.number_of_wins);
+      // Display the number_of_wins_number in the div or 'N/A' if empty
+      if (response.number_of_wins === null || response.number_of_wins === undefined) {
+        $div.text('N/A');
+      } else {
+        $div.text(response.number_of_wins);
+      }
 
       // Set the number_of_wins_number in the hidden input
       $hiddenInput.val(response.number_of_wins_number);
@@ -199,9 +205,14 @@ $('#category_name').on('change', function() {
     error: function(xhr, status, error) {
       // Handle the error, if any
       console.error(error);
+
+      // Show 'N/A' in the div on AJAX error
+      var $div = $('#best_of_no_display');
+      $div.text('N/A');
     }
   });
 });
+
 
 // Populate events on page load
 populateEvents();
@@ -220,7 +231,8 @@ function generateInputFields(numberOfWinsNumber) {
       type: 'text',
       name: 'dynamic-inputs-match-max[' + i + ']',
       required: true,
-      maxlength: 3 // Set maximum length to 3 characters
+      maxlength: 3, // Set maximum length to 3 characters
+      placeholder: 'Set ' + i + ' Score/Time (in mins)' // Placeholder for each input
     });
 
     // Add the keypress event to the input field
@@ -262,6 +274,7 @@ function generateInputFields(numberOfWinsNumber) {
     $('#dynamic-inputs-match-max').append(inputField);
   }
 }
+
 
 
 // Event delegation to check if all input fields have a value
@@ -350,7 +363,7 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                         <div class="container text-center">
                             <div class="row align-items-start">
                                 <div class="col">
-                                    <button type="button" class="btn btn-primary" onclick="addInput()">Add Team</button>
+                                    <div id="add-team-btn" class="d-flex justify-content-center"><button type="button" class="primary-button" onclick="addInput()" id="addButton"><i class='bx bx-plus'></i>Add Team</button></div>
                                     <div id="dynamic-inputs">
                                         <!-- Additional form fields can be added here -->
                                     </div>
@@ -385,116 +398,131 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                           *Note: Duplicate or odd number of teams are not allowed.
                         </div>
                         <div class="d-flex justify-content-end">
-                        <button type="submit" id="submitButton" class="btn btn-primary" disabled>Submit</button>
+                        <button type="submit" id="submitButton" class="primary-button" disabled>Submit</button>
                         </div>
                     </form>
 
                     <script>
-                        var maxInputs = 8; // Maximum number of input fields allowed
-                        var currentInputs = 0; // Counter for current number of input fields
-                        var dataTable = [
-                            ['ACAP', 'ACAP'],
-                            ['AECES', 'AECES'],
-                            ['ELITE', 'ELITE'],
-                            ['GIVE', 'GIVE'],
-                            ['JEHRA', 'JEHRA'],
-                            ['JMAP', 'JMAP'],
-                            ['JPIA', 'JPIA'],
-                            ['PIIE', 'PIIE']
-                        ];
-                        var selectedOptions = []; // Array to store the selected options
+                               var maxInputs = 8; // Maximum number of input fields allowed
+        var currentInputs = 0; // Counter for current number of input fields
+        var dataTable = [
+            ['ACAP', 'ACAP'],
+            ['AECES', 'AECES'],
+            ['ELITE', 'ELITE'],
+            ['GIVE', 'GIVE'],
+            ['JEHRA', 'JEHRA'],
+            ['JMAP', 'JMAP'],
+            ['JPIA', 'JPIA'],
+            ['PIIE', 'PIIE']
+        ];
+        var selectedOptions = []; // Array to store the selected options
 
-                        function addInput() {
-                            if (currentInputs >= maxInputs) {
-                                return; // Exit the function if the maximum limit is reached
-                            }
+        function addInput() {
+            var addButton = document.getElementById('addButton'); // Get the reference to the "Add Team" button
 
-                            var dynamicInputs = document.getElementById('dynamic-inputs');
+            if (currentInputs >= maxInputs) {
+                addButton.disabled = true; // Disable the button if the maximum limit is reached
+                return; // Exit the function if the maximum limit is reached
+            }
 
-                            // Create a new container div for the input field and remove button
-                            var container = document.createElement('div');
-                            container.classList.add('input-container');
+            var dynamicInputs = document.getElementById('dynamic-inputs');
 
-                            // Create a select dropdown
-                            var newSelect = document.createElement('select');
-                            newSelect.setAttribute('name', 'dynamic_input[]');
-                            newSelect.addEventListener('change', validateDuplicateTeams); // Add change event listener
+            // Create a new container div for the input field and remove button
+            var container = document.createElement('div');
+            container.classList.add('input-container');
 
-                            // Add options to the select dropdown
-                            for (var i = 0; i < dataTable.length; i++) {
-                                var optionValue = dataTable[i][0];
-                                var optionText = dataTable[i][1];
-                                if (!selectedOptions.includes(optionValue)) {
-                                    var option = document.createElement('option');
-                                    option.value = optionValue;
-                                    option.text = optionText;
-                                    newSelect.add(option);
-                                }
-                            }
+            // Create a select dropdown
+            var newSelect = document.createElement('select');
+            newSelect.setAttribute('name', 'dynamic_input[]');
+            
+            newSelect.addEventListener('change', validateDuplicateTeams); // Add change event listener
 
-                            // Create a remove button
-                            var removeButton = document.createElement('button');
-                            removeButton.setAttribute('type', 'button');
-                            removeButton.classList.add('btn', 'btn-danger');
-                            removeButton.textContent = 'Remove Team';
-                            removeButton.addEventListener('click', function() {
-                                removeInput(container);
-                                validateDuplicateTeams();
-                            });
+            // Add options to the select dropdown
+            for (var i = 0; i < dataTable.length; i++) {
+                var optionValue = dataTable[i][0];
+                var optionText = dataTable[i][1];
+                if (!selectedOptions.includes(optionValue)) {
+                    var option = document.createElement('option');
+                    option.value = optionValue;
+                    option.text = optionText;
+                    newSelect.add(option);
+                }
+            }
 
-                            // Append the select dropdown and remove button to the container
-                            container.appendChild(newSelect);
-                            container.appendChild(removeButton);
+            // Create a remove button
+            var removeButton = document.createElement('button');
+            removeButton.setAttribute('type', 'button');
+            removeButton.classList.add('btn', 'btn-danger');
+            removeButton.textContent = 'Remove Team';
+            removeButton.addEventListener('click', function () {
+                removeInput(container);
+                validateDuplicateTeams();
+            });
 
-                            // Append the container to the dynamic-inputs div
-                            dynamicInputs.appendChild(container);
+            // Append the select dropdown and remove button to the container
+            container.appendChild(newSelect);
+            container.appendChild(removeButton);
 
-                            currentInputs++; // Increment the counter
-                            validateDuplicateTeams(); // Validate teams after adding a new input
-                        }
+            // Append the container to the dynamic-inputs div
+            dynamicInputs.appendChild(container);
 
-                        function removeInput(container) {
-                            var dynamicInputs = document.getElementById('dynamic-inputs');
-                            dynamicInputs.removeChild(container);
-                            currentInputs--; // Decrement the counter
+            currentInputs++; // Increment the counter
 
-                            // Check if the counter goes below 0 and reset it to 0
-                            if (currentInputs < 0) {
-                                currentInputs = 0;
-                            }
+            if (currentInputs >= maxInputs) {
+                addButton.disabled = true; // Disable the button if the maximum limit is reached
+            }
 
-                            validateDuplicateTeams(); // Validate teams after removing an input
-                        }
+            validateDuplicateTeams(); // Validate teams after adding a new input
+        }
 
-                        function validateDuplicateTeams() {
-  var selects = document.querySelectorAll('select[name="dynamic_input[]"]');
-  var selectedValues = [];
-  var errorOccurred = false;
+        function removeInput(container) {
+            var dynamicInputs = document.getElementById('dynamic-inputs');
+            dynamicInputs.removeChild(container);
+            currentInputs--; // Decrement the counter
 
-  for (var i = 0; i < selects.length; i++) {
-    var value = selects[i].value;
-    if (selectedValues.includes(value)) {
-      selects[i].classList.add('is-invalid');
-      errorOccurred = true;
-    } else {
-      selects[i].classList.remove('is-invalid');
-    }
-    selectedValues.push(value);
-  }
+            // Check if the counter goes below 0 and reset it to 0
+            if (currentInputs < 0) {
+                currentInputs = 0;
+            }
 
-  var errorMessage = document.getElementById('error-message-no-team');
-  var isOddNumber = selects.length % 2 !== 0;
+            var addButton = document.getElementById('addButton'); // Get the reference to the "Add Team" button
+            if (currentInputs < maxInputs) {
+                addButton.disabled = false; // Enable the "Add Team" button when an input is removed and max limit is not reached
+            }
 
-  // Show the error message if there are no input fields or if there's a duplicate team
-  errorMessage.style.display = selects.length === 0 || errorOccurred || isOddNumber ? 'block' : 'none';
+            validateDuplicateTeams(); // Validate teams after removing an input
+        }
 
-  // Disable or enable the submit button based on the error status
-  var submitButton = document.getElementById('submitButton');
-  if (selects.length === 0 || errorOccurred || isOddNumber) {
-    submitButton.disabled = true;
-  }
-}
+        function validateDuplicateTeams() {
+            var selects = document.querySelectorAll('select[name="dynamic_input[]"]');
+            var selectedValues = [];
+            var errorOccurred = false;
 
+            for (var i = 0; i < selects.length; i++) {
+                var value = selects[i].value;
+                if (selectedValues.includes(value)) {
+                    selects[i].classList.add('is-invalid');
+                    errorOccurred = true;
+                } else {
+                    selects[i].classList.remove('is-invalid');
+                }
+                selectedValues.push(value);
+            }
+
+            var errorMessage = document.getElementById('error-message-no-team');
+            var isOddNumber = selects.length % 2 !== 0;
+
+            // Show the error message if there are no input fields or if there's a duplicate team
+            errorMessage.style.display = selects.length === 0 || errorOccurred || isOddNumber ? 'block' : 'none';
+
+            // Disable or enable the submit button based on the error status
+            var submitButton = document.getElementById('submitButton');
+            if (selects.length === 0 || errorOccurred || isOddNumber) {
+                submitButton.disabled = true;
+            } else {
+                submitButton.disabled = false;
+            }
+        }
                     </script>
                     </div>
                 </div>

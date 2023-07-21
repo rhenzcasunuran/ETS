@@ -1,5 +1,5 @@
 #tournament-not-found {
-    color: var(--color-context-text) !important;
+    color: var(--color-content-text)!important;
     margin-top: 50px;    
 }
 
@@ -11,4 +11,12 @@
 #create-tournament-button {
    margin-left: 30%;
    margin-bottom: 30%;
+}
+
+.input-container {
+    padding: 10px;
+}
+
+.input-container select {
+    margin-right: 10px;
 }
