@@ -70,7 +70,7 @@
                 </div>
                 <div class="col">
                   <br>
-                  <h2 id="template-overall-score">0-0</h2>
+                  <h2 id="template-overall-score"></h2>
                   <h1 id="template-vs">VS</h1>
                   <button type="button" class="btn btn-danger" id="end-match-btn">End Match</button>
                 </div>
@@ -112,6 +112,7 @@
               setDefaultText('team-two-name', 'TEAM 2');
               setDefaultText('team-one-score', '00');
               setDefaultText('team-two-score', '00');
+              setDefaultText('template-overall-score','0-0');
 
               // Function to format scores as '01' to '09' for single-digit numbers
               function formatScore(score) {
@@ -160,6 +161,7 @@
                 setDefaultText('team-two-name', 'TEAM 2');
                 setDefaultText('team-one-score', '00');
                 setDefaultText('team-two-score', '00');
+                setDefaultText('template-overall-score','0-0');
 
                 // Send the ID to another AJAX request
                 $.ajax({
@@ -209,6 +211,7 @@
                       teamTwoName.text(matchup.team_two_name);
                       $('#team-one-score').text(formatScore(matchup.team_one_current_score));
                       $('#team-two-score').text(formatScore(matchup.team_two_current_score));
+                      $('#template-overall-score').text(matchup.team_one_current_overall_score + '-' + matchup.team_two_current_overall_score);
 
                       // Generate buttons for team one
                       $('#team_one_btn').empty(); // Clear existing buttons

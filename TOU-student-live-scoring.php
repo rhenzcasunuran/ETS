@@ -95,7 +95,7 @@ include './php/admin-signin.php';
                 </div>
                 <div class="col">
                   <br>
-                  <h2 id="template-overall-score">0-0</h2>
+                  <h2 id="template-overall-score"></h2>
                   <h1 id="template-vs">VS</h1>
                 </div>
                 <div class="col">
@@ -139,6 +139,7 @@ include './php/admin-signin.php';
               setDefaultText('team-two-name', 'TEAM 2');
               setDefaultText('team-one-score', '00');
               setDefaultText('team-two-score', '00');
+              setDefaultText('template-overall-score','0-0');
 
                document.getElementById("viewScoreBracket").addEventListener("change", function() {
                 var selectedValue = this.value;
@@ -180,6 +181,7 @@ include './php/admin-signin.php';
                 setDefaultText('team-two-name', 'TEAM 2');
                 setDefaultText('team-one-score', '00');
                 setDefaultText('team-two-score', '00');
+                setDefaultText('template-overall-score','0-0');
 
                 var selectedId = $(this).val(); // Get the selected ID
 
@@ -224,7 +226,7 @@ include './php/admin-signin.php';
                       teamTwoName.text(matchup.team_two_name);
                       $('#team-one-score').text(formatScore(matchup.team_one_current_score));
                       $('#team-two-score').text(formatScore(matchup.team_two_current_score));
-
+                      $('#template-overall-score').text(matchup.team_one_current_overall_score + '-' + matchup.team_two_current_overall_score);
                     }
                   },
                   error: function(xhr, status, error) {
@@ -243,6 +245,7 @@ include './php/admin-signin.php';
                 setDefaultText('team-two-name', 'TEAM 2');
                 setDefaultText('team-one-score', '00');
                 setDefaultText('team-two-score', '00');
+                setDefaultText('template-overall-score','0-0');
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
@@ -256,6 +259,7 @@ include './php/admin-signin.php';
                       // Populate team names and scores
                       $('#team-one-score').text(formatScore(matchup.team_one_current_score));
                       $('#team-two-score').text(formatScore(matchup.team_two_current_score));
+                      $('#template-overall-score').text(matchup.team_one_current_overall_score + '-' + matchup.team_two_current_overall_score);
                     }
                   },
                   error: function(xhr, status, error) {

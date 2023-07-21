@@ -11,10 +11,12 @@ if (isset($_GET['id'])) {
   ot.team_name AS team_one_name, 
   ot.current_score AS team_one_current_score, 
   ot.current_team_status AS team_one_current_team_status,
+  ot.current_overall_score AS team_one_current_overall_score,
   ot2.id AS team_two_id, 
   ot2.team_name AS team_two_name, 
   ot2.current_score AS team_two_current_score, 
-  ot2.current_team_status AS team_two_current_team_status 
+  ot2.current_team_status AS team_two_current_team_status,
+  ot2.current_overall_score AS team_two_current_overall_score
   FROM `bracket_teams` AS bt
   INNER JOIN ongoing_teams AS ot
   ON ot.id = bt.team_one_id
