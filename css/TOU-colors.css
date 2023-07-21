@@ -4,13 +4,13 @@
 }
 
 .max-width {
-    max-width: 500px;
+    width: 300px;
     margin-top: 50px;
 }
 
 #create-tournament-button {
-   margin-left: 30%;
-   margin-bottom: 30%;
+    margin-left: 80px;
+    margin-bottom: 30%;
 }
 
 .input-container {
@@ -19,4 +19,8 @@
 
 .input-container select {
     margin-right: 10px;
+}
+
+#sub-text {
+    color: var(--color-content-text)!important;
 }

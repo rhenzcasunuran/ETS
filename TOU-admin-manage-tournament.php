@@ -194,7 +194,7 @@
                         });
                     });
                 } else {
-                    $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><br><button class="primary-button" id="create-tournament-button">Create Tournament</button></div><div class="col"></div></div></div>');
+                    $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue d-flex justify-content-center align-items-center"></i>Create Tournament</button></div><div class="col"></div></div></div>');
                     }
 
                     // Get the reference to the "Create Tournament" button
@@ -211,7 +211,7 @@
                 },
                 error: function(error) {
                   console.error(error)
-                    $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h3 class="text-center" id="tournament-not-found">It looks like there\'s no tournaments to manage found.</h3><br><button class="primary-button" id="create-tournament-button">Create Tournament</button></div><div class="col"></div></div></div>');
+                  $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue d-flex justify-content-center align-items-center"></i>Create Tournament</button></div><div class="col"></div></div></div>');
                     
                      // Get the reference to the "Create Tournament" button
                      const createTournamentButton = document.getElementById('create-tournament-button');
