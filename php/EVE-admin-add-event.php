@@ -282,8 +282,9 @@
                 $ongoing_event_name_id = $row['ongoing_event_name_id'];
             }
             else {
-                $sql = "INSERT INTO ongoing_event_name (event_name_id, event_name)
-                        SELECT event_name_id, event_name
+                $currentYear = date('Y');
+                $sql = "INSERT INTO ongoing_event_name (event_name_id, event_name, year_created)
+                        SELECT event_name_id, event_name, '$currentYear'
                         FROM event_name
                         WHERE event_name_id = '$event_name_id';";
                 mysqli_query($conn, $sql);
