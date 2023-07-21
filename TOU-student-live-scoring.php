@@ -237,6 +237,11 @@ include './php/admin-signin.php';
                 var selectedValue = selectMatchup.val(); // Get the selected value
                 teamOneScore.text(''); // Empty team one score
                 teamTwoScore.text(''); // Empty team two score
+                // Call the function to set default text for empty elements
+                setDefaultText('team-one-name', 'TEAM 1');
+                setDefaultText('team-two-name', 'TEAM 2');
+                setDefaultText('team-one-score', '0');
+                setDefaultText('team-two-score', '0');
 
                 // Send the selected value to the PHP script via AJAX
                 $.ajax({
