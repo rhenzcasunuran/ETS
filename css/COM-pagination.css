@@ -66,7 +66,7 @@
     margin-bottom: 20px!important;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: var(--color-content-card);
+    background-color: var(--color-content-card) !important;
     color: var(--color-content-text);
     box-shadow: 0 4px 6px 0 var(--shadow-color) !important; 
 }

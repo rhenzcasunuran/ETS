@@ -174,12 +174,12 @@ input {
     padding: 5px 15px 5px 15px;
     transition: all .5s ease;
     max-height: 40px;
-    color: black;
-    background-color: rgb(189, 212, 38);
+    color: white !important;
+    background-color: var(--default-primary-action-color)!important;
     text-align: center;
 }
 .archive_btn:hover {
-    background-color: rgb(246, 246, 52);
+    background-color: var(--hover-primary-action-color)!important;
 }
 .archive-wrapper {
     display:none;
@@ -325,7 +325,7 @@ input {
     font-size: 22px;
     margin-left: 5px;
     margin-right: 5px;
-    color: var(--color-text);
+    color: white;
 }
 .ac {
     display: inline-block;
@@ -395,7 +395,9 @@ i.bx-search {
     background-color: var(--color-content-card) !important;
     color: var(--color-content-text);
 }
-
+.popup-container .prompt-icon {
+    font-size: calc(60px + 2vw)!important;
+}
 @media screen and (max-width:460px){
     .removespace {
         width: 100% !important;

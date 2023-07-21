@@ -174,12 +174,12 @@ input {
     padding: 5px 15px 5px 15px;
     transition: all .5s ease;
     max-height: 40px;
-    color: black;
-    background-color: var(--color-green);
+    color: white;
+    background-color: var(--default-primary-action-color)!important;
     text-align: center;
 }
 .republished_btn:hover {
-    background-color: #a4eb92;
+    background-color: var(--hover-primary-action-color)!important;
 }
 .fa-long-arrow-right {
     font-size: 25px !important;
@@ -314,6 +314,9 @@ i.bx-search {
 .selected {
     background-color: #ea4b45 !important;
     color: var(--color-content-text);
+}
+.popup-container .prompt-icon {
+    font-size: calc(60px + 2vw)!important;
 }
 
 @media screen and (max-width:460px){
