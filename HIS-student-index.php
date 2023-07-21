@@ -12,6 +12,7 @@ include './php/admin-signin.php';
     <title>Event History</title>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
+    <link rel="Website Icon" type="png" href="./pictures/logo.png">
     <script src="./js/default-theme.js"></script>
     <!-- Link Styles -->
     <link rel="stylesheet" href="./css/boxicons.css">
@@ -178,8 +179,9 @@ include './php/admin-signin.php';
            
           </div>
         </div>
-     
+        <div class="result-container">
         <div id="competition-results"></div>
+  </div>
 
 
 
