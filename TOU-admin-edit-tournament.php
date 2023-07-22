@@ -10,18 +10,20 @@
       // The id is valid, perform actions based on it
       
       // Prepare the SQL statement with a parameter placeholder
-      $query = "SELECT bf.id, 
-      bf.current_column, 
-      bf.category_name, 
-      bf.event_name, 
-      ot.team_name, 
-      ot.current_team_status, 
-      ot.current_overall_score, 
-      ot.current_score 
-      FROM bracket_forms AS bf 
-      INNER JOIN ongoing_teams AS ot 
-      ON bf.id = ot.bracket_form_id 
-      WHERE bf.id = ? AND bf.is_active = 1";
+      $query = "SELECT bf.id, oen.event_name, olfe.category_name, bf.current_column FROM `tournament` AS tou 
+      INNER JOIN bracket_forms AS bf
+      ON tou.tournament_id = bf.id
+      INNER JOIN ongoing_list_of_event AS olfe
+      ON olfe.event_id = tou.event_id
+      INNER JOIN ongoing_event_name AS oen
+      ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+      WHERE bf.is_active = 1
+      AND tou.has_set_tournament = 1
+      AND tou.bracket_form_id IS NOT NULL
+      AND olfe.is_archived = 0
+      AND oen.is_done = 0
+      AND olfe.is_deleted = 0
+      AND bf.id = ?;";
       $stmt = mysqli_prepare($conn, $query);
       // Bind the id parameter to the prepared statement
       mysqli_stmt_bind_param($stmt, "i", $id);
@@ -35,9 +37,9 @@
         // Fetch the data from the result
         $row = mysqli_fetch_assoc($result);
 
-        $id = $row['id']; 
-        $event_name = $row['event_name'];    
-        $category_name = $row['category_name'];      
+        $id = $row['id'];      
+        $event_name = $row['event_name'];
+        $category_name = $row['category_name'];
         $current_column = $row['current_column'];         
       } else {
         header("Location: TOU-admin-manage-tournament.php");
@@ -162,6 +164,8 @@
                                           INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
                                           INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
                                           INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
+                                          INNER JOIN organization AS org ON ot.id = org.id
+                                          INNER JOIN organization AS org2 ON ot2.id = org2.id
                                           WHERE bf.id = ? 
                                           AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
                                           AND bf.current_column = bf.current_column
