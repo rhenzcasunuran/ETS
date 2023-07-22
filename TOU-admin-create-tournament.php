@@ -117,8 +117,9 @@ function populateEvents() {
       // Add the default "Select Event" option
       eventSelect.append($('<option></option>').val('').text('Select Event'));
 
-      $.each(data.events, function(index, event) {
-        eventSelect.append($('<option></option>').val(event).text(event));
+      // Iterate through each event in the data array and add options to the select element
+      $.each(data, function(index, event) {
+        eventSelect.append($('<option></option>').val(event.tournament_id).text(event.event_name + ' ' + event.event_year));
       });
 
       // Trigger change event on initial page load or when events are populated
@@ -130,12 +131,12 @@ function populateEvents() {
   });
 }
 
-function populateCategories(selectedEvent) {
+function populateCategories(selectedId) {
   // Make an AJAX request to retrieve the categories for the selected event
   $.ajax({
     url: './php/TOU-get-json-category.php', // Replace with the correct file path
     type: 'GET',
-    data: { event: selectedEvent },
+    data: { selectedId: selectedId },
     success: function(response) {
       // Parse the JSON response
       const data = response;
@@ -147,8 +148,8 @@ function populateCategories(selectedEvent) {
       // Add the default "Select Category" option
       categorySelect.append($('<option></option>').val('').text('Select Category'));
 
-      $.each(data.categories, function(index, category) {
-        categorySelect.append($('<option></option>').val(category).text(category));
+      $.each(data, function(index, category) {
+        categorySelect.append($('<option></option>').val(category.tournament_id).text(category.category_name));
       });
 
       // Trigger change event for the category select element after populating
@@ -163,28 +164,28 @@ function populateCategories(selectedEvent) {
 
         // Event change event handler
         $('#event_name').on('change', function() {
-            var selectedEvent = $(this).val();
-            populateCategories(selectedEvent);
+            let selectedId = $(this).val();
+            populateCategories(selectedId);
         });
 
 // Category change event handler
 $('#category_name').on('change', function() {
-  var selectedEvent = $('#event_name').val();
-  var selectedCategory = $(this).val();
+  let selectedId = $(this).val();
 
   // Make an AJAX request to retrieve the number of wins for the selected event and category
   $.ajax({
     url: './php/TOU-get-json-no-of-wins.php', // Replace with the actual path to your PHP script
     method: 'GET',
     data: {
-      event: selectedEvent,
-      category: selectedCategory // Send the selected category as well, if needed
+      selectedId: selectedId,
     },
     dataType: 'json',
     success: function(response) {
+
       // Update the DOM with the received data
       var $div = $('#best_of_no_display');
       var $hiddenInput = $('#best_of_no');
+      var $hiddenInputSecond = $('#tournament_id');
 
       // Display the number_of_wins_number in the div or 'N/A' if empty
       if (response.number_of_wins === null || response.number_of_wins === undefined) {
@@ -195,6 +196,7 @@ $('#category_name').on('change', function() {
 
       // Set the number_of_wins_number in the hidden input
       $hiddenInput.val(response.number_of_wins_number);
+      $hiddenInputSecond.val(response.tournament_id);
 
       // Generate input fields based on the number of wins
       generateInputFields(response.number_of_wins_number);
@@ -227,12 +229,18 @@ function generateInputFields(numberOfWinsNumber) {
 
   // Create and display input fields based on the number of wins
   for (var i = 1; i <= numberOfWinsNumber; i++) {
+    // Create the elements for the input field
+    var divElement = $('<div>').addClass('col-auto');
+    var labelElement = $('<label>').addClass('form-label').attr('for', 'inputText').text('Set #' + i);
     var inputField = $('<input>').attr({
       type: 'text',
+      id: 'inputText' + i,
+      class: 'form-control w-100 text-center',
+      'aria-labelledby': 'textHelpBlock',
       name: 'dynamic-inputs-match-max[' + i + ']',
       required: true,
       maxlength: 3, // Set maximum length to 3 characters
-      placeholder: 'Set ' + i + ' Score/Time (in mins)' // Placeholder for each input
+      placeholder: 'Set ' + i + 'Max Score/Time (in mins)' // Placeholder for each input
     });
 
     // Add the keypress event to the input field
@@ -270,12 +278,12 @@ function generateInputFields(numberOfWinsNumber) {
       event.preventDefault();
     });
 
-    // Append the input field to the dynamic-inputs-match-max div
-    $('#dynamic-inputs-match-max').append(inputField);
+    // Append the elements to the dynamic-inputs-match-max div
+    divElement.append(labelElement);
+    divElement.append(inputField);
+    $('#dynamic-inputs-match-max').append(divElement);
   }
 }
-
-
 
 // Event delegation to check if all input fields have a value
 $('#dynamic-inputs-match-max').on('input', 'input[type="text"]', function() {
@@ -345,19 +353,20 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                     <div class="element-group">
                     <form method="POST" action="./php/TOU-process-tournament.php" id="myForm">
                        <!-- Add the gameTypeSelect and bestOfDropdown values -->
-                        <div class="d-flex justify-content-start">
+                        <div class="d-flex justify-content-start flex-wrap">
                             Event: 
                             <div style="margin-left: 5px;"></div>
-                            <select id="event_name" name="event_name"></select>
+                            <select id="event_name"></select>
                             <div style="margin-left: 10px;"></div>
                             Category: 
                             <div style="margin-left: 5px;"></div>
-                            <select id="category_name" name="category_name"></select>
+                            <select id="category_name"></select>
                             <div style="margin-left: 10px;"></div>
                             Match Style:
                             <div style="margin-left: 5px;"></div>
                             <div id="best_of_no_display"></div>
                             <input type="hidden" id="best_of_no" name="best_of_no" required>
+                            <input type="hidden" id="tournament_id" name="tournament_id" required>
                         </div>
                         <br>
                         <div class="container text-center">
@@ -370,7 +379,7 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                                 </div>
                                 <div class="col">
                                   <select id="gameTypeSelect" name="gameTypeSelect" class="form-select w-75 text-center" required>
-                                    <option selected disabled>Select whether time or score based</option>
+                                    <option selected>Select whether time or score based</option>
                                     <option value="score-based">Score-based</option>
                                     <option value="time-based">Time-based</option>
                                   </select>
@@ -400,20 +409,21 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                         <div class="d-flex justify-content-end">
                         <button type="submit" id="submitButton" class="primary-button" disabled>Submit</button>
                         </div>
+                        <div class="row g-3 align-items-center">
                     </form>
 
                     <script>
                                var maxInputs = 8; // Maximum number of input fields allowed
         var currentInputs = 0; // Counter for current number of input fields
         var dataTable = [
-            ['ACAP', 'ACAP'],
-            ['AECES', 'AECES'],
-            ['ELITE', 'ELITE'],
-            ['GIVE', 'GIVE'],
-            ['JEHRA', 'JEHRA'],
-            ['JMAP', 'JMAP'],
-            ['JPIA', 'JPIA'],
-            ['PIIE', 'PIIE']
+            ['1', 'ACAP'],
+            ['2', 'AECES'],
+            ['3', 'ELITE'],
+            ['4', 'GIVE'],
+            ['5', 'JEHRA'],
+            ['6', 'JMAP'],
+            ['7', 'JPIA'],
+            ['8', 'PIIE']
         ];
         var selectedOptions = []; // Array to store the selected options
 

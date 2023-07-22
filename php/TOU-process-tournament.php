@@ -3,9 +3,7 @@ include 'database_connect.php';
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the submitted form data
-    $event_name = $_POST['event_name'];
-    $category_name = $_POST['category_name'];
+    $tournament_id = $_POST['tournament_id'];
     $teams = $_POST['dynamic_input'];
     $numTeams = count($teams);
     // Retrieve the game options
@@ -28,11 +26,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $node_id_start = count($parent_ids);
 
     // Prepare the SQL statement with parameter placeholders
-    $query = "SELECT id FROM `bracket_forms` WHERE event_name = ? AND category_name = ? AND is_active = 1";
-    $stmt = mysqli_prepare($conn, $query);
+    $query = "SELECT bf.id FROM tournament AS tou 
+                INNER JOIN ongoing_list_of_event AS olfe
+                ON tou.event_id = olfe.event_id
+                INNER JOIN event_type AS et
+                ON olfe.event_type_id = et.event_type_id
+                INNER JOIN ongoing_event_name AS oen
+                ON oen.ongoing_event_name_id = olfe.ongoing_event_name_id
+                INNER JOIN bracket_forms AS bf
+                ON bf.id = tou.bracket_form_id
+                WHERE olfe.event_type_id = 1 
+                AND oen.is_done = 0 
+                AND olfe.is_archived = 0 
+                AND olfe.is_deleted = 0
+                AND tou.has_set_tournament = 0
+                AND tou.bracket_form_id IS NULL
+                AND tou.tournament_id = ?;";
+                $stmt = mysqli_prepare($conn, $query);
 
     // Bind the form data to the prepared statement parameters
-    mysqli_stmt_bind_param($stmt, "ss", $event_name, $category_name);
+    mysqli_stmt_bind_param($stmt, "i", $tournament_id);
 
     // Execute the prepared statement
     mysqli_stmt_execute($stmt);
@@ -52,8 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare the SQL statement to insert data into the bracket_forms table
-    $stmt = $conn->prepare("INSERT INTO bracket_forms (category_name, event_name, node_id_start, parent_id_start) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssii", $category_name, $event_name, $node_id_start, $numTeams);
+    $stmt = $conn->prepare("INSERT INTO bracket_forms (node_id_start, parent_id_start) VALUES  (?, ?)");
+    $stmt->bind_param("ii", $node_id_start, $numTeams);
     $stmt->execute();
 
     // Get the ID of the inserted row
@@ -61,10 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 
     // Insert data into the ongoing_teams table
-    $stmt = $conn->prepare("INSERT INTO ongoing_teams (team_name, bracket_form_id) VALUES (?, ?)");
+    $stmt = $conn->prepare("INSERT INTO ongoing_teams (team_id, bracket_form_id) VALUES (?, ?)");
     // Bind parameters and execute the statement for each team
-    foreach ($teams as $team_name) {
-        $stmt->bind_param("si", $team_name, $bracket_form_id);
+    foreach ($teams as $team_id) {
+        $stmt->bind_param("ii", $team_id, $bracket_form_id);
         $stmt->execute();
         // Retrieve the ID of the last inserted row (team)
         $team_id = $stmt->insert_id;
@@ -116,22 +129,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();   
 
     // UPDATE query
-    $updateQuery = "UPDATE tournament SET has_set_tournament = 1, bracket_form_id = ? 
-    WHERE event_id IN (
-        SELECT tou.event_id 
-        FROM tournament AS tou 
-        INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
-        INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-        WHERE oen.event_name = ? 
-        AND olfe.category_name = ? 
-        AND has_set_tournament = 0
-        AND olfe.is_archived = 0
-        AND olfe.is_deleted = 0
-        AND oen.is_done = 0
-    )";
+    $updateQuery = "UPDATE tournament AS tou
+    INNER JOIN ongoing_list_of_event AS olfe 
+        ON tou.event_id = olfe.event_id
+    INNER JOIN ongoing_event_name AS oen 
+        ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+    SET tou.has_set_tournament = 1, tou.bracket_form_id = ?
+    WHERE tou.has_set_tournament = 0
+    AND olfe.is_archived = 0
+    AND olfe.is_deleted = 0
+    AND oen.is_done = 0
+    AND tou.tournament_id = ?;";
 
     $updateStmt = $conn->prepare($updateQuery);
-    $updateStmt->bind_param("iss", $bracket_form_id, $event_name, $category_name);
+    $updateStmt->bind_param("ii", $bracket_form_id, $tournament_id);
     $updateStmt->execute();
     // Close the UPDATE statement
     $updateStmt->close();
