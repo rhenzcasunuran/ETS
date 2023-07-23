@@ -66,13 +66,15 @@
                   </div>
                   <div id="team_one_btn"></div>
                   <br>
-                  <!--<button type="button" class="btn btn-danger" id="disqualify-team-one-btn">Disqualify</button>-->
+                  <button type="button" class="btn btn-danger" id="disqualify-team-one-btn">Disqualify</button>
+                  <button type="button" class="btn btn-danger" id="forfeit-team-one-btn">Forfeit</button>
                 </div>
                 <div class="col">
                   <br>
                   <h2 id="template-overall-score"></h2>
                   <h1 id="template-vs">VS</h1>
                   <button type="button" class="btn btn-danger" id="end-match-btn">End Match</button>
+                  <button type="button" class="btn btn-danger" id="end-match-early-btn">Conclude Match</button>
                 </div>
                 <div class="col">
                   <div class="row">
@@ -83,7 +85,8 @@
                   </div>
                   <div id="team_two_btn"></div>
                   <br>
-                  <!--<button type="button" class="btn btn-danger" id="disqualify-team-two-btn">Disqualify</button>-->
+                  <button type="button" class="btn btn-danger" id="disqualify-team-two-btn">Disqualify</button>
+                  <button type="button" class="btn btn-danger" id="forfeit-team-one-btn">Forfeit</button>
                 </div>
               </div>
             </div>
@@ -365,7 +368,6 @@
                       dataType: 'json',
                       success: function(response) {
                           // Handle the success response
-                          console.log(response);
                           // Optionally, you can perform further actions after the request succeeds
                           
                           // Check for success and reload the page

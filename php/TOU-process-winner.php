@@ -9,13 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $query = "SELECT bt.*, 
               ot.id AS team_one_id,
-              ot.team_name AS team_one_name,
+              org.organization_name AS team_one_name,
               ot.current_team_status AS team_one_status,
               ot.current_set_no AS team_one_set_no,
               ot.current_overall_score AS team_one_overall_score,
               ot.current_score AS team_one_score,
               ot2.id AS team_two_id,
-              ot2.team_name AS team_two_name,
+              org2.organization_name AS team_two_name,
               ot2.current_team_status AS team_two_status,
               ot2.current_set_no AS team_two_set_no,
               ot2.current_overall_score AS team_two_overall_score,
@@ -27,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               FROM `bracket_teams` AS bt
               INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
               INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
+              INNER JOIN organization AS org ON org.organization_id = ot.team_id
+              INNER JOIN organization AS org2 ON org2.organization_id = ot2.team_id
               INNER JOIN score_rule AS sr ON sr.bracket_form_id = bt.bracket_form_id
               WHERE bt.id = ? AND bt.bracket_form_id = ?";
 
@@ -64,8 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (($teamOneOverallScore + $teamTwoOverallScore) === ($maxSetNo - 1)) {
                     // Team One wins the set
                     // Copy team to give it new ID
-                    $query = "INSERT INTO ongoing_teams (team_name, bracket_form_id)
-                            SELECT team_name, bracket_form_id
+                    $query = "INSERT INTO ongoing_teams (team_id, bracket_form_id)
+                            SELECT team_id, bracket_form_id
                             FROM ongoing_teams
                             WHERE id = ?";
 
@@ -79,9 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Team One wins the set
                     // Archive scores (Team One)
                     $query = "INSERT INTO tournament_score_archive 
-                                (team_name, bracket_form_id, current_team_status,
+                                (team_id, bracket_form_id, current_team_status,
                                 current_overall_score, current_set_no, current_score)
-                                SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no - 1, current_score
+                                SELECT team_id, bracket_form_id, 'won', current_overall_score + 1, current_set_no - 1, current_score
                                 FROM ongoing_teams
                                 WHERE id = ?";
 
@@ -94,9 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // Archive scores (Team Two)
                     $query = "INSERT INTO tournament_score_archive 
-                                (team_name, bracket_form_id, current_team_status,
+                                (team_id, bracket_form_id, current_team_status,
                                 current_overall_score, current_set_no, current_score)
-                                SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no - 1, current_score
+                                SELECT team_id, bracket_form_id, 'lost', current_overall_score, current_set_no - 1, current_score
                                 FROM ongoing_teams
                                 WHERE id = ?";
 
@@ -135,9 +137,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Team One wins the set
                     // Archive scores (Team One)
                     $query = "INSERT INTO tournament_score_archive 
-                                (team_name, bracket_form_id, current_team_status,
+                                (team_id, bracket_form_id, current_team_status,
                                 current_overall_score, current_set_no, current_score)
-                                SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no, current_score
+                                SELECT team_id, bracket_form_id, 'won', current_overall_score + 1, current_set_no, current_score
                                 FROM ongoing_teams
                                 WHERE id = ?";
 
@@ -150,9 +152,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // Archive scores (Team Two)
                     $query = "INSERT INTO tournament_score_archive 
-                                (team_name, bracket_form_id, current_team_status,
+                                (team_id, bracket_form_id, current_team_status,
                                 current_overall_score, current_set_no, current_score)
-                                SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no, current_score
+                                SELECT team_id, bracket_form_id, 'lost', current_overall_score, current_set_no, current_score
                                 FROM ongoing_teams
                                 WHERE id = ?";
 
@@ -195,8 +197,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (($teamOneOverallScore + $teamTwoOverallScore) === ($maxSetNo - 1)) {
                     // Team Two wins the set
                     // Copy team to give it new ID
-                    $query = "INSERT INTO ongoing_teams (team_name, bracket_form_id)
-                            SELECT team_name, bracket_form_id
+                    $query = "INSERT INTO ongoing_teams (team_id, bracket_form_id)
+                            SELECT team_id, bracket_form_id
                             FROM ongoing_teams
                             WHERE id = ?";
 
@@ -209,9 +211,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // Archive scores (Team One)
                     $query = "INSERT INTO tournament_score_archive 
-                                (team_name, bracket_form_id, current_team_status,
+                                (team_id, bracket_form_id, current_team_status,
                                 current_overall_score, current_set_no, current_score)
-                                SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no - 1, current_score
+                                SELECT team_id, bracket_form_id, 'won', current_overall_score + 1, current_set_no - 1, current_score
                                 FROM ongoing_teams
                                 WHERE id = ?";
 
@@ -224,9 +226,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // Archive scores (Team Two)
                     $query = "INSERT INTO tournament_score_archive 
-                                (team_name, bracket_form_id, current_team_status,
+                                (team_id, bracket_form_id, current_team_status,
                                 current_overall_score, current_set_no, current_score)
-                                SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no - 1, current_score
+                                SELECT team_id, bracket_form_id, 'lost', current_overall_score, current_set_no - 1, current_score
                                 FROM ongoing_teams
                                 WHERE id = ?";
 
@@ -265,9 +267,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Team Two wins the set
                     // Archive scores (Team Two)
                     $query = "INSERT INTO tournament_score_archive 
-                                (team_name, bracket_form_id, current_team_status,
+                                (team_id, bracket_form_id, current_team_status,
                                 current_overall_score, current_set_no, current_score)
-                                SELECT team_name, bracket_form_id, 'won', current_overall_score + 1, current_set_no, current_score
+                                SELECT team_id, bracket_form_id, 'won', current_overall_score + 1, current_set_no, current_score
                                 FROM ongoing_teams
                                 WHERE id = ?";
 
@@ -280,9 +282,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // Archive scores (Team One)
                     $query = "INSERT INTO tournament_score_archive 
-                                (team_name, bracket_form_id, current_team_status,
+                                (team_id, bracket_form_id, current_team_status,
                                 current_overall_score, current_set_no, current_score)
-                                SELECT team_name, bracket_form_id, 'lost', current_overall_score, current_set_no, current_score
+                                SELECT team_id, bracket_form_id, 'lost', current_overall_score, current_set_no, current_score
                                 FROM ongoing_teams
                                 WHERE id = ?";
 
