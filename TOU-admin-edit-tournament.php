@@ -135,6 +135,22 @@
       // Include the sidebar template
       require './php/admin-sidebar.php';
     ?>
+    <!--Popup Cancel / Warning-->
+    <div class="popup-background" id="cancelWrapper">
+      <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
+                <p>Any unsaved progress will be lost.</p> <!--text-->
+            </div>
+            <div class="div">
+                <button class="outline-button" onclick="hideCancel()"><i class='bx bx-chevron-left'></i>Return</button>
+                <button class="primary-button" id="cancel-btn"><i class='bx bx-x'></i>Discard</button>
+            </div>
+        </div>
+    </div>
     <section class="home-section flex-row">
       <div class="header">Schedule Tournament</div>
         <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
@@ -155,21 +171,35 @@
                                       <?php 
                                           $query2 = "SELECT ot.id AS team_one_id,
                                           ot2.id AS team_two_id,
-                                          ot.team_name AS team_one_name,
-                                          ot2.team_name AS team_two_name,
+                                          org.organization_name AS team_one_name,
+                                          org2.organization_name AS team_two_name,
                                           ot.current_team_status AS team_one_status, 
                                           ot2.current_team_status AS team_two_status,
-                                          bf.current_column
-                                          FROM bracket_teams AS bt 
-                                          INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
-                                          INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
-                                          INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
-                                          INNER JOIN organization AS org ON ot.id = org.id
-                                          INNER JOIN organization AS org2 ON ot2.id = org2.id
-                                          WHERE bf.id = ? 
+                                          bf.current_column FROM bracket_teams AS bt 
+                                          INNER JOIN ongoing_teams AS ot
+                                          ON ot.id = bt.team_one_id
+                                          INNER JOIN ongoing_teams AS ot2
+                                          ON ot2.id = bt.team_two_id
+                                          INNER JOIN organization AS org
+                                          ON ot.team_id = org.organization_id
+                                          INNER JOIN organization AS org2
+                                          ON ot2.team_id = org2.organization_id
+                                          INNER JOIN bracket_forms AS bf
+                                          ON bf.id = bt.bracket_form_id
+                                          INNER JOIN tournament AS tou 
+                                          ON tou.bracket_form_id = bf.id
+                                          INNER JOIN ongoing_list_of_event AS olfe
+                                          ON olfe.event_id = tou.event_id
+                                          INNER JOIN ongoing_event_name AS oen
+                                          ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+                                          AND bf.is_active = 1
                                           AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
-                                          AND bf.current_column = bf.current_column
-                                          AND bf.is_active = 1";
+                                          AND bf.current_column = bf.current_column                                            											 AND olfe.event_type_id = 1 
+                                          AND oen.is_done = 0 
+                                          AND olfe.is_archived = 0 
+                                          AND olfe.is_deleted = 0
+                                          AND tou.has_set_tournament = 1
+                                          AND bf.id = ?;";
 
                                           $stmt2 = mysqli_prepare($conn, $query2);
                                           // Bind the id parameter to the prepared statement
@@ -181,15 +211,37 @@
 
                                           if (mysqli_num_rows($result2) === 0) {
                                             // Prepare the SQL query with placeholders for parameters
-                                            $query = "SELECT bt.bracket_position, 
-                                            ot.team_name AS team_one_name, 
+                                            $query = "SELECT ot.id AS team_one_id,
+                                            ot2.id AS team_two_id,
+                                            org.organization_name AS team_one_name,
+                                            org2.organization_name AS team_two_name,
                                             ot.current_team_status AS team_one_status, 
-                                            ot2.team_name AS team_two_name, 
-                                            ot2.current_team_status AS team_two_status
-                                            FROM `bracket_teams` AS bt 
-                                            INNER JOIN ongoing_teams AS ot ON bt.team_one_id = ot.id
-                                            INNER JOIN ongoing_teams AS ot2 ON bt.team_two_id = ot2.id
-                                            WHERE (ot.current_team_status = 'won' OR ot2.current_team_status = 'won') AND bt.bracket_form_id = ?";
+                                            ot2.current_team_status AS team_two_status,
+                                            bt.bracket_position FROM bracket_teams AS bt 
+                                            INNER JOIN ongoing_teams AS ot
+                                            ON ot.id = bt.team_one_id
+                                            INNER JOIN ongoing_teams AS ot2
+                                            ON ot2.id = bt.team_two_id
+                                            INNER JOIN organization AS org
+                                            ON ot.team_id = org.organization_id
+                                            INNER JOIN organization AS org2
+                                            ON ot2.team_id = org2.organization_id
+                                            INNER JOIN bracket_forms AS bf
+                                            ON bf.id = bt.bracket_form_id
+                                            INNER JOIN tournament AS tou 
+                                            ON tou.bracket_form_id = bf.id
+                                            INNER JOIN ongoing_list_of_event AS olfe
+                                            ON olfe.event_id = tou.event_id
+                                            INNER JOIN ongoing_event_name AS oen
+                                            ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+                                            AND bf.is_active = 1
+                                            AND (ot.current_team_status = 'won' OR ot2.current_team_status = 'won')
+                                            AND olfe.event_type_id = 1 
+                                            AND oen.is_done = 0 
+                                            AND olfe.is_archived = 0 
+                                            AND olfe.is_deleted = 0
+                                            AND tou.has_set_tournament = 1
+                                            AND bf.id = ?";
 
                                             // Create a prepared statement
                                             $stmt = $conn->prepare($query);
@@ -222,9 +274,28 @@
                                             // Iterate through the wonTeamsArray and fetch the IDs for each team
                                             foreach ($wonTeamsArray as $teamName) {
                                                 // Prepare the SQL query with placeholders for parameters
-                                                $query = "SELECT ot.id FROM `ongoing_teams` AS ot
-                                                          INNER JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
-                                                          WHERE current_team_status = 'active' AND bf.id = ? AND ot.team_name = ?";
+                                                $query = "SELECT ot.id FROM bracket_teams AS bt 
+                                                            INNER JOIN ongoing_teams AS ot
+                                                            ON ot.id = bt.team_one_id
+                                                            INNER JOIN organization AS org
+                                                            ON ot.team_id = org.organization_id
+                                                            INNER JOIN bracket_forms AS bf
+                                                            ON bf.id = bt.bracket_form_id
+                                                            INNER JOIN tournament AS tou 
+                                                            ON tou.bracket_form_id = bf.id
+                                                            INNER JOIN ongoing_list_of_event AS olfe
+                                                            ON olfe.event_id = tou.event_id
+                                                            INNER JOIN ongoing_event_name AS oen
+                                                            ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+                                                            AND bf.is_active = 1
+                                                            AND ot.current_team_status = 'active'
+                                                            AND olfe.event_type_id = 1 
+                                                            AND oen.is_done = 0 
+                                                            AND olfe.is_archived = 0 
+                                                            AND olfe.is_deleted = 0
+                                                            AND tou.has_set_tournament = 1
+                                                            AND bf.id = ?
+                                                            AND org.organization_name = ?";
 
                                                 // Create a prepared statement
                                                 $stmt = $conn->prepare($query);
@@ -248,11 +319,31 @@
                                             }                            
 
                                             // Prepare the SQL query with placeholders for parameters
-                                            $query = "SELECT DISTINCT bt.current_column
-                                            FROM `bracket_teams` AS bt 
-                                            INNER JOIN ongoing_teams AS ot ON bt.team_one_id = ot.id
-                                            INNER JOIN ongoing_teams AS ot2 ON bt.team_two_id = ot2.id
-                                            WHERE (ot.current_team_status = 'won' OR ot2.current_team_status = 'won') AND bt.bracket_form_id = ?";
+                                            $query = "SELECT DISTINCT bt.current_column FROM bracket_teams AS bt 
+                                            INNER JOIN ongoing_teams AS ot
+                                            ON ot.id = bt.team_one_id
+                                            INNER JOIN ongoing_teams AS ot2
+                                            ON ot2.id = bt.team_two_id
+                                            INNER JOIN organization AS org
+                                            ON ot.team_id = org.organization_id
+                                            INNER JOIN organization AS org2
+                                            ON ot2.team_id = org2.organization_id
+                                            INNER JOIN bracket_forms AS bf
+                                            ON bf.id = bt.bracket_form_id
+                                            INNER JOIN tournament AS tou 
+                                            ON tou.bracket_form_id = bf.id
+                                            INNER JOIN ongoing_list_of_event AS olfe
+                                            ON olfe.event_id = tou.event_id
+                                            INNER JOIN ongoing_event_name AS oen
+                                            ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+                                            AND bf.is_active = 1
+                                            AND (ot.current_team_status = 'won' OR ot2.current_team_status = 'won')
+                                            AND olfe.event_type_id = 1 
+                                            AND oen.is_done = 0 
+                                            AND olfe.is_archived = 0 
+                                            AND olfe.is_deleted = 0
+                                            AND tou.has_set_tournament = 1
+                                            AND bf.id = ?;";
 
                                             // Create a prepared statement
                                             $stmt = $conn->prepare($query);
@@ -410,19 +501,36 @@
 
                                             // Get the bracket teams based on the bracket_form_id
                                             $query = "SELECT ot.id AS team_one_id,
-                                                          ot2.id AS team_two_id,
-                                                          ot.team_name AS team_one_name,
-                                                          ot2.team_name AS team_two_name,
-                                                          ot.current_team_status AS team_one_status, 
-                                                          ot2.current_team_status AS team_two_status,
-                                                          bf.current_column
-                                                    FROM bracket_teams AS bt 
-                                                    INNER JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
-                                                    INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
-                                                    INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
-                                                    WHERE bf.id = ? 
-                                                      AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
-                                                      AND bf.current_column = bf.current_column;";
+                                            ot2.id AS team_two_id,
+                                            org.organization_name AS team_one_name,
+                                            org2.organization_name AS team_two_name,
+                                            ot.current_team_status AS team_one_status, 
+                                            ot2.current_team_status AS team_two_status,
+                                            bf.current_column FROM bracket_teams AS bt 
+                                            INNER JOIN ongoing_teams AS ot
+                                            ON ot.id = bt.team_one_id
+                                            INNER JOIN ongoing_teams AS ot2
+                                            ON ot2.id = bt.team_two_id
+                                            INNER JOIN organization AS org
+                                            ON ot.team_id = org.organization_id
+                                            INNER JOIN organization AS org2
+                                            ON ot2.team_id = org2.organization_id
+                                            INNER JOIN bracket_forms AS bf
+                                            ON bf.id = bt.bracket_form_id
+                                            INNER JOIN tournament AS tou 
+                                            ON tou.bracket_form_id = bf.id
+                                            INNER JOIN ongoing_list_of_event AS olfe
+                                            ON olfe.event_id = tou.event_id
+                                            INNER JOIN ongoing_event_name AS oen
+                                            ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+                                            AND bf.is_active = 1
+                                            AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
+                                            AND bf.current_column = bf.current_column                                            											 AND olfe.event_type_id = 1 
+                                            AND oen.is_done = 0 
+                                            AND olfe.is_archived = 0 
+                                            AND olfe.is_deleted = 0
+                                            AND tou.has_set_tournament = 1
+                                            AND bf.id = ?";
 
                                             $stmt = $conn->prepare($query);
                                             $stmt->bind_param("i", $id);
@@ -446,20 +554,21 @@
                                                   $championTeamId = $row['team_two_id'];
                                               }
 
-                                               echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$row['team_one_id'].'">' .
-                                                '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$row['team_two_id'].'">
+                                              echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$row['team_one_id'].'">' .
+                                              '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$row['team_two_id'].'">
                                                 <div class="container mt-5">
-                                                <div class="row">
-                                                  <div class="col text-center">
+                                                  <div class="row">
+                                                    <div class="col text-center">
                                                     <h2>'.$row['team_one_name'].' vs '.$row['team_two_name'].'</h2>
+                                                    </div>
                                                   </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                  <div class="col-md-6 offset-md-3">
-                                                    <label for="matchDateTime">Match Date and Time:</label><br>
-                                                    <input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput"></div>
-                                                </div>
-                                              </div>';
+                                                  <div class="row mt-3">
+                                                    <div class="col-md-6 offset-md-3 col-sm-12">
+                                                      <label for="matchDateTime">Match Date and Time:</label><br>
+                                                      <input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput" class="form-control">
+                                                    </div>
+                                                  </div>
+                                                </div>';
                                             }
 
                                             $stmt->close();
@@ -477,29 +586,30 @@
 
                                               echo '<input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$team_one_id.'">' .
                                               '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$team_two_id.'">
-                                              <div class="container mt-5">
-                                              <div class="row">
-                                                <div class="col text-center">
-                                                  <h2>'.$team_name_one.' vs '.$team_name_two.'</h2>
-                                                </div>
-                                              </div>
-                                              <div class="row mt-3">
-                                                <div class="col-md-6 offset-md-3">
-                                                  <label for="matchDateTime">Match Date and Time:</label><br>
-                                                  <input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput"></div>
-                                              </div>
-                                            </div>';                                  
+                                               <div class="container mt-5">
+                                                 <div class="row">
+                                                   <div class="col text-center">
+                                                     <h2>'.$team_name_one.' vs '.$team_name_two.'</h2>
+                                                   </div>
+                                                 </div>
+                                                 <div class="row mt-3">
+                                                   <div class="col-md-6 offset-md-3 col-sm-12">
+                                                     <label for="matchDateTime">Match Date and Time:</label><br>
+                                                     <input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput" class="form-control">
+                                                   </div>
+                                                 </div>
+                                               </div>';                                                                          
                                             }
                                           }                                      
                                         ?>
                                       </div>
                                   </div>
                                 <br>
-
-                                <!--<div class="p-3"><input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput" class="w-25"></div>-->
-
                                 <div id="error-container" style="color: red;"></div>
-                                <button id="submit" type="submit" class="primary-button float-end">Submit</button>
+                                <div class="div d-flex justify-content-end">
+                                  <button type="button" class="outline-button" onclick="showCancel()">Cancel</button>
+                                  <button id="submit" type="submit" class="primary-button float-end">Submit</button>
+                                </div>
                               </form>
                           </div>
                         </div>
@@ -507,6 +617,7 @@
                 </div>
             </div>
         </div>
+
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
@@ -527,6 +638,26 @@
   // Attach the event listener to the datetime-local input
   const datetimeInput = document.querySelector('input[type="datetime-local"]');
   datetimeInput.setAttribute('min', getCurrentDateTime());
+
+        // Cancel
+        popupCancel = document.getElementById('cancelWrapper');
+  
+        var showCancel = function() {
+            popupCancel.style.display ='flex';
+        }
+        var hideCancel = function() {
+            popupCancel.style.display ='none';
+        }
+
+        // Attach a click event handler to the button with id "cancel-btn"
+  $('#cancel-btn').on('click', function() {
+    // Set the URL you want to redirect to
+    var redirectUrl = 'TOU-admin-manage-tournament.php'; // Replace this with the desired URL
+
+    // Perform the redirection
+    window.location.href = redirectUrl;
+  });
+
     </script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {

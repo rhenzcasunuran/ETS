@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_close($stmt);
 
     // Redirect to the specified URL
-    header("Location: ../TOU-admin-edit-tournament.php?id=" . $id);
+    header("Location: ../TOU-admin-manage-tournament.php");
     exit(); // Terminate the current script to ensure the redirect takes effect
 }
 ?>

@@ -170,6 +170,7 @@
                   data: { id: selectedId },
                   dataType: 'json',
                   success: function(response) {
+
                     // Clear the options once before populating them with the response data
                     selectMatchup.empty();
                     selectMatchup.append('<option selected>Select Matchup</option>');
@@ -208,7 +209,6 @@
                   data: { id: selectedValue },
                   dataType: 'json',
                   success: function(response) {
-                    console.log(response)
                     if (response.length > 0) {
                       var matchup = response[0]; // Assuming only one matchup is returned
 
@@ -262,6 +262,8 @@
                   data: { id: idNumber, score: value, bracketFormId: bracketFormId, teamOneTwoId: selectedValue },
                   dataType: 'json',
                   success: function(response) {
+                    console.log(response)
+
                     if (response.error === 'Team 1 disable buttons.') {
                       // Disable the plus one buttons in the team_one_btn element
                       $('#team_two_btn button[value="1"]').prop('disabled', true);

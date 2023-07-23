@@ -8,12 +8,12 @@ if (isset($_GET['id'])) {
 
   // Perform the query with the provided ID
   $query = "SELECT ot.id AS team_one_id, 
-  ot.team_name AS team_one_name, 
+  org.organization_name AS team_one_name, 
   ot.current_score AS team_one_current_score, 
   ot.current_team_status AS team_one_current_team_status,
   ot.current_overall_score AS team_one_current_overall_score,
   ot2.id AS team_two_id, 
-  ot2.team_name AS team_two_name, 
+  org2.organization_name AS team_two_name, 
   ot2.current_score AS team_two_current_score, 
   ot2.current_team_status AS team_two_current_team_status,
   ot2.current_overall_score AS team_two_current_overall_score
@@ -22,6 +22,10 @@ if (isset($_GET['id'])) {
   ON ot.id = bt.team_one_id
   INNER JOIN ongoing_teams AS ot2
   ON ot2.id = bt.team_two_id
+  INNER JOIN organization AS org
+  ON org.organization_id = ot.team_id
+  INNER JOIN organization AS org2
+  ON org2.organization_id = ot2.team_id
   WHERE (ot.current_team_status = 'active' AND ot2.current_team_status = 'active') AND bt.id = ? AND bt.event_date_time IS NOT NULL;";
   
   // Prepare the statement

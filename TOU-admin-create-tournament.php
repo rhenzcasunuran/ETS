@@ -240,7 +240,7 @@ function generateInputFields(numberOfWinsNumber) {
       name: 'dynamic-inputs-match-max[' + i + ']',
       required: true,
       maxlength: 3, // Set maximum length to 3 characters
-      placeholder: 'Set ' + i + 'Max Score/Time (in mins)' // Placeholder for each input
+      placeholder: 'Set ' + i + ' Max Score/Time (in mins)' // Placeholder for each input
     });
 
     // Add the keypress event to the input field
@@ -373,13 +373,14 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                             <div class="row align-items-start">
                                 <div class="col">
                                     <div id="add-team-btn" class="d-flex justify-content-center"><button type="button" class="primary-button" onclick="addInput()" id="addButton"><i class='bx bx-plus'></i>Add Team</button></div>
+                                    <br>
                                     <div id="dynamic-inputs">
                                         <!-- Additional form fields can be added here -->
                                     </div>
                                 </div>
                                 <div class="col">
                                   <select id="gameTypeSelect" name="gameTypeSelect" class="form-select w-75 text-center" required>
-                                    <option selected>Select whether time or score based</option>
+                                    <option value="" selected>Select whether time or score based</option>
                                     <option value="score-based">Score-based</option>
                                     <option value="time-based">Time-based</option>
                                   </select>

@@ -11,12 +11,12 @@ if (isset($_POST['id']) && isset($_POST['score']) && isset($_POST['bracketFormId
   
   // Prepare the statement
   $query = "SELECT ot.id AS team_one_id, 
-              ot.team_name AS team_one_name,
+              org.organization_name AS team_one_name,
               ot.current_team_status AS team_one_current_status,
               ot.current_set_no AS team_one_current_set,
               ot.current_score AS team_one_current_score,
               ot2.id AS team_two_id, 
-              ot2.team_name AS team_two_name,
+              org2.organization_name AS team_two_name,
               ot2.current_team_status AS team_two_current_status,
               ot2.current_set_no AS team_two_current_set,
               ot2.current_score AS team_two_current_score,
@@ -27,6 +27,10 @@ if (isset($_POST['id']) && isset($_POST['score']) && isset($_POST['bracketFormId
             ON ot.id = bt.team_one_id
             INNER JOIN ongoing_teams AS ot2 
             ON ot2.id = bt.team_two_id
+            INNER JOIN organization AS org 
+            ON org.organization_id = bt.team_one_id
+            INNER JOIN organization AS org2 
+            ON org2.organization_id = bt.team_two_id
             INNER JOIN score_rule AS sr
             ON bt.bracket_form_id = sr.bracket_form_id
             WHERE bt.id = ? AND bt.event_date_time IS NOT NULL AND ot.bracket_form_id = ? AND sr.set_no = ot.current_set_no";

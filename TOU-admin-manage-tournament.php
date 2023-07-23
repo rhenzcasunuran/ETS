@@ -104,23 +104,6 @@
         </div>
     </div>
 
-    <!--Popup Cancel / Warning-->
-    <div class="popup-background" id="cancelWrapper">
-        <div class="row popup-container">
-            <div class="col-4">
-                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
-            </div>
-            <div class="col-8 text-start text-container">
-                <h3 class="text-header">Discard Changes?</h3>   <!--header-->
-                <p>Any unsaved progress will be lost.</p> <!--text-->
-            </div>
-            <div  class="div">
-                <button class="outline-button" onclick="hideCancel()"><i class='bx bx-chevron-left'></i>Return</button>
-                <button class="primary-button"><i class='bx bx-x'></i>Discard</button>
-            </div>
-        </div>
-    </div>
-
     <!--Popup Delete / Danger-->
     <div class="popup-background" id="deleteWrapper">
         <div class="row popup-container">
