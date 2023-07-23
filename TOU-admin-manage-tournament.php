@@ -123,10 +123,8 @@
     <section class="home-section flex-row">
       <div class="header">Manage Tournament</div>
         <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
-          <div id="active-tournaments">
-          </div>
+          <div id="active-tournaments"></div>
         </div>
-      </div>
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
@@ -143,13 +141,7 @@
 
                 if (data.length > 0) {
                     data.forEach(function (tournament) {
-                        var buttonHtml;
-                        if (tournament.concluding_tournament_id !== null) {
-                            // Dynamically create the Confirm button with the appropriate ID
-                            buttonHtml = `<button class="success-button" id="confirm-${tournament.concluding_tournament_id}" onclick="showMarkAsDone(${tournament.concluding_tournament_id})">Conclude</button>`;
-                        } else {
-                            buttonHtml = `<button class="primary-button" id="edit-tournament-${tournament.id}">Edit</button>`;
-                        }
+                        var buttonHtml = `<button class="primary-button" id="edit-tournament-${tournament.id}">Edit</button>`;
 
                         var elementHtml = `
                             <div class="div">
@@ -177,8 +169,9 @@
                         });
                     });
                 } else {
-                    $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue d-flex justify-content-center align-items-center"></i>Create Tournament</button></div><div class="col"></div></div></div>');
+                    $('#active-tournaments').append('<div class="container text-center mt-3"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><div class="d-flex justify-content-center"><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue"></i>Create Tournament</button></div>');
                     }
+
 
                     // Get the reference to the "Create Tournament" button
                     const createTournamentButton = document.getElementById('create-tournament-button');
@@ -194,7 +187,7 @@
                 },
                 error: function(error) {
                   console.error(error)
-                  $('#active-tournaments').append('<div class="container text-center mt-3"><div class="row align-items-start"><div class="col"></div><div class="col"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue d-flex justify-content-center align-items-center"></i>Create Tournament</button></div><div class="col"></div></div></div>');
+                  $('#active-tournaments').append('<div class="container text-center mt-3"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><div class="d-flex justify-content-center"><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue"></i>Create Tournament</button></div>');
                     
                      // Get the reference to the "Create Tournament" button
                      const createTournamentButton = document.getElementById('create-tournament-button');
