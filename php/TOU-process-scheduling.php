@@ -5,8 +5,6 @@ include 'database_connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the submitted values
     $id = mysqli_real_escape_string($conn, $_POST['id']);
-    $event_name = mysqli_real_escape_string($conn, $_POST['event_name']);
-    $category_name = mysqli_real_escape_string($conn, $_POST['category_name']);
     $team_one_ids = $_POST['team_one_id'];
     $team_two_ids = $_POST['team_two_id'];
     $event_date_times = $_POST['event_date_time'];

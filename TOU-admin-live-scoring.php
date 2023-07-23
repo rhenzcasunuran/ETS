@@ -74,7 +74,7 @@
                   <h2 id="template-overall-score"></h2>
                   <h1 id="template-vs">VS</h1>
                   <button type="button" class="btn btn-danger" id="end-match-btn">End Match</button>
-                  <button type="button" class="btn btn-danger" id="end-match-early-btn">Conclude Match</button>
+                  <button type="button" class="btn btn-danger" id="end-match-early-btn">End Match Early</button>
                 </div>
                 <div class="col">
                   <div class="row">
