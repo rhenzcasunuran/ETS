@@ -254,12 +254,15 @@
                 let buttonId = $(this).attr('id');
                 let idNumber = buttonId.split('-').pop();
                 let bracketFormId = selectedId;
+                console.log(value)
+                console.log(idNumber)
+                console.log(bracketFormId)
 
                 // Send the action to the PHP script via AJAX
                 $.ajax({
-                  url: './php/TOU-team-one-update.php', // Replace with your PHP script URL
+                  url: './php/TOU-process-team-one-score.php', // Replace with your PHP script URL
                   type: 'POST', // Change the request type to POST
-                  data: { id: idNumber, score: value, bracketFormId: bracketFormId, teamOneTwoId: selectedValue },
+                  data: { id: idNumber, score: value, bracketFormId: bracketFormId },
                   dataType: 'json',
                   success: function(response) {
                     console.log(response)
@@ -301,12 +304,15 @@
                 let buttonId = $(this).attr('id');
                 let idNumber = buttonId.split('-').pop();
                 let bracketFormId = selectedId;
+                console.log(value)
+                console.log(idNumber)
+                console.log(bracketFormId)
 
                 // Send the action to the PHP script via AJAX
                 $.ajax({
-                  url: './php/TOU-team-two-update.php', // Replace with your PHP script URL
+                  url: './php/TOU-process-team-two-score.php', // Replace with your PHP script URL
                   type: 'POST', // Change the request type to POST
-                  data: { id: idNumber, score: value, bracketFormId: bracketFormId, teamOneTwoId: selectedValue },
+                  data: { id: idNumber, score: value, bracketFormId: bracketFormId },
                   dataType: 'json',
                   success: function(response) {
                     if (response.error === 'Team 2 disable buttons.') {
