@@ -92,29 +92,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $teamNonNullIds = array();
     $teamNullIds = array();
 
+    $winLostStatus = ["lost", "won"]; // Corrected "win" to "won"
+    $counterWinLost = 0;
+    
     // Insert data into the ongoing_teams table
-    $stmt = $conn->prepare("INSERT INTO ongoing_teams (team_id, bracket_form_id, is_bye) VALUES (?, ?, ?)");
-    // Bind parameters and execute the statement for each team
+    $stmt = $conn->prepare("INSERT INTO ongoing_teams (team_id, bracket_form_id, current_team_status, is_bye) VALUES (?, ?, ?, ?)");
+    // Bind parameters and execute the statement for each team 
     foreach ($teams as $team_id) {
         if ($team_id === NULL) {
             // If $team_id is NULL, set is_bye to 1
             $is_bye = 1;
             // Set the data type of $team_id to "s" for NULL values
-            $stmt->bind_param("sii", $team_id, $bracket_form_id, $is_bye);
+            $stmt->bind_param("sisi", $team_id, $bracket_form_id, $winLostStatus[$counterWinLost], $is_bye);
             $stmt->execute();
             // Retrieve the ID of the last inserted row (team)
-            $team_id = $stmt->insert_id;
-            $teamNullIds[] = $team_id;
+            $teamNullIds[] = $stmt->insert_id; // Move this line here
+            $counterWinLost++;
         } else {
             $is_bye = 0;
+            $current_team_status = "active"; // Store the value in a variable
             // Set the data type of $team_id to "i" for non-NULL values
-            $stmt->bind_param("iii", $team_id, $bracket_form_id, $is_bye);
+            $stmt->bind_param("iisi", $team_id, $bracket_form_id, $current_team_status, $is_bye);
             $stmt->execute();
             // Retrieve the ID of the last inserted row (team)
-            $team_id = $stmt->insert_id;
-            $teamNonNullIds[] = $team_id;
+            $teamNonNullIds[] = $stmt->insert_id; // Move this line here
         }
     }
+    // Close the statement
+    $stmt->close();
     shuffle($teamNonNullIds);
     // If there is only one ID with NULL value, add it to the teamNonNullIds array
     if (count($teamNullIds) === 1) {
@@ -124,9 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Merge $teamIds and $nullTeamIds arrays into a single array
         $teamIds = array_merge($teamNonNullIds, $teamNullIds);
     }
-
-    $stmt->close();
-
+    
     // Insert data into the score_rule table
     foreach ($gameOptions as $set_no => $max_value) {
         $stmt = $conn->prepare("INSERT INTO score_rule (bracket_form_id, set_no, max_value, game_type) VALUES (?, ?, ?, ?)");
