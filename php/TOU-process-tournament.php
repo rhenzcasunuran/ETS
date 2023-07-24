@@ -88,17 +88,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bracket_form_id = $stmt->insert_id;
     $stmt->close();
 
+    // Arrays to store team IDs and NULL IDs
+    $teamNonNullIds = array();
+    $teamNullIds = array();
+
     // Insert data into the ongoing_teams table
-    $stmt = $conn->prepare("INSERT INTO ongoing_teams (team_id, bracket_form_id) VALUES (?, ?)");
+    $stmt = $conn->prepare("INSERT INTO ongoing_teams (team_id, bracket_form_id, is_bye) VALUES (?, ?, ?)");
     // Bind parameters and execute the statement for each team
     foreach ($teams as $team_id) {
-        $stmt->bind_param("ii", $team_id, $bracket_form_id);
-        $stmt->execute();
-        // Retrieve the ID of the last inserted row (team)
-        $team_id = $stmt->insert_id;
-        $teamIds[] = $team_id;
-        shuffle($teamIds);
+        if ($team_id === NULL) {
+            // If $team_id is NULL, set is_bye to 1
+            $is_bye = 1;
+            // Set the data type of $team_id to "s" for NULL values
+            $stmt->bind_param("sii", $team_id, $bracket_form_id, $is_bye);
+            $stmt->execute();
+            // Retrieve the ID of the last inserted row (team)
+            $team_id = $stmt->insert_id;
+            $teamNullIds[] = $team_id;
+        } else {
+            $is_bye = 0;
+            // Set the data type of $team_id to "i" for non-NULL values
+            $stmt->bind_param("iii", $team_id, $bracket_form_id, $is_bye);
+            $stmt->execute();
+            // Retrieve the ID of the last inserted row (team)
+            $team_id = $stmt->insert_id;
+            $teamNonNullIds[] = $team_id;
+        }
     }
+    shuffle($teamNonNullIds);
+    // If there is only one ID with NULL value, add it to the teamNonNullIds array
+    if (count($teamNullIds) === 1) {
+        $teamNonNullIds[] = $teamNullIds[0];
+        $teamIds = $teamNonNullIds;
+    } else {
+        // Merge $teamIds and $nullTeamIds arrays into a single array
+        $teamIds = array_merge($teamNonNullIds, $teamNullIds);
+    }
+
     $stmt->close();
 
     // Insert data into the score_rule table
@@ -126,12 +152,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Bind the parameter values to the prepared statement
             mysqli_stmt_bind_param($stmt, "iiii", $bracket_form_id, $bracket_position, $teamOneId, $teamTwoId);
-        } else {
-            // If there is no second team ID, set it to null
-            $teamTwoId = null;
-
-            // Bind the parameter values (with a null value for team_two_id)
-            mysqli_stmt_bind_param($stmt, "iii", $bracket_form_id, $bracket_position, $teamOneId);
         }
 
         // Execute the prepared statement
