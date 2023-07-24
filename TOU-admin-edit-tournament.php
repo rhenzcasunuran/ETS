@@ -103,7 +103,6 @@
                         <div class="element-group">
                           <div class="element-label">Tournament ID #<?php echo $id; ?><br> Event: <?php echo $event_name;?><br> Category: <?php echo $category_name;?></div>
                             <div class="element-content">
-                              <form method="POST" action="./php/TOU-process-scheduling.php" id="myForm">
                                 <?php 
                                   $query2 = "SELECT ot.id AS team_one_id,
                                   ot2.id AS team_two_id,
@@ -220,8 +219,6 @@
                                         <button class="danger-button advance-btn" id="'.$id.'">Advance Tournament</button>
                                       </div>
                                       <script>
-                                      $(\'#form-btn\').hide();
-
                                       $(\'.advance-btn\').click(function() {
                                         // Get the ID from the button\'s ID attribute
                                         let id = $(this).attr(\'id\');
@@ -246,6 +243,8 @@
                                       ';
                                     }
                                   } else {
+                                    echo '<form method="POST" action="./php/TOU-process-scheduling.php" id="myForm">';
+
                                     while ($row2 = mysqli_fetch_assoc($result2)) {
                                       $team_one_id = $row2['team_one_id'];
                                       $team_two_id = $row2['team_two_id'];
@@ -275,12 +274,13 @@
                                         <br>
                                       ';                                                                          
                                     }
+
+                                    echo '<div class="div d-flex justify-content-end" id="form-btn">
+                                      <button type="button" class="outline-button" onclick="showCancel()">Cancel</button>
+                                      <button id="submit" type="submit" class="primary-button float-end">Submit</button>
+                                    </div>';
                                   }                                      
                                 ?>
-                                <div class="div d-flex justify-content-end" id="form-btn">
-                              <button type="button" class="outline-button" onclick="showCancel()">Cancel</button>
-                              <button id="submit" type="submit" class="primary-button float-end">Submit</button>
-                            </div>
                           </form>
                         </div>
                         <br>
