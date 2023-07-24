@@ -9,8 +9,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the game options
     $gameOptions = $_POST['dynamic-inputs-match-max'];
     $gameType = $_POST['gameTypeSelect'];
+    $bracketPairsNo = $numTeams / 2; // Calculate the number of pairs
+
     // Array to store team IDs
     $teamIds = array();
+
+    // Check if there's an odd number of pairs
+    if (($bracketPairsNo % 2 === 1) && ($numTeams % 2 === 0)) {
+        $numTeams = $numTeams + 2;
+        $teams[] = NULL;
+        $teams[] = NULL;
+    } else {
+        // Check if there's an odd no. of teams
+        if ($numTeams % 2 === 1) {      
+            $numTeams = $numTeams + 1;
+            $teams[] = NULL;
+        } 
+    }
 
     // Generate the parent_ids and node_ids arrays
     $parent_ids = [];

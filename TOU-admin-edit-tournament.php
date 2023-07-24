@@ -45,63 +45,6 @@
         header("Location: TOU-admin-manage-tournament.php");
       }
     }
-    /*
-    // Prepare the SQL query with a placeholder for the parameter
-    $query = "SELECT COUNT(*) AS active_teams_count FROM ongoing_teams WHERE bracket_form_id = ? AND current_team_status = 'active'";
-
-    // Create a prepared statement
-    $stmt = $conn->prepare($query);
-
-    // Bind the parameter to the prepared statement
-    $stmt->bind_param("i", $id);
-
-    // Execute the query
-    $stmt->execute();
-
-    // Bind the result to a variable
-    $stmt->bind_result($activeTeamsCount);
-
-    // Fetch the result
-    $stmt->fetch();
-
-    // Close the statement
-    $stmt->close();
-
-    // Check if there is only one active team left and declare the champion if needed
-    if ($activeTeamsCount === 1) {
-        // Prepare the SQL query to update the current champion team's status
-        $updateQuery = "UPDATE ongoing_teams SET current_team_status = 'champion' WHERE bracket_form_id = ? AND current_team_status = 'active'";
-        
-        // Create a prepared statement for the update
-        $stmtUpdate = $conn->prepare($updateQuery);
-        
-        // Bind the parameter to the prepared statement
-        $stmtUpdate->bind_param("i", $id);
-        
-        // Execute the update query
-        $stmtUpdate->execute();
-        
-        // Close the update statement
-        $stmtUpdate->close();
-
-        // UPDATE query
-        $updateQuery = "UPDATE bracket_forms SET is_active = 0 WHERE id = ? AND is_active = 1";
-
-        $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-
-        // Close the UPDATE statement
-        $stmt->close();
-
-        // Close the database connection
-        $conn->close();
-        
-        // Reload the current page using JavaScript
-        // Redirect to the desired page using JavaScript after a short delay (replace "TOU-admin-manage-tournament.php" with the actual URL)
-        echo '<script>window.location.href = "TOU-admin-manage-tournament.php";</script>';
-        exit(); // Make sure to exit the script after reloading the page
-    }*/
 ?>
 
 <!DOCTYPE html>

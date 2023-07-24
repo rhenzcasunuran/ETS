@@ -87,39 +87,6 @@
             });
         });
     </script>
-    <!--Popup Confirm / Success-->
-    <div class="popup-background" id="markAsDoneWrapper">
-        <div class="row popup-container">
-            <div class="col-4">
-                <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
-            </div>
-            <div class="col-8 text-start text-container">
-                <h3 class="text-header">Conclude Tournament?</h3>   <!--header-->
-                <p>This will end the tournament and declare a champion. Are you sure?</p> <!--text-->
-            </div>
-            <div  class="div">
-                <button class="outline-button" onclick="hideMarkAsDone()"><i class='bx bx-x'></i>Cancel</button>
-                <div id="dynamic-successful"></div>
-            </div>
-        </div>
-    </div>
-
-    <!--Popup Delete / Danger-->
-    <div class="popup-background" id="deleteWrapper">
-        <div class="row popup-container">
-            <div class="col-4">
-                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
-            </div>
-            <div class="col-8 text-start text-container">
-                <h3 class="text-header">Delete Event?</h3>   <!--header-->
-                <p>This will delete the event permanently. This action cannot be undone.</p> <!--text-->
-            </div>
-            <div  class="div">
-                <button class="outline-button" onclick="hideDelete()"><i class='bx bx-x'></i>Cancel</button>
-                <button class="danger-button"><i class='bx bx-trash'></i>Delete</button>
-            </div>
-        </div>
-    </div>
     <section class="home-section flex-row">
       <div class="header">Manage Tournament</div>
         <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
@@ -203,51 +170,6 @@
                 }
             });
         });
-
-        // Confirm
-        popupMarkAsDone = document.getElementById('markAsDoneWrapper');
-  
-        var showMarkAsDone = function(tournamentID) {
-            popupMarkAsDone.style.display = 'flex';
-            
-            // Create the Confirm button dynamically
-            var confirmButton = `<button class="success-button" id="confirm-conclude-${tournamentID}"><i class='bx bx-check'></i>Confirm</button>`;
-            
-            // Append the Confirm button to the container
-            $("#dynamic-successful").html(confirmButton);
-
-            // Attach a click event handler to all buttons with IDs starting with "edit-tournament-"
-            $("[id^='confirm-conclude-']").on("click", function() {
-                // Get the numerical ID from the clicked button's ID attribute
-                let numericalId = this.id.split("-").pop();
-
-                // Redirect to the desired page with the numerical ID
-                window.location.href = "TOU-admin-edit-tournament.php?id=" + numericalId;
-            });
-        }
-        var hideMarkAsDone = function() {
-            popupMarkAsDone.style.display ='none';
-        }
-
-        // Cancel
-        popupCancel = document.getElementById('cancelWrapper');
-  
-        var showCancel = function() {
-            popupCancel.style.display ='flex';
-        }
-        var hideCancel = function() {
-            popupCancel.style.display ='none';
-        }
-
-        //Delete
-        popupDelete = document.getElementById('deleteWrapper');
-  
-        var showDelete = function() {
-            popupDelete.style.display ='flex';
-        }
-        var hideDelete = function() {
-            popupDelete.style.display ='none';
-        }
     </script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {

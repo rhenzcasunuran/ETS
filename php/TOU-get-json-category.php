@@ -5,20 +5,18 @@ include 'database_connect.php';
 $selectedId = $_GET['selectedId'];
 
 // Query to retrieve categories for the selected event
-$query = "SELECT tou.tournament_id, olfe.category_name FROM tournament AS tou 
+$query = "SELECT tou.tournament_id, olfe.category_name FROM `tournament` AS tou 
 INNER JOIN ongoing_list_of_event AS olfe
 ON tou.event_id = olfe.event_id
-INNER JOIN event_type AS et
-ON olfe.event_type_id = et.event_type_id
-INNER JOIN ongoing_event_name AS oen
-ON oen.ongoing_event_name_id = olfe.ongoing_event_name_id
+INNER JOIN ongoing_event_name AS oen 
+ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
 WHERE olfe.event_type_id = 1 
 AND oen.is_done = 0 
 AND olfe.is_archived = 0 
 AND olfe.is_deleted = 0
 AND tou.has_set_tournament = 0
 AND tou.bracket_form_id IS NULL
-AND tou.tournament_id = '$selectedId';";
+AND olfe.ongoing_event_name_id = '$selectedId';";
 
 $result = mysqli_query($conn, $query);
 

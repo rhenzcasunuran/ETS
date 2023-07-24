@@ -119,7 +119,7 @@ function populateEvents() {
 
       // Iterate through each event in the data array and add options to the select element
       $.each(data, function(index, event) {
-        eventSelect.append($('<option></option>').val(event.tournament_id).text(event.event_name + ' ' + event.event_year));
+        eventSelect.append($('<option></option>').val(event.ongoing_event_name_id).text(event.event_name + ' ' + event.year_created));
       });
 
       // Trigger change event on initial page load or when events are populated
@@ -405,7 +405,7 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                         </div>
                         <div id="error-message-no-team" class="text-danger">
                           *Please select teams.<br>
-                          *Note: Duplicate or odd number of teams are not allowed.
+                          *Note: Duplicate teams are not allowed.
                         </div>
                         <div class="d-flex justify-content-end">
                         <button type="submit" id="submitButton" class="primary-button" disabled>Submit</button>
@@ -521,14 +521,13 @@ document.getElementById('myForm').addEventListener('click', function(event) {
             }
 
             var errorMessage = document.getElementById('error-message-no-team');
-            var isOddNumber = selects.length % 2 !== 0;
 
             // Show the error message if there are no input fields or if there's a duplicate team
-            errorMessage.style.display = selects.length === 0 || errorOccurred || isOddNumber ? 'block' : 'none';
+            errorMessage.style.display = selects.length === 0 || errorOccurred ? 'block' : 'none';
 
             // Disable or enable the submit button based on the error status
             var submitButton = document.getElementById('submitButton');
-            if (selects.length === 0 || errorOccurred || isOddNumber) {
+            if (selects.length === 0 || errorOccurred) {
                 submitButton.disabled = true;
             } else {
                 submitButton.disabled = false;
