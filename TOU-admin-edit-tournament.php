@@ -103,51 +103,73 @@
                         <div class="element-group">
                           <div class="element-label">Tournament ID #<?php echo $id; ?><br> Event: <?php echo $event_name;?><br> Category: <?php echo $category_name;?></div>
                             <div class="element-content">
-                              <form method="POST" action="./php/TOU-process-scheduling.php" id="myForm">
-                                <?php 
-                                  $query2 = "SELECT ot.id AS team_one_id,
-                                  ot2.id AS team_two_id,
-                                  org.organization_name AS team_one_name,
-                                  org2.organization_name AS team_two_name,
-                                  ot.current_team_status AS team_one_status, 
-                                  ot2.current_team_status AS team_two_status,
-                                  bf.current_column FROM bracket_teams AS bt 
-                                  INNER JOIN ongoing_teams AS ot
-                                  ON ot.id = bt.team_one_id
-                                  INNER JOIN ongoing_teams AS ot2
-                                  ON ot2.id = bt.team_two_id
-                                  INNER JOIN organization AS org
-                                  ON ot.team_id = org.organization_id
-                                  INNER JOIN organization AS org2
-                                  ON ot2.team_id = org2.organization_id
-                                  INNER JOIN bracket_forms AS bf
-                                  ON bf.id = bt.bracket_form_id
-                                  INNER JOIN tournament AS tou 
-                                  ON tou.bracket_form_id = bf.id
-                                  INNER JOIN ongoing_list_of_event AS olfe
-                                  ON olfe.event_id = tou.event_id
-                                  INNER JOIN ongoing_event_name AS oen
-                                  ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-                                  AND bf.is_active = 1
-                                  AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
-                                  AND bf.current_column = bt.current_column
-                                  AND olfe.event_type_id = 1 
-                                  AND oen.is_done = 0 
-                                  AND olfe.is_archived = 0 
-                                  AND olfe.is_deleted = 0
-                                  AND tou.has_set_tournament = 1
-                                  AND bf.id = ?;";
+                              <?php 
+                                $query2 = "SELECT ot.id AS team_one_id,
+                                ot2.id AS team_two_id,
+                                org.organization_name AS team_one_name,
+                                org2.organization_name AS team_two_name,
+                                ot.current_team_status AS team_one_status, 
+                                ot2.current_team_status AS team_two_status,
+                                bf.current_column FROM bracket_teams AS bt 
+                                INNER JOIN ongoing_teams AS ot
+                                ON ot.id = bt.team_one_id
+                                INNER JOIN ongoing_teams AS ot2
+                                ON ot2.id = bt.team_two_id
+                                INNER JOIN organization AS org
+                                ON ot.team_id = org.organization_id
+                                INNER JOIN organization AS org2
+                                ON ot2.team_id = org2.organization_id
+                                INNER JOIN bracket_forms AS bf
+                                ON bf.id = bt.bracket_form_id
+                                INNER JOIN tournament AS tou 
+                                ON tou.bracket_form_id = bf.id
+                                INNER JOIN ongoing_list_of_event AS olfe
+                                ON olfe.event_id = tou.event_id
+                                INNER JOIN ongoing_event_name AS oen
+                                ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+                                AND bf.is_active = 1
+                                AND (ot.current_team_status = 'active' OR ot2.current_team_status = 'active') 
+                                AND bf.current_column = bt.current_column
+                                AND olfe.event_type_id = 1 
+                                AND oen.is_done = 0 
+                                AND olfe.is_archived = 0 
+                                AND olfe.is_deleted = 0
+                                AND tou.has_set_tournament = 1
+                                AND bf.id = ?;";
 
-                                  $stmt2 = mysqli_prepare($conn, $query2);
-                                  // Bind the id parameter to the prepared statement
-                                  mysqli_stmt_bind_param($stmt2, "i", $id);
+                                $stmt2 = mysqli_prepare($conn, $query2);
+                                // Bind the id parameter to the prepared statement
+                                mysqli_stmt_bind_param($stmt2, "i", $id);
+                                // Execute the prepared statement
+                                mysqli_stmt_execute($stmt2);
+                                // Get the result of the query
+                                $result2 = mysqli_stmt_get_result($stmt2);
+
+                                if (mysqli_num_rows($result2) === 0) {
+
+                                  // SQL query with a placeholder for the $id value
+                                  $sql = "SELECT COUNT(*) AS active_teams_count FROM ongoing_teams WHERE current_team_status = 'active' AND bracket_form_id = ?";
+
+                                  // Prepare the statement
+                                  $stmt = $conn->prepare($sql);
+
+                                  // Bind the $id variable to the prepared statement as a parameter
+                                  $stmt->bind_param("i", $id);
+
                                   // Execute the prepared statement
-                                  mysqli_stmt_execute($stmt2);
-                                  // Get the result of the query
-                                  $result2 = mysqli_stmt_get_result($stmt2);
+                                  $stmt->execute();
 
-                                  if (mysqli_num_rows($result2) === 0) {
-                                    echo '<div class="d-flex justify-content-center">
+                                  // Bind the result to a variable
+                                  $stmt->bind_result($active_teams_count);
+
+                                  // Fetch the result
+                                  $stmt->fetch();
+
+                                  // Close the statement
+                                  $stmt->close();
+
+                                  if ($active_teams_count === 1) {
+                                    echo '<div class="d-flex justify-content-center mt-5">
                                       <img src="./pictures/finished_brackets.svg" class="img-fluid" alt="Finished Brackets" width="500" height="600">
                                     </div>
                                     <br>
@@ -183,43 +205,80 @@
                                     </script>
                                     ';
                                   } else {
-                                    while ($row2 = mysqli_fetch_assoc($result2)) {
-                                      $team_one_id = $row2['team_one_id'];
-                                      $team_two_id = $row2['team_two_id'];
-                                      $team_name_one = $row2['team_one_name'];
-                                      $team_name_two = $row2['team_two_name'];
+                                    echo '<div class="d-flex justify-content-center mt-5">
+                                      <img src="./pictures/Advance_Tournament.svg" class="img-fluid" alt="Advance Tournament" width="500" height="600">
+                                    </div>
+                                    <br>
+                                    <div class="d-flex justify-content-center">
+                                      <h3>Matches Ended</h3>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                      <p>Looks like this tournament needs a push to advancement!</p>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                      <button class="danger-button advance-btn" id="'.$id.'">Advance Tournament</button>
+                                    </div>
+                                    <script>
+                                    $(\'.advance-btn\').click(function() {
+                                      // Get the ID from the button\'s ID attribute
+                                      let id = $(this).attr(\'id\');
 
-                                      echo '<input type="hidden" id="id" name="id" value="'.$id.'">
-                                      <div class="container text-center p-2 fs-4">
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                      <input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$team_one_id.'">' .
-                                      '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$team_two_id.'">
-                                        <div class="container mt-5">
-                                          <div class="row">
-                                            <div class="col text-center">
-                                              <h2>'.$team_name_one.' vs '.$team_name_two.'</h2>
-                                            </div>
-                                          </div>
-                                          <div class="row mt-3">
-                                            <div class="col-md-6 offset-md-3 col-sm-12">
-                                              <label for="matchDateTime">Match Date and Time:</label><br>
-                                              <input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput" class="form-control">
-                                            </div>
+                                      // Make the AJAX POST request
+                                      $.ajax({
+                                        url: \'./php/TOU-advance-tournament.php\',
+                                        type: \'POST\',
+                                        data: {id: id}, // Send the ID to the PHP script
+                                        success: function(response) {
+                                          // Reload the page after the AJAX request is successful
+                                          location.reload();
+                                        },
+                                        error: function(xhr, status, error) {
+                                          // Handle errors (if any)
+                                          console.error(error);
+                                        }
+                                      });
+                                    });
+                                    </script>
+                                    ';
+                                  }
+                                } else {
+                                  while ($row2 = mysqli_fetch_assoc($result2)) {
+                                    $team_one_id = $row2['team_one_id'];
+                                    $team_two_id = $row2['team_two_id'];
+                                    $team_name_one = $row2['team_one_name'];
+                                    $team_name_two = $row2['team_two_name'];
+
+                                    echo '<form method="POST" action="./php/TOU-process-scheduling.php" id="myForm">
+                                    <input type="hidden" id="id" name="id" value="'.$id.'">
+                                    <div class="container text-center p-2 fs-4">
+                                      <div class="row align-items-center">
+                                          <div class="col">
+                                    <input type="hidden" id="team_one_id" name="team_one_id[]" value="'.$team_one_id.'">' .
+                                    '<input type="hidden" id="team_two_id" name="team_two_id[]" value="'.$team_two_id.'">
+                                      <div class="container mt-5">
+                                        <div class="row">
+                                          <div class="col text-center">
+                                            <h2>'.$team_name_one.' vs '.$team_name_two.'</h2>
                                           </div>
                                         </div>
-                                        <div id="error-container" style="color: red;"></div>
-                                        <br>
-                                        
-                                    ';                                                                          
-                                    }
-                                  }                                      
-                                ?>
-                                <div class="div d-flex justify-content-end">
-                                  <button type="button" class="outline-button" onclick="showCancel()">Cancel</button>
-                                  <button id="submit" type="submit" class="primary-button float-end">Submit</button>
-                                </div>
-                              </form>
+                                        <div class="row mt-3">
+                                          <div class="col-md-6 offset-md-3 col-sm-12">
+                                            <label for="matchDateTime">Match Date and Time:</label><br>
+                                            <input type="datetime-local" name="event_date_time[]" id="eventDateTimeInput" class="form-control">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div id="error-container" style="color: red;"></div>
+                                      <br>
+                                      <div class="div d-flex justify-content-end">
+                                      <button type="button" class="outline-button" onclick="showCancel()">Cancel</button>
+                                      <button id="submit" type="submit" class="primary-button float-end">Submit</button>
+                                    </div>
+                                  </form>
+                                  ';                                                                          
+                                  }
+                                }                                      
+                              ?>
                             </div>
                           <br>
                         </div>
