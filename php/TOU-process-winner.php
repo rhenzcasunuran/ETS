@@ -65,20 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // If Max Set has been reached
                 if (($teamOneOverallScore + $teamTwoOverallScore) === ($maxSetNo - 1)) {
                     // Team One wins the set
-                    // Copy team to give it new ID
-                    $query = "INSERT INTO ongoing_teams (team_id, bracket_form_id)
-                            SELECT team_id, bracket_form_id
-                            FROM ongoing_teams
-                            WHERE id = ?";
-
-                    // Prepare the statement
-                    $stmt = mysqli_prepare($conn, $query);
-                    // Bind the form data to the prepared statement parameters
-                    mysqli_stmt_bind_param($stmt, "i", $teamOneId);
-                    // Execute the statement
-                    mysqli_stmt_execute($stmt);
-
-                    // Team One wins the set
                     // Archive scores (Team One)
                     $query = "INSERT INTO tournament_score_archive 
                                 (team_id, bracket_form_id, current_team_status,
@@ -196,19 +182,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 if (($teamOneOverallScore + $teamTwoOverallScore) === ($maxSetNo - 1)) {
                     // Team Two wins the set
-                    // Copy team to give it new ID
-                    $query = "INSERT INTO ongoing_teams (team_id, bracket_form_id)
-                            SELECT team_id, bracket_form_id
-                            FROM ongoing_teams
-                            WHERE id = ?";
-
-                    // Prepare the statement
-                    $stmt = mysqli_prepare($conn, $query);
-                    // Bind the form data to the prepared statement parameters
-                    mysqli_stmt_bind_param($stmt, "i", $teamTwoId);
-                    // Execute the statement
-                    mysqli_stmt_execute($stmt);
-
                     // Archive scores (Team One)
                     $query = "INSERT INTO tournament_score_archive 
                                 (team_id, bracket_form_id, current_team_status,

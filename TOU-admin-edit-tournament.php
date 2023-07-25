@@ -148,7 +148,16 @@
                                   if (mysqli_num_rows($result2) === 0) {
 
                                     // SQL query with a placeholder for the $id value
-                                    $sql = "SELECT COUNT(*) AS active_teams_count FROM ongoing_teams WHERE current_team_status = 'active' AND bracket_form_id = ?";
+                                    $sql = "SELECT COUNT(*) AS null_teams_count FROM bracket_forms AS bf
+                                    LEFT JOIN bracket_teams AS bt 
+                                    ON bf.id = bt.bracket_form_id
+                                    LEFT JOIN ongoing_teams AS ot 
+                                    ON ot.team_id = bt.team_one_id
+                                    LEFT JOIN ongoing_teams AS ot2
+                                    ON ot2.team_id = bt.team_two_id
+                                    WHERE (ot.team_id IS NULL OR ot2.team_id IS NULL) 
+                                    AND bt.current_column = bf.current_column
+                                    AND bf.id = ?";
 
                                     // Prepare the statement
                                     $stmt = $conn->prepare($sql);
@@ -160,7 +169,7 @@
                                     $stmt->execute();
 
                                     // Bind the result to a variable
-                                    $stmt->bind_result($active_teams_count);
+                                    $stmt->bind_result($null_teams_count);
 
                                     // Fetch the result
                                     $stmt->fetch();
@@ -168,7 +177,7 @@
                                     // Close the statement
                                     $stmt->close();
 
-                                    if ($active_teams_count === 1) {
+                                    if ($null_teams_count === 1) {
                                       echo '<div class="d-flex justify-content-center mt-5">
                                         <img src="./pictures/finished_brackets.svg" class="img-fluid" alt="Finished Brackets" width="500" height="600">
                                       </div>
@@ -182,27 +191,6 @@
                                       <div class="d-flex justify-content-center">
                                         <button class="danger-button conclude-btn" id="'.$id.'">Conlude Tournament</button>
                                       </div>
-                                      <script>
-                                      $(\'.conclude-btn\').click(function() {
-                                        // Get the ID from the button\'s ID attribute
-                                        let id = $(this).attr(\'id\');
-
-                                        // Make the AJAX POST request
-                                        $.ajax({
-                                          url: \'./php/TOU-conclude-tournament.php\',
-                                          type: \'POST\',
-                                          data: {id: id}, // Send the ID to the PHP script
-                                          success: function(response) {
-                                            // Redirect to the desired page after the AJAX request is successful
-                                            window.location.href = \'TOU-admin-manage-tournament.php\';
-                                          },
-                                          error: function(xhr, status, error) {
-                                            // Handle errors (if any)
-                                            console.error(error);
-                                          }
-                                        });
-                                      });
-                                      </script>
                                       ';
                                     } else {
                                       echo '<div class="d-flex justify-content-center mt-5">
@@ -218,28 +206,7 @@
                                       <div class="d-flex justify-content-center">
                                         <button class="danger-button advance-btn" id="'.$id.'">Advance Tournament</button>
                                       </div>
-                                      <script>
-                                      $(\'.advance-btn\').click(function() {
-                                        // Get the ID from the button\'s ID attribute
-                                        let id = $(this).attr(\'id\');
-
-                                        // Make the AJAX POST request
-                                        $.ajax({
-                                          url: \'./php/TOU-advance-tournament.php\',
-                                          type: \'POST\',
-                                          data: {id: id}, // Send the ID to the PHP script
-                                          success: function(response) {
-                                            // Reload the page after the AJAX request is successful
-                                            //location.reload();
-                                            console.log(response)
-                                          },
-                                          error: function(xhr, status, error) {
-                                            // Handle errors (if any)
-                                            console.error(error);
-                                          }
-                                        });
-                                      });
-                                      </script>
+                                      
                                       ';
                                     }
                                   } else {
@@ -294,6 +261,48 @@
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/theme.js"></script>
+    <script>
+    $('.advance-btn').click(function() {
+      // Get the ID from the button\'s ID attribute
+      let id = $(this).attr('id');
+
+      // Make the AJAX POST request
+      $.ajax({
+        url: './php/TOU-advance-tournament.php',
+        type: 'POST',
+        data: {id: id}, // Send the ID to the PHP script
+        success: function(response) {
+          // Reload the page after the AJAX request is successful
+          location.reload();
+        },
+        error: function(xhr, status, error) {
+          // Handle errors (if any)
+          console.error(error);
+        }
+      });
+    });
+    </script>
+   <script>
+    $('.conclude-btn').click(function() {
+      // Get the ID from the button\'s ID attribute
+      let id = $(this).attr('id');
+
+      // Make the AJAX POST request
+      $.ajax({
+        url: './php/TOU-conclude-tournament.php',
+        type: 'POST',
+        data: {id: id}, // Send the ID to the PHP script
+        success: function(response) {
+          // Redirect to the desired page after the AJAX request is successful
+          window.location.href = 'TOU-admin-manage-tournament.php';
+        },
+        error: function(xhr, status, error) {
+          // Handle errors (if any)
+          console.error(error);
+        }
+      });
+    });
+    </script>
     <script type="text/javascript">
         // Get the current date and time in the format YYYY-MM-DDTHH:mm (datetime-local format)
   function getCurrentDateTime() {

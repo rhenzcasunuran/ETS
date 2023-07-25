@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 AND olfe.is_archived = 0 
                 AND olfe.is_deleted = 0
                 AND tou.has_set_tournament = 0
+                AND bf.is_active = 1
                 AND tou.bracket_form_id IS NULL
                 AND tou.tournament_id = ?;";
                 $stmt = mysqli_prepare($conn, $query);
@@ -96,14 +97,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $counterWinLost = 0;
     
     // Insert data into the ongoing_teams table
-    $stmt = $conn->prepare("INSERT INTO ongoing_teams (team_id, bracket_form_id, current_team_status, is_bye) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO ongoing_teams (team_id, bracket_form_id, current_team_status) VALUES (?, ?, ?)");
     // Bind parameters and execute the statement for each team 
     foreach ($teams as $team_id) {
         if ($team_id === NULL) {
             // If $team_id is NULL, set is_bye to 1
             $is_bye = 1;
             // Set the data type of $team_id to "s" for NULL values
-            $stmt->bind_param("sisi", $team_id, $bracket_form_id, $winLostStatus[$counterWinLost], $is_bye);
+            $stmt->bind_param("sis", $team_id, $bracket_form_id, $winLostStatus[$counterWinLost]);
             $stmt->execute();
             // Retrieve the ID of the last inserted row (team)
             $teamNullIds[] = $stmt->insert_id; // Move this line here
@@ -112,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $is_bye = 0;
             $current_team_status = "active"; // Store the value in a variable
             // Set the data type of $team_id to "i" for non-NULL values
-            $stmt->bind_param("iisi", $team_id, $bracket_form_id, $current_team_status, $is_bye);
+            $stmt->bind_param("iis", $team_id, $bracket_form_id, $current_team_status);
             $stmt->execute();
             // Retrieve the ID of the last inserted row (team)
             $teamNonNullIds[] = $stmt->insert_id; // Move this line here
