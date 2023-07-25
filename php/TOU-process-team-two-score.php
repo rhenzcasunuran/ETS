@@ -11,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Fetch the score rules for the corresponding bracket form and team ID
     $scoreRuleQuery = "SELECT sr.max_value, ot.current_score FROM ongoing_teams AS ot 
-                      INNER JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
-                      INNER JOIN score_rule AS sr ON sr.bracket_form_id = bf.id
-                      WHERE bf.id = ? AND ot.id = ? AND sr.set_no = bf.current_column";
+                        INNER JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
+                        INNER JOIN score_rule AS sr ON sr.bracket_form_id = bf.id
+                        WHERE bf.id = ? AND ot.id = ? AND sr.set_no = ot.current_set_no";
 
     $scoreRuleStmt = $conn->prepare($scoreRuleQuery);
     $scoreRuleStmt->bind_param("ii", $bracketFormId, $idNumber);

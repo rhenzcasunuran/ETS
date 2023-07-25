@@ -257,9 +257,6 @@
                 let buttonId = $(this).attr('id');
                 let idNumber = buttonId.split('-').pop();
                 let bracketFormId = selectedId;
-                console.log(value)
-                console.log(idNumber)
-                console.log(bracketFormId)
 
                 // Send the action to the PHP script via AJAX
                 $.ajax({
@@ -307,9 +304,6 @@
                 let buttonId = $(this).attr('id');
                 let idNumber = buttonId.split('-').pop();
                 let bracketFormId = selectedId;
-                console.log(value)
-                console.log(idNumber)
-                console.log(bracketFormId)
 
                 // Send the action to the PHP script via AJAX
                 $.ajax({
@@ -318,6 +312,7 @@
                   data: { id: idNumber, score: value, bracketFormId: bracketFormId },
                   dataType: 'json',
                   success: function(response) {
+                    console.log(response)
                     if (response.error === 'Team 2 disable buttons.') {
                       // Disable the plus one buttons in the team_two_btn element
                       $('#team_one_btn button[value="1"]').prop('disabled', true);
