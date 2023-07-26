@@ -2,7 +2,6 @@
 include 'database_connect.php';
 
 // Get the selected event from the AJAX request
-$selectedEvent = $_GET['eventValue'];
 $selectedCategory = $_GET['categoryValue'];
 
 // Initialize the response array
@@ -18,8 +17,7 @@ $query = "SELECT bf.node_id_start, bf.parent_id_start
           AND olfe.is_archived = 0
           AND olfe.is_deleted = 0
           AND oen.is_done = 0
-          AND olfe.category_name = ?
-          AND oen.event_name = ?";
+          AND tou.tournament_id = ?";
 
 // Prepare the statement
 $stmt = $conn->prepare($query);
@@ -30,7 +28,7 @@ if (!$stmt) {
 }
 
 // Bind the values to the statement placeholders
-$stmt->bind_param('ss', $selectedCategory, $selectedEvent);
+$stmt->bind_param('i', $selectedCategory);
 
 // Execute the statement
 $stmt->execute();
@@ -68,31 +66,32 @@ if ($parentIdStart !== null) {
 
 // Prepare the SQL statement
 $sql = "SELECT
-        ot.team_name AS team_one_name,
+        org.organization_name AS team_one_name,
         ot.current_overall_score AS team_one_overall_score
         FROM `tournament` AS tou
-        INNER JOIN ongoing_list_of_event AS olfe
+        LEFT JOIN ongoing_list_of_event AS olfe
         ON tou.event_id = olfe.event_id
-        INNER JOIN ongoing_event_name AS oen
+        LEFT JOIN ongoing_event_name AS oen
         ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-        INNER JOIN bracket_forms AS bf
+        LEFT JOIN bracket_forms AS bf
         ON bf.id = tou.bracket_form_id
-        INNER JOIN bracket_teams AS bt 
+        LEFT JOIN bracket_teams AS bt 
         ON bt.bracket_form_id = bf.id
-        INNER JOIN ongoing_teams AS ot
+        LEFT JOIN ongoing_teams AS ot
         ON bt.team_one_id = ot.id
+        LEFT JOIN organization AS org
+        ON org.organization_id = ot.team_id
         WHERE tou.has_set_tournament = 1
         AND olfe.is_archived = 0
         AND olfe.is_deleted = 0
         AND oen.is_done = 0
-        AND bf.category_name = ?
-        AND bf.event_name = ?;";
+        AND tou.tournament_id = ?;";
 
 // Prepare the statement
 $stmt = $conn->prepare($sql);
 
 // Bind the parameters
-$stmt->bind_param("ss", $selectedCategory, $selectedEvent);
+$stmt->bind_param("i", $selectedCategory);
 
 // Execute the query
 $stmt->execute();
@@ -103,6 +102,16 @@ $result = $stmt->get_result();
 // Fetch the data into an array
 $data1 = [];
 while ($row = $result->fetch_assoc()) {
+    // Check if team_one_name is NULL, replace it with "BYE"
+    if ($row['team_one_name'] === null) {
+        $row['team_one_name'] = 'BYE';
+    }
+    
+    // Check if team_one_overall_score is NULL, replace it with "BYE"
+    if ($row['team_one_overall_score'] === null) {
+        $row['team_one_overall_score'] = 'BYE';
+    }
+
     $data1[] = $row;
 }
 
@@ -111,45 +120,48 @@ $stmt->close();
 
 // Prepare the SQL statement
 $sql = "SELECT
-            ot.team_name AS team_two_name,
+            org.organization_name AS team_two_name,
             ot.current_overall_score AS team_two_overall_score
             FROM `tournament` AS tou
-            INNER JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
-            INNER JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
-            INNER JOIN bracket_forms AS bf ON bf.id = tou.bracket_form_id
-            INNER JOIN bracket_teams AS bt ON bt.bracket_form_id = bf.id
-            INNER JOIN ongoing_teams AS ot ON bt.team_two_id = ot.id
+            LEFT JOIN ongoing_list_of_event AS olfe ON tou.event_id = olfe.event_id
+            LEFT JOIN ongoing_event_name AS oen ON olfe.ongoing_event_name_id = oen.ongoing_event_name_id
+            LEFT JOIN bracket_forms AS bf ON bf.id = tou.bracket_form_id
+            LEFT JOIN bracket_teams AS bt ON bt.bracket_form_id = bf.id
+            LEFT JOIN ongoing_teams AS ot ON bt.team_two_id = ot.id
+            LEFT JOIN organization AS org ON org.organization_id = ot.team_id
             WHERE tou.has_set_tournament = 1
             AND olfe.is_archived = 0
             AND olfe.is_deleted = 0
             AND oen.is_done = 0
-            AND bf.category_name = ?
-            AND bf.event_name = ?
+            AND tou.tournament_id = ?
 
             UNION
 
             SELECT
-            ot.team_name,
+            org.organization_name,
             'CHAMPION' AS overall_score
             FROM `ongoing_teams` AS ot
-            INNER JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
+            LEFT JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
+            LEFT JOIN organization AS org ON org.organization_id = ot.team_id
+            LEFT JOIN tournament AS tou ON tou.bracket_form_id = bf.id
             WHERE ot.current_team_status = 'champion'
-            AND bf.category_name = ?
-            AND bf.event_name = ?
+            AND tou.tournament_id = ?
+
             AND EXISTS (
                 SELECT 1
                 FROM `ongoing_teams` AS ot
-                INNER JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
+                LEFT JOIN bracket_forms AS bf ON ot.bracket_form_id = bf.id
+                LEFT JOIN tournament AS tou ON tou.bracket_form_id = bf.id
                 WHERE ot.current_team_status = 'champion'
-                AND bf.category_name = ?
-                AND bf.event_name = ?
+                AND tou.tournament_id = ?
+
             );";
 
 // Prepare the statement
 $stmt = $conn->prepare($sql);
 
 // Bind the parameters
-$stmt->bind_param("ssssss", $selectedCategory, $selectedEvent, $selectedCategory, $selectedEvent, $selectedCategory, $selectedEvent);
+$stmt->bind_param("iii", $selectedCategory, $selectedCategory, $selectedCategory);
 
 // Execute the query
 $stmt->execute();
@@ -157,9 +169,19 @@ $stmt->execute();
 // Get the result set
 $result = $stmt->get_result();
 
-// Fetch the data into an array
+// Fetch the data into an array for $data2
 $data2 = [];
 while ($row = $result->fetch_assoc()) {
+    // Check if team_two_name is NULL, replace it with "BYE"
+    if ($row['team_two_name'] === null) {
+        $row['team_two_name'] = 'BYE';
+    }
+
+    // Check if team_two_overall_score is NULL, replace it with "BYE"
+    if ($row['team_two_overall_score'] === null) {
+        $row['team_two_overall_score'] = 'BYE';
+    }
+
     $data2[] = $row;
 }
 
@@ -175,26 +197,42 @@ $count2 = count($data2);
 // Determine the maximum length of the combined array
 $max_length = max($count1, $count2);
 
-for ($i = 0; $i < $max_length; $i++) {
-    // Combine the elements into an associative array
-    $combined_element = [
-        'team_name' => '',
-        'overall_score' => '',
-        'img' => '',
-    ];
+$combined_data = array(); // Initialize the combined data array outside the loop
 
-    // Alternate between data2 (team_two) and data1 (team_one)
-    if ($i < $count2) {
-        $combined_element['team_name'] = $data2[$i]['team_two_name'];
-        $combined_element['overall_score'] = $data2[$i]['team_two_overall_score'];
-        $combined_element['img'] = '/ETS/logos/' . $data2[$i]['team_two_name'] . '.png'; // Add .png here
+$baseUrl = '/ETS'; // Change this to your base URL if it's different
+$imagePath = $baseUrl . '/logos/';
+
+// Alternate between data2 (team_two) and data1 (team_one)
+for ($i = 0; $i < max($count1, $count2); $i++) {
+    if ($i < $count1) {
+        $team_name = $data1[$i]['team_one_name'];
+        $overall_score = $data1[$i]['team_one_overall_score'];
+
+        $combined_element = array(
+            'team_name' => $team_name,
+            'overall_score' => $overall_score,
+        );
+
+        if ($team_name !== 'BYE') {
+            $combined_element['img'] = $imagePath . $team_name . '.png';
+        }
+
         $combined_data[] = $combined_element;
     }
 
-    if ($i < $count1) {
-        $combined_element['team_name'] = $data1[$i]['team_one_name'];
-        $combined_element['overall_score'] = $data1[$i]['team_one_overall_score'];
-        $combined_element['img'] = '/ETS/logos/' . $data1[$i]['team_one_name'] . '.png'; // Add .png here
+    if ($i < $count2) {
+        $team_name = $data2[$i]['team_two_name'];
+        $overall_score = $data2[$i]['team_two_overall_score'];
+
+        $combined_element = array(
+            'team_name' => $team_name,
+            'overall_score' => $overall_score,
+        );
+
+        if ($team_name !== 'BYE') {
+            $combined_element['img'] = $imagePath . $team_name . '.png';
+        }
+
         $combined_data[] = $combined_element;
     }
 }

@@ -65,35 +65,37 @@
     var selectedEventName;
 
     document.getElementById("viewScoreBracket").addEventListener("change", function() {
-      var selectedValue = this.value;
-      if (selectedValue === "1") {
-        // Redirect to the PHP page
-        window.location.href = "TOU-admin-live-scoring.php";
-      }
-    });
-
-    $.ajax({
-        url: './php/TOU-get-bracket-events.php',
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            selectEvent.empty();
-            selectEvent.append('<option selected>Select Tournament Event</option>');
-
-            // Populate the #tournamentEvent <select> with the event names received from the server
-            $.each(data, function(index, eventName) {
-                selectEvent.append('<option value="' + eventName + '">' + eventName + '</option>');
-            });
-
-            // After populating #tournamentEvent, trigger the change event to execute the second AJAX request
-            selectEvent.trigger('change');
-        },
-        error: function(xhr, status, error) {
-            console.log(xhr.responseText);
+        var selectedValue = this.value;
+        if (selectedValue === "1") {
+            // Redirect to the PHP page
+            window.location.href = "TOU-admin-live-scoring.php";
         }
     });
 
-    // Second AJAX request to populate #tournamentCategory <select> based on the selected value from #tournamentEvent
+    $.ajax({
+      url: './php/TOU-get-bracket-events.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+          console.log(data)
+          selectEvent.empty();
+          selectEvent.append('<option selected>Select Tournament Event</option>');
+
+          // Populate the #tournamentEvent <select> with the event names received from the server
+          $.each(data, function(index, event) {
+              var id = event.id;
+              var eventName = event.event_name;
+              selectEvent.append($('<option></option>').attr('value', id).text(eventName));
+          });
+
+          // After populating #tournamentEvent, trigger the change event to execute the second AJAX request
+          selectEvent.trigger('change');
+      },
+      error: function(xhr, status, error) {
+          console.log(xhr.responseText);
+      }
+    });
+
     var selectCategory = $('#tournamentCategory');
 
     selectEvent.on('change', function() {
@@ -110,8 +112,8 @@
                 selectCategory.append('<option selected>Select Tournament Category</option>');
 
                 // Populate the #tournamentCategory <select> with the category names received from the server
-                $.each(data, function(index, categoryName) {
-                    selectCategory.append('<option value="' + categoryName + '">' + categoryName + '</option>');
+                $.each(data.categories, function(index, category) {
+                    selectCategory.append('<option value="' + category.tournament_id + '">' + category.category_name + '</option>');
                 });
 
                 // After populating #tournamentCategory, trigger the change event to execute the third AJAX request
@@ -132,7 +134,6 @@
             type: 'GET', // Use POST or the appropriate method for your use case
             dataType: 'json',
             data: {
-                eventValue: selectedEventName,
                 categoryValue: selectedCategoryName
             },
             success: function(data) {

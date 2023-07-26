@@ -247,11 +247,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Fetch the team names that have 'won' and store them in the array
     while ($row = $result->fetch_assoc()) {
       if ($row['team_one_status'] === 'won') {
-        $wonTeamsArray[] = $row['team_one_id'];
+          // Check if team_one_id is NULL
+          if ($row['team_one_id'] === null) {
+              $wonTeamsArray[] = null;
+          } else {
+              $wonTeamsArray[] = $row['team_one_id'];
+          }
       }
 
       if ($row['team_two_status'] === 'won') {
-        $wonTeamsArray[] = $row['team_two_id'];
+          // Check if team_two_id is NULL
+          if ($row['team_two_id'] === null) {
+              $wonTeamsArray[] = null;
+          } else {
+              $wonTeamsArray[] = $row['team_two_id'];
+          }
       }
     } 
 
@@ -281,7 +291,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $currentColumn++;
 
     // Prepare the SQL query for inserting data into the desired table
-    $insertQuery = "INSERT INTO ongoing_teams (team_id, bracket_form_id) VALUES (?, ?)";
+    $insertQuery = "INSERT INTO ongoing_teams (team_id, bracket_form_id, current_team_status) VALUES (?, ?, ?)";
 
     // Create a prepared statement
     $insertStmt = $conn->prepare($insertQuery);
@@ -289,19 +299,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Array to store the inserted IDs
     $insertedIds = array();
 
+    $current_team_status = ['lost', 'active'];
+
     // Loop through the $wonTeamsArray and insert the data
     for ($i = 0; $i < count($wonTeamsArray); $i++) {
-      // Get the team ID for this iteration
-      $team_id = $wonTeamsArray[$i];
-          
-      // Use the actual value for the team_id column
-      $insertStmt->bind_param("ii", $team_id, $id);
+     // Get the team ID for this iteration
+     $team_id = $wonTeamsArray[$i];
 
-      // Execute the prepared statement to insert the data
-      $insertStmt->execute();
+     // Check if $team_id is NULL and use NULL for the parameter if it is
+     if ($team_id === null) {
+         // Use NULL for the team_id column
+         $insertStmt->bind_param("sis", $team_id, $id, $current_team_status[0]);
+     } else {
+         // Use the actual value for the team_id column
+         $insertStmt->bind_param("iis", $team_id, $id, $current_team_status[1]);
+     }
 
-      // Store the inserted ID in the array
-      $insertedIds[] = $insertStmt->insert_id;
+     // Execute the prepared statement to insert the data
+     $insertStmt->execute();
+
+     // Store the inserted ID in the array
+     $insertedIds[] = $insertStmt->insert_id;
     }
 
     // Close the insert statement
