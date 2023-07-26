@@ -218,11 +218,15 @@
   }
 
   #mobile-prev-month {
-    margin-left: calc(1vw * 3.75);  
+    margin-left: calc(1vw * 3.75);
+    background-color: var(--active-primary-action-color) !important;
+    color: var(--default-secondary-action-color) !important;  
   }
 
   #mobile-next-month {
-    margin-right: calc(1vw * 3.75); 
+    margin-right: calc(1vw * 3.75);
+    background-color: var(--active-primary-action-color) !important; 
+    color: var(--default-secondary-action-color) !important;  
   }
 
   td, .text-center, p {
@@ -671,6 +675,8 @@
     width: 3.50rem;
     height: 3rem;
     font-size: 0.75rem;
+    background-color: var(--active-primary-action-color) !important;
+    color: var(--default-secondary-action-color) !important;  
   }
   
   .button-wrapper {

@@ -108,8 +108,8 @@ include './php/CAL-gapi-retrieve-values.php';
         </div>
         <div id="calendar-header">
           <div class="calendar-navigation">
-            <button type="button" id="mobile-prev-month" class="btn btn-secondary"><</button>
-            <button type="button" id="mobile-next-month" class="btn btn-secondary">></button>
+            <button type="button" id="mobile-prev-month" class="btn"><</button>
+            <button type="button" id="mobile-next-month" class="btn">></button>
           </div>
         </div>
         <table id="mobile-calendar" class="table">
@@ -302,8 +302,8 @@ include './php/CAL-gapi-retrieve-values.php';
             <div class="container-fluid">
               <div class="calendar-row-styled shadow-lg p-3 mb-5">
                 <div class="calendar-navigation">
-                  <button type="button" id="prev-month" class="btn btn-primary rounded-pill"><h2><</h2></button>
-                  <button type="button" id="next-month" class="btn btn-primary rounded-pill"><h2>></h2></button>
+                  <button type="button" id="prev-month" class="btn rounded-pill"><h2><</h2></button>
+                  <button type="button" id="next-month" class="btn rounded-pill"><h2>></h2></button>
                 </div>
                 <table id="calendar" class="table">
                   <thead class="calendar-weeks" id="table-headers">
