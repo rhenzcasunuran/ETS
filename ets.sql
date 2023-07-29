@@ -3,13 +3,19 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2023 at 06:22 PM
+-- Generation Time: Jul 29, 2023 at 02:00 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `ets`
@@ -50,7 +56,39 @@ INSERT INTO `bar_graph` (`organization_bar_id`, `organization_id`, `ongoing_even
 (13, 5, 2, 2, 0.00, 1),
 (14, 6, 2, 2, 0.00, 1),
 (15, 7, 2, 2, 0.00, 1),
-(16, 8, 2, 2, 0.00, 1);
+(16, 8, 2, 2, 0.00, 1),
+(17, 1, 4, 4, 0.00, 1),
+(18, 2, 4, 4, 0.00, 1),
+(19, 3, 4, 4, 0.00, 1),
+(20, 4, 4, 4, 0.00, 1),
+(21, 5, 4, 4, 0.00, 1),
+(22, 6, 4, 4, 0.00, 1),
+(23, 7, 4, 4, 0.00, 1),
+(24, 8, 4, 4, 0.00, 1),
+(25, 1, 5, 5, 0.00, 1),
+(26, 2, 5, 5, 0.00, 1),
+(27, 3, 5, 5, 0.00, 1),
+(28, 4, 5, 5, 0.00, 1),
+(29, 5, 5, 5, 0.00, 1),
+(30, 6, 5, 5, 0.00, 1),
+(31, 7, 5, 5, 0.00, 1),
+(32, 8, 5, 5, 0.00, 1),
+(33, 1, 6, 6, 0.00, 1),
+(34, 2, 6, 6, 0.00, 1),
+(35, 3, 6, 6, 0.00, 1),
+(36, 4, 6, 6, 0.00, 1),
+(37, 5, 6, 6, 0.00, 1),
+(38, 6, 6, 6, 0.00, 1),
+(39, 7, 6, 6, 0.00, 1),
+(40, 8, 6, 6, 0.00, 1),
+(41, 1, 7, 7, 0.00, 1),
+(42, 2, 7, 7, 0.00, 1),
+(43, 3, 7, 7, 0.00, 1),
+(44, 4, 7, 7, 0.00, 1),
+(45, 5, 7, 7, 0.00, 1),
+(46, 6, 7, 7, 0.00, 1),
+(47, 7, 7, 7, 0.00, 1),
+(48, 8, 7, 7, 0.00, 1);
 
 -- --------------------------------------------------------
 
@@ -60,8 +98,6 @@ INSERT INTO `bar_graph` (`organization_bar_id`, `organization_id`, `ongoing_even
 
 CREATE TABLE `bracket_forms` (
   `id` int(11) NOT NULL,
-  `category_name` varchar(255) NOT NULL,
-  `event_name` varchar(255) NOT NULL,
   `current_column` int(11) NOT NULL DEFAULT 1,
   `node_id_start` int(11) NOT NULL,
   `parent_id_start` int(11) NOT NULL,
@@ -97,6 +133,17 @@ CREATE TABLE `category_name` (
   `category_name` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `category_name`
+--
+
+INSERT INTO `category_name` (`category_name_id`, `event_name_id`, `event_type_id`, `category_name`) VALUES
+(4, 5, 1, 'QWRWQRQWERQWERQW'),
+(7, 6, 1, 'EXAMPLE TTOURNA'),
+(10, 6, 1, 'RETHDVEHTYUB'),
+(16, 7, 1, 'RFWERCTTGVEYDTRGCRGTWRTFX'),
+(17, 7, 1, '\'pllpllplpplplplplplpllpp');
+
 -- --------------------------------------------------------
 
 --
@@ -116,10 +163,7 @@ CREATE TABLE `competition` (
 --
 
 INSERT INTO `competition` (`competition_id`, `event_id`, `schedule`, `schedule_end`, `is_archived`) VALUES
-(1, 1, NULL, NULL, 0),
-(44, 53, '2023-07-22 00:14:00', '2023-07-26 00:14:00', 0),
-(45, 54, '2023-07-22 00:15:00', '2023-07-24 00:15:00', 0),
-(46, 55, NULL, NULL, 0);
+(1, 1, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -149,127 +193,6 @@ CREATE TABLE `criterion_scoring` (
   `criterion_final_score` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `criterion_scoring`
---
-
-INSERT INTO `criterion_scoring` (`criterion_scoring_id`, `ongoing_criterion_id`, `participants_id`, `judge_id`, `criterion_temp_score`, `criterion_final_score`) VALUES
-(13, 85, 3, 2, NULL, 8),
-(14, 86, 3, 2, NULL, 8),
-(15, 87, 3, 2, NULL, 8),
-(16, 85, 4, 2, NULL, 9),
-(17, 86, 4, 2, NULL, 9),
-(18, 87, 4, 2, NULL, 9),
-(19, 85, 5, 2, NULL, 9),
-(20, 86, 5, 2, NULL, 9),
-(21, 87, 5, 2, NULL, 9),
-(22, 85, 6, 2, NULL, 8),
-(23, 86, 6, 2, NULL, 8),
-(24, 87, 6, 2, NULL, 8),
-(25, 85, 7, 2, NULL, 9),
-(26, 86, 7, 2, NULL, 9),
-(27, 87, 7, 2, NULL, 9),
-(28, 85, 3, 3, NULL, 8),
-(29, 86, 3, 3, NULL, 8),
-(30, 87, 3, 3, NULL, 8),
-(31, 85, 4, 3, NULL, 9),
-(32, 86, 4, 3, NULL, 9),
-(33, 87, 4, 3, NULL, 9),
-(34, 85, 5, 3, NULL, 9),
-(35, 86, 5, 3, NULL, 9),
-(36, 87, 5, 3, NULL, 9),
-(37, 85, 6, 3, NULL, 8),
-(38, 86, 6, 3, NULL, 8),
-(39, 87, 6, 3, NULL, 8),
-(40, 85, 7, 3, NULL, 9),
-(41, 86, 7, 3, NULL, 9),
-(42, 87, 7, 3, NULL, 9),
-(53, 88, 13, 5, NULL, 8),
-(54, 89, 13, 5, NULL, 8),
-(55, 88, 14, 5, NULL, 8),
-(56, 89, 14, 5, NULL, 8),
-(57, 88, 15, 5, NULL, 8),
-(58, 89, 15, 5, NULL, 8),
-(59, 88, 16, 5, NULL, 8),
-(60, 89, 16, 5, NULL, 8),
-(61, 88, 17, 5, NULL, 8),
-(62, 89, 17, 5, NULL, 8),
-(63, 89, 8, 7, NULL, 8),
-(64, 88, 8, 7, NULL, 8),
-(65, 88, 9, 7, NULL, 8),
-(66, 89, 9, 7, NULL, 8),
-(67, 88, 10, 7, NULL, 8),
-(68, 89, 10, 7, NULL, 8),
-(69, 88, 11, 7, NULL, 8),
-(70, 89, 11, 7, NULL, 8),
-(71, 88, 12, 7, NULL, 8),
-(72, 89, 12, 7, NULL, 8),
-(73, 88, 13, 7, NULL, 9),
-(74, 89, 13, 7, NULL, 9),
-(75, 88, 14, 7, NULL, 9),
-(76, 89, 14, 7, NULL, 9),
-(77, 88, 15, 7, NULL, 9),
-(78, 89, 15, 7, NULL, 9),
-(79, 88, 16, 7, NULL, 9),
-(80, 88, 16, 7, NULL, 9),
-(81, 89, 17, 7, NULL, 9),
-(82, 89, 17, 7, NULL, 9),
-(83, 88, 13, 6, NULL, 9),
-(84, 89, 13, 6, NULL, 9),
-(85, 88, 14, 6, NULL, 9),
-(86, 89, 14, 6, NULL, 9),
-(87, 89, 15, 6, NULL, 9),
-(88, 88, 15, 6, NULL, 9),
-(89, 88, 16, 6, NULL, 9),
-(90, 88, 16, 6, NULL, 9),
-(91, 89, 17, 6, NULL, 9),
-(92, 89, 17, 6, NULL, 9),
-(93, 85, 3, 4, NULL, 8),
-(94, 86, 3, 4, NULL, 8),
-(95, 87, 3, 4, NULL, 8),
-(96, 85, 4, 4, NULL, 9),
-(97, 86, 4, 4, NULL, 9),
-(98, 87, 4, 4, NULL, 9),
-(99, 85, 5, 4, NULL, 9),
-(100, 86, 5, 4, NULL, 9),
-(101, 87, 5, 4, NULL, 9),
-(102, 85, 6, 4, NULL, 8),
-(103, 86, 6, 4, NULL, 8),
-(104, 87, 6, 4, NULL, 8),
-(105, 85, 7, 4, NULL, 9),
-(106, 86, 7, 4, NULL, 9),
-(107, 87, 7, 4, NULL, 9),
-(108, 88, 18, 5, NULL, 8),
-(109, 89, 18, 5, NULL, 8),
-(110, 88, 19, 5, NULL, 8),
-(111, 89, 19, 5, NULL, 8),
-(112, 88, 20, 5, NULL, 8),
-(113, 89, 20, 5, NULL, 8),
-(114, 88, 21, 5, NULL, 8),
-(115, 89, 21, 5, NULL, 8),
-(116, 88, 22, 5, NULL, 8),
-(117, 89, 22, 5, NULL, 8),
-(118, 88, 18, 6, NULL, 8),
-(119, 89, 18, 6, NULL, 8),
-(120, 88, 19, 6, NULL, 8),
-(121, 89, 19, 6, NULL, 8),
-(122, 88, 20, 6, NULL, 8),
-(123, 89, 20, 6, NULL, 8),
-(124, 88, 21, 6, NULL, 8),
-(125, 89, 21, 6, NULL, 8),
-(126, 88, 22, 6, NULL, 8),
-(127, 89, 22, 6, NULL, 8),
-(128, 88, 18, 7, NULL, 8),
-(129, 89, 18, 7, NULL, 8),
-(130, 88, 19, 7, NULL, 8),
-(131, 89, 19, 7, NULL, 8),
-(132, 88, 20, 7, NULL, 8),
-(133, 89, 20, 7, NULL, 8),
-(134, 88, 21, 7, NULL, 8),
-(135, 89, 21, 7, NULL, 8),
-(136, 88, 22, 7, NULL, 8),
-(137, 89, 22, 7, NULL, 8);
-
 -- --------------------------------------------------------
 
 --
@@ -288,7 +211,11 @@ CREATE TABLE `event_name` (
 INSERT INTO `event_name` (`event_name_id`, `event_name`) VALUES
 (1, 'Buwan ng Wika'),
 (2, 'Intramurals'),
-(3, 'National Heroes Day');
+(3, 'National Heroes Day'),
+(4, 'A SAMPLE EVENT'),
+(5, 'QWEQEQWEQEQWE'),
+(6, 'EXAMPLE TOURNAMENT'),
+(7, 'QEWRQEQEQWEQRWWER');
 
 -- --------------------------------------------------------
 
@@ -338,18 +265,6 @@ CREATE TABLE `judges` (
   `judge_nickname` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `judges`
---
-
-INSERT INTO `judges` (`judge_id`, `competition_id`, `judge_name`, `judge_nickname`) VALUES
-(2, 44, 'Dominic Fernandez', 'Judge A'),
-(3, 44, 'Owen Harvey Balocon', 'Judge B'),
-(4, 44, 'Arwin Nucuum', 'Judge C'),
-(5, 45, 'Josefina Colcol', 'Judge D'),
-(6, 45, 'Kimberly Eco', 'Judge E'),
-(7, 45, 'Cristopher Alpasa', 'Judge F');
-
 -- --------------------------------------------------------
 
 --
@@ -383,7 +298,44 @@ INSERT INTO `logs` (`log_id`, `log_date`, `log_time`, `admin_id`, `activity_desc
 (366, '2023-07-21', '16:33:30', 1, 'Added \'3\', \'3\', \'3\', \'It is the day that we give gratitude to those people who sacrifice their life for the better future of our nation.\', \'2023-08-28\', \'00:00\' in ongoing_list_of_event (Events)'),
 (367, '2023-07-21', '22:44:20', 1, 'Added \'\', \'0\', \'dsaaaaa\', \'sdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\', \'2023-07-21 22:44:20\' in post (Announcements)'),
 (368, '2023-07-21', '22:45:07', 1, 'Added \'\', \'0\', \'PHOTO\', \'asddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\', \'2023-07-21T22:46\' in post (Announcements)'),
-(369, '2023-07-21', '22:50:45', 1, 'Added \'\', \'0\', \'DSAAAAAA\', \'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\', \'2023-07-21 22:50:45\' in post (Announcements)');
+(369, '2023-07-21', '22:50:45', 1, 'Added \'\', \'0\', \'DSAAAAAA\', \'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\', \'2023-07-21 22:50:45\' in post (Announcements)'),
+(370, '2023-07-21', '23:54:39', 1, 'Added \'A SAMPLE EVENT\' in event_name(event_name) (Events)'),
+(371, '2023-07-21', '23:54:50', 1, 'Added \'4\', \'1\', \'A SAMPLE CATEGORY\' in category_name(event_name_id, (Events)'),
+(372, '2023-07-21', '23:55:16', 1, 'Added \'3\', \'4\', \'4\', \'1\', \'A SAMPLE CATEGORY\', \'A SAMPLE DESC\', \'2023-07-21\', \'23:59\' in ongoing_list_of_event (Events)'),
+(373, '2023-07-22', '00:30:16', 1, 'Added \'QWEQEQWEQEQWE\' in event_name(event_name) (Events)'),
+(374, '2023-07-22', '00:30:25', 1, 'Added \'5\', \'1\', \'QWRWQRQWERQWERQW\' in category_name(event_name_id, (Events)'),
+(375, '2023-07-22', '00:30:42', 1, 'Added \'4\', \'5\', \'5\', \'1\', \'QWRWQRQWERQWERQW\', \'QWERQWERQWERQWERQWER\', \'2023-07-22\', \'03:30\' in ongoing_list_of_event (Events)'),
+(376, '2023-07-23', '09:06:20', 1, 'Added \'5\', \'1\', \'SPORTTS\' in category_name(event_name_id, (Events)'),
+(377, '2023-07-23', '09:06:51', 1, 'Added \'5\', \'5\', \'5\', \'1\', \'SPORTTS\', \'SAMPLLLE\', \'2023-07-25\', \'01:06\' in ongoing_list_of_event (Events)'),
+(378, '2023-07-23', '17:28:20', 1, 'Added \'EXAMPLE TOURNAMENT\' in event_name(event_name) (Events)'),
+(379, '2023-07-23', '17:28:33', 1, 'Added \'6\', \'1\', \'EXAMPLE TOURNA\' in category_name(event_name_id, (Events)'),
+(380, '2023-07-23', '17:28:53', 1, 'Added \'6\', \'6\', \'6\', \'1\', \'EXAMPLE TOURNA\', \'SASASASASA\', \'2023-07-25\', \'20:28\' in ongoing_list_of_event (Events)'),
+(381, '2023-07-23', '19:27:00', 1, 'Added \'6\', \'1\', \'EXAMPLE TTOURNA\' in category_name(event_name_id, (Events)'),
+(382, '2023-07-23', '19:27:52', 1, 'Added \'7\', \'6\', \'6\', \'1\', \'EXAMPLE TTOURNA\', \'FUCKING DYIN\', \'2023-07-23\', \'12:27\' in ongoing_list_of_event (Events)'),
+(383, '2023-07-24', '08:02:09', 1, 'Added \'6\', \'1\', \'IPIPIPIP\' in category_name(event_name_id, (Events)'),
+(384, '2023-07-24', '08:02:29', 1, 'Added \'8\', \'6\', \'6\', \'1\', \'IPIPIPIP\', \'PIPIPIPI\', \'2023-07-24\', \'11:02\' in ongoing_list_of_event (Events)'),
+(385, '2023-07-24', '09:46:22', 1, 'Added \'6\', \'1\', \'QWEYVSDVYU\' in category_name(event_name_id, (Events)'),
+(386, '2023-07-24', '09:46:43', 1, 'Added \'9\', \'6\', \'6\', \'1\', \'QWEYVSDVYU\', \'QWQWQEWEWERWEQ\', \'2023-07-26\', \'00:46\' in ongoing_list_of_event (Events)'),
+(387, '2023-07-24', '09:55:45', 1, 'Added \'6\', \'1\', \'RETHDVEHTYUB\' in category_name(event_name_id, (Events)'),
+(388, '2023-07-24', '12:37:31', 1, 'Added \'6\', \'1\', \'EVORHEPRFWLEDQWDQWLD\' in category_name(event_name_id, (Events)'),
+(389, '2023-07-24', '12:37:51', 1, 'Added \'11\', \'6\', \'6\', \'1\', \'EVORHEPRFWLEDQWDQWLD\', \'$%$#OMTK$#ODK#$TGDOYGvc\', \'2023-07-24\', \'16:37\' in ongoing_list_of_event (Events)'),
+(390, '2023-07-24', '12:40:57', 1, 'Added \'6\', \'1\', \'oipoippok\' in category_name(event_name_id, (Events)'),
+(391, '2023-07-24', '12:41:23', 1, 'Added \'12\', \'6\', \'6\', \'1\', \'oipoippok\', \'ooiuoipm09-0m90-=-.-=./==👧👧👧👧👧👧👧👧👧👧\', \'2023-07-25\', \'15:41\' in ongoing_list_of_event (Events)'),
+(392, '2023-07-24', '12:49:25', 1, 'Added \'6\', \'1\', \'8298298249842924924984265\' in category_name(event_name_id, (Events)'),
+(393, '2023-07-24', '12:49:50', 1, 'Added \'13\', \'6\', \'6\', \'1\', \'8298298249842924924984265\', \'rcwefqwferrfergtgrrgrtghwr5hw5hw5yh\', \'2023-07-25\', \'16:49\' in ongoing_list_of_event (Events)'),
+(394, '2023-07-25', '13:30:52', 1, 'Added \'QEWRQEQEQWEQRWWER\' in event_name(event_name) (Events)'),
+(395, '2023-07-25', '13:30:59', 1, 'Added \'7\', \'1\', \'weretowc utnhweogcwhengwx\' in category_name(event_name_id, (Events)'),
+(396, '2023-07-25', '13:31:16', 1, 'Added \'14\', \'7\', \'7\', \'1\', \'weretowc utnhweogcwhengwx\', \'qrwreqweqrwweqrrqewweqweqqewweqweqweqwqerwreweqwee\', \'2023-07-25\', \'13:37\' in ongoing_list_of_event (Events)'),
+(397, '2023-07-25', '22:27:57', 1, 'Added \'7\', \'1\', \'QEQRWWQREEQWWERQERWEQRWWE\' in category_name(event_name_id, (Events)'),
+(398, '2023-07-25', '22:28:42', 1, 'Added \'15\', \'7\', \'7\', \'1\', \'QEQRWWQREEQWWERQERWEQRWWE\', \'asdsadasdasdasdasdasdasdasdasdasd\', \'2023-07-25\', \'22:31\' in ongoing_list_of_event (Events)'),
+(399, '2023-07-26', '08:39:23', 1, 'Added \'7\', \'1\', \'RFWERCTTGVEYDTRGCRGTWRTFX\' in category_name(event_name_id, (Events)'),
+(400, '2023-07-26', '08:39:48', 1, 'Added \'16\', \'7\', \'7\', \'1\', \'RFWERCTTGVEYDTRGCRGTWRTFX\', \'EFDFCFRFREFXREXFEXFEXFAFXXAXFXADADADADADSwe\', \'2023-07-26\', \'02:39\' in ongoing_list_of_event (Events)'),
+(401, '2023-07-26', '13:44:43', 1, 'Added \'7\', \'1\', \'\\\'pllpllplpplplplplplpllpp\' in category_name(event_name_id, (Events)'),
+(402, '2023-07-26', '13:54:12', 1, 'Added \'15\', \'7\', \'7\', \'1\', \'QEQRWWQREEQWWERQERWEQRWWE\', \'qeqweqweqweqweqwe\', \'2023-07-27\', \'18:54\' in ongoing_list_of_event (Events)'),
+(403, '2023-07-26', '15:17:55', 1, 'Added \'7\', \'1\', \'2298729898227829229828989\' in category_name(event_name_id, (Events)'),
+(404, '2023-07-26', '15:18:17', 1, 'Added \'18\', \'7\', \'7\', \'1\', \'2298729898227829229828989\', \'34d3rerfxwfexwerfxewdqwdsfyuumui,io,lioluhkli8 vci vcvc \', \'2023-07-26\', \'21:18\' in ongoing_list_of_event (Events)'),
+(405, '2023-07-26', '15:19:42', 1, 'Added \'7\', \'1\', \'hertherthetyrvgrdbrtbrgb\' in category_name(event_name_id, (Events)'),
+(406, '2023-07-26', '15:20:02', 1, 'Added \'19\', \'7\', \'7\', \'1\', \'hertherthetyrvgrdbrtbrgb\', \'xwexccrehtyrjnyfjnthnbgbsgrgbrgnbtbbbybtyhythyth\', \'2023-07-26\', \'20:19\' in ongoing_list_of_event (Events)');
 
 -- --------------------------------------------------------
 
@@ -430,13 +382,7 @@ CREATE TABLE `ongoing_criterion` (
 INSERT INTO `ongoing_criterion` (`ongoing_criterion_id`, `criterion_id`, `category_name_id`, `event_id`, `criterion_name`, `criterion_percent`) VALUES
 (1, 1, 1, 1, 'Nilalaman', 50),
 (2, 2, 1, 1, 'Damdamin', 20),
-(3, 3, 1, 1, 'Paksa', 30),
-(85, 32, 31, 53, 'Clarity', 25),
-(86, 33, 31, 53, 'Quality', 25),
-(87, 34, 31, 53, 'Neatness', 50),
-(88, 30, 29, 54, 'Creativity', 50),
-(89, 31, 29, 54, 'Originality', 50),
-(91, 35, 34, 55, 'Impression of Art', 100);
+(3, 3, 1, 1, 'Paksa', 30);
 
 -- --------------------------------------------------------
 
@@ -460,11 +406,10 @@ INSERT INTO `ongoing_event_name` (`ongoing_event_name_id`, `event_name_id`, `eve
 (1, 1, 'Buwan ng Wika', '2023', 0),
 (2, 2, 'Intramurals', '2023', 0),
 (3, 3, 'National Heroes Day', '2023', 0),
-(24, 6, 'Buwan ng Wika', '2023', 1),
-(25, 7, 'Sports Fest', '2023', 0),
-(26, 8, 'SAMPLE EVENT', '2023', 0),
-(27, 9, 'ANOTHER SAMPLE EVENT', '2023', 0),
-(28, 10, 'BIGYAN NG JAKET', '2023', 0);
+(4, 4, 'A SAMPLE EVENT', '2023', 0),
+(5, 5, 'QWEQEQWEQEQWE', '2023', 0),
+(6, 6, 'EXAMPLE TOURNAMENT', '2023', 0),
+(7, 7, 'QEWRQEQEQWEQRWWER', '2023', 0);
 
 -- --------------------------------------------------------
 
@@ -497,16 +442,22 @@ INSERT INTO `ongoing_list_of_event` (`event_id`, `ongoing_event_name_id`, `categ
 (1, 1, 1, 1, 2, 'Makatang Pagtutula', 'Bilang pakikiisa sa Buwan ng Wikang Pambansa taong 2023, naghanda ng mga patimpalak ang ating sintang paaralan para sa mga PUPians. ', 'RcVdOdXbFbm2', '2023-08-25', '08:00:00', 0, 0, 1, 0),
 (2, 2, 2, 2, 1, 'Cyber League', 'Embraced the advancement of technology by joining the Cyber league. Registration will be available soon...', NULL, '2023-07-21', '14:00:00', 0, 0, 1, 0),
 (3, 3, NULL, 3, 3, NULL, 'It is the day that we give gratitude to those people who sacrifice their life for the better future of our nation.', NULL, '2023-08-28', '00:00:00', 0, 0, 0, 0),
-(50, 24, 30, 6, 1, 'Basketball', 'Muling saksihan ang paglalaro nang Basketball ng mga estudyante ng PUP Santa Rosa!', NULL, '2023-07-22', '12:00:00', 0, 0, 1, 0),
-(51, 24, 33, 6, 1, 'Basketball Girls', 'Basketball ng mga kababaihan dito sa PUP!', NULL, '2023-07-23', '17:00:00', 0, 0, 1, 0),
-(52, 24, 28, 6, 1, 'Chess', 'Nagbabagang labanan ang mangyayari sa ating kompetisyon ng Chess.', NULL, '2023-07-25', '08:00:00', 0, 0, 1, 0),
-(53, 24, 31, 6, 2, 'Drawing Contest', 'Magsulat, gumuhit! Mga mahuhusay rito, sumali na kayo!', 'g5uIqokZeOOK', '2023-07-17', '12:00:00', 0, 0, 1, 0),
-(54, 24, 29, 6, 2, 'Poster Making Contest', 'Gusto mo bang magkakulay ang buhay mo? Kulayan na natin yan.', '1sqw4rNeDI4q', '2023-07-17', '12:00:00', 0, 0, 0, 0),
-(55, 25, 34, 7, 2, 'Draw the Mayor', 'Mayor mo? mayor ko din yan! Drawing na natin yan', 'YYyvDu110fZC', '2023-08-01', '11:00:00', 0, 0, 0, 0),
-(56, 25, 32, 7, 1, 'Basketball Boys', 'Sheeshable', NULL, '2023-08-02', '08:00:00', 0, 0, 1, 0),
-(57, 26, 35, 8, 1, 'SAMPLE CATEGORY', 'SAMPLE DESC', NULL, '2023-07-19', '18:03:00', 0, 0, 0, 1),
-(58, 27, 36, 9, 1, 'ANOTHER SAMPLE CATEGORY', 'eweweesseseqwsdasda', NULL, '2023-07-19', '21:12:00', 0, 0, 0, 1),
-(59, 28, 37, 10, 1, 'EVENT NI KUYA WIL', 'PAYB TAU SAN', NULL, '2023-07-20', '18:26:00', 0, 0, 0, 1);
+(4, 4, 3, 4, 1, 'A SAMPLE CATEGORY', 'A SAMPLE DESC', NULL, '2023-07-21', '23:59:00', 0, 0, 1, 0),
+(5, 5, 4, 5, 1, 'QWRWQRQWERQWERQW', 'QWERQWERQWERQWERQWER', NULL, '2023-07-22', '03:30:00', 1, 0, 1, 0),
+(6, 5, 5, 5, 1, 'SPORTTS', 'SAMPLLLE', NULL, '2023-07-25', '01:06:00', 0, 0, 1, 0),
+(7, 6, 6, 6, 1, 'EXAMPLE TOURNA', 'SASASASASA', NULL, '2023-07-25', '20:28:00', 0, 0, 1, 0),
+(8, 6, 7, 6, 1, 'EXAMPLE TTOURNA', 'FUCKING DYIN', NULL, '2023-07-23', '12:27:00', 1, 0, 1, 0),
+(9, 6, 8, 6, 1, 'IPIPIPIP', 'PIPIPIPI', NULL, '2023-07-24', '11:02:00', 0, 0, 1, 0),
+(10, 6, 9, 6, 1, 'QWEYVSDVYU', 'QWQWQEWEWERWEQ', NULL, '2023-07-26', '00:46:00', 0, 0, 1, 0),
+(11, 6, 11, 6, 1, 'EVORHEPRFWLEDQWDQWLD', '$%$#OMTK$#ODK#$TGDOYGvc', NULL, '2023-07-24', '16:37:00', 0, 0, 1, 0),
+(12, 6, 12, 6, 1, 'oipoippok', 'ooiuoipm09-0m90-=-.-=./==👧👧👧👧👧👧👧👧👧👧', NULL, '2023-07-25', '15:41:00', 0, 0, 1, 0),
+(13, 6, 13, 6, 1, '8298298249842924924984265', 'rcwefqwferrfergtgrrgrtghwr5hw5hw5yh', NULL, '2023-07-25', '16:49:00', 0, 0, 1, 0),
+(14, 7, 14, 7, 1, 'weretowc utnhweogcwhengwx', 'qrwreqweqrwweqrrqewweqweqqewweqweqweqwqerwreweqwee', NULL, '2023-07-25', '13:37:00', 0, 0, 1, 0),
+(15, 7, 15, 7, 1, 'QEQRWWQREEQWWERQERWEQRWWE', 'asdsadasdasdasdasdasdasdasdasdasd', NULL, '2023-07-25', '22:31:00', 1, 0, 1, 0),
+(16, 7, 16, 7, 1, 'RFWERCTTGVEYDTRGCRGTWRTFX', 'EFDFCFRFREFXREXFEXFEXFAFXXAXFXADADADADADSwe', NULL, '2023-07-26', '02:39:00', 1, 0, 1, 0),
+(17, 7, 15, 7, 1, 'QEQRWWQREEQWWERQERWEQRWWE', 'qeqweqweqweqweqwe', NULL, '2023-07-27', '18:54:00', 0, 0, 1, 0),
+(18, 7, 18, 7, 1, '2298729898227829229828989', '34d3rerfxwfexwerfxewdqwdsfyuumui,io,lioluhkli8 vci vcvc ', NULL, '2023-07-26', '21:18:00', 0, 0, 1, 0),
+(19, 7, 19, 7, 1, 'hertherthetyrvgrdbrtbrgb', 'xwexccrehtyrjnyfjnthnbgbsgrgbrgnbtbbbybtyhythyth', NULL, '2023-07-26', '20:19:00', 0, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -516,7 +467,7 @@ INSERT INTO `ongoing_list_of_event` (`event_id`, `ongoing_event_name_id`, `categ
 
 CREATE TABLE `ongoing_teams` (
   `id` int(11) NOT NULL,
-  `team_name` varchar(255) DEFAULT NULL,
+  `team_id` int(11) DEFAULT NULL,
   `bracket_form_id` int(11) NOT NULL,
   `current_team_status` varchar(255) NOT NULL DEFAULT 'active',
   `current_overall_score` int(11) NOT NULL,
@@ -564,32 +515,6 @@ CREATE TABLE `participants` (
   `participant_section` varchar(50) NOT NULL,
   `final_score` decimal(5,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `participants`
---
-
-INSERT INTO `participants` (`participants_id`, `competition_id`, `organization_id`, `participant_name`, `participant_section`, `final_score`) VALUES
-(3, 44, 3, 'Vincent Cosio', '3-2', 80.00),
-(4, 44, 4, 'Lance Lira', '2-2', 80.00),
-(5, 44, 7, 'Charlene Castro', '4-1', 90.00),
-(6, 44, 6, 'Jhimwell Robles', '1-2', 80.00),
-(7, 44, 8, 'Renz Esona', '3-1', 80.00),
-(8, 45, 1, 'Julianne Climaco', '3-2', 80.00),
-(9, 45, 1, 'Raphael Barba', '3-2', 80.00),
-(10, 45, 1, 'Kaye Dayo', '3-1', 80.00),
-(11, 45, 1, 'Michael Calaguas', '4-2', 80.00),
-(12, 45, 1, 'Rhenz Casunuran', '4-1', 80.00),
-(13, 45, 2, 'Ephraim Gardoce', '1-1', 90.00),
-(14, 45, 2, 'Camille Bermejo', '3-1', 90.00),
-(15, 45, 2, 'Louisse Del Mundo', '4-1', 90.00),
-(16, 45, 2, 'Junard Calma', '4-2', 90.00),
-(17, 45, 2, 'Kathrina Hernandez', '4-2', 90.00),
-(18, 45, 5, 'Lance Dalanon', '1-2', 90.00),
-(19, 45, 5, 'Rhona Del Rosario', '2-2', 90.00),
-(20, 45, 5, 'Sophia Acuzar', '2-1', 90.00),
-(21, 45, 5, 'Zemory Casantusan', '4-1', 90.00),
-(22, 45, 5, 'Kate Infante', '4-2', 90.00);
 
 -- --------------------------------------------------------
 
@@ -701,7 +626,12 @@ CREATE TABLE `tournament` (
 --
 
 INSERT INTO `tournament` (`tournament_id`, `event_id`, `number_of_wins_id`, `has_set_tournament`, `bracket_form_id`) VALUES
-(1, 2, 2, 0, NULL);
+(1, 14, 2, 0, NULL),
+(2, 15, 1, 0, NULL),
+(3, 16, 1, 0, NULL),
+(4, 17, 2, 0, NULL),
+(5, 18, 2, 0, NULL),
+(6, 19, 2, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -711,7 +641,7 @@ INSERT INTO `tournament` (`tournament_id`, `event_id`, `number_of_wins_id`, `has
 
 CREATE TABLE `tournament_score_archive` (
   `id` int(11) NOT NULL,
-  `team_name` varchar(255) DEFAULT NULL,
+  `team_id` int(11) DEFAULT NULL,
   `bracket_form_id` int(11) NOT NULL,
   `current_team_status` varchar(255) NOT NULL,
   `current_overall_score` int(11) NOT NULL,
@@ -762,7 +692,9 @@ ALTER TABLE `bracket_forms`
 --
 ALTER TABLE `bracket_teams`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `bracket_form_id` (`bracket_form_id`);
+  ADD KEY `bracket_form_id` (`bracket_form_id`),
+  ADD KEY `team_one_id` (`team_one_id`),
+  ADD KEY `team_two_id` (`team_two_id`);
 
 --
 -- Indexes for table `category_name`
@@ -874,7 +806,8 @@ ALTER TABLE `ongoing_list_of_event`
 --
 ALTER TABLE `ongoing_teams`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `bracket_form_id` (`bracket_form_id`);
+  ADD KEY `bracket_form_id` (`bracket_form_id`),
+  ADD KEY `team_id` (`team_id`);
 
 --
 -- Indexes for table `organization`
@@ -925,7 +858,8 @@ ALTER TABLE `tournament`
 --
 ALTER TABLE `tournament_score_archive`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `bracket_form_id` (`bracket_form_id`);
+  ADD KEY `bracket_form_id` (`bracket_form_id`),
+  ADD KEY `team_id` (`team_id`);
 
 --
 -- Indexes for table `user`
@@ -941,7 +875,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `bar_graph`
 --
 ALTER TABLE `bar_graph`
-  MODIFY `organization_bar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `organization_bar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `bracket_forms`
@@ -959,31 +893,31 @@ ALTER TABLE `bracket_teams`
 -- AUTO_INCREMENT for table `category_name`
 --
 ALTER TABLE `category_name`
-  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `category_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `competition`
 --
 ALTER TABLE `competition`
-  MODIFY `competition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `competition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `criterion`
 --
 ALTER TABLE `criterion`
-  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `criterion_scoring`
 --
 ALTER TABLE `criterion_scoring`
-  MODIFY `criterion_scoring_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `criterion_scoring_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `event_name`
 --
 ALTER TABLE `event_name`
-  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `event_type`
@@ -1001,13 +935,13 @@ ALTER TABLE `highlights`
 -- AUTO_INCREMENT for table `judges`
 --
 ALTER TABLE `judges`
-  MODIFY `judge_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `judge_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=370;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=407;
 
 --
 -- AUTO_INCREMENT for table `number_of_wins`
@@ -1019,19 +953,19 @@ ALTER TABLE `number_of_wins`
 -- AUTO_INCREMENT for table `ongoing_criterion`
 --
 ALTER TABLE `ongoing_criterion`
-  MODIFY `ongoing_criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `ongoing_criterion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ongoing_event_name`
 --
 ALTER TABLE `ongoing_event_name`
-  MODIFY `ongoing_event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `ongoing_event_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `ongoing_list_of_event`
 --
 ALTER TABLE `ongoing_list_of_event`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `ongoing_teams`
@@ -1049,7 +983,7 @@ ALTER TABLE `organization`
 -- AUTO_INCREMENT for table `participants`
 --
 ALTER TABLE `participants`
-  MODIFY `participants_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `participants_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `post`
@@ -1073,7 +1007,7 @@ ALTER TABLE `score_rule`
 -- AUTO_INCREMENT for table `tournament`
 --
 ALTER TABLE `tournament`
-  MODIFY `tournament_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `tournament_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tournament_score_archive`
@@ -1102,7 +1036,9 @@ ALTER TABLE `bar_graph`
 -- Constraints for table `bracket_teams`
 --
 ALTER TABLE `bracket_teams`
-  ADD CONSTRAINT `bracket_teams_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`);
+  ADD CONSTRAINT `bracket_teams_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`),
+  ADD CONSTRAINT `bracket_teams_ibfk_2` FOREIGN KEY (`team_one_id`) REFERENCES `ongoing_teams` (`id`),
+  ADD CONSTRAINT `bracket_teams_ibfk_3` FOREIGN KEY (`team_two_id`) REFERENCES `ongoing_teams` (`id`);
 
 --
 -- Constraints for table `category_name`
@@ -1166,7 +1102,8 @@ ALTER TABLE `ongoing_list_of_event`
 -- Constraints for table `ongoing_teams`
 --
 ALTER TABLE `ongoing_teams`
-  ADD CONSTRAINT `ongoing_teams_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`);
+  ADD CONSTRAINT `ongoing_teams_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`),
+  ADD CONSTRAINT `ongoing_teams_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `organization` (`organization_id`);
 
 --
 -- Constraints for table `participants`
@@ -1205,5 +1142,10 @@ ALTER TABLE `tournament`
 -- Constraints for table `tournament_score_archive`
 --
 ALTER TABLE `tournament_score_archive`
-  ADD CONSTRAINT `tournament_score_archive_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`);
+  ADD CONSTRAINT `tournament_score_archive_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`),
+  ADD CONSTRAINT `tournament_score_archive_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `organization` (`organization_id`);
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
