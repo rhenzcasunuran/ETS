@@ -1,11 +1,73 @@
 <?php
+// Execute the SQL query to fetch data from the database
+include 'database_connect.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the form values from the POST request
     $bracketFormId = $_POST['bracketFormId'];
     $selectedTeamOneAndTwo = $_POST['selectedTeamOneAndTwo'];
 
-    // Execute the SQL query to fetch data from the database
-    include 'database_connect.php';
+    // The SQL query
+    $sql = "SELECT ot.id AS team_one_id,
+    org.organization_name AS team_one_name,
+    ot.current_team_status AS team_one_status,
+    ot.current_overall_score AS team_one_overall_score,
+    ot.current_score AS team_one_score,
+    ot2.id AS team_two_id,
+    org2.organization_name AS team_two_name,
+    ot2.current_team_status AS team_two_status,
+    ot2.current_overall_score AS team_two_overall_score,
+    ot2.current_score AS team_two_score,
+    MAX(sr.set_no) AS max_set_no,
+    sr.max_value,
+    sr.game_type
+    FROM `bracket_forms` AS bf
+    LEFT JOIN bracket_teams AS bt ON bf.id = bt.bracket_form_id
+    LEFT JOIN score_rule AS sr ON sr.bracket_form_id = bf.id
+    LEFT JOIN ongoing_teams AS ot ON bt.team_one_id = ot.id
+    LEFT JOIN ongoing_teams AS ot2 ON bt.team_two_id = ot2.id 
+    LEFT JOIN organization AS org ON ot.team_id = org.organization_id
+    LEFT JOIN organization AS org2 ON ot2.team_id = org2.organization_id
+    WHERE bf.id = ?
+    AND bf.is_active = 1
+    AND bt.id = ?
+    AND bt.current_column = bf.current_column
+    AND sr.set_no = ot.current_set_no";
+
+    // Prepare the statement
+    $stmt = mysqli_prepare($conn, $sql);
+
+    // Bind parameters
+    mysqli_stmt_bind_param($stmt, "ii", $bracketFormId, $selectedTeamOneAndTwo);
+
+    // Execute the query
+    mysqli_stmt_execute($stmt);
+
+    // Fetch the results
+    $result = mysqli_stmt_get_result($stmt);
+
+    // Fetch the rows as an associative array
+    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    // Now let's put each row in a separate variable
+    if (!empty($rows)) {
+        $firstRow = $rows[0]; // Assuming you want to access the first row
+        $teamOneId = $firstRow['team_one_id'];
+        $teamOneName = $firstRow['team_one_name'];
+        $teamOneStatus = $firstRow['team_one_status'];
+        $teamOneOverallScore = $firstRow['team_one_overall_score'];
+        $teamOneScore = $firstRow['team_one_score'];
+        $teamTwoId = $firstRow['team_two_id'];
+        $teamTwoName = $firstRow['team_two_name'];
+        $teamTwoStatus = $firstRow['team_two_status'];
+        $teamTwoOverallScore = $firstRow['team_two_overall_score'];
+        $teamTwoScore = $firstRow['team_two_score'];
+        $maxSetNo = $firstRow['max_set_no'];
+        $maxValue = $firstRow['max_value'];
+        $gameType = $firstRow['game_type'];
+    }
+}
+    /*
     
     $query = "SELECT bt.*, 
               ot.id AS team_one_id,
@@ -25,12 +87,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               sr.game_type,
               sr.set_no
               FROM `bracket_teams` AS bt
-              INNER JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
-              INNER JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
-              INNER JOIN organization AS org ON org.organization_id = ot.team_id
-              INNER JOIN organization AS org2 ON org2.organization_id = ot2.team_id
-              INNER JOIN score_rule AS sr ON sr.bracket_form_id = bt.bracket_form_id
-              WHERE bt.id = ? AND bt.bracket_form_id = ?";
+              LEFT JOIN ongoing_teams AS ot ON ot.id = bt.team_one_id
+              LEFT JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
+              LEFT JOIN organization AS org ON org.organization_id = ot.team_id
+              LEFT JOIN organization AS org2 ON org2.organization_id = ot2.team_id
+              LEFT JOIN score_rule AS sr ON sr.bracket_form_id = bf.id
+              LEFT JOIN bracket_forms AS bf ON bf.id = bt.bracket_form_id
+              WHERE bt.id = ? 
+              AND bf.id = ?
+              AND bt.current_column = bf.current_column
+              AND sr.set_no = ot.current_set_no";
 
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "ii", $selectedTeamOneAndTwo, $bracketFormId);
@@ -312,5 +378,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Send the response as JSON
     header('Content-Type: application/json');
     echo json_encode($response);
-}
+*/
 ?>

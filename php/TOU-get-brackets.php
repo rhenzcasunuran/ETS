@@ -16,7 +16,6 @@ $query = "SELECT bf.id, bf.node_id_start, bf.parent_id_start
           WHERE has_set_tournament = 1
           AND olfe.is_archived = 0
           AND olfe.is_deleted = 0
-          AND oen.is_done = 0
           AND tou.tournament_id = ?";
 
 // Prepare the statement
