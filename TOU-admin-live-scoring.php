@@ -264,8 +264,6 @@
                   data: { id: idNumber, score: value, bracketFormId: bracketFormId },
                   dataType: 'json',
                   success: function(response) {
-                    console.log(response)
-
                     if (response.error === 'Team 1 disable buttons.') {
                       // Disable the plus one buttons in the team_one_btn element
                       $('#team_two_btn button[value="1"]').prop('disabled', true);
@@ -311,7 +309,6 @@
                   data: { id: idNumber, score: value, bracketFormId: bracketFormId },
                   dataType: 'json',
                   success: function(response) {
-                    console.log(response)
                     if (response.error === 'Team 2 disable buttons.') {
                       // Disable the plus one buttons in the team_two_btn element
                       $('#team_one_btn button[value="1"]').prop('disabled', true);
@@ -361,13 +358,7 @@
                       data: postData,
                       dataType: 'json',
                       success: function(response) {
-                          // Handle the success response
-                          // Optionally, you can perform further actions after the request succeeds
-                          
-                          // Check for success and reload the page
-                          if (response.success === true) {
-                              location.reload();
-                          }
+                        location.reload();
                       },
                       error: function(xhr, status, error) {
                           // Handle the error response

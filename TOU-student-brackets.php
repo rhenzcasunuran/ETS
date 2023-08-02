@@ -176,27 +176,50 @@ include './php/admin-signin.php';
                 categoryValue: selectedCategoryName
             },
             success: function(data) {
-              console.log(data)
-                // Create the OrgChart with the received data
-                OrgChart.templates.diva.link = '<path stroke-linejoin="round" stroke="#aeaeae" stroke-width="1px" fill="none" d="{edge}" />';
+              // Create the OrgChart with the received data
+              OrgChart.templates.diva.link = '<path stroke-linejoin="round" stroke="#aeaeae" stroke-width="1px" fill="none" d="{edge}" />';
+              
+              if (data.length === 0) {
                 var chart = new OrgChart(document.getElementById("tree"), {
-                    template: "diva",
-                    enableSearch: false,
-                    mouseScroll: OrgChart.action.none,
-                    orientation: OrgChart.orientation.right,
-                    nodeBinding: {
-                        field_0: "team_name",
-                        field_1: "overall_score",
-                        img_0: "img"
+                  template: "diva",
+                  enableSearch: false,
+                  mouseScroll: OrgChart.action.none,
+                  orientation: OrgChart.orientation.bottom,
+                  nodeBinding: {
+                    field_0: "team_name",
+                    field_1: "overall_score",
+                    img_0: "img"
+                  },
+                  nodes: [
+                    {
+                      id: 1,                  // Unique identifier for the node
+                      pid: null,              // Parent node's id (null for the root node)
+                      team_name: 'ORG',    // The main text content of the node
+                      overall_score: 'CHAMPION',     // Subfield content (e.g., designation)
+                      img_0: null   // Image URL for the node
                     },
-                    nodes: data // Use the received data to populate the nodes of the OrgChart
+                  ]
                 });
+              } else {
+                var chart = new OrgChart(document.getElementById("tree"), {
+                  template: "diva",
+                  enableSearch: false,
+                  mouseScroll: OrgChart.action.none,
+                  orientation: OrgChart.orientation.bottom,
+                  nodeBinding: {
+                      field_0: "team_name",
+                      field_1: "overall_score",
+                      img_0: "img"
+                  },
+                  nodes: data // Use the received data to populate the nodes of the OrgChart
+                });
+              }
 
-                // Add a click event handler that returns false
-                // This is added to prevent the OrgChart from interfering with other click events
-                chart.on('click', function() {
-                    return false;
-                });
+              // Add a click event handler that returns false
+              // This is added to prevent the OrgChart from interfering with other click events
+              chart.on('click', function() {
+                  return false;
+              });
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);

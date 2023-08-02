@@ -140,11 +140,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 
     // Prepare the SQL statement
-    $query = "INSERT INTO bracket_teams (bracket_form_id, bracket_position, team_one_id, team_two_id) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO bracket_teams (bracket_form_id, team_one_id, team_two_id) VALUES (?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-
-    // Initialize bracket_position to 1 before the loop
-    $bracket_position = 1;
 
     // Iterate through the teamIds array
     for ($i = 0; $i < count($teamIds); $i += 2) {
@@ -155,14 +152,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $teamTwoId = $teamIds[$i + 1];
 
             // Bind the parameter values to the prepared statement
-            mysqli_stmt_bind_param($stmt, "iiii", $bracket_form_id, $bracket_position, $teamOneId, $teamTwoId);
+            mysqli_stmt_bind_param($stmt, "iii", $bracket_form_id, $teamOneId, $teamTwoId);
         }
 
         // Execute the prepared statement
         mysqli_stmt_execute($stmt);
-
-        // Increment bracket_position for the next iteration
-        $bracket_position++;
     }
 
     $stmt->close();   

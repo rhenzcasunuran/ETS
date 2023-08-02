@@ -204,6 +204,7 @@ for ($i = 0; $i < max($count1, $count2); $i++) {
 
 // Loop through the arrays and combine the elements
 for ($i = 0; $i < $nodeIdStart; $i++) {
+    if ($combined_data)
     // Combine the elements into an associative array from $combined_data
     $combined_element = [
         'id' => isset($nodeValueArray[$i]) ? $nodeValueArray[$i] : null,

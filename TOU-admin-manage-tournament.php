@@ -103,7 +103,6 @@
             type: 'GET',
             dataType: 'json',
             success: function(data) {
-                console.log(data)
                 var activeTournamentsDiv = $('#active-tournaments');
 
                 if (data.length > 0) {
@@ -153,7 +152,6 @@
                     });
                 },
                 error: function(error) {
-                  console.error(error)
                   $('#active-tournaments').append('<div class="container text-center mt-3"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><div class="d-flex justify-content-center"><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue"></i>Create Tournament</button></div>');
                     
                      // Get the reference to the "Create Tournament" button

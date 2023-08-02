@@ -12,7 +12,7 @@
       // Prepare the SQL statement with a parameter placeholder
       $query = "SELECT bf.id, oen.event_name, olfe.category_name, bf.current_column FROM `tournament` AS tou 
       INNER JOIN bracket_forms AS bf
-      ON tou.tournament_id = bf.id
+      ON tou.bracket_form_id = bf.id
       INNER JOIN ongoing_list_of_event AS olfe
       ON olfe.event_id = tou.event_id
       INNER JOIN ongoing_event_name AS oen

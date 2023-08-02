@@ -39,20 +39,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // If there are a pair of null 
   if ($null_teams_count == 2) {
 
-    // If there is one null value
-    $query = "SELECT ot.team_id AS team_one_id, ot2.team_id AS team_two_id,
-                ot.current_team_status AS team_one_status, ot2.current_team_status AS team_two_status
-            FROM `ongoing_teams` AS ot
-            LEFT JOIN bracket_teams AS bt ON bt.team_one_id = ot.id
-            LEFT JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
-            LEFT JOIN bracket_forms AS bf ON bt.bracket_form_id = bf.id
-            WHERE bt.bracket_form_id = ?
-            AND bt.current_column = bf.current_column
-            AND (ot.current_team_status = 'won' AND (ot.team_id IS NULL OR ot.team_id IS NOT NULL))
-            OR (ot2.current_team_status = 'won' AND (ot2.team_id IS NULL OR ot2.team_id IS NOT NULL));";
+    // SQL query with a prepared statement
+    $sql = "SELECT ot.team_id AS team_one_id, 
+              ot.current_team_status AS team_one_status, 
+              ot2.team_id AS team_two_id, 
+              ot2.current_team_status AS team_two_status
+            FROM bracket_teams bt
+            LEFT JOIN bracket_forms bf ON bf.id = bt.bracket_form_id
+            LEFT JOIN ongoing_teams ot ON ot.id = bt.team_one_id
+            LEFT JOIN ongoing_teams ot2 ON ot2.id = bt.team_two_id
+            WHERE bt.current_column = bf.current_column
+            AND bt.bracket_form_id = ?";
 
-    // Create a prepared statement
-    $stmt = $conn->prepare($query);
+    // Prepare the statement
+    $stmt = $conn->prepare($sql);
 
     // Bind the parameter to the prepared statement
     $stmt->bind_param("i", $id);
@@ -124,36 +124,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Loop through the $wonTeamsArray and insert the data
     for ($i = 0; $i < count($wonTeamsArray); $i++) {
-      // Get the team ID for this iteration
-      $team_id = $wonTeamsArray[$i];
+     // Get the team ID for this iteration
+     $team_id = $wonTeamsArray[$i];
 
-      // Check if $team_id is NULL and use NULL for the parameter if it is
-      if ($team_id === null) {
-          // Use NULL for the team_id column
-          $insertStmt->bind_param("sis", $team_id, $id, $current_team_status[0]);
-      } else {
-          // Use the actual value for the team_id column
-          $insertStmt->bind_param("iis", $team_id, $id, $current_team_status[1]);
-      }
+     // Check if $team_id is NULL and use NULL for the parameter if it is
+     if ($team_id === null) {
+         // Use NULL for the team_id column
+         $insertStmt->bind_param("sis", $team_id, $id, $current_team_status[0]);
+     } else {
+         // Use the actual value for the team_id column
+         $insertStmt->bind_param("iis", $team_id, $id, $current_team_status[1]);
+     }
 
-      // Execute the prepared statement to insert the data
-      $insertStmt->execute();
+     // Execute the prepared statement to insert the data
+     $insertStmt->execute();
 
-      // Store the inserted ID in the array
-      $insertedIds[] = $insertStmt->insert_id;
+     // Store the inserted ID in the array
+     $insertedIds[] = $insertStmt->insert_id;
     }
 
     // Close the insert statement
     $insertStmt->close();
 
     // Prepare the SQL query for inserting data into the new table
-    $insertQuery = "INSERT INTO bracket_teams (bracket_form_id, bracket_position, team_one_id, team_two_id, current_column) VALUES (?,?,?,?,?)";
+    $insertQuery = "INSERT INTO bracket_teams (bracket_form_id, team_one_id, team_two_id, current_column) VALUES (?,?,?,?)";
 
     // Create a prepared statement
     $insertStmt = $conn->prepare($insertQuery);
-
-    // Reset the bracket_position to 1
-    $bracket_position = 1;
 
     // Loop through the $insertedIds and insert the data
     for ($i = 0; $i < count($insertedIds); $i += 2) {
@@ -162,13 +159,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $team_two_id = $insertedIds[$i + 1];
 
       // Bind the values to the prepared statement as parameters
-      $insertStmt->bind_param("iiiii", $id, $bracket_position, $team_one_id, $team_two_id, $currentColumn);
+      $insertStmt->bind_param("iiii", $id, $team_one_id, $team_two_id, $currentColumn);
 
       // Execute the prepared statement to insert the data
       $insertStmt->execute();
-
-      // Increment the bracket_position
-      $bracket_position++;
     }
 
     // Close the insert statement
@@ -188,34 +182,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Close the update statement
     $updateStmt->close();
-
-    // Prepare the SQL query for the UPDATE statement
-    $query = "UPDATE ongoing_teams AS ot 
-              LEFT JOIN bracket_teams AS bt ON ot.id = bt.team_one_id
-              LEFT JOIN ongoing_teams AS ot2 ON ot2.id = bt.team_two_id
-              SET ot.current_team_status = CASE
-                  WHEN ot.current_team_status = 'active' AND ot.team_id IS NOT NULL THEN 'won'
-                  ELSE ot.current_team_status
-              END,
-              ot2.current_team_status = CASE
-                  WHEN ot2.current_team_status = 'active' AND ot2.team_id IS NOT NULL THEN 'won'
-                  ELSE ot2.current_team_status
-              END
-              WHERE bt.current_column = ?
-              AND bt.bracket_form_id = ?
-              AND (ot.team_id IS NULL OR ot2.team_id IS NULL)";
-
-    // Create a prepared statement
-    $stmt = $conn->prepare($query);
-
-    // Bind the parameters to the prepared statement
-    $stmt->bind_param("ii", $currentColumn, $id);
-
-    // Execute the UPDATE query
-    $stmt->execute();
-
-    // Close the statement
-    $stmt->close();
 
   } else if ($null_teams_count == 1) {
     // First UPDATE statement
@@ -374,13 +340,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insertStmt->close();
 
     // Prepare the SQL query for inserting data into the new table
-    $insertQuery = "INSERT INTO bracket_teams (bracket_form_id, bracket_position, team_one_id, team_two_id, current_column) VALUES (?,?,?,?,?)";
+    $insertQuery = "INSERT INTO bracket_teams (bracket_form_id, team_one_id, team_two_id, current_column) VALUES (?,?,?,?)";
 
     // Create a prepared statement
     $insertStmt = $conn->prepare($insertQuery);
-
-    // Reset the bracket_position to 1
-    $bracket_position = 1;
 
     // Loop through the $insertedIds and insert the data
     for ($i = 0; $i < count($insertedIds); $i += 2) {
@@ -389,13 +352,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $team_two_id = $insertedIds[$i + 1];
 
       // Bind the values to the prepared statement as parameters
-      $insertStmt->bind_param("iiiii", $id, $bracket_position, $team_one_id, $team_two_id, $currentColumn);
+      $insertStmt->bind_param("iiii", $id, $team_one_id, $team_two_id, $currentColumn);
 
       // Execute the prepared statement to insert the data
       $insertStmt->execute();
-
-      // Increment the bracket_position
-      $bracket_position++;
     }
 
     // Close the insert statement
@@ -427,7 +387,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     LEFT JOIN ongoing_teams ot ON ot.id = bt.team_one_id
     LEFT JOIN ongoing_teams ot2 ON ot2.id = bt.team_two_id
     WHERE bt.current_column = bf.current_column
-    AND bt.bracket_form_id = ?";
+    AND bf.id = ?";
 
     // Prepare the statement
     $stmt = $conn->prepare($sql);
@@ -507,13 +467,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $insertStmt->close();
 
     // Prepare the SQL query for inserting data into the new table
-    $insertQuery = "INSERT INTO bracket_teams (bracket_form_id, bracket_position, team_one_id, team_two_id, current_column) VALUES (?,?,?,?,?)";
+    $insertQuery = "INSERT INTO bracket_teams (bracket_form_id, team_one_id, team_two_id, current_column) VALUES (?,?,?,?)";
 
     // Create a prepared statement
     $insertStmt = $conn->prepare($insertQuery);
-
-    // Reset the bracket_position to 1
-    $bracket_position = 1;
 
     // Loop through the $insertedIds and insert the data
     for ($i = 0; $i < count($insertedIds); $i += 2) {
@@ -522,13 +479,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $team_two_id = $insertedIds[$i + 1];
 
       // Bind the values to the prepared statement as parameters
-      $insertStmt->bind_param("iiiii", $id, $bracket_position, $team_one_id, $team_two_id, $currentColumn);
+      $insertStmt->bind_param("iiii", $id, $team_one_id, $team_two_id, $currentColumn);
 
       // Execute the prepared statement to insert the data
       $insertStmt->execute();
-
-      // Increment the bracket_position
-      $bracket_position++;
     }
 
     // Close the insert statement
