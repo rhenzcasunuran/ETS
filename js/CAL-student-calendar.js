@@ -1478,61 +1478,66 @@ var studentCalendarPhone = {
           // Get a reference to the <div> element
           const divElement = document.getElementById("noShowUpcomingEvents");
 
-          // Iterate over events data and populate details for upcoming events
-          for (var i = 0; i < events.length; i++) {
-            const event = events[i];
+          if (events.length === 0) {
+            // Set the display property to "block" to make it visible
+            divElement.style.display = "flex";
+          } else {
+            // Iterate over events data and populate details for upcoming events
+            for (var i = 0; i < events.length; i++) {
+              const event = events[i];
 
-            // Create a new Date object from the event date string
-            const eventDate = new Date(event.event_date);
-
-            // Check if the event date is tomorrow or later
-            if (eventDate >= tomorrow) {
-              // Set the display property to "block" to make it visible
-              divElement.style.display = "none";
-
-              // Create the necessary elements
-              const div = document.createElement("div");
-              div.className = "div";
-              const element = document.createElement("div");
-              element.className = "element";
-              const row = document.createElement("div");
-              row.className = "row";
-              const seeMoreLink = document.createElement("div");
-              seeMoreLink.textContent = "See more";
-              const elementGroup = document.createElement("div");
-              elementGroup.className = "element-group";
-              const elementLabel = document.createElement("div");
-              elementLabel.className = "element-label";
               // Create a new Date object from the event date string
-              const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'long' });
-              const formattedDate = eventDate.toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric'
-              });
-              // Get the day of the week as a string
-              elementLabel.textContent = formattedDate;
-              const elementContent = document.createElement("div");
-              elementContent.className = "element-content";
-              if (event.event_org) {
-                elementContent.innerHTML = "<b>" + event.category_name + "</b>" + "<br>" + "<span class='pill-" +
-                  event.event_org.toLowerCase() + "'" + ">" + event.event_org + "</span>" + "<br>" + "<div class='d-flex justify-content-between'>" + "<div>" + dayOfWeek + "</div>" + "<div>" + "<a href='javascript:void(0)' class='no-underline-link'>" + "See more" + "</a>" + "</div>" + "</div>";
-              } else {
-                elementContent.innerHTML = "<b>" + event.category_name + "</b>" + "<br>" + "<div class='d-flex justify-content-between'>" + "<div>" + dayOfWeek + "</div>" + "<div>" + "<a href='javascript:void(0)' class='no-underline-link'>" + "See more" + "</a>" + "</div>" + "</div>";
-              }
+              const eventDate = new Date(event.event_date);
 
-              const eventLink = elementContent.querySelector("a");
-              eventLink.addEventListener("click", createModalUpcoming(event.event_id, formattedDate, event.category_name, event.event_time, event.event_org, event.event_description, event.event_type));
-              // Append elements to the container
-              elementGroup.appendChild(elementLabel);
-              elementGroup.appendChild(elementContent);
-              row.appendChild(elementGroup);
-              element.appendChild(row);
-              div.appendChild(element);
-              showUpcomingEventsContainer.appendChild(div);
-            } else {
-              // Set the display property to "block" to make it visible
-              divElement.style.display = "flex";
+              // Check if the event date is tomorrow or later
+              if (eventDate >= tomorrow) {
+                // Set the display property to "block" to make it visible
+                divElement.style.display = "none";
+
+                // Create the necessary elements
+                const div = document.createElement("div");
+                div.className = "div";
+                const element = document.createElement("div");
+                element.className = "element";
+                const row = document.createElement("div");
+                row.className = "row";
+                const seeMoreLink = document.createElement("div");
+                seeMoreLink.textContent = "See more";
+                const elementGroup = document.createElement("div");
+                elementGroup.className = "element-group";
+                const elementLabel = document.createElement("div");
+                elementLabel.className = "element-label";
+                // Create a new Date object from the event date string
+                const dayOfWeek = eventDate.toLocaleDateString('en-US', { weekday: 'long' });
+                const formattedDate = eventDate.toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                });
+                // Get the day of the week as a string
+                elementLabel.textContent = formattedDate;
+                const elementContent = document.createElement("div");
+                elementContent.className = "element-content";
+                if (event.event_org) {
+                  elementContent.innerHTML = "<b>" + event.category_name + "</b>" + "<br>" + "<span class='pill-" +
+                    event.event_org.toLowerCase() + "'" + ">" + event.event_org + "</span>" + "<br>" + "<div class='d-flex justify-content-between'>" + "<div>" + dayOfWeek + "</div>" + "<div>" + "<a href='javascript:void(0)' class='no-underline-link'>" + "See more" + "</a>" + "</div>" + "</div>";
+                } else {
+                  elementContent.innerHTML = "<b>" + event.category_name + "</b>" + "<br>" + "<div class='d-flex justify-content-between'>" + "<div>" + dayOfWeek + "</div>" + "<div>" + "<a href='javascript:void(0)' class='no-underline-link'>" + "See more" + "</a>" + "</div>" + "</div>";
+                }
+
+                const eventLink = elementContent.querySelector("a");
+                eventLink.addEventListener("click", createModalUpcoming(event.event_id, formattedDate, event.category_name, event.event_time, event.event_org, event.event_description, event.event_type));
+                // Append elements to the container
+                elementGroup.appendChild(elementLabel);
+                elementGroup.appendChild(elementContent);
+                row.appendChild(elementGroup);
+                element.appendChild(row);
+                div.appendChild(element);
+                showUpcomingEventsContainer.appendChild(div);
+              } else {
+                // Set the display property to "block" to make it visible
+                divElement.style.display = "flex";
+              }
             }
           }
 
