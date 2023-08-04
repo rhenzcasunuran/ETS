@@ -22,6 +22,24 @@
     <link rel="stylesheet" href="./css/system-wide.css">
     <link rel="stylesheet" href="./css/TOU-colors.css">
     <script src="./js/jquery-3.6.4.js"></script>
+    <style>
+      .searchbar-container {
+        position: relative;
+        max-width: 450px;     
+      }
+
+      #searchIcon {
+        position: absolute;
+        left: 15px; /* Adjust this value to control the icon's position */
+        top: 37%;
+        transform: translateY(-45%);
+        color: var(--color-content-text) !important;
+      }
+
+      #searchInput {
+        text-indent: 30px; /* Adjust this value to add more margin to the placeholder */ 
+      }
+    </style>
   </head>
 
   <body>
@@ -106,34 +124,59 @@
                 var activeTournamentsDiv = $('#active-tournaments');
 
                 if (data.length > 0) {
-                    data.forEach(function (tournament) {
-                        var buttonHtml = `<button class="primary-button" id="edit-tournament-${tournament.id}">Edit</button>`;
+                  // Search container HTML
+                  var searchContainerHtml = `
+                  <div class="d-flex flex-row gap-2">
+                    <div class="searchbar-container flex-grow-1">
+                      <i class="bx bx-search bx-sm" id="searchIcon"></i>
+                      <input class="w-100 mt-1" type="text" id="searchInput" placeholder="Search" maxlength="25" autocomplete="off">
+                    </div>
+                    <div class="dropdown-center dropdown">
+                      <button type="button" class="btn btn-primary h-75 sort-dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                        <div class="d-flex justify-content-center"><div class="me-2"><b>Sort by</b></div><div><i class='bx bx-filter mt-1'></i></div></div>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  `;
 
-                        var elementHtml = `
-                            <div class="div">
-                                <div class="element">
-                                    <div class="row">
-                                        <div class="element-group">
-                                            <div class="element-label">${tournament.event_name}</div>
-                                            <div class="element-content">${tournament.category_name}</div>
-                                            <div class="d-flex justify-content-end">${buttonHtml}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                  // Append the search container to the activeTournamentsDiv
+                  activeTournamentsDiv.append(searchContainerHtml);
 
-                        activeTournamentsDiv.append(elementHtml);
+                  data.forEach(function (tournament) {
+                      var buttonHtml = `<button class="primary-button" id="edit-tournament-${tournament.id}">Edit</button>`;
 
-                        // Attach a click event handler to all buttons with IDs starting with "edit-tournament-"
-                        $("[id^='edit-tournament-']").on("click", function() {
-                            // Get the numerical ID from the clicked button's ID attribute
-                            let numericalId = this.id.split("-").pop();
+                      var elementHtml = `
+                          <div class="div">
+                              <div class="element">
+                                  <div class="row">
+                                      <div class="element-group">
+                                          <div class="element-label">${tournament.event_name}</div>
+                                          <div class="element-content">${tournament.category_name}</div>
+                                          <div class="d-flex justify-content-end">${buttonHtml}</div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
 
-                            // Redirect to the desired page with the numerical ID
-                            window.location.href = "TOU-admin-edit-tournament.php?id=" + numericalId;
-                        });
-                    });
+                      activeTournamentsDiv.append(elementHtml);
+
+                      // Attach a click event handler to all buttons with IDs starting with "edit-tournament-"
+                      $("[id^='edit-tournament-']").on("click", function() {
+                          // Get the numerical ID from the clicked button's ID attribute
+                          let numericalId = this.id.split("-").pop();
+
+                          // Redirect to the desired page with the numerical ID
+                          window.location.href = "TOU-admin-edit-tournament.php?id=" + numericalId;
+                      });
+                  });
                 } else {
                     $('#active-tournaments').append('<div class="container text-center mt-3"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><div class="d-flex justify-content-center"><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue"></i>Create Tournament</button></div>');
                     }
