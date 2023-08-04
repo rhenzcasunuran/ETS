@@ -197,9 +197,18 @@
               <div class="row d-flex justify-content-between align-items-center w-100">
                 <div class="header col-7">List of Events</div>
                 <div class="button-container col-5">
-                  <button class="primary-button icon-button" id="create-event-btn"><i class='bx bx-add-to-queue'></i></button>
-                  <button class="danger-button icon-button" id="delete-event-btn"><i class='bx bx-trash'></i></button>
-                  <button class="secondary-button icon-button" id="edit-event-btn"><i class='bx bx-edit'></i></button>
+                  <button class="primary-button icon-button" id="create-event-btn">
+                    <i class='bx bx-add-to-queue'></i>
+                    <div class="btn-tooltip">Create</div>
+                  </button>
+                  <button class="danger-button icon-button" id="delete-event-btn">
+                    <i class='bx bx-trash'></i>
+                    <div class="btn-tooltip">Delete</div>
+                  </button>
+                  <button class="secondary-button icon-button" id="edit-event-btn">
+                    <i class='bx bx-edit'></i>
+                    <div class="btn-tooltip">Edit</div>
+                  </button>
                 </div>
                 <div class="filter-container">
                   <div class="searchbar-container">
