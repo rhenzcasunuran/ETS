@@ -10,8 +10,8 @@ var studentCalendarComputer = {
   initialize: function() {
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-    var filters = [];
-    var filtersOrg = [];
+    let filters = [];
+    let filtersOrg = [];
 
     function generateEventTypeCheckboxes(eventTypes) {
       const eventTypeCheckboxesContainer = $('#eventTypeCheckboxes');

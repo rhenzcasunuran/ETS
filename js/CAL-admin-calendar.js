@@ -1610,8 +1610,8 @@ var adminCalendarComputer = {
 
 var adminCalendarPhone = {
   initialize: function() {
-    var filters = [];
-    var filtersOrg = [];
+    let filters = [];
+    let filtersOrg = [];
     var selectedDate;
 
     function generateEventTypeCheckboxes(eventTypes) {
