@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2023 at 10:37 AM
+-- Generation Time: Aug 07, 2023 at 02:55 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -104,15 +104,6 @@ CREATE TABLE `bracket_forms` (
   `is_active` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `bracket_forms`
---
-
-INSERT INTO `bracket_forms` (`id`, `current_column`, `node_id_start`, `parent_id_start`, `is_active`) VALUES
-(1, 3, 15, 8, 0),
-(2, 2, 7, 4, 0),
-(4, 3, 15, 8, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -127,29 +118,6 @@ CREATE TABLE `bracket_teams` (
   `event_date_time` datetime DEFAULT NULL,
   `current_column` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `bracket_teams`
---
-
-INSERT INTO `bracket_teams` (`id`, `bracket_form_id`, `team_one_id`, `team_two_id`, `event_date_time`, `current_column`) VALUES
-(1, 1, 6, 5, '2023-07-30 12:56:00', 1),
-(2, 1, 7, 8, '2023-07-30 12:56:00', 1),
-(3, 1, 2, 1, '2023-07-30 12:56:00', 1),
-(4, 1, 4, 3, '2023-07-30 12:56:00', 1),
-(5, 1, 29, 30, '2023-08-02 10:09:00', 2),
-(6, 1, 31, 32, '2023-08-02 10:09:00', 2),
-(7, 1, 33, 34, '2023-08-02 10:12:00', 3),
-(8, 2, 36, 37, '2023-08-02 10:36:00', 1),
-(9, 2, 38, 39, NULL, 1),
-(10, 2, 40, 41, '2023-08-02 10:36:00', 2),
-(18, 4, 57, 62, '2023-08-02 10:51:00', 1),
-(19, 4, 58, 61, '2023-08-02 10:51:00', 1),
-(20, 4, 60, 59, '2023-08-02 10:51:00', 1),
-(21, 4, 63, 64, NULL, 1),
-(22, 4, 65, 66, '2023-08-02 10:52:00', 2),
-(23, 4, 67, 68, NULL, 2),
-(24, 4, 69, 70, '2023-08-02 10:53:00', 3);
 
 -- --------------------------------------------------------
 
@@ -506,51 +474,6 @@ CREATE TABLE `ongoing_teams` (
   `current_set_no` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `ongoing_teams`
---
-
-INSERT INTO `ongoing_teams` (`id`, `team_id`, `bracket_form_id`, `current_team_status`, `current_overall_score`, `current_score`, `current_set_no`) VALUES
-(1, 1, 1, 'won', 2, 15, 3),
-(2, 2, 1, 'lost', 1, 0, 3),
-(3, 3, 1, 'lost', 0, 0, 2),
-(4, 4, 1, 'won', 2, 25, 2),
-(5, 5, 1, 'lost', 0, 0, 2),
-(6, 6, 1, 'won', 2, 25, 2),
-(7, 7, 1, 'won', 2, 15, 3),
-(8, 8, 1, 'lost', 1, 0, 3),
-(29, 6, 1, 'won', 2, 25, 2),
-(30, 7, 1, 'lost', 0, 0, 2),
-(31, 1, 1, 'lost', 1, 0, 3),
-(32, 4, 1, 'won', 2, 15, 3),
-(33, 6, 1, 'won', 2, 15, 3),
-(34, 4, 1, 'lost', 1, 0, 3),
-(35, 6, 1, 'champion', 0, 0, 1),
-(36, 1, 2, 'won', 2, 5, 3),
-(37, 2, 2, 'lost', 1, 0, 3),
-(38, 3, 2, 'won', 0, 0, 1),
-(39, NULL, 2, 'lost', 0, 0, 1),
-(40, 1, 2, 'won', 2, 5, 3),
-(41, 3, 2, 'lost', 1, 0, 3),
-(42, 1, 2, 'champion', 0, 0, 1),
-(55, 8, 3, 'won', 0, 0, 1),
-(56, NULL, 3, 'lost', 0, 0, 1),
-(57, 1, 4, 'won', 2, 2, 2),
-(58, 2, 4, 'won', 2, 2, 2),
-(59, 3, 4, 'lost', 0, 0, 2),
-(60, 4, 4, 'won', 2, 2, 2),
-(61, 5, 4, 'lost', 0, 0, 2),
-(62, 8, 4, 'lost', 0, 0, 2),
-(63, NULL, 4, 'lost', 0, 0, 1),
-(64, NULL, 4, 'won', 0, 0, 1),
-(65, 1, 4, 'won', 2, 1, 3),
-(66, 2, 4, 'lost', 1, 0, 3),
-(67, 4, 4, 'won', 0, 0, 1),
-(68, NULL, 4, 'lost', 0, 0, 1),
-(69, 1, 4, 'won', 2, 2, 2),
-(70, 4, 4, 'lost', 0, 0, 2),
-(71, 1, 4, 'champion', 0, 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -683,21 +606,6 @@ CREATE TABLE `score_rule` (
   `game_type` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `score_rule`
---
-
-INSERT INTO `score_rule` (`id`, `bracket_form_id`, `set_no`, `max_value`, `game_type`) VALUES
-(1, 1, 1, 27, 'score-based'),
-(2, 1, 2, 25, 'score-based'),
-(3, 1, 3, 15, 'score-based'),
-(4, 2, 1, 2, 'score-based'),
-(5, 2, 2, 2, 'score-based'),
-(6, 2, 3, 5, 'score-based'),
-(10, 4, 1, 2, 'score-based'),
-(11, 4, 2, 2, 'score-based'),
-(12, 4, 3, 1, 'score-based');
-
 -- --------------------------------------------------------
 
 --
@@ -717,12 +625,10 @@ CREATE TABLE `tournament` (
 --
 
 INSERT INTO `tournament` (`tournament_id`, `event_id`, `number_of_wins_id`, `has_set_tournament`, `bracket_form_id`) VALUES
-(1, 14, 2, 1, 1),
 (2, 15, 1, 0, NULL),
 (3, 16, 1, 0, NULL),
-(4, 17, 2, 1, 2),
 (5, 18, 2, 0, NULL),
-(6, 19, 2, 1, 4);
+(6, 19, 2, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -739,164 +645,6 @@ CREATE TABLE `tournament_score_archive` (
   `current_set_no` int(11) NOT NULL,
   `current_score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tournament_score_archive`
---
-
-INSERT INTO `tournament_score_archive` (`id`, `team_id`, `bracket_form_id`, `current_team_status`, `current_overall_score`, `current_set_no`, `current_score`) VALUES
-(1, 5, 1, 'won', 1, 0, 27),
-(2, 6, 1, 'lost', 0, 0, 25),
-(3, 5, 1, 'won', 1, 0, 27),
-(4, 6, 1, 'lost', 0, 0, 25),
-(5, 6, 1, 'won', 1, 0, 0),
-(6, 5, 1, 'lost', 1, 0, 27),
-(7, 8, 1, 'won', 1, 1, 27),
-(8, 7, 1, 'lost', 0, 1, 26),
-(9, 8, 1, 'won', 2, 2, 27),
-(10, 7, 1, 'lost', 0, 2, 0),
-(11, 7, 1, 'won', 1, 3, 27),
-(12, 8, 1, 'lost', 2, 3, 0),
-(13, 2, 1, 'won', 1, 1, 27),
-(14, 1, 1, 'lost', 0, 1, 0),
-(15, 2, 1, 'won', 2, 2, 25),
-(16, 1, 1, 'lost', 0, 2, 0),
-(17, 1, 1, 'won', 1, 3, 15),
-(18, 2, 1, 'lost', 2, 3, 0),
-(19, 4, 1, 'won', 1, 1, 27),
-(20, 3, 1, 'lost', 0, 1, 0),
-(21, 3, 1, 'won', 1, 2, 25),
-(22, 4, 1, 'lost', 1, 2, 0),
-(23, 4, 1, 'won', 2, 3, 15),
-(24, 3, 1, 'lost', 1, 3, 0),
-(25, 2, 1, 'won', 1, 1, 27),
-(26, 1, 1, 'lost', 0, 1, 0),
-(27, 1, 1, 'won', 1, 2, 25),
-(28, 2, 1, 'lost', 1, 2, 0),
-(29, 2, 1, 'won', 2, 3, 15),
-(30, 1, 1, 'lost', 1, 3, 0),
-(31, 6, 1, 'won', 1, 1, 27),
-(32, 5, 1, 'lost', 0, 1, 0),
-(33, 6, 1, 'won', 2, 2, 25),
-(34, 5, 1, 'lost', 0, 2, 0),
-(35, 6, 1, 'won', 3, 3, 15),
-(36, 5, 1, 'lost', 0, 3, 0),
-(37, 8, 1, 'won', 1, 1, 27),
-(38, 7, 1, 'lost', 0, 1, 0),
-(39, 7, 1, 'won', 1, 2, 0),
-(40, 8, 1, 'lost', 1, 2, 25),
-(41, 2, 1, 'won', 1, 1, 27),
-(42, 1, 1, 'lost', 0, 1, 0),
-(43, 2, 1, 'won', 2, 2, 25),
-(44, 1, 1, 'lost', 0, 2, 0),
-(45, 4, 1, 'won', 1, 1, 27),
-(46, 3, 1, 'lost', 0, 1, 0),
-(47, 4, 1, 'won', 2, 2, 0),
-(48, 3, 1, 'lost', 0, 2, 25),
-(49, 6, 1, 'won', 1, 1, 27),
-(50, 5, 1, 'lost', 0, 1, 0),
-(51, 6, 1, 'won', 2, 2, 0),
-(52, 5, 1, 'lost', 0, 2, 25),
-(53, 7, 1, 'won', 1, 1, 27),
-(54, 8, 1, 'lost', 0, 1, 0),
-(55, 7, 1, 'won', 2, 2, 25),
-(56, 8, 1, 'lost', 0, 2, 0),
-(57, 6, 1, 'won', 1, 1, 27),
-(58, 5, 1, 'lost', 0, 1, 0),
-(59, 6, 1, 'won', 2, 2, 0),
-(60, 5, 1, 'lost', 0, 2, 25),
-(61, 6, 1, 'won', 1, 1, 27),
-(62, 5, 1, 'lost', 0, 1, 0),
-(63, 6, 1, 'won', 1, 1, 27),
-(64, 5, 1, 'lost', 0, 1, 0),
-(65, 6, 1, 'won', 1, 1, 27),
-(66, 5, 1, 'lost', 0, 1, 0),
-(67, 5, 1, 'won', 1, 2, 25),
-(68, 6, 1, 'lost', 1, 2, 0),
-(69, 6, 1, 'won', 2, 3, 15),
-(70, 5, 1, 'lost', 1, 3, 0),
-(71, 6, 1, 'won', 1, 1, 27),
-(72, 5, 1, 'lost', 0, 1, 0),
-(73, 6, 1, 'won', 2, 2, 25),
-(74, 5, 1, 'lost', 0, 2, 0),
-(75, 7, 1, 'won', 1, 1, 27),
-(76, 8, 1, 'lost', 0, 1, 0),
-(77, 8, 1, 'won', 1, 2, 25),
-(78, 7, 1, 'lost', 1, 2, 0),
-(79, 7, 1, 'won', 2, 3, 15),
-(80, 8, 1, 'lost', 1, 3, 0),
-(81, 2, 1, 'won', 1, 1, 27),
-(82, 1, 1, 'lost', 0, 1, 0),
-(83, 1, 1, 'won', 1, 2, 25),
-(84, 2, 1, 'lost', 1, 2, 0),
-(85, 2, 1, 'won', 2, 3, 0),
-(86, 1, 1, 'lost', 1, 3, 15),
-(87, 4, 1, 'won', 1, 1, 27),
-(88, 3, 1, 'lost', 0, 1, 0),
-(89, 4, 1, 'won', 2, 2, 25),
-(90, 3, 1, 'lost', 0, 2, 0),
-(91, 6, 1, 'won', 1, 1, 27),
-(92, 7, 1, 'lost', 0, 1, 0),
-(93, 6, 1, 'won', 2, 2, 25),
-(94, 7, 1, 'lost', 0, 2, 0),
-(95, 4, 1, 'won', 1, 1, 27),
-(96, 1, 1, 'lost', 0, 1, 0),
-(97, 1, 1, 'won', 1, 2, 25),
-(98, 4, 1, 'lost', 1, 2, 0),
-(99, 1, 1, 'won', 2, 3, 0),
-(100, 4, 1, 'lost', 1, 3, 15),
-(101, 6, 1, 'won', 1, 1, 27),
-(102, 4, 1, 'lost', 0, 1, 0),
-(103, 4, 1, 'won', 1, 2, 25),
-(104, 6, 1, 'lost', 1, 2, 0),
-(105, 6, 1, 'won', 2, 3, 15),
-(106, 4, 1, 'lost', 1, 3, 0),
-(107, 1, 2, 'won', 1, 1, 2),
-(108, 2, 2, 'lost', 0, 1, 0),
-(109, 2, 2, 'won', 1, 2, 2),
-(110, 1, 2, 'lost', 1, 2, 0),
-(111, 1, 2, 'won', 2, 3, 5),
-(112, 2, 2, 'lost', 1, 3, 0),
-(113, 1, 2, 'won', 1, 1, 2),
-(114, 3, 2, 'lost', 0, 1, 0),
-(115, 3, 2, 'won', 1, 2, 2),
-(116, 1, 2, 'lost', 1, 2, 0),
-(117, 1, 2, 'won', 2, 3, 5),
-(118, 3, 2, 'lost', 1, 3, 0),
-(119, 3, 3, 'won', 1, 1, 2),
-(120, 2, 3, 'lost', 0, 1, 0),
-(121, 3, 3, 'won', 2, 2, 2),
-(122, 2, 3, 'lost', 0, 2, 0),
-(123, 8, 3, 'won', 1, 1, 2),
-(124, 6, 3, 'lost', 0, 1, 0),
-(125, 8, 3, 'won', 2, 2, 2),
-(126, 6, 3, 'lost', 0, 2, 0),
-(127, 1, 3, 'won', 1, 1, 2),
-(128, 4, 3, 'lost', 0, 1, 0),
-(129, 1, 3, 'won', 2, 2, 2),
-(130, 4, 3, 'lost', 0, 2, 0),
-(131, 1, 4, 'won', 1, 1, 2),
-(132, 8, 4, 'lost', 0, 1, 0),
-(133, 1, 4, 'won', 2, 2, 2),
-(134, 8, 4, 'lost', 0, 2, 0),
-(135, 2, 4, 'won', 1, 1, 2),
-(136, 5, 4, 'lost', 0, 1, 0),
-(137, 2, 4, 'won', 2, 2, 2),
-(138, 5, 4, 'lost', 0, 2, 0),
-(139, 4, 4, 'won', 1, 1, 2),
-(140, 3, 4, 'lost', 0, 1, 0),
-(141, 4, 4, 'won', 2, 2, 2),
-(142, 3, 4, 'lost', 0, 2, 0),
-(143, 1, 4, 'won', 1, 1, 2),
-(144, 2, 4, 'lost', 0, 1, 0),
-(145, 2, 4, 'won', 1, 2, 2),
-(146, 1, 4, 'lost', 1, 2, 0),
-(147, 1, 4, 'won', 2, 3, 1),
-(148, 2, 4, 'lost', 1, 3, 0),
-(149, 1, 4, 'won', 1, 1, 2),
-(150, 4, 4, 'lost', 0, 1, 0),
-(151, 1, 4, 'won', 2, 2, 2),
-(152, 4, 4, 'lost', 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -1130,13 +878,13 @@ ALTER TABLE `bar_graph`
 -- AUTO_INCREMENT for table `bracket_forms`
 --
 ALTER TABLE `bracket_forms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `bracket_teams`
 --
 ALTER TABLE `bracket_teams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `category_name`
@@ -1220,7 +968,7 @@ ALTER TABLE `ongoing_list_of_event`
 -- AUTO_INCREMENT for table `ongoing_teams`
 --
 ALTER TABLE `ongoing_teams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `organization`
@@ -1250,7 +998,7 @@ ALTER TABLE `post_photo`
 -- AUTO_INCREMENT for table `score_rule`
 --
 ALTER TABLE `score_rule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tournament`
@@ -1262,7 +1010,7 @@ ALTER TABLE `tournament`
 -- AUTO_INCREMENT for table `tournament_score_archive`
 --
 ALTER TABLE `tournament_score_archive`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -1285,7 +1033,7 @@ ALTER TABLE `bar_graph`
 -- Constraints for table `bracket_teams`
 --
 ALTER TABLE `bracket_teams`
-  ADD CONSTRAINT `bracket_teams_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`),
+  ADD CONSTRAINT `bracket_teams_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bracket_teams_ibfk_2` FOREIGN KEY (`team_one_id`) REFERENCES `ongoing_teams` (`id`),
   ADD CONSTRAINT `bracket_teams_ibfk_3` FOREIGN KEY (`team_two_id`) REFERENCES `ongoing_teams` (`id`);
 
@@ -1351,7 +1099,8 @@ ALTER TABLE `ongoing_list_of_event`
 -- Constraints for table `ongoing_teams`
 --
 ALTER TABLE `ongoing_teams`
-  ADD CONSTRAINT `ongoing_teams_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `organization` (`organization_id`);
+  ADD CONSTRAINT `ongoing_teams_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `organization` (`organization_id`),
+  ADD CONSTRAINT `ongoing_teams_ibfk_2` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `participants`
@@ -1359,6 +1108,37 @@ ALTER TABLE `ongoing_teams`
 ALTER TABLE `participants`
   ADD CONSTRAINT `participants_ibfk_1` FOREIGN KEY (`competition_id`) REFERENCES `competition` (`competition_id`),
   ADD CONSTRAINT `participants_ibfk_2` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`);
+
+--
+-- Constraints for table `post`
+--
+ALTER TABLE `post`
+  ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`);
+
+--
+-- Constraints for table `post_photo`
+--
+ALTER TABLE `post_photo`
+  ADD CONSTRAINT `post_photo_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`);
+
+--
+-- Constraints for table `score_rule`
+--
+ALTER TABLE `score_rule`
+  ADD CONSTRAINT `score_rule_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tournament`
+--
+ALTER TABLE `tournament`
+  ADD CONSTRAINT `tournament_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `tournament_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`);
+
+--
+-- Constraints for table `tournament_score_archive`
+--
+ALTER TABLE `tournament_score_archive`
+  ADD CONSTRAINT `tournament_score_archive_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

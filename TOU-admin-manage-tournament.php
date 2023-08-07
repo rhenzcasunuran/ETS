@@ -72,7 +72,7 @@
         </div>
         <div class="col-8 text-start text-container">
           <h3 class="text-header">Delete Tournament?</h3>   <!--header-->
-          <p>This will delete the tournament and it's data permanently. This action cannot be undone.</p> <!--text-->
+          <p>This will delete the tournament and its data permanently. This action cannot be undone.</p> <!--text-->
         </div>
         <div class="div">
           <button class="outline-button" id="delete-hide"><i class='bx bx-x'></i>Cancel</button>
