@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2023 at 04:55 AM
+-- Generation Time: Aug 07, 2023 at 10:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -1351,8 +1351,7 @@ ALTER TABLE `ongoing_list_of_event`
 -- Constraints for table `ongoing_teams`
 --
 ALTER TABLE `ongoing_teams`
-  ADD CONSTRAINT `ongoing_teams_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`),
-  ADD CONSTRAINT `ongoing_teams_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `organization` (`organization_id`);
+  ADD CONSTRAINT `ongoing_teams_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES `organization` (`organization_id`);
 
 --
 -- Constraints for table `participants`
@@ -1360,39 +1359,6 @@ ALTER TABLE `ongoing_teams`
 ALTER TABLE `participants`
   ADD CONSTRAINT `participants_ibfk_1` FOREIGN KEY (`competition_id`) REFERENCES `competition` (`competition_id`),
   ADD CONSTRAINT `participants_ibfk_2` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`);
-
---
--- Constraints for table `post`
---
-ALTER TABLE `post`
-  ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`organization_id`);
-
---
--- Constraints for table `post_photo`
---
-ALTER TABLE `post_photo`
-  ADD CONSTRAINT `post_photo_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `score_rule`
---
-ALTER TABLE `score_rule`
-  ADD CONSTRAINT `score_rule_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`);
-
---
--- Constraints for table `tournament`
---
-ALTER TABLE `tournament`
-  ADD CONSTRAINT `tournament_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `ongoing_list_of_event` (`event_id`),
-  ADD CONSTRAINT `tournament_ibfk_2` FOREIGN KEY (`number_of_wins_id`) REFERENCES `number_of_wins` (`number_of_wins_id`),
-  ADD CONSTRAINT `tournament_ibfk_3` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`);
-
---
--- Constraints for table `tournament_score_archive`
---
-ALTER TABLE `tournament_score_archive`
-  ADD CONSTRAINT `tournament_score_archive_ibfk_1` FOREIGN KEY (`bracket_form_id`) REFERENCES `bracket_forms` (`id`),
-  ADD CONSTRAINT `tournament_score_archive_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `organization` (`organization_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

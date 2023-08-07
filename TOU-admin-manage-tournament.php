@@ -64,6 +64,23 @@
   </head>
 
   <body>
+    <!--Popup Delete / Danger-->
+    <div class="popup-background" id="deleteWrapper">
+      <div class="row popup-container">
+        <div class="col-4">
+          <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
+        </div>
+        <div class="col-8 text-start text-container">
+          <h3 class="text-header">Delete Tournament?</h3>   <!--header-->
+          <p>This will delete the tournament permanently. This action cannot be undone.</p> <!--text-->
+        </div>
+        <div class="div">
+          <button class="outline-button" id="delete-hide"><i class='bx bx-x'></i>Cancel</button>
+          <div id="dynamicDeleteButton"></div>
+        </div>
+        </div>
+      </div>
+    </div>
     <!--Sidebar-->
     <?php
       // Set the active module and sub-active sub-item variables
@@ -73,7 +90,6 @@
       // Include the sidebar template
       require './php/admin-sidebar.php';
     ?>
-
     <!-- Event And Category Fetch -->
     <script type="text/javascript">
         $(document).ready(function() {
@@ -231,7 +247,11 @@
 
               if (data.length > 0) {
                 data.forEach(function (tournament) {
-                    var buttonHtml = `<button class="primary-button" id="edit-tournament-${tournament.id}">Edit</button>`;
+                    var buttonHtml = ` 
+                    <div class="div">     
+                      <button class="danger-button" id="delete-show-${tournament.id}">Delete</button>
+                      <button class="primary-button" id="edit-tournament-${tournament.id}">Edit</button>
+                    </div>`;
 
                     var elementHtml = `
                         <div class="div">
@@ -265,6 +285,45 @@
                         // Redirect to the desired page with the numerical ID
                         window.location.href = "TOU-admin-edit-tournament.php?id=" + numericalId;
                     });
+                });
+
+                // Event listener for elements with IDs starting with "delete-show-"
+                $("[id^='delete-show-']").on("click", function() {       
+                  // Get the numerical ID from the clicked button's ID attribute
+                  let numericalId = this.id.split("-").pop();
+                  // Create the dynamic delete button with classes and icon
+                  let dynamicDeleteButton = $(`<button class="danger-button" id="delete-tournament-${numericalId}"><i class='bx bx-trash'></i>Delete</button>`);
+                  // Append the button to the dynamicDeleteButton div
+                  $("#dynamicDeleteButton").empty();
+                  $("#dynamicDeleteButton").append(dynamicDeleteButton);
+                  $('#deleteWrapper').css("display", "flex");
+
+                  // Event listener for elements with IDs starting with "delete-show-"
+                  $("[id^='delete-tournament-']").on("click", function() {  
+                    // Get the numerical ID from the clicked button's ID attribute
+                    let numericalId = this.id.split("-").pop();
+                    // Send AJAX request to the PHP script for handling the DELETE operation
+                    $.ajax({
+                      url: "./php/TOU-delete-bracket-form.php", // Replace with the path to your PHP script
+                      method: "POST",
+                      data: { id: numericalId },
+                      success: function(response) {
+                        // Handle the response from the server, if needed
+                        $("#dynamicDeleteButton").empty();
+                        $("#dynamicDeleteButton").append(dynamicDeleteButton);
+                        $('#deleteWrapper').css("display", "none");
+                        initializeDynamicContent(flexRadioDefaultValue, flexRadioDefault2Value, searchInputValue)
+                      },
+                      error: function(xhr, status, error) {
+                        // Handle errors, if any
+                        console.error(xhr.responseText);
+                      }
+                    });
+                  });
+                });
+
+                $("#delete-hide").on("click", function() {
+                  $('#deleteWrapper').css("display", "none");
                 });
               } else {
                 activeTournamentsDiv.empty();
@@ -303,7 +362,7 @@
               }
         });
       }
-    
+
       initializeDynamicContent(flexRadioDefaultValue, flexRadioDefault2Value, searchInputValue)
     });
     </script>
