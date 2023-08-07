@@ -39,6 +39,27 @@
       #searchInput {
         text-indent: 30px; /* Adjust this value to add more margin to the placeholder */ 
       }
+
+      .dropdown-menu-style {
+        user-select: none;
+        left: -45px !important;
+        top: 10px !important;
+        box-shadow: 0px 0px 10px 0 var(--shadow-color)!important;
+        background-color: var(--color-content-card) !important;
+        color: var(--color-content-text) !important;
+        padding: 15% !important;
+        border: none!important;
+        border-radius: 15px!important;
+        width: 200px !important;
+      }
+
+      .radio-set {
+        margin-left: 8px !important;
+      }
+
+      .dropdown-divider {
+        margin-left: -10px !important;
+      }
     </style>
   </head>
 
@@ -107,110 +128,184 @@
     </script>
     <section class="home-section flex-row">
       <div class="header">Manage Tournament</div>
-        <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
-          <div id="active-tournaments"></div>
+      <div class="container-fluid d-flex row justify-content-center align-items-center flex wrap m-0">
+        <div class="d-flex flex-row gap-2" id="userTools">
+          <div class="searchbar-container flex-grow-1">
+            <i class="bx bx-search bx-sm" id="searchIcon"></i>
+            <input class="w-100 mt-1" type="text" id="searchInput" placeholder="Search" maxlength="25" autocomplete="off">
+          </div>
+          <div class="dropdown-center dropdown">
+            <button type="button" class="btn btn-primary h-75 sort-dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+              <div class="d-flex justify-content-center"><div class="me-2"><b>Sort by</b></div><div><i class='bx bx-filter mt-1'></i></div></div>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-style">
+              <div class="radio-set">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="eventRadio">
+                  <label class="form-check-label" for="eventRadio">
+                    Event Name
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="categoryRadio">
+                  <label class="form-check-label" for="categoryRadio">
+                    Category Name
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="dateTimeRadio" checked>
+                  <label class="form-check-label" for="dateTimeRadio">
+                    Date & Time
+                  </label>
+                </div>
+                <li><hr class="dropdown-divider"></li>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault2" id="ascendingRadio" checked>
+                  <label class="form-check-label" for="ascendingRadio">
+                    Ascending
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault2" id="descendingRadio">
+                  <label class="form-check-label" for="descendingRadio">
+                    Descending
+                  </label>
+                </div>
+              </div>
+            </ul>
+          </div>
         </div>
+        <div id="active-tournaments">
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
     </section>
     <!-- Scripts -->
     <script src="./js/script.js"></script>
     <script src="./js/theme.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
+      // Store the values of the checked radio buttons in variables
+      let flexRadioDefaultValue = "Date & Time";
+      let flexRadioDefault2Value = "Ascending";
+      let searchInputValue = "";
+      var activeTournamentsDiv = $('#active-tournaments');
+
+      // Event listener for the "input" event on the search input
+      $("#searchInput").on("input", function() {
+        // Get the current value of the input field
+        searchInputValue = $(this).val();
+        activeTournamentsDiv.empty();
+        initializeDynamicContent(flexRadioDefaultValue, flexRadioDefault2Value, searchInputValue)
+      });
+
+      // Event Name, Category Name, and Date & Time radio buttons
+      $("#eventRadio, #categoryRadio, #dateTimeRadio").on("click", function () {
+        flexRadioDefaultValue = $(this).next().text().trim();
+        initializeDynamicContent(flexRadioDefaultValue, flexRadioDefault2Value, searchInputValue)
+      });
+      
+      // ASC and DESC radio buttons
+      $("#ascendingRadio, #descendingRadio").on("click", function () {
+        flexRadioDefault2Value = $(this).next().text().trim();
+        initializeDynamicContent(flexRadioDefaultValue, flexRadioDefault2Value, searchInputValue)
+      });
+
+      function initializeDynamicContent(flexRadioDefaultValue, flexRadioDefault2Value, searchInputValue) {
         $.ajax({
-            url: './php/TOU-fetch-active-tournament.php',
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                var activeTournamentsDiv = $('#active-tournaments');
+          url: './php/TOU-fetch-active-tournament.php',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            flexRadioDefault: flexRadioDefaultValue,
+            flexRadioDefault2: flexRadioDefault2Value,
+            searchInputValue: searchInputValue
+          },
+          success: function(data) {
+              activeTournamentsDiv.empty();
 
-                if (data.length > 0) {
-                  // Search container HTML
-                  var searchContainerHtml = `
-                  <div class="d-flex flex-row gap-2">
-                    <div class="searchbar-container flex-grow-1">
-                      <i class="bx bx-search bx-sm" id="searchIcon"></i>
-                      <input class="w-100 mt-1" type="text" id="searchInput" placeholder="Search" maxlength="25" autocomplete="off">
-                    </div>
-                    <div class="dropdown-center dropdown">
-                      <button type="button" class="btn btn-primary h-75 sort-dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                        <div class="d-flex justify-content-center"><div class="me-2"><b>Sort by</b></div><div><i class='bx bx-filter mt-1'></i></div></div>
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Separated link</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  `;
+              if (data.length > 0) {
+                data.forEach(function (tournament) {
+                    var buttonHtml = `<button class="primary-button" id="edit-tournament-${tournament.id}">Edit</button>`;
 
-                  // Append the search container to the activeTournamentsDiv
-                  activeTournamentsDiv.append(searchContainerHtml);
+                    var elementHtml = `
+                        <div class="div">
+                            <div class="element">
+                                <div class="row">
+                                    <div class="element-group col-sm-6 col-lg-3">
+                                        <div class="element-label">Event Name</div>
+                                        <div class="element-content">${tournament.event_name}</div>
+                                    </div>
+                                    <div class="element-group col-sm-6 col-lg-3">
+                                        <div class="element-label">Category Name</div>
+                                        <div class="element-content">${tournament.category_name}</div>
+                                    </div>
+                                     <div class="element-group col-sm-6 col-lg-3">
+                                        <div class="element-label">Date & Time</div>
+                                        <div class="element-content">${tournament.event_datetime}</div>
+                                    </div>
+                                    <div class="d-flex justify-content-end">${buttonHtml}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
 
-                  data.forEach(function (tournament) {
-                      var buttonHtml = `<button class="primary-button" id="edit-tournament-${tournament.id}">Edit</button>`;
+                    activeTournamentsDiv.append(elementHtml);
 
-                      var elementHtml = `
-                          <div class="div">
-                              <div class="element">
-                                  <div class="row">
-                                      <div class="element-group">
-                                          <div class="element-label">${tournament.event_name}</div>
-                                          <div class="element-content">${tournament.category_name}</div>
-                                          <div class="d-flex justify-content-end">${buttonHtml}</div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      `;
+                    // Attach a click event handler to all buttons with IDs starting with "edit-tournament-"
+                    $("[id^='edit-tournament-']").on("click", function() {
+                        // Get the numerical ID from the clicked button's ID attribute
+                        let numericalId = this.id.split("-").pop();
 
-                      activeTournamentsDiv.append(elementHtml);
+                        // Redirect to the desired page with the numerical ID
+                        window.location.href = "TOU-admin-edit-tournament.php?id=" + numericalId;
+                    });
+                });
+              } else {
+                activeTournamentsDiv.empty();
 
-                      // Attach a click event handler to all buttons with IDs starting with "edit-tournament-"
-                      $("[id^='edit-tournament-']").on("click", function() {
-                          // Get the numerical ID from the clicked button's ID attribute
-                          let numericalId = this.id.split("-").pop();
+                $('#active-tournaments').append('<div class="container text-center mt-3"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><div class="d-flex justify-content-center"><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue"></i>Create Tournament</button></div>');
+                }
 
-                          // Redirect to the desired page with the numerical ID
-                          window.location.href = "TOU-admin-edit-tournament.php?id=" + numericalId;
-                      });
-                  });
-                } else {
-                    $('#active-tournaments').append('<div class="container text-center mt-3"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><div class="d-flex justify-content-center"><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue"></i>Create Tournament</button></div>');
-                    }
+                // Get the reference to the "Create Tournament" button
+                const createTournamentButton = document.getElementById('create-tournament-button');
 
+                // Add a click event listener to the button
+                createTournamentButton.addEventListener('click', function () {
+                // Set the URL of the destination page you want to redirect to
+                const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
 
+                // Redirect to the destination page
+                window.location.href = destinationURL;
+                });
+              },
+              error: function(error) {
+                activeTournamentsDiv.empty();
+
+                $('#active-tournaments').append('<div class="container text-center mt-3"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><div class="d-flex justify-content-center"><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue"></i>Create Tournament</button></div>');
+                  
                     // Get the reference to the "Create Tournament" button
                     const createTournamentButton = document.getElementById('create-tournament-button');
 
-                    // Add a click event listener to the button
-                    createTournamentButton.addEventListener('click', function () {
-                    // Set the URL of the destination page you want to redirect to
-                    const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
+                  // Add a click event listener to the button
+                  createTournamentButton.addEventListener('click', function () {
+                  // Set the URL of the destination page you want to redirect to
+                  const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
 
-                    // Redirect to the destination page
-                    window.location.href = destinationURL;
-                    });
-                },
-                error: function(error) {
-                  $('#active-tournaments').append('<div class="container text-center mt-3"><img src="./pictures/No_Tournament.svg" alt="No tournaments found" class="img-fluid max-width"><h1 class="text-center" id="tournament-not-found"><b>No Tournaments</b></h1><p id="sub-text">Looks like there\'s no tournaments to manage found.</p><br><div class="d-flex justify-content-center"><button class="primary-button" id="create-tournament-button"><i class="bx bx-add-to-queue"></i>Create Tournament</button></div>');
-                    
-                     // Get the reference to the "Create Tournament" button
-                     const createTournamentButton = document.getElementById('create-tournament-button');
-
-                    // Add a click event listener to the button
-                    createTournamentButton.addEventListener('click', function () {
-                    // Set the URL of the destination page you want to redirect to
-                    const destinationURL = 'TOU-admin-create-tournament.php'; // Replace with the actual URL
-
-                    // Redirect to the destination page
-                    window.location.href = destinationURL;
-                    });
-                }
-            });
+                  // Redirect to the destination page
+                  window.location.href = destinationURL;
+                  });
+              }
         });
+      }
+    
+      initializeDynamicContent(flexRadioDefaultValue, flexRadioDefault2Value, searchInputValue)
+    });
     </script>
     <script type="text/javascript">
       $('.menu_btn').click(function (e) {
