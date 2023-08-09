@@ -66,14 +66,12 @@
                   </div>
                   <div id="team_one_btn"></div>
                   <br>
-                  <button type="button" class="btn btn-danger" id="disqualify-team-one-btn">Disqualify</button>
-                  <button type="button" class="btn btn-danger" id="forfeit-team-one-btn">Forfeit</button>
                 </div>
                 <div class="col">
                   <br>
                   <h2 id="template-overall-score"></h2>
                   <h1 id="template-vs">VS</h1>
-                  <button type="button" class="btn btn-danger" id="end-match-btn">End Match</button>
+                  <div id="end_match"></div>
                 </div>
                 <div class="col">
                   <div class="row">
@@ -84,8 +82,6 @@
                   </div>
                   <div id="team_two_btn"></div>
                   <br>
-                  <button type="button" class="btn btn-danger" id="disqualify-team-two-btn">Disqualify</button>
-                  <button type="button" class="btn btn-danger" id="forfeit-team-one-btn">Forfeit</button>
                 </div>
               </div>
             </div>
@@ -229,8 +225,43 @@
                         '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-minus-' + matchup.team_one_id + '" value="-1">-1</button>' +
                         '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-plus-' + matchup.team_one_id + '" value="1">+1</button>' +
                         '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-plus-' + matchup.team_one_id + '" value="2">+2</button>' +
-                        '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-plus-' + matchup.team_one_id + '" value="3">+3</button>'
+                        '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-plus-' + matchup.team_one_id + '" value="3">+3</button>' +
+                        '<div class="mt-4">' + 
+                        '<button type="button" class="btn btn-danger me-1" id="disqualify-team-btn-' + matchup.team_one_id + '">Disqualify</button>' +
+                        '<button type="button" class="btn btn-danger" id="forfeit-team-btn-' + matchup.team_one_id + '">Forfeit</button>' + 
+                        '</div>'
                       );
+
+                      $('#end_match').empty();
+                      $('#end_match').append(
+                        '<button type="button" class="btn btn-danger" id="end-match-btn" disabled>End Match</button>'
+                      );
+
+                      // Set the values of the hidden input fields when the "End Match" button is clicked
+                      $('#end-match-btn').click(function() {
+                          selectedId = selectEvent.val();
+
+                          // Create an object with the data to be sent
+                          var postData = {
+                              bracketFormId: selectedId,
+                              selectedTeamOneAndTwo: selectedValue
+                          };
+
+                          // Send the AJAX request
+                          $.ajax({
+                              url: './php/TOU-process-winner.php',
+                              type: 'POST',
+                              data: postData,
+                              dataType: 'json',
+                              success: function(response) {
+                                location.reload();
+                              },
+                              error: function(xhr, status, error) {
+                                  // Handle the error response
+                                  console.log(xhr.responseText);
+                              }
+                          });
+                      });
 
                       // Generate buttons for team two
                       $('#team_two_btn').empty(); // Clear existing buttons
@@ -240,8 +271,58 @@
                         '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-minus-' + matchup.team_two_id + '" value="-1">-1</button>' +
                         '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-plus-' + matchup.team_two_id + '" value="1">+1</button>' +
                         '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-plus-' + matchup.team_two_id + '" value="2">+2</button>' +
-                        '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-plus-' + matchup.team_two_id + '" value="3">+3</button>'
+                        '<button type="button" class="btn btn-primary btn-sm p-2 me-1 mt-1" id="btn-plus-' + matchup.team_two_id + '" value="3">+3</button>' +
+                        '<div class="mt-4">' + 
+                        '<button type="button" class="btn btn-danger me-1" id="disqualify-team-btn-' + matchup.team_two_id + '">Disqualify</button>' +
+                        '<button type="button" class="btn btn-danger" id="forfeit-team-btn-' + matchup.team_two_id + '">Forfeit</button>' + 
+                        '</div>'
                       );
+
+                      // When disqualify buttons are clicked
+                      $("[id^='disqualify-team-btn-']").click(function() {
+                        // Get the numerical part of the ID by splitting the ID string
+                        let idParts = $(this).attr("id").split("-");
+                        let numericalId = idParts[idParts.length - 1];
+
+                        // Make an AJAX request
+                        $.ajax({
+                          url: "./php/TOU-disqualify-team.php", // Update with your PHP script URL
+                          type: "POST", // Use POST method
+                          data: {
+                            action: "disqualify",
+                            teamId: numericalId
+                          },
+                          success: function(response) {
+                            location.reload();
+                          },
+                          error: function(xhr, status, error) {
+                            console.error("AJAX request error:", error);
+                          }
+                        });
+                      });
+
+                      // When forfeit buttons are clicked
+                      $("[id^='forfeit-team-btn-']").click(function() {
+                        // Get the numerical part of the ID by splitting the ID string
+                        let idParts = $(this).attr("id").split("-");
+                        let numericalId = idParts[idParts.length - 1];
+
+                        // Make an AJAX request
+                        $.ajax({
+                          url: "./php/TOU-forfeit-team.php", // Update with your PHP script URL
+                          type: "POST", // Use POST method
+                          data: {
+                            action: "forfeit",
+                            teamId: numericalId
+                          },
+                          success: function(response) {
+                            location.reload();
+                          },
+                          error: function(xhr, status, error) {
+                            console.error("AJAX request error:", error);
+                          }
+                        });
+                      });
                     }
                   },
                   error: function(xhr, status, error) {
@@ -275,6 +356,7 @@
                       $('#team_one_btn button[value="1"]').prop('disabled', true);
                       $('#team_one_btn button[value="2"]').prop('disabled', true);
                       $('#team_one_btn button[value="3"]').prop('disabled', true);
+                      $('#end-match-btn').prop('disabled', false);
                     } else {
                       // Enable the plus one buttons in the team_one_btn element
                       $('#team_two_btn button[value="1"]').prop('disabled', false);
@@ -286,6 +368,7 @@
                       $('#team_one_btn button[value="1"]').prop('disabled', false);
                       $('#team_one_btn button[value="2"]').prop('disabled', false);
                       $('#team_one_btn button[value="3"]').prop('disabled', false);
+                      $('#end-match-btn').prop('disabled', true);
                       $('#team-one-score').text(formatScore(response.current_score));
                     }
                   },
@@ -320,6 +403,7 @@
                       $('#team_two_btn button[value="1"]').prop('disabled', true);
                       $('#team_two_btn button[value="2"]').prop('disabled', true);
                       $('#team_two_btn button[value="3"]').prop('disabled', true);
+                      $('#end-match-btn').prop('disabled', false);
                     } else {
                       // Enable the plus one buttons in the team_two_btn element
                       $('#team_one_btn button[value="1"]').prop('disabled', false);
@@ -331,6 +415,7 @@
                       $('#team_two_btn button[value="1"]').prop('disabled', false);
                       $('#team_two_btn button[value="2"]').prop('disabled', false);
                       $('#team_two_btn button[value="3"]').prop('disabled', false);
+                      $('#end-match-btn').prop('disabled', true);
                       // Update the value in the <h1> element
                       $('#team-two-score').text(formatScore(response.current_score));
                     }
@@ -339,32 +424,6 @@
                     console.log(error);
                   }
                 });
-              });
-
-              // Set the values of the hidden input fields when the "End Match" button is clicked
-              $('#end-match-btn').click(function() {
-                  selectedId = selectEvent.val();
-
-                  // Create an object with the data to be sent
-                  var postData = {
-                      bracketFormId: selectedId,
-                      selectedTeamOneAndTwo: selectedValue
-                  };
-
-                  // Send the AJAX request
-                  $.ajax({
-                      url: './php/TOU-process-winner.php',
-                      type: 'POST',
-                      data: postData,
-                      dataType: 'json',
-                      success: function(response) {
-                        location.reload();
-                      },
-                      error: function(xhr, status, error) {
-                          // Handle the error response
-                          console.log(xhr.responseText);
-                      }
-                  });
               });
             });
           </script>

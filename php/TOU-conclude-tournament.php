@@ -6,6 +6,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the submitted values
     $id = mysqli_real_escape_string($conn, $_POST['id']);
 
+    // First UPDATE statement
+    $sql1 = "UPDATE ongoing_teams ot
+    LEFT JOIN bracket_teams bt ON ot.id = bt.team_one_id
+    LEFT JOIN bracket_forms bf ON bf.id = bt.bracket_form_id
+    SET ot.current_team_status = 'won'
+    WHERE bt.current_column = bf.current_column
+    AND bt.bracket_form_id = ?
+    AND ot.current_team_status = 'active'
+    AND ot.team_id IS NOT NULL
+    AND NOT EXISTS (SELECT 1
+                    FROM ongoing_teams ot2
+                    WHERE ot2.id = bt.team_two_id
+                    AND ot2.current_team_status = 'active'
+                    AND ot2.team_id IS NOT NULL)";
+
+    // Second UPDATE statement
+    $sql2 = "UPDATE ongoing_teams ot2
+    LEFT JOIN bracket_teams bt ON ot2.id = bt.team_two_id
+    LEFT JOIN bracket_forms bf ON bf.id = bt.bracket_form_id
+    SET ot2.current_team_status = 'won'
+    WHERE bt.current_column = bf.current_column
+    AND bt.bracket_form_id = ?
+    AND ot2.current_team_status = 'active'
+    AND ot2.team_id IS NOT NULL
+    AND NOT EXISTS (SELECT 1
+                    FROM ongoing_teams ot
+                    WHERE ot.id = bt.team_one_id
+                    AND ot.current_team_status = 'active'
+                    AND ot.team_id IS NOT NULL)";
+
+    // Prepare the statements
+    $stmt1 = mysqli_prepare($conn, $sql1);
+    $stmt2 = mysqli_prepare($conn, $sql2);
+
+    // Bind the bracket_form_id parameter to both statements
+    mysqli_stmt_bind_param($stmt1, "i", $id);
+    mysqli_stmt_bind_param($stmt2, "i", $id);
+
+    // Execute the first statement
+    mysqli_stmt_execute($stmt1);
+
+    // Execute the second statement
+    mysqli_stmt_execute($stmt2);
+
+    // Close the statements
+    mysqli_stmt_close($stmt1);
+    mysqli_stmt_close($stmt2);
+
     // Prepare the SQL statement
     $query = "SELECT ot.team_id AS team_one_id, 
         ot.current_team_status AS team_one_status, 
@@ -19,8 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         LEFT JOIN ongoing_teams AS ot2
         ON ot2.id = bt.team_two_id
         WHERE bt.current_column = bf.current_column
-        AND bf.id = ?
-        AND (ot.current_team_status = 'won' OR ot2.current_team_status = 'won');";
+        AND bf.id = ?;";
     $stmt = mysqli_prepare($conn, $query);
 
     // Bind the $id variable to the prepared statement as a parameter
