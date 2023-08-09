@@ -380,9 +380,8 @@ document.getElementById('myForm').addEventListener('click', function(event) {
                                 </div>
                                 <div class="col">
                                   <select id="gameTypeSelect" name="gameTypeSelect" class="form-select w-75 text-center" required>
-                                    <option value="" selected>Select whether time or score based</option>
+                                    <option value="" selected>Select a mode</option>
                                     <option value="score-based">Score-based</option>
-                                    <option value="time-based">Time-based</option>
                                   </select>
                                   <br>
                                   <div class="w-75 text-center" id="noOfMatches">
