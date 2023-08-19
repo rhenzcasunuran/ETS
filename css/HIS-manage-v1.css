@@ -254,7 +254,9 @@ h3 {
   .pagination-link.active {
     background-color: rgb(93,43,160);
   }
-  
+  .primary-button, .secondary-button, .text-button, .outline-button, .success-button, .warning-button, .danger-button, .delete-button {
+    padding: 12px 21px!important;
+  }
   
   @media only screen and (max-width: 600px) {
     .main-containers {

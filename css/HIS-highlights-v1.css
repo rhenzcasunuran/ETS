@@ -370,6 +370,28 @@ textarea {
 .pagination-link.active {
   background-color: rgb(93,43,160);
 }
+.popUpDisableBackground .popUpContainer {
+
+   opacity: 1 !important; 
+}
+#button-container {
+  display: flex;
+  justify-content: flex-end;
+  position: relative; /* Add this line */
+}
+
+#tooltip {
+  display: none;
+  position: absolute; /* Add this line */
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+
 
 @media (max-width: 767px) {
   .flex-container {
