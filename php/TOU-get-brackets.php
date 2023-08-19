@@ -156,16 +156,9 @@ $isLocalhost = ($_SERVER['HTTP_HOST'] === 'localhost' || substr($_SERVER['HTTP_H
 // Get the base URL dynamically using the current request
 $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https://" : "http://")
             . $_SERVER['HTTP_HOST']
-            . dirname($_SERVER['PHP_SELF']);
+            . str_replace('/php', '', dirname($_SERVER['PHP_SELF']));
 
-// Construct the image path relative to the base URL
-if ($isLocalhost) {
-    // If running on localhost, construct the image path from the main directory
-    $imagePath = '/ETS/logos/';
-} else {
-    // For other environments (e.g., live server), use the original path
-    $imagePath = $baseUrl . '/logos/';
-}
+$imagePath = $baseUrl . '/logos/';
 
 // Alternate between data2 (team_two) and data1 (team_one)
 for ($i = 0; $i < max($count1, $count2); $i++) {

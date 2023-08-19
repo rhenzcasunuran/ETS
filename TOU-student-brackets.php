@@ -116,7 +116,6 @@ include './php/admin-signin.php';
       type: 'GET',
       dataType: 'json',
       success: function(data) {
-          console.log(data)
           selectEvent.empty();
           selectEvent.append('<option selected>Select Tournament Event</option>');
 
