@@ -49,7 +49,7 @@
       <div class="bg-white p-3" id="container-1">
         <form method="POST" action="" enctype="multipart/form-data">
   <div class="form-group">
-    <select class="form-control" name="event_name" id="event_name" >
+    <select class="form-control" name="event_name" id="event_name" data-name="Event Name">
       <option value="" selected disabled>Select Event</option>
       <?php
 include('./php/database_connect.php');
@@ -79,7 +79,7 @@ mysqli_close($conn);
             <i class='bx bxs-file-image bx-lg'></i> <br>
             Drag and drop images here or click to upload
           </label>
-          <input class="drop-zone__input" type="file" name="uploadfile[]" id="uploadfile"  multiple />
+          <input class="drop-zone__input" type="file" name="uploadfile[]" id="uploadfile"  multiple data-name="Image file">
           <div class="drop-zone__files" id="preview"></div>
         </div>
       </div>
@@ -171,11 +171,11 @@ mysqli_close($conn);
       </div>
       <div class="bg-white p-3" id="container-3">
         <div class="form-group">
-          <input type="text" maxlength="150" name="image_Info" id="image_Info" placeholder="Input Title" >
+          <input type="text" maxlength="150" name="image_Info" id="image_Info" placeholder="Input Title"data-name="Highlights Title"> 
         </div>
         <div class="form-group">
         <div class="textarea-wrapper">
-  <textarea maxlength="3000" name="image_Description" id="image_Description" placeholder="Input Summary" ></textarea>
+  <textarea maxlength="3000" name="image_Description" id="image_Description" placeholder="Input Summary" data-name="Highlights Summary"></textarea>
   <span id="character-counter">3000 characters remaining</span>
 </div>
 </div>
@@ -183,11 +183,32 @@ mysqli_close($conn);
 
         
       <div class="container" id="button-container" style="display: flex; justify-content: flex-end;">
+      <div id="tooltip" class="tooltip-text"></div>
         <button type="submit" id="upload-btn" class="btn btn-primary">Upload</button>
       
   </div>
     </div>
   </div>
+  <div class="popUpDisableBackground" id="customPopup">
+    <div class="popUpContainer">
+        <!-- Icon (e.g., success icon) -->
+        <i class="bx bxs-check-circle success-color" id="successIcon"></i>
+        <!-- Icon for Error (Exclamation) -->
+        <i class="bx bxs-error-circle warning-color" id="errorIcon"></i>
+        <!-- Icon for Question (Question Mark) -->
+        <i class='bx bx-question-mark' id="questionIcon"></i>
+        <!-- Pop-up Header and Message -->
+        <div class="popUpHeader" id="popupHeader"></div>
+        <div class="popUpMessage" id="popupMessage"></div>
+
+        <!-- Pop-up Button Container -->
+        <div class="popUpButtonContainer">
+            <button class="secondary-button" id="cancelButton"><i class='bx bx-x'></i>Cancel</button>
+            <button class="primary-button confirmPopUp" id="confirmButton"><i class='bx bx-check'></i>Confirm</button>
+        </div>
+    </div>
+</div>
+
 
 
     </section>
@@ -279,144 +300,238 @@ Event History Scripts
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-  $(document).ready(function() {
-    $('form').submit(function(event) {
-      event.preventDefault(); // Prevent the default form submission
+  // Function to open the custom pop-up
+  function openCustomPopup(title, message, icon, showConfirmButton, callback) {
+    const popup = document.getElementById("customPopup");
+    const popupHeader = document.getElementById("popupHeader");
+    const popupMessage = document.getElementById("popupMessage");
+    const confirmButton = document.getElementById("confirmButton");
 
-    // Validate the form inputs
-var event_name = $('#event_name').val();
-var uploadfile = $('#uploadfile').prop('files');
-var image_Info = $('#image_Info').val();
-var image_Description = $('#image_Description').val();
+    popupHeader.textContent = title;
+    popupMessage.textContent = message;
 
-// Check if any of the required fields are empty
-if (event_name === '' || uploadfile.length === 0 || image_Info === '' || image_Description === '') {
-  // Generate a list of required fields
-  var requiredFields = [];
-  if (event_name === '') {
-    requiredFields.push('Event Name');
-  }
-  if (uploadfile.length === 0) {
-    requiredFields.push('Insert Image');
-  }
-  if (image_Info === '') {
-    requiredFields.push('Image Info');
-  }
-  if (image_Description === '') {
-    requiredFields.push('Image Description');
+    if (showConfirmButton) {
+      confirmButton.style.display = "block";
+    } else {
+      confirmButton.style.display = "none";
+    }
+
+    // Handle the callback when the Confirm button is clicked
+    confirmButton.onclick = function () {
+      closeCustomPopup();
+      if (callback) {
+        callback();
+      }
+    };
+
+    popup.style.visibility = "visible";
+    popup.classList.add("show");
   }
 
-  // Create the validation error message with the list of required fields
-  var errorMessage = 'Please fill in the following required fields: ' + requiredFields.join(', ');
+  // Function to close the custom pop-up
+  function closeCustomPopup() {
+    const popup = document.getElementById("customPopup");
 
-  // Display the validation error message
-  Swal.fire({
-    icon: 'error',
-    title: 'Validation Error',
-    text: errorMessage,
+    popup.classList.remove("show");
+    setTimeout(function () {
+      popup.style.visibility = "hidden";
+    }, 300);
+  }
+  $(document).ready(function () {
+  // Function to update the "Upload" button state and cursor style
+  function updateUploadButtonState() {
+    var event_name = $('#event_name').val();
+    var uploadfile = $('#uploadfile').prop('files');
+    var image_Info = $('#image_Info').val();
+    var image_Description = $('#image_Description').val();
+
+    // Check if any of the required fields are empty
+    var isEmpty = event_name === '' || uploadfile.length === 0 || image_Info === '' || image_Description === '';
+
+    // Disable or enable the "Upload" button based on the field state
+    var uploadButton = $('#upload-btn');
+    uploadButton.prop('disabled', isEmpty);
+
+    // Update the cursor style based on the field state
+    if (isEmpty) {
+      uploadButton.addClass('disabled-button');
+      uploadButton.css('cursor', 'not-allowed');
+
+      // Get the names of the empty fields and display them in the tooltip
+      var emptyFieldNames = [];
+      $('[data-name]').each(function() {
+        var fieldName = $(this).attr('data-name');
+        if ($(this).val() === '') {
+          emptyFieldNames.push(fieldName);
+        }
+      });
+      var tooltipText = 'Please fill in the following required fields: ' + emptyFieldNames.join(', ');
+
+      // Update the tooltip text and make it visible
+      $('#tooltip').text(tooltipText).css('visibility', 'visible');
+    } else {
+      uploadButton.removeClass('disabled-button');
+      uploadButton.css('cursor', 'pointer');
+
+      // Hide the tooltip when the fields are not empty
+      $('#tooltip').css('visibility', 'hidden');
+    }
+  }
+
+
+
+    // Call the function initially to set the initial state of the "Upload" button
+    updateUploadButtonState();
+    
+
+    // Add event listeners for input changes to update the button state
+    $('#event_name, #uploadfile, #image_Info, #image_Description').on('input', updateUploadButtonState);
+
+    // Create a new FormData object when the "Upload" button is clicked
+    $('#upload-btn').click(function () {
+      var event_name = $('#event_name').val();
+      var uploadfile = $('#uploadfile').prop('files');
+      var image_Info = $('#image_Info').val();
+      var image_Description = $('#image_Description').val();
+
+      // Check if any of the required fields are empty
+      if (event_name === '' || uploadfile.length === 0 || image_Info === '' || image_Description === '') {
+        // Generate a list of required fields
+        var requiredFields = [];
+        if (event_name === '') {
+          requiredFields.push('Event Name');
+        }
+        if (uploadfile.length === 0) {
+          requiredFields.push('Insert Image');
+        }
+        if (image_Info === '') {
+          requiredFields.push('Image Info');
+        }
+        if (image_Description === '') {
+          requiredFields.push('Image Description');
+        }
+
+        // Create the validation error message with the list of required fields
+        document.getElementById("errorIcon").style.display = "inline";
+        document.getElementById("successIcon").style.display = "none";
+        document.getElementById("questionIcon").style.display = "none";
+        var errorMessage = 'Please fill in the following required fields: ' + requiredFields.join(', ');
+
+        // Display the validation error message using the custom pop-up
+        openCustomPopup('Validation Error', errorMessage, 'error');
+
+        // Return to prevent further execution
+        return;
+      }
+
+      // If all fields are filled, proceed with the upload
+      var formData = new FormData($('form')[0]);
+
+      document.getElementById("errorIcon").style.display = "none";
+      document.getElementById("successIcon").style.display = "none";
+      document.getElementById("questionIcon").style.display = "inline";
+      openCustomPopup('Are you sure?', 'Proceed with image upload?', 'question', true, function () {
+        // Handle confirmation action here
+        // Perform the AJAX form submission
+        $.ajax({
+          url: './php/HIS-upload.php',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            document.getElementById("errorIcon").style.display = "none";
+            document.getElementById("successIcon").style.display = "inline";
+            document.getElementById("questionIcon").style.display = "none";
+            openCustomPopup('Success!', 'Image uploaded successfully', 'success', true, function () {
+              location.reload();
+            });
+          },
+          error: function (xhr, status, error) {
+            // Handle the error response
+            console.log(error);
+            document.getElementById("errorIcon").style.display = "inline";
+            document.getElementById("successIcon").style.display = "none";
+            document.getElementById("questionIcon").style.display = "none";
+            openCustomPopup('Error!', 'Image upload error', 'error');
+          }
+        });
+      });
+    });
+
+    // Add event listener for the custom pop-up close button
+    $('#closeButton').click(function () {
+      closeCustomPopup();
+    });
+
+    document.getElementById("cancelButton").addEventListener("click", function () {
+      closeCustomPopup();
+    });
   });
+</script>
 
-  return;
+
+
+
+
+
+<script>
+ function confirmDelete(id, filename) {
+  document.getElementById("errorIcon").style.display = "none";
+  document.getElementById("successIcon").style.display = "none";
+  document.getElementById("questionIcon").style.display = "inline";
+
+  openCustomPopup(
+    'Are you sure?',
+    "You won't be able to revert this!",
+    'question',
+    true,
+    function () {
+      deleteImage(id, filename);
+    }
+  );
+
+  // Handle the "Cancel" button click for this specific popup
+  document.getElementById("cancelButton").addEventListener("click", function () {
+    closeCustomPopup();
+  });
 }
 
 
-      // Create a new FormData object
-      var formData = new FormData($(this)[0]);
-
-      // Display confirmation dialog
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'Proceed with image upload?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, upload it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Perform the AJAX form submission
-          $.ajax({
-            url: './php/HIS-upload.php',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-              // Handle the success response
-              Swal.fire(
-                'Success!',
-                'Image uploaded successfully',
-                'success'
-              ).then(() => {
-                location.reload();
-              });
-            },
-            error: function(xhr, status, error) {
-              // Handle the error response
-              console.log(error);
-              Swal.fire(
-                'Error!',
-                'Image upload error',
-                'error'
-              );
-            }
-          });
-        }
-      });
-    });
-  });
-</script>
-
-
-
-
-<script>
-function confirmDelete(id, filename) {
-    Swal.fire({
-      title: 'Are you sure you want to delete this image?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteImage(id, filename);
-      }
-    });
-  }
-
   function deleteImage(id, filename) {
     $.ajax({
-      url: "./php/HIS-delete.php",
-      type: "POST",
+      url: './php/HIS-delete.php',
+      type: 'POST',
       data: { id: id, filename: filename },
-      success: function(response) {
-        if (response === "success") {
-          Swal.fire(
+      success: function (response) {
+        if (response === 'success') {
+          document.getElementById("errorIcon").style.display = "none";
+            document.getElementById("successIcon").style.display = "inline";
+            document.getElementById("questionIcon").style.display = "none"; 
+          openCustomPopup(
             'Deleted!',
             'Your file has been deleted.',
-            'success'
-          ).then(() => {
-            location.reload(); // Refresh the page
-          });
-        } else {
-          Swal.fire(
-            'Error!',
-            'Failed to delete the file.',
-            'error'
+            'success',
+            true,
+            function () {
+              location.reload(); // Refresh the page
+            }
           );
+        } else {
+          document.getElementById("errorIcon").style.display = "inline";
+            document.getElementById("successIcon").style.display = "none";
+            document.getElementById("questionIcon").style.display = "none"; 
+          openCustomPopup('Error!', 'Failed to delete the file.', 'error');
         }
-      }
+      },
     });
   }
-
 </script>
+
 
 <script>
   const textarea = document.getElementById('image_Description');
-  
+
   textarea.addEventListener('input', () => {
     if (textarea.value.length < textarea.maxLength) {
       textarea.style.borderColor = 'darkblue';
@@ -424,14 +539,14 @@ function confirmDelete(id, filename) {
     } else {
       textarea.style.borderColor = 'red';
       textarea.style.borderWidth = '2px'; // set border size to 3px
-      Swal.fire({
-      icon: 'warning',
-      title: 'Oops...',
-      text: 'Maximum Character Limit Reach',
-})
+      document.getElementById("errorIcon").style.display = "inline";
+            document.getElementById("successIcon").style.display = "none";
+            document.getElementById("questionIcon").style.display = "none"; 
+      openCustomPopup('Oops...', 'Maximum Character Limit Reach', 'error');
     }
   });
 </script>
+
 <script>
   const input = document.getElementById('image_Info');
   
@@ -442,13 +557,14 @@ function confirmDelete(id, filename) {
     } else {
       input.style.borderColor = 'red';
       input.style.borderWidth = '2px'; // set border size to 3px
-      Swal.fire({
-      icon: 'warning',
-      title: 'Oops...',
-      text: 'Maximum Character Limit Reach',
-})    }
+         document.getElementById("errorIcon").style.display = "inline";
+            document.getElementById("successIcon").style.display = "none";
+            document.getElementById("questionIcon").style.display = "none"; 
+      openCustomPopup('Oops...', 'Maximum Character Limit Reach', 'error');
+    }
   });
 </script>
+
 <script>
   function expandImage(img) {
     img.parentNode.querySelector(".expanded-image").style.display = "block";

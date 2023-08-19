@@ -192,6 +192,27 @@ include './php/database_connect.php';
     </div>
     
   </section>
+  <div class="popUpDisableBackground" id="markAsDone">
+    <div class="popUpContainer">
+        <!-- Icon for Success (Check) -->
+        <i class="bx bxs-check-circle success-color" id="successIcon"></i>
+        <!-- Icon for Error (Exclamation) -->
+        <i class="bx bxs-error-circle warning-color" id="errorIcon"></i>
+        <!-- Icon for Question (Question Mark) -->
+        <i class='bx bx-question-mark' id="questionIcon"></i>
+        <div class="popUpHeader">Mark as Done?</div>
+        <div class="popUpMessage">Marked events will be removed from the events list and will transfer to the history.</div>
+        <div class="popUpButtonContainer">
+            <button class="secondary-button" id="cancelButton"><i class='bx bx-x'></i>Cancel</button>
+                <button class="primary-button confirmPopUp"><i id="confirmIcon" class='bx bx-check'></i>Confirm</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
 
   <script src="./js/script.js"></script>
 <script src="./js/jquery-3.6.4.js"></script>
@@ -273,76 +294,139 @@ include './php/database_connect.php';
   }
 </script>
 <script>
-  document.getElementById("add_button").addEventListener("click", function () {
-    if (!selectedEvent) {
-      Swal.fire({
-        title: 'Error',
-        text: 'Please select an event first.',
-        icon: 'error',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'OK'
+ // Add an event listener when the button with id "add_button" is clicked
+ document.getElementById("add_button").addEventListener("click", function () {
+  if (!selectedEvent) {
+    // To display the error icon and hide the success icon
+    document.getElementById("errorIcon").style.display = "inline";
+    document.getElementById("successIcon").style.display = "none";
+    document.getElementById("questionIcon").style.display = "none";
+
+
+    // Display an error message if no event is selected with the correct error icon
+    openCustomPopup("Error", "Please select an event first.", "bx bxs-error-circle");
+
+    return;
+  }
+
+  document.getElementById("errorIcon").style.display = "none";
+    document.getElementById("successIcon").style.display = "none";
+    document.getElementById("questionIcon").style.display = "inline";
+
+  openCustomPopup(
+    "Are you sure?",
+    "Suggest activity/ies?",
+    "question",
+    
+    true,
+    function () {
+      // Handle confirmation action here
+      // Check for changes in the checkboxes
+      const checkboxes = document.querySelectorAll('.activity_container input[type="checkbox"]');
+      const hasChanges = Array.from(checkboxes).some(function (checkbox) {
+        return checkbox.checked !== checkbox.defaultChecked;
       });
-      return;
-    }
 
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Suggest activity/ies?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, suggest activities!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Check for changes in the checkboxes
-        var checkboxes = document.querySelectorAll('.activity_container input[type="checkbox"]');
-        var hasChanges = Array.from(checkboxes).some(function (checkbox) {
-          return checkbox.checked !== checkbox.defaultChecked;
-        });
+      if (hasChanges) {
+        // Get the selected activities
+        const selectedActivities = Array.from(document.querySelectorAll('input[name^="activity_"]:checked'))
+          .map(input => input.value);
 
-        if (hasChanges) {
-          // Get the selected activities
-          var selectedActivities = Array.from(document.querySelectorAll('input[name^="activity_"]:checked'))
-            .map(input => input.value);
-
-          // Make an AJAX request to update the suggested_status in the database
-          var xhr = new XMLHttpRequest();
-          xhr.open("POST", "./php/HIS-update_suggested_status.php", true);
-          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-              // Display a success message
-              Swal.fire({
-                title: 'Suggest Success',
-                text: 'Activities suggested successfully!',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK'
-              }).then((result) => {
+        // Make an AJAX request to update the suggested_status in the database
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "./php/HIS-update_suggested_status.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              document.getElementById("errorIcon").style.display = "none";
+              document.getElementById("successIcon").style.display = "inline";
+              document.getElementById("questionIcon").style.display = "none";    
+              confirmButton.style.display = "none";
+              openCustomPopup(
+                
+              "Suggest Success",
+              "Activities suggested successfully!",
+              "bx bxs-check-circle success-color",
+              true,
+              function () {
                 // Refresh the page
-                if (result.isConfirmed) {
-                  location.reload();
-                }
-              });
+              }
+            );
               console.log(xhr.responseText);
+            } else {
+              document.getElementById("errorIcon").style.display = "inline";
+              document.getElementById("successIcon").style.display = "none";
+              document.getElementById("questionIcon").style.display = "none";
+                openCustomPopup(
+              "Error",
+              "Failed to suggest activities. Please try again later.",
+              "bx bx-x error-color",
+              true,
+              function () {
+                // Optionally, you can add code to handle the error
+              }
+            );
             }
-          };
-          xhr.send("activities=" + encodeURIComponent(JSON.stringify(selectedActivities)));
-        } else {
-          // Display an error message for no changes
-          Swal.fire({
-            title: 'Error',
-            text: 'No changes applied.',
-            icon: 'error',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK'
-          });
-        }
+          }
+        };
+        xhr.send("activities=" + encodeURIComponent(JSON.stringify(selectedActivities)));
+      } else {
+        document.getElementById("errorIcon").style.display = "inline";
+              document.getElementById("successIcon").style.display = "none";
+              document.getElementById("questionIcon").style.display = "none";  
+                    openCustomPopup("Error", "No changes applied.", "error", false);
+
       }
-    });
-  });
+    }
+  );
+});
+
+// Function to open the custom popup
+function openCustomPopup(title, message, icon, showConfirmButton, callback) {
+  const popup = document.querySelector(".popUpDisableBackground");
+  const popupContainer = document.querySelector(".popUpContainer");
+  const popupHeader = document.querySelector(".popUpHeader");
+  const popupMessage = document.querySelector(".popUpMessage");
+  const confirmButton = document.querySelector(".confirmPopUp");
+
+  popupHeader.textContent = title;
+  popupMessage.textContent = message;
+
+  if (showConfirmButton) {
+    confirmButton.style.display = "block";
+  } else {
+    confirmButton.style.display = "none";
+  }
+
+  // Handle the callback when the Confirm button is clicked
+  confirmButton.onclick = function () {
+    closeCustomPopup();
+    if (callback) {
+      callback();
+    }
+  };
+
+  popup.style.visibility = "visible";
+  popupContainer.classList.add("show");
+}
+
+// Function to close the custom popup
+function closeCustomPopup() {
+  const popup = document.querySelector(".popUpDisableBackground");
+  const popupContainer = document.querySelector(".popUpContainer");
+
+  popupContainer.classList.remove("show");
+  setTimeout(function () {
+    popup.style.visibility = "hidden";
+  }, 300);
+}
+document.getElementById("cancelButton").addEventListener("click", function () {
+  closeCustomPopup();
+});
+  
 </script>
+
 
 
 </body>
