@@ -3,7 +3,7 @@ html, body {
 }
 body {
     overflow-x: hidden;
-    position: relative
+    position: relative;
 }
 .removespace{
     position: relative;
@@ -17,7 +17,7 @@ body {
 }
 .home-section .actualbody{
     position: relative;
-    background-color: var(--color-body);
+    background-color: var(--color-body) !important;
     min-height: 100vh !important;
     top:0;
     left:78px;
@@ -112,7 +112,7 @@ h2 {
     margin-bottom: 15px;
 }
 .result {
-    border: solid var(--color-text);
+    /*border: solid var(--color-text);*/
     border-radius: 15px;
     margin-left: auto;
     margin-right: auto;
@@ -134,6 +134,7 @@ table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
+    /*border-collapse: collapse;*/
 }
 th {
     font-size: 15px;
@@ -142,6 +143,8 @@ th {
     text-overflow: ellipsis;
     text-align: center;
     padding: 5px;
+    border-top: 2px solid rgb(92, 87, 102);
+    width: 100%;
 }
 td {
     font-size: 15px;
@@ -151,7 +154,7 @@ td {
     padding: 5px;
     text-overflow: ellipsis;
     width: 100%;
-    min-width: 100px;
+    min-width: 150px;
 }
 h2 {
     display: block;
@@ -545,7 +548,55 @@ i.bx-search {
 .popup-container .prompt-icon {
     font-size: calc(60px + 2vw)!important;
 }
-
+.participant-name {
+    text-align:left !important;
+    padding-left: 10px;
+}
+.SC-header {
+    background-color: var(--color-sc);
+}
+.ELITE-header {
+    background-color: var(--color-elite);
+}
+.ACAP-header {
+    background-color: var(--color-acap);
+}
+.AECES-header {
+    background-color: var(--color-aeces);
+}
+.GIVE-header {
+    background-color: var(--color-give);
+}
+.JEHRA-header {
+    background-color: var(--color-jehra);
+}
+.JMAP-header {
+    background-color: var(--color-jmap);
+}
+.JPIA-header {
+    background-color: var(--color-jpia);
+}
+.PIIE-header {
+    background-color: var(--color-piie);
+}
+.scores-header {
+    background-color: var(--color-scores-header);
+    color: var(--color-reverse_text) !important;
+}
+.responsive-table2 {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-collapse: collapse;
+    /*border: 1px solid var(--)*/
+}
+.participant-table {
+    border: solid 1px var(--color-text);
+}
+/*.judge-header {
+    text-align:left;
+    padding-left: 1;
+}*/
 @media screen and (max-width: 768px) {
     h2 {
         display:flex;
@@ -591,4 +642,11 @@ i.bx-search {
     .simplepicker-wrapper {
         left: 10%;
     }
+}
+:root[data-theme="light"] {
+    --color-scores-header: #191424;
+}
+
+:root[data-theme="dark"] {
+    --color-scores-header: #635B81CC;
 }

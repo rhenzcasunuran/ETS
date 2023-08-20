@@ -143,16 +143,18 @@ th {
     text-overflow: ellipsis;
     text-align: center;
     padding: 5px;
+    border-top: 2px solid rgb(92, 87, 102);
+    width: 100%;
 }
 td {
     font-size: 15px;
     text-align: center;
-    border-top: 2px solid rgb(53, 45, 67);
+    border-top: 2px solid rgb(92, 87, 102);
     border-collapse: collapse;
     padding: 5px;
     text-overflow: ellipsis;
     width: 100%;
-    min-width: 100px;
+    min-width: 150px;
 }
 h2 {
     display: block;
@@ -321,6 +323,51 @@ i.bx-search {
 svg {
     fill: #282135 !important;
 }
+.participant-name {
+    text-align:left !important;
+    padding-left: 10px;
+}
+.SC-header {
+    background-color: var(--color-sc);
+}
+.ELITE-header {
+    background-color: var(--color-elite);
+}
+.ACAP-header {
+    background-color: var(--color-acap);
+}
+.AECES-header {
+    background-color: var(--color-aeces);
+}
+.GIVE-header {
+    background-color: var(--color-give);
+}
+.JEHRA-header {
+    background-color: var(--color-jehra);
+}
+.JMAP-header {
+    background-color: var(--color-jmap);
+}
+.JPIA-header {
+    background-color: var(--color-jpia);
+}
+.PIIE-header {
+    background-color: var(--color-piie);
+}
+.scores-header {
+    background-color: var(--color-scores-header);
+    color: var(--color-reverse_text) !important;
+}
+.responsive-table2 {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-collapse: collapse;
+    /*border: 1px solid var(--)*/
+}
+.participant-table {
+    border: solid 1px var(--color-text);
+}
 @media screen and (max-width:460px){
     .removespace {
         width: 100% !important;
@@ -446,4 +493,11 @@ svg {
         margin-right: auto !important;
         top: 5px;
     }
+}
+:root[data-theme="light"] {
+    --color-scores-header: #191424;
+}
+
+:root[data-theme="dark"] {
+    --color-scores-header: #635B81CC;
 }
