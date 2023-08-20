@@ -429,3 +429,15 @@ input[type="checkbox"]:checked + .slider:before {
 #tournament{
   margin-right: 15px;
 }
+
+.empty-state{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px;
+  flex-direction: column;
+}
+
+.empty-state h2{
+  margin-top: 20px;
+}
