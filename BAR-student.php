@@ -220,35 +220,23 @@
                           </div>
                         </div>
                       </div>
-                    </div>';
+                    </div>
+                    </section>';
+              } else {
+                ?>
+                <section class="home-section">
+                <div class="header">Overall Organization Standing</div>
+                  <div class="empty-state">
+                    <div class="empty-img">
+                      <img src="./pictures/select.png" alt="">
+                    </div>
+                    <h2>There are currently no events.</h2>
+                  </div>
+                </section> 
+
+                <?php
               }
-            } else {
-      ?>
-        <div class="text-center" id="no-event-container">
-          <i class='bx bx-calendar-x'></i>
-          <h1>No Events</h1>
-          <p>Looks like you have no events created. <br> You can do so by clicking the button below.</p>
-          <div class="row justify-content-center">
-            <button class="primary-button" id="create-new-event-btn">
-              <i class='bx bx-add-to-queue d-flex justify-content-center align-items-center'></i>
-              Create an Event
-            </button>
-          </div>
-        </div>
-        </div>
-  </section>
-
-          <script>
-            $(document).ready(function () {
-              $("#create-new-event-btn").click(function (event) {
-                event.preventDefault(); // Prevent default form submission
-
-                window.location.href = "EVE-admin-create-event.php";
-              });
-            });
-          </script>
-        <?php
-    }
+            } 
     mysqli_close($conn);
   ?>
 
