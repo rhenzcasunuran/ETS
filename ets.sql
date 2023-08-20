@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2023 at 02:55 PM
+-- Generation Time: Aug 20, 2023 at 06:03 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ets`
+-- Database: `ets7`
 --
 
 -- --------------------------------------------------------
@@ -512,6 +512,7 @@ CREATE TABLE `participants` (
   `organization_id` int(11) NOT NULL,
   `participant_name` varchar(50) NOT NULL,
   `participant_section` varchar(50) NOT NULL,
+  `is_Grouped` tinyint(1) NOT NULL,
   `final_score` decimal(5,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
