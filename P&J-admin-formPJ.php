@@ -161,7 +161,6 @@ input[readonly] {
                         <option data-show=".group">Group</option>
                         </select>
                         </div>
-                        <div id="eventCodeStatus"></div>
                         <div class="row">
                           <div class="col">
                               <label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Judges</label>
@@ -198,9 +197,9 @@ input[readonly] {
                                   <th class="bordertable"><h6 class='judgeheader'>Scoring Link</h6></th>
                                   </tr>
                                   </thread>      
-                                     <tbody>
+                                  <tbody id="judgesTable">
                                       
-                                     <?php
+                                  <?php
                   $sql = "SELECT * FROM judges";
                   
                   $result = $conn->query($sql);
@@ -402,22 +401,42 @@ input[readonly] {
     </script>
 <script  type="text/javascript">
 function checkEventCode() {
-    var eventCodeInput = document.getElementById('event_code').value;
-    
-    // Send an AJAX request to the server to check the event code
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'php/P&J-admin-check-code.php', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                // The response from the server should contain the validation result
-                document.getElementById('eventCodeStatus').innerHTML = xhr.responseText;
-            }
-        }
-    };
-    xhr.send('event_code=' + eventCodeInput);
+  // Get the entered event code
+  var eventCode = document.getElementById('event_code').value;
+
+  // Send an AJAX request to the server to check the event code
+  $.ajax({
+  type: 'POST',
+  url: 'php/P&J-admin-check-event-code.php', // PHP script to handle the validation
+  data: { event_code: eventCode },
+  success: function(response) {
+    // Handle the response from the server
+    if (response === 'valid') {
+      // The event code is valid
+      // You can update the UI or perform further actions here
+      // For example, you can load the table data for judges matching the event code here
+      loadJudges(eventCode);
+    } else {
+      // The event code is not valid
+      // You can show an error message to the user
+    }
+  }
+});
 }
+
+function loadJudges(eventCode) {
+  // Send an AJAX request to fetch judges based on the event code
+  $.ajax({
+    type: 'POST',
+    url: 'php/P&J-admin-fetch-judges.php', // Create this PHP script to retrieve judges based on event code
+    data: { event_code: eventCode },
+    success: function(judgesHTML) {
+  console.log('AJAX success');
+  $('#judgesTable').html(judgesHTML);
+}
+  });
+}
+
 function checkEventCode() {
     const eventCodeInput = document.getElementById('event_code');
     const paraddiButton = document.getElementById('paraddi');
@@ -460,18 +479,44 @@ function toggleAllCheckboxesJ() {
             updateTotalValuesJ();
         }
 
-        function deleteSelected() {
-            var checkboxes = document.getElementsByClassName('checkbox');
-            var selectAllCheckbox = document.getElementById('select-all');
+        function deleteSelected(judgeId) {
+          var checkboxes = document.getElementsByClassName('checkbox');
+    var selectedIds = [];
 
-            for (var i = checkboxes.length - 1; i >= 0; i--) {
-                if (checkboxes[i].checked) {
-                    checkboxes[i].parentNode.parentNode.remove();
-                }
-            }
+    for (var i = checkboxes.length - 1; i >= 0; i--) {
+        if (checkboxes[i].checked) {
+            var row = checkboxes[i].parentNode.parentNode;
+            var judgeId = row.getAttribute('data-id'); // Get the data-id attribute
 
-            selectAllCheckbox.checked = false;
+            // Push the selected judge IDs to the array
+            selectedIds.push(judgeId);
+
+            // Remove the row from the table
+            row.remove();
         }
+    }
+
+    // Send the selected judge IDs to the server for deletion
+    $.ajax({
+        type: "POST",
+        url: "php/P&J-admin-delete-judges.php",
+        data: { judge_ids: selectedIds }, // Send an array of judge IDs
+        success: function (response) {
+            // Log the response for debugging
+            console.log(response);
+
+            // Handle the response from the server (e.g., display a success message)
+            alert("Rows deleted successfully.");
+        },
+        error: function (xhr, status, error) {
+            // Log the error for debugging
+            console.error(xhr, status, error);
+
+            // Handle errors (e.g., display an error message)
+            alert("Error deleting rows.");
+        },
+    });
+}
 
 function toggleAllCheckboxesP() {
             var checkboxesP = document.getElementsByClassName('checkboxP');
@@ -484,25 +529,51 @@ function toggleAllCheckboxesP() {
         }
 
         function deleteSelectedP() {
-            var checkboxesP = document.getElementsByClassName('checkboxP');
+    var checkboxesP = document.getElementsByClassName('checkboxP');
+    var selectedIdsP = [];
+
+    for (var i = checkboxesP.length - 1; i >= 0; i--) {
+        if (checkboxesP[i].checked) {
+            var rowP = checkboxesP[i].parentNode.parentNode;
+            var participantId = rowP.getAttribute('data-id'); // Get the data-id attribute
+
+            // Push the selected participant IDs to the array
+            selectedIdsP.push(participantId);
+
+            // Remove the row from the table
+            rowP.remove();
+        }
+    }
+
+    // Send the selected participant IDs to the server for deletion
+    $.ajax({
+        type: "POST",
+        url: "php/P&J-admin-delete-participants.php",
+        data: { participant_ids: selectedIdsP }, // Send an array of participant IDs
+        success: function (response) {
+            // Log the response for debugging
+            console.log(response);
+
+            // Handle the response from the server (e.g., display a success message)
+            alert("Participants deleted successfully.");
+        },
+        error: function (xhr, status, error) {
+            // Log the error for debugging
+            console.error(xhr, status, error);
+
+            // Handle errors (e.g., display an error message)
+            alert("Error deleting participants.");
+        },
+    });
+}
+
+        function deleteSelectedPG() {
+            var checkboxesP = document.getElementsByClassName('checkboxPG');
             var selectAllCheckboxP = document.getElementById('select-allP');
 
             for (var i = checkboxesP.length - 1; i >= 0; i--) {
                 if (checkboxesP[i].checked) {
                     checkboxesP[i].parentNode.parentNode.remove();
-                }
-            }
-
-            selectAllCheckboxP.checked = false;
-        }
-
-        function deleteSelectedPG() {
-            var checkboxesPG = document.getElementsByClassName('checkboxPG');
-            var selectAllCheckboxP = document.getElementById('mainCheckbox');
-
-            for (var i = checkboxesPG.length - 1; i >= 0; i--) {
-                if (checkboxesPG[i].checked) {
-                    checkboxesPG[i].parentNode.parentNode.remove();
                 }
             }
 
@@ -562,8 +633,6 @@ function updateLabel(dropdown) {
     // Send the form data
     xhr.send(formData);
 });
-
-
 
 
   popup = document.getElementById('popup');
@@ -877,7 +946,7 @@ updateTotalValuesP();
     let divCount = 0;
 
 
-    function generateDiv(organizationId) {
+    function generateDiv() {
   divCount++;
   const divId = `div${divCount}`;
 
@@ -921,7 +990,7 @@ updateTotalValuesP();
         optionElement.text = option.organization_name;
         optionElement.value = option.organization_id;
         dropdown.appendChild(optionElement);
-
+        
       });
 
     })
@@ -956,41 +1025,33 @@ updateTotalValuesP();
   };
   const toggleButtonCell = document.createElement('td');
   toggleButtonCell.appendChild(toggleButton);
-
-  // Create the button to add more rows
-  const addRowButton = document.createElement('button');
+// Create the button to add more rows
+const addRowButton = document.createElement('button');
   addRowButton.type = 'button';
   addRowButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
   addRowButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-success-color)!important; color: var(--white-text-color)!important; background-color: var(--default-success-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
   addRowButton.id = "addBPG";
   addRowButton.disabled = true; // Disable the button initially
-
   // Event listener for the dropdown change event
-dropdown.addEventListener('change', function () {
-  const selectedOrganizationId = this.value; // Use 'this' to refer to the dropdown that triggered the event
-  enableAddRowButton(addRowButton, selectedOrganizationId);
-});
-
-// Modify the addRowButton.onclick function to pass the selected organizationId
-addRowButton.onclick = function () {
-  const selectedOrganizationId = dropdown.value; // Get the selected organization ID from the dropdown
-  const newRow = createRow(divId, selectedOrganizationId);
-  tbody.appendChild(newRow);
-  updateTotalValuesP();
-  // Enable the dropdown when a row is added
-  dropdown.disabled = false;
-};
-
-  // Create a function to enable/disable the addRowButton based on organization selection
-  function enableAddRowButton(button, organizationId) {
-    if (organizationId !== 'Organization') {
-      button.disabled = false;
-      button.style.backgroundColor = "var(--active-success-color)";
-    } else {
-      button.disabled = true;
-      button.style.backgroundColor = "grey";
-    }
+dropdown.addEventListener('change', function() {
+  const selectedOrganizationId = dropdown.value;
+  // Enable the button and change its color when a non-default option is selected
+  if (selectedOrganizationId !== 'Organization') {
+    addRowButton.disabled = false;
+    addRowButton.style.backgroundColor = "var(--active-success-color)";
+  } else {
+    addRowButton.disabled = true;
+    addRowButton.style.backgroundColor = "grey";
   }
+});
+  addRowButton.onclick = function () {
+    const selectedOrganizationId = dropdown.value; // Get the selected organization ID
+    const newRow = createRow(divId, selectedOrganizationId);
+    tbody.appendChild(newRow);
+    updateTotalValuesP();
+    // Enable the dropdown when a row is added
+    dropdown.disabled = false;
+  };
 
   const addRowButtonCell = document.createElement('td');
   addRowButtonCell.appendChild(addRowButton);
@@ -1014,8 +1075,11 @@ addRowButton.onclick = function () {
   deleteButton.innerHTML = "<i class='bx bx-trash'></i>";
   deleteButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-danger-color)!important; color: var(--white-text-color)!important; background-color: var(--default-danger-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
   deleteButton.onclick = function () {
-    removeDiv(divId);
-  };
+  // Enable the parent button here
+  const parentButton = document.getElementById('paraddg'); // Replace 'buttonId' with the actual ID of the parent button
+  parentButton.disabled = false;
+  removeDiv(divId);
+};
   const deleteButtonCell = document.createElement('td');
   deleteButtonCell.appendChild(deleteButton);
 
@@ -1035,17 +1099,17 @@ addRowButton.onclick = function () {
   if (saveButton) {
     saveButton.disabled = true;
   }
-}
-
-function createRow(divId, organizationId) {
+  function createRow(divId, organizationId, dropdown) {
   const row = document.createElement('tr');
   row.className = 'row';
   row.style.marginLeft = '20px';
 
-  // Create the hidden input for organization_id for this row
+  
+  // Create a hidden input field for organization_id
   const organizationIdInput = document.createElement('input');
-  organizationIdInput.type = 'hidden';
+  organizationIdInput.type = 'input';
   organizationIdInput.name = 'organization_id[]';
+  organizationIdInput.value = organizationId; // Set the organization_id value for this row
   row.appendChild(organizationIdInput);
 
   // Create the container for the checkbox, name input, and section input
@@ -1057,6 +1121,9 @@ function createRow(divId, organizationId) {
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.className = 'checkboxPG';
+  checkbox.onclick = function () {
+    toggleCheckbox(divId);
+  };
   inputsContainer.appendChild(checkbox);
 
   // Create the textbox for the name
@@ -1121,6 +1188,10 @@ function createRow(divId, organizationId) {
 
   return row;
 }
+const callingButton = document.getElementById('paraddg'); // Replace 'buttonId' with the actual ID of your button
+  callingButton.disabled = true;
+}
+
 
 function toggleAllCheckboxesPG() {
   const checkboxes = document.querySelectorAll('#mainDiv input[type="checkbox"]');
