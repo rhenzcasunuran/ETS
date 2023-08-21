@@ -5,8 +5,10 @@
 
 <style>
   /* Styles for the competition result container */
-  .result_container {
+  
+  .result_container {  
     margin-bottom: 20px;
+    background-image:  var(--url-accordion);
   }
 
   /* Styles for the competition name heading */
@@ -158,7 +160,7 @@ if ($result->num_rows > 0) {
       // Loop through each criterion to get the scores for this participant
       $criteria_result->data_seek(0);
       while ($criterion_row = $criteria_result->fetch_assoc()) {
-        $criterion_id = $criterion_row["criterion_id"];
+        $criterion_id = $criterion_row["ongoing_criterion_id"];
 
         // Query the criterion_scoring table to get the final score for this participant and criterion
         $score_sql = "SELECT criterion_final_score FROM criterion_scoring WHERE ongoing_criterion_id = '$criterion_id' AND participants_id = '$participant_id'";
@@ -189,7 +191,7 @@ if ($result->num_rows > 0) {
     echo "<div class='winner-podium__place winner-podium__place--silver'>";
     if (isset($participants[1])) {
       $secondPlace = $participants[1];
-      echo "<span class='winner-podium__place-number'>2</span>";
+      echo "<span class='winner-podium__place-number'><i class='bx bx-medal bx-tada bx-lg'></i></span>";
       echo "<span class='winner-podium__place-name'>" . $secondPlace['name'] . "</span>";
       echo "<span class='winner-podium__place-name'>" . $secondPlace['organization'] . "</span>";
     }
@@ -198,7 +200,7 @@ if ($result->num_rows > 0) {
     echo "<div class='winner-podium__place winner-podium__place--gold'>";
     if (isset($participants[0])) {
       $firstPlace = $participants[0];
-      echo "<span class='winner-podium__place-number'>1</span>";
+      echo "<span class='winner-podium__place-number'><i class='bx bxs-trophy bx-tada bx-lg' ></i></span>";
       echo "<span class='winner-podium__place-name'>" . $firstPlace['name'] . "</span>";
       echo "<span class='winner-podium__place-name'>" . $firstPlace['organization'] . "</span>";
     }
@@ -207,7 +209,7 @@ if ($result->num_rows > 0) {
     echo "<div class='winner-podium__place winner-podium__place--bronze'>";
     if (isset($participants[2])) {
       $thirdPlace = $participants[2];
-      echo "<span class='winner-podium__place-number'>3</span>";
+      echo "<span class='winner-podium__place-number'><i class='bx bxs-award bx-tada bx-lg' ></i></span>";
       echo "<span class='winner-podium__place-name'>" . $thirdPlace['name'] . "</span>";
       echo "<span class='winner-podium__place-name'>" . $thirdPlace['organization'] . "</span>";
     }

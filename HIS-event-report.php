@@ -3,30 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Event Report</title>
-    <script>
-        // JavaScript function to update event list when a new event name is selected
-        function updateEventList() {
-            var selectedEventNameId = document.getElementById("eventNames").value;
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("eventList").innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("GET", "PHP/HIS-get-events.php?eventNameId=" + selectedEventNameId, true);
-            xhttp.send();
+   <!-- JavaScript function to generate and download the PDF -->
+<script>
+    // Initialize a variable to store the selected event name
+    var selectedEventName = "";
 
-            // Show/hide the "Generate PDF" button based on the selection
-            var generatePDFButton = document.getElementById("generatePDFButton");
-            generatePDFButton.style.display = selectedEventNameId ? "block" : "none";
-        }
+    // JavaScript function to update event list when a new event name is selected
+    function updateEventList() {
+        var selectedEventNameId = document.getElementById("eventNames").value;
+        selectedEventName = document.getElementById("eventNames").options[document.getElementById("eventNames").selectedIndex].text; // Store the selected event name
 
-        // JavaScript function to generate and download the PDF
-        function generatePDF() {
-            var selectedEventNameId = document.getElementById("eventNames").value;
-            window.location.href = "php/generate-pdf.php?eventNameId=" + selectedEventNameId;
-        }
-    </script>
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("eventList").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "PHP/HIS-get-events.php?eventNameId=" + selectedEventNameId, true);
+        xhttp.send();
+
+        // Show/hide the "Generate PDF" button based on the selection
+        var generatePDFButton = document.getElementById("generatePDFButton");
+        generatePDFButton.style.display = selectedEventNameId ? "block" : "none";
+    }
+
+    // JavaScript function to generate and download the PDF
+    function generatePDF() {
+        // Pass the selected event name when generating the PDF
+        window.location.href = "php/generate-pdf.php?eventNameId=" + document.getElementById("eventNames").value + "&eventName=" + encodeURIComponent(selectedEventName);
+    }
+</script>
+
 </head>
 <body>
     <h1>Event Report</h1>

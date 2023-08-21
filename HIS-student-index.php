@@ -287,7 +287,7 @@ if (mysqli_num_rows($result) > 0) {
         } else {
             // Display default image
             echo '<div class="modal-image">';
-            echo '<img src="./pictures/no-img-avail.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+            echo '<img src="./pictures/his-upl.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
             echo '</div>';
         }
     
@@ -336,7 +336,7 @@ if (mysqli_num_rows($result) > 0) {
           } else {
             // Display default image
             echo '<div class="modal-image">';
-            echo '<img src="./pictures/history.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
+            echo '<img src="./pictures/his-upl.svg" alt="Default Image" data-bs-toggle="modal" data-bs-target="#event-modal" data-bs-event="' . $eventName . '">';
             echo '</div>';
           }
       

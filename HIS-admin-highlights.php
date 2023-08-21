@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/sidebar-style.css">
     <link rel="stylesheet" href="./css/system-wide.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
      <!-- Event History CSS -->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -152,17 +154,35 @@ foreach ($currentImages as $image) {
 
 // Display pagination links
 echo '<div class="pagination">';
-for ($i = 1; $i <= $totalPages; $i++) {
+
+// Calculate the previous and next page numbers
+$prevPage = max($currentPage - 1, 1);
+$nextPage = min($currentPage + 1, $totalPages);
+
+// Display "Previous" link if not on the first page
+if ($currentPage > 1) {
+    echo '<a href="?page=' . $prevPage . '" class="pagination-link">&lt;</a>';
+}
+
+// Display the page numbers (up to a maximum of 3)
+for ($i = max(1, $currentPage - 1); $i <= min($totalPages, $currentPage + 1); $i++) {
     if ($i === $currentPage) {
         echo '<span class="pagination-link active">' . $i . '</span>';
     } else {
         echo '<a href="?page=' . $i . '" class="pagination-link">' . $i . '</a>';
     }
 }
+
+// Display "Next" link if not on the last page
+if ($currentPage < $totalPages) {
+    echo '<a href="?page=' . $nextPage . '" class="pagination-link">&gt;</a>';
+}
+
 echo '</div>';
 
 mysqli_close($conn);
 ?>
+
 
 
   </div>
@@ -182,13 +202,17 @@ mysqli_close($conn);
       </div>
 
         
-      <div class="container" id="button-container" style="display: flex; justify-content: flex-end;">
+      <div class="container" id="button-container" style="display: flex; flex-direction: column; align-items: flex-end;">
       <div id="tooltip" class="tooltip-text"></div>
         <button type="submit" id="upload-btn" class="btn btn-primary">Upload</button>
-      
+        <button type="submit" id="report-btn" class="btn btn-primary">Report</button>
+
   </div>
+  
     </div>
+    
   </div>
+ 
   <div class="popUpDisableBackground" id="customPopup">
     <div class="popUpContainer">
         <!-- Icon (e.g., success icon) -->
@@ -212,7 +236,7 @@ mysqli_close($conn);
 
 
     </section>
-    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./js/script.js"></script>
     <script src="./js/jquery-3.6.4.js"></script>
     <script type="text/javascript">
@@ -443,9 +467,14 @@ Event History Scripts
             document.getElementById("errorIcon").style.display = "none";
             document.getElementById("successIcon").style.display = "inline";
             document.getElementById("questionIcon").style.display = "none";
-            openCustomPopup('Success!', 'Image uploaded successfully', 'success', true, function () {
-              location.reload();
+
+
+            confirmButton.style.display = "none";
+
+            openCustomPopup('Success!', 'Image uploaded successfully', 'success', function () {
             });
+            location.reload(3000);
+
           },
           error: function (xhr, status, error) {
             // Handle the error response
@@ -498,34 +527,38 @@ Event History Scripts
 }
 
 
-  function deleteImage(id, filename) {
-    $.ajax({
-      url: './php/HIS-delete.php',
-      type: 'POST',
-      data: { id: id, filename: filename },
-      success: function (response) {
-        if (response === 'success') {
-          document.getElementById("errorIcon").style.display = "none";
-            document.getElementById("successIcon").style.display = "inline";
-            document.getElementById("questionIcon").style.display = "none"; 
-          openCustomPopup(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success',
-            true,
-            function () {
-              location.reload(); // Refresh the page
-            }
-          );
-        } else {
-          document.getElementById("errorIcon").style.display = "inline";
-            document.getElementById("successIcon").style.display = "none";
-            document.getElementById("questionIcon").style.display = "none"; 
-          openCustomPopup('Error!', 'Failed to delete the file.', 'error');
-        }
-      },
-    });
-  }
+function deleteImage(id, filename) {
+  $.ajax({
+    url: './php/HIS-delete.php',
+    type: 'POST',
+    data: { id: id, filename: filename },
+    success: function (response) {
+      if (response === 'success') {
+        document.getElementById("errorIcon").style.display = "none";
+        document.getElementById("successIcon").style.display = "inline";
+        document.getElementById("questionIcon").style.display = "none"; 
+        
+        // Assuming that confirmButton is accessible in this scope, hide it
+        confirmButton.style.display = "none";
+
+        openCustomPopup(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+          
+        );
+        location.reload(3000);
+      } else {
+        document.getElementById("errorIcon").style.display = "inline";
+        document.getElementById("successIcon").style.display = "none";
+        document.getElementById("questionIcon").style.display = "none"; 
+        openCustomPopup('Error!', 'Failed to delete the file.', 'error');
+      }
+    },
+  });
+}
+
+  
 </script>
 
 
@@ -658,9 +691,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
-
-
-
   </body>
 
 </html>

@@ -49,7 +49,7 @@ include './php/database_connect.php';
 
           <?php
           // Pagination configuration
-          $perPage = 4; // Number of buttons per page
+          $perPage = 5; // Number of buttons per page
           $page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page number
 
           // Query to fetch events with pagination
@@ -95,7 +95,7 @@ include './php/database_connect.php';
           echo "<div class='pagination'>";
 
           // Limit the number of pagination links displayed
-          $visiblePages = 3; // Set the number of visible pages
+          $visiblePages = 2; // Set the number of visible pages
 
           // Calculate the start and end page numbers based on the visible pages
           $startPage = max($page - floor($visiblePages / 2), 1);
@@ -342,18 +342,14 @@ include './php/database_connect.php';
               document.getElementById("errorIcon").style.display = "none";
               document.getElementById("successIcon").style.display = "inline";
               document.getElementById("questionIcon").style.display = "none";    
-              confirmButton.style.display = "none";
               openCustomPopup(
                 
               "Suggest Success",
               "Activities suggested successfully!",
               "bx bxs-check-circle success-color",
-              true,
-              function () {
-                // Refresh the page
-              }
-            );
-              console.log(xhr.responseText);
+              
+                );
+
             } else {
               document.getElementById("errorIcon").style.display = "inline";
               document.getElementById("successIcon").style.display = "none";
@@ -362,10 +358,8 @@ include './php/database_connect.php';
               "Error",
               "Failed to suggest activities. Please try again later.",
               "bx bx-x error-color",
-              true,
-              function () {
-                // Optionally, you can add code to handle the error
-              }
+              false,
+             
             );
             }
           }
