@@ -280,7 +280,7 @@ textarea {
   justify-content: center;
 }
 
-#upload-btn {
+#upload-btn,#report-btn {
     display: inline-flex;
     color: var(--white-text-color)!important;
     background-color: var(--default-primary-action-color)!important;
@@ -300,8 +300,10 @@ textarea {
     cursor: pointer;
     user-select: none;
 }
-
-#upload-btn:hover {
+#upload-btn{
+  margin-bottom: 20px;
+}
+#upload-btn:hover , #report-btn:hover{
   background-color: var(--hover-primary-action-color)!important;
 }
 .drop-zone {
@@ -390,6 +392,11 @@ textarea {
   white-space: nowrap;
   z-index: 1;
 }
+.pagination{
+  margin-left: 12%;
+  margin-right: 12%;
+  align-self: baseline;
+}
 
 
 
@@ -446,6 +453,7 @@ textarea {
   #container-2 {
     width: 100%;
     margin-right: 0;
+
   }
 
   #preview {
