@@ -43,31 +43,32 @@ if (isset($_POST['judge_name']) && isset($_POST['judge_nickname']) && !empty($_P
 }
 
 // Process participants
-if (isset($_POST['participant_name']) && isset($_POST['participant_section']) && isset($_POST['organization_id']) &&
-    is_array($_POST['participant_name']) && is_array($_POST['participant_section']) && is_array($_POST['organization_id'])) {
-
+if (
+    isset($_POST['participant_name']) &&
+    isset($_POST['participant_section']) &&
+    isset($_POST['organization_id']) &&
+    is_array($_POST['participant_name']) &&
+    is_array($_POST['participant_section']) &&
+    is_array($_POST['organization_id'])
+) {
     $participantNames = $_POST['participant_name'];
     $participantSections = $_POST['participant_section'];
     $organizationIDs = $_POST['organization_id'];
-    
-    // New array for is_Grouped values
-    $isGroupedValues = $_POST['is_Grouped'];
 
     for ($i = 0; $i < count($participantNames); $i++) {
         $participantName = mysqli_real_escape_string($conn, $participantNames[$i]);
         $participantSection = mysqli_real_escape_string($conn, $participantSections[$i]);
         $organizationID = mysqli_real_escape_string($conn, $organizationIDs[$i]);
-        
-        // Get the is_Grouped value from the array
-        $isGrouped = isset($isGroupedValues[$i]) ? 1 : 0;
+
+        // Get the is_Grouped value directly from the hidden input
+        $isGrouped = $_POST['is_Grouped'];
 
         $query = "INSERT INTO participants (competition_id, organization_id, participant_name, participant_section, is_Grouped) 
                   VALUES ('$competitionID', '$organizationID', '$participantName', '$participantSection', '$isGrouped')";
         mysqli_query($conn, $query);
     }
-    
+
     echo "Participants inserted successfully.";
-    
 } else {
     echo "Missing participant names, sections, organization IDs, or is_Grouped values.";
 }
