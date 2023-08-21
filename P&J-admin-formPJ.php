@@ -508,8 +508,35 @@ function updateLabel(dropdown) {
   }
 
   document.getElementById('submitPopup').addEventListener('click', function() {
-        document.getElementById('submitAll').submit();
-    });
+    // Get the value of is_Grouped directly
+    const isGroupedInput = document.querySelector("input[name='is_Grouped[]']");
+    const isGroupedValue = isGroupedInput.value;
+
+    // Include is_Grouped in your form data
+    const formData = new FormData(document.getElementById('submitAll'));
+    formData.append("is_Grouped", isGroupedValue);
+
+    // Create a new request
+    const xhr = new XMLHttpRequest();
+
+    // Define the request method, URL, and whether it's asynchronous
+    xhr.open('POST', 'php/P&J-admin-action.php', true);
+
+    // Define a function to handle the response
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Handle the success response here, e.g., redirect
+            window.location.href = 'P&J-admin-formPJ.php';
+        } else {
+            // Handle errors here
+            console.error('Error:', xhr.status);
+        }
+    };
+
+    // Send the form data
+    xhr.send(formData);
+});
+
 
   popup = document.getElementById('popup');
 var show = function(){
