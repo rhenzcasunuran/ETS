@@ -77,7 +77,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
   </div>
   <div class="logo_details">
     <img src="./pictures/logo.png" alt="student council logo" class="icon logo">
-    <div class="logo_name">Events Tabulation System</div>
+    <div class="logo_name">Events Management System</div>
     <i class="bx bx-arrow-to-right" id="btn"></i>
     <script src="./js/sidebar-state.js"></script>
   </div>
