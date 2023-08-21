@@ -46,93 +46,157 @@ if ($result->num_rows > 0) {
         $participants_sql = "SELECT * FROM participants WHERE competition_id = '$competition_id'";
         $participants_result = $conn->query($participants_sql);
 
-        while ($participant_row = $participants_result->fetch_assoc()) {
-            $participant_id = $participant_row["participants_id"];
-            $participant_name = $participant_row["participant_name"];
-            $organization_id = $participant_row["organization_id"];
+        $processed_group_ids = []; // Keep track of processed group IDs
+
+while ($participant_row = $participants_result->fetch_assoc()) {
+    $participant_id = $participant_row["participants_id"];
+    $participant_name = $participant_row["participant_name"];
+    $organization_id = $participant_row["organization_id"];
+    $is_grouped = $participant_row["is_Grouped"];
+    $group_id = $participant_row["organization_id"]; // Assuming you have a group_id column
+    
+    // Check if this group has already been processed
+    if ($is_grouped && in_array($group_id, $processed_group_ids)) {
+        continue; // Skip displaying scores for this group
+    }
+    
+    // Mark this group as processed
+    if ($is_grouped) {
+        $processed_group_ids[] = $group_id;
+    }
         
             // Query the organization table to get the organization name
             $org_sql = "SELECT organization_name FROM organization WHERE organization_id = '$organization_id'";
             $org_result = $conn->query($org_sql);
             $organization_name = $org_result->fetch_assoc()["organization_name"];
         
-            // Display participant name and organization
+            // Display participant name(s) and organization
             echo "<table class='participant-table'><tbody class='responsive-table2'>";
-            echo "<tr id='participant-header' class=" .$organization_name. "-header><th colspan='100%' class='participant-name'>Name: " . $participant_name . "<br>Organization: " . $organization_name . "</th></tr>";
+            echo "<tr id='participant-header' class=" .$organization_name. "-header><th colspan='100%' class='participant-name'>";
         
+            if ($is_grouped == 1) {
+                // Grouped participants, get all participants' names in the group
+                $grouped_participants_sql = "SELECT participant_name FROM participants WHERE organization_id = '$organization_id' AND is_Grouped = 1";
+                $grouped_participants_result = $conn->query($grouped_participants_sql);
+                $grouped_participant_names = [];
+        
+                while ($grouped_participant_row = $grouped_participants_result->fetch_assoc()) {
+                    $grouped_participant_names[] = $grouped_participant_row["participant_name"];
+                }
+        
+                echo "Names: " . implode(", ", $grouped_participant_names);
+            } else {
+                // Individual participant
+                echo "Name: " . $participant_name;
+            }
+        
+            echo "<br>Organization: " . $organization_name . "</th></tr>";
+
             // Display the header row for criteria
             echo "<tr class='scores-header'><th>Judges</th>";
             $criteria_result->data_seek(0); // Reset the criteria_result position
-        
+
             while ($criterion_row = $criteria_result->fetch_assoc()) {
-                echo "<th>" . $criterion_row["criterion_name"] . "</th>";
+                echo "<th>" . $criterion_row["criterion_name"] . ": ". $criterion_row["criterion_percent"] ."%</th>";
             }
-            echo "<th>Total Score</th></tr>";
-        
+            echo "<th>Final Score</th></tr>";
+
             // Query the judges table for this competition
             $judges_sql = "SELECT * FROM judges WHERE competition_id = '$competition_id'";
             $judges_result = $conn->query($judges_sql);
-            $participant_total_score = 0; 
-        
+            $participant_total_score = 0;
+
             while ($judge_row = $judges_result->fetch_assoc()) {
                 $judge_id = $judge_row["judge_id"];
                 $judge_name = $judge_row["judge_name"];
-        
+
                 // Display judge's name
                 echo "<tr><th class='judge-header'>" . $judge_name . "</th>";
-        
+
                 // Initialize participant_total_score
-        
+                // Formula for scoring. ((criteria score[1]+criteria score[2]...[depending on number of judges])/number of judges) * weight 
+                // Add all score for that criteria, divide it by the number of judges, then multiply it by its weight
+                // For example, ((10+8)/2) * .50 = 4.5
+
                 // Loop through each criterion to get the scores for this participant and judge
                 $criteria_result->data_seek(0);
                 $judge_total_score = 0;
-        
+
                 while ($criterion_row = $criteria_result->fetch_assoc()) {
                     $criterion_id = $criterion_row["ongoing_criterion_id"];
-        
+
                     // Query the criterion_scoring table to get the final score for this participant, judge, and criterion
                     $score_sql = "SELECT criterion_final_score FROM criterion_scoring WHERE ongoing_criterion_id = '$criterion_id' AND participants_id = '$participant_id' AND judge_id = '$judge_id'";
                     $score_result = $conn->query($score_sql);
-        
+
                     $criterion_score = 'No score'; // Default value
-        
+
                     $score_row = $score_result->fetch_assoc();
                     if ($score_row !== null) {
                         $criterion_score = $score_row["criterion_final_score"];
                     }
-        
+
                     $judge_total_score += ($criterion_score != 'No score') ? $criterion_score : 0;
-        
+
                     echo "<td>" . (($criterion_score != 'no score') ? $criterion_score : 'No score') . "</td>";
                 }
-        
+
                 // Display the judge's total score
                 $participant_total_score += $judge_total_score;
-                echo "<td id='judge-total-score'>" . $judge_total_score . "</td></tr>";
+                echo "<td id='judge-total-score'></td></tr>";
             }
-        
+
             // Calculate and display the participant's overall score
-            echo "<tr><th>Overall Score</th>";
-            
+            echo "<tr><th>Calculated Score</th>";
+
+            $total_judges = $judges_result->num_rows; // Total number of judges for this competition
+
+            // Create an array to store criterion scores for the participant
+            $participant_criterion_scores = [];
+
             $criteria_result->data_seek(0);
-            $criterias = 0;
             while ($criterion_row = $criteria_result->fetch_assoc()) {
-                $criterias += 1;
+                $criterion_id = $criterion_row["ongoing_criterion_id"];
+                $criterion_percent = $criterion_row["criterion_percent"];
+
+                // Calculate the total score for this criterion for the participant
+                $criterion_total_score = 0;
+
+                $judges_result->data_seek(0);
+                while ($judge_row = $judges_result->fetch_assoc()) {
+                    $judge_id = $judge_row["judge_id"];
+
+                    $score_sql = "SELECT criterion_final_score FROM criterion_scoring WHERE ongoing_criterion_id = '$criterion_id' AND participants_id = '$participant_id' AND judge_id = '$judge_id'";
+                    $score_result = $conn->query($score_sql);
+
+                    $score_row = $score_result->fetch_assoc();
+                    if ($score_row !== null && $score_row["criterion_final_score"] != 'No score') {
+                        $criterion_total_score += $score_row["criterion_final_score"];
+                    }
+                }
+
+                // Calculate the criterion score for this participant and judge
+                $criterion_score = number_format(($criterion_total_score / $total_judges) * ($criterion_percent / 100), 2);
+                $participant_criterion_scores[$criterion_id] = $criterion_score;
+
+                // Display the criterion score for this participant and judge
+                echo "<td>" . (($criterion_score != 0) ? $criterion_score : 'No score') . "</td>";
             }
-            $count = 0;
-            while ($count < $criterias) {
-                echo "<td></td>";
-                $count += 1;
-            }
-            $criterias = 0;
-            $count = 0;
-            
-        
-            echo "<td id='participant-overall-score'>" . $participant_total_score . "</td></tr>";
-            $participant_total_score = 0;
+
+            // Display the participant's overall score
+            $participant_final_score = array_sum($participant_criterion_scores);
+
+            // Update the final_score in the participants table
+            $update_final_score_sql = "UPDATE participants SET final_score = '$participant_final_score' WHERE participants_id = '$participant_id'";
+            $conn->query($update_final_score_sql);
+            echo "<td id='participant-overall-score'>" . $participant_final_score . "</td></tr>";
+
+            // Close the participant table
             echo "</tbody></table>";
+
         }
 
+        // Close the main table for this competition
         echo "</tbody></table></div>";
         echo "</div>";
     }

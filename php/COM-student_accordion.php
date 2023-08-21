@@ -29,18 +29,13 @@ if ($result->num_rows > 0) {
         }
 
         $event_id = $row["event_id"];
-
-        /// Calculate total scores for each participant with the given competition_id
-// Calculate total scores for each participant with the given competition_id
-$sql_scores = "SELECT participants.participant_name, criterion_scoring.participants_id, SUM(criterion_scoring.criterion_final_score) AS total_score
-FROM participants
-LEFT JOIN criterion_scoring ON criterion_scoring.participants_id = participants.participants_id
-LEFT JOIN ongoing_criterion ON ongoing_criterion.ongoing_criterion_id = criterion_scoring.ongoing_criterion_id
-WHERE ongoing_criterion.event_id = $event_id
-GROUP BY participants.participants_id
-ORDER BY total_score DESC";
-
-
+        // NEWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw
+        // Query to retrieve participants' final scores for the given event_id
+        $sql_scores = "SELECT p.participant_name, p.participants_id, p.final_score AS total_score, p.is_Grouped
+        FROM participants AS p
+        INNER JOIN competition AS c ON p.competition_id = c.competition_id
+        WHERE c.event_id = $event_id
+        ORDER BY total_score DESC";
 
         $result_scores = $conn->query($sql_scores);
 
@@ -158,45 +153,66 @@ ORDER BY total_score DESC";
         }
 
         echo "<div class='draggableDiv' draggable='true'>";
-        echo "<button id='" . $competition_name . "' class='accordion'>";
-        echo $competition_name . "<br>";
+echo "<button id='" . $competition_name . "' class='accordion'>";
+echo $competition_name . "<br>";
 
-        // Top 2
-        echo "<div id='top3Container' class='top3Container'>";
-        echo "<div class='leftContainer'>";
-        echo "<div style='aspect-ratio: 1/1;'>";
-        echo "<div class='logoContainer silver'><img src='" . $logo2 . "' class='topLogo'></div>";
-        echo "</div>";
-        echo "<div class='diamondContainer second'>";
-        echo "<h4 class='diamondText'>2nd</h4>";
-        echo "</div>";
-        echo "<p class='winnerDetails'>" . $top2_row["participant_name"] . "<br>" . $top2_row["total_score"] . "</p>";
-        echo "</div>";
+// Top 2
+echo "<div id='top3Container' class='top3Container'>";
+echo "<div class='leftContainer'>";
+echo "<div style='aspect-ratio: 1/1;'>";
+echo "<div class='logoContainer silver'><img src='" . $logo2 . "' class='topLogo'></div>";
+echo "</div>";
+echo "<div class='diamondContainer second'>";
+echo "<h4 class='diamondText'>2nd</h4>";
+echo "</div>";
 
-        // Top 1
-        echo "<div class='middleContainer'>";
-        echo "<div style='aspect-ratio: 1/1;'>";
-        echo "<div class='logoContainer gold'><img src='" . $logo1 . "' class='topLogo'></div>";
-        echo "</div>";
-        echo "<div class='diamondContainer first'>";
-        echo "<h4 class='diamondText'>1st</h4>";
-        echo "</div>";
-        echo "<p class='winnerDetails'>" . $top1_row["participant_name"] . "<br>" . $top1_row["total_score"] . "</p>";
-        echo "</div>";
+// Display organization name or participant name based on grouping (Top 2)
+if ($top2_row["is_Grouped"] == 1) {
+    echo "<p class='winnerDetails'>".$org2."<br>" . $top2_row["total_score"] . "</p>";
+} else {
+    echo "<p class='winnerDetails'>" . $top2_row["participant_name"] . "<br>" . $top2_row["total_score"] . "</p>";
+}
 
-        // Top 3
-        echo "<div class='rightContainer'>";
-        echo "<div style='aspect-ratio: 1/1;'>";
-        echo "<div class='logoContainer bronze'><img src='" . $logo3 . "' class='topLogo'></div>";
-        echo "</div>";
-        echo "<div class='diamondContainer third'>";
-        echo "<h4 class='diamondText'>3rd</h4>";
-        echo "</div>";
-        echo "<p class='winnerDetails'>" . $top3_row["participant_name"] . "<br>" . $top3_row["total_score"] . "</p>";
-        echo "</div>";
-        echo "</div>";
-        echo "</button>";
-        echo "<div id='".$competition_name."-content' class='content'>";
+echo "</div>";
+
+// Top 1
+echo "<div class='middleContainer'>";
+echo "<div style='aspect-ratio: 1/1;'>";
+echo "<div class='logoContainer gold'><img src='" . $logo1 . "' class='topLogo'></div>";
+echo "</div>";
+echo "<div class='diamondContainer first'>";
+echo "<h4 class='diamondText'>1st</h4>";
+echo "</div>";
+
+// Display organization name or participant name based on grouping (Top 1)
+if ($top1_row["is_Grouped"] == 1) {
+    echo "<p class='winnerDetails'>".$org1."<br>" . $top1_row["total_score"] . "</p>";
+} else {
+    echo "<p class='winnerDetails'>" . $top1_row["participant_name"] . "<br>" . $top1_row["total_score"] . "</p>";
+}
+
+echo "</div>";
+
+// Top 3
+echo "<div class='rightContainer'>";
+echo "<div style='aspect-ratio: 1/1;'>";
+echo "<div class='logoContainer bronze'><img src='" . $logo3 . "' class='topLogo'></div>";
+echo "</div>";
+echo "<div class='diamondContainer third'>";
+echo "<h4 class='diamondText'>3rd</h4>";
+echo "</div>";
+
+// Display organization name or participant name based on grouping (Top 3)
+if ($top3_row["is_Grouped"] == 1) {
+    echo "<p class='winnerDetails'>". $org3."<br>" . $top3_row["total_score"] . "</p>";
+} else {
+    echo "<p class='winnerDetails'>" . $top3_row["participant_name"] . "<br>" . $top3_row["total_score"] . "</p>";
+}
+
+echo "</div>";
+echo "</div>";
+echo "</button>";
+echo "<div id='".$competition_name."-content' class='content'>";
 
         // Fetch the organization names for all participants before the loop
         $organizationNames = array();
@@ -220,58 +236,76 @@ ORDER BY total_score DESC";
         // Fetch the remaining rows starting from the 4th row in descending order
         $counter = 1; // Initialize the counter
         $result_scores->data_seek(0); // Reset the result set pointer to the beginning
+        $displayed_organizations = array(); // Array to store displayed organizations
+
         while ($row_scores = $result_scores->fetch_assoc()) {
-            if ($counter > 3) {
-                // This condition will skip the first 3 rows
+            $participant_id = $row_scores["participants_id"];
+            $organization_name = $organizationNames[$participant_id];
+            $is_grouped = $row_scores["is_Grouped"]; // Check if participant is grouped
+            $rowStyle = '';
 
-                $participant_id = $row_scores["participants_id"];
-                $rowStyle = '';
+            // Query the organization table for the organization name
+            $organizationQuery = "SELECT organization_name FROM organization WHERE organization_id IN (SELECT organization_id FROM participants WHERE participants_id = $participant_id)";
+            $organizationResult = $conn->query($organizationQuery);
 
-                // Access the organization name from the array
-                $organization_name = $organizationNames[$participant_id];
+            if ($organizationResult->num_rows > 0) {
+                $organizationRow = $organizationResult->fetch_assoc();
+                $organization_name = $organizationRow["organization_name"];
+            } else {
+                $organization_name = "Unknown";
+            }
 
-                // Query the organization table for the organization name
-                $organizationQuery = "SELECT organization_name FROM organization WHERE organization_id IN (SELECT organization_id FROM participants WHERE participants_id = $participant_id)";
-                $organizationResult = $conn->query($organizationQuery);
+            // Set row style based on organization name
+            if ($organization_name === 'ACAP') {
+                $rowStyle = 'background-color: var(--color-acap);';
+            } elseif ($organization_name === 'AECES') {
+                $rowStyle = 'background-color: var(--color-aeces);';
+            } elseif ($organization_name === 'ELITE') {
+                $rowStyle = 'background-color: var(--color-elite);';
+            } elseif ($organization_name === 'GIVE') {
+                $rowStyle = 'background-color: var(--color-give);';
+            } elseif ($organization_name === 'JEHRA') {
+                $rowStyle = 'background-color: var(--color-jehra);';
+            } elseif ($organization_name === 'JMAP') {
+                $rowStyle = 'background-color: var(--color-jmap);';
+            } elseif ($organization_name === 'JPIA') {
+                $rowStyle = 'background-color: var(--color-jpia);';
+            } elseif ($organization_name === 'PIIE') {
+                $rowStyle = 'background-color: var(--color-piie);';
+            }
 
-                if ($organizationResult->num_rows > 0) {
-                    $organizationRow = $organizationResult->fetch_assoc();
-                    $organization_name = $organizationRow["organization_name"];
-                } else {
-                    $organization_name = "Unknown";
-                }
+            if ($counter >= 4 && $is_grouped == 1 && !in_array($organization_name, $displayed_organizations)) {
+                // Display only scores starting from the 4th in the ranking for grouped participants
+                echo "<div class='rankRow'>";
+                echo "<table class='rankTable'>";
+                echo "<tr>";
+                echo "<td class='diamond'><div class='diamondContainer smallDiamond'><div class='place'>" . $counter . "th</div></div></td>";
+                echo "<td class='name' style='$rowStyle'></td>";
+                echo "<td class='org' style='$rowStyle'>$organization_name</td>";
+                echo "<td class='percent' style='$rowStyle'>" . $row_scores["total_score"] . "</td>";
+                echo "</tr>";
+                echo "</table>";
+                echo "</div>";
 
-                $rowStyle = '';
-
-                if ($organization_name === 'ACAP') {
-                    $rowStyle = 'background-color: var(--color-acap);';
-                } elseif ($organization_name === 'AECES') {
-                    $rowStyle = 'background-color: var(--color-aeces);';
-                } elseif ($organization_name === 'ELITE') {
-                    $rowStyle = 'background-color: var(--color-elite);';
-                } elseif ($organization_name === 'GIVE') {
-                    $rowStyle = 'background-color: var(--color-give);';
-                } elseif ($organization_name === 'JEHRA') {
-                    $rowStyle = 'background-color: var(--color-jehra);';
-                } elseif ($organization_name === 'JMAP') {
-                    $rowStyle = 'background-color: var(--color-jmap);';
-                } elseif ($organization_name === 'JPIA') {
-                    $rowStyle = 'background-color: var(--color-jpia);';
-                } elseif ($organization_name === 'PIIE') {
-                    $rowStyle = 'background-color: var(--color-piie);';
-                }
-
+                // Add the displayed organization to the array
+                $displayed_organizations[] = $organization_name;
+            } elseif ($counter >= 4 && $is_grouped == 0) {
+                // Display scores normally for non-grouped participants
                 echo "<div class='rankRow'>";
                 echo "<table class='rankTable'>";
                 echo "<tr>";
                 echo "<td class='diamond'><div class='diamondContainer smallDiamond'><div class='place'>" . $counter . "th</div></div></td>";
                 echo "<td class='name' style='$rowStyle'>" . $row_scores["participant_name"] . "</td>";
-                echo "<td class='org' style='$rowStyle'>" . $organization_name . "</td>";
+                echo "<td class='org' style='$rowStyle'>$organization_name</td>";
                 echo "<td class='percent' style='$rowStyle'>" . $row_scores["total_score"] . "</td>";
                 echo "</tr>";
                 echo "</table>";
                 echo "</div>";
+            } elseif ($counter <= 3) {
+                // Add the organization to the displayed organizations array even for top 3 participants
+                $displayed_organizations[] = $organization_name;
             }
+
             $counter++;
         }
         echo "<button id='".$competition_name."-results-details' class='resultsBtn'>See overall results details</button>";
