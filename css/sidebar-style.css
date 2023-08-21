@@ -107,7 +107,7 @@ ul {
 
 .sidebar .logo_details .logo_name{
   color:var(--color-sidebar-text);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   opacity: 0;
   transition: all .5s ease;
