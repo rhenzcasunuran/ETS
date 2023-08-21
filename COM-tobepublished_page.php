@@ -454,22 +454,7 @@
               console.log("The input field value is "+inputfield.value);
               /*A code to change the color to black by sending compName to php */
             }
-            $.ajax({
-              type: "POST",
-              url: "./php/COM-change_color_black.php",
-              data: { competitionName: competitionName },
-                success: function(response) {
-                  console.log(response);
-                  if (response == 'grey') {
-                    document.getElementById(competitionName +' btn').style.backgroundColor = response + "!important";
-                    element.textContent = "Unavailable";
-                    element.disabled = false;
-                  }
-                  if (response == 'notempty') {
-                    element.disabled = false;
-                  }
-                }
-              });
+   
           }
         };
         const url = "./php/COM-get_compname.php";
@@ -527,6 +512,33 @@
   }
   
   document.getElementById('searchInput').addEventListener('input', handleSearchInput);
+    </script>
+    <script>
+        window.onload= function () {
+          console.log("[Checking if scores are complete...]");
+            // Get all result containers
+            var resultContainers = document.querySelectorAll('.result_container');
+            
+            // Loop through each result container
+            resultContainers.forEach(function (container) {
+                var hasNoScore = false;
+                
+                // Check if any text within the container has 'No score'
+                if (container.textContent.includes('No score')) {
+                    hasNoScore = true;
+                }
+                
+                // Update the button text based on 'No score' presence
+                var button = container.querySelector('.sched_btn');
+                if (button) {
+                    if (hasNoScore) {
+                        button.textContent = 'Unavailable';
+                        var compname = button.id.replace('btn','');
+                        console.log("Competition:"+compname+"score not complete!");
+                    }
+                }
+            });
+        };
     </script>
   </body>
 </html>
