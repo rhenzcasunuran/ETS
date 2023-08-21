@@ -1,0 +1,81 @@
+#section {
+    background-color: #635C81;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 60px;
+    margin: auto;
+}
+
+#logo{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 30px 0px 20px 0px;
+}
+
+img {
+    display: inline-block;
+    width: 100px;
+    margin-right: 15px;
+}
+
+#logo_name {
+    display: inline-block;
+    color: whitesmoke;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+#loginContainer {
+    background-color: #E0E0E0;
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    height: 475px;
+    border-radius: 40px;
+    justify-content: center;
+    align-items: start;
+}
+
+#containerPadding{
+    padding: 0px 50px;
+}
+
+#header {
+    font-size: 32px;
+    font-weight: bolder;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#label {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 350px;
+    height: 50px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 15px 20px;
+    margin: 0px auto 20px auto!important;
+}
+
+#loginButton {
+    color: whitesmoke;
+    width: 350px;
+    height: 50px;
+    border-radius: 15px;
+    background: #635B81;
+    box-shadow: 0px 10px 10px 0px rgba(68, 57, 88, 0.32);
+    margin-top: 25px;
+}
+

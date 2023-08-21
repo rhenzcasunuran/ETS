@@ -152,14 +152,7 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
             <span class="link_name">Sign Out</span>
           </a>
         </li>
-      <?php } else { ?>
-        <li class="nav-item bottom">
-          <a onclick="show()" class="<?php echo $activeModule === 'sign-in' ? 'active' : ''; ?>">
-            <i class="bx bx-log-in"></i>
-            <span class="link_name">Sign In</span>
-          </a>
-        </li>
-      <?php } ?>
+      <?php }?>
     </div>
   </div>
 </div>
