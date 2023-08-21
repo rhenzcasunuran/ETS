@@ -497,12 +497,12 @@ function toggleAllCheckboxesP() {
         }
 
         function deleteSelectedPG() {
-            var checkboxesP = document.getElementsByClassName('checkboxPG');
-            var selectAllCheckboxP = document.getElementById('select-allP');
+            var checkboxesPG = document.getElementsByClassName('checkboxPG');
+            var selectAllCheckboxP = document.getElementById('mainCheckbox');
 
-            for (var i = checkboxesP.length - 1; i >= 0; i--) {
-                if (checkboxesP[i].checked) {
-                    checkboxesP[i].parentNode.parentNode.remove();
+            for (var i = checkboxesPG.length - 1; i >= 0; i--) {
+                if (checkboxesPG[i].checked) {
+                    checkboxesPG[i].parentNode.parentNode.remove();
                 }
             }
 
@@ -877,7 +877,7 @@ updateTotalValuesP();
     let divCount = 0;
 
 
-    function generateDiv() {
+    function generateDiv(organizationId) {
   divCount++;
   const divId = `div${divCount}`;
 
@@ -921,7 +921,7 @@ updateTotalValuesP();
         optionElement.text = option.organization_name;
         optionElement.value = option.organization_id;
         dropdown.appendChild(optionElement);
-        
+
       });
 
     })
@@ -956,33 +956,41 @@ updateTotalValuesP();
   };
   const toggleButtonCell = document.createElement('td');
   toggleButtonCell.appendChild(toggleButton);
-// Create the button to add more rows
-const addRowButton = document.createElement('button');
+
+  // Create the button to add more rows
+  const addRowButton = document.createElement('button');
   addRowButton.type = 'button';
   addRowButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
   addRowButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-success-color)!important; color: var(--white-text-color)!important; background-color: var(--default-success-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
   addRowButton.id = "addBPG";
   addRowButton.disabled = true; // Disable the button initially
+
   // Event listener for the dropdown change event
-dropdown.addEventListener('change', function() {
-  const selectedOrganizationId = dropdown.value;
-  // Enable the button and change its color when a non-default option is selected
-  if (selectedOrganizationId !== 'Organization') {
-    addRowButton.disabled = false;
-    addRowButton.style.backgroundColor = "var(--active-success-color)";
-  } else {
-    addRowButton.disabled = true;
-    addRowButton.style.backgroundColor = "grey";
-  }
+dropdown.addEventListener('change', function () {
+  const selectedOrganizationId = this.value; // Use 'this' to refer to the dropdown that triggered the event
+  enableAddRowButton(addRowButton, selectedOrganizationId);
 });
-  addRowButton.onclick = function () {
-    const selectedOrganizationId = dropdown.value; // Get the selected organization ID
-    const newRow = createRow(divId, selectedOrganizationId);
-    tbody.appendChild(newRow);
-    updateTotalValuesP();
-    // Enable the dropdown when a row is added
-    dropdown.disabled = false;
-  };
+
+// Modify the addRowButton.onclick function to pass the selected organizationId
+addRowButton.onclick = function () {
+  const selectedOrganizationId = dropdown.value; // Get the selected organization ID from the dropdown
+  const newRow = createRow(divId, selectedOrganizationId);
+  tbody.appendChild(newRow);
+  updateTotalValuesP();
+  // Enable the dropdown when a row is added
+  dropdown.disabled = false;
+};
+
+  // Create a function to enable/disable the addRowButton based on organization selection
+  function enableAddRowButton(button, organizationId) {
+    if (organizationId !== 'Organization') {
+      button.disabled = false;
+      button.style.backgroundColor = "var(--active-success-color)";
+    } else {
+      button.disabled = true;
+      button.style.backgroundColor = "grey";
+    }
+  }
 
   const addRowButtonCell = document.createElement('td');
   addRowButtonCell.appendChild(addRowButton);
@@ -1029,17 +1037,16 @@ dropdown.addEventListener('change', function() {
   }
 }
 
-function createRow(divId, organizationId, dropdown) {
+function createRow(divId, organizationId) {
   const row = document.createElement('tr');
   row.className = 'row';
   row.style.marginLeft = '20px';
 
-  // Create a hidden input field for organization_id for the whole group
-  const groupOrganizationIdInput = document.createElement('input');
-  groupOrganizationIdInput.type = 'hidden';
-  groupOrganizationIdInput.name = 'group_organization_id[]'; // Use a different name for the group's organization
-  groupOrganizationIdInput.value = organizationId || ''; // Set the initial organization_id value for the group
-  row.appendChild(groupOrganizationIdInput);
+  // Create the hidden input for organization_id for this row
+  const organizationIdInput = document.createElement('input');
+  organizationIdInput.type = 'hidden';
+  organizationIdInput.name = 'organization_id[]';
+  row.appendChild(organizationIdInput);
 
   // Create the container for the checkbox, name input, and section input
   const inputsContainer = document.createElement('td');
@@ -1050,9 +1057,6 @@ function createRow(divId, organizationId, dropdown) {
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.className = 'checkboxPG';
-  checkbox.onclick = function () {
-    toggleCheckbox(divId);
-  };
   inputsContainer.appendChild(checkbox);
 
   // Create the textbox for the name
@@ -1094,14 +1098,6 @@ function createRow(divId, organizationId, dropdown) {
 
   row.appendChild(inputsContainer);
 
-  // Create a hidden input field for organization_id
-  const organizationIdInput = document.createElement('input');
-  organizationIdInput.type = 'hidden';
-  organizationIdInput.name = 'organization_id[]';
-  organizationIdInput.value = organizationId; // Set the organization_id value for this row
-  row.appendChild(organizationIdInput);
-
-
   nameInputPG.onkeydown = function (event) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -1125,10 +1121,6 @@ function createRow(divId, organizationId, dropdown) {
 
   return row;
 }
-
-
-
-
 
 function toggleAllCheckboxesPG() {
   const checkboxes = document.querySelectorAll('#mainDiv input[type="checkbox"]');
