@@ -161,6 +161,7 @@ input[readonly] {
                         <option data-show=".group">Group</option>
                         </select>
                         </div>
+                        <div id="eventCodeStatus"></div>
                         <div class="row">
                           <div class="col">
                               <label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Judges</label>
@@ -401,6 +402,23 @@ input[readonly] {
     </script>
 <script  type="text/javascript">
 function checkEventCode() {
+    var eventCodeInput = document.getElementById('event_code').value;
+    
+    // Send an AJAX request to the server to check the event code
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'php/P&J-admin-check-code.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // The response from the server should contain the validation result
+                document.getElementById('eventCodeStatus').innerHTML = xhr.responseText;
+            }
+        }
+    };
+    xhr.send('event_code=' + eventCodeInput);
+}
+function checkEventCode() {
     const eventCodeInput = document.getElementById('event_code');
     const paraddiButton = document.getElementById('paraddi');
     const paraddgButton = document.getElementById('paraddg');
@@ -508,13 +526,21 @@ function updateLabel(dropdown) {
   }
 
   document.getElementById('submitPopup').addEventListener('click', function() {
-    // Get the value of is_Grouped directly
+    // Check if the is_Grouped input exists
     const isGroupedInput = document.querySelector("input[name='is_Grouped[]']");
-    const isGroupedValue = isGroupedInput.value;
-
-    // Include is_Grouped in your form data
+    
+    // Initialize the formData variable
     const formData = new FormData(document.getElementById('submitAll'));
-    formData.append("is_Grouped", isGroupedValue);
+
+    if (isGroupedInput) {
+        // The is_Grouped input exists, so we can get its value
+        const isGroupedValue = isGroupedInput.value.trim(); // Trim any leading/trailing spaces
+
+        // Include is_Grouped in your form data if it has a value
+        if (isGroupedValue !== "") {
+            formData.append("is_Grouped", isGroupedValue);
+        }
+    }
 
     // Create a new request
     const xhr = new XMLHttpRequest();
@@ -536,6 +562,8 @@ function updateLabel(dropdown) {
     // Send the form data
     xhr.send(formData);
 });
+
+
 
 
   popup = document.getElementById('popup');
