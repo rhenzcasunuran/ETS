@@ -11,7 +11,7 @@ include './php/database_connect.php';
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php 
-    include '.php/title.php' 
+    include './php/title.php' 
   ?>
   <title>Overall Results</title>
   <!-- Theme Mode -->
@@ -82,8 +82,24 @@ include './php/database_connect.php';
     if ($rowCount > 0) 
     {
       function updateBarMeterForEvent($conn, $selectedEventName) {
+        // Calculate the distinct count of competitions for the event
+        $competitionCountQuery = "
+            SELECT COUNT(DISTINCT c.competition_id) AS competition_count
+            FROM participants AS p
+            INNER JOIN competition AS c ON p.competition_id = c.competition_id
+            INNER JOIN ongoing_list_of_event AS ole ON c.event_id = ole.event_id
+            WHERE ole.ongoing_event_name_id = ?";
+        
+        $competitionCountStmt = $conn->prepare($competitionCountQuery);
+        $competitionCountStmt->bind_param("i", $selectedEventName);
+        $competitionCountStmt->execute();
+        $competitionCountResult = $competitionCountStmt->get_result();
+        $competitionCountRow = $competitionCountResult->fetch_assoc();
+        $competitionCount = $competitionCountRow['competition_count'];
+        
+        // Calculate total points for each organization
         $participantsQuery = "
-            SELECT org.organization_id, 
+            SELECT org.organization_id,
                    SUM(CASE WHEN ranking = 1 THEN 100
                             WHEN ranking = 2 THEN 80
                             WHEN ranking = 3 THEN 60
@@ -91,6 +107,7 @@ include './php/database_connect.php';
                    END) AS total_points
             FROM (
                 SELECT p.organization_id, 
+                       p.final_score,
                        IFNULL(
                            (SELECT COUNT(*) + 1
                             FROM participants AS p2
@@ -116,37 +133,14 @@ include './php/database_connect.php';
             $organizationId = $row['organization_id'];
             $totalPoints = $row['total_points'];
             
-            // Calculate the total number of distinct competitions for the event
-            $competitionsCountQuery = "
-                SELECT COUNT(DISTINCT p.competition_id) AS competition_count
-                FROM participants AS p
-                INNER JOIN competition AS c ON p.competition_id = c.competition_id
-                WHERE c.event_id IN (
-                    SELECT event_id
-                    FROM ongoing_list_of_event
-                    WHERE ongoing_event_name_id = ?
-                )
-                AND p.organization_id = ?";
+            // Calculate bar meter value by dividing total points by competition count
+            $barMeter = ($competitionCount > 0) ? ($totalPoints / $competitionCount) : 0;
             
-            $competitionsCountStmt = $conn->prepare($competitionsCountQuery);
-            $competitionsCountStmt->bind_param("ii", $selectedEventName, $organizationId);
-            $competitionsCountStmt->execute();
-            $competitionsCountResult = $competitionsCountStmt->get_result();
-            
-            if ($competitionsCountRow = $competitionsCountResult->fetch_assoc()) {
-                $competitionCount = $competitionsCountRow['competition_count'];
-                
-                if ($competitionCount > 0) {
-                    // Calculate the average points based on total points and competition count
-                    $averagePoints = $totalPoints / $competitionCount;
-                    
-                    // Update the bar_meter value for the organization with the average points
-                    $updateQuery = "UPDATE bar_graph SET bar_meter = ? WHERE organization_id = ? AND ongoing_event_name_id = ?";
-                    $updateStmt = $conn->prepare($updateQuery);
-                    $updateStmt->bind_param("dii", $averagePoints, $organizationId, $selectedEventName);
-                    $updateStmt->execute();
-                }
-            }
+            // Update the bar_meter value for the organization
+            $updateQuery = "UPDATE bar_graph SET bar_meter = ? WHERE organization_id = ? AND ongoing_event_name_id = ?";
+            $updateStmt = $conn->prepare($updateQuery);
+            $updateStmt->bind_param("dii", $barMeter, $organizationId, $selectedEventName);
+            $updateStmt->execute();
         }
     }
     
@@ -157,7 +151,6 @@ include './php/database_connect.php';
     }
     
     
-        
       ?>
       <section class="home-section">
         <div class="header">Overall Organization Standing</div>
