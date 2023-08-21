@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Aug 21, 2023 at 05:03 AM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Host: localhost
+-- Generation Time: Aug 21, 2023 at 01:07 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE `bar_graph` (
   `event_name_id` int(11) NOT NULL,
   `bar_meter` decimal(5,2) NOT NULL,
   `isAnon` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -48,7 +48,7 @@ CREATE TABLE `bracket_forms` (
   `node_id_start` int(11) NOT NULL,
   `parent_id_start` int(11) NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -63,7 +63,7 @@ CREATE TABLE `bracket_teams` (
   `team_two_id` int(11) DEFAULT NULL,
   `event_date_time` datetime DEFAULT NULL,
   `current_column` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,7 @@ CREATE TABLE `category_name` (
   `event_name_id` int(11) NOT NULL,
   `event_type_id` int(11) NOT NULL,
   `category_name` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -90,7 +90,7 @@ CREATE TABLE `competition` (
   `schedule` datetime DEFAULT NULL,
   `schedule_end` datetime DEFAULT NULL,
   `is_archived` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -103,7 +103,7 @@ CREATE TABLE `criterion` (
   `category_name_id` int(11) NOT NULL,
   `criterion_name` varchar(50) NOT NULL,
   `criterion_percent` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -118,7 +118,7 @@ CREATE TABLE `criterion_scoring` (
   `judge_id` int(11) NOT NULL,
   `criterion_temp_score` int(2) DEFAULT NULL,
   `criterion_final_score` int(2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -129,7 +129,7 @@ CREATE TABLE `criterion_scoring` (
 CREATE TABLE `event_name` (
   `event_name_id` int(11) NOT NULL,
   `event_name` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -140,7 +140,7 @@ CREATE TABLE `event_name` (
 CREATE TABLE `event_type` (
   `event_type_id` int(11) NOT NULL,
   `event_type` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `event_type`
@@ -164,7 +164,7 @@ CREATE TABLE `highlights` (
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `image_info` varchar(255) NOT NULL,
   `image_description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -177,7 +177,7 @@ CREATE TABLE `judges` (
   `competition_id` int(11) NOT NULL,
   `judge_name` varchar(150) NOT NULL,
   `judge_nickname` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -191,7 +191,7 @@ CREATE TABLE `logs` (
   `log_time` time NOT NULL,
   `admin_id` int(11) NOT NULL,
   `activity_description` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -203,7 +203,7 @@ CREATE TABLE `number_of_wins` (
   `number_of_wins_id` int(11) NOT NULL,
   `number_of_wins` varchar(20) NOT NULL,
   `number_of_wins_number` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `number_of_wins`
@@ -229,7 +229,7 @@ CREATE TABLE `ongoing_criterion` (
   `event_id` int(11) NOT NULL,
   `criterion_name` varchar(50) NOT NULL,
   `criterion_percent` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -243,7 +243,7 @@ CREATE TABLE `ongoing_event_name` (
   `event_name` varchar(25) NOT NULL,
   `year_created` year(4) NOT NULL,
   `is_done` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -266,7 +266,7 @@ CREATE TABLE `ongoing_list_of_event` (
   `suggested_status` tinyint(1) NOT NULL DEFAULT 0,
   `overall_include` tinyint(1) NOT NULL DEFAULT 1,
   `is_deleted` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -282,7 +282,7 @@ CREATE TABLE `ongoing_teams` (
   `current_overall_score` int(11) NOT NULL,
   `current_score` int(11) NOT NULL,
   `current_set_no` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -293,22 +293,22 @@ CREATE TABLE `ongoing_teams` (
 CREATE TABLE `organization` (
   `organization_id` int(11) NOT NULL,
   `organization_name` varchar(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `organization`
 --
 
 INSERT INTO `organization` (`organization_id`, `organization_name`) VALUES
-(0, 'ACAP'),
-(1, 'AECES'),
-(2, 'ELITE'),
-(3, 'GIVE'),
-(4, 'JEHRA'),
-(5, 'JMAP'),
-(6, 'JPIA'),
-(7, 'PIIE'),
-(8, 'SC');
+(0, 'SC'),
+(1, 'ACAP'),
+(2, 'AECES'),
+(3, 'ELITE'),
+(4, 'GIVE'),
+(5, 'JEHRA'),
+(6, 'JMAP'),
+(7, 'JPIA'),
+(8, 'PIIE');
 
 -- --------------------------------------------------------
 
@@ -324,7 +324,7 @@ CREATE TABLE `participants` (
   `participant_section` varchar(50) NOT NULL,
   `is_Grouped` tinyint(1) NOT NULL,
   `final_score` decimal(5,2) NOT NULL DEFAULT 0.00
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -342,7 +342,7 @@ CREATE TABLE `post` (
   `post_schedule` datetime NOT NULL,
   `post_draft` tinyint(4) NOT NULL DEFAULT 0,
   `post_calendar_type` varchar(8) NOT NULL DEFAULT 'Standard'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -354,7 +354,7 @@ CREATE TABLE `post_photo` (
   `photo_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `file_name` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -368,7 +368,7 @@ CREATE TABLE `score_rule` (
   `set_no` int(11) NOT NULL,
   `max_value` int(11) NOT NULL,
   `game_type` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -382,7 +382,7 @@ CREATE TABLE `tournament` (
   `number_of_wins_id` int(11) NOT NULL,
   `has_set_tournament` tinyint(1) NOT NULL DEFAULT 0,
   `bracket_form_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -398,7 +398,7 @@ CREATE TABLE `tournament_score_archive` (
   `current_overall_score` int(11) NOT NULL,
   `current_set_no` int(11) NOT NULL,
   `current_score` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -410,7 +410,7 @@ CREATE TABLE `user` (
   `admin_id` int(11) NOT NULL,
   `user_username` varchar(20) NOT NULL,
   `user_password` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
