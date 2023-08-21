@@ -33,6 +33,14 @@
   margin-bottom: 20px;
 }
 
+.graph-container{
+  flex-wrap: nowrap !important;
+}
+
+#graph-section.select_org .graph-container{
+  flex-wrap: wrap !important;
+}
+
 #arrow-container {
   display: flex;
 }
