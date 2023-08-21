@@ -11,7 +11,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Configuration</title>
+    <?php
+      include './php/title.php';
+    ?>
     <!-- Theme Mode -->
     <link rel="stylesheet" href="./css/theme-mode.css">
     <script src="./js/default-theme.js"></script>
