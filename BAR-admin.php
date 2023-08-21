@@ -10,6 +10,9 @@ include './php/database_connect.php';
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <?php 
+    include '.php/title.php' 
+  ?>
   <title>Overall Results</title>
   <!-- Theme Mode -->
   <link rel="stylesheet" href="./css/theme-mode.css">
@@ -78,6 +81,83 @@ include './php/database_connect.php';
 
     if ($rowCount > 0) 
     {
+      function updateBarMeterForEvent($conn, $selectedEventName) {
+        $participantsQuery = "
+            SELECT org.organization_id, 
+                   SUM(CASE WHEN ranking = 1 THEN 100
+                            WHEN ranking = 2 THEN 80
+                            WHEN ranking = 3 THEN 60
+                            ELSE 25
+                   END) AS total_points
+            FROM (
+                SELECT p.organization_id, 
+                       IFNULL(
+                           (SELECT COUNT(*) + 1
+                            FROM participants AS p2
+                            WHERE p2.competition_id = p.competition_id
+                              AND p2.final_score > p.final_score), 1) AS ranking
+                FROM participants AS p
+                INNER JOIN competition AS c ON p.competition_id = c.competition_id
+                WHERE c.event_id IN (
+                    SELECT event_id
+                    FROM ongoing_list_of_event
+                    WHERE ongoing_event_name_id = ?
+                )
+            ) AS ranked_participants
+            INNER JOIN organization AS org ON ranked_participants.organization_id = org.organization_id
+            GROUP BY org.organization_id";
+        
+        $stmt = $conn->prepare($participantsQuery);
+        $stmt->bind_param("i", $selectedEventName);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        while ($row = $result->fetch_assoc()) {
+            $organizationId = $row['organization_id'];
+            $totalPoints = $row['total_points'];
+            
+            // Calculate the total number of distinct competitions for the event
+            $competitionsCountQuery = "
+                SELECT COUNT(DISTINCT p.competition_id) AS competition_count
+                FROM participants AS p
+                INNER JOIN competition AS c ON p.competition_id = c.competition_id
+                WHERE c.event_id IN (
+                    SELECT event_id
+                    FROM ongoing_list_of_event
+                    WHERE ongoing_event_name_id = ?
+                )
+                AND p.organization_id = ?";
+            
+            $competitionsCountStmt = $conn->prepare($competitionsCountQuery);
+            $competitionsCountStmt->bind_param("ii", $selectedEventName, $organizationId);
+            $competitionsCountStmt->execute();
+            $competitionsCountResult = $competitionsCountStmt->get_result();
+            
+            if ($competitionsCountRow = $competitionsCountResult->fetch_assoc()) {
+                $competitionCount = $competitionsCountRow['competition_count'];
+                
+                if ($competitionCount > 0) {
+                    // Calculate the average points based on total points and competition count
+                    $averagePoints = $totalPoints / $competitionCount;
+                    
+                    // Update the bar_meter value for the organization with the average points
+                    $updateQuery = "UPDATE bar_graph SET bar_meter = ? WHERE organization_id = ? AND ongoing_event_name_id = ?";
+                    $updateStmt = $conn->prepare($updateQuery);
+                    $updateStmt->bind_param("dii", $averagePoints, $organizationId, $selectedEventName);
+                    $updateStmt->execute();
+                }
+            }
+        }
+    }
+    
+    // Call the function to update bar_meter values
+    if (isset($_POST['ongoing_event_name_id'])) {
+        $selectedEventName = $_POST['ongoing_event_name_id'];
+        updateBarMeterForEvent($conn, $selectedEventName);
+    }
+    
+    
+        
       ?>
       <section class="home-section">
         <div class="header">Overall Organization Standing</div>
