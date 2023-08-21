@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2023 at 04:04 PM
+-- Generation Time: Aug 21, 2023 at 04:31 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -142,6 +142,15 @@ CREATE TABLE `event_type` (
   `event_type` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `event_type`
+--
+
+INSERT INTO `event_type` (`event_type_id`, `event_type`) VALUES
+(1, 'Tournament'),
+(2, 'Competition'),
+(3, 'Standard');
+
 -- --------------------------------------------------------
 
 --
@@ -195,6 +204,17 @@ CREATE TABLE `number_of_wins` (
   `number_of_wins` varchar(20) NOT NULL,
   `number_of_wins_number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `number_of_wins`
+--
+
+INSERT INTO `number_of_wins` (`number_of_wins_id`, `number_of_wins`, `number_of_wins_number`) VALUES
+(1, 'Best of One', 1),
+(2, 'Best of Three', 3),
+(3, 'Best of Five', 5),
+(4, 'Best of Seven', 7),
+(5, 'Best of Nine', 9);
 
 -- --------------------------------------------------------
 
@@ -274,6 +294,21 @@ CREATE TABLE `organization` (
   `organization_id` int(11) NOT NULL,
   `organization_name` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `organization`
+--
+
+INSERT INTO `organization` (`organization_id`, `organization_name`) VALUES
+(0, 'ACAP'),
+(1, 'AECES'),
+(2, 'ELITE'),
+(3, 'GIVE'),
+(4, 'JEHRA'),
+(5, 'JMAP'),
+(6, 'JPIA'),
+(7, 'PIIE'),
+(8, 'SC');
 
 -- --------------------------------------------------------
 
@@ -631,7 +666,7 @@ ALTER TABLE `event_name`
 -- AUTO_INCREMENT for table `event_type`
 --
 ALTER TABLE `event_type`
-  MODIFY `event_type_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `event_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `highlights`
@@ -655,7 +690,7 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `number_of_wins`
 --
 ALTER TABLE `number_of_wins`
-  MODIFY `number_of_wins_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `number_of_wins_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ongoing_criterion`
@@ -685,7 +720,7 @@ ALTER TABLE `ongoing_teams`
 -- AUTO_INCREMENT for table `organization`
 --
 ALTER TABLE `organization`
-  MODIFY `organization_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `organization_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `participants`
