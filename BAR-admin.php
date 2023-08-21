@@ -143,12 +143,12 @@ include './php/database_connect.php';
                 
                 <div class="col" id="graph-section">
                   <div class="graph_container">
-                    <div class="row" id="arrow-container">
+                    <div class="row " id="arrow-container">
                       <div class="arrow">
                         <i class="bx bx-arrow-to-left" id="arrow-btn"></i>
                       </div>
                     </div>
-                    <div class="row">
+                    <div class="row graph-container">
                       <div class="col" id="rank_container">';
                       if ($result->num_rows > 0) 
                       {

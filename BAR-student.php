@@ -111,7 +111,7 @@
                         <i class="hide-arrow bx bx-arrow-to-left" id="arrow-btn"></i>
                       </div>
                     </div>
-                    <div class="row">
+                    <div class="row graph-container">
                       <div class="col" id="rank_container">';
                       if ($result->num_rows > 0) {
                         $organizations = array();
