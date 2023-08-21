@@ -49,21 +49,27 @@ if (isset($_POST['participant_name']) && isset($_POST['participant_section']) &&
     $participantNames = $_POST['participant_name'];
     $participantSections = $_POST['participant_section'];
     $organizationIDs = $_POST['organization_id'];
+    
+    // New array for is_Grouped values
+    $isGroupedValues = $_POST['is_Grouped'];
 
-        for ($i = 0; $i < count($participantNames); $i++) {
-            $participantName = mysqli_real_escape_string($conn, $participantNames[$i]);
-            $participantSection = mysqli_real_escape_string($conn, $participantSections[$i]);
-            $organizationID = mysqli_real_escape_string($conn, $organizationIDs[$i]);
-
-            $query = "INSERT INTO participants (competition_id, organization_id, participant_name, participant_section) 
-                      VALUES ('$competitionID', '$organizationID', '$participantName', '$participantSection')";
-            mysqli_query($conn, $query);
-        }
+    for ($i = 0; $i < count($participantNames); $i++) {
+        $participantName = mysqli_real_escape_string($conn, $participantNames[$i]);
+        $participantSection = mysqli_real_escape_string($conn, $participantSections[$i]);
+        $organizationID = mysqli_real_escape_string($conn, $organizationIDs[$i]);
         
-        echo "Participants inserted successfully.";
+        // Get the is_Grouped value from the array
+        $isGrouped = isset($isGroupedValues[$i]) ? 1 : 0;
+
+        $query = "INSERT INTO participants (competition_id, organization_id, participant_name, participant_section, is_Grouped) 
+                  VALUES ('$competitionID', '$organizationID', '$participantName', '$participantSection', '$isGrouped')";
+        mysqli_query($conn, $query);
+    }
+    
+    echo "Participants inserted successfully.";
     
 } else {
-    echo "Missing participant names, sections, or organization IDs.";
+    echo "Missing participant names, sections, organization IDs, or is_Grouped values.";
 }
 
 header("Location: ../P&J-admin-formPJ.php");
