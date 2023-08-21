@@ -113,7 +113,6 @@ h2 {
     margin-bottom: 10px;
 }
 .result {
-    border: solid var(--color-text);
     border-radius: 15px;
     margin-left: auto;
     margin-right: auto;
