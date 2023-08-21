@@ -223,6 +223,7 @@
   <div class="d-table" style="background: #423c4e; margin-left: 10px; min-height: auto;min-width: auto; width: 100%; border-radius: 10px; box-shadow: 7px 5px 13px;">
     <!-- PHP code to fetch participant scores -->
     <?php
+try{
 // Access $eventId and $ongoingCriterionIds from the session
 $eventId = $_SESSION['event_id'];
 $judgeName = $_SESSION['judge_name'];
@@ -298,6 +299,15 @@ if ($participantScoresResult->num_rows > 0) {
 }
 
 $conn->close();
+
+} catch (Exception $e) {
+  // Handle any exceptions here
+  echo "Error: " . $e->getMessage();
+  // You can also log the error for debugging purposes if needed
+  // error_log("Error: " . $e->getMessage());
+  // In case of an error, send a "Hello, World!" message or perform other error handling actions
+  echo '<p style=" color: rgb(255, 255, 255); text-align:center; margin-top: 10px; margin-bottom:10px;">No participant scores found.</p>';
+}
 ?>
 
   </div>

@@ -154,7 +154,7 @@ input[readonly] {
                 </div>
                 <div class="row">
                     <div class="col-xxl-12"><label class="form-label fw-bold" style="margin-left: 25px; color:var(--color-content-text);">Event</label><label for="Participant Category" class="form-label fw-bold" style="margin-left: 190px; color:var(--color-content-text);">Participant Category</label>
-                        <div class="dropdown"><input type='text' class='inputpname' style='border-radius:20px; margin-left:20px;width:200px' placeholder='Event Code' name='event_code' id='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" Required/>
+                        <div class="dropdown"><input type='text' class='inputpname' style='border-radius:20px; margin-left:20px;width:200px' placeholder='Event Code' name='event_code' id='event_code' minlength="12" maxlength="12" style="margin-left:30px;width: 180px; height: 40px;" onkeyup="checkEventCode()" Required/>
                         
                         <select name ="Participant Category"class='btn dropdown-toggle div-toggle' aria-expanded='false' data-bs-toggle='dropdown' type='button' style='border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);' data-target=".participantsform">
                         <option data-show=".individual">Individual</option>
@@ -167,9 +167,9 @@ input[readonly] {
                           </div>
                           <div class="col text-end" style="margin-right: 18px;">
                             <div style="display: flex; justify-content: flex-end;">
-                                <button onClick="addRow();" class="buttonadd success-button icon-button" style="margin-right: 5px;" type="button" id="judgeadd">
+                                <button onClick="addRow();" class="buttonadd success-button icon-button" style="margin-right: 5px;" type="button" id="judgeadd" disabled>
                                 <i class='bx bxs-user-plus'></i></button>
-                                <button onclick="show()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="judgeadd">
+                                <button onclick="show()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="judgedel">
                                 <i class='bx bxs-trash-alt'></i></button>
                             </div>
                           </div>
@@ -254,8 +254,8 @@ input[readonly] {
                       <div class="row">
                           <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Participants</label></div>
                           <div class="col text-end" style="display:flex;">
-                            <button onClick="addRowP();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddi"><i class='bx bxs-user-plus'></i></button>
-                            <button onclick="showp()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="judgeadd">
+                            <button onClick="addRowP();" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddi" disabled><i class='bx bxs-user-plus'></i></button>
+                            <button onclick="showp()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button" id="pardeli">
                                 <i class='bx bxs-trash-alt'></i></button>
                           </div>
                       </div>
@@ -265,7 +265,7 @@ input[readonly] {
                       <div class="row">
                           <div class="col"><label class="col-form-label" style="font-weight:1000;margin-top: 25px; color:var(--color-content-text);">Participants</label></div>
                           <div class="col text-end" style="display:flex;">
-                            <button onclick="generateDiv()" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddg"><i class='bx bxs-group'></i></button>
+                            <button onclick="generateDiv()" class="buttonadd success-button icon-button" style="margin-left:auto;" type="button" id="paraddg" disabled><i class='bx bxs-group'></i></button>
                             <button onclick="showpg()" class="buttonadd delete-button icon-button" style="margin-left: 5px;" type="button">
                                 <i class='bx bxs-trash-alt'></i></button>
                           </div>
@@ -400,6 +400,22 @@ input[readonly] {
 
     </script>
 <script  type="text/javascript">
+function checkEventCode() {
+    const eventCodeInput = document.getElementById('event_code');
+    const paraddiButton = document.getElementById('paraddi');
+    const paraddgButton = document.getElementById('paraddg');
+    const judgeaddButton = document.getElementById('judgeadd');
+
+    if (eventCodeInput.value.trim() === '') {
+      paraddiButton.disabled = true;
+      paraddgButton.disabled = true;
+      judgeaddButton.disabled = true;
+    } else {
+      paraddiButton.disabled = false;
+      paraddgButton.disabled = false;
+      judgeaddButton.disabled = false;
+    }
+  }
   function makeEditable(input) {
   input.readOnly = false;
   input.classList.add("active");
@@ -733,6 +749,14 @@ var hide_discardChangespg = function(){
   });
   sectionCellP.appendChild(sectionInputP);
 
+  // Create the hidden input for is_Grouped and set its value to 0
+  var groupCellP = row.insertCell(3);
+  const isGroupedInput = document.createElement('input');
+  isGroupedInput.type = 'hidden';
+  isGroupedInput.name = 'is_Grouped[]';
+  isGroupedInput.value = 0; // Set the value to 0 for inputs created by addRowP
+  groupCellP.appendChild(isGroupedInput);
+
   // Organization dropdown
   
   var orgSelectP = document.createElement("select");
@@ -799,11 +823,8 @@ updateTotalValuesP();
 
 
     function generateDiv() {
-      
-      
   divCount++;
   const divId = `div${divCount}`;
-  let organizationId;
 
   const buttonsContainer = document.createElement('div');
   buttonsContainer.style.display = 'flex';
@@ -813,7 +834,6 @@ updateTotalValuesP();
   // Create the main div element
   const div = document.createElement('div');
   div.id = divId;
-  
 
   // Create the container for the organization dropdown
   const dropdownContainer = document.createElement('div');
@@ -821,22 +841,24 @@ updateTotalValuesP();
   div.appendChild(dropdownContainer);
 
   // Create dropdown
+  const dropdown = document.createElement('select');
+  dropdown.className = "btn dropdown-toggle div-toggle";
+  dropdown.style = "border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);";
+  dropdown.name = "organization_id[]";
+  // Disable the dropdown initially
+  dropdown.disabled = false;
+
+  // Add a default option (optional)
+  const defaultOption = document.createElement('option');
+  defaultOption.text = 'Choose an Organization First';
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  dropdown.appendChild(defaultOption);
+
+  // Create dropdown
   fetch('php/P&J-fetch-options.php')
     .then(response => response.json())
     .then(data => {
-      const organizationId = data[0].organization_id;
-      const dropdown = document.createElement('select');
-      dropdown.className = "btn dropdown-toggle div-toggle";
-      dropdown.style = "border-radius: 20px;width: 180.031px;margin-left: 50px;background: var(--bs-light);color: var(--bs-body-color);";
-      dropdown.name = "organization_id[]";
-
-
-      // Add a default option (optional)
-      const defaultOption = document.createElement('option');
-      defaultOption.text = 'Organization';
-      defaultOption.disabled = true;
-      defaultOption.selected = true;
-      dropdown.appendChild(defaultOption);
 
       // Populate the dropdown with options from the fetched data
       data.forEach(option => {
@@ -844,14 +866,14 @@ updateTotalValuesP();
         optionElement.text = option.organization_name;
         optionElement.value = option.organization_id;
         dropdown.appendChild(optionElement);
+        
       });
-      dropdown.addEventListener('change', function () {
-      enableSubmitButton(); // Enable/disable submit button based on dropdown selection
-    });
-      // Append the dropdown to the dropdown container
-      dropdownContainer.appendChild(dropdown);
+
     })
     .catch(error => console.error('Error fetching options:', error));
+
+  // Append the dropdown to the dropdown container
+  dropdownContainer.appendChild(dropdown);
 
   // Create a container for the table
   const tableContainer = document.createElement('div');
@@ -879,18 +901,33 @@ updateTotalValuesP();
   };
   const toggleButtonCell = document.createElement('td');
   toggleButtonCell.appendChild(toggleButton);
-
-  // Create the button to add more rows
-  const addRowButton = document.createElement('button');
+// Create the button to add more rows
+const addRowButton = document.createElement('button');
   addRowButton.type = 'button';
   addRowButton.innerHTML = "<i class='bx bxs-user-plus'></i>";
   addRowButton.style = "justify-content: center; align-items: center; text-align: center; font-size: 16px!important; font-weight: 500!important; border-radius: 30px!important; box-shadow: 0 4px 6px 0 var(--shadow-color); border: none!important; outline: none!important; cursor: pointer; user-select: none; background-color: var(--active-success-color)!important; color: var(--white-text-color)!important; background-color: var(--default-success-color)!important; border: 2px transparent solid!important; width:40px; height:40px;";
+  addRowButton.id = "addBPG";
+  addRowButton.disabled = true; // Disable the button initially
+  // Event listener for the dropdown change event
+dropdown.addEventListener('change', function() {
+  const selectedOrganizationId = dropdown.value;
+  // Enable the button and change its color when a non-default option is selected
+  if (selectedOrganizationId !== 'Organization') {
+    addRowButton.disabled = false;
+    addRowButton.style.backgroundColor = "var(--active-success-color)";
+  } else {
+    addRowButton.disabled = true;
+    addRowButton.style.backgroundColor = "grey";
+  }
+});
   addRowButton.onclick = function () {
-    const newRow = createRow(divId, organizationId);
+    const selectedOrganizationId = dropdown.value; // Get the selected organization ID
+    const newRow = createRow(divId, selectedOrganizationId);
     tbody.appendChild(newRow);
     updateTotalValuesP();
+    // Enable the dropdown when a row is added
+    dropdown.disabled = false;
   };
-
 
   const addRowButtonCell = document.createElement('td');
   addRowButtonCell.appendChild(addRowButton);
@@ -907,7 +944,7 @@ updateTotalValuesP();
   div.appendChild(rowsContainer);
 
   document.getElementById('mainDiv').appendChild(div);
-  
+
   // Create the delete button
   const deleteButton = document.createElement('button');
   deleteButton.type = 'button';
@@ -919,8 +956,8 @@ updateTotalValuesP();
   const deleteButtonCell = document.createElement('td');
   deleteButtonCell.appendChild(deleteButton);
 
-   // Append the buttons to the buttons container
-   buttonsContainer.appendChild(toggleButton);
+  // Append the buttons to the buttons container
+  buttonsContainer.appendChild(toggleButton);
   buttonsContainer.appendChild(addRowButton);
   buttonsContainer.appendChild(deleteButton);
 
@@ -928,20 +965,16 @@ updateTotalValuesP();
   tbody.appendChild(buttonsRow);
   tbody.appendChild(buttonsContainer); // Add the buttons container
 
-  
-
-  
   enableSubmitButton();
-updateTotalValuesP();
+  updateTotalValuesP();
 
-const saveButton = document.getElementById('pjFormSaveBtn');
+  const saveButton = document.getElementById('pjFormSaveBtn');
   if (saveButton) {
     saveButton.disabled = true;
   }
-
 }
 
-function createRow(divId, organizationId) {
+function createRow(divId, organizationId, dropdown) {
   const row = document.createElement('tr');
   row.className = 'row';
   row.style.marginLeft = '20px';
@@ -997,7 +1030,13 @@ function createRow(divId, organizationId) {
   });
   inputsContainer.appendChild(sectionInputPG);
 
-  // Add the inputs container to the row
+  // Create a hidden input for is_Grouped and set its value to 1 for inputs generated by createRow
+  const isGroupedInput = document.createElement('input');
+  isGroupedInput.type = 'hidden';
+  isGroupedInput.name = 'is_Grouped[]';
+  isGroupedInput.value = 1; // Set the value to 1 for inputs generated by createRow
+  inputsContainer.appendChild(isGroupedInput);
+
   row.appendChild(inputsContainer);
 
   // Create a hidden input field for organization_id
@@ -1007,23 +1046,6 @@ function createRow(divId, organizationId) {
   organizationIdInput.value = organizationId; // Set the organization_id value for this row
   row.appendChild(organizationIdInput);
 
-  function updateOrganizationId() {
-    const selectedOrganizationId = orgSelectP.value;
-    organizationIdInput.value = selectedOrganizationId;
-  }
-  // Get all organization dropdown elements within the group
-  const orgSelects = Array.from(document.querySelectorAll(`#${divId} .div-toggle`));
-
-  // Call the updateOrganizationId function when any of the dropdown values change
-  orgSelects.forEach((orgSelect) => {
-    orgSelect.addEventListener('change', updateOrganizationId);
-  });
-
-  // Get the organization dropdown element
-  const orgSelectP = document.querySelector('#' + divId + ' .div-toggle');
-
-  // Call the updateOrganizationId function when the dropdown value changes
-  orgSelectP.addEventListener('change', updateOrganizationId);
 
   nameInputPG.onkeydown = function (event) {
     if (event.key === 'Enter') {
@@ -1048,6 +1070,7 @@ function createRow(divId, organizationId) {
 
   return row;
 }
+
 
 
 
