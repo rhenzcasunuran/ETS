@@ -148,11 +148,11 @@
             </div>
             <div class="row textbox">
               <h2>Title<span>&nbsp;*</span></h2>
-              <input type="text" id="title" name="post_title" placeholder="Enter Title" maxlength="60" required>
+              <input type="text" id="title" name="post_title" placeholder="Enter Title (5-50 Characters)" maxlength="60" required>
             </div>
             <div class="row textbox">
               <h2>Description<span>&nbsp;*</span></h2>
-              <textarea id="description" name="post_description" placeholder="Enter Description" maxlength="2000" rows="4" cols="50" required></textarea>
+              <textarea id="description" name="post_description" placeholder="Enter Description (50-2000 Characters)" maxlength="2000" rows="4" cols="50" required></textarea>
             </div>
           </div>
           <div class="col-5 column2">
