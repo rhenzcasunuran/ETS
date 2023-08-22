@@ -84,7 +84,7 @@
             </div>
             <div class="col-8 text-start text-container">
                 <h3 class="text-header">Incomplete</h3>   <!--header-->
-                <p style="max-width: 235px; padding-left:15px;">The result is not yet complete. Please make sure that all required scores are completed.</p> <!--text-->
+                <p style="max-width: 235px; padding-left:15px;">The result is not yet complete or has less than 3 participants. <br>Please make sure that all required scores are completed <br> And there are 3 or more participant</p> <!--text-->
             </div>
             <div  class="div">
                 <button class="outline-button" onclick="hideDelete()"><i class='bx bx-x'></i>Cancel</button>
@@ -354,22 +354,7 @@
               console.log("The input field value is "+inputfield.value);
               /*A code to change the color to black by sending compName to php */
             }
-            $.ajax({
-              type: "POST",
-              url: "./php/COM-change_color_black.php",
-              data: { competitionName: competitionName },
-                success: function(response) {
-                  console.log(response);
-                  if (response == 'grey') {
-                    document.getElementById(competitionName +' btn').style.backgroundColor = response + "!important";
-                    element.textContent = "Unavailable";
-                    element.disabled = false;
-                  }
-                  if (response == 'notempty') {
-                    element.disabled = false;
-                  }
-                }
-              });
+            
           }
         };
         const url = "./php/COM-get_compname.php";
@@ -523,9 +508,19 @@
             // Loop through each result container
             resultContainers.forEach(function (container) {
                 var hasNoScore = false;
+                var less3participant = false;
+
+                var participants = container.querySelectorAll('.participant-table');
+
+                if (participants.length <= 2) {
+                  var less3participant = true;
+                }
                 
                 // Check if any text within the container has 'No score'
                 if (container.textContent.includes('No score')) {
+                    hasNoScore = true;
+                }
+                if (container.textContent.includes('NO JUDGE')) {
                     hasNoScore = true;
                 }
                 
@@ -533,6 +528,11 @@
                 var button = container.querySelector('.sched_btn');
                 if (button) {
                     if (hasNoScore) {
+                        button.textContent = 'Unavailable';
+                        var compname = button.id.replace('btn','');
+                        console.log("Competition:"+compname+"score not complete!");
+                    }
+                    if (less3participant) {
                         button.textContent = 'Unavailable';
                         var compname = button.id.replace('btn','');
                         console.log("Competition:"+compname+"score not complete!");
