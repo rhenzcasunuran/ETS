@@ -197,9 +197,9 @@ if ($top3_row !== null) {
 
             // Display organization name or participant name based on grouping (Top 2)
             if ($top2_row["is_Grouped"] == 1) {
-                echo "<p class='winnerDetails'>".$org2."<br>" . $top2_row["total_score"] . "</p>";
+                echo "<p class='winnerDetails'>".$org2."<br>" . $top2_row["total_score"] . "%</p>";
             } else {
-                echo "<p class='winnerDetails'>" . $top2_row["participant_name"] . "<br>" . $top2_row["total_score"] . "</p>";
+                echo "<p class='winnerDetails'>" . $top2_row["participant_name"] . "<br>" . $top2_row["total_score"] . "%</p>";
             }
         }
         
@@ -216,9 +216,9 @@ if ($top3_row !== null) {
 
         // Display organization name or participant name based on grouping (Top 1)
         if ($top1_row["is_Grouped"] == 1) {
-            echo "<p class='winnerDetails'>".$org1."<br>" . $top1_row["total_score"] . "</p>";
+            echo "<p class='winnerDetails'>".$org1."<br>" . $top1_row["total_score"] . "%</p>";
         } else {
-            echo "<p class='winnerDetails'>" . $top1_row["participant_name"] . "<br>" . $top1_row["total_score"] . "</p>";
+            echo "<p class='winnerDetails'>" . $top1_row["participant_name"] . "<br>" . $top1_row["total_score"] . "%</p>";
         }
 
         echo "</div>";
@@ -242,9 +242,9 @@ if ($top3_row !== null) {
 
             // Display organization name or participant name based on grouping (Top 3)
             if ($top3_row["is_Grouped"] == 1) {
-                echo "<p class='winnerDetails'>". $org3."<br>" . $top3_row["total_score"] . "</p>";
+                echo "<p class='winnerDetails'>". $org3."<br>" . $top3_row["total_score"] . "%</p>";
             } else {
-               echo "<p class='winnerDetails'>" . $top3_row["participant_name"] . "<br>" . $top3_row["total_score"] . "</p>";
+               echo "<p class='winnerDetails'>" . $top3_row["participant_name"] . "<br>" . $top3_row["total_score"] . "%</p>";
             }
         }
         
@@ -321,7 +321,7 @@ if ($top3_row !== null) {
                 echo "<td class='diamond'><div class='diamondContainer smallDiamond'><div class='place'>" . $counter . "th</div></div></td>";
                 echo "<td class='name' style='$rowStyle'></td>";
                 echo "<td class='org' style='$rowStyle'>$organization_name</td>";
-                echo "<td class='percent' style='$rowStyle'>" . $row_scores["total_score"] . "</td>";
+                echo "<td class='percent' style='$rowStyle'>" . $row_scores["total_score"] . "%</td>";
                 echo "</tr>";
                 echo "</table>";
                 echo "</div>";
@@ -336,7 +336,7 @@ if ($top3_row !== null) {
                 echo "<td class='diamond'><div class='diamondContainer smallDiamond'><div class='place'>" . $counter . "th</div></div></td>";
                 echo "<td class='name' style='$rowStyle'>" . $row_scores["participant_name"] . "</td>";
                 echo "<td class='org' style='$rowStyle'>$organization_name</td>";
-                echo "<td class='percent' style='$rowStyle'>" . $row_scores["total_score"] . "</td>";
+                echo "<td class='percent' style='$rowStyle'>" . $row_scores["total_score"] . "%</td>";
                 echo "</tr>";
                 echo "</table>";
                 echo "</div>";

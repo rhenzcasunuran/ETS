@@ -132,10 +132,10 @@ if ($result->num_rows > 0) {
                 // For example, ((10+8)/2) * .50 = 4.5
 
                 // Loop through each criterion to get the scores for this participant and judge
-        $criteria_result->data_seek(0);
-        $judge_total_score = 0;
+                $criteria_result->data_seek(0);
+                $judge_total_score = 0;
 
-        while ($criterion_row = $criteria_result->fetch_assoc()) {
+                while ($criterion_row = $criteria_result->fetch_assoc()) {
                     $criterion_id = $criterion_row["ongoing_criterion_id"];
 
                     // Query the criterion_scoring table to get the final score for this participant, judge, and criterion
@@ -207,11 +207,11 @@ $judges_result->data_seek(0);
                 }
 
                 // Calculate the criterion score for this participant and judge
-                $criterion_score = number_format(($criterion_total_score / $total_judges) * ($criterion_percent / 100), 2);
+                $criterion_score = number_format(($criterion_total_score / $total_judges), 2);
                 $participant_criterion_scores[$criterion_id] = $criterion_score;
 
                 // Display the criterion score for this participant and judge
-               echo "<td>" . (($criterion_score != 0) ? $criterion_score : 'No score') . "</td>";
+               echo "<td>" . (($criterion_score != 0) ? $criterion_score . '%' : 'No score') . "</td>";
             }
 
             // Display the participant's overall score
@@ -220,7 +220,7 @@ $judges_result->data_seek(0);
             // Update the final_score in the participants table
             $update_final_score_sql = "UPDATE participants SET final_score = '$participant_final_score' WHERE participants_id = '$participant_id'";
             $conn->query($update_final_score_sql);
-            echo "<td id='participant-overall-score'>" . $participant_final_score . "</td></tr>";
+            echo "<td id='participant-overall-score'>" . $participant_final_score . "%</td></tr>";
 
             // Close the participant table
             echo "</tbody></table>";
