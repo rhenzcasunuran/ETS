@@ -481,43 +481,20 @@ function toggleAllCheckboxesJ() {
             updateTotalValuesJ();
         }
 
-        function deleteSelected(judgeId) {
+        function deleteSelected() {
           var checkboxes = document.getElementsByClassName('checkbox');
     var selectedIds = [];
 
     for (var i = checkboxes.length - 1; i >= 0; i--) {
         if (checkboxes[i].checked) {
             var row = checkboxes[i].parentNode.parentNode;
-            var judgeId = row.getAttribute('data-id'); // Get the data-id attribute
-
-            // Push the selected judge IDs to the array
-            selectedIds.push(judgeId);
+            
 
             // Remove the row from the table
             row.remove();
         }
     }
 
-    // Send the selected judge IDs to the server for deletion
-    $.ajax({
-        type: "POST",
-        url: "php/P&J-admin-delete-judges.php",
-        data: { judge_ids: selectedIds }, // Send an array of judge IDs
-        success: function (response) {
-            // Log the response for debugging
-            console.log(response);
-
-            // Handle the response from the server (e.g., display a success message)
-            alert("Rows deleted successfully.");
-        },
-        error: function (xhr, status, error) {
-            // Log the error for debugging
-            console.error(xhr, status, error);
-
-            // Handle errors (e.g., display an error message)
-            alert("Error deleting rows.");
-        },
-    });
 }
 
 function toggleAllCheckboxesP() {
