@@ -1,7 +1,6 @@
 <?php
-  include './php/sign-in.php';
   include './php/database_connect.php';
-  
+  session_start();
 ?>
 
 <!DOCTYPE html>
