@@ -200,31 +200,35 @@ input[readonly] {
                                   <tbody id="judgesTable">
                                       
                                   <?php
-                  $sql = "SELECT * FROM judges";
-                  
-                  $result = $conn->query($sql);
+$sql = "SELECT * FROM judges";
+$result = $conn->query($sql);
 
-                  if (!$conn) {
-                    die("Connection Failed: " . mysqli_connect_error());
-                  }
+if (!$conn) {
+    die("Connection Failed: " . mysqli_connect_error());
+}
 
-                  while ($row = $result->fetch_assoc()) {
-                    $judgeId = $row['judge_id'];
-                    $judgeName = $row['judge_name'];
-                    $judgeNick = $row['judge_nickname'];
-                    $scoringLink = "https://sample.link";
+while ($row = $result->fetch_assoc()) {
+    $judgeId = $row['judge_id'];
+    $judgeName = $row['judge_name'];
+    $judgeNick = $row['judge_nickname'];
+    $scoringLink = "https://sample.link";
 
-                    
-                    echo "<tr class='editable-row' data-id='" . $row['judge_id'] . "'>
-                      <td>
-                        <input type='checkbox' class='checkbox'>
-                      </td>
-                      <td><input type='text' style='border-radius:20px;' class='inputjname editable cformj' value='$judgeName' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
-                      <td><input type='text' style='border-radius:20px;' class='inputjnick editable cformj' value='$judgeNick' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
-                      <td><a href='P&J-admin-scoretab.php' target='_blank'><button onClick='showl()' class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; color: white;background: #73A9CC;'><i class='bx bx-link'></i>Score Tabulation</button></a></td>
-                    </tr>";
-                  }
-                  ?>
+    echo "<tr class='editable-row' data-id='" . $judgeId . "' data-section='judges'>
+        <td>
+            <input type='checkbox' class='checkbox'>
+        </td>
+        <td><input type='text' style='border-radius:20px;' class='inputjname editable cformj editable-input' 
+                   data-id='$judgeId' data-field='judge_name' value='$judgeName' readonly 
+                   ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+        <td><input type='text' style='border-radius:20px;' class='inputjnick editable cformj editable-input' 
+                   data-id='$judgeId' data-field='judge_nickname' value='$judgeNick' readonly 
+                   ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
+        <td><a href='P&J-admin-scoretab.php' target='_blank'><button onClick='showl()' 
+               class='buttonlink1' type='button' style='border-radius:15px;width: 160px; height: 40px; 
+               color: white;background: #73A9CC;'><i class='bx bx-link'></i>Score Tabulation</button></a></td>
+    </tr>";
+}
+?>
                                       
                                     <ul>
 <!-- Judge Form -->
@@ -299,32 +303,30 @@ input[readonly] {
                                   </tr>
                                   </thread>
                                   <tbody id="Pbox">
-                                      <?php
-                                      $query = "SELECT participants.participants_id, participants.participant_name, participants.participant_section, organization.organization_name FROM participants JOIN organization ON participants.organization_id = organization.organization_id";
-                                      $result = mysqli_query($conn, $query);
+                                  <?php
+$query = "SELECT participants.participants_id, participants.participant_name, participants.participant_section, organization.organization_name FROM participants JOIN organization ON participants.organization_id = organization.organization_id";
+$result = mysqli_query($conn, $query);
 
-                                      if (!$conn) {
-                                        die("Connection Failed: " . mysqli_connect_error());
-                                    }
+if (!$conn) {
+    die("Connection Failed: " . mysqli_connect_error());
+}
 
-                                    while($row = $result -> fetch_assoc()) {
-                                      $prtId = $row['participants_id'];
-                                      $prtName = $row['participant_name'];
-                                      $prtSection = $row['participant_section'];
-                                      $prtOrganization = $row['organization_name'];
+while($row = $result -> fetch_assoc()) {
+    $prtId = $row['participants_id'];
+    $prtName = $row['participant_name'];
+    $prtSection = $row['participant_section'];
+    $prtOrganization = $row['organization_name'];
 
-                                      echo "<tr class='editable-row' data-id='" . $row['participants_id'] . "'>
-                      <td>
-                        <input type='checkbox' class='checkboxP'>
-                      </td>
-                      <td><input type='text' style='border-radius:20px;' class='inputjname editable cformpi' value='$prtName' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
-                      <td><input type='text' style='border-radius:20px;' class='inputpcs editable cformpi' value='$prtSection' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
-                      <td><input type='text' style='border-radius:20px;' class='inputpcsd editable cformpi' value='$prtOrganization' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown(event)'></td>
-                    </tr>";
-                                    }
-                                    
-                                      
-                                      ?>
+    echo "<tr class='editable-row' data-id='" . $prtId . "' data-section='participants'>
+              <td>
+                <input type='checkbox' class='checkboxP'>
+              </td>
+              <td><input type='text' style='border-radius:20px;' class='inputjname editable cformpi editable-input' value='$prtName' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown2(event)'></td>
+              <td><input type='text' style='border-radius:20px;' class='inputpcs editable cformpi editable-input' value='$prtSection' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown2(event)'></td>
+              <td><input type='text' style='border-radius:20px;' class='inputpcsd editable cformpi editable-input' value='$prtOrganization' readonly ondblclick='makeEditable(this)' onkeydown='handleKeyDown2(event)'></td>
+            </tr>";
+}
+?>
                                       
                                       
                                   
@@ -726,7 +728,41 @@ var hide_discardChangespg = function(){
     event.preventDefault();
     event.target.readOnly = true;
     event.target.classList.remove("active");
+
+    // Get the updated value, the corresponding judge ID, and the field being edited
+    const updatedValue = event.target.value;
+    const judgeId = event.target.getAttribute("data-id");
+    const field = event.target.getAttribute("data-field");
+
+    // Send an AJAX request to update the database
+    updateDatabase(judgeId, field, updatedValue);
   }
+}
+
+function handleKeyDown2(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    event.target.readOnly = true;
+    event.target.classList.remove("active");
+  }
+}
+
+function updateDatabase(judgeId, field, updatedValue) {
+  console.log(`Updating judgeId: ${judgeId}, Field: ${field}, Updated Value: ${updatedValue}`); // Debugging statement
+
+  // Create an XMLHttpRequest or use a library like Fetch or Axios to send the request
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "php/P&J-submit-edited.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // Handle the response from the server (e.g., display a success message)
+      console.log(xhr.responseText);
+    }
+  };
+
+  // Send the data to the server for updating
+  xhr.send(`judgeId=${judgeId}&field=${field}&updatedValue=${updatedValue}`);
 }
 
   enableEditing();
