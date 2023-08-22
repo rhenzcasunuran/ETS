@@ -75,7 +75,10 @@ if (isset($_SESSION['participants']) && is_array($_SESSION['participants'])) {
     while ($row = $criteriaResult->fetch_assoc()) {
         echo '<tr>';
         echo '<td> <label class="col-form-label" style="color: rgb(255,255,255);">' . $row['criterion_name'] . '</label></td>';
-        echo '<td> <input type="number" class="cforms scoreinp" name="criterion_temp_score[]" style="text-align: center;color: white !important;background: rgba(0,0,0,0.22) !important;" min="1" max="10" placeholder="10" oninput="checkInputs()" required>';
+        // Calculate the maximum score based on criterion_percent
+        $maxScore = $row['criterion_percent']; // Assuming criterion_percent is a decimal between 0 and 1
+    
+        echo '<td> <input type="number" class="cforms scoreinp" name="criterion_temp_score[]" style="text-align: center;color: white !important;background: rgba(0,0,0,0.22) !important;" min="1" max="' . $maxScore . '" placeholder="' . $maxScore . '" oninput="checkInputs()" required>';
         echo '<input type="hidden" name="ongoing_criterion_ids[]" value="' . $row['ongoing_criterion_id'] . '"></td>';
         echo '</tr>';
     }
