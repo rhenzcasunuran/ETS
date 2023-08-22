@@ -71,22 +71,16 @@ if (isset($_GET["eventNameId"])) {
 
     // Output the HTML content with CSS styling
     echo <<<HTML
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Event Report</title>
+   
         <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-            }
-
+     
             .event-details {
                 border: 1px solid #ccc;
                 padding: 10px;
                 margin-bottom: 20px;
+                margin-top: 50px;
             }
+            
 
             h2 {
                 font-size: 18px;
@@ -97,15 +91,26 @@ if (isset($_GET["eventNameId"])) {
                 font-weight: bold;
             }
 
-            .event-images img {
-                max-width: 100%;
-                height: auto;
-                margin-top: 10px;
-            }
+            .event-images {
+        display: flex;
+        flex-wrap: wrap; /* Enable wrapping of images */
+        justify-content: flex-start; /* Start by aligning images to the left */
+        gap: 10px; /* Add spacing between images */
+    }
+
+    .event-image {
+        width: calc(33.33% - 10px); /* Adjust the width for three images in a row with spacing */
+        margin-bottom: 10px; /* Add spacing below each row of images */
+    }
+
+    .event-image img {
+        width: 100%;
+        height: 150px; /* Maintain aspect ratio */
+        object-fit: cover; /* Adjust image behavior */
+    }
         </style>
     </head>
     <body>
-        <h1>Event Report</h1>
         $html
     </body>
     </html>

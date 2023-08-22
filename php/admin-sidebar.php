@@ -208,6 +208,12 @@ Note: If $activeSubItem variable doesnt exist, only do $activeModule.
                         <span class="sub_link_name">Highlights Page</span>
                     </a>
                 </li>
+                <li class="sub-item">
+                    <a href="HIS-admin-report.php" class="<?php echo ($activeSubItem === 'report-page') ? 'sub-active' : ''; ?>">
+                        <i class="bx bxs-circle sub-icon color-yellow"></i>
+                        <span class="sub_link_name">Report Page</span>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="nav-item">
