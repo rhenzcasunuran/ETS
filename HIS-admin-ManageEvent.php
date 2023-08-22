@@ -6,6 +6,7 @@ include './php/database_connect.php';
 <html lang="en">
 
 <head>
+<?php include '.php/title.php' ?> 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -205,7 +206,9 @@ include './php/database_connect.php';
         <div class="popUpButtonContainer">
             <button class="secondary-button" id="cancelButton"><i class='bx bx-x'></i>Cancel</button>
                 <button class="primary-button confirmPopUp"><i id="confirmIcon" class='bx bx-check'></i>Confirm</button>
-            </a>
+                <button class="secondary-button" id="closeButton"><i class='bx bx-x'></i>Close</button>
+
+              </a>
         </div>
     </div>
 </div>
@@ -294,6 +297,7 @@ include './php/database_connect.php';
   }
 </script>
 <script>
+  
  // Add an event listener when the button with id "add_button" is clicked
  document.getElementById("add_button").addEventListener("click", function () {
   if (!selectedEvent) {
@@ -301,6 +305,7 @@ include './php/database_connect.php';
     document.getElementById("errorIcon").style.display = "inline";
     document.getElementById("successIcon").style.display = "none";
     document.getElementById("questionIcon").style.display = "none";
+    document.getElementById("cancelButton").style.display = "none";
 
 
     // Display an error message if no event is selected with the correct error icon
@@ -312,6 +317,10 @@ include './php/database_connect.php';
   document.getElementById("errorIcon").style.display = "none";
     document.getElementById("successIcon").style.display = "none";
     document.getElementById("questionIcon").style.display = "inline";
+    document.getElementById("closeButton").style.display = "none";
+    document.getElementById("cancelButton").style.display = "inline";
+
+
 
   openCustomPopup(
     "Are you sure?",
@@ -341,19 +350,38 @@ include './php/database_connect.php';
             if (xhr.status === 200) {
               document.getElementById("errorIcon").style.display = "none";
               document.getElementById("successIcon").style.display = "inline";
-              document.getElementById("questionIcon").style.display = "none";    
+              document.getElementById("questionIcon").style.display = "none";   
+              document.getElementById("cancelButton").style.display = "none";
+              document.getElementById("closeButton").style.display = "inline";
+
               openCustomPopup(
-                
-              "Suggest Success",
-              "Activities suggested successfully!",
-              "bx bxs-check-circle success-color",
-              
-                );
+  "Suggest Success",
+  "Activities suggested successfully!",
+  "bx bxs-check-circle success-color",
+  
+  false, // Do not show the "Confirm" button
+  function () {
+    // This function will be executed when the popup is displayed,
+    // but no "Confirm" button will be shown.
+    setTimeout(function () {
+      closeCustomPopup();
+      location.reload(); // Reload the page after 2 seconds
+    }, 2000); // Delay in milliseconds (2 seconds)
+  }
+);
+setTimeout(function () {
+          closeCustomPopup();
+          location.reload(1000);
+        }, 2000);
 
             } else {
               document.getElementById("errorIcon").style.display = "inline";
               document.getElementById("successIcon").style.display = "none";
               document.getElementById("questionIcon").style.display = "none";
+              document.getElementById("cancelButton").style.display = "none";
+              document.getElementById("closeButton").style.display = "inline";
+
+
                 openCustomPopup(
               "Error",
               "Failed to suggest activities. Please try again later.",
@@ -369,6 +397,10 @@ include './php/database_connect.php';
         document.getElementById("errorIcon").style.display = "inline";
               document.getElementById("successIcon").style.display = "none";
               document.getElementById("questionIcon").style.display = "none";  
+              document.getElementById("cancelButton").style.display = "none";
+              document.getElementById("closeButton").style.display = "inline";
+
+
                     openCustomPopup("Error", "No changes applied.", "error", false);
 
       }
@@ -411,13 +443,17 @@ function closeCustomPopup() {
   const popupContainer = document.querySelector(".popUpContainer");
 
   popupContainer.classList.remove("show");
-  setTimeout(function () {
     popup.style.visibility = "hidden";
-  }, 300);
 }
 document.getElementById("cancelButton").addEventListener("click", function () {
   closeCustomPopup();
+  
 });
+document.getElementById("closeButton").addEventListener("click", function () {
+  closeCustomPopup();
+  
+});
+
   
 </script>
 

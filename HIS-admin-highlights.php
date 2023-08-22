@@ -4,6 +4,7 @@
 <html lang="en">
 
   <head>
+  <?php include '.php/title.php' ?> 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -205,7 +206,6 @@ mysqli_close($conn);
       <div class="container" id="button-container" style="display: flex; flex-direction: column; align-items: flex-end;">
       <div id="tooltip" class="tooltip-text"></div>
         <button type="submit" id="upload-btn" class="btn btn-primary">Upload</button>
-        <button type="submit" id="report-btn" class="btn btn-primary">Report</button>
 
   </div>
   
@@ -227,9 +227,11 @@ mysqli_close($conn);
 
         <!-- Pop-up Button Container -->
         <div class="popUpButtonContainer">
-            <button class="secondary-button" id="cancelButton"><i class='bx bx-x'></i>Cancel</button>
-            <button class="primary-button confirmPopUp" id="confirmButton"><i class='bx bx-check'></i>Confirm</button>
-        </div>
+    <button class="secondary-button" id="cancelButton"><i class='bx bx-x'></i>Cancel</button>
+    <button class="secondary-button" id="closeButton"><i class='bx bx-x'></i>Close</button>
+    <button class="primary-button confirmPopUp" id="confirmButton"><i class='bx bx-check'></i>Confirm</button>
+</div>
+
     </div>
 </div>
 
@@ -325,7 +327,7 @@ Event History Scripts
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
   // Function to open the custom pop-up
-  function openCustomPopup(title, message, icon, showConfirmButton, callback) {
+  function openCustomPopup(title, message, icon, showConfirmButton = true, callback) {
     const popup = document.getElementById("customPopup");
     const popupHeader = document.getElementById("popupHeader");
     const popupMessage = document.getElementById("popupMessage");
@@ -359,7 +361,7 @@ Event History Scripts
     popup.classList.remove("show");
     setTimeout(function () {
       popup.style.visibility = "hidden";
-    }, 300);
+    }, 100);
   }
   $(document).ready(function () {
   // Function to update the "Upload" button state and cursor style
@@ -448,45 +450,71 @@ Event History Scripts
         return;
       }
 
-      // If all fields are filled, proceed with the upload
-      var formData = new FormData($('form')[0]);
+// If all fields are filled, proceed with the upload
+var formData = new FormData($('form')[0]);
+var confirmButton = document.getElementById("confirmButton");
 
+document.getElementById("errorIcon").style.display = "none";
+document.getElementById("successIcon").style.display = "none";
+document.getElementById("questionIcon").style.display = "inline";
+document.getElementById("closeButton").style.display = "none";
+// Assuming that confirmButton is accessible in this scope, you can hide it like this:
+document.getElementById("confirmButton").style.display = "none";
+
+openCustomPopup('Are you sure?', 'Proceed with image upload?', 'question', true, function () {
+  // Handle confirmation action here
+  // Perform the AJAX form submission
+  $.ajax({
+    url: './php/HIS-upload.php',
+    type: 'POST',
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
       document.getElementById("errorIcon").style.display = "none";
+      document.getElementById("successIcon").style.display = "inline";
+      document.getElementById("questionIcon").style.display = "none";
+      document.getElementById("closeButton").style.display = "inline";
+      
+      // Hide the confirmButton
+      document.getElementById("confirmButton").style.display = "none";
+      
+      cancelButton.style.display = "none";
+
+      openCustomPopup(
+  'Success!',
+  'Image uploaded successfully',
+  'success',
+  false, // Do not show the "Confirm" button
+  function () {
+    // This function will be executed when the popup is displayed,
+    // but no "Confirm" button will be shown.
+    setTimeout(function () {
+      closeCustomPopup();
+      location.reload(); // Reload the page
+    }, 1000); // Delay in milliseconds (2 seconds in this example)
+  }
+);
+
+      // You can decide when to hide the success message based on your requirements
+      // For example, you can add a delay before hiding it:
+      setTimeout(function () {
+        closeCustomPopup();
+        location.reload(2000);
+      }, 3000); // Delay in milliseconds (3 seconds in this example)
+    },
+    error: function (xhr, status, error) {
+      // Handle the error response
+      console.log(error);
+      document.getElementById("errorIcon").style.display = "inline";
       document.getElementById("successIcon").style.display = "none";
-      document.getElementById("questionIcon").style.display = "inline";
-      openCustomPopup('Are you sure?', 'Proceed with image upload?', 'question', true, function () {
-        // Handle confirmation action here
-        // Perform the AJAX form submission
-        $.ajax({
-          url: './php/HIS-upload.php',
-          type: 'POST',
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function (response) {
-            document.getElementById("errorIcon").style.display = "none";
-            document.getElementById("successIcon").style.display = "inline";
-            document.getElementById("questionIcon").style.display = "none";
+      document.getElementById("questionIcon").style.display = "none";
+      openCustomPopup('Error!', 'Image upload error', 'error');
+    }
+  });
+});
+});
 
-
-            confirmButton.style.display = "none";
-
-            openCustomPopup('Success!', 'Image uploaded successfully', 'success', function () {
-            });
-            location.reload(3000);
-
-          },
-          error: function (xhr, status, error) {
-            // Handle the error response
-            console.log(error);
-            document.getElementById("errorIcon").style.display = "inline";
-            document.getElementById("successIcon").style.display = "none";
-            document.getElementById("questionIcon").style.display = "none";
-            openCustomPopup('Error!', 'Image upload error', 'error');
-          }
-        });
-      });
-    });
 
     // Add event listener for the custom pop-up close button
     $('#closeButton').click(function () {
@@ -494,6 +522,10 @@ Event History Scripts
     });
 
     document.getElementById("cancelButton").addEventListener("click", function () {
+      closeCustomPopup();
+    });
+    
+    document.getElementById("closeButton").addEventListener("click", function () {
       closeCustomPopup();
     });
   });
@@ -509,6 +541,7 @@ Event History Scripts
   document.getElementById("errorIcon").style.display = "none";
   document.getElementById("successIcon").style.display = "none";
   document.getElementById("questionIcon").style.display = "inline";
+  document.getElementById("closeButton").style.display = "none";
 
   openCustomPopup(
     'Are you sure?',
@@ -526,7 +559,6 @@ Event History Scripts
   });
 }
 
-
 function deleteImage(id, filename) {
   $.ajax({
     url: './php/HIS-delete.php',
@@ -537,17 +569,34 @@ function deleteImage(id, filename) {
         document.getElementById("errorIcon").style.display = "none";
         document.getElementById("successIcon").style.display = "inline";
         document.getElementById("questionIcon").style.display = "none"; 
+        document.getElementById("cancelButton").style.display = "none";
+        document.getElementById("closeButton").style.display = "inline";
         
         // Assuming that confirmButton is accessible in this scope, hide it
-        confirmButton.style.display = "none";
+        document.getElementById("confirmButton").style.display = "none";
 
+        // Remove or comment out the following line to prevent the success message from hiding immediately
         openCustomPopup(
           'Deleted!',
           'Your file has been deleted.',
-          'success'
-          
+          'success',
+          false, // Do not show the "Confirm" button
+          function () {
+            // This function will be executed when the popup is displayed,
+            // but no "Confirm" button will be shown.
+            setTimeout(function () {
+              closeCustomPopup();
+              location.reload(2000);
+            }, 3000); // Delay in milliseconds (3 seconds in this example)
+          }
         );
-        location.reload(3000);
+        
+        // You can decide when to hide the success message based on your requirements
+        // For example, you can add a delay before hiding it:
+        setTimeout(function () {
+          closeCustomPopup();
+          location.reload(2000);
+        }, 3000); // Delay in milliseconds (3 seconds in this example)
       } else {
         document.getElementById("errorIcon").style.display = "inline";
         document.getElementById("successIcon").style.display = "none";
@@ -557,6 +606,8 @@ function deleteImage(id, filename) {
     },
   });
 }
+
+
 
   
 </script>
