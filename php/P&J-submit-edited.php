@@ -2,19 +2,32 @@
 include 'database_connect.php';
 include 'CAL-logger.php';
 
-// Retrieve the submitted data and ID
-$judge_name = $_POST['judge_name'];
-$judge_nick = $_POST['judge_nickname'];
-$jude_id = $_POST['judge_id'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Get the data sent from the client
+    $judgeId = $_POST["judgeId"];
+    $field = $_POST["field"];
+    $updatedValue = $_POST["updatedValue"];
 
-// Update the corresponding row in the database
-$sql = "UPDATE judges SET judge_name='$judge_name', judge_nickname='$judge_nick' WHERE judge_id='$jude_id'";
+    // Validate the received data, especially the judgeId to ensure it's not null
+    if ($judgeId === null) {
+        echo "Invalid judgeId";
+        exit; // Terminate the script
+    }
+
+// Escape and sanitize the input to prevent SQL injection
+$field = $conn->real_escape_string($field);
+$updatedValue = $conn->real_escape_string($updatedValue);
+
+// Update the database record based on the field
+$sql = "UPDATE judges SET $field = '$updatedValue' WHERE judge_id = $judgeId";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Data updated successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Record updated successfully";
 }
 
+// Close the database connection
 $conn->close();
+} else {
+echo "Invalid request method"; // Handle invalid requests
+}
 ?>
