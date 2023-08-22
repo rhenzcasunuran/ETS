@@ -37,16 +37,30 @@ if ($result->num_rows > 0) {
         WHERE c.event_id = $event_id
         ORDER BY total_score DESC";
 
-        $result_scores = $conn->query($sql_scores);
+$result_scores = $conn->query($sql_scores);
 
-        // Fetch the top 3 rows separately
-        $top1_row = $result_scores->fetch_assoc();
-        $top2_row = $result_scores->fetch_assoc();
-        $top3_row = $result_scores->fetch_assoc();
+// Fetch the top 3 rows separately
+$top1_row = $result_scores->fetch_assoc();
+$top2_row = $result_scores->fetch_assoc();
+$top3_row = $result_scores->fetch_assoc();
 
-        $participant_id1 = $top1_row["participants_id"];
-        $participant_id2 = $top2_row["participants_id"];
-        $participant_id3 = $top3_row["participants_id"];
+// Initialize participant IDs with default values
+$participant_id1 = 'None';
+$participant_id2 = 'None';
+$participant_id3 = 'None';
+
+// Check if the fetched rows are not null and set participant IDs accordingly
+if ($top1_row !== null) {
+    $participant_id1 = $top1_row["participants_id"];
+}
+
+if ($top2_row !== null) {
+    $participant_id2 = $top2_row["participants_id"];
+}
+
+if ($top3_row !== null) {
+    $participant_id3 = $top3_row["participants_id"];
+}
 
         $logo1 = '';
         $logo2 = '';
@@ -63,6 +77,7 @@ if ($result->num_rows > 0) {
             $org1 = "Unknown";
         }
 
+        // Dito maglagay ng error handling
         // Query the organization table for the organization name (top 2)
         $organizationQuery2 = "SELECT organization_name FROM organization WHERE organization_id IN (SELECT organization_id FROM participants WHERE participants_id = $participant_id2)";
         $organizationResult2 = $conn->query($organizationQuery2);
@@ -104,6 +119,8 @@ if ($result->num_rows > 0) {
             $logo1 = './photos/PIIE.png';
         } elseif ($org1 === 'SC') {
             $logo1 = './photos/SC.png';
+        } elseif ($org1 === 'Unknown'){
+            $logo1 = 'None';
         } else {
             $logo1 = './pictures/org_logos.png';
         }
@@ -124,8 +141,10 @@ if ($result->num_rows > 0) {
             $logo2 = './photos/JPIA.png';
         } elseif ($org2 === 'PIIE') {
             $logo2 = './photos/PIIE.png';
-        } elseif ($org1 === 'SC') {
-            $logo1 = './photos/SC.png';
+        } elseif ($org2 === 'SC') {
+            $logo2 = './photos/SC.png';
+        } elseif ($org2 === 'Unknown'){
+            $logo2 = 'None';
         } else {
             $logo2 = './pictures/org_logos.png';
         }
@@ -146,73 +165,93 @@ if ($result->num_rows > 0) {
             $logo3 = './photos/JPIA.png';
         } elseif ($org3 === 'PIIE') {
             $logo3 = './photos/PIIE.png';
-        } elseif ($org1 === 'SC') {
-            $logo1 = './photos/SC.png';
+        } elseif ($org3 === 'SC') {
+            $logo3 = './photos/SC.png';
+        } elseif ($org3 === 'Unknown'){
+            $logo3 = 'None';
         } else {
             $logo3 = './pictures/org_logos.png';
         }
 
         echo "<div class='draggableDiv' draggable='true'>";
-echo "<button id='" . $competition_name . "' class='accordion'>";
-echo $competition_name . "<br>";
+        echo "<button id='" . $competition_name . "' class='accordion'>";
+        echo $competition_name . "<br>";
+        echo "<div id='top3Container' class='top3Container'>";
 
-// Top 2
-echo "<div id='top3Container' class='top3Container'>";
-echo "<div class='leftContainer'>";
-echo "<div style='aspect-ratio: 1/1;'>";
-echo "<div class='logoContainer silver'><img src='" . $logo2 . "' class='topLogo'></div>";
-echo "</div>";
-echo "<div class='diamondContainer second'>";
-echo "<h4 class='diamondText'>2nd</h4>";
-echo "</div>";
+        // Top 2
+        echo "<div class='leftContainer'>";
+        echo "<div style='aspect-ratio: 1/1;'>";
+        if ($logo2 === 'Unknown') {
+            echo "<div class='logoContainer silver'></div>";
+            echo "</div>";
+            echo "<div class='diamondContainer second'>";
+            echo "<h4 class='diamondText'></h4>";
+            echo "</div>";
+            echo "<p class='winnerDetails'></p>";
+        } else {
+            echo "<div class='logoContainer silver'><img src='" . $logo2 . "' class='topLogo'></div>";
+            echo "</div>";
+            echo "<div class='diamondContainer second'>";
+            echo "<h4 class='diamondText'>2nd</h4>";
+            echo "</div>";
 
-// Display organization name or participant name based on grouping (Top 2)
-if ($top2_row["is_Grouped"] == 1) {
-    echo "<p class='winnerDetails'>".$org2."<br>" . $top2_row["total_score"] . "</p>";
-} else {
-    echo "<p class='winnerDetails'>" . $top2_row["participant_name"] . "<br>" . $top2_row["total_score"] . "</p>";
-}
+            // Display organization name or participant name based on grouping (Top 2)
+            if ($top2_row["is_Grouped"] == 1) {
+                echo "<p class='winnerDetails'>".$org2."<br>" . $top2_row["total_score"] . "</p>";
+            } else {
+                echo "<p class='winnerDetails'>" . $top2_row["participant_name"] . "<br>" . $top2_row["total_score"] . "</p>";
+            }
+        }
+        
+        echo "</div>";
 
-echo "</div>";
+        // Top 1
+        echo "<div class='middleContainer'>";
+        echo "<div style='aspect-ratio: 1/1;'>";
+        echo "<div class='logoContainer gold'><img src='" . $logo1 . "' class='topLogo'></div>";
+        echo "</div>";
+        echo "<div class='diamondContainer first'>";
+        echo "<h4 class='diamondText'>1st</h4>";
+        echo "</div>";
 
-// Top 1
-echo "<div class='middleContainer'>";
-echo "<div style='aspect-ratio: 1/1;'>";
-echo "<div class='logoContainer gold'><img src='" . $logo1 . "' class='topLogo'></div>";
-echo "</div>";
-echo "<div class='diamondContainer first'>";
-echo "<h4 class='diamondText'>1st</h4>";
-echo "</div>";
+        // Display organization name or participant name based on grouping (Top 1)
+        if ($top1_row["is_Grouped"] == 1) {
+            echo "<p class='winnerDetails'>".$org1."<br>" . $top1_row["total_score"] . "</p>";
+        } else {
+            echo "<p class='winnerDetails'>" . $top1_row["participant_name"] . "<br>" . $top1_row["total_score"] . "</p>";
+        }
 
-// Display organization name or participant name based on grouping (Top 1)
-if ($top1_row["is_Grouped"] == 1) {
-    echo "<p class='winnerDetails'>".$org1."<br>" . $top1_row["total_score"] . "</p>";
-} else {
-    echo "<p class='winnerDetails'>" . $top1_row["participant_name"] . "<br>" . $top1_row["total_score"] . "</p>";
-}
+        echo "</div>";
 
-echo "</div>";
+        // Top 3
+        echo "<div class='rightContainer'>";
+        echo "<div style='aspect-ratio: 1/1;'>";
+        if ($logo3 === 'Unknown') {
+            echo "<div class='logoContainer bronze'></div>";
+            echo "</div>";
+            echo "<div class='diamondContainer third'>";
+            echo "<h4 class='diamondText'></h4>";
+            echo "</div>";
+            echo "<p class='winnerDetails'></p>";
+        } else {
+            echo "<div class='logoContainer bronze'><img src='" . $logo3 . "' class='topLogo'></div>";
+            echo "</div>";
+            echo "<div class='diamondContainer third'>";
+            echo "<h4 class='diamondText'>3rd</h4>";
+            echo "</div>";
 
-// Top 3
-echo "<div class='rightContainer'>";
-echo "<div style='aspect-ratio: 1/1;'>";
-echo "<div class='logoContainer bronze'><img src='" . $logo3 . "' class='topLogo'></div>";
-echo "</div>";
-echo "<div class='diamondContainer third'>";
-echo "<h4 class='diamondText'>3rd</h4>";
-echo "</div>";
-
-// Display organization name or participant name based on grouping (Top 3)
-if ($top3_row["is_Grouped"] == 1) {
-    echo "<p class='winnerDetails'>". $org3."<br>" . $top3_row["total_score"] . "</p>";
-} else {
-    echo "<p class='winnerDetails'>" . $top3_row["participant_name"] . "<br>" . $top3_row["total_score"] . "</p>";
-}
-
-echo "</div>";
-echo "</div>";
-echo "</button>";
-echo "<div id='".$competition_name."-content' class='content'>";
+            // Display organization name or participant name based on grouping (Top 3)
+            if ($top3_row["is_Grouped"] == 1) {
+                echo "<p class='winnerDetails'>". $org3."<br>" . $top3_row["total_score"] . "</p>";
+            } else {
+               echo "<p class='winnerDetails'>" . $top3_row["participant_name"] . "<br>" . $top3_row["total_score"] . "</p>";
+            }
+        }
+        
+        echo "</div>";
+        echo "</div>";
+        echo "</button>";
+        echo "<div id='".$competition_name."-content' class='content'>";
 
         // Fetch the organization names for all participants before the loop
         $organizationNames = array();
