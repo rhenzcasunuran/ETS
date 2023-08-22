@@ -1,0 +1,109 @@
+    body {
+        margin: 0;
+        padding: 0;
+      }
+      
+  .flex-container {
+    width: calc(100% - 78px);
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    /* padding: 20px; Remove this line */
+  }
+  .flex-container .container {
+    margin-top: 20px; /* Adjust the margin as needed */
+  }
+  
+  #main-containers {
+    min-height: 500px;
+    height: fit-content;  
+  border-radius: 20px;
+    background: var(--color-content-card);
+    display: block;
+    justify-content: space-between;
+    padding: 2%;
+    margin-left: 78px;
+    position: relative;
+    align-items: center;
+    align-self: center;
+    width: calc(100% - 78px);
+    box-shadow: var(--color-element-shadow);
+    overflow: hidden;
+    
+  }
+  #generatePDFButton {
+    display: inline-flex;
+    margin-top: 20px;
+    margin-right: 20px;
+    color: var(--white-text-color)!important;
+    background-color: var(--default-primary-action-color)!important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px!important;
+    font-weight: 500!important;
+    padding: 12px 24px!important;
+    min-width: 130px!important;
+    max-width: 200px!important;
+    border-radius: 30px!important;
+    box-shadow: 0 4px 6px 0 var(--shadow-color);
+    border: none!important;
+    outline: none!important;
+    cursor: pointer;
+    user-select: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  
+  #eventNames {
+    width: 200px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  #eventNames:hover {
+    border-color: #666;
+  }
+  
+  #eventNames:focus {
+    border-color: #3498db;
+  }
+  
+  /* Media query for screens smaller than 768px */
+  @media (max-width: 768px) {
+    .flex-container {
+      width: 100%; /* Make it full width on smaller screens */
+      margin-left: 0; /* Remove left margin */
+    }
+  
+    #main-containers {
+      margin-left: 15px; /* Remove left margin */
+      width: 300px;
+    }
+    
+  
+    #generatePDFButton {
+        margin-top: 10px; /* Decrease top margin */
+        margin-right: 0; /* Remove right margin */
+        font-size: 14px!important; /* Reduce font size */
+        padding: 10px 20px!important; /* Reduce padding */
+        position: relative; /* Change position to relative */
+        top: auto; /* Reset top position */
+        right: auto; /* Reset right position */
+        text-align: center; /* Center the button */
+        width: 100%; /* Make it full width */
+      }
+  
+    #eventNames {
+      width: 100%; /* Make it full width on smaller screens */
+    }
+  }
+  
