@@ -15,17 +15,15 @@ if ($result->num_rows > 0) {
         $id = $row['competition_id'];
 
         // Update is_archived to 1
-        $update_sql = "UPDATE competition SET is_archived = 1 WHERE id = $id";
+        $update_sql = "UPDATE competition SET is_archived = 1 WHERE competition_id = '$id'";
         $conn->query($update_sql);
     }
 } else {
     //nothing
 }
 
-
-// Query the competitions table
-$sql = "SELECT * FROM competition WHERE is_archived='1'";
-$result = $conn->query($sql);
+$archived_sql = "SELECT * FROM competition WHERE is_archived = '1'";
+$result = $conn->query($archived_sql);
 
 // If there are competitions, generate HTML code for each of them
 if ($result->num_rows > 0) {
@@ -121,7 +119,7 @@ if ($result->num_rows > 0) {
             while ($criterion_row = $criteria_result->fetch_assoc()) {
                 echo "<th>" . $criterion_row["criterion_name"] . ": ". $criterion_row["criterion_percent"] ."%</th>";
             }
-            echo "<th>Final Score</th></tr>";
+            echo "<th>Total Score</th><th>Deductions</th><th>Final Score</th></tr>";
         
             $judges_sql = "SELECT * FROM judges WHERE competition_id = '$competition_id'";
             $judges_result = $conn->query($judges_sql);
@@ -144,11 +142,6 @@ if ($result->num_rows > 0) {
         
                     // Display judge's name
                     echo "<tr><th class='judge-header'>" . $judge_name . "</th>";
-
-                // Initialize participant_total_score
-                // Formula for scoring. ((criteria score[1]+criteria score[2]...[depending on number of judges])/number of judges) * weight 
-                // Add all score for that criteria, divide it by the number of judges, then multiply it by its weight
-                // For example, ((10+8)/2) * .50 = 4.5
 
                 // Loop through each criterion to get the scores for this participant and judge
                 $criteria_result->data_seek(0);
@@ -188,7 +181,7 @@ if ($result->num_rows > 0) {
                 $criterion_id = $criterion_row["ongoing_criterion_id"];
                 $participant_criterion_scores[$criterion_id] = 0;
             }
-            echo "<td></td></tr>";
+            echo "<td id='input_cell'><input type='text' class='deduction_input' id='deduction_input' name='dedu'></td><td></td></tr>";
         }
     
         // Check if there are judges before calculating and displaying "Calculated Score"
@@ -196,8 +189,8 @@ if ($result->num_rows > 0) {
             // Calculate and display the participant's overall score
             echo "<tr><th>Calculated Score</th>";
 
-// Reset the internal pointer of $judges_result to the beginning
-$judges_result->data_seek(0);
+        // Reset the internal pointer of $judges_result to the beginning
+        $judges_result->data_seek(0);
 
         $total_judges = $judges_result->num_rows; // Total number of judges for this competition
 
@@ -235,11 +228,30 @@ $judges_result->data_seek(0);
 
             // Display the participant's overall score
             $participant_final_score = array_sum($participant_criterion_scores);
+            echo "<td>".$participant_final_score."%</td>";
 
-            // Update the final_score in the participants table
             $update_final_score_sql = "UPDATE participants SET final_score = '$participant_final_score' WHERE participants_id = '$participant_id'";
             $conn->query($update_final_score_sql);
-            echo "<td id='participant-overall-score'>" . $participant_final_score . "%</td></tr>";
+
+            $deduct_sql = "SELECT deduction FROM participants WHERE participants_id = '$participant_id'";
+            $deducts_res = $conn->query($deduct_sql);
+
+            $total_final_score = 0;
+            $deduction = 0;
+
+            if ($deducts_res->num_rows > 0) {
+                $deducts_row = $deducts_res->fetch_assoc();
+                $deduction = $deducts_row['deduction'];
+                echo "<td id='deducted'>". $deduction."</td>";
+            } else {
+                echo "<td id='deducted'>". $deduction."</td>";
+            }
+            $total_final_score = $participant_final_score - $deduction;
+
+            // Update the final_score in the participants table
+            $update_total_final_score_sql = "UPDATE participants SET total_final_score = '$total_final_score' WHERE participants_id = '$participant_id'";
+            $conn->query($update_total_final_score_sql);
+            echo "<td id='participant-overall-score'>" . $total_final_score . "%</td></tr>";
 
             // Close the participant table
             echo "</tbody></table>";
@@ -268,3 +280,4 @@ $judges_result->data_seek(0);
 // Close connection
 $conn->close();
 ?>
+

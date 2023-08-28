@@ -31,7 +31,7 @@ if ($result->num_rows > 0) {
         $event_id = $row["event_id"];
         // NEWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWw
         // Query to retrieve participants' final scores for the given event_id
-        $sql_scores = "SELECT p.participant_name, p.participants_id, p.final_score AS total_score, p.is_Grouped
+        $sql_scores = "SELECT p.participant_name, p.participants_id, p.total_final_score AS total_score, p.is_Grouped
         FROM participants AS p
         INNER JOIN competition AS c ON p.competition_id = c.competition_id
         WHERE c.event_id = $event_id
@@ -175,7 +175,7 @@ if ($top3_row !== null) {
 
         echo "<div class='draggableDiv' draggable='true'>";
         echo "<button id='" . $competition_name . "' class='accordion'>";
-        echo $competition_name . "<br>";
+        echo "<p id='compeName'>". $competition_name . "</p><br>";
         echo "<div id='top3Container' class='top3Container'>";
 
         // Top 2

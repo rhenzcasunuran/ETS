@@ -2,7 +2,7 @@
 require 'database_connect.php';
 
 // Query the competition table
-$sql = "SELECT * FROM competition WHERE is_archived='0'";
+$sql = "SELECT * FROM competition WHERE is_archived='0'"; //ORDER BY competition_id DESC; if I want to show latest created comp first
 $result = $conn->query($sql);
 
 // If there are competitions, generate HTML code for each of them
@@ -35,7 +35,9 @@ if ($result->num_rows > 0) {
         // Generate HTML code for each competition
         echo "<div class='result_container'>";
         // Display the name of the competition and a button with the competition ID as the ID
-        echo "<h2 class='parent' id='" . $competitionName . "'>" . $competitionName . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='" . $competitionName . "-input' class='sched_output' disabled/><button class='sched_btn primary-button' id='" . $competitionName . " btn'>Schedule</button></h2>";
+        echo "<h2 class='parent' id='" . $competitionName . "'>" . $competitionName . "<br><input type='text' name='datetimes' placeholder='No schedule yet...' id='" . $competitionName . "-input' class='sched_output' disabled/>";
+        echo "<button class='sched_btn primary-button' id='" . $competitionName . " btn'>Schedule</button>";
+        echo "<button class='deduct-btn primary-button' id ='".$competitionName."-deduct-btn' data-status='idle' data-competition='".$competitionName."'>Deduct</button></h2>";
 
         // Generate HTML code for the result div and table
         echo "<div class='result'>";
@@ -99,7 +101,7 @@ if ($result->num_rows > 0) {
             while ($criterion_row = $criteria_result->fetch_assoc()) {
                 echo "<th>" . $criterion_row["criterion_name"] . ": ". $criterion_row["criterion_percent"] ."%</th>";
             }
-            echo "<th>Final Score</th></tr>";
+            echo "<th>Total Score</th><th>Deductions</th><th>Final Score</th></tr>";
         
             $judges_sql = "SELECT * FROM judges WHERE competition_id = '$competition_id'";
             $judges_result = $conn->query($judges_sql);
@@ -122,11 +124,6 @@ if ($result->num_rows > 0) {
         
                     // Display judge's name
                     echo "<tr><th class='judge-header'>" . $judge_name . "</th>";
-
-                // Initialize participant_total_score
-                // Formula for scoring. ((criteria score[1]+criteria score[2]...[depending on number of judges])/number of judges) * weight 
-                // Add all score for that criteria, divide it by the number of judges, then multiply it by its weight
-                // For example, ((10+8)/2) * .50 = 4.5
 
                 // Loop through each criterion to get the scores for this participant and judge
                 $criteria_result->data_seek(0);
@@ -166,7 +163,7 @@ if ($result->num_rows > 0) {
                 $criterion_id = $criterion_row["ongoing_criterion_id"];
                 $participant_criterion_scores[$criterion_id] = 0;
             }
-            echo "<td></td></tr>";
+            echo "<td></td><td></td></tr>";
         }
     
         // Check if there are judges before calculating and displaying "Calculated Score"
@@ -174,8 +171,8 @@ if ($result->num_rows > 0) {
             // Calculate and display the participant's overall score
             echo "<tr><th>Calculated Score</th>";
 
-// Reset the internal pointer of $judges_result to the beginning
-$judges_result->data_seek(0);
+        // Reset the internal pointer of $judges_result to the beginning
+        $judges_result->data_seek(0);
 
         $total_judges = $judges_result->num_rows; // Total number of judges for this competition
 
@@ -213,15 +210,48 @@ $judges_result->data_seek(0);
 
             // Display the participant's overall score
             $participant_final_score = array_sum($participant_criterion_scores);
+            echo "<td>".$participant_final_score."%</td>";
 
-            // Update the final_score in the participants table
             $update_final_score_sql = "UPDATE participants SET final_score = '$participant_final_score' WHERE participants_id = '$participant_id'";
             $conn->query($update_final_score_sql);
-            echo "<td id='participant-overall-score'>" . $participant_final_score . "%</td></tr>";
+
+            $deduct_sql = "SELECT deduction FROM participants WHERE participants_id = '$participant_id'";
+            $deducts_res = $conn->query($deduct_sql);
+
+            $total_final_score = 0;
+            $deduction = 0;
+
+            // Create input element for deductions
+            // Enter the queried row to the deduction input.
+            echo "<td id='deducted'><input type='number' name='deduction' placeholder='No deduction' data-participant-id='".$participant_id."' data-competition-forinput='".$competitionName."' id='".$participant_name."-deduction' class='deduction-input-cls' disabled></td>";
+
+            if ($deducts_res->num_rows > 0) {
+                $deducts_row = $deducts_res->fetch_assoc();
+                $deduction = $deducts_row['deduction'];
+                ?><script>
+                    var id = '<?php echo $participant_id?>';
+                    var deduction = '<?php echo $deduction ?>';
+                    console.log("The id and deduction is "+id+ " "+deduction);
+                    var input = document.querySelector("[data-participant-id='"+id+"']");
+                    input.value = deduction;
+                </script><?php
+                
+            } else {
+                ?><script>
+                    var input = document.querySelector("[data-participant-id='" + <?php echo $participant_id?> + "']");
+                    input.value = '0';
+                </script><?php
+            }
+
+            $total_final_score = $participant_final_score - $deduction;
+
+            // Update the final_score in the participants table
+            $update_total_final_score_sql = "UPDATE participants SET total_final_score = '$total_final_score' WHERE participants_id = '$participant_id'";
+            $conn->query($update_total_final_score_sql);
+            echo "<td id='participant-overall-score'>" . $total_final_score . "%</td></tr>";
 
             // Close the participant table
             echo "</tbody></table>";
-
         }
     }
 
