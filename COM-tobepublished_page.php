@@ -91,6 +91,74 @@
             </div>
         </div>
     </div>
+
+    <!--------------------NEW----------------->
+
+    <!--Popup: Deduct-Error -->
+    <div class="popup-background" id="deductErrorWrapper" onclick="hideDeductError()" style="z-index:4000 !important;">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Results Already Posted</h3>   <!--header-->
+                <p style="max-width: 235px; padding-left:15px;">The result is already posted and cannot be edited anymore.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideDeductError()" ><i class='bx bx-x'></i>Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Popup: Deduct-Edit -->
+    <div class="popup-background edit-deduct" id="deductEditWrapper" onclick="hideDeductEdit()" style="z-index:4000 !important;">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon warning-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Deduct points?</h3>   <!--header-->
+                <p style="max-width: 235px; padding-left:15px;">Are you sure you want to deduct points UwU?</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" id="deduct-cancel" onclick="hideDeductEdit()"><i class='bx bx-chevron-left'></i>Cancel</button>
+                <button class="primary-button" id="deduct-ok"><i class='bx bx-x'></i>Deduct</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Popup: Deduct-Success -->
+    <div class="popup-background" id="deductDoneWrapper"  style="z-index:4000 !important;">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-check-circle prompt-icon success-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Success!</h3>   <!--header-->
+                <p style="max-width: 235px; padding-left:15px;">Results have been deducted.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="success-button"  id="deduct-success-confirm" onclick="hideDeductDone()"><i class='bx bx-check'></i>Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Popup: Deduct-Invalid -->
+    <div class="popup-background" id="deductInvalidWrapper" onclick="hideDeductInvalid()" style="z-index:4000 !important;">
+        <div class="row popup-container">
+            <div class="col-4">
+                <i class='bx bxs-error prompt-icon danger-color'></i> <!--icon-->
+            </div>
+            <div class="col-8 text-start text-container">
+                <h3 class="text-header">Invalid deduction points entered!</h3>   <!--header-->
+                <p style="max-width: 235px; padding-left:15px;">There is an invalid data in the deduction input form.</p> <!--text-->
+            </div>
+            <div  class="div">
+                <button class="outline-button" onclick="hideDeductInvalid()"><i class='bx bx-x'></i>Cancel</button>
+                <!--<button class="danger-button"><i class='bx bx-trash'></i>Delete</button>-->
+            </div>
+        </div>
+    </div>
     <!--Popups End-->
     <!--Sidebar Start-->
     <?php 
@@ -228,7 +296,6 @@
     //input.disabled = true;
   }
   
-  
 
   // Function to call the calendar
   var openCalendar = function(x,competitionName) {
@@ -362,6 +429,17 @@
       });
     </script>
     <script>
+      function deductColor(){
+        const deductbtns = document.querySelectorAll('.deduct-btn');
+        deductbtns.forEach((deductbtn)=>{
+          var comp = deductbtn.getAttribute('data-competition');
+          var schedule = document.getElementById(comp+' btn');
+          if (schedule.textContent === 'Edit Schedule'){
+            console.log("chaning color");
+            deductbtn.style.setProperty('background-color', 'grey', 'important');
+          }
+        })
+      }
       //call to save the date
       function saveDate() {
         console.log("input value: "+document.getElementById(globalComp).value);
@@ -386,6 +464,7 @@
         var element = document.getElementById(competitionId+' btn');
         console.log("The element text content is "+element.textContent);
         element.textContent = "Edit Schedule";
+        deductColor();
 
         //send dates to save_date.php
         const xhr = new XMLHttpRequest();
@@ -427,14 +506,12 @@
               element.disabled = false;
               console.log("The competition: "+competitionName+" have a schedule of");
               console.log(schedule);
-              console.log("yellow dpat to")
             } else {
               element.style.backgroundColor = 'var(--color-green) !important';
               element.textContent = "Edit Schedule";
               element.disabled = false;
               console.log("The competition: "+competitionName+" have a schedule of");
               console.log(schedule);
-              console.log("Green dpat to");
               inputfield.value = schedule;
               console.log("The input field value is "+inputfield.value);
               /*A code to change the color to black by sending compName to php */
@@ -539,6 +616,180 @@
                 }
             });
         };
+    </script>
+    <script>
+      //Deduct Error Popup
+      var deductError = document.getElementById('deductErrorWrapper');
+      var showDeductError = function() {
+        deductError.style.display ='flex';
+      }
+      var hideDeductError = function() {
+        deductError.style.display = 'none';
+      }
+
+      //Deduct Success Popup
+      var deductDone = document.getElementById('deductDoneWrapper');
+      var showDeductDone = function() {
+        deductDone.style.display ='flex';
+      }
+      var hideDeductDone = function() {
+        deductDone.style.display = 'none';
+        location.reload();
+      }
+
+      //Deduct Invalid Popup
+      var deductInvalid = document.getElementById('deductInvalidWrapper');
+      var showDeductInvalid = function() {
+        deductInvalid.style.display ='flex';
+      }
+      var hideDeductInvalid = function() {
+        deductInvalid.style.display = 'none';
+      }
+      
+      //Deduct Edit Popup
+      var deductEdit = document.getElementById('deductEditWrapper');
+      var showDeductEdit = function(competitionName) {
+        deductEdit.style.display ='flex';
+        var deductOk = document.getElementById('deduct-ok');
+        deductOk.addEventListener("click", (e) =>{
+          var competition_name = competitionName;
+          var y;
+          deductionStart(competition_name);
+        });
+      }
+      var hideDeductEdit = function() {
+        deductEdit.style.display = 'none';
+      }
+
+      var deductionStart = function(competition_name){
+        var x = competition_name;
+        const inputs = document.querySelectorAll("[data-competition-forinput='"+x+"']");
+        inputs.forEach((input) => {
+          input.disabled = false;
+          input.style.setProperty('border-color', 'grey', 'important');
+          input.style.setProperty('border-style', 'solid', 'important');
+        })
+        var deductbutton = document.getElementById(x+'-deduct-btn');
+        deductbutton.textContent = 'Save?';
+        deductbutton.dataset.status = 'active';
+      }
+
+      
+      //Change color of every Deduct button
+      window.onload= function () {
+        deductColor();
+      }
+      //For every Deduct buttons
+      const deductbtns = document.querySelectorAll('.deduct-btn');
+      for (let i = 0; i < deductbtns.length; i++) {
+        const deductbtn = deductbtns[i];
+        deductbtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+
+          var status = deductbtn.getAttribute('data-status');
+          var competitionName = deductbtn.getAttribute('data-competition');
+
+          // Popups depending on the button type
+          if (status === "idle") {
+            console.log("Deduct is clicked");
+            var schedule_btn = document.getElementById(competitionName+' btn');
+            if (schedule_btn.textContent === 'Edit Schedule'){
+              showDeductError();
+            } else {
+              showDeductEdit(competitionName);
+            }
+          }
+
+          if (status === "active") {
+            console.log('we are now active');
+            const inputs = document.querySelectorAll("[data-competition-forinput='" + competitionName + "']");
+  
+            let hasError = false; // Flag to indicate if there's an error
+  
+            inputs.forEach((input) => {
+              const value = parseFloat(input.value);
+    
+              if (isNaN(value) || value < 0 || value > 100 || !Number.isInteger(value)) {
+                console.log('Error');
+                hasError = true; // Set the flag to true if an error is encountered
+                showDeductInvalid();
+              }
+            });
+
+            if (!hasError) {
+              const participants = document.querySelectorAll("[data-competition-forinput='" + competitionName + "']");
+              var participantData = [];
+              participants.forEach((participant) => {
+                  var id = participant.getAttribute('data-participant-id');
+                  var deduction = participant.value;
+                  participantData.push({ id: id, deduction: deduction });
+              });
+              var jsonData = JSON.stringify(participantData);
+
+              // Send the data to the PHP file using fetch
+              fetch('./php/COM-save-deduction.php', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: jsonData
+              })
+              .then(response => response.text())
+              .then(data => {
+                 console.log(data); // Log the response from the PHP file
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+
+              const inputs = document.querySelectorAll("[data-competition-forinput='"+competitionName+"']");
+              inputs.forEach((input) => {
+                input.disabled = true;
+                input.style.setProperty('border-color', 'none', 'important');
+                input.style.setProperty('border-style', 'none', 'important');
+              })
+              deductbtn.textContent = 'Deduct';
+              deductbtn.dataset.status = 'idle';
+              showDeductDone();
+            }
+          }
+        });
+      }
+
+      // For input validation
+      var deduct_inputs = document.querySelectorAll('.deduction-input-cls');
+      deduct_inputs.forEach((deduct_input) => {
+        let inputValue = "";  // Initialize input value as an empty string
+
+        deduct_input.addEventListener("keypress", function(event) {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            deduct_input.blur();  // Remove focus to trigger input event
+          }
+        });
+
+        deduct_input.addEventListener("input", function() {
+          // Store the input value, but don't update the input field yet
+          inputValue = deduct_input.value;
+
+          var max = parseInt(deduct_input.max);
+          if (inputValue === "") {
+            deduct_input.value = "";  // Allow the input field to be empty
+          } else if (isNaN(inputValue) || inputValue < 0) {
+            deduct_input.value = 0;
+          } else if (inputValue > 100) {
+            deduct_input.value = 100;
+          } else if (inputValue > max) {
+            deduct_input.value = max;
+          }
+        });
+
+        deduct_input.addEventListener("blur", function() {
+          if (inputValue === "") {
+            deduct_input.value = 0;
+          }
+        });
+      });
     </script>
   </body>
 </html>

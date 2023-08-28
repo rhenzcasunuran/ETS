@@ -137,10 +137,10 @@
         <?php
         try {
             require './php/COM-display_archive.php';
-        } catch (Throwable $e) {
+        } catch (e) {
             // Show error message na hindi nag connect sa db
             // Pero sa ngayon wag muna
-            ?><script>console.log("Nag error");</script><?php
+            ?><script>console.log(e);</script><?php
         }
         ?>
         </div>

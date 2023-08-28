@@ -194,4 +194,5 @@ if($conn){
   
   document.getElementById('searchInput').addEventListener('input', handleSearchInput);
     </script>
+    <script src="./js/change-theme.js"></script>
   </body>
