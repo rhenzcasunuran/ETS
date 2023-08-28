@@ -4,6 +4,7 @@ html, body {
 body {
     overflow-x: hidden;
     position: relative;
+    background-color: var(--color-body) !important;
 }
 .removespace{
     position: relative;
@@ -412,44 +413,10 @@ table {
 .rankTable {
     table-layout: fixed;
 }
-@media screen and (max-width:460px){
-    .top3Container {
-        margin-left: -45px !important;
-    }
-    .removespace {
-        width: 100% !important;
-    }
-    .actualbody {
-        width: 83.5% !important;
-        min-height: 105vh !important;
-    }
-    .accordion {
-        min-width: 290px !important;
-        width:98% !important;
-        max-width: 320px !important;
-    }
-    .content {
-        min-width: 290px !important;
-        width:98% !important;
-        max-width: 320px !important;
-    }
-    .sidebar {
-        min-height: 127vh !important;
-    }
-    .sidebar.open ~ .home-section {
-        width: calc(100% - 70px) !important;
-    }
-    .sign-in-button {
-        min-height: 40px !important;
-        width: 96% !important;
-    }
-    .no-result {
-        margin-bottom: -100px;
-        margin-top: -60px;
-        height: 50%;
-        width: 100%;
-    }
-}
+
+
+
+
 /* Styles for phone */
 @media screen and (max-width: 990px) {
     .accordion {
@@ -550,5 +517,114 @@ table {
         min-height: 40px !important;
         width: 96% !important;
         min-width: 250px !important;
+    }
+}
+@media screen and (max-width:460px){
+    .top3Container {
+        margin-left: -45px !important;
+    }
+    .removespace {
+        width: 100% !important;
+    }
+    .actualbody {
+        width: 83.5% !important;
+        min-height: 105vh !important;
+    }
+    .accordion {
+        min-width: 290px !important;
+        width:98% !important;
+        max-width: 320px !important;
+    }
+    .content {
+        min-width: 290px !important;
+        width:98% !important;
+        max-width: 320px !important;
+    }
+    .sidebar {
+        min-height: 127vh !important;
+    }
+    .sidebar.open ~ .home-section {
+        width: calc(100% - 70px) !important;
+    }
+    .sign-in-button {
+        min-height: 40px !important;
+        width: 96% !important;
+    }
+    .no-result {
+        margin-bottom: -100px;
+        margin-top: -60px;
+        height: 50%;
+        width: 100%;
+    }
+}
+@media screen and (max-width: 320px) {
+    .bar {
+        min-width: 216px;
+        height: 56px;
+    }
+    .searchInput {
+        min-width: 100px;
+    }
+    .home-section {
+        max-width: 240px;
+        width: calc(100% - 124px) !important;
+        margin-left: -10px;
+    }
+    .container {
+        padding-left: 0px !important;
+    }
+    .accordion {
+        min-width: 225px !important;
+        padding-left: 6px;
+    }
+    .top3Container{
+        margin-left: 0px !important;
+        margin-top: -10px !important;
+    }
+    .leftContainer{
+        flex-direction: row;
+        margin-left: 0px;
+    }
+    .rightContainer {
+        margin-top: 20px;
+    }
+    .diamondContainer.first {
+        margin-top: 25px;
+    }
+    .diamondContainer.second {
+        margin-top: 66px;
+    }
+    .diamondContainer.third {
+        margin-top: 66px;
+    }
+    .winnerDetails {
+        margin-left: 5px !important;
+    }
+    #compeName {
+        white-space: break-spaces;
+        margin-left: 38px;
+        text-align: left;
+        font-size: 20px !important;
+    }
+    .content {
+        min-width: 226px !important;
+    }
+    .diamondContainer.smallDiamond {
+        margin-left: -14px;
+    }
+    .modal-body {
+        flex-direction: column !important;
+    }
+    .criteria-organization-container {
+        min-height: 0px !important; 
+    }
+    .organization-list {
+        min-height: 0px !important;
+    }
+    .pie-chart-container {
+        min-height: 300px;
+    }
+    .paginations {
+        margin-left: 20px !important;
     }
 }
