@@ -1256,4 +1256,8 @@ table {
     .paginations {
         margin-left: 20px !important;
     }
+    .topLogo {
+        height: 100px !important;
+        width: 100px !important;
+    }
 }
