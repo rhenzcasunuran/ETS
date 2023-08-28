@@ -55,15 +55,15 @@ function addAccordionListeners(draggableDiv) {
   const logoBronze = draggableDiv.querySelectorAll('.bronze');
   const button = draggableDiv.querySelector('button');
   button.addEventListener('click', (event) => {
-    if (button.style.height === '450px'){
+    if (button.style.height === '480px'){
       button.style.maxHeight = '120px';
       button.style.height = '120px';
-      button.style.textAlign = 'left';
+      button.style.textAlign = 'center';
       button.style.justifyContent = 'left';
       button.style.alignItems = 'left';
       button.classList.remove("activeButton");
       logoGold.forEach((logo) => {
-        logo.style.marginTop = '50px';
+        logo.style.marginTop = '60px';
       });
       logoSilver.forEach((logo) => {
         logo.style.marginTop = '50px';
@@ -74,10 +74,10 @@ function addAccordionListeners(draggableDiv) {
       contentDiv.style.display = 'none';
       
     } else {
-      button.style.maxHeight = '450px';
-      button.style.height = '450px';
+      button.style.maxHeight = '480px';
+      button.style.height = '480px';
       button.style.textAlign = 'center';
-      button.style.justifyContent = 'center';
+      //button.style.justifyContent = 'center';
       button.classList.add("activeButton");
       logoGold.forEach((logo) => {
         logo.style.marginTop = '-15px';
