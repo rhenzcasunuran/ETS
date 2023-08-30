@@ -101,7 +101,7 @@
                 <form autocomplete="off" class="d-flex flex-column" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                   <div class="form-group">
                     <label for="inputEventName" class="fs-6">Event <span class="req">*</span> </label>
-                    <input type="text" class="form-control" id="inputEventName" placeholder="Enter Event Name" name="inputEventName" minlength="5" maxlength="25" required>       
+                    <input type="text" class="form-control" id="inputEventName" placeholder="Enter Event Name" name="inputEventName" minlength="5" maxlength="50" required>       
                     <div class="text-danger d-flex w-100 justify-content-center" id="checkEventName"><?php if(isset($error['eventName'])) echo $error['eventName']?></div>  
                   </div>
                   <div class="button-container config-button row">
@@ -223,7 +223,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputCategoryName" class="fs-6">Category <span class="req">*</span></label>
-                    <input type="text" class="form-control" id="inputCategoryName" placeholder="Enter Category Name" name="inputCategoryName" minlength="5" maxlength="25" required>
+                    <input type="text" class="form-control" id="inputCategoryName" placeholder="Enter Category Name" name="inputCategoryName" minlength="5" maxlength="50" required>
                     <div class="text-danger d-flex w-100 justify-content-center" id="checkCategoryName"><?php if(isset($error['categoryName'])) echo $error['categoryName']?></div>
                   </div>
                   </div>
@@ -321,10 +321,10 @@
 
       $(document).ready(function(){
         searchBox = document.getElementsByTagName('input');
-        $(searchBox).attr('maxlength', '25');
+        $(searchBox).attr('maxlength', '50');
 
         $('.selectpicker').selectpicker();
-        $('.bs-searchbox input').attr('maxlength', '25');
+        $('.bs-searchbox input').attr('maxlength', '50');
 
         $('input').keypress(function (e) {
           var txt = String.fromCharCode(e.which);
