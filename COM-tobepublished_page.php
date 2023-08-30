@@ -483,6 +483,7 @@
     </script>
     <script>
       window.onload = function(){
+        deductColor();
         if (document.querySelectorAll('.daterangepicker')){
           buttons.forEach((button) => {
         var parentElement = button.parentElement;
