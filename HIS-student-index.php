@@ -45,6 +45,7 @@ if($conn){
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
 
 
+
           <link rel="stylesheet" href="./css/HIS-student.css">  </head>
 
 
@@ -91,7 +92,7 @@ if($conn){
         <div class="sidebar-content-container">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="index.php" class="menu_btn">
+              <a href="index.php">
                 <i class="bx bx-home-alt"></i>
                 <span class="link_name">Home</span>
               </a>
@@ -123,7 +124,7 @@ if($conn){
                   </a>
                 </li>
                 <li class="sub-item">
-                  <a href="#competition">
+                  <a href="COM-student_page.php">
                     <i class="bx bxs-circle sub-icon color-yellow"></i>
                     <span class="sub_link_name">Competition</span>
                   </a>
@@ -189,111 +190,121 @@ if($conn){
     </div>
     <!--Page Content-->
     <section class="home-section">
-      <div class="header">Event History</div>
-      <div class="flex-container">
-    <div class="container" id="main-containers">
-      <div class="container">
-    <div class="row">
-      <div class="col-md-3 left-container">
-        <div class="container-fluid left-part">
-          <input type="text" class="form-control" placeholder="Search Event">
-          <p>Other Events</p>
-          <div class="row">
-            <div class="col-12 event">
-                              <?php 
-                  require('./php/database_connect.php');
-                  require('./php/HIS-upload.php');
+    <div class="header">
+  Event History
+  <input type="text" id="search" placeholder="Search" maxlength="30">
+  <div class="dropdown">
+    <i class="bx bx-filter-alt dropbtn bx-sm" onclick="myFunction()"></i>
+    <div id="myDropdown" class="dropdown-content">
+      <a href="#">GIVE</a>
+      <a href="#">JMAP</a>
+      <a href="#">AECES</a>
+      <a href="#">JPIA</a>
+      <a href="#">PIIE</a>
+      <a href="#">JEHRA</a>
+      <a href="#">ACAP</a>
+      <a href="#">ELITE</a>
+      <a href="#">STUDENT COUNCIL</a>
+    </div>
+  </div>
+</div>
 
-                  $query = "SELECT filename FROM image ORDER BY id DESC LIMIT 3";
-                  $result = mysqli_query($conn, $query);
-                  if (!$result) {
-                      die("Error in the query: " . mysqli_error($conn));
-                  }
-                  $images = mysqli_fetch_all($result, MYSQLI_ASSOC);
+<div class="flex-container">
+  <div class="container" id="main-containers">
+    <div class="container">
+      <div class="col-md-12">
+        <div class="row">
+          <div id="carousel" class="col-md-12 text-white carousel-container"> <!-- Added carousel-container class -->
+            <?php
+            require('./php/database_connect.php');
 
-                  for ($i = 0; $i < 3; $i++) {
-                    echo '<div class="row">
-                              <div class="col-12">';
-                    if (isset($images[$i])) {
-                        $imagePath = "./images/" . $images[$i]['filename'];
-                        echo '<div class="event-image"><img src="' . $imagePath . '" alt="Event Image" class="event-image__img"></div>';
-                      }
-                    echo '</div>
-                          </div>';
-                    
-                    mysqli_data_seek($result, 0);
-                  }
+            $query = "SELECT * FROM image";
+            $result = mysqli_query($conn, $query);
 
-                  mysqli_close($conn);
-                  ?>
+            $slides = '';
+            $active = 'active';
+            while ($row = mysqli_fetch_assoc($result)) {
+                $imagePath = "./images/" . $row['filename'];
+                $imageInfo = $row['image_Info'];
+                $imageDesc = $row['image_Description'];
+                $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '"></div>';
+                $active = '';
+            }
 
+            mysqli_data_seek($result, 0);
+            $active = 'active';
+
+            mysqli_close($conn);
+            ?>
+
+            <div id="eventsImages" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <?php echo $slides; ?>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#eventsImages" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#eventsImages" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
           </div>
-          
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="row">
-          <div id="carousel" class="col-md-12 text-white carousel-container">
-          <?php
-              require('./php/database_connect.php');
-
-              $query = "SELECT * FROM image";
-              $result = mysqli_query($conn, $query);
-
-              $slides = '';
-              $active = 'active';
-              while ($row = mysqli_fetch_assoc($result)) {
-                  $imagePath = "./images/" . $row['filename'];
-                  $imageInfo = $row['image_Info'];
-                  $imageDesc = $row['image_Description'];
-                  $slides .= '<div class="carousel-item ' . $active . '" data-bs-info="' . $imageInfo . '" data-bs-desc="' . $imageDesc . '"><img src="' . $imagePath . '"></div>';
-                  $active = '';
-              }
-
-              mysqli_data_seek($result, 0);
-              $active = 'active';
-
-              mysqli_close($conn);
-              ?>
-
-              <div id="eventsImages" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <?php echo $slides; ?>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#eventsImages" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#eventsImages" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-                </div>
-          </div>
-    </div>
         <div class="row" id="contain">
-        <div class="col-md-12 text-white text-container">
-          
-        </div>
+          <div class="col-md-12 text-white text-container">
+            <!-- Additional content here -->
+          </div>
         </div>
       </div>
-      
-        <div class="col-md-2 right-container">
-          <h3>Filter</h3>
-          <button type="button" id="button">ELITE</button>
-          <button type="button">GIVE</button>
-          <button type="button">JMAP</button>
-          <button type="button">AECES</button>
-          <button type="button">JPIA</button>
-          <button type="button">PIIE</button>
-          <button type="button">JEHRA</button>
-          <button type="button">ACAP</button>
-          <button type="button">STUDENT COUNCIL</button>
-        </div>
-        
-
     </div>
+  </div>
+</div>
+
+
+
+      <div class="row">
+  <div class="col-md-12 left-container">
+    <div class="container-fluid left-part">
+      <div class="row">
+        <div class="col-md-12 event">
+          <div id="card-container">
+            <?php
+            require('./php/database_connect.php');
+
+            $query = "SELECT event_name, category_name, YEAR(event_date) AS event_year FROM eventhistorytb ";
+            $result = mysqli_query($conn, $query);
+
+            if ($result === false) {
+                die('Query Error: ' . mysqli_error($conn));
+            }
+
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $eventName = $row['event_name'];
+                    $categoryName = $row['category_name'];
+                    $eventYear = $row['event_year'];
+
+                    echo '<div class="event-card" id="event_' . $eventName . '">';
+                    echo '  <div class="event-info">';
+                    echo '    <h3 class="event-name">' . $eventName . '</h3>';
+                    echo '    <p class="category">' . $categoryName . '</p>';
+                    echo '    <p class="year">' . $eventYear . '</p>';
+                    echo '  </div>';
+                    echo '</div>';
+                }
+            } else {
+                echo "No events found.";
+            }
+            ?>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
 
       </div>
     </div>
@@ -329,28 +340,49 @@ if($conn){
   
     
     <script>
+    function updateTextContainer(slide) {
+        var imageInfo = slide.getAttribute('data-bs-info');
+        var imageDesc = slide.getAttribute('data-bs-desc');
+
+        var textContainer = document.querySelector('.text-container');
+        textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
+        textContainer.style.wordWrap = 'break-word'; // Allow words to break
+        textContainer.style.maxWidth = '100%';
+        textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
+    }
+
     var firstSlide = document.querySelector('#eventsImages .carousel-item:first-child');
-    var imageInfo = firstSlide.getAttribute('data-bs-info');
-    var imageDesc = firstSlide.getAttribute('data-bs-desc');
-
-
-    var textContainer = document.querySelector('.text-container');
-    textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
+    updateTextContainer(firstSlide);
 
     var carousel = document.querySelector('#eventsImages');
     carousel.addEventListener('slide.bs.carousel', function(event) {
-      var currentSlide = event.relatedTarget;
-      var imageInfo = currentSlide.getAttribute('data-bs-info');
-      var imageDesc = currentSlide.getAttribute('data-bs-desc');
-
-      var textContainer = document.querySelector('.text-container');
-      textContainer.innerHTML = '<h3>' + imageInfo + '</h3><p>' + imageDesc + '</p>';
-      textContainer.style.wordWrap = 'break-word'; // Allow words to break
-      textContainer.style.maxWidth = '100%'; 
-      textContainer.style.textAlign = 'justify'; // Justify the content in the paragraph
-
+        var currentSlide = event.relatedTarget;
+        updateTextContainer(currentSlide);
     });
+ /* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  // Close the dropdown menu if the user clicks outside of it
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+
+
 </script>
+
+
 
   </body>
 
